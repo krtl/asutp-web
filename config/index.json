@@ -1,0 +1,4 @@
+{
+  "dbUri": "mongodb://localhost/asutp_web",
+  "jwtSecret": "asutpsecretasutpphrase"
+}

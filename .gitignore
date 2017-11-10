@@ -1,0 +1,10 @@
+cra-server-ex.graffle
+
+node_modules
+npm-debug.log
+
+# User-specific stuff:
+.idea
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
