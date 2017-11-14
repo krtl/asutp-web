@@ -45,7 +45,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 }
 
-
 const httpErrorMiddleware = require('./server/middleware/sendHttpError');
 app.use(httpErrorMiddleware);
 

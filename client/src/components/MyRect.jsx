@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Rect, Line, Circle, Group } from 'react-konva';
+import { Rect, Circle, Group } from 'react-konva';
 
 
 export default class MyRect extends React.Component {
@@ -43,32 +43,26 @@ export default class MyRect extends React.Component {
         draggable
         onDragend={this.handleDragEnd}
       >
-        <Rect
-          x={0}
-          y={0}
-          width={25}
-          height={25}
-          fill={this.state.color}
-          shadowBlur={0}
-          onClick={this.handleClick}
-        />
         <Circle
-          x={25}
-          y={25}
-          radius={20}
+          x={10}
+          y={10}
+          radius={10}
           stroke={'black'}
           strokeWidth={2}
           fill={this.state.color}
           shadowBlur={0}
           onClick={this.handleClick}
         />
-        <Line
-          points={[ 0, 0, 10 + 0, 23 + 0, 15 + 0, 60 + 0, 30 + 0, 60 + 0 ]}
-          stroke={'red'}
+        <Rect
+          x={18}
+          y={18}
+          width={4}
+          height={4}
+          stroke={'black'}
           strokeWidth={1}
-          lineCap={'round'}
-          lineJoin={'round'}
-          fill={'green'}
+          fill={this.state.color}
+          shadowBlur={0}
+          onClick={this.handleClick}
         />
       </Group>
     );
