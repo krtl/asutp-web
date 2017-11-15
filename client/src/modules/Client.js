@@ -5,7 +5,7 @@ const myHeaders = new Headers({
 //  "Content-Length": content.length.toString(),
 //  'Content-type': 'application/x-www-form-urlencoded',
   'Content-type': 'application/json;charset=UTF-8',
-  Authorization: `bearer ${Auth.getToken()}`,
+  'Authorization': `bearer ${Auth.getToken()}`,
 });
 
 const myGetInit = { method: 'GET',
@@ -35,6 +35,24 @@ function saveNodes(s, cb) {
     .then(cb);
 }
 
+function loadParamLists(userName, cb) {
+  return fetch(new Request(`api/paramLists?user=${userName}`, myGetInit), {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
+function loadParams(paramListName, cb) {
+  return fetch(new Request(`api/params?prmLstName=${paramListName}`, myGetInit), {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -50,5 +68,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { loadNodes, saveNodes };
+const Client = { loadNodes, saveNodes, loadParams, loadParamLists };
 export default Client;

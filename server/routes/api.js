@@ -10,6 +10,8 @@ router.get('/dashboard', (req, res) => {
 });
 
 const NetNode = require('mongoose').model('NetNode');
+const Param = require('mongoose').model('Param');
+const ParamList = require('mongoose').model('ParamList');
 
 router.get('/nodes', (req, res, next) => {
   const param = req.query.proj;
@@ -47,8 +49,7 @@ router.post('/save_node', (req, res, next) => {
           netNode.x = locNode.x;
           netNode.y = locNode.y;
           netNode.save((err, updatedNode) => {
-
-            if (err) return callback(err); //crashed!
+            if (err) return callback(err); // crashed!
 
             console.log(`updated node ${updatedNode.id}`);
 
@@ -61,8 +62,7 @@ router.post('/save_node', (req, res, next) => {
          // node.save(callback);
         console.log(`node ${locNode.id} does not exist!`);
 
-        return callback(new Error('does not exist!')); //crashed!
-
+        return callback(new Error('does not exist!')); // crashed!
       }
       return callback(null);
     });
@@ -79,6 +79,39 @@ router.post('/save_node', (req, res, next) => {
         message: "'All saved successfully'",
       });
     }
+  });
+});
+
+router.get('/paramLists', (req, res, next) => {
+  ParamList.find({}, (err, prmLists) => {
+    if (err) return next(err);
+    res.status(200).json(prmLists);
+    return 0;
+  });
+});
+
+router.get('/params', (req, res, next) => {
+  const paramListName = req.query.prmLstName;
+
+  if (!paramListName) {
+    res.json({
+      error: 'Missing required parameter `prmLstName`',
+    });
+    return;
+  }
+
+  ParamList.findOne({
+    name: paramListName,
+  }, (err, prmList) => {
+    if (err) return next(err);
+
+    Param.find({
+      name: { $in: prmList.params } }, (err, nodes) => {
+      if (err) return next(err);
+      res.status(200).json(nodes);
+      return 0;
+    });
+    return 0;
   });
 });
 

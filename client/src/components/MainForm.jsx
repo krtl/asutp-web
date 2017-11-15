@@ -16,9 +16,7 @@ class Dashboard extends React.Component {
     return (
       <Tabs>
         <Tab label='Params' >
-          <MyParams
-            params={[]}
-          />
+          <MyParams />
         </Tab>
         <Tab label='Shutdowns' >
           <MyShutdowns
@@ -29,7 +27,7 @@ class Dashboard extends React.Component {
           <div className='container'>
 
 
-            {/*{this.props.secretData && <CardText style={{ fontSize: '16px', color: 'green' }}>{this.props.secretData}</CardText>}*/}
+            {/* {this.props.secretData && <CardText style={{ fontSize: '16px', color: 'green' }}>{this.props.secretData}</CardText>} */}
 
             <MyStage />
           </div>
