@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "amqplib": "^0.5.2",
     "async": "^2.5.0",
     "babel-core": "6.14.0",
     "bcrypt": "^1.0.1",

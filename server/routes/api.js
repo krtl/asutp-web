@@ -49,12 +49,14 @@ router.post('/save_node', (req, res, next) => {
           netNode.x = locNode.x;
           netNode.y = locNode.y;
           netNode.save((err, updatedNode) => {
-            if (err) return callback(err); // crashed!
+            if (err) return callback(err);
 
             console.log(`updated node ${updatedNode.id}`);
 
-            // return callback(new Error('TestErr!'));
+            return callback(null);
           });
+        } else {
+          return callback(null);
         }
       } else {
          // node does not exist
@@ -62,9 +64,8 @@ router.post('/save_node', (req, res, next) => {
          // node.save(callback);
         console.log(`node ${locNode.id} does not exist!`);
 
-        return callback(new Error('does not exist!')); // crashed!
+        return callback(new Error('does not exist!'));
       }
-      return callback(null);
     });
   }, (err) => {
     if (err) {
