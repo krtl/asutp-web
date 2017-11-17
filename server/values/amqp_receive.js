@@ -1,13 +1,22 @@
 const amqp = require('amqplib/callback_api');
+const lastValues = require('./lastValues');
+
+
 process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
+let reconnectionStarted = false;
 function start() {
+  reconnectionStarted = false;
   amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, (err, conn) => {
     if (err) {
       console.error('[AMQP]', err.message);
-      return setTimeout(start, 7000);
+      if (!reconnectionStarted) {
+        reconnectionStarted = true;
+        setTimeout(start, 7000);
+      }
+      return;
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
@@ -15,8 +24,11 @@ function start() {
       }
     });
     conn.on('close', () => {
-      console.error('[AMQP] reconnecting');
-      return setTimeout(start, 7000);
+      if (!reconnectionStarted) {
+        reconnectionStarted = true;
+        setTimeout(start, 7000);
+        console.error('[AMQP] reconnecting');
+      }
     });
 
     console.log('[AMQP] connected');
@@ -41,17 +53,17 @@ function startWorker() {
       console.log('[AMQP] channel closed');
     });
     ch.prefetch(10);
-    ch.assertQueue('hello', { durable: true }, (err, _ok) => {
+    ch.assertQueue('asutp.values.queue', { durable: true }, (err, _ok) => {
       if (closeOnErr(err)) return;
-      ch.consume('hello', processMsg, { noAck: false });
+      ch.consume('asutp.values.queue', processMsg, { noAck: false });
       console.log('Worker is started');
     });
 
     function processMsg(msg) {
       const incomingDate = (new Date()).toISOString();
-      console.log(`Msg [deliveryTag=${msg.fields.deliveryTag}] arrived at ${incomingDate}`);
+      // console.log(`Msg [deliveryTag=${msg.fields.deliveryTag}] arrived at ${incomingDate}`);
       work(msg, (ok) => {
-        console.log(`Sending Ack for msg at time ${incomingDate}`);
+        // console.log(`Sending Ack for msg at time ${incomingDate}`);
         try {
           if (ok) { ch.ack(msg); } else { ch.reject(msg, true); }
         } catch (e) {
@@ -64,7 +76,17 @@ function startWorker() {
 
 function work(msg, cb) {
   console.log('Got msg', msg.content.toString());
-  setTimeout(() => cb(true), process.env.WORK_WAIT_TIME || 12000);
+
+  // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
+  const s = msg.content.toString().split('<>');
+  if (s.length === 4) {
+    const obj = { paramName: s[0], value: s[1], qd: s[2], dt: s[3] };
+    lastValues.SetLastValue(obj);
+  } else {
+    console.error('[ParamValue] Failed to parse: ', msg.content.toString());
+  }
+
+  cb(true);
 }
 
 function closeOnErr(err) {
