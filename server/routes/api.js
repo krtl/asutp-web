@@ -96,10 +96,17 @@ router.get('/params', (req, res, next) => {
 
   if (!paramListName) {
     res.json({
-      error: 'Missing required parameter `prmLstName`',
+      error: 'Missing required parameter `prmLstName`!',
     });
     return;
   }
+
+    if ((paramListName == '')|| (paramListName == 'undefined')) {
+        res.json({
+            error: 'Required parameter `prmLstName` is wrong!',
+        });
+        return;
+    }
 
   ParamList.findOne({
     name: paramListName,
