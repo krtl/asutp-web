@@ -81,6 +81,7 @@ function work(msg, cb) {
   const s = msg.content.toString().split('<>');
   if (s.length === 4) {
     const obj = { paramName: s[0], value: s[1], qd: s[2], dt: s[3] };
+
     lastValues.SetLastValue(obj);
   } else {
     console.error('[ParamValue] Failed to parse: ', msg.content.toString());

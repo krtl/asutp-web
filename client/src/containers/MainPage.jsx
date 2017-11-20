@@ -1,9 +1,10 @@
 import React from 'react';
 import Auth from '../modules/Auth';
-import Dashboard from '../components/MainForm';
+import MainForm from '../components/MainForm';
+import MyWebSocket from '../modules/MyWebSocketClient';
 
 
-class DashboardPage extends React.Component {
+class MainFormPage extends React.Component {
 
   constructor(props) {
     super(props);
@@ -27,6 +28,7 @@ class DashboardPage extends React.Component {
           this.setState({
             secretData: xhr.response.message,
           });
+          MyWebSocket.connect(this.doOnWebsocketDataReceived);
           break;
         }
         case 401: {
@@ -43,8 +45,12 @@ class DashboardPage extends React.Component {
     xhr.send();
   }
 
+  doOnWebsocketDataReceived(data) {
+    console.log(`Received: ${data}`);
+  }
+
   render() {
-    return (<Dashboard
+    return (<MainForm
       secretData={this.state.secretData}
       recs={this.state.nodes}
     />);
@@ -52,4 +58,4 @@ class DashboardPage extends React.Component {
 
 }
 
-export default DashboardPage;
+export default MainFormPage;

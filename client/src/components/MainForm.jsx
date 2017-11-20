@@ -7,7 +7,7 @@ import MyStage from './MyStage';
 import Client from '../modules/Client'; // eslint-disable-line
 
 
-class Dashboard extends React.Component {
+class MainForm extends React.Component {
   // constructor(props) {
   //   super(props);
   // }
@@ -37,8 +37,8 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.propTypes = {
+MainForm.propTypes = {
   secretData: PropTypes.string.isRequired,
 };
 
-export default Dashboard;
+export default MainForm;

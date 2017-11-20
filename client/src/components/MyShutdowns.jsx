@@ -8,7 +8,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import { formatDateTime, timeDifference } from '../modules/formatDateTime';
+import Moment from 'react-moment';
 import MyIdButton from './MyIdButton';
 
 export default class MyShutdowns extends React.Component {
@@ -44,10 +44,10 @@ export default class MyShutdowns extends React.Component {
             <TableRow key={shutdown.id}>
               <TableRowColumn>{shutdown.id}</TableRowColumn>
               <TableRowColumn>{shutdown.name}</TableRowColumn>
-              <TableRowColumn>{formatDateTime(shutdown.timeStart)}</TableRowColumn>
-              <TableRowColumn>{formatDateTime(shutdown.timeEnd)}</TableRowColumn>
-              <TableRowColumn>{
-                timeDifference(shutdown.timeEnd, shutdown.timeStart)}
+              <TableRowColumn><Moment>{shutdown.timeStart}</Moment></TableRowColumn>
+              <TableRowColumn><Moment>{shutdown.timeEnd}</Moment></TableRowColumn>
+              <TableRowColumn>
+                <Moment>{shutdown.timeEnd - shutdown.timeStart}</Moment>
               </TableRowColumn>
               <TableRowColumn>
                 <MyIdButton

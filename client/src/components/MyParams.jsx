@@ -10,9 +10,13 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import MenuItem from 'material-ui/MenuItem'; import { formatDateTime } from '../modules/formatDateTime';
+import MenuItem from 'material-ui/MenuItem';
+import Moment from 'react-moment';
+
 import MyIdButton from './MyIdButton';
 import Client from '../modules/Client';
+
+import MyWebSocket from '../modules/MyWebSocketClient';
 
 const styles = {
   customWidth: {
@@ -48,11 +52,16 @@ export default class MyParams extends React.Component {
   handleChange = (event, index, value) => this.setState({ selectedParamList: value });
 
   handleLoadParamsClick() {
+
+    MyWebSocket.send('test!');
+/*
+
     Client.loadParams(this.state.selectedParamList.name, (params) => {
       this.setState({
         params: params.slice(0, MATCHING_PARAMS_LIMIT),
       });
     });
+*/
   }
 
   handleParamInfo(id) {
@@ -71,7 +80,7 @@ export default class MyParams extends React.Component {
             style={styles.customWidth}
           >
             {this.state.paramLists.map(paramList => (
-              <MenuItem key={paramList.id} value={paramList} primaryText={paramList.name} secondaryText={paramList.name} />
+              <MenuItem key={paramList.name} value={paramList} primaryText={paramList.name} secondaryText={paramList.name} />
             ))
             }
           </SelectField>
@@ -90,11 +99,11 @@ export default class MyParams extends React.Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
             {this.state.params.map(param => (
-              <TableRow key={param.id}>
+              <TableRow key={param.name}>
                 <TableRowColumn>{param.name}</TableRowColumn>
                 <TableRowColumn>{param.caption}</TableRowColumn>
                 <TableRowColumn>{param.value}</TableRowColumn>
-                <TableRowColumn>{formatDateTime(param.dt)}</TableRowColumn>
+                <TableRowColumn><Moment>{param.dt}</Moment></TableRowColumn>
                 <TableRowColumn>{param.qd}</TableRowColumn>
                 <TableRowColumn>
                   <MyIdButton
