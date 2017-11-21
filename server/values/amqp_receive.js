@@ -1,4 +1,5 @@
 const amqp = require('amqplib/callback_api');
+const logger = require('../logger');
 const lastValues = require('./lastValues');
 
 
@@ -11,7 +12,7 @@ function start() {
   reconnectionStarted = false;
   amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, (err, conn) => {
     if (err) {
-      console.error('[AMQP]', err.message);
+      logger.error('[AMQP]', err.message);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
@@ -20,18 +21,18 @@ function start() {
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
-        console.error('[AMQP] conn error', err.message);
+        logger.error('[AMQP] conn error', err.message);
       }
     });
     conn.on('close', () => {
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
-        console.error('[AMQP] reconnecting');
+        logger.error('[AMQP] reconnecting');
       }
     });
 
-    console.log('[AMQP] connected');
+    logger.info('[AMQP] connected');
     amqpConn = conn;
 
     whenConnected();
@@ -47,23 +48,23 @@ function startWorker() {
   amqpConn.createChannel((err, ch) => {
     if (closeOnErr(err)) return;
     ch.on('error', (err) => {
-      console.error('[AMQP] channel error', err.message);
+      logger.error('[AMQP] channel error', err.message);
     });
     ch.on('close', () => {
-      console.log('[AMQP] channel closed');
+      logger.info('[AMQP] channel closed');
     });
     ch.prefetch(10);
     ch.assertQueue('asutp.values.queue', { durable: true }, (err, _ok) => {
       if (closeOnErr(err)) return;
       ch.consume('asutp.values.queue', processMsg, { noAck: false });
-      console.log('Worker is started');
+      logger.info('Worker is started');
     });
 
     function processMsg(msg) {
       const incomingDate = (new Date()).toISOString();
-      // console.log(`Msg [deliveryTag=${msg.fields.deliveryTag}] arrived at ${incomingDate}`);
+      // logger.info(`Msg [deliveryTag=${msg.fields.deliveryTag}] arrived at ${incomingDate}`);
       work(msg, (ok) => {
-        // console.log(`Sending Ack for msg at time ${incomingDate}`);
+        // logger.info(`Sending Ack for msg at time ${incomingDate}`);
         try {
           if (ok) { ch.ack(msg); } else { ch.reject(msg, true); }
         } catch (e) {
@@ -75,7 +76,7 @@ function startWorker() {
 }
 
 function work(msg, cb) {
-  console.log('Got msg', msg.content.toString());
+  logger.info('Got msg', msg.content.toString());
 
   // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
   const s = msg.content.toString().split('<>');
@@ -84,7 +85,7 @@ function work(msg, cb) {
 
     lastValues.SetLastValue(obj);
   } else {
-    console.error('[ParamValue] Failed to parse: ', msg.content.toString());
+    logger.error('[ParamValue] Failed to parse: ', msg.content.toString());
   }
 
   cb(true);
@@ -92,7 +93,7 @@ function work(msg, cb) {
 
 function closeOnErr(err) {
   if (!err) return false;
-  console.error('[AMQP] error', err);
+  logger.error('[AMQP] error', err);
   amqpConn.close();
   return true;
 }

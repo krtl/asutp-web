@@ -1,5 +1,6 @@
 const express = require('express');
 const async = require('async');
+const logger = require('../logger');
 
 const router = new express.Router();
 
@@ -39,7 +40,7 @@ router.post('/save_node', (req, res, next) => {
       id: locNode.id,
     }, (err, netNode) => {
       if (err) {
-        console.log('Something wrong when findOne!');
+        logger.info('Something wrong when findOne!');
         return callback(err);
       }
 
@@ -51,7 +52,7 @@ router.post('/save_node', (req, res, next) => {
           netNode.save((err, updatedNode) => {
             if (err) return callback(err);
 
-            console.log(`updated node ${updatedNode.id}`);
+            logger.info(`updated node ${updatedNode.id}`);
 
             return callback(null);
           });
@@ -62,20 +63,20 @@ router.post('/save_node', (req, res, next) => {
          // node does not exist
          // const node = new NetNode();
          // node.save(callback);
-        console.log(`node ${locNode.id} does not exist!`);
+        logger.info(`node ${locNode.id} does not exist!`);
 
         return callback(new Error('does not exist!'));
       }
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      logger.info(`Failed: ${err}`);
       next(err);
       // res.status(500).json({
       //   message: err.message,
       // });
     } else {
-      console.log('All saved successfully');
+      logger.info('All saved successfully');
       res.status(200).json({
         message: "'All saved successfully'",
       });

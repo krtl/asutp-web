@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const logger = require('../logger');
 
 module.exports.connect = (uri) => {
   // mongoose.connect(uri);
@@ -12,7 +13,7 @@ module.exports.connect = (uri) => {
 
 
   mongoose.connection.on('error', (err) => {
-    console.error(`Mongoose connection error: ${err}`);
+    logger.error(`Mongoose connection error: ${err}`);
     process.exit(1);
   });
 

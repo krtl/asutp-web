@@ -1,9 +1,11 @@
+const logger = require('../logger');
+
 const lastValues = new Map();
 
 const SetLastValue = function (lastValue) {
   lastValues.set(lastValue.paramName, lastValue);
 
-  console.log(lastValues.size);
+  logger.info(lastValues.size);
 };
 
 const GetLastValue = function (paramName) {

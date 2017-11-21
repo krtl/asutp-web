@@ -1,5 +1,7 @@
 const amqp = require('amqplib/callback_api');
 const moment = require('moment');
+const logger = require('../logger');
+
 process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
 // if the connection is closed or fails to be established at all, we will reconnect
@@ -9,7 +11,7 @@ function start() {
   reconnectionStarted = false;
   amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, (err, conn) => {
     if (err) {
-      console.error('[AMQP]', err.message);
+      logger.error('[AMQP]', err.message);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
@@ -17,18 +19,18 @@ function start() {
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
-        console.error('[AMQP] conn error', err.message);
+        logger.error('[AMQP] conn error', err.message);
       }
     });
     conn.on('close', () => {
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
-        console.error('[AMQP] reconnecting');
+        logger.error('[AMQP] reconnecting');
       }
     });
 
-    console.log('[AMQP] connected');
+    logger.info('[AMQP] connected');
     amqpConn = conn;
 
     whenConnected();
@@ -45,16 +47,16 @@ function startPublisher() {
   amqpConn.createConfirmChannel((err, ch) => {
     if (closeOnErr(err)) return;
     ch.on('error', (err) => {
-      console.error('[AMQP] channel error', err.message);
+      logger.error('[AMQP] channel error', err.message);
     });
     ch.on('close', () => {
-      console.log('[AMQP] channel closed');
+      logger.info('[AMQP] channel closed');
     });
 
     pubChannel = ch;
     while (true) {
       const m = offlinePubQueue.shift();
-      console.log('M = ', m);
+      logger.info('M = ', m);
       if (!m) break;
       publish(m[0], m[1], m[2]);
     }
@@ -67,20 +69,20 @@ function publish(exchange, routingKey, content) {
     pubChannel.publish(exchange, routingKey, content, { persistent: true },
       (err, ok) => {
         if (err) {
-          console.error('[AMQP] publish', err);
+          logger.error('[AMQP] publish', err);
           offlinePubQueue.push([ exchange, routingKey, content ]);
           pubChannel.connection.close();
         }
       });
   } catch (e) {
-    console.error('[AMQP] publish', e.message);
+    logger.error('[AMQP] publish', e.message);
     offlinePubQueue.push([ exchange, routingKey, content ]);
   }
 }
 
 function closeOnErr(err) {
   if (!err) return false;
-  console.error('[AMQP] error', err);
+  logger.error('[AMQP] error', err);
   amqpConn.close();
   return true;
 }
