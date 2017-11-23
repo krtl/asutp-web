@@ -5,7 +5,7 @@ const lastValues = new Map();
 const SetLastValue = function (lastValue) {
   lastValues.set(lastValue.paramName, lastValue);
 
-  logger.info(lastValues.size);
+  logger.debug(`[lastValues] Size = ${lastValues.size}`);
 };
 
 const GetLastValue = function (paramName) {

@@ -1,22 +1,29 @@
 /* eslint-disable no-undef */
 import Auth from './Auth';
 
-const myHeaders = new Headers({
+let myHeaders = null;
+let myGetInit = null;
+let myPostInit = null;
+
+function recreateHeader() {
+  myHeaders = new Headers({
 //  "Content-Length": content.length.toString(),
 //  'Content-type': 'application/x-www-form-urlencoded',
-  'Content-type': 'application/json;charset=UTF-8',
-  'Authorization': `bearer ${Auth.getToken()}`,
-});
+    'Content-type': 'application/json;charset=UTF-8',
+    'Authorization': `bearer ${Auth.getToken()}`,
+  });
 
-const myGetInit = { method: 'GET',
-  headers: myHeaders,
-};
+  myGetInit = { method: 'GET',
+    headers: myHeaders,
+  };
 
-const myPostInit = { method: 'POST',
-  headers: myHeaders,
-};
+  myPostInit = { method: 'POST',
+    headers: myHeaders,
+  };
+}
 
 function loadNodes(prjName, cb) {
+  if (!myHeaders) { recreateHeader(); }
   return fetch(new Request(`api/nodes?proj=${prjName}`, myGetInit), {
     accept: 'application/json',
   })
@@ -36,6 +43,7 @@ function saveNodes(s, cb) {
 }
 
 function loadParamLists(userName, cb) {
+  if (!myHeaders) { recreateHeader(); }
   return fetch(new Request(`api/paramLists?user=${userName}`, myGetInit), {
     accept: 'application/json',
   })
@@ -68,5 +76,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { loadNodes, saveNodes, loadParams, loadParamLists };
+const Client = { loadNodes, saveNodes, loadParams, loadParamLists, resetHeader: recreateHeader };
 export default Client;

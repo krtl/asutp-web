@@ -1,39 +1,63 @@
-//const WebSocket = require('ws');
+// const WebSocket = require('ws');
+const randomstring = require('randomstring');
 const logger = require('../logger');
 
+const traceMessages = true;
+
 let wss;
+
+function clientConnect(ws) {
+  ws.isAlive = true;
+  ws.id = randomstring.generate(15);
+  ws.timeToPing = 10;
+  // ..
+}
+
+function clientReceive(ws, s) {
+  ws.timeToPing = 10;
+  if (traceMessages) {
+    logger.verbose(`[WS]client ${ws.id} received: ${s}`);
+  }
+/*  if (s.startWith('paramsList ')) {
+
+
+    // ws.paramsList =
+  }*/
+}
+
+function clientSend(ws, s) {
+  try {
+    ws.send(s);
+    if (traceMessages) {
+      logger.verbose(`[WS]client ${ws.id} sent: ${s}`);
+    }
+  } catch (e) { logger.warn(`[WS] exception on WebSocket send: ${e.message}`); }
+}
 
 const InitWebSocketServer = function (webSocket) {
   wss = webSocket;
 
   wss.on('connection', (ws, req) => {
     const ip = req.connection.remoteAddress;
-    ws.isAlive = true;
-    ws.id = Math.random();
-    ws.timeToPing = 10;
-
-    logger.info(`client ${ws.id} connected from ${ip}`);
+    clientConnect(ws);
+    logger.info(`[WS]client ${ws.id} connected from ${ip}`);
 
 
     ws.on('pong', () => {
       ws.isAlive = true;
       ws.timeToPing = 10;
-      logger.info(`client ${ws.id} received pong`);
+      if (traceMessages) {
+        logger.debug(`[WS]client ${ws.id} received pong`);
+      }
     });
 
     ws.on('message', (message) => {
-      ws.timeToPing = 10;
-      // log the received message and send it back to the client
-      logger.info(`client ${ws.id} received: ${message}`);
-      try {
-        ws.send(`Hello, you sent -> ${message}`);
-        logger.info(`client ${ws.id} sent 'Hello, you sent -> ${message}`);
-      } catch (e) { logger.warn(`exception on WebSocket send: ${e.message}`); }
+      clientReceive(ws, message);
+
+      clientSend(ws, `Hello, you sent -> ${message}`);
     });
 
-    // send immediatly a feedback to the incoming connection
-    ws.send('Hi there, I am a WebSocket server');
-    logger.info(`client ${ws.id} sent: Hi there, I am a WebSocket server`);
+    clientSend(ws, 'Hi there, I am ASUTP-WebSocket server');
   });
 
   setInterval(() => {
@@ -45,7 +69,9 @@ const InitWebSocketServer = function (webSocket) {
       if (ws.timeToPing === 0) {
         ws.isAlive = false;
         ws.ping('', false, true);
-        logger.info(`client ${ws.id} sent: ping`);
+        if (traceMessages) {
+          logger.debug(`[WS]client ${ws.id} sent: ping`);
+        }
       }
     });
   }, 10000);

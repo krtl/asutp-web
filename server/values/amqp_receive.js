@@ -1,7 +1,7 @@
 const amqp = require('amqplib/callback_api');
 const logger = require('../logger');
 const lastValues = require('./lastValues');
-
+const MyParamValue = require('../models/myParamValue');
 
 process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
@@ -57,14 +57,14 @@ function startWorker() {
     ch.assertQueue('asutp.values.queue', { durable: true }, (err, _ok) => {
       if (closeOnErr(err)) return;
       ch.consume('asutp.values.queue', processMsg, { noAck: false });
-      logger.info('Worker is started');
+      logger.info('[AMQP] Worker is started');
     });
 
     function processMsg(msg) {
       const incomingDate = (new Date()).toISOString();
       // logger.info(`Msg [deliveryTag=${msg.fields.deliveryTag}] arrived at ${incomingDate}`);
       work(msg, (ok) => {
-        // logger.info(`Sending Ack for msg at time ${incomingDate}`);
+        // logger.info(`[AMQP] Sending Ack for msg at time ${incomingDate}`);
         try {
           if (ok) { ch.ack(msg); } else { ch.reject(msg, true); }
         } catch (e) {
@@ -76,16 +76,18 @@ function startWorker() {
 }
 
 function work(msg, cb) {
-  logger.info('Got msg', msg.content.toString());
+  logger.debug('[AMQP] Got msg', msg.content.toString());
 
   // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
   const s = msg.content.toString().split('<>');
   if (s.length === 4) {
-    const obj = { paramName: s[0], value: s[1], qd: s[2], dt: s[3] };
+    const obj = new MyParamValue(s[0], s[1], s[2], s[3]);
 
     lastValues.SetLastValue(obj);
+
+    //
   } else {
-    logger.error('[ParamValue] Failed to parse: ', msg.content.toString());
+    logger.error('[AMQP][MyParamValue] Failed to parse: ', msg.content.toString());
   }
 
   cb(true);

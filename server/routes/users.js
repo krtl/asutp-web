@@ -1,6 +1,6 @@
 
 // const AuthUser = require('mongoose').model('AuthUser');
-const AuthUser = require('../models/authUser');
+const AuthUser = require('../dbmodels/authUser');
 
 module.exports = (app) => {
   app.get('/users', (req, res, next) => {

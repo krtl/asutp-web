@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
+//const myDataModel = require('../models/myDataModel');
+
 
 module.exports.connect = (uri) => {
   // mongoose.connect(uri);
@@ -11,10 +13,20 @@ module.exports.connect = (uri) => {
   // plug in the promise library:
   mongoose.Promise = global.Promise;
 
+  mongoose.connection.on('connected', () => {
+    require('../models/myDataModel');
+    logger.info(`Mongoose connection opened to ${uri}`);
+
+    //myDataModel.LoadFromDB();
+  });
 
   mongoose.connection.on('error', (err) => {
     logger.error(`Mongoose connection error: ${err}`);
     process.exit(1);
+  });
+
+  mongoose.connection.on('disconnected', () => {
+    logger.info('Mongoose default connection disconnected');
   });
 
   // load models

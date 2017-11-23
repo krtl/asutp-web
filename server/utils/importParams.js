@@ -18,8 +18,8 @@ async.series([
 
 function open(callback) {
   console.log('open');
-// connect to the database and load models
-  require('../../server/models').connect(config.dbUri);
+// connect to the database and load dbmodels
+  require('../dbmodels').connect(config.dbUri);
 
   mongoose.connection.on('open', callback);
 }
@@ -41,27 +41,27 @@ function importParams(callback) {
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
-    const newParam = new mongoose.models.Param(paramData);
+    const newParam = new mongoose.models.MyParam(paramData);
 
     //
     // var query = { name: newParam.name },
     //   update = { caption: newParam.caption, description: newParam.description },
     //   options = { upsert: true, new: true, setDefaultsOnInsert: true };
     //
-    // mongoose.models.Param.findOneAndUpdate(query, update, options, function(error, result) {
+    // mongoose.dbmodels.MyParam.findOneAndUpdate(query, update, options, function(error, result) {
     //   if (error) throw error;
     //
     //   // do something with the document
     // });
 
-    mongoose.models.Param.findOne({
+    mongoose.models.MyParam.findOne({
       name: newParam.name }, (err, param) => {
       if (err) callback(err);
       if (param) {
           // param exists
 
         if ((param.caption !== newParam.caption) || (param.description !== newParam.description)) {
-          mongoose.models.Param.update({ _id: param.id }, { $set: { caption: newParam.caption, description: newParam.description } }, (error) => {
+          mongoose.models.MyParam.update({ _id: param.id }, { $set: { caption: newParam.caption, description: newParam.description } }, (error) => {
             if (error) throw callback(error);
             console.log(`Param "${newParam.name}" updated`);
             callback(null);

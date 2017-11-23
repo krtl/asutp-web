@@ -23,8 +23,8 @@ async.series([
 
 function open(callback) {
   console.log('open');
-// connect to the database and load models
-  require('../../server/models').connect(config.dbUri);
+// connect to the database and load dbmodels
+  require('../dbmodels').connect(config.dbUri);
 
   mongoose.connection.on('open', callback);
 }
@@ -37,7 +37,7 @@ function dropDatabase(callback) {
 
 function requireModels(callback) {
   console.log('models');
-  // require('models/user');
+  // require('dbmodels/user');
   require('mongoose').model('AuthUser');
   require('mongoose').model('Param');
   require('mongoose').model('ParamList');
@@ -73,7 +73,7 @@ function createParams(callback) {
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
-    const param = new mongoose.models.Param(paramData);
+    const param = new mongoose.models.MyParam(paramData);
     param.save(callback);
   }, callback);
 
@@ -93,12 +93,12 @@ function createParamLists(callback) {
   }
 
   async.each(paramLists, (paramListData, callback) => {
-    const paramList = new mongoose.models.ParamList(paramListData);
+    const paramList = new mongoose.models.MyParamList(paramListData);
 
     // Check param names
     for (let i = 0; i < paramList.params.length; i++) {
       const locName = paramList.params[i];
-      mongoose.models.Param.findOne({
+      mongoose.models.MyParam.findOne({
         name: locName }, (err, param) => {
         if (err) throw err;
         if (param) {

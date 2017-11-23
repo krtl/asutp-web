@@ -17,6 +17,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "prop-types": "^15.6.0",
+    "randomstring": "^1.1.5",
     "react": "^15.6.2",
     "react-dom": "^15.4.1",
     "react-konva": "1.1.6",

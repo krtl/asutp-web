@@ -1,5 +1,5 @@
 
-const NetNode = require('../models/netNode');
+const NetNode = require('../dbmodels/netNode');
 
 module.exports = (app) => {
   app.get('/nodes', (req, res, next) => {

@@ -11,16 +11,16 @@ const logger = require('./server/logger');
 const WebSocketServer = require('./server/values/webSocketServer');
 
 // connect to the database and load models
-require('./server/models').connect(config.dbUri);
+require('./server/dbmodels').connect(config.dbUri);
 
 const app = express();
 
-// initialize a simple http server
-const server = http.createServer(app);
+// initialize a simple http httpserver
+const httpserver = http.createServer(app);
 
 
 // tell the app to look for static files in these directories
-app.use(express.static('./server/static/'));
+app.use(express.static('./httpserver/static/'));
 app.use(express.static('./client/dist/'));
 // tell the app to parse HTTP body messages
 app.use(bodyParser.json()); // support json encoded bodies
@@ -63,13 +63,13 @@ app.use((req, res) => {
 });
 
 
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server: httpserver });
 
 WebSocketServer.InitWebSocketServer(wss);
 
-// start the server
+// start the httpserver
 // app.listen(app.get('port'), () => {
-server.listen(app.get('port'), () => {
+httpserver.listen(app.get('port'), () => {
   // logger.info('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
   logger.info(`Http server listening at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });

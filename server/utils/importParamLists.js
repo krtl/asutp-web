@@ -17,8 +17,8 @@ async.series([
 
 function open(callback) {
   console.log('open');
-// connect to the database and load models
-  require('../../server/models').connect(config.dbUri);
+// connect to the database and load dbmodels
+  require('../dbmodels').connect(config.dbUri);
 
   mongoose.connection.on('open', callback);
 }
@@ -45,12 +45,12 @@ function createParamLists(callback) {
   }
 
   async.each(paramLists, (paramListData, callback) => {
-    const paramList = new mongoose.models.ParamList(paramListData);
+    const paramList = new mongoose.models.MyParamList(paramListData);
 
     // Check param names
     for (let i = 0; i < paramList.params.length; i++) {
       const locName = paramList.params[i];
-      mongoose.models.Param.findOne({
+      mongoose.models.MyParam.findOne({
         name: locName }, (err, param) => {
         if (err) throw err;
         if (param) {

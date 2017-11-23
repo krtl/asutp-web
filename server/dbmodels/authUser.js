@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const AuthUserSchema = new mongoose.Schema({
   email: {
     type: String,
-    index: { unique: true }
+    index: { unique: true },
   },
   password: String,
   name: String,
@@ -13,9 +13,9 @@ const AuthUserSchema = new mongoose.Schema({
   might: String,
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-});//, {
+});// , {
 //   autoIndex: process.env('mode') == 'development'
 // });
 

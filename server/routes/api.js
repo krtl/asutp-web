@@ -11,8 +11,8 @@ router.get('/dashboard', (req, res) => {
 });
 
 const NetNode = require('mongoose').model('NetNode');
-const Param = require('mongoose').model('Param');
-const ParamList = require('mongoose').model('ParamList');
+const DbParam = require('mongoose').model('Param');
+const DbParamList = require('mongoose').model('ParamList');
 
 router.get('/nodes', (req, res, next) => {
   const param = req.query.proj;
@@ -85,7 +85,7 @@ router.post('/save_node', (req, res, next) => {
 });
 
 router.get('/paramLists', (req, res, next) => {
-  ParamList.find({}, (err, prmLists) => {
+  DbParamList.find({}, (err, prmLists) => {
     if (err) return next(err);
     res.status(200).json(prmLists);
     return 0;
@@ -109,12 +109,12 @@ router.get('/params', (req, res, next) => {
     return;
   }
 
-  ParamList.findOne({
+  DbParamList.findOne({
     name: paramListName,
   }, (err, prmList) => {
     if (err) return next(err);
 
-    Param.find({
+    DbParam.find({
       name: { $in: prmList.params } }, (err, nodes) => {
       if (err) return next(err);
       res.status(200).json(nodes);
