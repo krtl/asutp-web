@@ -65,7 +65,7 @@ app.use((req, res) => {
 
 const wss = new WebSocket.Server({ server: httpserver });
 
-WebSocketServer.InitWebSocketServer(wss);
+WebSocketServer.initializeWebSocketServer(wss);
 
 // start the httpserver
 // app.listen(app.get('port'), () => {

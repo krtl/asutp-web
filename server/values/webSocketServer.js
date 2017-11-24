@@ -5,6 +5,7 @@ const logger = require('../logger');
 const traceMessages = true;
 
 let wss;
+let timerId;
 
 function clientConnect(ws) {
   ws.isAlive = true;
@@ -18,11 +19,6 @@ function clientReceive(ws, s) {
   if (traceMessages) {
     logger.verbose(`[WS]client ${ws.id} received: ${s}`);
   }
-/*  if (s.startWith('paramsList ')) {
-
-
-    // ws.paramsList =
-  }*/
 }
 
 function clientSend(ws, s) {
@@ -34,7 +30,15 @@ function clientSend(ws, s) {
   } catch (e) { logger.warn(`[WS] exception on WebSocket send: ${e.message}`); }
 }
 
-const InitWebSocketServer = function (webSocket) {
+function processCommand(ws, s) {
+  if (s.startsWith('echo: ')) {
+    return s.replace('echo: ', '');
+  }
+
+  return '';
+}
+
+const initializeWebSocketServer = function (webSocket) {
   wss = webSocket;
 
   wss.on('connection', (ws, req) => {
@@ -54,13 +58,24 @@ const InitWebSocketServer = function (webSocket) {
     ws.on('message', (message) => {
       clientReceive(ws, message);
 
-      clientSend(ws, `Hello, you sent -> ${message}`);
+      let s = processCommand(ws, message);
+      if (s !== '') {
+        clientSend(ws, s);
+      }
     });
 
-    clientSend(ws, 'Hi there, I am ASUTP-WebSocket server');
+    // clientSend(ws, 'Hi there, I am ASUTP-WebSocket server');
   });
 
-  setInterval(() => {
+  wss.on('error', (err) => {
+    logger.warn(`[WS] error on WebSocketServer: ${err}`);
+  });
+
+  wss.on('listening', () => {
+    logger.info('[WS] WebSocketServer started to listen.');
+  });
+
+  timerId = setInterval(() => {
     wss.clients.forEach((ws) => {
       if (ws.isAlive === false) return ws.terminate();
 
@@ -77,5 +92,10 @@ const InitWebSocketServer = function (webSocket) {
   }, 10000);
 };
 
+const finalizeWebSocketServer = function () {
+  clearInterval(timerId);
+};
 
-module.exports.InitWebSocketServer = InitWebSocketServer;
+
+module.exports.initializeWebSocketServer = initializeWebSocketServer;
+module.exports.finalizeWebSocketServer = finalizeWebSocketServer;

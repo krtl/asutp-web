@@ -2,15 +2,23 @@ const logger = require('../logger');
 
 const lastValues = new Map();
 
-const SetLastValue = function (lastValue) {
+const setLastValue = function (lastValue) {
   lastValues.set(lastValue.paramName, lastValue);
-
-  logger.debug(`[lastValues] Size = ${lastValues.size}`);
 };
 
-const GetLastValue = function (paramName) {
+const getLastValue = function (paramName) {
   return lastValues.get(paramName);
 };
 
-module.exports.SetLastValue = SetLastValue;
-module.exports.GetLastValue = GetLastValue;
+const getLastValuesCount = function () {
+  return lastValues.size;
+};
+
+const clearLastValues = function () {
+  return lastValues.clear();
+};
+
+module.exports.setLastValue = setLastValue;
+module.exports.getLastValue = getLastValue;
+module.exports.getLastValuesCount = getLastValuesCount;
+module.exports.clearLastValues = clearLastValues;

@@ -83,7 +83,7 @@ function work(msg, cb) {
   if (s.length === 4) {
     const obj = new MyParamValue(s[0], s[1], s[2], s[3]);
 
-    lastValues.SetLastValue(obj);
+    lastValues.setLastValue(obj);
 
     //
   } else {
