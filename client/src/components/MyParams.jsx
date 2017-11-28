@@ -16,7 +16,7 @@ import Moment from 'react-moment';
 import MyIdButton from './MyIdButton';
 import Client from '../modules/Client';
 
-import MyWebSocket from '../modules/MyWebSocketClient';
+import MyWebSocket from '../modules/MyStompClient';
 
 const styles = {
   customWidth: {
@@ -53,7 +53,7 @@ export default class MyParams extends React.Component {
 
   handleLoadParamsClick() {
 
-    MyWebSocket.send('test!');
+    MyWebSocket.subscribe(this.state.selectedParamList.name);
 /*
 
     Client.loadParams(this.state.selectedParamList.name, (params) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Auth from '../modules/Auth';
 import MainForm from '../components/MainForm';
-import MyWebSocket from '../modules/MyWebSocketClient';
+import MyWebSocket from '../modules/MyStompClient';
 
 
 class MainFormPage extends React.Component {

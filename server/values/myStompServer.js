@@ -1,0 +1,75 @@
+const StompServer = require('stomp-broker-js');
+
+// var StompServer = require('server/values/myStompServer');
+// const WebSocket = require('ws');
+// const randomstring = require('randomstring');
+const logger = require('../logger');
+
+const traceMessages = true;
+
+let stompServer;
+let timerId;
+
+const initializeStompServer = function (httpserver) {
+  stompServer = new StompServer({ server: httpserver });
+
+  stompServer.on('connected', (sessionId, headers) => {
+    if (traceMessages) {
+      logger.verbose(`[stompServer] Client ${sessionId} connected`);
+    }
+  });
+
+  stompServer.on('connecting', (sessionId) => {
+    if (traceMessages) {
+      logger.verbose(`[stompServer] Client ${sessionId} connecting..`);
+    }
+  });
+
+  stompServer.on('disconnected', (sessionId) => {
+    if (traceMessages) {
+      logger.verbose(`[stompServer] Client ${sessionId} disconnected`);
+    }
+  });
+
+  stompServer.on('send', (ev) => {
+    if (traceMessages) {
+      logger.verbose(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
+    }
+  });
+
+  stompServer.on('subscribe', (ev) => {
+    if (traceMessages) {
+      logger.verbose(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
+    }
+  });
+
+  stompServer.on('unsubscribe', (ev) => {
+    if (traceMessages) {
+      logger.verbose(`[stompServer] Client ${ev.sessionId} unsunbscribed from ${ev.topic}`);
+    }
+  });
+
+  const headers = { id: 'sub-0' };
+  stompServer.subscribe('queue/test', (msg, headers) => {
+    const topic = headers.destination;
+
+    if (traceMessages) {
+      logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
+    }
+  }, headers);
+
+
+  timerId = setInterval(() => {
+
+    // .. for future use
+
+  }, 10000);
+};
+
+const finalizeStompServer = function () {
+  clearInterval(timerId);
+};
+
+
+module.exports.initializeStompServer = initializeStompServer;
+module.exports.finalizeStompServer = finalizeStompServer;

@@ -3,6 +3,7 @@ const randomstring = require('randomstring');
 const logger = require('../logger');
 
 const traceMessages = true;
+const heartBeatTimeout = 30; //sec
 
 let wss;
 let timerId;
@@ -10,12 +11,12 @@ let timerId;
 function clientConnect(ws) {
   ws.isAlive = true;
   ws.id = randomstring.generate(15);
-  ws.timeToPing = 10;
+  ws.timeToPing = heartBeatTimeout;
   // ..
 }
 
 function clientReceive(ws, s) {
-  ws.timeToPing = 10;
+  ws.timeToPing = heartBeatTimeout;
   if (traceMessages) {
     logger.verbose(`[WS]client ${ws.id} received: ${s}`);
   }
@@ -33,6 +34,13 @@ function clientSend(ws, s) {
 function processCommand(ws, s) {
   if (s.startsWith('echo: ')) {
     return s.replace('echo: ', '');
+  } else if (s.startsWith('paramsListName: ')) {
+    if (true) {
+      ws.paramsListName = s.replace('paramsListName: ', '');
+      return 'ack';
+    }
+
+    return 'nack: Unknown paramsListName';
   }
 
   return '';
@@ -49,7 +57,7 @@ const initializeWebSocketServer = function (webSocket) {
 
     ws.on('pong', () => {
       ws.isAlive = true;
-      ws.timeToPing = 10;
+      ws.timeToPing = heartBeatTimeout;
       if (traceMessages) {
         logger.debug(`[WS]client ${ws.id} received pong`);
       }
@@ -58,7 +66,7 @@ const initializeWebSocketServer = function (webSocket) {
     ws.on('message', (message) => {
       clientReceive(ws, message);
 
-      let s = processCommand(ws, message);
+      const s = processCommand(ws, message);
       if (s !== '') {
         clientSend(ws, s);
       }
