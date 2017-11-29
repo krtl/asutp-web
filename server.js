@@ -1,15 +1,11 @@
 const express = require('express');
 const http = require('http');
-// const WebSocket = require('ws');
-//const StompServer = require('stomp-broker-js');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config');
 const users = require('./server/routes/users');
 const projects = require('./server/routes/projects');
 const logger = require('./server/logger');
-
-// const WebSocketServer = require('./server/values/webSocketServer');
 const MyStompServer = require('./server/values/myStompServer');
 
 
@@ -65,13 +61,7 @@ app.use((req, res) => {
   res.sendStatus(404);
 });
 
-
-// const wss = new WebSocket.Server({ server: httpserver });
-// WebSocketServer.initializeWebSocketServer(wss);
-
-//const stompServer = new StompServer({ server: httpserver });
 MyStompServer.initializeStompServer(httpserver);
-
 
 // start the httpserver
 // app.listen(app.get('port'), () => {

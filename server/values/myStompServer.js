@@ -41,6 +41,8 @@ const initializeStompServer = function (httpserver) {
     if (traceMessages) {
       logger.verbose(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
     }
+
+
   });
 
   stompServer.on('unsubscribe', (ev) => {
@@ -50,7 +52,7 @@ const initializeStompServer = function (httpserver) {
   });
 
   const headers = { id: 'sub-0' };
-  stompServer.subscribe('queue/test', (msg, headers) => {
+  stompServer.subscribe('/queue/test', (msg, headers) => {
     const topic = headers.destination;
 
     if (traceMessages) {

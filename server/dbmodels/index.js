@@ -14,10 +14,10 @@ module.exports.connect = (uri) => {
   mongoose.Promise = global.Promise;
 
   mongoose.connection.on('connected', () => {
-    require('../models/myDataModel');
     logger.info(`Mongoose connection opened to ${uri}`);
 
-    //myDataModel.LoadFromDB();
+    const myDataModel = require('../models/myDataModel');
+    myDataModel.LoadFromDB();
   });
 
   mongoose.connection.on('error', (err) => {
