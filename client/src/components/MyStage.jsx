@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import { Layer, Stage } from 'react-konva';
 import RaisedButton from 'material-ui/RaisedButton';
 import MyRect from './MyRect';
@@ -81,6 +81,6 @@ export default class MyStage extends React.Component {
   }
 }
 
-MyStage.propTypes = {
-};
+// MyStage.propTypes = {
+// };
 

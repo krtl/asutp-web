@@ -1,7 +1,7 @@
 import React from 'react';
 import Auth from '../modules/Auth';
 import MainForm from '../components/MainForm';
-import MyWebSocket from '../modules/MyStompClient';
+import MyStompClient from '../modules/MyStompClient';
 
 
 class MainFormPage extends React.Component {
@@ -28,7 +28,7 @@ class MainFormPage extends React.Component {
           this.setState({
             secretData: xhr.response.message,
           });
-          MyWebSocket.connect(this.doOnWebsocketDataReceived);
+          MyStompClient.connect(this.doOnWebsocketDataReceived);
           break;
         }
         case 401: {

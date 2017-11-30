@@ -18,6 +18,7 @@ const assert = require('chai').assert;
 
 const options = { debug: false, protocols: webstomp.VERSIONS.supportedProtocols() };
 const testMess = 'This is the test message';
+const testReplyMess = 'This is reply';
 const testTopicServerToClient = '/ServerToClient';
 const testTopicClientToServer = '/ClientToServer';
 
@@ -128,7 +129,7 @@ describe('StompServer', () => {
   });
 
   testCase('Send-Receive message test', () => {
-    it('receive message from server', (done) => {
+    it('using topic. receive message from server', (done) => {
       stompServer.on('subscribe', (ev) => {
         console.log(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
         if (ev.topic === testTopicServerToClient) {
@@ -141,11 +142,16 @@ describe('StompServer', () => {
         console.log(`[stompClient] received: ${message}`);
         message.ack();
         expect(message.body).to.equal(testMess);
+
+        if (stompClientSubscription) {
+          stompClientSubscription.unsubscribe({});
+        }
+
         done();
       }, {});
     });
 
-    it('receive message from client', (done) => {
+    it('using topic. receive message from client', (done) => {
       const headers = { id: 'sub-0' };
       stompServer.subscribe(testTopicClientToServer, (msg, headers) => {
         const topic = headers.destination;
@@ -153,7 +159,94 @@ describe('StompServer', () => {
         expect(topic).to.equal(testTopicClientToServer);
         expect(msg).to.equal(testMess);
         done();
+        stompServer.unsubscribe(testTopicClientToServer);
+
+        const subId = headers.subscription;
+        assert.isTrue(stompServer.unsubscribe(subId), `unsubscribe successfull, subId: ${subId}`);
       }, headers);
+
+      // stompServer.send(testTopicClientToServer, {}, testMess);
+      stompClient.send(testTopicClientToServer, testMess, {});
+    });
+
+    it('communicate with individual client', (done) => {
+      // 1) add socket param to emint of 'send' event line 112 in stompServer.js
+      // 2) add following func to original stompServer.js
+
+      // /** SendIndividual message to specific client
+      //  * @param {socket} client
+      //  * @param {object} headers Message headers
+      //  * @param {string} body Message body */
+      // this.sendIndividual = function (socket, topic, headers, body) {
+      //   var _headers = {};
+      //   if (headers) {
+      //     for (var key in headers) {
+      //       _headers[key] = headers[key];
+      //     }
+      //   }
+      //   var frame = {
+      //     body: body,
+      //     headers: _headers
+      //   };
+      //   var args = {
+      //     dest: topic,
+      //     frame: this.frameParser(frame)
+      //   };
+      //
+      //   var bodyObj = args.frame.body;
+      //   var frame = this.frameSerializer(args.frame);
+      //   var headers = { //default headers
+      //     'message-id': stomp.genId("msg"),
+      //     'content-type': 'text/plain'
+      //   };
+      //   if (frame.body !== undefined) {
+      //     if (typeof frame.body !== 'string')
+      //       throw "Message body is not string";
+      //     frame.headers["content-length"] = frame.body.length;
+      //   }
+      //   if (frame.headers) {
+      //     for (var key in frame.headers) {
+      //       headers[key] = frame.headers[key];
+      //     }
+      //   }
+      //
+      //   for (var i in this.subscribes) {
+      //     var sub = this.subscribes[i];
+      //     if (socket.sessionId !== sub.sessionId) {
+      //       continue;
+      //     }
+      //     var match = this._checkSubMatchDest(sub, args);
+      //     if (match) {
+      //       args.frame.headers.subscription = sub.id;
+      //       frame.command = "MESSAGE";
+      //       if (socket !== undefined) {
+      //         stomp.StompUtils.sendFrame(socket, frame);
+      //       }
+      //     }
+      //   }
+      // };
+      //
+      // /* ############# END FUNCTIONS ###################### */
+
+
+      stompClientSubscription = stompClient.subscribe('individual', (message) => {
+        console.log(`[stompClient] received: ${message}`);
+        message.ack();
+        expect(message.body).to.equal(testReplyMess);
+
+        if (stompClientSubscription) {
+          stompClientSubscription.unsubscribe({});
+        }
+
+        done();
+      }, {});
+
+      stompServer.on('send', (ev) => {
+        console.log(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
+
+        stompServer.sendIndividual(ev.socket, 'individual', {}, testReplyMess);
+      });
+
 
       // stompServer.send(testTopicClientToServer, {}, testMess);
       stompClient.send(testTopicClientToServer, testMess, {});

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import {
@@ -16,7 +16,7 @@ import Moment from 'react-moment';
 import MyIdButton from './MyIdButton';
 import Client from '../modules/Client';
 
-import MyWebSocket from '../modules/MyStompClient';
+import MyStompClient from '../modules/MyStompClient';
 
 const styles = {
   customWidth: {
@@ -24,7 +24,7 @@ const styles = {
   },
 };
 
-const MATCHING_PARAMS_LIMIT = 25000;
+//const MATCHING_PARAMS_LIMIT = 25000;
 const MATCHING_LISTS_LIMIT = 1000;
 
 export default class MyParams extends React.Component {
@@ -53,7 +53,7 @@ export default class MyParams extends React.Component {
 
   handleLoadParamsClick() {
 
-    MyWebSocket.subscribe(this.state.selectedParamList.name);
+    MyStompClient.subscribeToValues(this.state.selectedParamList.name);
 /*
 
     Client.loadParams(this.state.selectedParamList.name, (params) => {
@@ -121,6 +121,6 @@ export default class MyParams extends React.Component {
   }
 }
 
-MyParams.propTypes = {
-};
+// MyParams.propTypes = {
+// };
 

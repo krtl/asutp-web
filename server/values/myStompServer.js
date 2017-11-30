@@ -5,6 +5,14 @@ const StompServer = require('stomp-broker-js');
 // const randomstring = require('randomstring');
 const logger = require('../logger');
 
+const TOPIC_PARAM_LIST = '/ParamLists';
+const TOPIC_PARAMS = '/Params';
+// const TOPIC_VALUES = '/Values';
+const TOPIC_COMMANDS = '/Commands';
+
+const CMD_RELOAD = 'RELOAD';
+
+
 const traceMessages = true;
 
 let stompServer;
@@ -34,6 +42,15 @@ const initializeStompServer = function (httpserver) {
   stompServer.on('send', (ev) => {
     if (traceMessages) {
       logger.verbose(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
+
+
+      if (ev.dest === TOPIC_COMMANDS) {
+        if (ev.frame.body === CMD_RELOAD) {
+          stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, testReplyMess);
+        }
+      }
+
+
     }
   });
 
@@ -41,8 +58,6 @@ const initializeStompServer = function (httpserver) {
     if (traceMessages) {
       logger.verbose(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
     }
-
-
   });
 
   stompServer.on('unsubscribe', (ev) => {
