@@ -73,14 +73,27 @@ const CreateMySocketClient = function () {
     stompClient.connect(headers, connectCallback, errorCallback);
   };
 
-  this.disconnect = function() {
+  this.disconnect = function () {
     stompClient.disconnect();
     // stompClient._cleanUp();
-  }
+  };
 
   this.sendCmd = function (data) {
     stompClient.send(TOPIC_COMMANDS, data, {});
-  }
+  };
+
+  this.loadParamLists = function (cb) {
+    if (stompClient !== undefined){
+      if (subsciptionParamLists) {
+        subsciptionParamLists.unsubscribe({});
+      }
+      subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
+        console.log(`[stompClient] received ParamLists: ${message}`);
+        message.ack();
+        cb(message.json());
+      }, {});
+    }
+  };
 
   this.subscribeToValues = function (topic) {
     if (subsciptionValues) {
@@ -90,7 +103,7 @@ const CreateMySocketClient = function () {
       console.log(`[stompClient] received values: ${message}`);
       message.ack();
     }, {});
-  }
+  };
 };
 
 const MyStompClient = new CreateMySocketClient();

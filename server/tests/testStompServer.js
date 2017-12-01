@@ -53,7 +53,7 @@ describe('StompServer', () => {
     });
 
     stompServer.on('subscribe', (ev) => {
-      console.log(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
+      console.log(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
     });
 
     stompServer.on('unsubscribe', (ev) => {
@@ -131,7 +131,7 @@ describe('StompServer', () => {
   testCase('Send-Receive message test', () => {
     it('using topic. receive message from server', (done) => {
       stompServer.on('subscribe', (ev) => {
-        console.log(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
+        console.log(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
         if (ev.topic === testTopicServerToClient) {
           expect(ev.topic).to.equal(testTopicServerToClient);
           stompServer.send(testTopicServerToClient, {}, testMess);
@@ -170,7 +170,7 @@ describe('StompServer', () => {
     });
 
     it('communicate with individual client', (done) => {
-      // 1) add socket param to emint of 'send' event line 112 in stompServer.js
+      // 1) add socket param to emit of 'send' event line 112 in stompServer.js
       // 2) add following func to original stompServer.js
 
       // /** SendIndividual message to specific client
@@ -251,6 +251,29 @@ describe('StompServer', () => {
       // stompServer.send(testTopicClientToServer, {}, testMess);
       stompClient.send(testTopicClientToServer, testMess, {});
     });
+
+    it('client subscribe once. receive message from client and send reply', (done) => {
+      stompServer.on('subscribe', (ev) => {
+        console.log(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+        if (ev.topic === testTopicServerToClient) {
+          expect(ev.topic).to.equal(testTopicServerToClient);
+          stompServer.sendIndividual(ev.socket, testTopicServerToClient, {}, testMess);
+        }
+      });
+
+      stompClientSubscription = stompClient.subscribe(testTopicServerToClient, (message) => {
+        console.log(`[stompClient] received: ${message}`);
+        message.ack();
+        expect(message.body).to.equal(testMess);
+
+        if (stompClientSubscription) {
+          stompClientSubscription.unsubscribe({});
+        }
+
+        done();
+      }, {});
+    });
+
   });
 });
 

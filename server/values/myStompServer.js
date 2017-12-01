@@ -1,4 +1,5 @@
 const StompServer = require('stomp-broker-js');
+const MyDataModel = require('../models/myDataModel');
 
 // var StompServer = require('server/values/myStompServer');
 // const WebSocket = require('ws');
@@ -43,20 +44,33 @@ const initializeStompServer = function (httpserver) {
     if (traceMessages) {
       logger.verbose(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
 
-
-      if (ev.dest === TOPIC_COMMANDS) {
-        if (ev.frame.body === CMD_RELOAD) {
-          stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, testReplyMess);
+      switch (ev.dest) {
+        case TOPIC_COMMANDS: {
+          if (ev.frame.body === CMD_RELOAD) {
+            const paramLists = MyDataModel.GetAvailableParamsLists('');
+            stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
+          }
+          break;
         }
+        default:
+
       }
-
-
     }
   });
 
   stompServer.on('subscribe', (ev) => {
     if (traceMessages) {
       logger.verbose(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
+
+      switch (ev.topic) {
+        case TOPIC_PARAM_LIST: {
+          const paramLists = MyDataModel.GetAvailableParamsLists('');
+          stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
+          break;
+        }
+        default:
+
+      }
     }
   });
 

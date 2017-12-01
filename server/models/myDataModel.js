@@ -85,6 +85,22 @@ const GetParamsList = function (paramListName) {
   return paramLists.get(paramListName);
 };
 
+const GetAvailableParamsLists = function (userName) {
+  const result = [];
+  if (userName === '') {
+    paramLists.forEach((value) => {
+      result.push({ name: value.name,
+        caption: value.caption,
+        description: value.description });
+    });
+  } else {
+    // not implemented yet.
+  }
+
+  return result;
+};
+
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.GetParam = GetParam;
 module.exports.GetParamsList = GetParamsList;
+module.exports.GetAvailableParamsLists = GetAvailableParamsLists;

@@ -42,10 +42,14 @@ export default class MyParams extends React.Component {
   }
 
   componentDidMount() {
-    Client.loadParamLists('', (paramLists) => {
+    MyStompClient.loadParamLists('', (paramLists) => {
       this.setState({
         paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
       });
+    // Client.loadParamLists('', (paramLists) => {
+    //   this.setState({
+    //     paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
+    //   });
     });
   }
 
