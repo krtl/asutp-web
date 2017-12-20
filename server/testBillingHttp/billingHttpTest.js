@@ -2,31 +2,26 @@ const querystring = require('querystring');
 const http = require('http');
 const KeepAliveAgent = require('./httpAgent.js');
 
-//const billingHost = '127.0.0.1';
+// const billingHost = '127.0.0.1';
 const billingHost = 'srv-android';
 
-//const billingHost = 'billing.soe.com.ua';
-const billingPath = '';
-//const billingPath = '/billing_android_entry_point';
 
-const agent = new KeepAliveAgent({ maxSockets: 55 }); // Optionally define more parallel sockets
+const agent = new KeepAliveAgent({ maxSockets: 100 }); // Optionally define more parallel sockets
 
 
 function loadAccountInfo(sessionId) {
-  const locPath = billingPath + '/userabons';
-
   const options = {
     agent,
     hostname: billingHost,
     port: '9000',
-    path: locPath,
+    path: '/userabons',
     headers: {
       Cookie: sessionId,
     },
   };
 
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 100; i++) {
     const getReq = http.request(options, (res) => {
       let str = '';
       console.log(`STATUS: ${res.statusCode}`);
@@ -56,19 +51,15 @@ function PostCode() {
     Submit: 'Login',
   });
 
-  const loginPath = billingPath + '/login';
 
   const postOptions = {
     agent,
-//    protocol: 'https',
     hostname: billingHost,
-    //host: '127.0.0.1',
     port: '9000',
-    path: loginPath,
+    path: '/login',
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      // 'Connection': 'keep-alive',
       'Content-Length': Buffer.byteLength(postData),
     },
   };
@@ -101,7 +92,6 @@ function PostCode() {
     console.error(`problem with request: ${e.message}`);
   });
 
-  // post the data
   postReq.write(postData);
   postReq.end();
 }
