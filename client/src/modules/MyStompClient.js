@@ -13,6 +13,9 @@ const CreateMySocketClient = function () {
   let subsciptionParams;
   let subsciptionValues;
 
+  let cbOnParamListsReceived = null;
+
+
   const connectCallback = function () {
     console.log('connected');
 
@@ -20,8 +23,12 @@ const CreateMySocketClient = function () {
       subsciptionParamLists.unsubscribe({});
     }
     subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
-      console.log(`[stompClient] received Lists: ${message}`);
+      console.log(`[stompClient] received ParamLists: ${message}`);
       message.ack();
+
+      if (cbOnParamListsReceived) {
+        cbOnParamListsReceived(JSON.parse(message.body));
+      }
     }, {});
 
     if (subsciptionParams) {
@@ -83,14 +90,15 @@ const CreateMySocketClient = function () {
   };
 
   this.loadParamLists = function (cb) {
-    if (stompClient !== undefined){
+    cbOnParamListsReceived = cb;
+    if (stompClient !== undefined) {
       if (subsciptionParamLists) {
         subsciptionParamLists.unsubscribe({});
       }
       subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
         console.log(`[stompClient] received ParamLists: ${message}`);
         message.ack();
-        cb(message.json());
+        cb(JSON.parse(message.body));
       }, {});
     }
   };

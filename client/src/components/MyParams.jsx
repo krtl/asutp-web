@@ -14,7 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Moment from 'react-moment';
 
 import MyIdButton from './MyIdButton';
-import Client from '../modules/Client';
+//import Client from '../modules/Client';
 
 import MyStompClient from '../modules/MyStompClient';
 
@@ -42,7 +42,7 @@ export default class MyParams extends React.Component {
   }
 
   componentDidMount() {
-    MyStompClient.loadParamLists('', (paramLists) => {
+    MyStompClient.loadParamLists((paramLists) => {
       this.setState({
         paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
       });

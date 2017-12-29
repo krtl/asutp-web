@@ -8,7 +8,7 @@ const logger = require('../logger');
 
 const TOPIC_PARAM_LIST = '/ParamLists';
 const TOPIC_PARAMS = '/Params';
-// const TOPIC_VALUES = '/Values';
+const TOPIC_VALUES = '/Values';
 const TOPIC_COMMANDS = '/Commands';
 
 const CMD_RELOAD = 'RELOAD';
@@ -68,6 +68,11 @@ const initializeStompServer = function (httpserver) {
           stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
           break;
         }
+        case TOPIC_PARAMS: {
+          const params = MyDataModel.GetParamsList(ev.socket.);
+          stompServer.sendIndividual(ev.socket, TOPIC_PARAMS, {}, JSON.stringify(params));
+          break;
+        }
         default:
 
       }
@@ -88,6 +93,9 @@ const initializeStompServer = function (httpserver) {
       logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
     }
   }, headers);
+
+
+
 
 
   timerId = setInterval(() => {

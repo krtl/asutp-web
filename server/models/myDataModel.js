@@ -1,7 +1,10 @@
 const async = require('async');
 
-const DbParam = require('mongoose').model('Param');
-const DbParamList = require('mongoose').model('ParamList');
+// const DbParam = require('mongoose').model('Param');
+// const DbParamList = require('mongoose').model('ParamList');
+
+let DbParam;
+let DbParamList;
 
 const logger = require('../logger');
 const MyParam = require('./myParam');
@@ -31,6 +34,10 @@ const LoadFromDB = function () {
 function clearData(cb) {
   params.clear();
   paramLists.clear();
+
+  DbParam = require('mongoose').model('Param');
+  DbParamList = require('mongoose').model('ParamList');
+
   return cb();
 }
 
