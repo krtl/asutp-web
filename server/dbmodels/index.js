@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
-//const myDataModel = require('../models/myDataModel');
+// const myDataModel = require('../models/myDataModel');
 
 
 module.exports.connect = (uri) => {

@@ -3,7 +3,9 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-const importPath = 'D:/mongodb_bases/';
+// const importPath = 'D:/mongodb_bases/';
+
+const importPath = 'D:/test/';
 
 async.series([
   open,

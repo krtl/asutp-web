@@ -68,13 +68,18 @@ const initializeStompServer = function (httpserver) {
           stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
           break;
         }
-        case TOPIC_PARAMS: {
-          const params = MyDataModel.GetParamsList(ev.socket.);
-          stompServer.sendIndividual(ev.socket, TOPIC_PARAMS, {}, JSON.stringify(params));
-          break;
-        }
         default:
 
+      }
+
+      if (ev.topic.startsWith(TOPIC_PARAMS)) {
+        const locParamListName = ev.topic.replace(TOPIC_PARAMS, '');
+        const params = MyDataModel.GetParamsList(locParamListName);
+        if (params) {
+          stompServer.sendIndividual(ev.socket, TOPIC_PARAMS, {}, JSON.stringify(params));
+        } else {
+          logger.warn(`[stompServer] ParamList ${locParamListName} not found! Client: ${ev.sessionId}`);
+        }
       }
     }
   });
@@ -93,9 +98,6 @@ const initializeStompServer = function (httpserver) {
       logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
     }
   }, headers);
-
-
-
 
 
   timerId = setInterval(() => {

@@ -1,5 +1,5 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import {
@@ -14,7 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Moment from 'react-moment';
 
 import MyIdButton from './MyIdButton';
-//import Client from '../modules/Client';
+// import Client from '../modules/Client';
 
 import MyStompClient from '../modules/MyStompClient';
 
@@ -24,7 +24,7 @@ const styles = {
   },
 };
 
-//const MATCHING_PARAMS_LIMIT = 25000;
+const MATCHING_PARAMS_LIMIT = 2500;
 const MATCHING_LISTS_LIMIT = 1000;
 
 export default class MyParams extends React.Component {
@@ -37,6 +37,7 @@ export default class MyParams extends React.Component {
       params: [],
     };
 
+    this.handleChange = this.handleChange.bind(this);
     this.handleParamInfo = this.handleParamInfo.bind(this);
     this.handleLoadParamsClick = this.handleLoadParamsClick.bind(this);
   }
@@ -46,30 +47,25 @@ export default class MyParams extends React.Component {
       this.setState({
         paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
       });
-    // Client.loadParamLists('', (paramLists) => {
-    //   this.setState({
-    //     paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
-    //   });
     });
   }
 
-  handleChange = (event, index, value) => this.setState({ selectedParamList: value });
-
   handleLoadParamsClick() {
-
-    MyStompClient.subscribeToValues(this.state.selectedParamList.name);
-/*
-
-    Client.loadParams(this.state.selectedParamList.name, (params) => {
+    MyStompClient.loadParams(this.state.selectedParamList.name, (params) => {
       this.setState({
         params: params.slice(0, MATCHING_PARAMS_LIMIT),
       });
     });
-*/
+
+    MyStompClient.subscribeToValues(this.state.selectedParamList.name);
   }
 
   handleParamInfo(id) {
     this.props.router.push(`/paramInfo/${id}`);
+  }
+
+  handleChange(event, index, value) {
+    this.setState({ selectedParamList: value });
   }
 
   render() {

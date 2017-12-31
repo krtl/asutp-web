@@ -18,5 +18,4 @@ module.exports = (app) => {
       res.json(user);
     });
   });
-
 };
