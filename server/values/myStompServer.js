@@ -72,6 +72,10 @@ const initializeStompServer = function (httpserver) {
 
       }
 
+
+
+
+
       if (ev.topic.startsWith(TOPIC_PARAMS)) {
         const locParamListName = ev.topic.replace(TOPIC_PARAMS, '');
         const params = MyDataModel.GetParamsList(locParamListName);
