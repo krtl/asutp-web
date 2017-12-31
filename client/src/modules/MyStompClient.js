@@ -61,7 +61,7 @@ const CreateMySocketClient = function () {
   };
 
   const errorCallback = function (error) {
-    console.warn(error);    //not yet clean
+    console.warn(error); //not yet clean
   };
 
   const headers = {
