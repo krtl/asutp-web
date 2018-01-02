@@ -20,6 +20,7 @@ const LoadFromDB = function () {
     clearData,
     loadParams,
     loadParamLists,
+    linkData,
     checkData,
   ], (err) => {
     if (err) {
@@ -84,9 +85,42 @@ function checkData(cb) {
   return cb();
 }
 
+function linkData(cb) {
+
+  params.forEach((prm) => {
+    prm.listNames = '';
+
+    paramLists.forEach((prmList) => {
+      prm.listNames = '';
+
+    }
+  }
+  }
+
+  return cb();
+}
+
 const GetParam = function (paramName) {
   return params.get(paramName);
 };
+
+const GetParamsOfList = function (paramListName) {
+  const paramList = paramLists.get(paramListName);
+  if (paramList) {
+    const resultParams = [];
+    paramList.paramNames.forEach((prmName) => {
+      const param = params.get(prmName);
+      if (param) {
+        resultParams.push(param);
+      } else {
+        logger.error(`[sever] cannot find param "${prmName}" in "${paramList.name}"`);
+      }
+    });
+    return resultParams;
+  }
+  return [];
+};
+
 
 const GetParamsList = function (paramListName) {
   return paramLists.get(paramListName);
@@ -109,5 +143,6 @@ const GetAvailableParamsLists = function (userName) {
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.GetParam = GetParam;
+module.exports.GetParamsOfList = GetParamsOfList;
 module.exports.GetParamsList = GetParamsList;
 module.exports.GetAvailableParamsLists = GetAvailableParamsLists;

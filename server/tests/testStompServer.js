@@ -273,7 +273,6 @@ describe('StompServer', () => {
         done();
       }, {});
     });
-
   });
 });
 

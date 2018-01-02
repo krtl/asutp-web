@@ -57,7 +57,27 @@ export default class MyParams extends React.Component {
       });
     });
 
-    MyStompClient.subscribeToValues(this.state.selectedParamList.name);
+    const locThis = this;  // should be remaked!
+
+    MyStompClient.subscribeToValues(this.state.selectedParamList.name, (value) => {
+      const locParams = locThis.state.params.slice();
+      let b = false;
+      for (let i = 0; i < locParams.length; i++) {
+        const locParam = locParams[i];
+        if (locParam.name === value.paramName) {
+          locParam.value = value.value;
+          locParam.dt = value.dt;
+          locParam.qd = value.qd;
+          b = true;
+          break;
+        }
+      }
+      if (b) {
+        this.setState({
+          params: locParams,
+        });
+      }
+    });
   }
 
   handleParamInfo(id) {

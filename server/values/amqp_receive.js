@@ -43,7 +43,7 @@ function whenConnected() {
   startWorker();
 }
 
-// A worker that acks messages only if processed succesfully
+// A worker that acks messages only if processed successfully
 function startWorker() {
   amqpConn.createChannel((err, ch) => {
     if (closeOnErr(err)) return;

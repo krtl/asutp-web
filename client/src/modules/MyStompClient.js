@@ -1,8 +1,8 @@
 import webstomp from 'webstomp-client';
 
 const TOPIC_PARAM_LIST = '/ParamLists';
-const TOPIC_PARAMS = '/Params';
-const TOPIC_VALUES = '/Values';
+const TOPIC_PARAMS = '/Params:';
+const TOPIC_VALUES = '/Values:';
 const TOPIC_COMMANDS = '/Commands';
 
 const CMD_RELOAD = 'RELOAD';
@@ -16,7 +16,7 @@ const CreateMySocketClient = function () {
   let cbOnParamListsReceived = null;
   let paramsListName = '';
   let cbOnParamsReceived = null;
-
+  let cbOnValueReceived = null;
 
   const connectCallback = function () {
     console.log('connected');
@@ -24,6 +24,7 @@ const CreateMySocketClient = function () {
     if (subsciptionParamLists) {
       subsciptionParamLists.unsubscribe({});
     }
+
     subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
       console.log(`[stompClient] received ParamLists: ${message}`);
       message.ack();
@@ -51,9 +52,13 @@ const CreateMySocketClient = function () {
         }
       }, {});
 
-      subsciptionValues = stompClient.subscribe(TOPIC_VALUES, (message) => {
+      subsciptionValues = stompClient.subscribe(TOPIC_VALUES + paramsListName, (message) => {
         console.log(`[stompClient] received values: ${message}`);
         message.ack();
+
+        if (cbOnValueReceived) {
+          cbOnValueReceived(JSON.parse(message.body));
+        }
       }, {});
     }
 
@@ -61,7 +66,7 @@ const CreateMySocketClient = function () {
   };
 
   const errorCallback = function (error) {
-    console.warn(error); //not yet clean
+    console.warn(error); // not yet clean
   };
 
   const headers = {
@@ -127,15 +132,20 @@ const CreateMySocketClient = function () {
     }
   };
 
-  this.subscribeToValues = function (topic) {
-    if (subsciptionValues) {
-      subsciptionValues.unsubscribe({});
+  this.subscribeToValues = function (aParamsListName, cb) {
+    cbOnValueReceived = cb;
+    if (stompClient !== undefined) {
+      if (subsciptionValues) {
+        subsciptionValues.unsubscribe({});
+      }
+      subsciptionValues = stompClient.subscribe(TOPIC_VALUES + aParamsListName, (message) => {
+        console.log(`[stompClient] received values: ${message}`);
+        message.ack();
+        cb(JSON.parse(message.body));
+      }, {});
     }
-    subsciptionValues = stompClient.subscribe(topic, (message) => {
-      console.log(`[stompClient] received values: ${message}`);
-      message.ack();
-    }, {});
-  };
+    ;
+  }
 };
 
 const MyStompClient = new CreateMySocketClient();

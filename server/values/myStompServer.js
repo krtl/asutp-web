@@ -1,5 +1,8 @@
 const StompServer = require('stomp-broker-js');
+const moment = require('moment');
 const MyDataModel = require('../models/myDataModel');
+const lastValues = require('./lastValues');
+const MyParamValue = require('../models/myParamValue');
 
 // var StompServer = require('server/values/myStompServer');
 // const WebSocket = require('ws');
@@ -7,8 +10,8 @@ const MyDataModel = require('../models/myDataModel');
 const logger = require('../logger');
 
 const TOPIC_PARAM_LIST = '/ParamLists';
-const TOPIC_PARAMS = '/Params';
-const TOPIC_VALUES = '/Values';
+const TOPIC_PARAMS = '/Params:';
+const TOPIC_VALUES = '/Values:';
 const TOPIC_COMMANDS = '/Commands';
 
 const CMD_RELOAD = 'RELOAD';
@@ -60,54 +63,80 @@ const initializeStompServer = function (httpserver) {
 
   stompServer.on('subscribe', (ev) => {
     if (traceMessages) {
-      logger.verbose(`[stompServer] Client ${ev.sessionId} sunbscribed to ${ev.topic}`);
+      logger.verbose(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+    }
 
-      switch (ev.topic) {
-        case TOPIC_PARAM_LIST: {
-          const paramLists = MyDataModel.GetAvailableParamsLists('');
-          stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
-          break;
-        }
-        default:
-
+    switch (ev.topic) {
+      case TOPIC_PARAM_LIST: {
+        const paramLists = MyDataModel.GetAvailableParamsLists('');
+        stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
+        break;
       }
+      default:
 
+    }
 
+    if (ev.topic.startsWith(TOPIC_PARAMS)) {
+      const locParamListName = ev.topic.replace(TOPIC_PARAMS, '');
+      const params = MyDataModel.GetParamsOfList(locParamListName);
+      stompServer.sendIndividual(ev.socket, ev.topic, {}, JSON.stringify(params));
+    }
 
-
-
-      if (ev.topic.startsWith(TOPIC_PARAMS)) {
-        const locParamListName = ev.topic.replace(TOPIC_PARAMS, '');
-        const params = MyDataModel.GetParamsList(locParamListName);
-        if (params) {
-          stompServer.sendIndividual(ev.socket, TOPIC_PARAMS, {}, JSON.stringify(params));
-        } else {
-          logger.warn(`[stompServer] ParamList ${locParamListName} not found! Client: ${ev.sessionId}`);
+    if (ev.topic.startsWith(TOPIC_VALUES)) {
+      const locParamListName = ev.topic.replace(TOPIC_VALUES, '');
+      const params = MyDataModel.GetParamsOfList(locParamListName);
+      params.forEach((param) => {
+        const paramValue = lastValues.getLastValue(param.name);
+        if (paramValue) {
+          stompServer.sendIndividual(ev.socket, TOPIC_VALUES + locParamListName, {}, JSON.stringify(paramValue));
         }
-      }
+      });
     }
   });
 
   stompServer.on('unsubscribe', (ev) => {
     if (traceMessages) {
-      logger.verbose(`[stompServer] Client ${ev.sessionId} unsunbscribed from ${ev.topic}`);
+      logger.verbose(`[stompServer] Client ${ev.sessionId} unsubscribed from ${ev.topic}`);
     }
   });
 
-  const headers = { id: 'sub-0' };
-  stompServer.subscribe('/queue/test', (msg, headers) => {
-    const topic = headers.destination;
-
-    if (traceMessages) {
-      logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
-    }
-  }, headers);
+  const dt = moment();// .format('YYYY-MM-DD HH:mm:ss');
+  for (let i = 0; i < 10; i++) {
+    const obj = new MyParamValue(`param${i}`, Math.random(), Math.random() * 1000, dt, 'NA');
+    lastValues.setLastValue(obj);
+  }
 
 
   timerId = setInterval(() => {
-
     // .. for future use
 
+    // const headers = { id: 'sub-0' };
+    // stompServer.subscribe(`${TOPIC_PARAMS}paramList1`, (msg, headers) => {
+    //   const topic = headers.destination;
+    //
+    //   if (traceMessages) {
+    //     logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
+    //   }
+    // }, headers);
+
+    // stompServer.subscribe(`${TOPIC_VALUES}paramList1`, (msg, headers) => {
+    //   const topic = headers.destination;
+    //
+    //   if (traceMessages) {
+    //     logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
+    //   }
+    // }, headers);
+
+
+    const dt = moment();// .format('YYYY-MM-DD HH:mm:ss');
+    const obj = new MyParamValue(`param${Math.floor(Math.random() * 10)}`, Math.random(), Math.random() * 1000, dt, 'NA');
+
+    lastValues.setLastValue(obj);
+
+    const param = MyDataModel.GetParam(obj.paramName);
+    param.listNames.forEach((lstName) => {
+      stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(obj));
+    });
   }, 10000);
 };
 
