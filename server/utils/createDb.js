@@ -75,7 +75,7 @@ function createParams(callback) {
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
-    const param = new mongoose.models.MyParam(paramData);
+    const param = new mongoose.models.Param(paramData);
     param.save(callback);
   }, callback);
 
@@ -95,12 +95,12 @@ function createParamLists(callback) {
   }
 
   async.each(paramLists, (paramListData, callback) => {
-    const paramList = new mongoose.models.MyParamList(paramListData);
+    const paramList = new mongoose.models.ParamList(paramListData);
 
     // Check param names
     for (let i = 0; i < paramList.params.length; i++) {
       const locName = paramList.params[i];
-      mongoose.models.MyParam.findOne({
+      mongoose.models.Param.findOne({
         name: locName }, (err, param) => {
         if (err) throw err;
         if (param) {

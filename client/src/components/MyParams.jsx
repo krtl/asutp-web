@@ -106,7 +106,7 @@ export default class MyParams extends React.Component {
           </SelectField>
           <RaisedButton onClick={this.handleLoadParamsClick}>Load</RaisedButton>
         </div>
-        <Table height='300px'>
+        <Table height='600px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn>Name</TableHeaderColumn>

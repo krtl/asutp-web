@@ -81,7 +81,7 @@ function work(msg, cb) {
   // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
   const s = msg.content.toString().split('<>');
   if (s.length === 4) {
-    const obj = new MyParamValue(s[0], s[1], s[2], s[3]);
+    const obj = new MyParamValue(s[0], s[1], s[3], s[2]);
 
     lastValues.setLastValue(obj);
 

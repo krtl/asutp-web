@@ -86,16 +86,15 @@ function checkData(cb) {
 }
 
 function linkData(cb) {
-
   params.forEach((prm) => {
-    prm.listNames = '';
-
+    const locListNames = [];
     paramLists.forEach((prmList) => {
-      prm.listNames = '';
-
-    }
-  }
-  }
+      if (prmList.paramNames.indexOf(prm.name) > -1) {
+        locListNames.push(prmList.name);
+      }
+    });
+    prm.setListNames(locListNames);
+  });
 
   return cb();
 }

@@ -3,8 +3,8 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-//const importPath = 'D:/mongodb_bases/';
-const importPath = 'D:/test/';
+const importPath = 'D:/mongodb_bases/';
+// const importPath = 'D:/test/';
 
 async.series([
   open,
@@ -34,6 +34,23 @@ function requireModels(callback) {
   }, callback);
 }
 
+function compareParamList(paramList1, paramList2) {
+  let result = ((paramList1.caption === paramList2.caption) && (paramList1.description === paramList2.description));
+  if (result) {
+    paramList1.params.forEach((paramName1) => {
+      if (paramList2.params.indexOf(paramName1) < 0) {
+        result = false;
+      }
+    });
+    paramList2.params.forEach((paramName2) => {
+      if (paramList1.params.indexOf(paramName2) < 0) {
+        result = false;
+      }
+    });
+  }
+  return result;
+}
+
 function createParamLists(callback) {
   console.log('create paramLists');
   const rawdata = fs.readFileSync(`${importPath}paramLists.json`);
@@ -42,30 +59,63 @@ function createParamLists(callback) {
     paramLists = JSON.parse(rawdata);
   } catch (e) {
     console.error(`create paramLists Error: ${e.message}`);
+    callback(e);
     return;
   }
 
   async.each(paramLists, (paramListData, callback) => {
-    const paramList = new mongoose.models.MyParamList(paramListData);
+    const newParamList = new mongoose.models.ParamList(paramListData);
 
     // Check param names
-    for (let i = 0; i < paramList.params.length; i++) {
-      const locName = paramList.params[i];
-      mongoose.models.MyParam.findOne({
+    for (let i = 0; i < newParamList.params.length; i++) {
+      const locName = newParamList.params[i];
+      mongoose.models.Param.findOne({
         name: locName }, (err, param) => {
         if (err) throw err;
         if (param) {
           // param exists
         } else {
           // param does not exist
-          console.error(`create paramLists Error: Param "${locName}" does not exists!`);
+          console.error(`create paramList Error: Param "${locName}" does not exists for "${newParamList.name}"!`);
         }
       });
     }
 
-    paramList.save(callback);
-  }, callback);
+    mongoose.models.ParamList.findOne({
+      name: newParamList.name }, (err, paramList) => {
+      if (err) callback(err);
+      if (paramList) {
+        // paramList exists
 
-  const data = JSON.stringify(paramLists);
-  fs.writeFileSync(`${importPath}paramLists-2.json`, data);
+        if (!compareParamList(paramList, newParamList)) {
+          mongoose.models.ParamList.update(
+            { _id: paramList.id },
+            { $set: { caption: newParamList.caption, description: newParamList.description, params: newParamList.params } }, (error) => {
+              if (error) throw callback(error);
+              console.log(`ParamList "${newParamList.name}" updated`);
+              callback(null);
+            });
+        } else {
+          callback(null);
+        }
+      } else {
+        // param does not exist
+        newParamList.save((err) => {
+          if (err) callback(err);
+          console.log(`ParamList "${newParamList.name}" inserted`);
+          callback(null);
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success');
+    }
+    callback(err);
+  });
+
+//  const data = JSON.stringify(paramLists);
+//  fs.writeFileSync(`${importPath}paramLists-2.json`, data);
 }

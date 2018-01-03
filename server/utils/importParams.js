@@ -3,8 +3,8 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-// const importPath = 'D:/mongodb_bases/';
-const importPath = 'D:/test/';
+ const importPath = 'D:/mongodb_bases/';
+//const importPath = 'D:/test/';
 
 
 async.series([
@@ -35,14 +35,13 @@ function requireModels(callback) {
   }, callback);
 }
 
-
 function importParams(callback) {
   console.log('importing params..');
   const rawdata = fs.readFileSync(`${importPath}params.json`);
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
-    const newParam = new mongoose.models.MyParam(paramData);
+    const newParam = new mongoose.models.Param(paramData);
 
     //
     // var query = { name: newParam.name },
@@ -55,14 +54,14 @@ function importParams(callback) {
     //   // do something with the document
     // });
 
-    mongoose.models.MyParam.findOne({
+    mongoose.models.Param.findOne({
       name: newParam.name }, (err, param) => {
       if (err) callback(err);
       if (param) {
           // param exists
 
         if ((param.caption !== newParam.caption) || (param.description !== newParam.description)) {
-          mongoose.models.MyParam.update({ _id: param.id }, { $set: { caption: newParam.caption, description: newParam.description } }, (error) => {
+          mongoose.models.Param.update({ _id: param.id }, { $set: { caption: newParam.caption, description: newParam.description } }, (error) => {
             if (error) throw callback(error);
             console.log(`Param "${newParam.name}" updated`);
             callback(null);
@@ -83,7 +82,7 @@ function importParams(callback) {
     if (err) {
       console.log(`Failed: ${err}`);
     } else {
-      console.log('All saved successfully');
+      console.log('Success.');
     }
     callback(err);
   });
