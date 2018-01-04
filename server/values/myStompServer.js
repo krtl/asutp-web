@@ -62,11 +62,6 @@ const initializeStompServer = function (httpserver) {
     }
   });
 
-  function MyParamStringifyReplacer(key, value) {
-    if (key === 'listNames') return undefined;
-    return value;
-  }
-
   stompServer.on('subscribe', (ev) => {
     if (traceMessages) {
       logger.verbose(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
@@ -107,7 +102,7 @@ const initializeStompServer = function (httpserver) {
   });
 
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 10; i += 1) {
     const obj = new MyParamValue(`param${i}`, Math.random() * 1000, dt, 'NA');
     lastValues.setLastValue(obj);
   }

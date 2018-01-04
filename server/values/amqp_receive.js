@@ -61,7 +61,7 @@ function startWorker() {
     });
 
     function processMsg(msg) {
-      //const incomingDate = (new Date()).toISOString();
+      // const incomingDate = (new Date()).toISOString();
       // logger.info(`Msg [deliveryTag=${msg.fields.deliveryTag}] arrived at ${incomingDate}`);
       work(msg, (ok) => {
         // logger.info(`[AMQP] Sending Ack for msg at time ${incomingDate}`);

@@ -10,8 +10,8 @@ async.series([
   open,
   requireModels,
   createParamLists,
-], function (err) {
-  console.log(arguments);
+], (err) => {
+  // console.log(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
@@ -19,15 +19,15 @@ async.series([
 function open(callback) {
   console.log('open');
 // connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri);
+  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
 }
 
 function requireModels(callback) {
   console.log('models');
-  require('mongoose').model('Param');
-  require('mongoose').model('ParamList');
+  require('mongoose').model('Param');  // eslint-disable-line global-require
+  require('mongoose').model('ParamList');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
     mongoose.models[modelName].ensureIndexes(callback);
@@ -67,7 +67,7 @@ function createParamLists(callback) {
     const newParamList = new mongoose.models.ParamList(paramListData);
 
     // Check param names
-    for (let i = 0; i < newParamList.params.length; i++) {
+    for (let i = 0; i < newParamList.params.length; i += 1) {
       const locName = newParamList.params[i];
       mongoose.models.Param.findOne({
         name: locName }, (err, param) => {

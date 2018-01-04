@@ -62,7 +62,7 @@ export default class MyParams extends React.Component {
     MyStompClient.subscribeToValues(this.state.selectedParamList.name, (value) => {
       const locParams = locThis.state.params.slice();
       let b = false;
-      for (let i = 0; i < locParams.length; i++) {
+      for (let i = 0; i < locParams.length; i += 1) {
         const locParam = locParams[i];
         if (locParam.name === value.paramName) {
           locParam.value = value.value;

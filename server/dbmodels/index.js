@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
-// const myDataModel = require('../models/myDataModel');
+const myDataModel = require('../models/myDataModel');
 
 
-module.exports.connect = (uri) => {
+module.exports.connect = (uri, useDataModel) => {
   // mongoose.connect(uri);
   mongoose.connect(uri, {
     useMongoClient: true,
@@ -16,8 +16,9 @@ module.exports.connect = (uri) => {
   mongoose.connection.on('connected', () => {
     logger.info(`Mongoose connection opened to ${uri}`);
 
-    const myDataModel = require('../models/myDataModel');
-    myDataModel.LoadFromDB();
+    if (useDataModel) {
+      myDataModel.LoadFromDB();
+    }
   });
 
   mongoose.connection.on('error', (err) => {
@@ -30,9 +31,9 @@ module.exports.connect = (uri) => {
   });
 
   // load models
-  require('./authUser');
-  require('./param');
-  require('./paramList');
-  require('./netNode');
-  require('./netWire');
+  require('./authUser');// eslint-disable-line global-require
+  require('./param');// eslint-disable-line global-require
+  require('./paramList');// eslint-disable-line global-require
+  require('./netNode');// eslint-disable-line global-require
+  require('./netWire');// eslint-disable-line global-require
 };

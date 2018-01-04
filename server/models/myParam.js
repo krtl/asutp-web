@@ -14,9 +14,7 @@ function myParamStringifyReplacer(key, value) {
   return value;
 }
 
-const MyParamJsonSerialize = function (param) {
-  return JSON.stringify(param, myParamStringifyReplacer);
-}
+const MyParamJsonSerialize = param => JSON.stringify(param, myParamStringifyReplacer);
 
 module.exports = MyParam;
 module.exports.MyParamJsonSerialize = MyParamJsonSerialize;

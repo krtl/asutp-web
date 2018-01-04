@@ -36,8 +36,8 @@ function clearData(cb) {
   params.clear();
   paramLists.clear();
 
-  DbParam = require('mongoose').model('Param');
-  DbParamList = require('mongoose').model('ParamList');
+  DbParam = require('mongoose').model('Param');  // eslint-disable-line global-require
+  DbParamList = require('mongoose').model('ParamList');  // eslint-disable-line global-require
 
   return cb();
 }
@@ -79,7 +79,6 @@ function loadParamLists(cb) {
   });
 }
 
-
 function checkData(cb) {
   // ..
   return cb();
@@ -99,11 +98,9 @@ function linkData(cb) {
   return cb();
 }
 
-const GetParam = function (paramName) {
-  return params.get(paramName);
-};
+const GetParam = paramName => params.get(paramName);
 
-const GetParamsOfList = function (paramListName) {
+const GetParamsOfList = (paramListName) => {
   const paramList = paramLists.get(paramListName);
   if (paramList) {
     const resultParams = [];
@@ -120,12 +117,9 @@ const GetParamsOfList = function (paramListName) {
   return [];
 };
 
+const GetParamsList = paramListName => paramLists.get(paramListName);
 
-const GetParamsList = function (paramListName) {
-  return paramLists.get(paramListName);
-};
-
-const GetAvailableParamsLists = function (userName) {
+const GetAvailableParamsLists = (userName) => {
   const result = [];
   if (userName === '') {
     paramLists.forEach((value) => {

@@ -57,7 +57,7 @@ router.post('/save_node', (req, res, next) => {
             return callback(null);
           });
         } else {
-          return callback(null);
+          callback(null);
         }
       } else {
          // node does not exist
@@ -102,7 +102,7 @@ router.get('/params', (req, res, next) => {
     return;
   }
 
-  if ((paramListName == '') || (paramListName == 'undefined')) {
+  if ((paramListName === '') || (paramListName === 'undefined')) {
     res.json({
       error: 'Required parameter `prmLstName` is wrong!',
     });

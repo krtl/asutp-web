@@ -18,7 +18,7 @@ async.series([
   createTransformers,
   createWires,
 ], function (err) {
-  console.log(arguments);
+  //console.log(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
@@ -26,7 +26,7 @@ async.series([
 function open(callback) {
   console.log('open');
 // connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri);
+  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
 }
@@ -40,13 +40,13 @@ function dropDatabase(callback) {
 function requireModels(callback) {
   console.log('models');
   // require('dbmodels/user');
-  require('mongoose').model('AuthUser');
-  require('mongoose').model('Param');
-  require('mongoose').model('ParamList');
-  require('mongoose').model('NetNode');
-//  require('mongoose').model('NetNodeCell');
-  require('mongoose').model('NetNodeTransformer');
-  require('mongoose').model('NetWire');
+  require('mongoose').model('AuthUser');  // eslint-disable-line global-require
+  require('mongoose').model('Param');  // eslint-disable-line global-require
+  require('mongoose').model('ParamList');  // eslint-disable-line global-require
+  require('mongoose').model('NetNode');  // eslint-disable-line global-require
+//  require('mongoose').model('NetNodeCell');  // eslint-disable-line global-require
+  require('mongoose').model('NetNodeTransformer');  // eslint-disable-line global-require
+  require('mongoose').model('NetWire');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
     mongoose.models[modelName].ensureIndexes(callback);
@@ -98,7 +98,7 @@ function createParamLists(callback) {
     const paramList = new mongoose.models.ParamList(paramListData);
 
     // Check param names
-    for (let i = 0; i < paramList.params.length; i++) {
+    for (let i = 0; i < paramList.params.length; i += 1) {
       const locName = paramList.params[i];
       mongoose.models.Param.findOne({
         name: locName }, (err, param) => {
@@ -174,7 +174,7 @@ function createWires(callback) {
     const wire = new mongoose.models.NetWire(wireData);
 
     // Check nodes
-    for (let i = 0; i < wire.nodeIds.length; i++) {
+    for (let i = 0; i < wire.nodeIds.length; i += 1) {
       const locId = wire.nodeIds[i];
       mongoose.models.NetNode.findOne({
         id: locId,

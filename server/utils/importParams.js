@@ -3,16 +3,16 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
- const importPath = 'D:/mongodb_bases/';
-//const importPath = 'D:/test/';
+const importPath = 'D:/mongodb_bases/';
+// const importPath = 'D:/test/';
 
 
 async.series([
   open,
   requireModels,
   importParams,
-], function (err) {
-  console.log(arguments);
+], (err) => {
+//  console.log(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
@@ -20,15 +20,15 @@ async.series([
 function open(callback) {
   console.log('open');
 // connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri);
+  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
 }
 
 function requireModels(callback) {
   console.log('models');
-  require('mongoose').model('Param');
-  require('mongoose').model('ParamList');
+  require('mongoose').model('Param');  // eslint-disable-line global-require
+  require('mongoose').model('ParamList');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
     mongoose.models[modelName].ensureIndexes(callback);
@@ -67,7 +67,7 @@ function importParams(callback) {
             callback(null);
           });
         } else {
-          return callback(null);
+          callback(null);
         }
       } else {
           // param does not exist
