@@ -35,7 +35,7 @@ describe('WebSocketServer', () => {
 
   afterEach((done) => {
     if (wsc.readyState === WebSocket.OPEN) {
-      //console.log('disconnecting...');
+      // console.log('disconnecting...');
       wsc.close();
     } else {
       console.log('no connection to break...');

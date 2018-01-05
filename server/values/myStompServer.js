@@ -5,6 +5,8 @@ const lastValues = require('./lastValues');
 const MyParamValue = require('../models/myParamValue');
 const MyParamJsonSerialize = require('../models/myParam').MyParamJsonSerialize;
 
+require('./amqp_receive');
+
 // var StompServer = require('server/values/myStompServer');
 // const WebSocket = require('ws');
 // const randomstring = require('randomstring');
@@ -103,7 +105,7 @@ const initializeStompServer = function (httpserver) {
 
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
   for (let i = 0; i < 10; i += 1) {
-    const obj = new MyParamValue(`param${i}`, Math.random() * 1000, dt, 'NA');
+    const obj = new MyParamValue(`param${i}`, 0, dt, 'NA');
     lastValues.setLastValue(obj);
   }
 
@@ -129,17 +131,21 @@ const initializeStompServer = function (httpserver) {
     // }, headers);
 
 
-    const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-    const obj = new MyParamValue(`param${Math.floor(Math.random() * 3)}`, Math.random() * 1000, dt, 'NA');
+    // const dt = moment().format('YYYY-MM-DD HH:mm:ss');
+    // const obj = new MyParamValue(`param${Math.floor(Math.random() * 3)}`, Math.random() * 1000, dt, 'NA');
+    //
+    // lastValues.setLastValue(obj);
 
-    lastValues.setLastValue(obj);
-
-    const param = MyDataModel.GetParam(obj.paramName);
-    if (param) {
-      param.listNames.forEach((lstName) => {
-        stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(obj));
-      });
-    }
+    const lastChanged = lastValues.getLastChanged();
+    lastChanged.forEach((paramName) => {
+      const value = lastValues.getLastValue(paramName);
+      const param = MyDataModel.GetParam(paramName);
+      if ((param) && (value)) {
+        param.listNames.forEach((lstName) => {
+          stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(value));
+        });
+      }
+    });
   }, 10000);
 };
 

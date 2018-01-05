@@ -3,9 +3,9 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-// const importPath = 'D:/mongodb_bases/';
+ const importPath = 'D:/mongodb_bases/';
 
-const importPath = 'D:/test/';
+//const importPath = 'D:/test/';
 
 async.series([
   open,
@@ -17,8 +17,8 @@ async.series([
   createCells,
   createTransformers,
   createWires,
-], function (err) {
-  //console.log(arguments);
+], (err) => {
+  // console.log(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
@@ -107,7 +107,7 @@ function createParamLists(callback) {
           // param exists
         } else {
           // param does not exist
-          console.error(`create paramLists Error: Param "${locName}" does not exists!`);
+          console.error(`create paramLists Error: Param "${locName}" does not exists for "${paramList.name}"!`);
         }
       });
     }
