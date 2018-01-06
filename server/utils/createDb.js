@@ -3,9 +3,6 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
- const importPath = 'D:/mongodb_bases/';
-
-//const importPath = 'D:/test/';
 
 async.series([
   open,
@@ -57,7 +54,7 @@ function createUsers(callback) {
   console.log('create users');
 //  var users = require(importPath +'/users.json');
 
-  const rawdata = fs.readFileSync(`${importPath}users.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}users.json`);
   const users = JSON.parse(rawdata);
 
   async.each(users, (userData, callback) => {
@@ -66,12 +63,12 @@ function createUsers(callback) {
   }, callback);
 
   const data = JSON.stringify(users);
-  fs.writeFileSync(`${importPath}users-2.json`, data);
+  fs.writeFileSync(`${config.importPath}users-2.json`, data);
 }
 
 function createParams(callback) {
   console.log('create params');
-  const rawdata = fs.readFileSync(`${importPath}params.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}params.json`);
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
@@ -80,12 +77,12 @@ function createParams(callback) {
   }, callback);
 
   const data = JSON.stringify(params);
-  fs.writeFileSync(`${importPath}params-2.json`, data);
+  fs.writeFileSync(`${config.importPath}params-2.json`, data);
 }
 
 function createParamLists(callback) {
   console.log('create paramLists');
-  const rawdata = fs.readFileSync(`${importPath}paramLists.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}paramLists.json`);
   let paramLists;
   try {
     paramLists = JSON.parse(rawdata);
@@ -116,12 +113,12 @@ function createParamLists(callback) {
   }, callback);
 
   const data = JSON.stringify(paramLists);
-  fs.writeFileSync(`${importPath}paramLists-2.json`, data);
+  fs.writeFileSync(`${config.importPath}paramLists-2.json`, data);
 }
 
 function createCells(callback) {
   console.log('create cells');
-  const rawdata = fs.readFileSync(`${importPath}cells.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}cells.json`);
   let cells;
   try {
     cells = JSON.parse(rawdata);
@@ -136,12 +133,12 @@ function createCells(callback) {
   }, callback);
 
   const data = JSON.stringify(cells);
-  fs.writeFileSync(`${importPath}cells-2.json`, data);
+  fs.writeFileSync(`${config.importPath}cells-2.json`, data);
 }
 
 function createTransformers(callback) {
   console.log('create cells');
-  const rawdata = fs.readFileSync(`${importPath}transformers.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}transformers.json`);
   let transformers;
   try {
     transformers = JSON.parse(rawdata);
@@ -156,12 +153,12 @@ function createTransformers(callback) {
   }, callback);
 
   const data = JSON.stringify(transformers);
-  fs.writeFileSync(`${importPath}transformers-2.json`, data);
+  fs.writeFileSync(`${config.importPath}transformers-2.json`, data);
 }
 
 function createWires(callback) {
   console.log('create wires');
-  const rawdata = fs.readFileSync(`${importPath}wires.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}wires.json`);
   let wires;
   try {
     wires = JSON.parse(rawdata);
@@ -193,5 +190,5 @@ function createWires(callback) {
   }, callback);
 
   const data = JSON.stringify(wires, null, ' ');
-  fs.writeFileSync(`${importPath}wires-2.json`, data);
+  fs.writeFileSync(`${config.importPath}wires-2.json`, data);
 }

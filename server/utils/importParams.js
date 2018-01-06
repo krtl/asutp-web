@@ -3,9 +3,6 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-const importPath = 'D:/mongodb_bases/';
-// const importPath = 'D:/test/';
-
 
 async.series([
   open,
@@ -37,7 +34,7 @@ function requireModels(callback) {
 
 function importParams(callback) {
   console.log('importing params..');
-  const rawdata = fs.readFileSync(`${importPath}params.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}params.json`);
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {

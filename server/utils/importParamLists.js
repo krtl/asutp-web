@@ -3,13 +3,11 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-const importPath = 'D:/mongodb_bases/';
-// const importPath = 'D:/test/';
 
 async.series([
   open,
   requireModels,
-  createParamLists,
+  importParamLists,
 ], (err) => {
   // console.log(arguments);
   mongoose.disconnect();
@@ -51,9 +49,9 @@ function compareParamList(paramList1, paramList2) {
   return result;
 }
 
-function createParamLists(callback) {
-  console.log('create paramLists');
-  const rawdata = fs.readFileSync(`${importPath}paramLists.json`);
+function importParamLists(callback) {
+  console.log('importing paramLists');
+  const rawdata = fs.readFileSync(`${config.importPath}paramLists.json`);
   let paramLists;
   try {
     paramLists = JSON.parse(rawdata);
