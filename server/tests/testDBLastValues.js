@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const async = require('async');
+
 const Schema = mongoose.Schema;
 const chai = require('chai');
+
 const expect = chai.expect;
 const config = require('../../config');
 
@@ -72,7 +74,7 @@ describe('Database Tests', () => {
   describe('Test many records', () => {
     it('inserting', (done) => {
       const params = [];
-      for (let i = 0; i < 1000; i += 1) {
+      for (let i = 0; i < 100; i += 1) {
         params.push(i);
       }
 
@@ -92,7 +94,7 @@ describe('Database Tests', () => {
       // Look up the 'Mike' object previously saved.
       ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
         if (err) { throw err; }
-        if (count !== 1000) { throw new Error('Wrong count!'); }
+        if (count !== 100) { throw new Error('Wrong count!'); }
         done();
       });
     });
@@ -100,8 +102,8 @@ describe('Database Tests', () => {
 
   // After all tests are finished drop database and close connection
   after((done) => {
-    mongoose.connection.db.dropDatabase(() => {
-      mongoose.connection.close(done);
-    });
+//    mongoose.connection.db.dropDatabase(() => {
+    mongoose.connection.close(done);
+//    });
   });
 });
