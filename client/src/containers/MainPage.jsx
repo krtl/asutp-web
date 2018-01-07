@@ -11,7 +11,6 @@ class MainFormPage extends React.Component {
 
     this.state = {
       secretData: '',
-      recs: [],
     };
   }
 
@@ -52,7 +51,6 @@ class MainFormPage extends React.Component {
   render() {
     return (<MainForm
       secretData={this.state.secretData}
-      recs={this.state.nodes}
     />);
   }
 

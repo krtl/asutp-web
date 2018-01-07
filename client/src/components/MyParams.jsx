@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 // import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
@@ -50,6 +51,10 @@ export default class MyParams extends React.Component {
     });
   }
 
+  handleLoadParamHistoryClick() {
+    this.props.router.push('/paramHistory');
+  }
+
   handleLoadParamsClick() {
     MyStompClient.loadParams(this.state.selectedParamList.name, (params) => {
       this.setState({
@@ -57,7 +62,7 @@ export default class MyParams extends React.Component {
       });
     });
 
-    const locThis = this;  // should be remaked!
+    const locThis = this;  // should be rewritten!
 
     MyStompClient.subscribeToValues(this.state.selectedParamList.name, (value) => {
       const locParams = locThis.state.params.slice();
@@ -105,6 +110,8 @@ export default class MyParams extends React.Component {
             }
           </SelectField>
           <RaisedButton onClick={this.handleLoadParamsClick}>Load</RaisedButton>
+          <RaisedButton onClick={this.handleLoadParamHistoryClick}>History</RaisedButton>
+          <Link to='/paramHistory'>History</Link>
         </div>
         <Table height='600px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>

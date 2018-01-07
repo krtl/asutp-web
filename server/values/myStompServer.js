@@ -132,10 +132,9 @@ const initializeStompServer = function (httpserver) {
     // }, headers);
 
 
-    const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-    const obj = new MyParamValue(`param${Math.floor(Math.random() * 3)}`, Math.random() * 1000, dt, 'NA');
-
-    lastValues.setLastValue(obj);
+    // const dt = moment().format('YYYY-MM-DD HH:mm:ss');
+    // const obj = new MyParamValue(`param${Math.floor(Math.random() * 3)}`, Math.random() * 1000, dt, 'NA');
+    // lastValues.setLastValue(obj);
 
     const lastChanged = lastValues.getLastChanged();
     lastChanged.forEach((paramName) => {

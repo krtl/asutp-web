@@ -61,6 +61,16 @@ function loadParams(paramListName, cb) {
     .then(cb);
 }
 
+function loadParamValues(paramName, cb) {
+  if (!myHeaders) { recreateHeader(); }
+  return fetch(new Request(`api/paramValueys?paramName=${paramName}`, myGetInit), {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -76,5 +86,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { loadNodes, saveNodes, loadParams, loadParamLists, resetHeader: recreateHeader };
+const Client = { loadNodes, saveNodes, loadParams, loadParamLists, loadParamValues, resetHeader: recreateHeader };
 export default Client;

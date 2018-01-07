@@ -1,7 +1,8 @@
 const dbParamValue = require('../dbmodels/paramValue');
+const logger = require('../logger');
 
 
-const saveLastValue = (lastValue, callback) => {
+const saveLastValue = (lastValue) => {
   const paramValue = dbParamValue({
     paramName: lastValue.paramName,
     value: lastValue.value,
@@ -10,8 +11,9 @@ const saveLastValue = (lastValue, callback) => {
   });
 
   paramValue.save((err) => {
-    if (err) callback(err);
-    callback(null);
+    if (err) {
+      logger.error(`[dbValues] Failed to save last value. Error: ${err}`);
+    }
   });
 };
 

@@ -6,20 +6,20 @@ import Auth from '../modules/Auth';
 
 const Base = ({ children }) => (
   <div>
-    <div className="top-bar">
-      <div className="top-bar-left">
-        <IndexLink to="/">ASUTP</IndexLink>
+    <div className='top-bar'>
+      <div className='top-bar-left'>
+        <IndexLink to='/'>ASUTP</IndexLink>
       </div>
 
       {Auth.isUserAuthenticated() ? (
-        <div className="top-bar-right">
-          <Link to="/logout">{Auth.getData()}</Link>
-          <Link to="/logout">Log out</Link>
+        <div className='top-bar-right'>
+          <Link to='/logout'>{Auth.getData()}</Link>
+          <Link to='/logout'>Log out</Link>
         </div>
       ) : (
-        <div className="top-bar-right">
-          <Link to="/login">Log in</Link>
-          <Link to="/signup">Sign up</Link>
+        <div className='top-bar-right'>
+          <Link to='/login'>Log in</Link>
+          <Link to='/signup'>Sign up</Link>
         </div>
       )}
 
@@ -32,7 +32,7 @@ const Base = ({ children }) => (
 );
 
 Base.propTypes = {
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
 };
 
 export default Base;

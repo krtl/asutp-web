@@ -13,6 +13,7 @@ router.get('/dashboard', (req, res) => {
 const NetNode = require('mongoose').model('NetNode');
 const DbParam = require('mongoose').model('Param');
 const DbParamList = require('mongoose').model('ParamList');
+const DbParamValues = require('mongoose').model('ParamValue');
 
 router.get('/nodes', (req, res, next) => {
   const param = req.query.proj;
@@ -115,14 +116,39 @@ router.get('/params', (req, res, next) => {
     if (err) return next(err);
 
     DbParam.find({
-      name: { $in: prmList.params } }, (err, nodes) => {
+      name: { $in: prmList.params } }, (err, params) => {
       if (err) return next(err);
-      res.status(200).json(nodes);
+      res.status(200).json(params);
       return 0;
     });
     return 0;
   });
 });
 
+router.get('/paramValues', (req, res, next) => {
+  const paramName = req.query.paramName;
+
+  if (!paramName) {
+    res.json({
+      error: 'Missing required parameter `paramName`!',
+    });
+    return;
+  }
+
+  if ((paramName === '') || (paramName === 'undefined')) {
+    res.json({
+      error: 'Required parameter `paramName` is wrong!',
+    });
+    return;
+  }
+
+  DbParamValues.findOne({
+    name: paramName,
+  }, (err, paramValues) => {
+    if (err) return next(err);
+    res.status(200).json(paramValues);
+    return 0;
+  });
+});
 
 module.exports = router;
