@@ -51,6 +51,10 @@ export default class MyParams extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    MyStompClient.unsubscribeFromValues();
+  }
+
   handleLoadParamHistoryClick() {
     this.props.router.push('/paramHistory');
   }
@@ -130,7 +134,7 @@ export default class MyParams extends React.Component {
                 <TableRowColumn>{param.name}</TableRowColumn>
                 <TableRowColumn>{param.caption}</TableRowColumn>
                 <TableRowColumn>{param.value}</TableRowColumn>
-                <TableRowColumn><Moment>{param.dt}</Moment></TableRowColumn>
+                <TableRowColumn><Moment format="YYYY.MM.DD HH:mm:ss">{param.dt}</Moment></TableRowColumn>
                 <TableRowColumn>{param.qd}</TableRowColumn>
                 <TableRowColumn>
                   <MyIdButton

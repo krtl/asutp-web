@@ -63,7 +63,7 @@ function loadParams(paramListName, cb) {
 
 function loadParamValues(paramName, cb) {
   if (!myHeaders) { recreateHeader(); }
-  return fetch(new Request(`api/paramValueys?paramName=${paramName}`, myGetInit), {
+  return fetch(new Request(`api/paramValues?paramName=${paramName}`, myGetInit), {
     accept: 'application/json',
   })
     .then(checkStatus)

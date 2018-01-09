@@ -21,7 +21,7 @@ export default class MyParamHistoryForm extends React.Component {
     super(props);
 
     this.state = {
-      param: { name: 'param1' },
+      param: { name: 'Param1' },
       paramValues: [],
     };
 
@@ -62,8 +62,8 @@ export default class MyParamHistoryForm extends React.Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
             {this.state.paramValues.map(value => (
-              <TableRow key={value.name}>
-                <TableRowColumn><Moment>{value.dt}</Moment></TableRowColumn>
+              <TableRow key={value.dt}>
+                <TableRowColumn><Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment></TableRowColumn>
                 <TableRowColumn>{value.value}</TableRowColumn>
                 <TableRowColumn>{value.qd}</TableRowColumn>
               </TableRow>))

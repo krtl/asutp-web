@@ -144,8 +144,16 @@ const CreateMySocketClient = function () {
         cb(JSON.parse(message.body));
       }, {});
     }
-    ;
-  }
+  };
+
+  this.unsubscribeFromValues = function () {
+    cbOnValueReceived = null;
+    if (stompClient !== undefined) {
+      if (subsciptionValues) {
+        subsciptionValues.unsubscribe({});
+      }
+    }
+  };
 };
 
 const MyStompClient = new CreateMySocketClient();

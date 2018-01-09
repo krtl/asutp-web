@@ -43,7 +43,7 @@ function clearData(cb) {
 }
 
 function loadParams(cb) {
-  DbParam.find({}, (err, prms) => {
+  DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
     prms.forEach((prm) => {
       const p = new MyParam(prm.name,
@@ -56,7 +56,7 @@ function loadParams(cb) {
 }
 
 function loadParamLists(cb) {
-  DbParamList.find({}, (err, prmLists) => {
+  DbParamList.find({}, null, { sort: { name: 1 } }, (err, prmLists) => {
     if (err) return cb(err);
 
     prmLists.forEach((prmList) => {

@@ -142,13 +142,15 @@ router.get('/paramValues', (req, res, next) => {
     return;
   }
 
-  DbParamValues.findOne({
-    name: paramName,
-  }, (err, paramValues) => {
-    if (err) return next(err);
-    res.status(200).json(paramValues);
-    return 0;
-  });
+  DbParamValues
+    .find({ paramName })
+    .sort({ dt: 'desc' })
+    .limit(5000)
+    .exec((err, paramValues) => {
+      if (err) return next(err);
+      res.status(200).json(paramValues);
+      return 0;
+    });
 });
 
 module.exports = router;
