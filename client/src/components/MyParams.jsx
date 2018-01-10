@@ -113,7 +113,6 @@ export default class MyParams extends React.Component {
             }
           </SelectField>
           <RaisedButton onClick={this.handleLoadParamsClick}>Load</RaisedButton>
-          <Link to='/paramHistory/:paramName'>History</Link>
         </div>
         <Table height='600px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
