@@ -24,7 +24,7 @@ const routes = {
     },
 
     {
-      path: '/paramHistory',
+      path: '/paramHistory/:paramName',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, ParamHistoryPage);

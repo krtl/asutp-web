@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
 // import SelectField from 'material-ui/SelectField';
+import { Card, CardText } from 'material-ui/Card';
 import {
   Table,
   TableBody,
@@ -21,7 +22,7 @@ export default class MyParamHistoryForm extends React.Component {
     super(props);
 
     this.state = {
-      param: { name: 'Param1' },
+      paramName: '',
       paramValues: [],
     };
 
@@ -37,7 +38,13 @@ export default class MyParamHistoryForm extends React.Component {
   }
 
   reloadParamValues() {
-    Client.loadParamValues(this.state.param.name, (values) => {
+    const historyParamName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
+
+    this.setState({
+      paramName: historyParamName,
+    });
+
+    Client.loadParamValues(historyParamName, (values) => {
       this.setState({
         paramValues: values.slice(0, MATCHING_VALUES_LIMIT),
       });
@@ -47,8 +54,9 @@ export default class MyParamHistoryForm extends React.Component {
   render() {
     return (
 
-      <div>
+      <Card className='container'>
         <div>
+          <CardText>{this.state.paramName}</CardText>
           <RaisedButton onClick={this.handleReloadParamValuesClick}>Reload</RaisedButton>
         </div>
         <Table height='600px'>
@@ -63,29 +71,24 @@ export default class MyParamHistoryForm extends React.Component {
           <TableBody displayRowCheckbox={false}>
             {this.state.paramValues.map(value => (
               <TableRow key={value.dt}>
-                <TableRowColumn><Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment></TableRowColumn>
+                <TableRowColumn><Moment format='YYYY.MM.DD HH:mm:ss'>{value.dt}</Moment></TableRowColumn>
                 <TableRowColumn>{value.value}</TableRowColumn>
                 <TableRowColumn>{value.qd}</TableRowColumn>
               </TableRow>))
             }
           </TableBody>
         </Table>
-      </div>
+      </Card>
     );
   }
 }
 
-MyParamHistoryForm.propTypes = {
-  param: PropTypes.shape({
-    name: PropTypes.string,
-    caption: PropTypes.string,
-    description: PropTypes.number,
-  }),
-  paramValues: PropTypes.arrayOf(PropTypes.shape({
-    paramName: PropTypes.string,
-    value: PropTypes.string,
-    dt: PropTypes.string,
-    qd: PropTypes.string,
-  })),
-};
+// MyParamHistoryForm.propTypes = {
+//   paramValues: PropTypes.arrayOf(PropTypes.shape({
+//     paramName: PropTypes.string,
+//     value: PropTypes.string,
+//     dt: PropTypes.string,
+//     qd: PropTypes.string,
+//   })),
+// };
 

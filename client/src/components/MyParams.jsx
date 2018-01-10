@@ -14,8 +14,7 @@ import {
 import MenuItem from 'material-ui/MenuItem';
 import Moment from 'react-moment';
 
-import MyIdButton from './MyIdButton';
-// import Client from '../modules/Client';
+/* global localStorage */
 
 import MyStompClient from '../modules/MyStompClient';
 
@@ -39,7 +38,6 @@ export default class MyParams extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleParamInfo = this.handleParamInfo.bind(this);
     this.handleLoadParamsClick = this.handleLoadParamsClick.bind(this);
   }
 
@@ -48,6 +46,13 @@ export default class MyParams extends React.Component {
       this.setState({
         paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
       });
+
+      const selectedParamList = localStorage.getItem('selectedParamList');
+      if (selectedParamList) {
+        this.setState({
+          selectedParamList,
+        });
+      }
     });
   }
 
@@ -55,15 +60,13 @@ export default class MyParams extends React.Component {
     MyStompClient.unsubscribeFromValues();
   }
 
-  handleLoadParamHistoryClick() {
-    this.props.router.push('/paramHistory');
-  }
-
   handleLoadParamsClick() {
     MyStompClient.loadParams(this.state.selectedParamList.name, (params) => {
       this.setState({
         params: params.slice(0, MATCHING_PARAMS_LIMIT),
       });
+
+      localStorage.setItem('selectedParamList', this.state.selectedParamList.name);
     });
 
     const locThis = this;  // should be rewritten!
@@ -89,10 +92,6 @@ export default class MyParams extends React.Component {
     });
   }
 
-  handleParamInfo(id) {
-    this.props.router.push(`/paramInfo/${id}`);
-  }
-
   handleChange(event, index, value) {
     this.setState({ selectedParamList: value });
   }
@@ -114,8 +113,7 @@ export default class MyParams extends React.Component {
             }
           </SelectField>
           <RaisedButton onClick={this.handleLoadParamsClick}>Load</RaisedButton>
-          <RaisedButton onClick={this.handleLoadParamHistoryClick}>History</RaisedButton>
-          <Link to='/paramHistory'>History</Link>
+          <Link to='/paramHistory/:paramName'>History</Link>
         </div>
         <Table height='600px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -134,14 +132,10 @@ export default class MyParams extends React.Component {
                 <TableRowColumn>{param.name}</TableRowColumn>
                 <TableRowColumn>{param.caption}</TableRowColumn>
                 <TableRowColumn>{param.value}</TableRowColumn>
-                <TableRowColumn><Moment format="YYYY.MM.DD HH:mm:ss">{param.dt}</Moment></TableRowColumn>
+                <TableRowColumn><Moment format='YYYY.MM.DD HH:mm:ss'>{param.dt}</Moment></TableRowColumn>
                 <TableRowColumn>{param.qd}</TableRowColumn>
                 <TableRowColumn>
-                  <MyIdButton
-                    onClick={this.handleParamInfo}
-                    text='Info'
-                    id={param.name}
-                  />
+                  <Link to={`/paramHistory/${param.name}`}>History</Link>
                 </TableRowColumn>
               </TableRow>))
           }

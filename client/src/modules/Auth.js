@@ -1,5 +1,8 @@
 class Auth {
 
+  /* global localStorage */
+
+
   /**
    * Authenticate a user. Save a token string in Local Storage
    *
