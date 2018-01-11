@@ -58,12 +58,11 @@ export default class MyParamHistoryForm extends React.Component {
 
   render() {
     const data = [
-      // {
-      //   value: 0,
-      //   dt: 0,
-      // },
+      {
+        value: 0,
+        dt: 0,
+      },
     ];
-
 
     this.state.paramValues.forEach((vl) => {
       data.push(
