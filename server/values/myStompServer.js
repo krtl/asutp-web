@@ -132,7 +132,7 @@ const initializeStompServer = function (httpserver) {
     // }, headers);
 
 
-    const dt = moment().format('YYYY-MM-DD HH:mm:ss');
+    const dt = Date.now();// moment().format('YYYY-MM-DD HH:mm:ss');
     const obj = new MyParamValue(`Param${Math.floor(Math.random() * 10)}`, Math.round(Math.random() * 1000) / 100, dt, 'NA');
     lastValues.setLastValue(obj);
 

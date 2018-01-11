@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 // import PropTypes from 'prop-types';
-import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import {
   Table,
@@ -47,11 +46,17 @@ export default class MyParams extends React.Component {
         paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
       });
 
-      const selectedParamList = localStorage.getItem('selectedParamList');
-      if (selectedParamList) {
-        this.setState({
-          selectedParamList,
-        });
+      const selectedParamListName = localStorage.getItem('selectedParamList');
+      if (selectedParamListName) {
+        for (let i = 0; i < this.state.paramLists.length; i += 1) {
+          if (this.state.paramLists[i].name === selectedParamListName) {
+            this.setState({
+              selectedParamList: this.state.paramLists[i],
+            });
+            this.handleLoadParamsClick();
+            break;
+          }
+        }
       }
     });
   }
@@ -94,6 +99,8 @@ export default class MyParams extends React.Component {
 
   handleChange(event, index, value) {
     this.setState({ selectedParamList: value });
+
+    this.handleLoadParamsClick();
   }
 
   render() {
@@ -112,7 +119,6 @@ export default class MyParams extends React.Component {
             ))
             }
           </SelectField>
-          <RaisedButton onClick={this.handleLoadParamsClick}>Load</RaisedButton>
         </div>
         <Table height='600px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
