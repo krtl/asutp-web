@@ -69,12 +69,12 @@ function importParamLists(callback) {
       const locName = newParamList.params[i];
       mongoose.models.Param.findOne({
         name: locName }, (err, param) => {
-        if (err) throw err;
+        if (err) callback(err);
         if (param) {
           // param exists
         } else {
           // param does not exist
-          console.error(`create paramList Error: Param "${locName}" does not exists for "${newParamList.name}"!`);
+          callback(new Error(`create paramList Error: Param "${locName}" does not exists for "${newParamList.name}"!`));
         }
       });
     }
