@@ -80,15 +80,15 @@ function createUsers(callback) {
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(users);
-  fs.writeFileSync(`${config.importPath}users-2.json`, data);
+  // const data = JSON.stringify(users);
+  // fs.writeFileSync(`${config.importPath}users-2.json`, data);
 }
 
 function createParams(callback) {
@@ -105,15 +105,15 @@ function createParams(callback) {
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(params);
-  fs.writeFileSync(`${config.importPath}params-2.json`, data);
+  // const data = JSON.stringify(params);
+  // fs.writeFileSync(`${config.importPath}params-2.json`, data);
 }
 
 function createParamLists(callback) {
@@ -152,15 +152,15 @@ function createParamLists(callback) {
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(paramLists);
-  fs.writeFileSync(`${config.importPath}paramLists-2.json`, data);
+  // const data = JSON.stringify(paramLists);
+  // fs.writeFileSync(`${config.importPath}paramLists-2.json`, data);
 }
 
 function createParamValues(callback) {
@@ -198,7 +198,7 @@ function createParamValues(callback) {
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
@@ -206,8 +206,8 @@ function createParamValues(callback) {
   });
 
 
-  const data = JSON.stringify(paramValues);
-  fs.writeFileSync(`${config.importPath}paramValues-2.json`, data);
+  // const data = JSON.stringify(paramValues);
+  // fs.writeFileSync(`${config.importPath}paramValues-2.json`, data);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -232,24 +232,24 @@ function createNetNodePSs(callback) {
     const locPS = new mongoose.models.NetNodePS(psData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.id}" inserted`);
+      console.log(`NetNode "${locNode.name}" inserted`);
       locPS.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodePS "${locPS.id}" inserted`);
+        console.log(`NetNodePS "${locPS.name}" inserted`);
         callback(null);
       });
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(locPSs);
-  fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
+  // const data = JSON.stringify(locPSs);
+  // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
 }
 
 function createNetNodeSections(callback) {
@@ -277,24 +277,24 @@ function createNetNodeSections(callback) {
     const locSection = new mongoose.models.NetNodeSection(locData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.id}" inserted`);
+      console.log(`NetNode "${locNode.name}" inserted`);
       locSection.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodeSection "${locSection.id}" inserted`);
+        console.log(`NetNodeSection "${locSection.name}" inserted`);
         callback(null);
       });
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(locSections);
-  fs.writeFileSync(`${config.importPath}Section-2.json`, data);
+  // const data = JSON.stringify(locSections);
+  // fs.writeFileSync(`${config.importPath}Section-2.json`, data);
 }
 
 function createNetNodeCells(callback) {
@@ -322,24 +322,24 @@ function createNetNodeCells(callback) {
     const locCell = new mongoose.models.NetNodeCell(locData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.id}" inserted`);
+      console.log(`NetNode "${locNode.name}" inserted`);
       locCell.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodeCell "${locCell.id}" inserted`);
+        console.log(`NetNodeCell "${locCell.name}" inserted`);
         callback(null);
       });
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(locCells);
-  fs.writeFileSync(`${config.importPath}cells-2.json`, data);
+  // const data = JSON.stringify(locCells);
+  // fs.writeFileSync(`${config.importPath}cells-2.json`, data);
 }
 
 function createNetNodeTransformers(callback) {
@@ -367,24 +367,24 @@ function createNetNodeTransformers(callback) {
     const locTransformer = new mongoose.models.NetNodeTransformer(locData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.id}" inserted`);
+      console.log(`NetNode "${locNode.name}" inserted`);
       locTransformer.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodeTransformer "${locTransformer.id}" inserted`);
+        console.log(`NetNodeTransformer "${locTransformer.name}" inserted`);
         callback(null);
       });
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(locTransformers);
-  fs.writeFileSync(`${config.importPath}Transformers-2.json`, data);
+  // const data = JSON.stringify(locTransformers);
+  // fs.writeFileSync(`${config.importPath}Transformers-2.json`, data);
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -412,7 +412,7 @@ function createNetWires(callback) {
 
     // Check nodes
     mongoose.models.NetNode.findOne({
-      id: wire.nodeFrom,
+      name: wire.nodeFrom,
     }, (err, netNode) => {
       if (err) throw err;
       if (netNode) {
@@ -424,7 +424,7 @@ function createNetWires(callback) {
     });
 
     mongoose.models.NetNode.findOne({
-      id: wire.nodeTo,
+      name: wire.nodeTo,
     }, (err, netNode) => {
       if (err) throw err;
       if (netNode) {
@@ -437,19 +437,19 @@ function createNetWires(callback) {
 
     wire.save((err) => {
       if (err) callback(err);
-      console.log(`NetWire "${wire.id}" inserted`);
+      console.log(`NetWire "${wire.name}" inserted`);
       callback(null);
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 
-  const data = JSON.stringify(wires, null, ' ');
-  fs.writeFileSync(`${config.importPath}wires-2.json`, data);
+//  const data = JSON.stringify(wires, null, ' ');
+//  fs.writeFileSync(`${config.importPath}wires-2.json`, data);
 }
 

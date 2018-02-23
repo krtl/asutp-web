@@ -2,5 +2,7 @@
   "dbUri": "mongodb://localhost/asutp_web",
   "jwtSecret": "asutpsecretasutpphrase",
   "importPath1": "D:/test/",
-  "importPath": "D:/mongodb_bases/"
+  "importPath2": "D:/mongodb_bases/",
+  "importPath": "D:/_javascript/Projects/asutp-web/server/ImportData/"
+
 }

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 const NetWireSchema = new mongoose.Schema({
-  id: {
+  name: {
     type: String,
     unique: true,
     required: true,
   },
-  nodeFrom: string,
-  nodeTo: string,
+  nodeFrom: String,
+  nodeTo: String,
 });
 
 

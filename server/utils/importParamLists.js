@@ -107,7 +107,7 @@ function importParamLists(callback) {
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success');
     }

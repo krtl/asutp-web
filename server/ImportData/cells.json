@@ -1,33 +1,33 @@
 [
 
-  {    "id": "c1",
- "x": 10, "y": 10,  "name": "cell1",
+  {    "name": "c1",
+ "x": 10, "y": 10,
    "caption": "c1",
     "description": "", "paramOnOffState": "zz"},
 
   {
-    "id": "c2", "x": 100, "y": 100,
- "name": "cell2",   "caption": "c2",
+    "name": "c2", "x": 100, "y": 100,
+    "caption": "c2",
     "description": "", "paramOnOffState": "param1"},
 
   {
-    "id": "c3", "x": 300, "y": 200,
- "name": "cell3",   "caption": "c3",
+    "name": "c3", "x": 300, "y": 200,
+    "caption": "c3",
     "description": ""
 , "paramOnOffState": "param2"},
   {
-    "id": "c4", "x": 400, "y": 300,
- "name": "cell4",   "caption": "c4",
+    "name": "c4", "x": 400, "y": 300,
+    "caption": "c4",
     "description": "zzz"
 , "paramOnOffState": "param3"},
   {
-    "id": "c5", "x": 20, "y": 80,
+    "name": "c5", "x": 20, "y": 80,
  "name": "cell5",   "caption": "c5",
     "description": "zzz1"
 , "paramOnOffState": "param13"},
   {
-    "id": "c6", "x": 30, "y": 90,
- "name": "cell6",   "caption": "c6",
+    "name": "c6", "x": 30, "y": 90,
+    "caption": "c6",
     "description": "zzz2"
 , "paramOnOffState": "param1"}
 ]

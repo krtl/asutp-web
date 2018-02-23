@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 
 const NetNodeSchema = new mongoose.Schema({
-  id: {
+  name: {
     type: String,
     index: { unique: true },
   },
-  name: String,
   caption: String,
   description: String,
   x: {

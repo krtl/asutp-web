@@ -7,7 +7,7 @@ const config = require('../../config');
 async.series([
   open,
   requireModels,
-  importNodes,
+//  importNodes,
   importWires,
 ], (err) => {
 //  console.log(arguments);
@@ -83,14 +83,13 @@ function importNodes(callback) {
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }
     callback(err);
   });
 }
-
 
 
 function importWires(callback) {
@@ -109,41 +108,63 @@ function importWires(callback) {
   async.each(wires, (nodeData, callback) => {
     const newWire = new mongoose.models.NetWire(nodeData);
 
-    mongoose.models.NetWire.findOne({
-      name: newWire.id }, (err, node) => {
+    mongoose.models.NetNode.findOne({
+      name: newWire.nodeFrom,
+    }, (err, netNode) => {
       if (err) callback(err);
-      if (node) {
-        // wire exists
+      if (netNode) {
+        // node exists
 
-        if ((node.nodeFrom !== newWire.nodeTo) ||
-          (node.description !== newWire.description) ||
-          (node.x !== newWire.x) ||
-          (node.y !== newWire.y)) {
-          mongoose.models.NetNode.update({ _id: node.id },
-            { $set: {
-                caption: newWire.caption,
-                description: newWire.description,
-                x: newWire.x,
-                y: newWire.y } }, (error) => {
-              if (error) throw callback(error);
-              console.log(`NetNode "${newWire.name}" updated`);
-              callback(null);
+        mongoose.models.NetNode.findOne({
+          name: newWire.nodeTo,
+        }, (err, netNode) => {
+          if (err) callback(err);
+          if (netNode) {
+            // node exists
+
+            mongoose.models.NetWire.findOne({
+              name: newWire.name }, (err, wire) => {
+              if (err) callback(err);
+              if (wire) {
+                // wire exists
+
+                if ((wire.nodeFrom !== newWire.nodeFrom) ||
+                  (wire.nodeTo !== newWire.nodeTo)) {
+                  mongoose.models.NetWire.update({ _id: wire.id },
+                    { $set: {
+                      nodeFrom: newWire.nodeFrom,
+                      nodeTo: newWire.nodeTo } }, (error) => {
+                        if (error) callback(error);
+                        console.log(`NetWire "${newWire.name}" updated`);
+                        callback(null);
+                      });
+                } else {
+                  callback(null);
+                }
+              } else {
+                // does not exist
+                newWire.save((err) => {
+                  if (err) {
+                    callback(err);
+                  }
+                  console.log(`NetWire "${newWire.name}" inserted`);
+                  callback(null);
+                });
+              }
             });
-        } else {
-          callback(null);
-        }
+          } else {
+            // node does not exist
+            callback(new Error(`create wire Error: NetNode (nodeTo) "${newWire.nodeTo}" does not exists!`));
+          }
+        });
       } else {
         // node does not exist
-        newWire.save((err) => {
-          if (err) callback(err);
-          console.log(`NetNode "${newWire.name}" inserted`);
-          callback(null);
-        });
+        callback(new Error(`create wire Error: NetNode (nodeFrom) "${newWire.nodeFrom}" does not exists!`));
       }
     });
   }, (err) => {
     if (err) {
-      console.log(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
       console.log('Success.');
     }

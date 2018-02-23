@@ -6,7 +6,7 @@ const dbValues = require('./dbValues');
 const MyParamValue = require('../models/myParamValue');
 const MyParamJsonSerialize = require('../models/myParam').MyParamJsonSerialize;
 
-require('./amqp_receive');
+//require('./amqp_receive');
 
 // var StompServer = require('server/values/myStompServer');
 // const WebSocket = require('ws');

@@ -1,13 +1,13 @@
 [
 
-  {    "id": "sec1",
- "x": 10, "y": 10,  "name": "sec1",
+  {    "name": "sec1",
+ "x": 10, "y": 10,
    "caption": "sec1",
     "description": "dummySec1", "dummyParam": "param2"},
 
   {
-    "id": "sec2", "x": 100, "y": 100,
- "name": "sec2",   "caption": "sec2",
+    "name": "sec2", "x": 100, "y": 100,
+    "caption": "sec2",
     "description": "dummSsec2", "dummyParam": "param1"}
 
 ]

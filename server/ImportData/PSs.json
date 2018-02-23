@@ -1,13 +1,13 @@
 [
 
-  {    "id": "ps1",
- "x": 10, "y": 10,  "name": "ps1",
+  {    "name": "ps1",
+ "x": 10, "y": 10,
    "caption": "ps1",
     "description": "dummyPS1", "dummyParam": "param2"},
 
   {
-    "id": "ps2", "x": 100, "y": 100,
- "name": "ps2",   "caption": "ps2",
+    "name": "ps2", "x": 100, "y": 100,
+    "caption": "ps2",
     "description": "dummyPS2", "dummyParam": "param1"}
 
 ]
