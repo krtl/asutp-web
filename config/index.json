@@ -1,6 +1,6 @@
 {
   "dbUri": "mongodb://localhost/asutp_web",
   "jwtSecret": "asutpsecretasutpphrase",
-  "importPath": "D:/test/",
-  "importPath1": "D:/mongodb_bases/"
+  "importPath1": "D:/test/",
+  "importPath": "D:/mongodb_bases/"
 }

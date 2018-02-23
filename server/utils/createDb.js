@@ -11,9 +11,12 @@ async.series([
   createUsers,
   createParams,
   createParamLists,
-  createCells,
-  createTransformers,
-  createWires,
+  createParamValues,
+  createNetNodePSs,
+  createNetNodeSections,
+  createNetNodeCells,
+  createNetNodeTransformers,
+  createNetWires,
 ], (err) => {
   // console.log(arguments);
   mongoose.disconnect();
@@ -40,8 +43,11 @@ function requireModels(callback) {
   require('mongoose').model('AuthUser');  // eslint-disable-line global-require
   require('mongoose').model('Param');  // eslint-disable-line global-require
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
+  require('mongoose').model('ParamValue');  // eslint-disable-line global-require
   require('mongoose').model('NetNode');  // eslint-disable-line global-require
-//  require('mongoose').model('NetNodeCell');  // eslint-disable-line global-require
+  require('mongoose').model('NetNodePS');  // eslint-disable-line global-require
+  require('mongoose').model('NetNodeSection');  // eslint-disable-line global-require
+  require('mongoose').model('NetNodeCell');  // eslint-disable-line global-require
   require('mongoose').model('NetNodeTransformer');  // eslint-disable-line global-require
   require('mongoose').model('NetWire');  // eslint-disable-line global-require
 
@@ -54,13 +60,32 @@ function createUsers(callback) {
   console.log('create users');
 //  var users = require(importPath +'/users.json');
 
-  const rawdata = fs.readFileSync(`${config.importPath}users.json`);
+  const fileName = `${config.importPath}users.json`;
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
   const users = JSON.parse(rawdata);
 
   async.each(users, (userData, callback) => {
     const user = new mongoose.models.AuthUser(userData);
-    user.save(callback);
-  }, callback);
+    user.save((err) => {
+      if (err) callback(err);
+      console.log(`User "${user.email}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
 
   const data = JSON.stringify(users);
   fs.writeFileSync(`${config.importPath}users-2.json`, data);
@@ -73,8 +98,19 @@ function createParams(callback) {
 
   async.each(params, (paramData, callback) => {
     const param = new mongoose.models.Param(paramData);
-    param.save(callback);
-  }, callback);
+    param.save((err) => {
+      if (err) callback(err);
+      console.log(`Param "${param.name}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
 
   const data = JSON.stringify(params);
   fs.writeFileSync(`${config.importPath}params-2.json`, data);
@@ -109,56 +145,260 @@ function createParamLists(callback) {
       });
     }
 
-    paramList.save(callback);
-  }, callback);
+    paramList.save((err) => {
+      if (err) callback(err);
+      console.log(`ParamList "${paramList.name}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
 
   const data = JSON.stringify(paramLists);
   fs.writeFileSync(`${config.importPath}paramLists-2.json`, data);
 }
 
-function createCells(callback) {
-  console.log('create cells');
-  const rawdata = fs.readFileSync(`${config.importPath}cells.json`);
-  let cells;
+function createParamValues(callback) {
+  console.log('creating paramValues');
+  const fileName = `${config.importPath}paramValues.json`;
+  console.log(`importing from "${fileName}"..`);
+  const rawdata = fs.readFileSync(fileName);
+  let paramValues;
   try {
-    cells = JSON.parse(rawdata);
+    paramValues = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create paramValues Error: ${e.message}`);
+    return;
+  }
+
+  async.each(paramValues, (paramValueData, callback) => {
+    const paramValue = new mongoose.models.ParamValue(paramValueData);
+
+    // Check param name
+    const locName = paramValue.paramName;
+    mongoose.models.Param.findOne({
+      name: locName }, (err, param) => {
+      if (err) throw err;
+      if (param) {
+        // param exists
+        paramValue.save((err) => {
+          if (err) callback(err);
+          console.log(`ParamValue "${param.name}" inserted`);
+          callback(null);
+        });
+      } else {
+          // param does not exist
+        console.error(`create paramValue Error: Param "${locName}" does not exists for "${paramValue.name}"!`);
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+
+  const data = JSON.stringify(paramValues);
+  fs.writeFileSync(`${config.importPath}paramValues-2.json`, data);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+
+function createNetNodePSs(callback) {
+  console.log('creating PSs');
+  const fileName = `${config.importPath}PSs.json`;
+  console.log(`importing from "${fileName}"..`);
+  const rawdata = fs.readFileSync(fileName);
+
+  let locPSs;
+  try {
+    locPSs = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create PSs Error: ${e.message}`);
+    return;
+  }
+
+  async.each(locPSs, (psData, callback) => {
+    const locNode = new mongoose.models.NetNode(psData);
+    const locPS = new mongoose.models.NetNodePS(psData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`NetNode "${locNode.id}" inserted`);
+      locPS.save((err) => {
+        if (err) callback(err);
+        console.log(`NetNodePS "${locPS.id}" inserted`);
+        callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  const data = JSON.stringify(locPSs);
+  fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
+}
+
+function createNetNodeSections(callback) {
+  console.log('creating Sections');
+  const fileName = `${config.importPath}Sections.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  let locSections;
+  try {
+    locSections = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create Sections Error: ${e.message}`);
+    return;
+  }
+
+  async.each(locSections, (locData, callback) => {
+    const locNode = new mongoose.models.NetNode(locData);
+    const locSection = new mongoose.models.NetNodeSection(locData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`NetNode "${locNode.id}" inserted`);
+      locSection.save((err) => {
+        if (err) callback(err);
+        console.log(`NetNodeSection "${locSection.id}" inserted`);
+        callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  const data = JSON.stringify(locSections);
+  fs.writeFileSync(`${config.importPath}Section-2.json`, data);
+}
+
+function createNetNodeCells(callback) {
+  console.log('creating Cells');
+  const fileName = `${config.importPath}Cells.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  let locCells;
+  try {
+    locCells = JSON.parse(rawdata);
   } catch (e) {
     console.error(`create cells Error: ${e.message}`);
     return;
   }
 
-  async.each(cells, (cellData, callback) => {
-    const cell = new mongoose.models.NetNodeCell(cellData);
-    cell.save(callback);
-  }, callback);
+  async.each(locCells, (locData, callback) => {
+    const locNode = new mongoose.models.NetNode(locData);
+    const locCell = new mongoose.models.NetNodeCell(locData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`NetNode "${locNode.id}" inserted`);
+      locCell.save((err) => {
+        if (err) callback(err);
+        console.log(`NetNodeCell "${locCell.id}" inserted`);
+        callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
 
-  const data = JSON.stringify(cells);
+  const data = JSON.stringify(locCells);
   fs.writeFileSync(`${config.importPath}cells-2.json`, data);
 }
 
-function createTransformers(callback) {
-  console.log('create cells');
-  const rawdata = fs.readFileSync(`${config.importPath}transformers.json`);
-  let transformers;
+function createNetNodeTransformers(callback) {
+  console.log('creating Transformers');
+  const fileName = `${config.importPath}Transformers.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata = '';
   try {
-    transformers = JSON.parse(rawdata);
-  } catch (e) {
-    console.error(`create transformers Error: ${e.message}`);
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
     return;
   }
 
-  async.each(transformers, (transformerData, callback) => {
-    const trans = new mongoose.models.NetNodeTransformer(transformerData);
-    trans.save(callback);
-  }, callback);
+  let locTransformers;
+  try {
+    locTransformers = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create Transformers Error: ${e.message}`);
+    return;
+  }
 
-  const data = JSON.stringify(transformers);
-  fs.writeFileSync(`${config.importPath}transformers-2.json`, data);
+  async.each(locTransformers, (locData, callback) => {
+    const locNode = new mongoose.models.NetNode(locData);
+    const locTransformer = new mongoose.models.NetNodeTransformer(locData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`NetNode "${locNode.id}" inserted`);
+      locTransformer.save((err) => {
+        if (err) callback(err);
+        console.log(`NetNodeTransformer "${locTransformer.id}" inserted`);
+        callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  const data = JSON.stringify(locTransformers);
+  fs.writeFileSync(`${config.importPath}Transformers-2.json`, data);
 }
 
-function createWires(callback) {
+//----------------------------------------------------------------------------------------------------------------------
+function createNetWires(callback) {
   console.log('create wires');
-  const rawdata = fs.readFileSync(`${config.importPath}wires.json`);
+  const fileName = `${config.importPath}wires.json`;
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
   let wires;
   try {
     wires = JSON.parse(rawdata);
@@ -171,24 +411,45 @@ function createWires(callback) {
     const wire = new mongoose.models.NetWire(wireData);
 
     // Check nodes
-    for (let i = 0; i < wire.nodeIds.length; i += 1) {
-      const locId = wire.nodeIds[i];
-      mongoose.models.NetNode.findOne({
-        id: locId,
-      }, (err, netNode) => {
-        if (err) throw err;
-        if (netNode) {
+    mongoose.models.NetNode.findOne({
+      id: wire.nodeFrom,
+    }, (err, netNode) => {
+      if (err) throw err;
+      if (netNode) {
           // node exists
-        } else {
+      } else {
           // node does not exist
-          console.error(`create wire Error: NetNode "${locId}" does not exists!`);
-        }
-      });
-    }
+        console.error(`create wire Error: NetNode (nodeFrom) "${wire.nodeFrom}" does not exists!`);
+      }
+    });
 
-    wire.save(callback);
-  }, callback);
+    mongoose.models.NetNode.findOne({
+      id: wire.nodeTo,
+    }, (err, netNode) => {
+      if (err) throw err;
+      if (netNode) {
+        // node exists
+      } else {
+        // node does not exist
+        console.error(`create wire Error: NetNode (nodeTo) "${wire.nodeTo}" does not exists!`);
+      }
+    });
+
+    wire.save((err) => {
+      if (err) callback(err);
+      console.log(`NetWire "${wire.id}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.log(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
 
   const data = JSON.stringify(wires, null, ' ');
   fs.writeFileSync(`${config.importPath}wires-2.json`, data);
 }
+

@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const options = { discriminatorKey: 'kind' };
-
 const NetNodeSchema = new mongoose.Schema({
   id: {
     type: String,
@@ -18,31 +16,10 @@ const NetNodeSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-}, options);
+  nodeType: {           // 0 - unknown, 1-ps, 2-section, 3-transformer, 4-cell, ....
+    type: Number,
+    default: 0,
+  },
+});
 
-const netNode = mongoose.model('NetNode', NetNodeSchema);
-module.exports = netNode;
-
-const netNodeSwitch = netNode.discriminator('NetNodeSwitch',
-  new mongoose.Schema({
-    paramOnOffState: String,
-    // ..
-  }, options));
-module.exports = netNodeSwitch;
-
-
-const netNodeTransformer = netNode.discriminator('NetNodeTransformer',
-  new mongoose.Schema({
-    testPower: String,
-    // ..
-  }, options));
-module.exports = netNodeTransformer;
-
-
-const netNodeCell = netNode.discriminator('NetNodeCell',
-  new mongoose.Schema({
-    paramOnOffState: String,
-    // ..
-  }, options));
-module.exports = netNodeCell;
-
+module.exports = mongoose.model('NetNode', NetNodeSchema);

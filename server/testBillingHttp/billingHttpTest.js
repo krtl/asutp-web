@@ -2,11 +2,11 @@ const querystring = require('querystring');
 const http = require('http');
 const KeepAliveAgent = require('./httpAgent.js');
 
-const billingHost = '127.0.0.1';
-//const billingHost = 'srv-android';
+//const billingHost = '127.0.0.1';
+const billingHost = 'srv-android';
 
 
-const agent = new KeepAliveAgent({ maxSockets: 10 }); // Optionally define more parallel sockets
+const agent = new KeepAliveAgent({ maxSockets: 500 }); // Optionally define more parallel sockets
 
 
 function loadAccountInfo(sessionId) {
@@ -21,7 +21,7 @@ function loadAccountInfo(sessionId) {
   };
 
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 300; i++) {
     const getReq = http.request(options, (res) => {
       let str = '';
       console.log(`STATUS: ${res.statusCode}`);

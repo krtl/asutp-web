@@ -4,9 +4,10 @@ const NetWireSchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
-    required: true
+    required: true,
   },
-  nodeIds: Array,
+  nodeFrom: string,
+  nodeTo: string,
 });
 
 
