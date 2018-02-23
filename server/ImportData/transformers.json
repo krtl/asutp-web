@@ -1,0 +1,18 @@
+[
+
+  {    "id": "trans1",
+ "name": "c1",
+   "caption": "c1",
+    "description": "", "testPower": "0"},
+
+  {
+    "id": "trans2",
+ "name": "c2",   "caption": "c2",
+    "description": "", "testPower": "1"},
+
+  {
+    "id": "trans3",
+ "name": "c3",   "caption": "c3",
+    "description": ""
+, "testPower": "2"}
+]

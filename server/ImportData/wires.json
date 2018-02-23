@@ -1,0 +1,40 @@
+[
+
+  {    "id": "w1","nodeFrom": "sec1", "nodeTo": "c2"},
+
+  {
+    "id": "w2","nodeFrom": "sec1",
+ "nodeTo": "c1"},
+
+  {
+    "id": "w3","nodeFrom": "sec2", "nodeTo":
+ "c3"},
+
+  {
+    "id": "w4","nodeFrom": "sec2",
+ "nodeTo": "c4"},
+
+  {
+    "id": "w5","nodeFrom": "trans1", 
+"nodeTo": "sec1"},
+
+  {
+    "id": "w6","nodeFrom": "trans2",
+ "nodeTo": "sec2"},
+
+  {
+    "id": "w7","nodeFrom": "ps1",
+ "nodeTo": "ps2"},
+
+  {
+    "id": "w8","nodeFrom": "c2",
+ "nodeTo": "c1"},
+
+  {
+    "id": "w9","nodeFrom": "c1",
+ "nodeTo": "c2"},
+
+  {
+    "id": "w10","nodeFrom": "c1", "nodeTo":
+ "c2"}
+]
