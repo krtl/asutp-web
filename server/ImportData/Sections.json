@@ -4,10 +4,14 @@
  "x": 10, "y": 10,
    "caption": "sec1",
     "description": "dummySec1", "dummyParam": "param2"},
+  {    "name": "sec2",
+    "x": 10, "y": 10,
+    "caption": "sec2",
+    "description": "dummySec2", "dummyParam": "param12"},
 
   {
-    "name": "sec2", "x": 100, "y": 100,
-    "caption": "sec2",
+    "name": "sec4", "x": 100, "y": 100,
+    "caption": "sec4",
     "description": "dummSsec2", "dummyParam": "param1"}
 
 ]

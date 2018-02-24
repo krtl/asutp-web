@@ -5,7 +5,7 @@ const NetNodeTransformerSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
-  dummyParam: String,
+  testPower: String,
 });
 
 module.exports = mongoose.model('NetNodeTransformer', NetNodeTransformerSchema);

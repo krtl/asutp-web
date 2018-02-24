@@ -1,5 +1,5 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Layer, Stage } from 'react-konva';
 import RaisedButton from 'material-ui/RaisedButton';
 import MyRect from './MyRect';
@@ -43,8 +43,10 @@ export default class MyStage extends React.Component {
   }
 
   handleDragEnd(nodeObj) {
-    const locNode = this.state.enodes.find(node => node.id === nodeObj.id);
+    const locNode = this.state.enodes.find(node => node.name === nodeObj.name);
     if (locNode !== 'undefined') {
+      //console.log(`[MyStage] Drag ends for ${locNode.name}`);
+
       locNode.x = nodeObj.x;
       locNode.y = nodeObj.y;
       this.setState({
@@ -68,7 +70,7 @@ export default class MyStage extends React.Component {
           <Layer>
             {recs.map(rec => (
               <MyRect
-                key={rec.id}
+                key={rec.name}
                 node={rec}
                 onDragEnd={this.handleDragEnd}
               />

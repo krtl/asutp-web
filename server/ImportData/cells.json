@@ -3,7 +3,7 @@
   {    "name": "c1",
  "x": 10, "y": 10,
    "caption": "c1",
-    "description": "", "paramOnOffState": "zz"},
+    "description": "test", "paramOnOffState": "paramZzz"},
 
   {
     "name": "c2", "x": 100, "y": 100,

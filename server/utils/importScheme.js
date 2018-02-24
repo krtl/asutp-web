@@ -5,6 +5,7 @@ const config = require('../../config');
 
 const NetWire = require('../dbmodels/netWire');
 const NetNode = require('../dbmodels/netNode');
+const NetNodeLep = require('../dbmodels/netNodeLep');
 const NetNodePS = require('../dbmodels/netNodePS');
 const NetNodeCell = require('../dbmodels/netNodeCell');
 const NetNodeSection = require('../dbmodels/netNodeSection');
@@ -15,9 +16,10 @@ async.series([
   open,
   requireModels,
   importNodePSs,
-//  importNodeSections,
-//  importNodeCells,
-//  importNodeTransformers,
+  importNodeLeps,
+  importNodeSections,
+  importNodeCells,
+  importNodeTransformers,
   importWires,
 ], (err) => {
 //  console.log(arguments);
@@ -43,64 +45,6 @@ function requireModels(callback) {
   }, callback);
 }
 
-function importNodes(callback) {
-  const fileName = `${config.importPath}cells.json`;
-  console.log(`importing nodes from "${fileName}"..`);
-  let rawdata = '';
-  try {
-    rawdata = fs.readFileSync(fileName);
-  } catch (err) {
-    console.error(`Read file error: ${err.message}`);
-    return;
-  }
-
-  const nodes = JSON.parse(rawdata);
-
-  async.each(nodes, (nodeData, callback) => {
-    const newNode = new mongoose.models.NetNode(nodeData);
-
-    mongoose.models.NetNode.findOne({
-      name: newNode.name }, (err, node) => {
-      if (err) callback(err);
-      if (node) {
-        // node exists
-
-        if ((node.caption !== newNode.caption) ||
-          (node.description !== newNode.description) ||
-          (node.x !== newNode.x) ||
-          (node.y !== newNode.y)) {
-          mongoose.models.NetNode.update({ _id: node.id },
-            { $set: {
-              caption: newNode.caption,
-              description: newNode.description,
-              x: newNode.x,
-              y: newNode.y } }, (error) => {
-                if (error) throw callback(error);
-                console.log(`NetNode "${newNode.name}" updated`);
-                callback(null);
-              });
-        } else {
-          callback(null);
-        }
-      } else {
-        // node does not exist
-        newNode.save((err) => {
-          if (err) callback(err);
-          console.log(`NetNode "${newNode.name}" inserted`);
-          callback(null);
-        });
-      }
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-}
-
 function getNodeEx(nodeModel, nodeName, callback) {
   nodeModel.findOne({
     name: nodeName,
@@ -115,6 +59,10 @@ function getNode(nodeName, callback) {
 
 function getNodePS(nodeName, callback) {
   getNodeEx(NetNodePS, nodeName, callback);
+}
+
+function getNodeLep(nodeName, callback) {
+  getNodeEx(NetNodeLep, nodeName, callback);
 }
 
 function getNodeCell(nodeName, callback) {
@@ -139,8 +87,12 @@ function isTheSameNodePS(netNode1, netNode2) {
   return (netNode1.dummyParam === netNode2.dummyParam);
 }
 
-function isTheSameNodeCell(netNode1, netNode2) {
+function isTheSameNodeLep(netNode1, netNode2) {
   return (netNode1.dummyParam === netNode2.dummyParam);
+}
+
+function isTheSameNodeCell(netNode1, netNode2) {
+  return (netNode1.paramOnOffState === netNode2.paramOnOffState);
 }
 
 function isTheSameNodeSection(netNode1, netNode2) {
@@ -160,6 +112,13 @@ function updateNode(originNode, newNode, callback) {
       y: newNode.y } }, callback);
 }
 
+function updateNodeLep(originNode, newNode, callback) {
+  NetNodeLep.update({ _id: originNode.id },
+    { $set: {
+      dummyParam: newNode.dummyParam,
+    } }, callback);
+}
+
 function updateNodePS(originNode, newNode, callback) {
   NetNodePS.update({ _id: originNode.id },
     { $set: {
@@ -168,7 +127,7 @@ function updateNodePS(originNode, newNode, callback) {
 }
 
 function updateNodeSection(originNode, newNode, callback) {
-  NetNodesection.update({ _id: originNode.id },
+  NetNodeSection.update({ _id: originNode.id },
     { $set: {
       dummyParam: newNode.dummyParam,
     } }, callback);
@@ -187,7 +146,6 @@ function updateNodeTransformer(originNode, newNode, callback) {
       testPower: newNode.testPower,
     } }, callback);
 }
-
 
 function getWire(wireName, callback) {
   NetWire.findOne({
@@ -280,7 +238,6 @@ function importWires(callback) {
   });
 }
 
-
 function importNodePSs(callback) {
   const fileName = `${config.importPath}PSs.json`;
   console.log(`importing PSs from "${fileName}"..`);
@@ -341,6 +298,302 @@ function importNodePSs(callback) {
             callback(err);
           }
           console.log(`NetNodePS "${newNode.name}" inserted`);
+          callback(null);
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+}
+
+function importNodeLeps(callback) {
+  const fileName = `${config.importPath}Leps.json`;
+  console.log(`importing Leps from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  const locLeps = JSON.parse(rawdata);
+
+  async.each(locLeps, (locData, callback) => {
+    const newNode = new NetNode(locData);
+    const newNodeLep = new NetNodeLep(locData);
+
+    getNode(newNode.name, (err, netNode) => {
+      if (err) callback(err);
+      if (netNode) {
+        // node exists
+
+        if (!isTheSameNode(netNode, newNode)) {
+          updateNode(netNode, newNode, (error) => {
+            if (error) callback(error);
+            console.log(`NetNode "${newNode.name}" updated`);
+          });
+        }
+      } else {
+        // does not exist
+        newNode.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNode "${newNode.name}" inserted`);
+        });
+      }
+    });
+
+    getNodeLep(newNode.name, (err, netNodeLep) => {
+      if (err) callback(err);
+      if (netNodeLep) {
+        // node exists
+
+        if (!isTheSameNodeLep(netNodeLep, newNodeLep)) {
+          updateNodeLep(netNodeLep, newNodeLep, (error) => {
+            if (error) callback(error);
+            console.log(`NetNodeLep "${newNode.name}" updated`);
+            callback(null);
+          });
+        } else {
+          callback(null);
+        }
+      } else {
+        // does not exist
+        newNodeLep.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNodeLep "${newNode.name}" inserted`);
+          callback(null);
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+}
+
+function importNodeSections(callback) {
+  const fileName = `${config.importPath}Sections.json`;
+  console.log(`importing Sections from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  const locSections = JSON.parse(rawdata);
+
+  async.each(locSections, (locData, callback) => {
+    const newNode = new NetNode(locData);
+    const newNodeSection = new NetNodeSection(locData);
+
+    getNode(newNode.name, (err, netNode) => {
+      if (err) callback(err);
+      if (netNode) {
+        // node exists
+
+        if (!isTheSameNode(netNode, newNode)) {
+          updateNode(netNode, newNode, (error) => {
+            if (error) callback(error);
+            console.log(`NetNode "${newNode.name}" updated`);
+          });
+        }
+      } else {
+        // does not exist
+        newNode.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNode "${newNode.name}" inserted`);
+        });
+      }
+    });
+
+    getNodeSection(newNode.name, (err, netNodeSection) => {
+      if (err) callback(err);
+      if (netNodeSection) {
+        // node exists
+
+        if (!isTheSameNodeSection(netNodeSection, newNodeSection)) {
+          updateNodeSection(netNodeSection, newNodeSection, (error) => {
+            if (error) callback(error);
+            console.log(`NetNodeSection "${newNode.name}" updated`);
+            callback(null);
+          });
+        } else {
+          callback(null);
+        }
+      } else {
+        // does not exist
+        newNodeSection.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNodeSection "${newNode.name}" inserted`);
+          callback(null);
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+}
+
+function importNodeCells(callback) {
+  const fileName = `${config.importPath}Cells.json`;
+  console.log(`importing Cells from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  const locCells = JSON.parse(rawdata);
+
+  async.each(locCells, (locData, callback) => {
+    const newNode = new NetNode(locData);
+    const newNodeCell = new NetNodeCell(locData);
+
+    getNode(newNode.name, (err, netNode) => {
+      if (err) callback(err);
+      if (netNode) {
+        // node exists
+
+        if (!isTheSameNode(netNode, newNode)) {
+          updateNode(netNode, newNode, (error) => {
+            if (error) callback(error);
+            console.log(`NetNode "${newNode.name}" updated`);
+          });
+        }
+      } else {
+        // does not exist
+        newNode.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNode "${newNode.name}" inserted`);
+        });
+      }
+    });
+
+    getNodeCell(newNode.name, (err, netNodeCell) => {
+      if (err) callback(err);
+      if (netNodeCell) {
+        // node exists
+
+        if (!isTheSameNodeCell(netNodeCell, newNodeCell)) {
+          updateNodeCell(netNodeCell, newNodeCell, (error) => {
+            if (error) callback(error);
+            console.log(`NetNodeCell "${newNode.name}" updated`);
+            callback(null);
+          });
+        } else {
+          callback(null);
+        }
+      } else {
+        // does not exist
+        newNodeCell.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNodeCell "${newNode.name}" inserted`);
+          callback(null);
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+}
+
+function importNodeTransformers(callback) {
+  const fileName = `${config.importPath}Transformers.json`;
+  console.log(`importing Transformers from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  const locTransformers = JSON.parse(rawdata);
+
+  async.each(locTransformers, (locData, callback) => {
+    const newNode = new NetNode(locData);
+    const newNodeTransformer = new NetNodeTransformer(locData);
+
+    getNode(newNode.name, (err, netNode) => {
+      if (err) callback(err);
+      if (netNode) {
+        // node exists
+
+        if (!isTheSameNode(netNode, newNode)) {
+          updateNode(netNode, newNode, (error) => {
+            if (error) callback(error);
+            console.log(`NetNode "${newNode.name}" updated`);
+          });
+        }
+      } else {
+        // does not exist
+        newNode.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNode "${newNode.name}" inserted`);
+        });
+      }
+    });
+
+    getNodeTransformer(newNode.name, (err, netNodeTransformer) => {
+      if (err) callback(err);
+      if (netNodeTransformer) {
+        // node exists
+
+        if (!isTheSameNodeTransformer(netNodeTransformer, newNodeTransformer)) {
+          updateNodeTransformer(netNodeTransformer, newNodeTransformer, (error) => {
+            if (error) callback(error);
+            console.log(`NetNodeTransformer "${newNode.name}" updated`);
+            callback(null);
+          });
+        } else {
+          callback(null);
+        }
+      } else {
+        // does not exist
+        newNodeTransformer.save((err) => {
+          if (err) {
+            callback(err);
+          }
+          console.log(`NetNodeTransformer "${newNode.name}" inserted`);
           callback(null);
         });
       }

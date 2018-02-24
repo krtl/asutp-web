@@ -13,6 +13,7 @@ async.series([
   createParamLists,
   createParamValues,
   createNetNodePSs,
+  createNetNodeLeps,
   createNetNodeSections,
   createNetNodeCells,
   createNetNodeTransformers,
@@ -46,6 +47,7 @@ function requireModels(callback) {
   require('mongoose').model('ParamValue');  // eslint-disable-line global-require
   require('mongoose').model('NetNode');  // eslint-disable-line global-require
   require('mongoose').model('NetNodePS');  // eslint-disable-line global-require
+  require('mongoose').model('NetNodeLep');  // eslint-disable-line global-require
   require('mongoose').model('NetNodeSection');  // eslint-disable-line global-require
   require('mongoose').model('NetNodeCell');  // eslint-disable-line global-require
   require('mongoose').model('NetNodeTransformer');  // eslint-disable-line global-require
@@ -250,6 +252,45 @@ function createNetNodePSs(callback) {
 
   // const data = JSON.stringify(locPSs);
   // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
+}
+
+function createNetNodeLeps(callback) {
+  console.log('creating Leps');
+  const fileName = `${config.importPath}Leps.json`;
+  console.log(`importing from "${fileName}"..`);
+  const rawdata = fs.readFileSync(fileName);
+
+  let locLeps;
+  try {
+    locLeps = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create Leps Error: ${e.message}`);
+    return;
+  }
+
+  async.each(locLeps, (lepData, callback) => {
+    const locNode = new mongoose.models.NetNode(lepData);
+    const locLep = new mongoose.models.NetNodeLep(lepData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`NetNode "${locNode.name}" inserted`);
+      locLep.save((err) => {
+        if (err) callback(err);
+        console.log(`NetNodeLep "${locLep.name}" inserted`);
+        callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(locLeps);
+  // fs.writeFileSync(`${config.importPath}Leps-2.json`, data);
 }
 
 function createNetNodeSections(callback) {

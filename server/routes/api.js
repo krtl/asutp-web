@@ -48,26 +48,27 @@ router.post('/save_node', (req, res, next) => {
       if (netNode) {
          // node exists
         if ((locNode.x !== netNode.x) || (locNode.y !== netNode.y)) {
-          netNode.x = locNode.x;
-          netNode.y = locNode.y;
-          netNode.save((err, updatedNode) => {
-            if (err) return callback(err);
+          NetNode.update({ _id: netNode.id },
+            { $set: {
+              // caption: locNode.caption,
+              // description: locNode.description,
+              x: locNode.x,
+              y: locNode.y } }, (err) => {
+                if (err) return callback(err);
 
-            logger.info(`updated node ${updatedNode.id}`);
+                logger.info(`updated node ${netNode.name}`);
 
-            return callback(null);
-          });
+                return callback(null);
+              });
         } else {
-          callback(null);
+          return callback(null);
         }
       } else {
-         // node does not exist
-         // const node = new NetNode();
-         // node.save(callback);
         logger.info(`node ${locNode.id} does not exist!`);
 
         return callback(new Error('does not exist!'));
       }
+      return null;
     });
   }, (err) => {
     if (err) {
