@@ -1,8 +1,9 @@
 const querystring = require('querystring');
 const http = require('http');
 const KeepAliveAgent = require('./httpAgent.js');
+const logger = require('../../server/logger');
 
-//const billingHost = '127.0.0.1';
+// const billingHost = '127.0.0.1';
 const billingHost = 'srv-android';
 
 
@@ -21,14 +22,14 @@ function loadAccountInfo(sessionId) {
   };
 
 
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 300; i += 1) {
     const getReq = http.request(options, (res) => {
       let str = '';
-      console.log(`STATUS: ${res.statusCode}`);
-      console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      logger.info(`STATUS: ${res.statusCode}`);
+      logger.info(`HEADERS: ${JSON.stringify(res.headers)}`);
 
       res.on('connect', () => {
-        console.log('connected');
+        logger.info('connected');
       });
 
       res.on('data', (chunk) => {
@@ -36,7 +37,7 @@ function loadAccountInfo(sessionId) {
       });
 
       res.on('end', () => {
-        console.log(str);
+        logger.info(str);
       });
     });
 
@@ -65,16 +66,16 @@ function PostCode() {
   };
 
   const postReq = http.request(postOptions, (res) => {
-    console.log(`STATUS: ${res.statusCode}`);
-    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    logger.info(`STATUS: ${res.statusCode}`);
+    logger.info(`HEADERS: ${JSON.stringify(res.headers)}`);
 
     res.setEncoding('utf8');
 
     res.on('data', (chunk) => {
-      console.log(`Response: ${chunk}`);
+      logger.info(`Response: ${chunk}`);
     });
     res.on('end', () => {
-      console.log('end');
+      logger.info('end');
 
 
       const arr = res.headers['set-cookie'];
@@ -89,7 +90,7 @@ function PostCode() {
 
 
   postReq.on('error', (e) => {
-    console.error(`problem with request: ${e.message}`);
+    logger.error(`problem with request: ${e.message}`);
   });
 
   postReq.write(postData);

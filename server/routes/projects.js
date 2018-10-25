@@ -6,6 +6,7 @@ module.exports = (app) => {
     NetNode.find({}, (err, nodes) => {
       if (err) return next(err);
       res.json(nodes);
+      return true;
     });
   });
 
@@ -15,8 +16,7 @@ module.exports = (app) => {
         return next(err);
       }
       res.json(node);
+      return true;
     });
   });
-
-
 };

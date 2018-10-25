@@ -32,6 +32,16 @@ function loadNodes(prjName, cb) {
     .then(cb);
 }
 
+function loadWires(prjName, cb) {
+  if (!myHeaders) { recreateHeader(); }
+  return fetch(new Request(`api/wires?proj=${prjName}`, myGetInit), {
+    accept: 'application/json',
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb);
+}
+
 function saveNodes(s, cb) {
   fetch(new Request('api/save_node', myPostInit),
     {
@@ -86,5 +96,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { loadNodes, saveNodes, loadParams, loadParamLists, loadParamValues, resetHeader: recreateHeader };
+const Client = { loadNodes, loadWires, saveNodes, loadParams, loadParamLists, loadParamValues, resetHeader: recreateHeader };
 export default Client;

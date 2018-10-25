@@ -1,11 +1,24 @@
 {
   "extends": "airbnb",
   "parser": "babel-eslint",
+  "plugins": [
+    "mocha"
+  ],
+  "env": {
+    "node": true,
+    "mocha": true
+  },
   "rules": {
     "array-bracket-spacing": [2, "always"],
     "jsx-quotes": [1, "prefer-single"],
     "jsx-a11y/no-static-element-interactions": 0,
-    "max-len": ["error", { "code": 80, "ignoreTrailingComments": true }],
+<<<<<<< HEAD
+    "jsx-a11y/anchor-has-content": "off",
+=======
+    "jsx-a11y/anchor-has-content": [ 2, {
+      "components": [ "Anchor" ]
+    }],
+>>>>>>> 6aec0f4cf5c0ce65a4e7d395ab4a23e93d1be5a7
     "no-use-before-define": [2, "nofunc"],
     "no-shadow": 0,
     "prefer-const": 1,
@@ -15,7 +28,15 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": 0,
     "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
+<<<<<<< HEAD
 
-    "max-len": [2, {"code": 180, "tabWidth": 4, "ignoreUrls": true}]
+    "max-len": [2, {"code": 180, "tabWidth": 4, "ignoreTrailingComments": true, "ignoreUrls": true}],
+    "linebreak-style": ["error", "windows"]
+=======
+    "linebreak-style": ["error", "windows"],
+    "max-len": [2, {"code": 180, "tabWidth": 4, "ignoreUrls": true, "ignoreTrailingComments": true}],
+    "no-bitwise": ["error", { "allow": ["~"] }],
+    "mocha/no-exclusive-tests": "error"
+>>>>>>> 6aec0f4cf5c0ce65a4e7d395ab4a23e93d1be5a7
   }
 }

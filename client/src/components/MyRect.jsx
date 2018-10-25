@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Rect, Circle, Group } from 'react-konva';
+import { Text, Rect, Circle, Group } from 'react-konva';
 
 
 export default class MyRect extends React.Component {
@@ -24,9 +24,11 @@ export default class MyRect extends React.Component {
     //const abspos = args.target.getAbsolutePosition();
     //const pos = args.target.position();
     //console.log(`Abs position of red is (${abspos.x}, ${abspos.y}) but its co-ords are (${pos.x}, ${pos.y})`);
+    //console.log(`[MyRect] Drag ends for ${this.props.node.name}`);
 
     this.props.onDragEnd({
       id: this.props.node.id,
+      name: this.props.node.name,
       x: args.target.x(),
       y: args.target.y(),
     });
@@ -53,6 +55,11 @@ export default class MyRect extends React.Component {
           shadowBlur={0}
           onClick={this.handleClick}
         />
+        <Text
+          x={30}
+          y={10}
+          text={this.props.node.name}
+        />
         <Rect
           x={18}
           y={18}
@@ -72,6 +79,7 @@ export default class MyRect extends React.Component {
 MyRect.propTypes = {
   node: PropTypes.shape({
     id: PropTypes.string,
+    name: PropTypes.string,
     x: PropTypes.number,
     y: PropTypes.number,
   }).isRequired,

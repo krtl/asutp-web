@@ -54,7 +54,7 @@ function startWorker() {
       logger.info('[AMQP] channel closed');
     });
     ch.prefetch(10);
-    ch.assertQueue('asutp.values.queue', { durable: true }, (err, _ok) => {
+    ch.assertQueue('asutp.values.queue', { durable: true }, (err) => {
       if (closeOnErr(err)) return;
       ch.consume('asutp.values.queue', processMsg, { noAck: false });
       logger.info('[AMQP] Worker is started');

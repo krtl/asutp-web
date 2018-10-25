@@ -32,7 +32,9 @@
     "validator": "^6.2.0",
     "webstomp-client": "^1.2.0",
     "winston": "^2.4.0",
-    "ws": "^3.3.3"
+    "ws": "^3.3.3",
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
@@ -42,14 +44,31 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "concurrently": "^3.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
+<<<<<<< HEAD
     "eslint-plugin-react": "6.9.0",
     "mocha": "^4.1.0"
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krtl/asutp-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/krtl/asutp-web/issues"
+  },
+  "homepage": "https://github.com/krtl/asutp-web#readme",
+  "description": ""
+=======
+    "eslint-plugin-mocha": "^5.2.0",
+    "eslint-plugin-react": "6.9.0"
   }
+>>>>>>> 6aec0f4cf5c0ce65a4e7d395ab4a23e93d1be5a7
 }

@@ -4,6 +4,6 @@
   "jwtSecret": "asutpsecretasutpphrase",
   "importPath1": "D:/test/",
   "importPath2": "D:/mongodb_bases/",
-  "importPath": "D:/_javascript/Projects/asutp-web/server/ImportData/"
-
+  "importPath": "D:/javascript/Projects/asutp-web/server/ImportData/",
+  "importPath3": "D:/_javascript/Projects/asutp-web/server/ImportData/"
 }

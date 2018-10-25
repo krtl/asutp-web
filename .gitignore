@@ -1,6 +1,9 @@
 cra-server-ex.graffle
 
 node_modules
+coverage
+.nyc_output
+logs
 npm-debug.log
 
 # User-specific stuff:

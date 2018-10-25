@@ -11,14 +11,15 @@ router.get('/dashboard', (req, res) => {
 });
 
 const NetNode = require('mongoose').model('NetNode');
+const NetWire = require('mongoose').model('NetWire');
 const DbParam = require('mongoose').model('Param');
 const DbParamList = require('mongoose').model('ParamList');
 const DbParamValues = require('mongoose').model('ParamValue');
 
 router.get('/nodes', (req, res, next) => {
-  const param = req.query.proj;
+  const project = req.query.proj;
 
-  if (!param) {
+  if (!project) {
     res.json({
       error: 'Missing required parameter `proj`',
     });
@@ -32,13 +33,30 @@ router.get('/nodes', (req, res, next) => {
   });
 });
 
+router.get('/wires', (req, res, next) => {
+  const project = req.query.proj;
+
+  if (!project) {
+    res.json({
+      error: 'Missing required parameter `proj`',
+    });
+    return;
+  }
+
+  NetWire.find({}, (err, wires) => {
+    if (err) return next(err);
+    res.status(200).json(wires);
+    return 0;
+  });
+});
+
 router.post('/save_node', (req, res, next) => {
   const nodes = req.body;
   // throw new Error('TestErr!');
 
   async.each(nodes, (locNode, callback) => {
     NetNode.findOne({
-      id: locNode.id,
+      name: locNode.name,
     }, (err, netNode) => {
       if (err) {
         logger.info('Something wrong when findOne!');
@@ -48,26 +66,27 @@ router.post('/save_node', (req, res, next) => {
       if (netNode) {
          // node exists
         if ((locNode.x !== netNode.x) || (locNode.y !== netNode.y)) {
-          netNode.x = locNode.x;
-          netNode.y = locNode.y;
-          netNode.save((err, updatedNode) => {
-            if (err) return callback(err);
+          NetNode.update({ _id: netNode.id },
+            { $set: {
+              // caption: locNode.caption,
+              // description: locNode.description,
+              x: locNode.x,
+              y: locNode.y } }, (err) => {
+                if (err) return callback(err);
 
-            logger.info(`updated node ${updatedNode.id}`);
+                logger.info(`updated node ${netNode.name}`);
 
-            return callback(null);
-          });
+                return callback(null);
+              });
         } else {
-          callback(null);
+          return callback(null);
         }
       } else {
-         // node does not exist
-         // const node = new NetNode();
-         // node.save(callback);
-        logger.info(`node ${locNode.id} does not exist!`);
+        logger.info(`node ${locNode.name} does not exist!`);
 
         return callback(new Error('does not exist!'));
       }
+      return null;
     });
   }, (err) => {
     if (err) {

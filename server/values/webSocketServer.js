@@ -3,7 +3,7 @@ const randomstring = require('randomstring');
 const logger = require('../logger');
 
 const traceMessages = true;
-const heartBeatTimeout = 30; //sec
+const heartBeatTimeout = 30; // sec
 
 let wss;
 let timerId;
@@ -46,7 +46,7 @@ function processCommand(ws, s) {
   return '';
 }
 
-const initializeWebSocketServer = function (webSocket) {
+const initializeWebSocketServer = (webSocket) => {
   wss = webSocket;
 
   wss.on('connection', (ws, req) => {
@@ -96,11 +96,12 @@ const initializeWebSocketServer = function (webSocket) {
           logger.debug(`[WS]client ${ws.id} sent: ping`);
         }
       }
+      return true;
     });
   }, 10000);
 };
 
-const finalizeWebSocketServer = function () {
+const finalizeWebSocketServer = () => {
   clearInterval(timerId);
 };
 
