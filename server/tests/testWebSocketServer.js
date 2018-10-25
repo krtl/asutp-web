@@ -1,8 +1,8 @@
 const chai = require('chai');
+
 const expect = chai.expect;
 const WebSocket = require('ws');
 const WebSocketServer = require('../values/webSocketServer');
-const logger = require('../../server/logger');
 
 
 describe('WebSocketServer', () => {
@@ -22,24 +22,24 @@ describe('WebSocketServer', () => {
   beforeEach((done) => {
     wsc = new WebSocket('ws://localhost:3333');
     wsc.on('open', () => {
-      logger.info('opened...');
+      console.info('opened...');
       done();
     });
     wsc.on('error', (err) => {
-      logger.warn(`error: ${err}`);
+      console.warn(`error: ${err}`);
       done();
     });
     wsc.on('close', () => {
-      logger.info('closed...');
+      console.info('closed...');
     });
   });
 
   afterEach((done) => {
     if (wsc.readyState === WebSocket.OPEN) {
-      // logger.info('disconnecting...');
+      // console.info('disconnecting...');
       wsc.close();
     } else {
-      logger.info('no connection to break...');
+      console.info('no connection to break...');
     }
     done();
   });

@@ -2,19 +2,19 @@ const http = require('http');
 const StompServer = require('stomp-broker-js');
 const WebSocket = require('ws');
 const webstomp = require('webstomp-client');
-const logger = require('../../server/logger');
 
 const chai = require('chai');
+
 const expect = chai.expect;
 // const WebSocket = require('ws');
 // const WebSocketServer = require('../values/webSocketServer');
 
 
-const testCase = require('mocha').describe;
-const before = require('mocha').before;
-const after = require('mocha').after;
-const assertions = require('mocha').it;
-const assert = require('chai').assert;
+// const testCase = require('mocha').describe;
+// const before = require('mocha').before;
+// const after = require('mocha').after;
+// const assertions = require('mocha').it;
+// const assert = require('chai').assert;
 
 
 const options = { debug: false, protocols: webstomp.VERSIONS.supportedProtocols() };
@@ -37,28 +37,28 @@ describe('StompServer', () => {
     server = http.createServer();
     stompServer = new StompServer({ server });
 
-    stompServer.on('connected', (sessionId, headers) => {
-      logger.info(`[stompServer] Client ${sessionId} connected`);
+    stompServer.on('connected', (sessionId, headers) => {  // eslint-disable-line
+      console.info(`[stompServer] Client ${sessionId} connected`);
     });
 
     stompServer.on('connecting', (sessionId) => {
-      logger.info(`[stompServer] Client ${sessionId} connecting..`);
+      console.info(`[stompServer] Client ${sessionId} connecting..`);
     });
 
     stompServer.on('disconnected', (sessionId) => {
-      logger.info(`[stompServer] Client ${sessionId} disconnected`);
+      console.info(`[stompServer] Client ${sessionId} disconnected`);
     });
 
     stompServer.on('send', (ev) => {
-      logger.info(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
+      console.info(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
     });
 
     stompServer.on('subscribe', (ev) => {
-      logger.info(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+      console.info(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
     });
 
     stompServer.on('unsubscribe', (ev) => {
-      logger.info(`[stompServer] Client ${ev.sessionId} unsunbscribed from ${ev.topic}`);
+      console.info(`[stompServer] Client ${ev.sessionId} unsunbscribed from ${ev.topic}`);
     });
 
 
@@ -97,23 +97,23 @@ describe('StompServer', () => {
     wsc = new WebSocket('ws://localhost:33333/stomp');
     stompClient = webstomp.over(wsc, options);
 
-    const connectCallback = function () {
-      logger.info('[stompClient] connected');
-//  stompClient.send('/queue/test', { priority: 9 }, 'Hello, STOMP');
+    const connectCallback = () => {
+      console.info('[stompClient] connected');
+      //  stompClient.send('/queue/test', { priority: 9 }, 'Hello, STOMP');
       done();
     };
 
-    const errorCallback = function (error) {
+    const errorCallback = (error) => {
       console.warn(`[stompClient] error: ${error.code}  ${error.reason}`);
 
       if (stompClientSubscription) {
-        stompClientSubscription.unsubscribe(headers);
+        stompClientSubscription.unsubscribe();
       }
       done();
     };
 
-    stompClient.debug = function (str) {
-      logger.info(`[stompClient] debug: ${str}`);
+    stompClient.debug = (str) => {
+      console.info(`[stompClient] debug: ${str}`);
     };
 
     // stompClient.connect(headers);// , connectCallback, errorCallback);
@@ -124,15 +124,15 @@ describe('StompServer', () => {
     if (stompClient.connected) {
       stompClient.disconnect();
     } else {
-      // logger.info('no connection to break...');
+      // console.info('no connection to break...');
     }
     done();
   });
 
-  testCase('Send-Receive message test', () => {
+  describe('Send-Receive message test', () => {
     it('using topic. receive message from server', (done) => {
       stompServer.on('subscribe', (ev) => {
-        logger.info(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+        console.info(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
         if (ev.topic === testTopicServerToClient) {
           expect(ev.topic).to.equal(testTopicServerToClient);
           stompServer.send(testTopicServerToClient, {}, testMess);
@@ -140,7 +140,7 @@ describe('StompServer', () => {
       });
 
       stompClientSubscription = stompClient.subscribe(testTopicServerToClient, (message) => {
-        logger.info(`[stompClient] received: ${message}`);
+        console.info(`[stompClient] received: ${message}`);
         message.ack();
         expect(message.body).to.equal(testMess);
 
@@ -156,14 +156,14 @@ describe('StompServer', () => {
       const headers = { id: 'sub-0' };
       stompServer.subscribe(testTopicClientToServer, (msg, headers) => {
         const topic = headers.destination;
-        logger.info(`[stompServer] topic: ${topic} received: ${msg}`);
+        console.info(`[stompServer] topic: ${topic} received: ${msg}`);
         expect(topic).to.equal(testTopicClientToServer);
         expect(msg).to.equal(testMess);
         done();
         stompServer.unsubscribe(testTopicClientToServer);
 
         const subId = headers.subscription;
-        assert.isTrue(stompServer.unsubscribe(subId), `unsubscribe successfull, subId: ${subId}`);
+        chai.assert.isTrue(stompServer.unsubscribe(subId), `unsubscribe successfull, subId: ${subId}`);
       }, headers);
 
       // stompServer.send(testTopicClientToServer, {}, testMess);
@@ -231,7 +231,7 @@ describe('StompServer', () => {
 
 
       stompClientSubscription = stompClient.subscribe('individual', (message) => {
-        logger.info(`[stompClient] received: ${message}`);
+        console.info(`[stompClient] received: ${message}`);
         message.ack();
         expect(message.body).to.equal(testReplyMess);
 
@@ -243,7 +243,7 @@ describe('StompServer', () => {
       }, {});
 
       stompServer.on('send', (ev) => {
-        logger.info(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
+        console.info(`[stompServer] Broker send message "${ev.frame.body}" to ${ev.dest}`);
 
         stompServer.sendIndividual(ev.socket, 'individual', {}, testReplyMess);
       });
@@ -255,7 +255,7 @@ describe('StompServer', () => {
 
     it('client subscribe once. receive message from client and send reply', (done) => {
       stompServer.on('subscribe', (ev) => {
-        logger.info(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+        console.info(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
         if (ev.topic === testTopicServerToClient) {
           expect(ev.topic).to.equal(testTopicServerToClient);
           stompServer.sendIndividual(ev.socket, testTopicServerToClient, {}, testMess);
@@ -263,7 +263,7 @@ describe('StompServer', () => {
       });
 
       stompClientSubscription = stompClient.subscribe(testTopicServerToClient, (message) => {
-        logger.info(`[stompClient] received: ${message}`);
+        console.info(`[stompClient] received: ${message}`);
         message.ack();
         expect(message.body).to.equal(testMess);
 

@@ -15476,3 +15476,69 @@ content-length:15
 2018-10-25 09:20:27.2027 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 09:20:17","qd":"NA"}" to /Values:paramList6
 2018-10-25 09:20:27.2027 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 09:20:17","qd":"NA"}" to /Values:paramList3
 2018-10-25 09:20:27.2027 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 09:20:17","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:06:26.626 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:07:26.726 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:12:18.1218 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:12:33.1233 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:13:09.139 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:17:03.173 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:27:55.2755 [INFO] We are connected to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:40:25.4025 [INFO] Http server listening at: http://localhost:3001/
+2018-10-25 13:40:25.4025 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-25 13:40:25.4025 [INFO] [AMQP] connected
+2018-10-25 13:40:25.4025 [INFO] [sever] loaded from DB with 31 Params and 7 paramLists
+2018-10-25 13:40:25.4025 [INFO] [AMQP] Worker is started
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList1
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList5
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList1
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList4
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList1
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList4
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList3
+2018-10-25 13:40:35.4035 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 13:40:25","qd":"NA"}" to /Values:paramList6
+2018-10-25 14:04:22.422 [INFO] [WS] WebSocketServer started to listen.
+2018-10-25 14:04:22.422 [INFO] [WS]client EDyqFBXj70YTNir connected from ::ffff:127.0.0.1
+2018-10-25 14:04:22.422 [INFO] [WS]client Q5ez0okMu760SQr connected from ::ffff:127.0.0.1
+2018-10-25 14:04:22.422 [VERBOSE] [WS]client Q5ez0okMu760SQr received: echo: I need an echo!
+2018-10-25 14:04:22.422 [VERBOSE] [WS]client Q5ez0okMu760SQr sent: I need an echo!
+2018-10-25 14:54:37.5437 [INFO] [WS] WebSocketServer started to listen.
+2018-10-25 14:54:37.5437 [INFO] [WS]client gLkEvvZK0t5pQAJ connected from ::ffff:127.0.0.1
+2018-10-25 14:54:37.5437 [INFO] [WS]client yh1sbCaZhMhFaKG connected from ::ffff:127.0.0.1
+2018-10-25 14:54:37.5437 [VERBOSE] [WS]client yh1sbCaZhMhFaKG received: echo: I need an echo!
+2018-10-25 14:54:37.5437 [VERBOSE] [WS]client yh1sbCaZhMhFaKG sent: I need an echo!
+2018-10-25 14:54:57.5457 [INFO] [WS] WebSocketServer started to listen.
+2018-10-25 14:54:57.5457 [INFO] [WS]client X2VtWxWOom9NiWK connected from ::ffff:127.0.0.1
+2018-10-25 14:54:57.5457 [INFO] [WS]client KWRyhT7H1ByiyIb connected from ::ffff:127.0.0.1
+2018-10-25 14:54:57.5457 [VERBOSE] [WS]client KWRyhT7H1ByiyIb received: echo: I need an echo!
+2018-10-25 14:54:57.5457 [VERBOSE] [WS]client KWRyhT7H1ByiyIb sent: I need an echo!
+2018-10-25 14:55:17.5517 [INFO] [WS] WebSocketServer started to listen.
+2018-10-25 14:55:17.5517 [INFO] [WS]client ucJQJ0RE6oJGhSY connected from ::ffff:127.0.0.1
+2018-10-25 14:55:17.5517 [INFO] [WS]client VAT8zuOl4bZ50iI connected from ::ffff:127.0.0.1
+2018-10-25 14:55:17.5517 [VERBOSE] [WS]client VAT8zuOl4bZ50iI received: echo: I need an echo!
+2018-10-25 14:55:17.5517 [VERBOSE] [WS]client VAT8zuOl4bZ50iI sent: I need an echo!
+2018-10-25 14:55:26.5526 [INFO] [WS] WebSocketServer started to listen.
+2018-10-25 14:55:26.5526 [INFO] [WS]client OxHp2JPZgUy1wEc connected from ::ffff:127.0.0.1
+2018-10-25 14:55:26.5526 [INFO] [WS]client oNwsAyLCqMN7nXB connected from ::ffff:127.0.0.1
+2018-10-25 14:55:26.5526 [VERBOSE] [WS]client oNwsAyLCqMN7nXB received: echo: I need an echo!
+2018-10-25 14:55:26.5526 [VERBOSE] [WS]client oNwsAyLCqMN7nXB sent: I need an echo!
+2018-10-25 14:55:57.5557 [INFO] [WS] WebSocketServer started to listen.
+2018-10-25 14:55:57.5557 [INFO] [WS]client OtnluTdx7JZ6saZ connected from ::ffff:127.0.0.1
+2018-10-25 14:55:57.5557 [INFO] [WS]client hWqm0MPMwOm6U3x connected from ::ffff:127.0.0.1
+2018-10-25 14:55:57.5557 [VERBOSE] [WS]client hWqm0MPMwOm6U3x received: echo: I need an echo!
+2018-10-25 14:55:57.5557 [VERBOSE] [WS]client hWqm0MPMwOm6U3x sent: I need an echo!

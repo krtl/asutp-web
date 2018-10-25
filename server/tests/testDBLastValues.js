@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const async = require('async');
-const logger = require('../../server/logger');
 
-const Schema = mongoose.Schema;
-const chai = require('chai');
+// const Schema = mongoose.Schema;
+// const chai = require('chai');
 
-const expect = chai.expect;
+// const expect = chai.expect;
 const config = require('../../config');
 
 // require('mongoose').model('AuthUser');  // eslint-disable-line global-require
@@ -22,7 +21,7 @@ const ParamValue = require('../dbmodels/paramValue');
 // const Name = mongoose.model('Name', testSchema);
 
 
-describe('Database Tests', () => {
+describe('Database Test ParamValues', () => {
   // Before starting the test, create a sandboxed database connection
   // Once a connection is established invoke done()
   before((done) => {
@@ -42,11 +41,11 @@ describe('Database Tests', () => {
     });
   });
 
-  describe('Test one record', () => {
-    // Save object with 'name' value of 'Mike"
-    it('New name saved to test database', (done) => {
+  describe('Test one ParamValue', () => {
+    // Save object with 'name' value of 'TestName593"
+    it('New Param Value with origin name should be saved to database', (done) => {
       const testParamValue = ParamValue({
-        paramName: 'Mike',
+        paramName: 'TestName593',
       });
 
       testParamValue.save(done);
@@ -55,16 +54,17 @@ describe('Database Tests', () => {
     it('Dont save incorrect format to database', (done) => {
       // Attempt to save with wrong info. An error should trigger
       const wrongSave = ParamValue({
-        notName: 'Not Mike',
+        notName: 'Not TestName593',
       });
       wrongSave.save((err) => {
         if (err) { return done(); }
         throw new Error('Should generate error!');
       });
     });
+
     it('Should retrieve data from test database', (done) => {
-      // Look up the 'Mike' object previously saved.
-      ParamValue.find({ paramName: 'Mike' }, (err, name) => {
+      // Look up the 'TestName593' object previously saved.
+      ParamValue.find({ paramName: 'TestName593' }, (err, name) => {
         if (err) { throw err; }
         if (name.length === 0) { throw new Error('No data!'); }
         done();
@@ -72,8 +72,25 @@ describe('Database Tests', () => {
     });
   });
 
-  describe('Test many records', () => {
-    it('inserting', (done) => {
+  describe('Test multiple ParamValues', () => {
+    // test multiple random param values
+    it('Should remove all previous test param values', (done) => {
+      ParamValue.remove({ paramName: /^TestParam/ }, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('Should retrieve correct count of test param values', (done) => {
+      ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
+        if (err) { throw err; }
+        if (count !== 0) { throw new Error('Wrong count!'); }
+        done();
+      });
+    });
+
+
+    it('should insert 100 test param values ', (done) => {
       const params = [];
       for (let i = 0; i < 100; i += 1) {
         params.push(i);
@@ -91,8 +108,7 @@ describe('Database Tests', () => {
       }, done);
     });
 
-    it('Should retrieve data from test database', (done) => {
-      // Look up the 'Mike' object previously saved.
+    it('Should retrieve correct count of test param values', (done) => {
       ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
         if (err) { throw err; }
         if (count !== 100) { throw new Error('Wrong count!'); }
