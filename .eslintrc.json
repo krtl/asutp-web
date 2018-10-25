@@ -1,11 +1,20 @@
 {
   "extends": "airbnb",
   "parser": "babel-eslint",
+  "plugins": [
+    "mocha"
+  ],
+  "env": {
+    "node": true,
+    "mocha": true
+  },
   "rules": {
     "array-bracket-spacing": [2, "always"],
     "jsx-quotes": [1, "prefer-single"],
     "jsx-a11y/no-static-element-interactions": 0,
-    "max-len": ["error", { "code": 80, "ignoreTrailingComments": true }],
+    "jsx-a11y/anchor-has-content": [ 2, {
+      "components": [ "Anchor" ]
+    }],
     "no-use-before-define": [2, "nofunc"],
     "no-shadow": 0,
     "prefer-const": 1,
@@ -15,7 +24,9 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-array-index-key": 0,
     "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
-
-    "max-len": [2, {"code": 180, "tabWidth": 4, "ignoreUrls": true}]
+    "linebreak-style": ["error", "windows"],
+    "max-len": [2, {"code": 180, "tabWidth": 4, "ignoreUrls": true, "ignoreTrailingComments": true}],
+    "no-bitwise": ["error", { "allow": ["~"] }],
+    "mocha/no-exclusive-tests": "error"
   }
 }

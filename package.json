@@ -32,7 +32,8 @@
     "validator": "^6.2.0",
     "webstomp-client": "^1.2.0",
     "winston": "^2.4.0",
-    "ws": "^3.3.3"
+    "ws": "^3.3.3",
+    "chai": "^4.1.2"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
@@ -42,13 +43,13 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "concurrently": "^3.1.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
+    "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-react": "6.9.0",
     "mocha": "^4.1.0"
   }

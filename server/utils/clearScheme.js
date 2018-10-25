@@ -3,6 +3,7 @@ const netNodes = require('../dbmodels/netNode');
 const netWires = require('../dbmodels/netWire');
 const async = require('async');
 const config = require('../../config');
+const logger = require('../../server/logger');
 
 
 async.series([
@@ -10,13 +11,13 @@ async.series([
   removeNodes,
   removeWires,
 ], (err) => {
-//  console.log(arguments);
+//  logger.info(arguments);
   mongoose.disconnect();
   process.exit(err ? 1 : 0);
 });
 
 function open(callback) {
-  console.log('open');
+  logger.info('open');
 // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
@@ -26,7 +27,7 @@ function open(callback) {
 function removeNodes(callback) {
   netNodes.remove({}, (err, obj) => {
     if (err) throw callback(err);
-    console.log(`Removed ${obj.result.n} records from NetNodes`);
+    logger.info(`Removed ${obj.result.n} records from NetNodes`);
     callback(null);
   });
 }
@@ -34,7 +35,7 @@ function removeNodes(callback) {
 function removeWires(callback) {
   netWires.remove({}, (err, obj) => {
     if (err) throw callback(err);
-    console.log(`Removed ${obj.result.n} records from NetWires`);
+    logger.info(`Removed ${obj.result.n} records from NetWires`);
     callback(null);
   });
 }

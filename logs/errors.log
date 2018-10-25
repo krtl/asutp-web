@@ -1,0 +1,32 @@
+2018-01-11 11:49:14.4914 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 11:49:24.4924 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 11:49:34.4934 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 11:49:44.4944 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 11:49:54.4954 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 11:50:04.504 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 11:50:14.5014 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 12:03:09.39 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
+2018-01-11 12:03:09.39 [ERROR] [AMQP] conn error read ECONNRESET
+2018-01-11 12:03:09.39 [ERROR] [AMQP] reconnecting
+2018-10-05 09:23:50.2350 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:23:58.2358 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:06.246 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:14.2414 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:22.2422 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:30.2430 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:38.2438 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:46.2446 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:24:54.2454 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:25:02.252 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-05 09:25:10.2510 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:19:16.1916 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:19:24.1924 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:19:32.1932 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:19:40.1940 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:19:48.1948 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:19:56.1956 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:20:04.204 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:20:12.2012 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:20:20.2020 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:20:28.2028 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-10-23 14:20:36.2036 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672

@@ -7,6 +7,7 @@ module.exports = (app) => {
     AuthUser.find({}, (err, users) => {
       if (err) return next(err);
       res.json(users);
+      return true;
     });
   });
 
@@ -16,6 +17,7 @@ module.exports = (app) => {
         return next(err);
       }
       res.json(user);
+      return true;
     });
   });
 };

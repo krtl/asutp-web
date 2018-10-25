@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const async = require('async');
+const logger = require('../../server/logger');
 
 const Schema = mongoose.Schema;
 const chai = require('chai');

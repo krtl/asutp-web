@@ -26,7 +26,7 @@ const util = require('util');
 const EventEmitter = require('events').EventEmitter;
 const net = require('net');
 
-var Agent = function (options) {
+const Agent = (options) => {
   const self = this;
   self.options = options || {};
   self.requests = {};
@@ -56,7 +56,7 @@ util.inherits(Agent, EventEmitter);
 Agent.defaultMaxSockets = 5;
 
 Agent.prototype.defaultPort = 80;
-Agent.prototype.addRequest = function (req, host, port) {
+Agent.prototype.addRequest = (req, host) => {
   const locHost = host.host;
   const locPort = host.port;
 //  const name = `${host}:${port}`;
@@ -73,7 +73,7 @@ Agent.prototype.addRequest = function (req, host, port) {
   }
   if (this.sockets[name].length < this.maxSockets) {
     // If we are under maxSockets create a new one.
-    //req.onSocket(this.createSocket(name, host, port));
+    // req.onSocket(this.createSocket(name, host, port));
     req.onSocket(this.createSocket(name, locHost, locPort));
   } else {
     // We are over limit so we'll add it to the queue.
@@ -83,25 +83,25 @@ Agent.prototype.addRequest = function (req, host, port) {
     this.requests[name].push(req);
   }
 };
-Agent.prototype.createSocket = function (name, host, port) {
+Agent.prototype.createSocket = (name, host, port) => {
   const self = this;
   const s = self.createConnection(port, host, self.options);
   if (!self.sockets[name]) {
     self.sockets[name] = [];
   }
   this.sockets[name].push(s);
-  const onFree = function () {
+  const onFree = () => {
     self.emit('free', s, host, port);
   };
   s.on('free', onFree);
-  const onClose = function (err) {
+  const onClose = () => {
     // This is the only place where sockets get removed from the Agent.
     // If you want to remove a socket from the pool, just close it.
     // All socket errors end in a close event anyway.
     self.removeSocket(s, name, host, port);
   };
   s.on('close', onClose);
-  var onRemove = function () {
+  const onRemove = () => {
     // We need this function for cases like HTTP "upgrade"
     // (defined by WebSockets) where we need to remove a socket from the pool
     //  because it'll be locked up indefinitely
@@ -113,7 +113,7 @@ Agent.prototype.createSocket = function (name, host, port) {
   s.on('agentRemove', onRemove);
   return s;
 };
-Agent.prototype.removeSocket = function (s, name, host, port) {
+Agent.prototype.removeSocket = (s, name, host, port) => {
   if (this.sockets[name]) {
     const index = this.sockets[name].indexOf(s);
     if (index !== -1) {

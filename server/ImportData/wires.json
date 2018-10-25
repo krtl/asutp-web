@@ -6,10 +6,13 @@
   {    "name": "w5","nodeFrom": "trans1", "nodeTo": "sec1"},
   {    "name": "w6","nodeFrom": "trans2", "nodeTo": "sec2"},
   {    "name": "w7","nodeFrom": "ps1", "nodeTo": "ps2"},
-  {    "name": "w8","nodeFrom": "c1", "nodeTo": "c2"},
-  {    "name": "w9","nodeFrom": "c1", "nodeTo": "c3"},
-  {    "name": "w10","nodeFrom": "c1", "nodeTo": "c3"},
-  {    "name": "w11","nodeFrom": "c1", "nodeTo": "c4"},
-  {    "name": "w12","nodeFrom": "c1", "nodeTo": "c1"},
-  {    "name": "w13","nodeFrom": "c1", "nodeTo": "c2"}
+  {    "name": "w8","nodeFrom": "sec4", "nodeTo": "trans2"},
+  {    "name": "w9","nodeFrom": "sec4", "nodeTo": "c3"},
+  {    "name": "w10","nodeFrom": "sec4", "nodeTo": "c1"},
+  {    "name": "w11","nodeFrom": "sec4", "nodeTo": "c4"},
+  {    "name": "w12","nodeFrom": "c1", "nodeTo": "c6"},
+  {    "name": "w14","nodeFrom": "cell5", "nodeTo": "c1"},
+  {    "name": "w15","nodeFrom": "lep1", "nodeTo": "c1"},
+  {    "name": "w16","nodeFrom": "trans1", "nodeTo": "c1"},
+  {    "name": "w17","nodeFrom": "lep1", "nodeTo": "lep2"}
 ]

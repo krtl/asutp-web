@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
+const logger = require('../../server/logger');
 
 
 async.series([
@@ -9,13 +10,13 @@ async.series([
   requireModels,
   importParamLists,
 ], (err) => {
-  // console.log(arguments);
+  // logger.info(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
 
 function open(callback) {
-  console.log('open');
+  logger.info('open');
 // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
@@ -23,7 +24,7 @@ function open(callback) {
 }
 
 function requireModels(callback) {
-  console.log('models');
+  logger.info('models');
   require('mongoose').model('Param');  // eslint-disable-line global-require
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
 
@@ -50,13 +51,13 @@ function compareParamList(paramList1, paramList2) {
 }
 
 function importParamLists(callback) {
-  console.log('importing paramLists');
+  logger.info('importing paramLists');
   const rawdata = fs.readFileSync(`${config.importPath}paramLists.json`);
   let paramLists;
   try {
     paramLists = JSON.parse(rawdata);
   } catch (e) {
-    console.error(`create paramLists Error: ${e.message}`);
+    logger.error(`create paramLists Error: ${e.message}`);
     callback(e);
     return;
   }
@@ -90,7 +91,7 @@ function importParamLists(callback) {
             { _id: paramList.id },
             { $set: { caption: newParamList.caption, description: newParamList.description, params: newParamList.params } }, (error) => {
               if (error) throw callback(error);
-              console.log(`ParamList "${newParamList.name}" updated`);
+              logger.info(`ParamList "${newParamList.name}" updated`);
               callback(null);
             });
         } else {
@@ -100,16 +101,16 @@ function importParamLists(callback) {
         // param does not exist
         newParamList.save((err) => {
           if (err) callback(err);
-          console.log(`ParamList "${newParamList.name}" inserted`);
+          logger.info(`ParamList "${newParamList.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success');
+      logger.info('Success');
     }
     callback(err);
   });

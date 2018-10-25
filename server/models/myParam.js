@@ -4,7 +4,7 @@ function MyParam(name, caption, description) {
   this.description = description;
   this.listNames = [];
 
-  this.setListNames = function (listNames) {
+  this.setListNames = (listNames) => {
     this.listNames = listNames;
   };
 }

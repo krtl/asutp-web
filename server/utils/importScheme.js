@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
+const logger = require('../../server/logger');
 
 const NetWire = require('../dbmodels/netWire');
 const NetNode = require('../dbmodels/netNode');
@@ -22,13 +23,13 @@ async.series([
   importNodeTransformers,
   importWires,
 ], (err) => {
-//  console.log(arguments);
+//  logger.info(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
 
 function open(callback) {
-  console.log('open');
+  logger.info('open');
 // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
@@ -36,7 +37,7 @@ function open(callback) {
 }
 
 function requireModels(callback) {
-  console.log('models');
+  logger.info('models');
   // require('mongoose').model('NetNode');  // eslint-disable-line global-require
   // require('mongoose').model('NetWire');  // eslint-disable-line global-require
 
@@ -169,12 +170,12 @@ function updateWire(originWire, newWire, callback) {
 
 function importWires(callback) {
   const fileName = `${config.importPath}wires.json`;
-  console.log(`importing wires from "${fileName}"..`);
+  logger.info(`importing wires from "${fileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -201,7 +202,7 @@ function importWires(callback) {
                 if (!isTheSameWires(wire, newWire)) {
                   updateWire(wire, newWire, (error) => {
                     if (error) callback(error);
-                    console.log(`NetWire "${newWire.name}" updated`);
+                    logger.info(`NetWire "${newWire.name}" updated`);
                     callback(null);
                   });
                 } else {
@@ -213,7 +214,7 @@ function importWires(callback) {
                   if (err) {
                     callback(err);
                   }
-                  console.log(`NetWire "${newWire.name}" inserted`);
+                  logger.info(`NetWire "${newWire.name}" inserted`);
                   callback(null);
                 });
               }
@@ -230,9 +231,9 @@ function importWires(callback) {
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success.');
+      logger.info('Success.');
     }
     callback(err);
   });
@@ -240,12 +241,12 @@ function importWires(callback) {
 
 function importNodePSs(callback) {
   const fileName = `${config.importPath}PSs.json`;
-  console.log(`importing PSs from "${fileName}"..`);
+  logger.info(`importing PSs from "${fileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -263,7 +264,7 @@ function importNodePSs(callback) {
         if (!isTheSameNode(netNode, newNode)) {
           updateNode(netNode, newNode, (error) => {
             if (error) callback(error);
-            console.log(`NetNode "${newNode.name}" updated`);
+            logger.info(`NetNode "${newNode.name}" updated`);
           });
         }
       } else {
@@ -272,7 +273,7 @@ function importNodePSs(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNode "${newNode.name}" inserted`);
+          logger.info(`NetNode "${newNode.name}" inserted`);
         });
       }
     });
@@ -285,7 +286,7 @@ function importNodePSs(callback) {
         if (!isTheSameNodePS(netNodePS, newNodePS)) {
           updateNodePS(netNodePS, newNodePS, (error) => {
             if (error) callback(error);
-            console.log(`NetNodePS "${newNode.name}" updated`);
+            logger.info(`NetNodePS "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -297,16 +298,16 @@ function importNodePSs(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNodePS "${newNode.name}" inserted`);
+          logger.info(`NetNodePS "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success.');
+      logger.info('Success.');
     }
     callback(err);
   });
@@ -314,12 +315,12 @@ function importNodePSs(callback) {
 
 function importNodeLeps(callback) {
   const fileName = `${config.importPath}Leps.json`;
-  console.log(`importing Leps from "${fileName}"..`);
+  logger.info(`importing Leps from "${fileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -337,7 +338,7 @@ function importNodeLeps(callback) {
         if (!isTheSameNode(netNode, newNode)) {
           updateNode(netNode, newNode, (error) => {
             if (error) callback(error);
-            console.log(`NetNode "${newNode.name}" updated`);
+            logger.info(`NetNode "${newNode.name}" updated`);
           });
         }
       } else {
@@ -346,7 +347,7 @@ function importNodeLeps(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNode "${newNode.name}" inserted`);
+          logger.info(`NetNode "${newNode.name}" inserted`);
         });
       }
     });
@@ -359,7 +360,7 @@ function importNodeLeps(callback) {
         if (!isTheSameNodeLep(netNodeLep, newNodeLep)) {
           updateNodeLep(netNodeLep, newNodeLep, (error) => {
             if (error) callback(error);
-            console.log(`NetNodeLep "${newNode.name}" updated`);
+            logger.info(`NetNodeLep "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -371,16 +372,16 @@ function importNodeLeps(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNodeLep "${newNode.name}" inserted`);
+          logger.info(`NetNodeLep "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success.');
+      logger.info('Success.');
     }
     callback(err);
   });
@@ -388,12 +389,12 @@ function importNodeLeps(callback) {
 
 function importNodeSections(callback) {
   const fileName = `${config.importPath}Sections.json`;
-  console.log(`importing Sections from "${fileName}"..`);
+  logger.info(`importing Sections from "${fileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -411,7 +412,7 @@ function importNodeSections(callback) {
         if (!isTheSameNode(netNode, newNode)) {
           updateNode(netNode, newNode, (error) => {
             if (error) callback(error);
-            console.log(`NetNode "${newNode.name}" updated`);
+            logger.info(`NetNode "${newNode.name}" updated`);
           });
         }
       } else {
@@ -420,7 +421,7 @@ function importNodeSections(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNode "${newNode.name}" inserted`);
+          logger.info(`NetNode "${newNode.name}" inserted`);
         });
       }
     });
@@ -433,7 +434,7 @@ function importNodeSections(callback) {
         if (!isTheSameNodeSection(netNodeSection, newNodeSection)) {
           updateNodeSection(netNodeSection, newNodeSection, (error) => {
             if (error) callback(error);
-            console.log(`NetNodeSection "${newNode.name}" updated`);
+            logger.info(`NetNodeSection "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -445,16 +446,16 @@ function importNodeSections(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNodeSection "${newNode.name}" inserted`);
+          logger.info(`NetNodeSection "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success.');
+      logger.info('Success.');
     }
     callback(err);
   });
@@ -462,12 +463,12 @@ function importNodeSections(callback) {
 
 function importNodeCells(callback) {
   const fileName = `${config.importPath}Cells.json`;
-  console.log(`importing Cells from "${fileName}"..`);
+  logger.info(`importing Cells from "${fileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -485,7 +486,7 @@ function importNodeCells(callback) {
         if (!isTheSameNode(netNode, newNode)) {
           updateNode(netNode, newNode, (error) => {
             if (error) callback(error);
-            console.log(`NetNode "${newNode.name}" updated`);
+            logger.info(`NetNode "${newNode.name}" updated`);
           });
         }
       } else {
@@ -494,7 +495,7 @@ function importNodeCells(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNode "${newNode.name}" inserted`);
+          logger.info(`NetNode "${newNode.name}" inserted`);
         });
       }
     });
@@ -507,7 +508,7 @@ function importNodeCells(callback) {
         if (!isTheSameNodeCell(netNodeCell, newNodeCell)) {
           updateNodeCell(netNodeCell, newNodeCell, (error) => {
             if (error) callback(error);
-            console.log(`NetNodeCell "${newNode.name}" updated`);
+            logger.info(`NetNodeCell "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -519,16 +520,16 @@ function importNodeCells(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNodeCell "${newNode.name}" inserted`);
+          logger.info(`NetNodeCell "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success.');
+      logger.info('Success.');
     }
     callback(err);
   });
@@ -536,12 +537,12 @@ function importNodeCells(callback) {
 
 function importNodeTransformers(callback) {
   const fileName = `${config.importPath}Transformers.json`;
-  console.log(`importing Transformers from "${fileName}"..`);
+  logger.info(`importing Transformers from "${fileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -559,7 +560,7 @@ function importNodeTransformers(callback) {
         if (!isTheSameNode(netNode, newNode)) {
           updateNode(netNode, newNode, (error) => {
             if (error) callback(error);
-            console.log(`NetNode "${newNode.name}" updated`);
+            logger.info(`NetNode "${newNode.name}" updated`);
           });
         }
       } else {
@@ -568,7 +569,7 @@ function importNodeTransformers(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNode "${newNode.name}" inserted`);
+          logger.info(`NetNode "${newNode.name}" inserted`);
         });
       }
     });
@@ -581,7 +582,7 @@ function importNodeTransformers(callback) {
         if (!isTheSameNodeTransformer(netNodeTransformer, newNodeTransformer)) {
           updateNodeTransformer(netNodeTransformer, newNodeTransformer, (error) => {
             if (error) callback(error);
-            console.log(`NetNodeTransformer "${newNode.name}" updated`);
+            logger.info(`NetNodeTransformer "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -593,16 +594,16 @@ function importNodeTransformers(callback) {
           if (err) {
             callback(err);
           }
-          console.log(`NetNodeTransformer "${newNode.name}" inserted`);
+          logger.info(`NetNodeTransformer "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      logger.error(`Failed: ${err}`);
     } else {
-      console.log('Success.');
+      logger.info('Success.');
     }
     callback(err);
   });

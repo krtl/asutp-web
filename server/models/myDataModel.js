@@ -9,13 +9,13 @@ let DbParamList;
 const logger = require('../logger');
 const MyParam = require('./myParam');
 const MyParamList = require('./myParamList');
-const MyParamValue = require('./myParamValue');
+// const MyParamValue = require('./myParamValue');
 
 
 const params = new Map();
 const paramLists = new Map();
 
-const LoadFromDB = function () {
+const LoadFromDB = () => {
   async.series([
     clearData,
     loadParams,
