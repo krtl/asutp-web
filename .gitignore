@@ -1,6 +1,7 @@
 cra-server-ex.graffle
 
 node_modules
+logs
 npm-debug.log
 
 # User-specific stuff:
