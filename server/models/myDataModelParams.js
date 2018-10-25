@@ -17,11 +17,7 @@ const users = new Map();
 const params = new Map();
 const paramLists = new Map();
 
-<<<<<<< HEAD:server/models/myDataModel.js
-const LoadFromDB = () => {
-=======
 const LoadFromDB = (cb) => {
->>>>>>> 6aec0f4cf5c0ce65a4e7d395ab4a23e93d1be5a7:server/models/myDataModelParams.js
   async.series([
     clearData,
     loadUsers,

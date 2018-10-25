@@ -1,0 +1,1401 @@
+2018-01-11 08:30:46.3046 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 08:30:46 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=43909120, heapTotal=33587200, heapUsed=28407352, external=18145070, loadavg=[0, 0, 0], uptime=4610.3808513
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:30:46.3046 - error: uncaughtException: invalid opcode: 11 date=Thu Jan 11 2018 08:30:46 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44113920, heapTotal=33587200, heapUsed=27873744, external=18072799, loadavg=[0, 0, 0], uptime=4610.3928629
+Error: invalid opcode: 11
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:234:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:30:46.3046 - error: uncaughtException: invalid opcode: 11 date=Thu Jan 11 2018 08:30:46 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44212224, heapTotal=33587200, heapUsed=27978040, external=18072807, loadavg=[0, 0, 0], uptime=4610.394862
+Error: invalid opcode: 11
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:234:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:30:56.3056 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 08:30:56 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=47247360, heapTotal=34635776, heapUsed=29312136, external=18097635, loadavg=[0, 0, 0], uptime=4619.5958403
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:30:56.3056 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 08:30:56 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=47247360, heapTotal=34635776, heapUsed=29437904, external=18105901, loadavg=[0, 0, 0], uptime=4619.5988439
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:30:56.3056 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 08:30:56 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=47247360, heapTotal=34635776, heapUsed=29522456, external=18105909, loadavg=[0, 0, 0], uptime=4619.600849
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:32:34.3234 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 08:32:34 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45539328, heapTotal=33587200, heapUsed=25098320, external=17997573, loadavg=[0, 0, 0], uptime=4717.8533989
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:32:34.3234 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 08:32:34 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45682688, heapTotal=33587200, heapUsed=25265880, external=17997715, loadavg=[0, 0, 0], uptime=4717.8564013
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 08:32:34.3234 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 08:32:34 GMT+0200 (Финляндия (зима)), pid=4008, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45789184, heapTotal=33587200, heapUsed=25360504, external=17997723, loadavg=[0, 0, 0], uptime=4717.8594032
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:08:29.829 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 12:08:29 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46067712, heapTotal=32538624, heapUsed=24911744, external=17910938, loadavg=[0, 0, 0], uptime=17672.7743612
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:08:29.829 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 12:08:29 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45969408, heapTotal=32538624, heapUsed=24337632, external=17908623, loadavg=[0, 0, 0], uptime=17672.7823652
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:08:29.829 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 12:08:29 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46075904, heapTotal=32538624, heapUsed=24446736, external=17908631, loadavg=[0, 0, 0], uptime=17672.7853684
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:08:37.837 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 12:08:37 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=47722496, heapTotal=32538624, heapUsed=25412080, external=17927479, loadavg=[0, 0, 0], uptime=17681.0047061
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:08:37.837 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 12:08:37 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46112768, heapTotal=32538624, heapUsed=24648064, external=17925208, loadavg=[0, 0, 0], uptime=17681.0097096
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:08:37.837 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 12:08:37 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46202880, heapTotal=32538624, heapUsed=24734544, external=17925216, loadavg=[0, 0, 0], uptime=17681.0127114
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:32:29.3229 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 12:32:29 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=40652800, heapTotal=34635776, heapUsed=27789656, external=18041073, loadavg=[0, 0, 0], uptime=19113.0958973
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:32:29.3229 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 12:32:29 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=40337408, heapTotal=34635776, heapUsed=27920592, external=18041147, loadavg=[0, 0, 0], uptime=19113.1029033
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 12:32:29.3229 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 12:32:29 GMT+0200 (Финляндия (зима)), pid=1212, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=40427520, heapTotal=34635776, heapUsed=28005216, external=18041155, loadavg=[0, 0, 0], uptime=19113.1059034
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 16:28:31.2831 - error: uncaughtException: receipt is not defined date=Thu Jan 11 2018 16:28:31 GMT+0200 (Финляндия (зима)), pid=8164, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=49963008, heapTotal=33587200, heapUsed=29424816, external=18347957, loadavg=[0, 0, 0], uptime=33274.613024
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 16:28:31.2831 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 16:28:31 GMT+0200 (Финляндия (зима)), pid=8164, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=50450432, heapTotal=34635776, heapUsed=29692016, external=18348099, loadavg=[0, 0, 0], uptime=33274.622031
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-11 16:28:31.2831 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Jan 11 2018 16:28:31 GMT+0200 (Финляндия (зима)), pid=8164, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=50515968, heapTotal=34635776, heapUsed=29798304, external=18348107, loadavg=[0, 0, 0], uptime=33274.6270333
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-23 11:01:53.153 - error: uncaughtException: receipt is not defined date=Tue Jan 23 2018 11:01:53 GMT+0200 (Финляндия (зима)), pid=5652, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44978176, heapTotal=31490048, heapUsed=24038376, external=17908832, loadavg=[0, 0, 0], uptime=1050477.0967109
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-23 11:01:53.153 - error: uncaughtException: RSV2 and RSV3 must be clear date=Tue Jan 23 2018 11:01:53 GMT+0200 (Финляндия (зима)), pid=5652, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45727744, heapTotal=31490048, heapUsed=24300288, external=17908857, loadavg=[0, 0, 0], uptime=1050477.1057175
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-23 11:02:10.210 - error: uncaughtException: receipt is not defined date=Tue Jan 23 2018 11:02:10 GMT+0200 (Финляндия (зима)), pid=5652, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=47304704, heapTotal=32538624, heapUsed=25185912, external=17925366, loadavg=[0, 0, 0], uptime=1050493.6283349
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-23 11:02:10.210 - error: uncaughtException: RSV2 and RSV3 must be clear date=Tue Jan 23 2018 11:02:10 GMT+0200 (Финляндия (зима)), pid=5652, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46329856, heapTotal=32538624, heapUsed=25338936, external=17925385, loadavg=[0, 0, 0], uptime=1050493.6353406
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-23 11:02:10.210 - error: uncaughtException: invalid opcode: 0 date=Tue Jan 23 2018 11:02:10 GMT+0200 (Финляндия (зима)), pid=5652, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46415872, heapTotal=32538624, heapUsed=25425368, external=17925391, loadavg=[0, 0, 0], uptime=1050493.6383425
+Error: invalid opcode: 0
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:206:20)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-24 14:37:22.3722 - error: uncaughtException: receipt is not defined date=Wed Jan 24 2018 14:37:22 GMT+0200 (Финляндия (зима)), pid=5748, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=46800896, heapTotal=32538624, heapUsed=26363168, external=18015541, loadavg=[0, 0, 0], uptime=1149805.5422904
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:127:9)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:167:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:408:14)
+    at emitOne (events.js:96:13)
+    at WebSocket.emit (events.js:188:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:143:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-01-24 14:37:22.3722 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Jan 24 2018 14:37:22 GMT+0200 (Финляндия (зима)), pid=5748, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.3, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=47337472, heapTotal=32538624, heapUsed=26624728, external=18015640, loadavg=[0, 0, 0], uptime=1149805.5492948
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:139:22)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:188:7)
+    at readableAddChunk (_stream_readable.js:176:18)
+    at Socket.Readable.push (_stream_readable.js:134:10)
+    at TCP.onread (net.js:547:20)
+2018-02-23 08:05:32.532 - error: uncaughtException: stompServer.sendIndividual is not a function date=Fri Feb 23 2018 08:05:32 GMT+0200 (Финляндия (зима)), pid=5924, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=43741184, heapTotal=26058752, heapUsed=22284376, external=17898519, loadavg=[0, 0, 0], uptime=262184.4095895
+TypeError: stompServer.sendIndividual is not a function
+    at StompServer.stompServer.on (D:\javascript\Projects\asutp-web\server\values\myStompServer.js:76:21)
+    at emitOne (events.js:116:13)
+    at StompServer.emit (events.js:211:7)
+    at StompServer.onSubscribe (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:204:10)
+    at FrameHandler.SUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:59:22)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:359:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-02-23 08:06:21.621 - error: uncaughtException: RSV2 and RSV3 must be clear date=Fri Feb 23 2018 08:06:21 GMT+0200 (Финляндия (зима)), pid=5924, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44175360, heapTotal=26583040, heapUsed=22254008, external=17896086, loadavg=[0, 0, 0], uptime=262233.0942755
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-02-23 08:06:22.622 - error: uncaughtException: stompServer.sendIndividual is not a function date=Fri Feb 23 2018 08:06:22 GMT+0200 (Финляндия (зима)), pid=5924, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=43687936, heapTotal=26583040, heapUsed=21758656, external=17892268, loadavg=[0, 0, 0], uptime=262234.1081774
+TypeError: stompServer.sendIndividual is not a function
+    at StompServer.stompServer.on (D:\javascript\Projects\asutp-web\server\values\myStompServer.js:76:21)
+    at emitOne (events.js:116:13)
+    at StompServer.emit (events.js:211:7)
+    at StompServer.onSubscribe (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:204:10)
+    at FrameHandler.SUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:59:22)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:359:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-02-26 08:05:32.532 - error: uncaughtException: receipt is not defined date=Mon Feb 26 2018 08:05:32 GMT+0200 (Финляндия (зима)), pid=5340, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42405888, heapTotal=25534464, heapUsed=21479160, external=17895806, loadavg=[0, 0, 0], uptime=521384.0113351
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+2018-02-26 08:05:32.532 - error: uncaughtException: RSV2 and RSV3 must be clear date=Mon Feb 26 2018 08:05:32 GMT+0200 (Финляндия (зима)), pid=5340, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42983424, heapTotal=25534464, heapUsed=21655664, external=17895855, loadavg=[0, 0, 0], uptime=521384.0173388
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:41:41.4141 - error: uncaughtException: receipt is not defined date=Wed Aug 01 2018 11:41:41 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=41684992, heapTotal=24485888, heapUsed=20664264, external=17879459, loadavg=[0, 0, 0], uptime=17202.6410425
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+2018-08-01 11:41:41.4141 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:41:41 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42328064, heapTotal=24485888, heapUsed=20840528, external=17879625, loadavg=[0, 0, 0], uptime=17202.6450436
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:41:41.4141 - error: uncaughtException: RSV1 must be clear date=Wed Aug 01 2018 11:41:41 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42446848, heapTotal=24485888, heapUsed=20959224, external=17879644, loadavg=[0, 0, 0], uptime=17202.6560523
+Error: RSV1 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:191:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:41:41.4141 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:41:41 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=41644032, heapTotal=24485888, heapUsed=20153776, external=17875884, loadavg=[0, 0, 0], uptime=17202.6590541
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:42:12.4212 - error: uncaughtException: receipt is not defined date=Wed Aug 01 2018 11:42:12 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42119168, heapTotal=24485888, heapUsed=20645040, external=17895684, loadavg=[0, 0, 0], uptime=17234.0557865
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+2018-08-01 11:42:12.4212 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:42:12 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42225664, heapTotal=24485888, heapUsed=20751520, external=17895758, loadavg=[0, 0, 0], uptime=17234.0587944
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:42:12.4212 - error: uncaughtException: RSV1 must be clear date=Wed Aug 01 2018 11:42:12 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42303488, heapTotal=24485888, heapUsed=20827976, external=17895826, loadavg=[0, 0, 0], uptime=17234.0617913
+Error: RSV1 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:191:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:42:12.4212 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:42:12 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42381312, heapTotal=24485888, heapUsed=20905192, external=17895845, loadavg=[0, 0, 0], uptime=17234.137845
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:42:12.4212 - error: uncaughtException: RSV1 must be clear date=Wed Aug 01 2018 11:42:12 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42455040, heapTotal=24485888, heapUsed=20981696, external=17895851, loadavg=[0, 0, 0], uptime=17234.1398467
+Error: RSV1 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:191:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:47:17.4717 - error: uncaughtException: receipt is not defined date=Wed Aug 01 2018 11:47:17 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42045440, heapTotal=24485888, heapUsed=20352192, external=17892790, loadavg=[0, 0, 0], uptime=17538.8081141
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+2018-08-01 11:47:17.4717 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:47:17 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42147840, heapTotal=24485888, heapUsed=20457488, external=17892864, loadavg=[0, 0, 0], uptime=17538.811116
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:47:17.4717 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:47:17 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42225664, heapTotal=24485888, heapUsed=20533536, external=17901124, loadavg=[0, 0, 0], uptime=17538.813118
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:47:17.4717 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:47:17 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42299392, heapTotal=24485888, heapUsed=20610264, external=17901143, loadavg=[0, 0, 0], uptime=17538.8361335
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 11:47:17.4717 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 11:47:17 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=42377216, heapTotal=24485888, heapUsed=20686376, external=17901149, loadavg=[0, 0, 0], uptime=17538.8391359
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 13:07:02.72 - error: uncaughtException: receipt is not defined date=Wed Aug 01 2018 13:07:02 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45494272, heapTotal=25010176, heapUsed=21551656, external=17920916, loadavg=[0, 0, 0], uptime=22324.0473279
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+2018-08-01 13:07:02.72 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 13:07:02 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45674496, heapTotal=25010176, heapUsed=20659792, external=17917772, loadavg=[0, 0, 0], uptime=22324.0513313
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 13:07:02.72 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 13:07:02 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45748224, heapTotal=25010176, heapUsed=20735808, external=17917778, loadavg=[0, 0, 0], uptime=22324.053333
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 13:10:43.1043 - error: uncaughtException: receipt is not defined date=Wed Aug 01 2018 13:10:43 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=48328704, heapTotal=25534464, heapUsed=21267328, external=17929454, loadavg=[0, 0, 0], uptime=22544.8934429
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+2018-08-01 13:10:43.1043 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 13:10:43 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=48431104, heapTotal=25534464, heapUsed=21371280, external=17929528, loadavg=[0, 0, 0], uptime=22544.8964453
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 13:10:43.1043 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 13:10:43 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=48504832, heapTotal=25534464, heapUsed=21446528, external=17929596, loadavg=[0, 0, 0], uptime=22544.8984467
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 13:10:43.1043 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 13:10:43 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=48582656, heapTotal=25534464, heapUsed=21522568, external=17929615, loadavg=[0, 0, 0], uptime=22544.9204624
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 13:10:43.1043 - error: uncaughtException: RSV2 and RSV3 must be clear date=Wed Aug 01 2018 13:10:43 GMT+0300 (Финляндия (лето)), pid=8380, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=48656384, heapTotal=25534464, heapUsed=21597960, external=17929621, loadavg=[0, 0, 0], uptime=22544.9224641
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 14:10:51.1051 - error: uncaughtException: receipt is not defined date=Wed Aug 01 2018 14:10:51 GMT+0300 (Финляндия (лето)), pid=11208, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44310528, heapTotal=26058752, heapUsed=22444496, external=17915278, loadavg=[0, 0, 0], uptime=26153.0449115
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-08-01 14:10:51.1051 - error: uncaughtException: invalid status code: 26610 date=Wed Aug 01 2018 14:10:51 GMT+0300 (Финляндия (лето)), pid=11208, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44130304, heapTotal=26583040, heapUsed=21712456, external=17908675, loadavg=[0, 0, 0], uptime=26153.0539185
+Error: invalid status code: 26610
+    at Receiver.controlMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:414:22)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:325:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-05 09:47:28.4728 - error: uncaughtException: receipt is not defined date=Fri Oct 05 2018 09:47:28 GMT+0300 (Финляндия (лето)), pid=14752, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44797952, heapTotal=27631616, heapUsed=22994128, external=17910548, loadavg=[0, 0, 0], uptime=95731.5764302
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-05 09:47:28.4728 - error: uncaughtException: RSV2 and RSV3 must be clear date=Fri Oct 05 2018 09:47:28 GMT+0300 (Финляндия (лето)), pid=14752, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45494272, heapTotal=27631616, heapUsed=23190400, external=17910597, loadavg=[0, 0, 0], uptime=95731.5814328
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-05 09:47:56.4756 - error: uncaughtException: receipt is not defined date=Fri Oct 05 2018 09:47:56 GMT+0300 (Финляндия (лето)), pid=14752, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45850624, heapTotal=27631616, heapUsed=23569808, external=17930648, loadavg=[0, 0, 0], uptime=95759.7730354
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-05 09:47:56.4756 - error: uncaughtException: RSV2 and RSV3 must be clear date=Fri Oct 05 2018 09:47:56 GMT+0300 (Финляндия (лето)), pid=14752, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45961216, heapTotal=27631616, heapUsed=23684568, external=17930667, loadavg=[0, 0, 0], uptime=95759.7820418
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-05 09:47:56.4756 - error: uncaughtException: RSV2 and RSV3 must be clear date=Fri Oct 05 2018 09:47:56 GMT+0300 (Финляндия (лето)), pid=14752, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45121536, heapTotal=27631616, heapUsed=22841768, external=17925312, loadavg=[0, 0, 0], uptime=95759.7840433
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-23 14:24:33.2433 - error: uncaughtException: receipt is not defined date=Tue Oct 23 2018 14:24:33 GMT+0300 (Финляндия (лето)), pid=3816, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44310528, heapTotal=26583040, heapUsed=23140864, external=17902913, loadavg=[0, 0, 0], uptime=3705.0106826
+ReferenceError: receipt is not defined
+    at Object.ERROR (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:26:5)
+    at FrameHandler.UNSUBSCRIBE (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\lib\stomp.js:66:19)
+    at StompServer.parseRequest (D:\javascript\Projects\asutp-web\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-23 14:24:33.2433 - error: uncaughtException: RSV2 and RSV3 must be clear date=Tue Oct 23 2018 14:24:33 GMT+0300 (Финляндия (лето)), pid=3816, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=44953600, heapTotal=26583040, heapUsed=23335624, external=17903079, loadavg=[0, 0, 0], uptime=3705.0146856
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-23 14:24:33.2433 - error: uncaughtException: RSV2 and RSV3 must be clear date=Tue Oct 23 2018 14:24:33 GMT+0300 (Финляндия (лето)), pid=3816, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45051904, heapTotal=26583040, heapUsed=23436928, external=17911290, loadavg=[0, 0, 0], uptime=3705.0276947
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-23 14:24:33.2433 - error: uncaughtException: RSV2 and RSV3 must be clear date=Tue Oct 23 2018 14:24:33 GMT+0300 (Финляндия (лето)), pid=3816, uid=null, gid=null, cwd=D:\javascript\Projects\asutp-web, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\Projects\asutp-web\server.js], rss=45129728, heapTotal=26583040, heapUsed=23512464, external=17911296, loadavg=[0, 0, 0], uptime=3705.029696
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (D:\javascript\Projects\asutp-web\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (D:\javascript\Projects\asutp-web\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-25 13:06:27.627 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 13:06:27 GMT+0300 (Финляндия (лето)), pid=5924, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\test\\server\\DBLastValues.test.js"], ["Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47910912, heapTotal=36020224, heapUsed=23410168, external=17965036, loadavg=[0, 0, 0], uptime=171818.5844049
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\test\server\DBLastValues.test.js:98:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 13:07:27.727 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 13:07:27 GMT+0300 (Финляндия (лето)), pid=13252, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\test\\server\\DBLastValues.test.js"], ["Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=46903296, heapTotal=36020224, heapUsed=22790240, external=17965099, loadavg=[0, 0, 0], uptime=171878.5749609
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\test\server\DBLastValues.test.js:98:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 13:12:18.1218 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 13:12:18 GMT+0300 (Финляндия (лето)), pid=5680, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\test\\server\\DBLastValues.test.js"], ["Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=46903296, heapTotal=36020224, heapUsed=22796520, external=17965199, loadavg=[0, 0, 0], uptime=172170.1838988
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\test\server\DBLastValues.test.js:98:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 13:12:33.1233 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 13:12:33 GMT+0300 (Финляндия (лето)), pid=9744, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\test\\server\\DBLastValues.test.js"], ["Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47173632, heapTotal=36020224, heapUsed=22796600, external=17965272, loadavg=[0, 0, 0], uptime=172184.8649475
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\test\server\DBLastValues.test.js:98:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 13:17:03.173 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 13:17:03 GMT+0300 (Финляндия (лето)), pid=12376, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\test\\server\\DBLastValues.test.js"], ["Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=52838400, heapTotal=36020224, heapUsed=18747776, external=17867241, loadavg=[0, 0, 0], uptime=172455.1285016
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\test\server\DBLastValues.test.js:98:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 13:27:55.2755 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 13:27:55 GMT+0300 (Финляндия (лето)), pid=11664, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\test\\server\\.eslintrc.js","d:\\javascript\\asutp-web-vs.code\\test\\server\\DBLastValues.test.js"], ["Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=48013312, heapTotal=36020224, heapUsed=23401320, external=17971178, loadavg=[0, 0, 0], uptime=173106.8922127
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\test\server\DBLastValues.test.js:98:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 13:42:11.4211 - error: uncaughtException: before is not a function date=Thu Oct 25 2018 13:42:11 GMT+0300 (Финляндия (лето)), pid=4384, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, true, false], rss=48181248, heapTotal=35495936, heapUsed=21790520, external=18593732, loadavg=[0, 0, 0], uptime=173962.6133696
+TypeError: before is not a function
+    at Suite.describe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:36:3)
+    at Object.create (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\common.js:112:19)
+    at context.describe.context.context (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\bdd.js:40:27)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\patchMocha.js:44:37
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:30:1)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:250:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:247:14)
+    at Object.<anonymous> (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js:40:11)
+2018-10-25 13:47:03.473 - error: uncaughtException: before is not a function date=Thu Oct 25 2018 13:47:03 GMT+0300 (Финляндия (лето)), pid=7640, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, true, false], rss=48123904, heapTotal=35495936, heapUsed=22605024, external=18593732, loadavg=[0, 0, 0], uptime=174255.496509
+TypeError: before is not a function
+    at Suite.describe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:36:3)
+    at Object.create (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\common.js:112:19)
+    at context.describe.context.context (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\bdd.js:40:27)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\patchMocha.js:44:37
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:30:1)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:250:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:247:14)
+    at Object.<anonymous> (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js:40:11)
+2018-10-25 13:52:13.5213 - error: uncaughtException: before is not a function date=Thu Oct 25 2018 13:52:13 GMT+0300 (Финляндия (лето)), pid=11168, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, true, false], rss=47910912, heapTotal=35495936, heapUsed=23265408, external=18593732, loadavg=[0, 0, 0], uptime=174565.4322723
+TypeError: before is not a function
+    at Suite.describe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:36:3)
+    at Object.create (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\common.js:112:19)
+    at context.describe.context.context (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\bdd.js:40:27)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\patchMocha.js:44:37
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:30:1)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:250:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:247:14)
+    at Object.<anonymous> (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js:40:11)
+2018-10-25 13:53:00.530 - error: uncaughtException: before is not a function date=Thu Oct 25 2018 13:53:00 GMT+0300 (Финляндия (лето)), pid=11084, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, true, false], rss=48336896, heapTotal=35495936, heapUsed=22350080, external=18593732, loadavg=[0, 0, 0], uptime=174612.4456055
+TypeError: before is not a function
+    at Suite.describe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:36:3)
+    at Object.create (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\common.js:112:19)
+    at context.describe.context.context (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\bdd.js:40:27)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\patchMocha.js:44:37
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:30:1)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:250:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:247:14)
+    at Object.<anonymous> (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js:40:11)
+2018-10-25 13:53:03.533 - error: uncaughtException: before is not a function date=Thu Oct 25 2018 13:53:03 GMT+0300 (Финляндия (лето)), pid=12672, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, true, false], rss=48336896, heapTotal=35495936, heapUsed=22588328, external=18593732, loadavg=[0, 0, 0], uptime=174614.8086848
+TypeError: before is not a function
+    at Suite.describe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:36:3)
+    at Object.create (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\common.js:112:19)
+    at context.describe.context.context (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\bdd.js:40:27)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\patchMocha.js:44:37
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:30:1)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:250:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:247:14)
+    at Object.<anonymous> (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js:40:11)
+2018-10-25 13:53:05.535 - error: uncaughtException: before is not a function date=Thu Oct 25 2018 13:53:05 GMT+0300 (Финляндия (лето)), pid=7132, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, true, false], rss=48185344, heapTotal=35495936, heapUsed=22586544, external=18593732, loadavg=[0, 0, 0], uptime=174617.2797086
+TypeError: before is not a function
+    at Suite.describe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:36:3)
+    at Object.create (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\common.js:112:19)
+    at context.describe.context.context (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\interfaces\bdd.js:40:27)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\patchMocha.js:44:37
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:30:1)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:250:27
+    at Array.forEach (<anonymous>)
+    at Mocha.loadFiles (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\node_modules\mocha\lib\mocha.js:247:14)
+    at Object.<anonymous> (C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\loadTests.js:40:11)
+2018-10-25 14:04:22.422 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:04:22 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47513600, heapTotal=36544512, heapUsed=23658128, external=17999048, loadavg=[0, 0, 0], uptime=175294.0871919
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:97:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:04:22.422 - error: uncaughtException: assert is not defined date=Thu Oct 25 2018 14:04:22 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=49373184, heapTotal=37068800, heapUsed=25114168, external=18000590, loadavg=[0, 0, 0], uptime=175294.1272213
+ReferenceError: assert is not defined
+    at StompServer.stompServer.subscribe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:166:9)
+    at emitTwo (events.js:126:13)
+    at StompServer.emit (events.js:214:7)
+    at StompServer._sendToSubscriptions (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:154:16)
+    at StompServer.onSend (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:127:10)
+    at FrameHandler.SEND (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\lib\stomp.js:72:17)
+    at StompServer.parseRequest (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+2018-10-25 14:04:22.422 - error: uncaughtException: assert is not defined date=Thu Oct 25 2018 14:04:22 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=49188864, heapTotal=37068800, heapUsed=25502720, external=18009511, loadavg=[0, 0, 0], uptime=175294.1342262
+ReferenceError: assert is not defined
+    at StompServer.stompServer.subscribe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:166:9)
+    at emitTwo (events.js:126:13)
+    at StompServer.emit (events.js:214:7)
+    at StompServer._sendToSubscriptions (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:154:16)
+    at StompServer.onSend (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:127:10)
+    at FrameHandler.SEND (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\lib\stomp.js:72:17)
+    at StompServer.parseRequest (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+2018-10-25 14:04:22.422 - error: uncaughtException: RSV2 and RSV3 must be clear date=Thu Oct 25 2018 14:04:22 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=49205248, heapTotal=37068800, heapUsed=25656040, external=18009710, loadavg=[0, 0, 0], uptime=175294.136227
+Error: RSV2 and RSV3 must be clear
+    at Receiver.getInfo (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:184:18)
+    at Receiver.startLoop (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-25 14:04:22.422 - error: uncaughtException: RSV1 must be clear date=Thu Oct 25 2018 14:04:22 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Tests Test one record New name saved to test database","Database Tests Test one record Dont save incorrect format to database","Database Tests Test one record Should retrieve data from test database","Database Tests Test many records inserting","Database Tests Test many records Should retrieve data from test database","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=49205248, heapTotal=37068800, heapUsed=25779248, external=18017935, loadavg=[0, 0, 0], uptime=175294.1382301
+Error: RSV1 must be clear
+    at Receiver.getInfo (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:191:18)
+    at Receiver.startLoop (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:153:16)
+    at Receiver.add (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+    at Socket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at Socket.Readable.push (_stream_readable.js:208:10)
+    at TCP.onread (net.js:594:20)
+2018-10-25 14:06:32.632 - error: uncaughtException: assert is not defined date=Thu Oct 25 2018 14:06:32 GMT+0300 (Финляндия (лето)), pid=4680, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["StompServer Send-Receive message test using topic. receive message from client"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47419392, heapTotal=36020224, heapUsed=18560672, external=18145506, loadavg=[0, 0, 0], uptime=175424.2932451
+ReferenceError: assert is not defined
+    at StompServer.stompServer.subscribe (d:\javascript\asutp-web-vs.code\server\tests\testStompServer.js:166:9)
+    at emitTwo (events.js:126:13)
+    at StompServer.emit (events.js:214:7)
+    at StompServer._sendToSubscriptions (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:154:16)
+    at StompServer.onSend (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:127:10)
+    at FrameHandler.SEND (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\lib\stomp.js:72:17)
+    at StompServer.parseRequest (d:\javascript\asutp-web-vs.code\node_modules\stomp-broker-js\stompServer.js:413:14)
+    at emitOne (events.js:116:13)
+    at WebSocket.emit (events.js:211:7)
+    at Receiver._receiver.onmessage (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:141:47)
+    at Receiver.dataMessage (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:389:14)
+    at Receiver.getData (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:330:12)
+    at Receiver.startLoop (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:165:16)
+    at Receiver.add (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\Receiver.js:139:10)
+    at Socket._ultron.on (d:\javascript\asutp-web-vs.code\node_modules\ws\lib\WebSocket.js:138:22)
+    at emitOne (events.js:116:13)
+2018-10-25 14:32:38.3238 - error: uncaughtException: done is not a function date=Thu Oct 25 2018 14:32:38 GMT+0300 (Финляндия (лето)), pid=9428, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Tests Test many records Should remove all previous test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47616000, heapTotal=36020224, heapUsed=18032328, external=18145720, loadavg=[0, 0, 0], uptime=176990.0679083
+TypeError: done is not a function
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:83:11)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:39:26.3926 - error: uncaughtException: done1 is not a function date=Thu Oct 25 2018 14:39:26 GMT+0300 (Финляндия (лето)), pid=808, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Tests Test multiple ParamValues Should remove all previous test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=53669888, heapTotal=23437312, heapUsed=18711768, external=17859257, loadavg=[0, 0, 0], uptime=177397.7441583
+TypeError: done1 is not a function
+    at ParamValue.remove.ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:82:11)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:39:58.3958 - error: uncaughtException: done1 is not a function date=Thu Oct 25 2018 14:39:58 GMT+0300 (Финляндия (лето)), pid=7336, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Tests Test one ParamValue New name saved to test database","Database Tests Test one ParamValue Dont save incorrect format to database","Database Tests Test one ParamValue Should retrieve data from test database","Database Tests Test multiple ParamValues Should remove all previous test param values","Database Tests Test multiple ParamValues should insert 100 test param values ","Database Tests Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47284224, heapTotal=36020224, heapUsed=19451744, external=18182430, loadavg=[0, 0, 0], uptime=177429.687177
+TypeError: done1 is not a function
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:82:11)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:46:19.4619 - error: uncaughtException: cb is not a function date=Thu Oct 25 2018 14:46:19 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Tests Test one ParamValue New name saved to test database","Database Tests Test one ParamValue Dont save incorrect format to database","Database Tests Test one ParamValue Should retrieve data from test database","Database Tests Test multiple ParamValues Should remove all previous test param values","Database Tests Test multiple ParamValues Should retrieve correct count of test param values","Database Tests Test multiple ParamValues should insert 100 test param values ","Database Tests Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47616000, heapTotal=36020224, heapUsed=18368744, external=18182349, loadavg=[0, 0, 0], uptime=177810.772013
+TypeError: cb is not a function
+    at ParamValue.remove (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:78:11)
+    at Immediate.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at Immediate._onImmediate (d:\javascript\asutp-web-vs.code\node_modules\mquery\lib\utils.js:137:16)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-25 14:46:19.4619 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:46:19 GMT+0300 (Финляндия (лето)), pid=12896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Tests Test one ParamValue New name saved to test database","Database Tests Test one ParamValue Dont save incorrect format to database","Database Tests Test one ParamValue Should retrieve data from test database","Database Tests Test multiple ParamValues Should remove all previous test param values","Database Tests Test multiple ParamValues Should retrieve correct count of test param values","Database Tests Test multiple ParamValues should insert 100 test param values ","Database Tests Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=48459776, heapTotal=36544512, heapUsed=18748264, external=18182539, loadavg=[0, 0, 0], uptime=177810.7820205
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:85:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:50:17.5017 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:50:17 GMT+0300 (Финляндия (лето)), pid=1864, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47230976, heapTotal=36020224, heapUsed=17978336, external=18145514, loadavg=[0, 0, 0], uptime=178049.1845833
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:86:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:51:30.5130 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:51:30 GMT+0300 (Финляндия (лето)), pid=11328, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47210496, heapTotal=36020224, heapUsed=17455520, external=18145680, loadavg=[0, 0, 0], uptime=178122.0812971
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:113:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:52:27.5227 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:52:27 GMT+0300 (Финляндия (лето)), pid=5792, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=52158464, heapTotal=22913024, heapUsed=18752152, external=17859462, loadavg=[0, 0, 0], uptime=178179.4230652
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:113:36)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:54:57.5457 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:54:57 GMT+0300 (Финляндия (лето)), pid=9748, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Test ParamValues Test one ParamValue New Param Value with origin name should be saved to database","Database Test ParamValues Test one ParamValue Dont save incorrect format to database","Database Test ParamValues Test one ParamValue Should retrieve data from test database","Database Test ParamValues Test multiple ParamValues Should remove all previous test param values","Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values","Database Test ParamValues Test multiple ParamValues should insert 100 test param values ","Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47259648, heapTotal=36020224, heapUsed=18843488, external=18183025, loadavg=[0, 0, 0], uptime=178328.7284668
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:87:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:55:17.5517 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:55:17 GMT+0300 (Финляндия (лето)), pid=5484, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["lastValues getLastValuesCount() should return 0 if no values are passed in","lastValues getLastValuesCount() should return 1 after one value passed in","lastValues getLastValue() should return correct paramValue after issuing getLastValue()","lastValues clearLastValues() should return 0","WebSocketServer First (hopefully useful) test Doing some things with indexOf()","WebSocketServer First (hopefully useful) test should return echo","Database Test ParamValues Test one ParamValue New Param Value with origin name should be saved to database","Database Test ParamValues Test one ParamValue Dont save incorrect format to database","Database Test ParamValues Test one ParamValue Should retrieve data from test database","Database Test ParamValues Test multiple ParamValues Should remove all previous test param values","Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values","Database Test ParamValues Test multiple ParamValues should insert 100 test param values ","Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values","StompServer Send-Receive message test using topic. receive message from server","StompServer Send-Receive message test using topic. receive message from client","StompServer Send-Receive message test communicate with individual client","StompServer Send-Receive message test client subscribe once. receive message from client and send reply"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=48394240, heapTotal=34971648, heapUsed=18235792, external=18536107, loadavg=[0, 0, 0], uptime=178348.6931655
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:87:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:58:11.5811 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:58:11 GMT+0300 (Финляндия (лето)), pid=2204, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47939584, heapTotal=36020224, heapUsed=17804464, external=18145514, loadavg=[0, 0, 0], uptime=178523.0628913
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:87:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:58:17.5817 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:58:17 GMT+0300 (Финляндия (лето)), pid=7196, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47427584, heapTotal=36020224, heapUsed=17952872, external=18145514, loadavg=[0, 0, 0], uptime=178528.93774
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:87:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 14:59:59.5959 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 14:59:59 GMT+0300 (Финляндия (лето)), pid=5092, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47521792, heapTotal=36020224, heapUsed=17770512, external=18145514, loadavg=[0, 0, 0], uptime=178631.0462515
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:87:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 15:00:31.031 - error: uncaughtException: Wrong count! date=Thu Oct 25 2018 15:00:31 GMT+0300 (Финляндия (лето)), pid=5688, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["Database Test ParamValues Test multiple ParamValues Should retrieve correct count of test param values"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=64647168, heapTotal=37068800, heapUsed=19106536, external=18561387, loadavg=[0, 0, 0], uptime=178663.4948145
+Error: Wrong count!
+    at ParamValue.count (d:\javascript\asutp-web-vs.code\server\tests\testDBLastValues.js:87:34)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-25 15:36:50.3650 - error: uncaughtException: listen EADDRINUSE :::3001 date=Thu Oct 25 2018 15:36:50 GMT+0300 (Финляндия (лето)), pid=8880, uid=null, gid=null, cwd=D:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\asutp-web-vs.code\server.js], rss=53874688, heapTotal=37593088, heapUsed=24511024, external=18256422, loadavg=[0, 0, 0], uptime=180841.9061235
+Error: listen EADDRINUSE :::3001
+    at Object._errnoException (util.js:1022:11)
+    at _exceptionWithHostPort (util.js:1044:20)
+    at Server.setupListenHandle [as _listen2] (net.js:1351:14)
+    at listenInCluster (net.js:1392:12)
+    at Server.listen (net.js:1476:7)
+    at Object.<anonymous> (D:\javascript\asutp-web-vs.code\server.js:72:12)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Function.Module.runMain (module.js:684:10)
+    at startup (bootstrap_node.js:187:16)
+    at bootstrap_node.js:608:3
+2018-10-25 17:12:43.1243 - error: uncaughtException: No data! date=Thu Oct 25 2018 17:12:43 GMT+0300 (Финляндия (лето)), pid=8344, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testMyDataModelParams.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["myDataModelParams GetAvailableParamsLists() should return 0 before loaded with data","myDataModelParams Test one Param in one ParamList New User should be saved to database","myDataModelParams Test one Param in one ParamList New Param should be saved to database","myDataModelParams Test one Param in one ParamList New ParamList should be saved to database","myDataModelParams Test one Param in one ParamList Should retrieve ParamList and Param for TestUser after Loading DataModel","myDataModelParams Test one Param in one ParamList Should remove test Param","myDataModelParams Test one Param in one ParamList Should remove test ParamList","myDataModelParams Test one Param in one ParamList Should remove test User"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=58634240, heapTotal=27107328, heapUsed=22869384, external=17862144, loadavg=[0, 0, 0], uptime=186594.9263154
+Error: No data!
+    at myDataModelParams.LoadFromDB (d:\javascript\asutp-web-vs.code\server\tests\testMyDataModelParams.js:81:42)
+    at LoadFromDB.async.series (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+2018-10-25 17:14:31.1431 - error: uncaughtException: listen EADDRINUSE :::3001 date=Thu Oct 25 2018 17:14:31 GMT+0300 (Финляндия (лето)), pid=8420, uid=null, gid=null, cwd=D:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\asutp-web-vs.code\server.js], rss=53891072, heapTotal=37593088, heapUsed=24539384, external=18256422, loadavg=[0, 0, 0], uptime=186702.5916277
+Error: listen EADDRINUSE :::3001
+    at Object._errnoException (util.js:1022:11)
+    at _exceptionWithHostPort (util.js:1044:20)
+    at Server.setupListenHandle [as _listen2] (net.js:1351:14)
+    at listenInCluster (net.js:1392:12)
+    at Server.listen (net.js:1476:7)
+    at Object.<anonymous> (D:\javascript\asutp-web-vs.code\server.js:72:12)
+    at Module._compile (module.js:643:30)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Function.Module.runMain (module.js:684:10)
+    at startup (bootstrap_node.js:187:16)
+    at bootstrap_node.js:608:3
+2018-10-25 17:14:31.1431 - error: uncaughtException: cb is not a function date=Thu Oct 25 2018 17:14:31 GMT+0300 (Финляндия (лето)), pid=8420, uid=null, gid=null, cwd=D:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, D:\javascript\asutp-web-vs.code\server.js], rss=56483840, heapTotal=38117376, heapUsed=26677176, external=18268720, loadavg=[0, 0, 0], uptime=186702.6686819
+TypeError: cb is not a function
+    at LoadFromDB.async.series (D:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (D:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (D:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at DbParamList.find (D:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:93:12)
+    at model.Query.<anonymous> (D:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at D:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+2018-10-25 17:15:19.1519 - error: uncaughtException: No data! date=Thu Oct 25 2018 17:15:19 GMT+0300 (Финляндия (лето)), pid=12768, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testMyDataModelParams.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["myDataModelParams GetAvailableParamsLists() should return 0 before loaded with data","myDataModelParams Test one Param in one ParamList New User should be saved to database","myDataModelParams Test one Param in one ParamList New Param should be saved to database","myDataModelParams Test one Param in one ParamList New ParamList should be saved to database","myDataModelParams Test one Param in one ParamList Should retrieve ParamList and Param for TestUser after Loading DataModel","myDataModelParams Test one Param in one ParamList Should remove test Param","myDataModelParams Test one Param in one ParamList Should remove test ParamList","myDataModelParams Test one Param in one ParamList Should remove test User"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=49123328, heapTotal=37068800, heapUsed=24342440, external=18330226, loadavg=[0, 0, 0], uptime=186750.7689757
+Error: No data!
+    at myDataModelParams.LoadFromDB (d:\javascript\asutp-web-vs.code\server\tests\testMyDataModelParams.js:81:42)
+    at LoadFromDB.async.series (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+2018-10-25 17:18:26.1826 - error: uncaughtException: No data! date=Thu Oct 25 2018 17:18:26 GMT+0300 (Финляндия (лето)), pid=3896, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testMyDataModelParams.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["myDataModelParams GetAvailableParamsLists() should return 0 before loaded with data","myDataModelParams Test one Param in one ParamList New User should be saved to database","myDataModelParams Test one Param in one ParamList New Param should be saved to database","myDataModelParams Test one Param in one ParamList New ParamList should be saved to database","myDataModelParams Test one Param in one ParamList Should retrieve ParamList and Param for TestUser after Loading DataModel","myDataModelParams Test one Param in one ParamList Should remove test Param","myDataModelParams Test one Param in one ParamList Should remove test ParamList","myDataModelParams Test one Param in one ParamList Should remove test User"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47165440, heapTotal=26058752, heapUsed=22041480, external=17862080, loadavg=[0, 0, 0], uptime=186938.3714697
+Error: No data!
+    at myDataModelParams.LoadFromDB (d:\javascript\asutp-web-vs.code\server\tests\testMyDataModelParams.js:81:42)
+    at LoadFromDB.async.series (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+2018-10-25 17:22:06.226 - error: uncaughtException: No data! date=Thu Oct 25 2018 17:22:06 GMT+0300 (Финляндия (лето)), pid=6576, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, C:\Users\itps02\.vscode\extensions\hbenl.vscode-mocha-test-adapter-1.3.2\out\worker\runTests.js, ["d:\\javascript\\asutp-web-vs.code\\server\\tests\\testDBLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testLastValues.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testMyDataModelParams.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testStompServer.js","d:\\javascript\\asutp-web-vs.code\\server\\tests\\testWebSocketServer.js"], ["myDataModelParams GetAvailableParamsLists() should return 0 before loaded with data","myDataModelParams Test one Param in one ParamList New User should be saved to database","myDataModelParams Test one Param in one ParamList New Param should be saved to database","myDataModelParams Test one Param in one ParamList New ParamList should be saved to database","myDataModelParams Test one Param in one ParamList Should retrieve ParamList and Param for TestUser after Loading DataModel","myDataModelParams Test one Param in one ParamList Should remove test Param","myDataModelParams Test one Param in one ParamList Should remove test ParamList","myDataModelParams Test one Param in one ParamList Should remove test User"], "C:\\Users\\itps02\\.vscode\\extensions\\hbenl.vscode-mocha-test-adapter-1.3.2\\node_modules\\mocha\\index.js", {"ui":"bdd","timeout":2000,"retries":0,"requires":[],"exit":false}, false], rss=47038464, heapTotal=26583040, heapUsed=23088456, external=17862222, loadavg=[0, 0, 0], uptime=187157.68666
+Error: No data!
+    at myDataModelParams.LoadFromDB (d:\javascript\asutp-web-vs.code\server\tests\testMyDataModelParams.js:81:42)
+    at LoadFromDB.async.series (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
