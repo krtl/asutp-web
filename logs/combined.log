@@ -15542,3 +15542,70 @@ content-length:15
 2018-10-25 14:55:57.5557 [INFO] [WS]client hWqm0MPMwOm6U3x connected from ::ffff:127.0.0.1
 2018-10-25 14:55:57.5557 [VERBOSE] [WS]client hWqm0MPMwOm6U3x received: echo: I need an echo!
 2018-10-25 14:55:57.5557 [VERBOSE] [WS]client hWqm0MPMwOm6U3x sent: I need an echo!
+2018-10-25 15:36:50.3650 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-25 15:36:50.3650 [INFO] [AMQP] connected
+2018-10-25 15:36:50.3650 [INFO] [sever] loaded from DB with 31 Params and 7 paramLists
+2018-10-25 15:36:50.3650 [INFO] [AMQP] Worker is started
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList1
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList5
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList1
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList4
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList1
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList4
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList3
+2018-10-25 15:37:00.370 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 15:36:50","qd":"NA"}" to /Values:paramList6
+2018-10-25 16:57:12.5712 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:02:54.254 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:03:58.358 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:05:18.518 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:06:15.615 [ERROR] [sever] cannot find param "TestParamName" in "TestParamListName"
+2018-10-25 17:06:15.615 [INFO] [sever] loaded from DB with 31 Params and 8 paramLists
+2018-10-25 17:08:10.810 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:12:18.1218 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:14:31.1431 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-25 17:14:31.1431 [INFO] [AMQP] connected
+2018-10-25 17:14:31.1431 [INFO] [sever] loaded from DB with 31 Params and 7 paramLists
+2018-10-25 17:14:31.1431 [INFO] [AMQP] Worker is started
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList1
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList5
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList1
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList4
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList1
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList4
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList3
+2018-10-25 17:14:41.1441 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-10-25 17:14:31","qd":"NA"}" to /Values:paramList6
+2018-10-25 17:15:19.1519 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:17:36.1736 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-25 17:19:52.1952 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists

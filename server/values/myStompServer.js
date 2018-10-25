@@ -1,6 +1,6 @@
 const StompServer = require('stomp-broker-js');
 const moment = require('moment');
-const MyDataModel = require('../models/myDataModel');
+const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
 const dbValues = require('./dbValues');
 const MyParamValue = require('../models/myParamValue');
@@ -26,10 +26,10 @@ const traceMessages = true;
 let stompServer;
 let timerId;
 
-const initializeStompServer = function (httpserver) {
+const initializeStompServer = (httpserver) => {
   stompServer = new StompServer({ server: httpserver });
 
-  stompServer.on('connected', (sessionId, headers) => {
+  stompServer.on('connected', (sessionId) => {
     if (traceMessages) {
       logger.verbose(`[stompServer] Client ${sessionId} connected`);
     }
@@ -54,7 +54,7 @@ const initializeStompServer = function (httpserver) {
       switch (ev.dest) {
         case TOPIC_COMMANDS: {
           if (ev.frame.body === CMD_RELOAD) {
-            const paramLists = MyDataModel.GetAvailableParamsLists('');
+            const paramLists = MyDataModelParams.GetAvailableParamsLists('');
             stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
           }
           break;
@@ -72,7 +72,7 @@ const initializeStompServer = function (httpserver) {
 
     switch (ev.topic) {
       case TOPIC_PARAM_LIST: {
-        const paramLists = MyDataModel.GetAvailableParamsLists('');
+        const paramLists = MyDataModelParams.GetAvailableParamsLists('');
         stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
         break;
       }
@@ -82,13 +82,13 @@ const initializeStompServer = function (httpserver) {
 
     if (ev.topic.startsWith(TOPIC_PARAMS)) {
       const locParamListName = ev.topic.replace(TOPIC_PARAMS, '');
-      const params = MyDataModel.GetParamsOfList(locParamListName);
+      const params = MyDataModelParams.GetParamsOfList(locParamListName);
       stompServer.sendIndividual(ev.socket, ev.topic, {}, MyParamJsonSerialize(params));
     }
 
     if (ev.topic.startsWith(TOPIC_VALUES)) {
       const locParamListName = ev.topic.replace(TOPIC_VALUES, '');
-      const params = MyDataModel.GetParamsOfList(locParamListName);
+      const params = MyDataModelParams.GetParamsOfList(locParamListName);
       params.forEach((param) => {
         const paramValue = lastValues.getLastValue(param.name);
         if (paramValue) {
@@ -139,7 +139,7 @@ const initializeStompServer = function (httpserver) {
     const lastChanged = lastValues.getLastChanged();
     lastChanged.forEach((paramName) => {
       const value = lastValues.getLastValue(paramName);
-      const param = MyDataModel.GetParam(paramName);
+      const param = MyDataModelParams.GetParam(paramName);
       if ((param) && (value)) {
         param.listNames.forEach((lstName) => {
           stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(value));
@@ -151,7 +151,7 @@ const initializeStompServer = function (httpserver) {
   }, 10000);
 };
 
-const finalizeStompServer = function () {
+const finalizeStompServer = () => {
   clearInterval(timerId);
 };
 

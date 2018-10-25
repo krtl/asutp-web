@@ -3,6 +3,7 @@ const async = require('async');
 // const DbParam = require('mongoose').model('Param');
 // const DbParamList = require('mongoose').model('ParamList');
 
+let DbUser;
 let DbParam;
 let DbParamList;
 
@@ -12,12 +13,14 @@ const MyParamList = require('./myParamList');
 // const MyParamValue = require('./myParamValue');
 
 
+const users = new Map();
 const params = new Map();
 const paramLists = new Map();
 
-const LoadFromDB = () => {
+const LoadFromDB = (cb) => {
   async.series([
     clearData,
+    loadUsers,
     loadParams,
     loadParamLists,
     linkData,
@@ -25,21 +28,33 @@ const LoadFromDB = () => {
   ], (err) => {
     if (err) {
       logger.error(`[sever] failed to load params: ${err}`);
-      return 1;
+      return cb(err);
     }
     logger.info(`[sever] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists`);
-    return 0;
+    return cb('');
   });
 };
 
 function clearData(cb) {
+  users.clear();
   params.clear();
   paramLists.clear();
 
+  DbUser = require('mongoose').model('AuthUser');  // eslint-disable-line global-require
   DbParam = require('mongoose').model('Param');  // eslint-disable-line global-require
   DbParamList = require('mongoose').model('ParamList');  // eslint-disable-line global-require
 
   return cb();
+}
+
+function loadUsers(cb) {
+  DbUser.find({}, null, { sort: { name: 1 } }, (err, usrs) => {
+    if (err) return cb(err);
+    usrs.forEach((usr) => {
+      users.set(usr.name, usr.might);
+    });
+    return cb();
+  });
 }
 
 function loadParams(cb) {
@@ -128,8 +143,17 @@ const GetAvailableParamsLists = (userName) => {
         description: value.description });
     });
   } else {
-    // not implemented yet.
+    // not yet implemented.
+
+    // temporary for tests
+    const locMights = users.get(userName);
+    const locList = paramLists.get(locMights);
+
+    if (locList !== undefined) {
+      result.push(locList);
+    }
   }
+
 
   return result;
 };

@@ -70,6 +70,13 @@ describe('Database Test ParamValues', () => {
         done();
       });
     });
+
+    it('Should remove test param values', (done) => {
+      ParamValue.remove({ paramName: /^TestName/ }, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
   });
 
   describe('Test multiple ParamValues', () => {

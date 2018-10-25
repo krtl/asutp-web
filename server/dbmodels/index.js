@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
-const myDataModel = require('../models/myDataModel');
+const myDataModelParams = require('../models/myDataModelParams');
 
 
 module.exports.connect = (uri, useDataModel) => {
@@ -17,7 +17,7 @@ module.exports.connect = (uri, useDataModel) => {
     logger.info(`Mongoose connection opened to ${uri}`);
 
     if (useDataModel) {
-      myDataModel.LoadFromDB();
+      myDataModelParams.LoadFromDB();
     }
   });
 
