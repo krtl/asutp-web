@@ -1,8 +1,5 @@
 const async = require('async');
 
-// const DbParam = require('mongoose').model('Param');
-// const DbParamList = require('mongoose').model('ParamList');
-
 let DbNode;
 let DbNodeRES;
 let DbNodeLEP;
@@ -82,37 +79,264 @@ function loadNodes(cb) {
 function loadNodeRESs(cb) {
   DbNodeRES.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
-    prms.forEach((prm) => {
-      const p = new MyNodeRES(prm.name,
-         prm.caption,
-         prm.description);
-      params.set(prm.name, p);
+    prms.forEach((nodeRES) => {
+      DbNode.NetNode.findOne({
+        name: nodeRES.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodeRES(locParentNode, 
+            nodeRES.name,
+            nodeRES.caption,
+            nodeRES.description);
+            // p.dummyParam = nodeRES.dummyParam;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodeRES Error: DBNode "${nodeRES.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
     });
-    return cb();
   });
 }
 
-function loadParamLists(cb) {
-  DbParamList.find({}, null, { sort: { name: 1 } }, (err, prmLists) => {
+function loadNodeLEPs(cb) {
+  DbNodeLEP.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
-
-    prmLists.forEach((prmList) => {
-      const prmNames = prmList.params;// .split(',');
-
-      prmNames.forEach((prmName) => {
-        if (!params.get(prmName)) {
-          logger.error(`[sever] cannot find param "${prmName}" in "${prmList.name}"`);
+    prms.forEach((nodeLEP) => {
+      DbNode.NetNode.findOne({
+        name: nodeLEP.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodeLEP(locParentNode, 
+            nodeLEP.name,
+            nodeLEP.caption,
+            nodeLEP.description);
+          p.voltage = nodeLEP.voltage;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodeLEP Error: DBNode "${nodeLEP.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
         }
       });
-
-      const pl = new MyParamList(prmList.name,
-        prmList.caption,
-        prmList.description,
-        prmNames);
-
-      paramLists.set(prmList.name, pl);
     });
-    return cb();
+  });
+}
+
+function loadNodePSs(cb) {
+  DbNodePS.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((nodePS) => {
+      DbNode.NetNode.findOne({
+        name: nodePS.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodePS(locParentNode, 
+            nodePS.name,
+            nodePS.caption,
+            nodePS.description);
+          //p.voltage = nodePS.voltage;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodePS Error: DBNode "${nodePS.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
+    });
+  });
+}
+
+function loadNodePSParts(cb) {
+  DbNodePSPart.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((nodePSPart) => {
+      DbNode.NetNode.findOne({
+        name: nodePSPart.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodePS(locParentNode, 
+            nodePSPart.name,
+            nodePSPart.caption,
+            nodePSPart.description);
+          //p.voltage = nodePSPart.voltage;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodePSPart Error: DBNode "${nodePSPart.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
+    });
+  });
+}
+
+function loadNodeTransformers(cb) {
+  DbNodeTransformer.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((nodeTransformer) => {
+      DbNode.NetNode.findOne({
+        name: nodeTransformer.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodePS(locParentNode, 
+            nodeTransformer.name,
+            nodeTransformer.caption,
+            nodeTransformer.description);
+          p.power = nodePS.power;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodeTransformer Error: DBNode "${nodeTransformer.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
+    });
+  });
+}
+
+function loadNodeSections(cb) {
+  DbNodeSection.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((nodeSection) => {
+      DbNode.NetNode.findOne({
+        name: nodeSection.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodePS(locParentNode, 
+            nodeSection.name,
+            nodeSection.caption,
+            nodeSection.description);
+          //p.voltage = nodeSection.voltage;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodeSection Error: DBNode "${nodeSection.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
+    });
+  });
+}
+
+function loadNodeConnectors(cb) {
+  DbNodeConnector.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((nodeConnector) => {
+      DbNode.NetNode.findOne({
+        name: nodeConnector.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodePS(locParentNode, 
+            nodeConnector.name,
+            nodeConnector.caption,
+            nodeConnector.description);
+          //p.voltage = nodePS.voltage;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodeConnector Error: DBNode "${nodeConnector.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
+    });
+  });
+}
+
+function loadNodeEquipments(cb) {
+  DbNodePS.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((nodeEquipment) => {
+      DbNode.NetNode.findOne({
+        name: nodeEquipment.name,
+      }, (err, locNode) => {
+        if (err){
+          return cb(err)
+        }
+        else if (locNode) {
+          let locParentNode = null;
+          if (nodes.has(locNode.parentNode)) {
+            locParentNode = nodes.get(locNode.parentNode)
+          }
+          const p = new MyNodePS(locParentNode, 
+            nodeEquipment.name,
+            nodeEquipment.caption,
+            nodeEquipment.description);
+          //p.voltage = nodePS.voltage;
+          nodes.set(p.name, p);
+          return cb(null);
+        } else {
+          // node does not exist
+          const err = `create NodeEquipment Error: DBNode  "${nodeEquipment.name}" does not exists!`;
+          console.error(err);
+          return cb(err);
+        }
+      });
+    });
   });
 }
 
@@ -122,65 +346,22 @@ function checkData(cb) {
 }
 
 function linkData(cb) {
-  params.forEach((prm) => {
+  nodes.forEach((node) => {
     const locListNames = [];
     paramLists.forEach((prmList) => {
-      if (prmList.paramNames.indexOf(prm.name) > -1) {
+      if (prmList.paramNames.indexOf(node.name) > -1) {
         locListNames.push(prmList.name);
       }
     });
-    prm.setListNames(locListNames);
+    node.setListNames(locListNames);
   });
 
   return cb();
 }
 
-const GetParam = paramName => params.get(paramName);
+const GetNode = nodeName => nodes.get(nodeName);
 
-const GetParamsOfList = (paramListName) => {
-  const paramList = paramLists.get(paramListName);
-  if (paramList) {
-    const resultParams = [];
-    paramList.paramNames.forEach((prmName) => {
-      const param = params.get(prmName);
-      if (param) {
-        resultParams.push(param);
-      } else {
-        logger.error(`[sever] cannot find param "${prmName}" in "${paramList.name}"`);
-      }
-    });
-    return resultParams;
-  }
-  return [];
-};
-
-const GetParamsList = paramListName => paramLists.get(paramListName);
-
-const GetAvailableParamsLists = (userName) => {
-  const result = [];
-  if (userName === '') { // temporary!
-    paramLists.forEach((value) => {
-      result.push({ name: value.name,
-        caption: value.caption,
-        description: value.description });
-    });
-  } else if (users.has(userName)) {
-    const locMight = users.get(userName);
-    const locMights = locMight.split(',');
-    locMights.forEach((elem) => {
-      if (paramLists.has(elem)) {
-        const locList = paramLists.get(elem);
-        if (locList !== undefined) {
-          result.push(locList);
-        }
-      }
-    });
-  }
-  return result;
-};
 
 module.exports.LoadFromDB = LoadFromDB;
-module.exports.GetParam = GetParam;
-module.exports.GetParamsOfList = GetParamsOfList;
-module.exports.GetParamsList = GetParamsList;
-module.exports.GetAvailableParamsLists = GetAvailableParamsLists;
+module.exports.GetNode = GetNode;
+
