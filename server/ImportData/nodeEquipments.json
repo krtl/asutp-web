@@ -1,0 +1,13 @@
+[
+
+  {    "name": "eq1", "caption": "eq1",  "parentNode": "c1" },
+  {    "name": "eq2", "caption": "eq2",  "description": "zz1", "parentNode": "c1" },
+  {    "name": "eq3", "caption": "eq3",  "description": "zz1", "parentNode": "c2" },
+  {    "name": "eq4", "caption": "eq4",  "description": "zz1", "parentNode": "c3" },
+  {    "name": "eq5", "caption": "eq5",  "description": "zz1", "parentNode": "c4" },
+  {
+    "name": "eq6",
+    "caption": "eq6",
+    "description": "zzz2"
+, "parentNode": "c2"}
+]

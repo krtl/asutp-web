@@ -1,5 +1,5 @@
 [
-    {"email": "zz@zz.zz", "password": "123", "name": "zz", "role": "admin", "might": ""},
+    {"email": "zz@zz.zz", "password": "123", "name": "zz", "role": "admin", "might": "paramList1, paramList2"},
     {"email": "zz1@zz.zz", "password": "123", "name": "zz1", "role": "user", "might": ""},
     {"email": "zz2@zz.zz", "password": "123", "name": "zz2", "role": "user", "might": ""},
     {"email": "zz3@zz.zz", "password": "123", "name": "zz3", "role": "user", "might": ""},

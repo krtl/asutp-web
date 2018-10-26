@@ -12,12 +12,16 @@ async.series([
   createParams,
   createParamLists,
   createParamValues,
-  createNetNodePSs,
-  createNetNodeLeps,
-  createNetNodeSections,
-  createNetNodeCells,
-  createNetNodeTransformers,
-  createNetWires,
+  createNetNodes,  // obsolete
+  createNetWires,  // obsolete
+  createNodeRESs,
+  createNodeLEPs,
+  createNodePSs,
+  createNodePSParts,
+  createNodeSections,
+  createNodeTransformers,
+  createNodeConnectors,
+  createNodeEquipments,
 ], (err) => {
   // console.log(arguments);
   mongoose.disconnect();
@@ -39,19 +43,24 @@ function dropDatabase(callback) {
 }
 
 function requireModels(callback) {
-  console.log('models');
-  // require('dbmodels/user');
+  console.log('requiring models');
   require('mongoose').model('AuthUser');  // eslint-disable-line global-require
   require('mongoose').model('Param');  // eslint-disable-line global-require
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
   require('mongoose').model('ParamValue');  // eslint-disable-line global-require
+
   require('mongoose').model('NetNode');  // eslint-disable-line global-require
-  require('mongoose').model('NetNodePS');  // eslint-disable-line global-require
-  require('mongoose').model('NetNodeLep');  // eslint-disable-line global-require
-  require('mongoose').model('NetNodeSection');  // eslint-disable-line global-require
-  require('mongoose').model('NetNodeCell');  // eslint-disable-line global-require
-  require('mongoose').model('NetNodeTransformer');  // eslint-disable-line global-require
   require('mongoose').model('NetWire');  // eslint-disable-line global-require
+
+  require('mongoose').model('Node');  // eslint-disable-line global-require
+  require('mongoose').model('NodeRES');  // eslint-disable-line global-require
+  require('mongoose').model('NodePS');  // eslint-disable-line global-require
+  require('mongoose').model('NodePSPart');  // eslint-disable-line global-require
+  require('mongoose').model('NodeLEP');  // eslint-disable-line global-require
+  require('mongoose').model('NodeTransformer');  // eslint-disable-line global-require
+  require('mongoose').model('NodeSection');  // eslint-disable-line global-require
+  require('mongoose').model('NodeConnector');  // eslint-disable-line global-require
+  require('mongoose').model('NodeEquipment');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
     mongoose.models[modelName].ensureIndexes(callback);
@@ -59,7 +68,7 @@ function requireModels(callback) {
 }
 
 function createUsers(callback) {
-  console.log('create users');
+  console.log('creating users');
 //  var users = require(importPath +'/users.json');
 
   const fileName = `${config.importPath}users.json`;
@@ -214,30 +223,50 @@ function createParamValues(callback) {
 
 //----------------------------------------------------------------------------------------------------------------------
 
+function checkIfParentNodeExixts(node, callback) {
+  if ((node.parentNode === undefined) || (node.parentNode === null) || node.parentNode === '') {
+    callback(null);
+  } else {
+    mongoose.models.Node.findOne({
+      name: node.parentNode,
+    }, (err, netNode) => {
+      if (err) callback(err);
+      if (netNode) {
+        // node exists
+        callback(null);
+      } else {
+        // node does not exist
+        const s = `Parent node "${node.parentNode}" does not exists for node:"${node.name}"!`;
+        callback(s);
+        console.error(s);
+      }
+    });
+  }
+}
 
-function createNetNodePSs(callback) {
-  console.log('creating PSs');
-  const fileName = `${config.importPath}PSs.json`;
+function createNodeRESs(callback) {
+  console.log('creating RESs');
+  const fileName = `${config.importPath}nodeRESs.json`;
   console.log(`importing from "${fileName}"..`);
   const rawdata = fs.readFileSync(fileName);
 
-  let locPSs;
+  let locRESs;
   try {
-    locPSs = JSON.parse(rawdata);
+    locRESs = JSON.parse(rawdata);
   } catch (e) {
-    console.error(`create PSs Error: ${e.message}`);
+    console.error(`create RESs Error: ${e.message}`);
     return;
   }
 
-  async.each(locPSs, (psData, callback) => {
-    const locNode = new mongoose.models.NetNode(psData);
-    const locPS = new mongoose.models.NetNodePS(psData);
+  async.each(locRESs, (psData, callback) => {
+    const locNode = new mongoose.models.Node(psData);
+    const locRES = new mongoose.models.NodeRES(psData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.name}" inserted`);
-      locPS.save((err) => {
+      console.log(`Node "${locNode.name}" inserted`);
+      locRES.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodePS "${locPS.name}" inserted`);
+        console.log(`NodeRES "${locRES.name}" inserted`);
         callback(null);
       });
     });
@@ -254,9 +283,9 @@ function createNetNodePSs(callback) {
   // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
 }
 
-function createNetNodeLeps(callback) {
+function createNodeLEPs(callback) {
   console.log('creating Leps');
-  const fileName = `${config.importPath}Leps.json`;
+  const fileName = `${config.importPath}nodeLEPs.json`;
   console.log(`importing from "${fileName}"..`);
   const rawdata = fs.readFileSync(fileName);
 
@@ -269,15 +298,17 @@ function createNetNodeLeps(callback) {
   }
 
   async.each(locLeps, (lepData, callback) => {
-    const locNode = new mongoose.models.NetNode(lepData);
-    const locLep = new mongoose.models.NetNodeLep(lepData);
+    const locNode = new mongoose.models.Node(lepData);
+    const locLep = new mongoose.models.NodeLEP(lepData);
     locNode.save((err) => {
       if (err) callback(err);
       console.log(`NetNode "${locNode.name}" inserted`);
       locLep.save((err) => {
         if (err) callback(err);
         console.log(`NetNodeLep "${locLep.name}" inserted`);
-        callback(null);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
       });
     });
   }, (err) => {
@@ -293,36 +324,32 @@ function createNetNodeLeps(callback) {
   // fs.writeFileSync(`${config.importPath}Leps-2.json`, data);
 }
 
-function createNetNodeSections(callback) {
-  console.log('creating Sections');
-  const fileName = `${config.importPath}Sections.json`;
+function createNodePSs(callback) {
+  console.log('creating PSs');
+  const fileName = `${config.importPath}nodePSs.json`;
   console.log(`importing from "${fileName}"..`);
-  let rawdata = '';
-  try {
-    rawdata = fs.readFileSync(fileName);
-  } catch (err) {
-    console.error(`Read file error: ${err.message}`);
-    return;
-  }
+  const rawdata = fs.readFileSync(fileName);
 
-  let locSections;
+  let locPSs;
   try {
-    locSections = JSON.parse(rawdata);
+    locPSs = JSON.parse(rawdata);
   } catch (e) {
-    console.error(`create Sections Error: ${e.message}`);
+    console.error(`create PSs Error: ${e.message}`);
     return;
   }
 
-  async.each(locSections, (locData, callback) => {
-    const locNode = new mongoose.models.NetNode(locData);
-    const locSection = new mongoose.models.NetNodeSection(locData);
+  async.each(locPSs, (psData, callback) => {
+    const locNode = new mongoose.models.Node(psData);
+    const locPS = new mongoose.models.NodePS(psData);
     locNode.save((err) => {
       if (err) callback(err);
       console.log(`NetNode "${locNode.name}" inserted`);
-      locSection.save((err) => {
+      locPS.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodeSection "${locSection.name}" inserted`);
-        callback(null);
+        console.log(`NetNodePS "${locPS.name}" inserted`);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
       });
     });
   }, (err) => {
@@ -334,40 +361,36 @@ function createNetNodeSections(callback) {
     callback(err);
   });
 
-  // const data = JSON.stringify(locSections);
-  // fs.writeFileSync(`${config.importPath}Section-2.json`, data);
+  // const data = JSON.stringify(locPSs);
+  // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
 }
 
-function createNetNodeCells(callback) {
-  console.log('creating Cells');
-  const fileName = `${config.importPath}Cells.json`;
+function createNodePSParts(callback) {
+  console.log('creating PSParts');
+  const fileName = `${config.importPath}nodePSParts.json`;
   console.log(`importing from "${fileName}"..`);
-  let rawdata = '';
-  try {
-    rawdata = fs.readFileSync(fileName);
-  } catch (err) {
-    console.error(`Read file error: ${err.message}`);
-    return;
-  }
+  const rawdata = fs.readFileSync(fileName);
 
-  let locCells;
+  let locPSs;
   try {
-    locCells = JSON.parse(rawdata);
+    locPSs = JSON.parse(rawdata);
   } catch (e) {
-    console.error(`create cells Error: ${e.message}`);
+    console.error(`create PSParts Error: ${e.message}`);
     return;
   }
 
-  async.each(locCells, (locData, callback) => {
-    const locNode = new mongoose.models.NetNode(locData);
-    const locCell = new mongoose.models.NetNodeCell(locData);
+  async.each(locPSs, (psData, callback) => {
+    const locNode = new mongoose.models.Node(psData);
+    const locPSPart = new mongoose.models.NodePS(psData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.name}" inserted`);
-      locCell.save((err) => {
+      console.log(`Node "${locNode.name}" inserted`);
+      locPSPart.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodeCell "${locCell.name}" inserted`);
-        callback(null);
+        console.log(`NodePSPart "${locPSPart.name}" inserted`);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
       });
     });
   }, (err) => {
@@ -379,13 +402,13 @@ function createNetNodeCells(callback) {
     callback(err);
   });
 
-  // const data = JSON.stringify(locCells);
-  // fs.writeFileSync(`${config.importPath}cells-2.json`, data);
+  // const data = JSON.stringify(locPSs);
+  // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
 }
 
-function createNetNodeTransformers(callback) {
+function createNodeTransformers(callback) {
   console.log('creating Transformers');
-  const fileName = `${config.importPath}Transformers.json`;
+  const fileName = `${config.importPath}nodeTransformers.json`;
   console.log(`importing from "${fileName}"..`);
   let rawdata = '';
   try {
@@ -404,15 +427,17 @@ function createNetNodeTransformers(callback) {
   }
 
   async.each(locTransformers, (locData, callback) => {
-    const locNode = new mongoose.models.NetNode(locData);
-    const locTransformer = new mongoose.models.NetNodeTransformer(locData);
+    const locNode = new mongoose.models.Node(locData);
+    const locTransformer = new mongoose.models.NodeTransformer(locData);
     locNode.save((err) => {
       if (err) callback(err);
-      console.log(`NetNode "${locNode.name}" inserted`);
+      console.log(`Node "${locNode.name}" inserted`);
       locTransformer.save((err) => {
         if (err) callback(err);
-        console.log(`NetNodeTransformer "${locTransformer.name}" inserted`);
-        callback(null);
+        console.log(`NodeTransformer "${locTransformer.name}" inserted`);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
       });
     });
   }, (err) => {
@@ -428,10 +453,193 @@ function createNetNodeTransformers(callback) {
   // fs.writeFileSync(`${config.importPath}Transformers-2.json`, data);
 }
 
+function createNodeSections(callback) {
+  console.log('creating Sections');
+  const fileName = `${config.importPath}nodeSections.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  let locSections;
+  try {
+    locSections = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create Sections Error: ${e.message}`);
+    return;
+  }
+
+  async.each(locSections, (locData, callback) => {
+    const locNode = new mongoose.models.Node(locData);
+    const locSection = new mongoose.models.NodeSection(locData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`Node "${locNode.name}" inserted`);
+      locSection.save((err) => {
+        if (err) callback(err);
+        console.log(`NodeSection "${locSection.name}" inserted`);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(locSections);
+  // fs.writeFileSync(`${config.importPath}Section-2.json`, data);
+}
+
+function createNodeConnectors(callback) {
+  console.log('creating Connectors');
+  const fileName = `${config.importPath}nodeConnectors.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  let locCells;
+  try {
+    locCells = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create Connectors Error: ${e.message}`);
+    return;
+  }
+
+  async.each(locCells, (locData, callback) => {
+    const locNode = new mongoose.models.Node(locData);
+    const locConnector = new mongoose.models.NodeConnector(locData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`Node "${locNode.name}" inserted`);
+      locConnector.save((err) => {
+        if (err) callback(err);
+        console.log(`NodeConnector "${locConnector.name}" inserted`);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(locCells);
+  // fs.writeFileSync(`${config.importPath}cells-2.json`, data);
+}
+
+function createNodeEquipments(callback) {
+  console.log('creating Equipments');
+  const fileName = `${config.importPath}nodeEquipments.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata = '';
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    return;
+  }
+
+  let locCells;
+  try {
+    locCells = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create Equipments Error: ${e.message}`);
+    return;
+  }
+
+  async.each(locCells, (locData, callback) => {
+    const locNode = new mongoose.models.Node(locData);
+    const locEquipment = new mongoose.models.NodeEquipment(locData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`Node "${locNode.name}" inserted`);
+      locEquipment.save((err) => {
+        if (err) callback(err);
+        console.log(`NodeEquipment "${locEquipment.name}" inserted`);
+
+        checkIfParentNodeExixts(locNode, callback);
+        // callback(null);
+      });
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(locCells);
+  // fs.writeFileSync(`${config.importPath}cells-2.json`, data);
+}
+
 //----------------------------------------------------------------------------------------------------------------------
+function createNetNodes(callback) {
+  console.log('creating NetNodes - obsolete');
+  const fileName = `${config.importPath}obsolete-nodes.json`;
+  console.log(`importing from "${fileName}"..`);
+  let rawdata;
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (e) {
+    console.error(`Read file Error: ${e.message}`);
+    callback(e.message);
+    return;
+  }
+
+  let locPSs;
+  try {
+    locPSs = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create NetNode Error: ${e.message}`);
+    callback(e.message);
+    return;
+  }
+
+  async.each(locPSs, (psData, callback) => {
+    const locNode = new mongoose.models.NetNode(psData);
+    locNode.save((err) => {
+      if (err) callback(err);
+      console.log(`NetNode "${locNode.name}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(locPSs);
+  // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
+}
+
 function createNetWires(callback) {
-  console.log('create wires');
-  const fileName = `${config.importPath}wires.json`;
+  console.log('create wires - obsolete');
+  const fileName = `${config.importPath}obsolete-wires.json`;
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fileName);

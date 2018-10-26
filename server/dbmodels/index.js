@@ -36,10 +36,14 @@ module.exports.connect = (uri, useDataModel) => {
   require('./paramList');// eslint-disable-line global-require
   require('./paramValue');// eslint-disable-line global-require
   require('./netNode');// eslint-disable-line global-require
-  require('./netNodeLep');// eslint-disable-line global-require
-  require('./netNodePS');// eslint-disable-line global-require
-  require('./netNodeSection');// eslint-disable-line global-require
-  require('./netNodeCell');// eslint-disable-line global-require
-  require('./netNodeTransformer');// eslint-disable-line global-require
   require('./netWire');// eslint-disable-line global-require
+  require('./node');// eslint-disable-line global-require
+  require('./nodeRES');// eslint-disable-line global-require
+  require('./nodeLEP');// eslint-disable-line global-require
+  require('./nodePS');// eslint-disable-line global-require
+  require('./nodePSPart');// eslint-disable-line global-require
+  require('./nodeTransformer');// eslint-disable-line global-require
+  require('./nodeSection');// eslint-disable-line global-require
+  require('./nodeConnector');// eslint-disable-line global-require
+  require('./nodeEquipment');// eslint-disable-line global-require
 };

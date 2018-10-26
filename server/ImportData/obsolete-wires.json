@@ -1,0 +1,18 @@
+[
+  {    "name": "w1","nodeFrom": "c1", "nodeTo": "c2"},
+  {    "name": "w2","nodeFrom": "c1", "nodeTo": "c3"},
+  {    "name": "w3","nodeFrom": "c2", "nodeTo": "c3"},
+  {    "name": "w4","nodeFrom": "c2", "nodeTo": "c4"},
+  {    "name": "w5","nodeFrom": "c3", "nodeTo": "c1"},
+  {    "name": "w6","nodeFrom": "c3", "nodeTo": "c2"},
+  {    "name": "w7","nodeFrom": "c4", "nodeTo": "c2"},
+  {    "name": "w8","nodeFrom": "c4", "nodeTo": "c2"},
+  {    "name": "w9","nodeFrom": "c4", "nodeTo": "c3"},
+  {    "name": "w10","nodeFrom": "c4", "nodeTo": "c1"},
+  {    "name": "w11","nodeFrom": "c4", "nodeTo": "c5"},
+  {    "name": "w12","nodeFrom": "c5", "nodeTo": "c6"},
+  {    "name": "w14","nodeFrom": "c5", "nodeTo": "c1"},
+  {    "name": "w15","nodeFrom": "c6", "nodeTo": "c5"},
+  {    "name": "w16","nodeFrom": "c6", "nodeTo": "c1"},
+  {    "name": "w17","nodeFrom": "c6", "nodeTo": "c2"}
+]

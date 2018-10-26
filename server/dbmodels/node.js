@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-const NetNodeSchema = new mongoose.Schema({
+const NodeSchema = new mongoose.Schema({
   name: {
     type: String,
     index: { unique: true },
   },
+  parentNode: String,
   caption: String,
   description: String,
   x: {
@@ -19,6 +20,7 @@ const NetNodeSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  sapCode: String,
 });
 
-module.exports = mongoose.model('NetNode', NetNodeSchema);
+module.exports = mongoose.model('Node', NodeSchema);

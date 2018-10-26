@@ -3,17 +3,17 @@
   {    "name": "c1",
  "x": 10, "y": 10,
    "caption": "c1",
-    "description": "test", "paramOnOffState": "paramZzz"},
+    "description": "test", "parentNode": "sec1"},
 
   {
     "name": "c2", "x": 100, "y": 100,
     "caption": "c2",
-    "description": "", "paramOnOffState": "param1"},
+    "description": "", "parentNode": "sec1"},
 
   {
-    "name": "c3", "x": 300, "y": 200,
+    "name": "c3",
     "caption": "c3",
-    "description": ""
+    "description": "", "parentNode": "sec1"
 , "paramOnOffState": "param2"},
   {
     "name": "c4", "x": 400, "y": 300,
@@ -21,8 +21,8 @@
     "description": "zzz"
 , "paramOnOffState": "param3"},
   {
-    "name": "c5", "x": 20, "y": 80,
- "name": "cell5",   "caption": "c5",
+    "name": "c5", "parentNode": "sec2",
+    "caption": "c5",
     "description": "zzz1"
 , "paramOnOffState": "param13"},
   {
