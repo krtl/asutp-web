@@ -44,7 +44,7 @@ describe('myDataModelParams', () => {
         email: 'test@test.test',
         name: testUserName,
         role: 'test user',
-        mights: 'TestParamListName',
+        might: 'TestParamListName',
       });
 
       testUser.save(done);

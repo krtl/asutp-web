@@ -136,25 +136,24 @@ const GetParamsList = paramListName => paramLists.get(paramListName);
 
 const GetAvailableParamsLists = (userName) => {
   const result = [];
-  if (userName === '') {
+  if (userName === '') { // temporary!
     paramLists.forEach((value) => {
       result.push({ name: value.name,
         caption: value.caption,
         description: value.description });
     });
-  } else {
-    // not yet implemented.
-
-    // temporary for tests
-    const locMights = users.get(userName);
-    const locList = paramLists.get(locMights);
-
-    if (locList !== undefined) {
-      result.push(locList);
-    }
+  } else if (users.has(userName)) {
+    const locMight = users.get(userName);
+    const locMights = locMight.split(',');
+    locMights.forEach((elem) => {
+      if (paramLists.has(elem)) {
+        const locList = paramLists.get(elem);
+        if (locList !== undefined) {
+          result.push(locList);
+        }
+      }
+    });
   }
-
-
   return result;
 };
 
