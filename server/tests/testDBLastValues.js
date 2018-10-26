@@ -82,13 +82,29 @@ describe('Database Test ParamValues', () => {
   describe('Test multiple ParamValues', () => {
     // test multiple random param values
 
+
+    it('Should remove all previous test param values', (done) => {
+      ParamValue.remove({ paramName: /^TestParam/ }, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('Should retrieve correct count of test param values', (done) => {
+      ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
+        if (err) { throw err; }
+        if (count !== 0) { throw new Error('Wrong count!'); }
+        done();
+      });
+    });
+
     it('should insert 100 test param values ', (done) => {
       const params = [];
       for (let i = 0; i < 100; i += 1) {
         params.push(i);
       }
       async.each(params, (paramData, done) => {
-                  const testParamValue = ParamValue({
+        const testParamValue = ParamValue({
           paramName: `TestParam${Math.floor(Math.random() * 1000)}`,
           // paramName: 'TestParam',
           value: (Math.random() * 1000) + paramData,
