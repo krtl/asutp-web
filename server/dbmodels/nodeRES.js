@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const myNodeType = require('../models/myNodeType');
 
 const NodeRESSchema = new mongoose.Schema({
   name: {
@@ -8,4 +9,6 @@ const NodeRESSchema = new mongoose.Schema({
 
 });
 
+module.exports.nodeType = myNodeType.RES;
+module.exports.CompareProps = [ ];
 module.exports = mongoose.model('NodeRES', NodeRESSchema);

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const myNodeType = require('../models/myNodeType');
 
 const NodePSPartSchema = new mongoose.Schema({
   name: {
@@ -8,4 +9,6 @@ const NodePSPartSchema = new mongoose.Schema({
 
 });
 
+module.exports.nodeType = myNodeType.PSPART;
+module.exports.CompareProps = [ ];
 module.exports = mongoose.model('NodePSPart', NodePSPartSchema);

@@ -15609,3 +15609,148 @@ content-length:15
 2018-10-25 17:15:19.1519 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
 2018-10-25 17:17:36.1736 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
 2018-10-25 17:19:52.1952 [INFO] [sever] loaded from DB with 32 Params and 8 paramLists
+2018-10-29 16:26:40.2640 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:28:20.2820 [INFO] open
+2018-10-29 16:28:20.2820 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:28:20.2820 [INFO] models
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/res_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\res_{}.json'
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/lep_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\lep_{}.json'
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/ps_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\ps_{}.json'
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/pspart_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\pspart_{}.json'
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/transformer_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\transformer_{}.json'
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/section_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\section_{}.json'
+2018-10-29 16:28:20.2820 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/connector_{}.json"..
+2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\connector_{}.json'
+2018-10-29 16:29:37.2937 [INFO] open
+2018-10-29 16:29:38.2938 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:29:38.2938 [INFO] models
+2018-10-29 16:29:38.2938 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/res_{}.json"..
+2018-10-29 16:37:25.3725 [INFO] open
+2018-10-29 16:37:25.3725 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:37:25.3725 [INFO] models
+2018-10-29 16:37:25.3725 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/!!nodeRESs.json"..
+2018-10-29 16:37:49.3749 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:38:01.381 [INFO] open
+2018-10-29 16:38:01.381 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:38:01.381 [INFO] models
+2018-10-29 16:38:01.381 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/!!nodeRESs.json"..
+2018-10-29 16:38:22.3822 [INFO] open
+2018-10-29 16:38:22.3822 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:38:22.3822 [INFO] models
+2018-10-29 16:38:22.3822 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeRESs.json"..
+2018-10-29 16:41:15.4115 [INFO] open
+2018-10-29 16:41:15.4115 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:41:15.4115 [INFO] models
+2018-10-29 16:41:15.4115 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeRESs.json"..
+2018-10-29 16:41:31.4131 [INFO] open
+2018-10-29 16:41:31.4131 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:41:31.4131 [INFO] models
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeRESs.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeLEPs.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSs.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSParts.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeTransformers.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeSections.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeConnectors.json"..
+2018-10-29 16:41:31.4131 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeEquipments.json"..
+2018-10-29 16:41:31.4131 [INFO] Node "psPart1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "eq5" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "eq3" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "eq4" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "psPart2" inserted
+2018-10-29 16:41:31.4131 [INFO] Success.
+2018-10-29 16:41:31.4131 [INFO] Node "res1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "res2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "lep1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "psPart1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "trans3" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "ps1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "psPart2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "trans1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "eq2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "eq6" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "trans2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "sec2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "sec4" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "ps2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "lep2" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "lep3" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "sec1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "eq1" inserted
+2018-10-29 16:41:31.4131 [INFO] Node "c5" updated
+2018-10-29 16:41:31.4131 [INFO] Node "c3" updated
+2018-10-29 16:44:07.447 [INFO] open
+2018-10-29 16:45:49.4549 [INFO] open
+2018-10-29 16:45:49.4549 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:45:49.4549 [INFO] models
+2018-10-29 16:45:51.4551 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:49:45.4945 [INFO] open
+2018-10-29 16:49:45.4945 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:49:45.4945 [INFO] models
+2018-10-29 16:49:45.4945 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:49:56.4956 [INFO] open
+2018-10-29 16:49:57.4957 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:49:57.4957 [INFO] models
+2018-10-29 16:49:57.4957 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:50:09.509 [INFO] open
+2018-10-29 16:50:10.5010 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:50:10.5010 [INFO] models
+2018-10-29 16:50:10.5010 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:52:40.5240 [INFO] open
+2018-10-29 16:52:40.5240 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:52:40.5240 [INFO] models
+2018-10-29 16:52:40.5240 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:52:40.5240 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
+2018-10-29 16:52:44.5244 [ERROR] Failed: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeLEPs.json"..
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSs.json"..
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSParts.json"..
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeTransformers.json"..
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeSections.json"..
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeConnectors.json"..
+2018-10-29 16:52:44.5244 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeEquipments.json"..
+2018-10-29 16:53:15.5315 [INFO] open
+2018-10-29 16:53:15.5315 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:53:15.5315 [INFO] models
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:53:15.5315 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeLEPs.json"..
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSs.json"..
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSParts.json"..
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeTransformers.json"..
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeSections.json"..
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeConnectors.json"..
+2018-10-29 16:53:15.5315 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeEquipments.json"..
+2018-10-29 16:53:26.5326 [INFO] open
+2018-10-29 16:53:26.5326 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:53:26.5326 [INFO] models
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:53:26.5326 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeLEPs.json"..
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSs.json"..
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSParts.json"..
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeTransformers.json"..
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeSections.json"..
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeConnectors.json"..
+2018-10-29 16:53:26.5326 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeEquipments.json"..
+2018-10-29 16:53:40.5340 [INFO] open
+2018-10-29 16:53:41.5341 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:53:41.5341 [INFO] models
+2018-10-29 16:53:41.5341 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/1nodeRESs.json"..
+2018-10-29 16:54:19.5419 [INFO] open
+2018-10-29 16:54:19.5419 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-10-29 16:54:19.5419 [INFO] models
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeRESs.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeLEPs.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSs.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodePSParts.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeTransformers.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeSections.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeConnectors.json"..
+2018-10-29 16:54:19.5419 [INFO] importing from "D:/javascript/asutp-web-vs.code/server/ImportData/nodeEquipments.json"..

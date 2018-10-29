@@ -13,22 +13,21 @@ let DbNodeEquipment;
 
 const logger = require('../logger');
 
-let MyNode = require('./myNode');
-let MyNodeRES = require('./myNodeRES');
-let MyNodeLEP = require('./myNodeLEP');
-let MyNodePS = require('./myNodePS');
-let MyNodePSPart = require('./myNodePSPart');
-let MyNodeTransformer = require('./myNodeTransformer');
-let MyNodeSection = require('./myNodeSection');
-let MyNodeConnector = require('./myNodeConnector');
-let MyNodeEquipment = require('./myNodeEquipment');
+// const MyNode = require('./myNode');
+const MyNodeRES = require('./myNodeRES');
+const MyNodeLEP = require('./myNodeLEP');
+const MyNodePS = require('./myNodePS');
+const MyNodePSPart = require('./myNodePSPart');
+const MyNodeTransformer = require('./myNodeTransformer');
+const MyNodeSection = require('./myNodeSection');
+const MyNodeConnector = require('./myNodeConnector');
+const MyNodeEquipment = require('./myNodeEquipment');
 
 const nodes = new Map();
 
 const LoadFromDB = (cb) => {
   async.series([
     clearData,
-    loadNodes,
     loadNodeRESs,
     loadNodeLEPs,
     loadNodePSs,
@@ -65,17 +64,6 @@ function clearData(cb) {
   return cb();
 }
 
-function loadNodes(cb) {
-  DbNode.find({}, null, { sort: { name: 1 } }, (err, locNodes) => {
-    if (err) return cb(err);
-    locNodes.forEach((usr) => {
-      !!
-      nodes.set(usr.name, usr.might);
-    });
-    return cb();
-  });
-}
-
 function loadNodeRESs(cb) {
   DbNodeRES.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
@@ -83,29 +71,28 @@ function loadNodeRESs(cb) {
       DbNode.NetNode.findOne({
         name: nodeRES.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodeRES(locParentNode, 
+          const p = new MyNodeRES(locParentNode,
             nodeRES.name,
             nodeRES.caption,
             nodeRES.description);
             // p.dummyParam = nodeRES.dummyParam;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodeRES Error: DBNode "${nodeRES.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodeRES Error: DBNode "${nodeRES.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -116,29 +103,28 @@ function loadNodeLEPs(cb) {
       DbNode.NetNode.findOne({
         name: nodeLEP.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodeLEP(locParentNode, 
+          const p = new MyNodeLEP(locParentNode,
             nodeLEP.name,
             nodeLEP.caption,
             nodeLEP.description);
           p.voltage = nodeLEP.voltage;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodeLEP Error: DBNode "${nodeLEP.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodeLEP Error: DBNode "${nodeLEP.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -149,29 +135,28 @@ function loadNodePSs(cb) {
       DbNode.NetNode.findOne({
         name: nodePS.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodePS(locParentNode, 
+          const p = new MyNodePS(locParentNode,
             nodePS.name,
             nodePS.caption,
             nodePS.description);
-          //p.voltage = nodePS.voltage;
+          // p.voltage = nodePS.voltage;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodePS Error: DBNode "${nodePS.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodePS Error: DBNode "${nodePS.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -182,29 +167,28 @@ function loadNodePSParts(cb) {
       DbNode.NetNode.findOne({
         name: nodePSPart.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodePS(locParentNode, 
+          const p = new MyNodePSPart(locParentNode,
             nodePSPart.name,
             nodePSPart.caption,
             nodePSPart.description);
-          //p.voltage = nodePSPart.voltage;
+          // p.voltage = nodePSPart.voltage;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodePSPart Error: DBNode "${nodePSPart.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodePSPart Error: DBNode "${nodePSPart.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -215,29 +199,28 @@ function loadNodeTransformers(cb) {
       DbNode.NetNode.findOne({
         name: nodeTransformer.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodePS(locParentNode, 
+          const p = new MyNodeTransformer(locParentNode,
             nodeTransformer.name,
             nodeTransformer.caption,
             nodeTransformer.description);
-          p.power = nodePS.power;
+          p.power = nodeTransformer.power;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodeTransformer Error: DBNode "${nodeTransformer.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodeTransformer Error: DBNode "${nodeTransformer.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -248,29 +231,28 @@ function loadNodeSections(cb) {
       DbNode.NetNode.findOne({
         name: nodeSection.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodePS(locParentNode, 
+          const p = new MyNodeSection(locParentNode,
             nodeSection.name,
             nodeSection.caption,
             nodeSection.description);
-          //p.voltage = nodeSection.voltage;
+          // p.voltage = nodeSection.voltage;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodeSection Error: DBNode "${nodeSection.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodeSection Error: DBNode "${nodeSection.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -281,62 +263,60 @@ function loadNodeConnectors(cb) {
       DbNode.NetNode.findOne({
         name: nodeConnector.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodePS(locParentNode, 
+          const p = new MyNodeConnector(locParentNode,
             nodeConnector.name,
             nodeConnector.caption,
             nodeConnector.description);
-          //p.voltage = nodePS.voltage;
+          // p.voltage = nodePS.voltage;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodeConnector Error: DBNode "${nodeConnector.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodeConnector Error: DBNode "${nodeConnector.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
 function loadNodeEquipments(cb) {
-  DbNodePS.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+  DbNodeEquipment.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
     prms.forEach((nodeEquipment) => {
       DbNode.NetNode.findOne({
         name: nodeEquipment.name,
       }, (err, locNode) => {
-        if (err){
-          return cb(err)
-        }
-        else if (locNode) {
+        if (err) {
+          return cb(err);
+        } else if (locNode) {
           let locParentNode = null;
           if (nodes.has(locNode.parentNode)) {
-            locParentNode = nodes.get(locNode.parentNode)
+            locParentNode = nodes.get(locNode.parentNode);
           }
-          const p = new MyNodePS(locParentNode, 
+          const p = new MyNodeEquipment(locParentNode,
             nodeEquipment.name,
             nodeEquipment.caption,
             nodeEquipment.description);
-          //p.voltage = nodePS.voltage;
+          // p.voltage = nodePS.voltage;
           nodes.set(p.name, p);
           return cb(null);
-        } else {
-          // node does not exist
-          const err = `create NodeEquipment Error: DBNode  "${nodeEquipment.name}" does not exists!`;
-          console.error(err);
-          return cb(err);
         }
+          // node does not exist
+        const s = `create NodeEquipment Error: DBNode  "${nodeEquipment.name}" does not exists!`;
+        logger.error(s);
+        return cb(s);
       });
     });
+    return false;
   });
 }
 
@@ -346,15 +326,9 @@ function checkData(cb) {
 }
 
 function linkData(cb) {
-  nodes.forEach((node) => {
-    const locListNames = [];
-    paramLists.forEach((prmList) => {
-      if (prmList.paramNames.indexOf(node.name) > -1) {
-        locListNames.push(prmList.name);
-      }
-    });
-    node.setListNames(locListNames);
-  });
+  // nodes.forEach((node) => {
+
+  // });
 
   return cb();
 }

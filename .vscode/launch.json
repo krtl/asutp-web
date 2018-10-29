@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "import Scheme",
+            "program": "${workspaceFolder}\\server\\consoleScripts\\importScheme.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "CreateDB script",
             "program": "${workspaceFolder}\\server\\consoleScripts\\CreateDB.js"
         }

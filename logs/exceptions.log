@@ -1399,3 +1399,1573 @@ Error: No data!
     at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
     at linkData (d:\javascript\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
     at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=61440000, heapTotal=38641664, heapUsed=20685120, external=17922610, loadavg=[0, 0, 0], uptime=533923.0524796
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62255104, heapTotal=38641664, heapUsed=20875424, external=17922634, loadavg=[0, 0, 0], uptime=533923.057484
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=20973296, external=17922634, loadavg=[0, 0, 0], uptime=533923.0594837
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21048048, external=17922634, loadavg=[0, 0, 0], uptime=533923.0604844
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21205928, external=17922634, loadavg=[0, 0, 0], uptime=533923.0624858
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21300832, external=17922634, loadavg=[0, 0, 0], uptime=533923.0644872
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21408176, external=17922634, loadavg=[0, 0, 0], uptime=533923.0664886
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21490952, external=17922634, loadavg=[0, 0, 0], uptime=533923.0674893
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21597864, external=17922634, loadavg=[0, 0, 0], uptime=533923.0694913
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21730672, external=17922634, loadavg=[0, 0, 0], uptime=533923.0704915
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62263296, heapTotal=38641664, heapUsed=21837584, external=17922634, loadavg=[0, 0, 0], uptime=533923.0724937
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62291968, heapTotal=38641664, heapUsed=21960864, external=17922634, loadavg=[0, 0, 0], uptime=533923.0744954
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62312448, heapTotal=38641664, heapUsed=22107784, external=17922634, loadavg=[0, 0, 0], uptime=533923.0784974
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62312448, heapTotal=38641664, heapUsed=22215096, external=17922634, loadavg=[0, 0, 0], uptime=533923.0794995
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62312448, heapTotal=38641664, heapUsed=22296112, external=17922634, loadavg=[0, 0, 0], uptime=533923.0814998
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62312448, heapTotal=38641664, heapUsed=22377560, external=17922634, loadavg=[0, 0, 0], uptime=533923.0825008
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62312448, heapTotal=38641664, heapUsed=22484472, external=17922634, loadavg=[0, 0, 0], uptime=533923.0845019
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62509056, heapTotal=38641664, heapUsed=22594272, external=17922634, loadavg=[0, 0, 0], uptime=533923.0865036
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62734336, heapTotal=38641664, heapUsed=22702744, external=17922634, loadavg=[0, 0, 0], uptime=533923.0885062
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62955520, heapTotal=38641664, heapUsed=22826848, external=17922634, loadavg=[0, 0, 0], uptime=533923.0905084
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62955520, heapTotal=38641664, heapUsed=22907848, external=17922634, loadavg=[0, 0, 0], uptime=533923.0925073
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62955520, heapTotal=38641664, heapUsed=22989240, external=17922634, loadavg=[0, 0, 0], uptime=533923.093508
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62955520, heapTotal=38641664, heapUsed=23136360, external=17922634, loadavg=[0, 0, 0], uptime=533923.0955117
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62955520, heapTotal=38641664, heapUsed=23218136, external=17922634, loadavg=[0, 0, 0], uptime=533923.0965127
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:41:31.4131 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:41:31 GMT+0200 (Финляндия (зима)), pid=9652, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62959616, heapTotal=38641664, heapUsed=23326536, external=17922634, loadavg=[0, 0, 0], uptime=533923.0985138
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:173:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63778816, heapTotal=40214528, heapUsed=23467264, external=17977299, loadavg=[0, 0, 0], uptime=534595.9578185
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64077824, heapTotal=40214528, heapUsed=23589552, external=17977323, loadavg=[0, 0, 0], uptime=534595.9618198
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=23669680, external=17977323, loadavg=[0, 0, 0], uptime=534595.9638224
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=23751920, external=17977323, loadavg=[0, 0, 0], uptime=534595.9648345
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=23824120, external=17977323, loadavg=[0, 0, 0], uptime=534595.9668362
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=23909104, external=17977323, loadavg=[0, 0, 0], uptime=534595.9678246
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=23976472, external=17977323, loadavg=[0, 0, 0], uptime=534595.9688373
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24045872, external=17977323, loadavg=[0, 0, 0], uptime=534595.9698377
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24126224, external=17977323, loadavg=[0, 0, 0], uptime=534595.9718394
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24197960, external=17977323, loadavg=[0, 0, 0], uptime=534595.9728404
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24280144, external=17977323, loadavg=[0, 0, 0], uptime=534595.9738305
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24378152, external=17977323, loadavg=[0, 0, 0], uptime=534595.9758425
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24460528, external=17977323, loadavg=[0, 0, 0], uptime=534595.9768429
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64229376, heapTotal=40214528, heapUsed=24542712, external=17977323, loadavg=[0, 0, 0], uptime=534595.9788448
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64233472, heapTotal=40214528, heapUsed=24623728, external=17977323, loadavg=[0, 0, 0], uptime=534595.9798453
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64233472, heapTotal=40214528, heapUsed=24706376, external=17977323, loadavg=[0, 0, 0], uptime=534595.9808457
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64233472, heapTotal=40214528, heapUsed=24788560, external=17977323, loadavg=[0, 0, 0], uptime=534595.9818464
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65261568, heapTotal=40738816, heapUsed=17630896, external=17836122, loadavg=[0, 0, 0], uptime=534595.9868379
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65585152, heapTotal=40738816, heapUsed=17713176, external=17836122, loadavg=[0, 0, 0], uptime=534595.9888399
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65933312, heapTotal=40738816, heapUsed=17794224, external=17836122, loadavg=[0, 0, 0], uptime=534595.9908407
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65146880, heapTotal=40738816, heapUsed=17892024, external=17836122, loadavg=[0, 0, 0], uptime=534595.9928418
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65224704, heapTotal=40738816, heapUsed=17974976, external=17836122, loadavg=[0, 0, 0], uptime=534595.9938548
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65306624, heapTotal=40738816, heapUsed=18056784, external=17836122, loadavg=[0, 0, 0], uptime=534595.9948552
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65388544, heapTotal=40738816, heapUsed=18138592, external=17836122, loadavg=[0, 0, 0], uptime=534595.9968449
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:52:44.5244 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:52:44 GMT+0200 (Финляндия (зима)), pid=5492, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65470464, heapTotal=40738816, heapUsed=18220400, external=17836122, loadavg=[0, 0, 0], uptime=534595.9978573
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62992384, heapTotal=39690240, heapUsed=20769912, external=17985491, loadavg=[0, 0, 0], uptime=534627.3937097
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63578112, heapTotal=39690240, heapUsed=20892072, external=17985515, loadavg=[0, 0, 0], uptime=534627.3967252
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63586304, heapTotal=39690240, heapUsed=20967632, external=17985515, loadavg=[0, 0, 0], uptime=534627.3987146
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63672320, heapTotal=39690240, heapUsed=21049840, external=17985515, loadavg=[0, 0, 0], uptime=534627.4007148
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63832064, heapTotal=39690240, heapUsed=21126656, external=17985515, loadavg=[0, 0, 0], uptime=534627.4017155
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63832064, heapTotal=39690240, heapUsed=21208064, external=17985515, loadavg=[0, 0, 0], uptime=534627.4027294
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63832064, heapTotal=39690240, heapUsed=21273832, external=17985515, loadavg=[0, 0, 0], uptime=534627.4037295
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63832064, heapTotal=39690240, heapUsed=21343664, external=17985515, loadavg=[0, 0, 0], uptime=534627.4057312
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63832064, heapTotal=39690240, heapUsed=21425848, external=17985515, loadavg=[0, 0, 0], uptime=534627.4067316
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63836160, heapTotal=39690240, heapUsed=21508032, external=17985515, loadavg=[0, 0, 0], uptime=534627.4077323
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63836160, heapTotal=39690240, heapUsed=21590248, external=17985515, loadavg=[0, 0, 0], uptime=534627.4087336
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63836160, heapTotal=39690240, heapUsed=21689368, external=17985515, loadavg=[0, 0, 0], uptime=534627.4107347
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63836160, heapTotal=39690240, heapUsed=21772112, external=17985515, loadavg=[0, 0, 0], uptime=534627.4117351
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63852544, heapTotal=39690240, heapUsed=21855984, external=17985515, loadavg=[0, 0, 0], uptime=534627.4127361
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63852544, heapTotal=39690240, heapUsed=21938200, external=17985515, loadavg=[0, 0, 0], uptime=534627.4137368
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63852544, heapTotal=39690240, heapUsed=22020384, external=17985515, loadavg=[0, 0, 0], uptime=534627.4147369
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63852544, heapTotal=39690240, heapUsed=22101400, external=17985515, loadavg=[0, 0, 0], uptime=534627.4157376
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63881216, heapTotal=39690240, heapUsed=22184656, external=17985515, loadavg=[0, 0, 0], uptime=534627.4177399
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64012288, heapTotal=39690240, heapUsed=22266872, external=17985515, loadavg=[0, 0, 0], uptime=534627.4187291
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64237568, heapTotal=39690240, heapUsed=22349088, external=17985515, loadavg=[0, 0, 0], uptime=534627.42073
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64475136, heapTotal=39690240, heapUsed=22431344, external=17985515, loadavg=[0, 0, 0], uptime=534627.4217312
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63578112, heapTotal=39690240, heapUsed=22532624, external=17985515, loadavg=[0, 0, 0], uptime=534627.4227431
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63684608, heapTotal=39690240, heapUsed=22614512, external=17985515, loadavg=[0, 0, 0], uptime=534627.4247448
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63754240, heapTotal=39690240, heapUsed=22702464, external=17985515, loadavg=[0, 0, 0], uptime=534627.4257326
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:15.5315 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:15 GMT+0200 (Финляндия (зима)), pid=5628, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63754240, heapTotal=39690240, heapUsed=22784336, external=17985515, loadavg=[0, 0, 0], uptime=534627.4277474
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63483904, heapTotal=39690240, heapUsed=20779704, external=17985491, loadavg=[0, 0, 0], uptime=534638.4145185
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63844352, heapTotal=39690240, heapUsed=20902264, external=17985515, loadavg=[0, 0, 0], uptime=534638.4175209
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63938560, heapTotal=39690240, heapUsed=20977768, external=17985515, loadavg=[0, 0, 0], uptime=534638.419522
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21064600, external=17985515, loadavg=[0, 0, 0], uptime=534638.4215246
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21136792, external=17985515, loadavg=[0, 0, 0], uptime=534638.4225241
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21218160, external=17985515, loadavg=[0, 0, 0], uptime=534638.4235257
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21283928, external=17985515, loadavg=[0, 0, 0], uptime=534638.4245252
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21353768, external=17985515, loadavg=[0, 0, 0], uptime=534638.4255265
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21435952, external=17985515, loadavg=[0, 0, 0], uptime=534638.4275282
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21518136, external=17985515, loadavg=[0, 0, 0], uptime=534638.4285286
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21600320, external=17985515, loadavg=[0, 0, 0], uptime=534638.4295293
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21699440, external=17985515, loadavg=[0, 0, 0], uptime=534638.431531
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64045056, heapTotal=39690240, heapUsed=21782184, external=17985515, loadavg=[0, 0, 0], uptime=534638.4325311
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64061440, heapTotal=39690240, heapUsed=21864432, external=17985515, loadavg=[0, 0, 0], uptime=534638.4335321
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64061440, heapTotal=39690240, heapUsed=21946648, external=17985515, loadavg=[0, 0, 0], uptime=534638.4345325
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64061440, heapTotal=39690240, heapUsed=22028832, external=17985515, loadavg=[0, 0, 0], uptime=534638.4355329
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64061440, heapTotal=39690240, heapUsed=22109848, external=17985515, loadavg=[0, 0, 0], uptime=534638.4375352
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64061440, heapTotal=39690240, heapUsed=22193104, external=17985515, loadavg=[0, 0, 0], uptime=534638.438535
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64118784, heapTotal=39690240, heapUsed=22275320, external=17985515, loadavg=[0, 0, 0], uptime=534638.4405259
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64319488, heapTotal=39690240, heapUsed=22357536, external=17985515, loadavg=[0, 0, 0], uptime=534638.4415249
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64401408, heapTotal=39690240, heapUsed=22456568, external=17985515, loadavg=[0, 0, 0], uptime=534638.4435277
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64401408, heapTotal=39690240, heapUsed=22542816, external=17985515, loadavg=[0, 0, 0], uptime=534638.4455282
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64409600, heapTotal=39690240, heapUsed=22624704, external=17985515, loadavg=[0, 0, 0], uptime=534638.4475293
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64413696, heapTotal=39690240, heapUsed=22712656, external=17985515, loadavg=[0, 0, 0], uptime=534638.44853
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:53:26.5326 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:53:26 GMT+0200 (Финляндия (зима)), pid=7304, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64413696, heapTotal=39690240, heapUsed=22794528, external=17985515, loadavg=[0, 0, 0], uptime=534638.4505317
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63131648, heapTotal=40214528, heapUsed=21166192, external=17925489, loadavg=[0, 0, 0], uptime=534691.1213916
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63795200, heapTotal=40214528, heapUsed=21288120, external=17925513, loadavg=[0, 0, 0], uptime=534691.1253935
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21385192, external=17925513, loadavg=[0, 0, 0], uptime=534691.1263939
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21459688, external=17925513, loadavg=[0, 0, 0], uptime=534691.1283959
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21541792, external=17925513, loadavg=[0, 0, 0], uptime=534691.1293969
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21611968, external=17925513, loadavg=[0, 0, 0], uptime=534691.1303976
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21693936, external=17925513, loadavg=[0, 0, 0], uptime=534691.1313991
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21776120, external=17925513, loadavg=[0, 0, 0], uptime=534691.1334005
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21858736, external=17925513, loadavg=[0, 0, 0], uptime=534691.1343995
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=21940920, external=17925513, loadavg=[0, 0, 0], uptime=534691.1354016
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22023104, external=17925513, loadavg=[0, 0, 0], uptime=534691.1364018
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22120512, external=17925513, loadavg=[0, 0, 0], uptime=534691.1384032
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22201656, external=17925513, loadavg=[0, 0, 0], uptime=534691.1394039
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22283872, external=17925513, loadavg=[0, 0, 0], uptime=534691.1404046
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22366056, external=17925513, loadavg=[0, 0, 0], uptime=534691.142406
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22448240, external=17925513, loadavg=[0, 0, 0], uptime=534691.1434064
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63922176, heapTotal=40214528, heapUsed=22530488, external=17925513, loadavg=[0, 0, 0], uptime=534691.1444071
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63950848, heapTotal=40214528, heapUsed=22616064, external=17925513, loadavg=[0, 0, 0], uptime=534691.1464093
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64118784, heapTotal=40214528, heapUsed=22698712, external=17925513, loadavg=[0, 0, 0], uptime=534691.1474106
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64311296, heapTotal=40214528, heapUsed=22780968, external=17925513, loadavg=[0, 0, 0], uptime=534691.1484107
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=22880704, external=17925513, loadavg=[0, 0, 0], uptime=534691.1504124
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=22963296, external=17925513, loadavg=[0, 0, 0], uptime=534691.1514131
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=23046240, external=17925513, loadavg=[0, 0, 0], uptime=534691.1534145
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=23128016, external=17925513, loadavg=[0, 0, 0], uptime=534691.1544158
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=23209792, external=17925513, loadavg=[0, 0, 0], uptime=534691.1554156
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=23291584, external=17925513, loadavg=[0, 0, 0], uptime=534691.1574173
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-29 16:54:19.5419 - error: uncaughtException: Cannot read property 'forEach' of undefined date=Mon Oct 29 2018 16:54:19 GMT+0200 (Финляндия (зима)), pid=6700, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63639552, heapTotal=40214528, heapUsed=23373360, external=17925513, loadavg=[0, 0, 0], uptime=534691.1584177
+TypeError: Cannot read property 'forEach' of undefined
+    at isTheSameNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:81:26)
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:175:14)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:68:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)

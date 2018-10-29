@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const myNodeType = require('../models/myNodeType');
 
 const NodeTransformerSchema = new mongoose.Schema({
   name: {
@@ -9,4 +10,6 @@ const NodeTransformerSchema = new mongoose.Schema({
   power: Number,
 });
 
+module.exports.nodeType = myNodeType.TRANSFORMER;
+module.exports.CompareProps = [ 'power' ];
 module.exports = mongoose.model('NodeTransformer', NodeTransformerSchema);

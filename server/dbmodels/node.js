@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const myNodeType = require('../models/myNodeType');
 
 const NodeSchema = new mongoose.Schema({
   name: {
@@ -23,4 +24,7 @@ const NodeSchema = new mongoose.Schema({
   sapCode: String,
 });
 
+
+module.exports.nodeType = myNodeType.UNKNOWN;
+module.exports.CompareProps = [ 'caption', 'description', 'nodeType' ];
 module.exports = mongoose.model('Node', NodeSchema);
