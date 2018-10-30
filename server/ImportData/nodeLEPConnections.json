@@ -2,12 +2,12 @@
 
     {    "name": "lepConnection1",
      "caption": "lepConnection1",
-      "description": "dummylepConnection1", "fromNode": "lep1", "toNode": "ps1", "toNodeConnector": "c1"},
+      "description": "dummylepConnection1", "parentNode": "lep1", "toNode": "ps1", "toNodeConnector": "c1"},
     {   "name": "lepConnection2",
         "caption": "lepConnection2",
-        "description": "dummylepConnection2", "fromNode": "lep2", "toNode": "ps1", "toNodeConnector": "c2"},
+        "description": "dummylepConnection2", "parentNode": "lep2", "toNode": "ps1", "toNodeConnector": "c2"},
     {   "name": "lepConnection3",
         "caption": "lepConnection3",
-        "description": "dummylepConnection3", "fromNode": "lep1", "toNode": "ps2", "toNodeConnector": "c3"}
+        "description": "dummylepConnection3", "parentNode": "lep1", "toNode": "ps2", "toNodeConnector": "c3"}
         
 ]

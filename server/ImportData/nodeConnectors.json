@@ -27,7 +27,7 @@
 , "paramOnOffState": "param13"},
   {
     "name": "c6", "x": 30, "y": 90,
-    "caption": "c6",
+    "caption": "c6","parentNode": "sec2",
     "description": "zzz2"
 , "paramOnOffState": "param1"}
 ]

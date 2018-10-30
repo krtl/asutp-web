@@ -4,9 +4,13 @@
  "x": 10, "y": 10,
    "caption": "ps1211",
     "description": "dummyPS1", "parentNode": "res1"},
-
+    {    "name": "ps2",
+      "x": 10, "y": 10,
+        "caption": "ps211",
+         "description": "dummyPS1", "parentNode": "res1"},
+     
   {
-    "name": "ps2", "x": 200, "y": 100,
+    "name": "ps3", "x": 200, "y": 100,
     "caption": "ps2",
     "description": "dummyPS2", "parentNode": "res1"}
 

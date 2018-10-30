@@ -3,7 +3,7 @@ const fs = require('fs');
 const async = require('async');
 const events = require('events');
 const config = require('../../config');
-// const console = require('../../server/console');
+const myNodeType = require('../models/myNodeType');
 
 const DbNode = require('../dbmodels/node');
 const DbNodeRES = require('../dbmodels/nodeRES');
@@ -15,7 +15,6 @@ const DbNodeTransformer = require('../dbmodels/nodeTransformer');
 const DbNodeConnector = require('../dbmodels/nodeConnector');
 const DbNodeSection = require('../dbmodels/nodeSection');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
-
 
 const Sheme = [
   [ DbNodeRES, 'nodeRESs.json' ],
@@ -29,6 +28,12 @@ const Sheme = [
   [ DbNodeEquipment, 'nodeEquipments.json' ],
 ];
 
+let errs = 0;
+function setError(text) {
+  errs += 1;
+  console.error(text);
+}
+
 async.series([
   open,
   requireModels,
@@ -37,6 +42,13 @@ async.series([
 ], (err) => {
 //  console.info(arguments);
   mongoose.disconnect();
+
+  if (errs === 0) {
+    console.info('Script successed.');
+  } else {
+    console.error(`Script failed with ${errs} errors!`);
+  }
+
   process.exit(err ? 255 : 0);
 });
 
@@ -127,7 +139,7 @@ function updateNodeObj(DbNodeObj, originNode, newNode, callback) {
         defineAProp(obj, pName, newNode[pName]);
       }
     } else {
-      console.error(`updateNodeObj error: Property ${pName} is not degined.`);
+      setError(`updateNodeObj error: Property ${pName} is not degined.`);
       // break;
     }
   }
@@ -142,7 +154,7 @@ function importNodes(callback) {
     importNodesFromFile(schemeElement, callback);
   }, (err) => {
     if (err) {
-      console.error(`Importing failed: ${err}`);
+      setError(`Importing failed: ${err}`);
     } else {
       console.info('Importing successed.');
     }
@@ -154,7 +166,13 @@ function importNodes(callback) {
 
 function checkIfParentNodeExists(node, callback) {
   if ((node.parentNode === undefined) || (node.parentNode === null) || (node.parentNode === '')) {
-    callback(null);
+    if (myNodeType.isParentRequired(node.nodeType)) {
+      const s = `Parent is required for node:"${node.name}"!`;
+      setError(s);
+      callback(s);
+    } else {
+      callback(null);
+    }
   } else {
     DbNode.findOne({
       name: node.parentNode,
@@ -166,8 +184,8 @@ function checkIfParentNodeExists(node, callback) {
       } else {
         // node does not exist
         const s = `Parent node "${node.parentNode}" does not exists for node:"${node.name}"!`;
+        setError(s);
         callback(s);
-        console.error(s);
       }
     });
   }
@@ -182,7 +200,7 @@ function importNodesFromFile(schemeElement, callback) {
   try {
     rawdata = fs.readFileSync(fullFileName);
   } catch (err) {
-    console.error(`Read file error: ${err.message}`);
+    setError(`Read file error: ${err.message}`);
     callback(err.message);
     return;
   }
@@ -192,6 +210,7 @@ function importNodesFromFile(schemeElement, callback) {
   async.each(locObjects, (locData, callback) => {
     const newNode = new DbNode(locData);
     const newNodeObj = new DbNodeObj(locData);
+    newNode.nodeType = DbNodeObj.nodeType;
 
     getNode(newNode.name, (err, netNode) => {
       if (err) callback(err);
@@ -231,7 +250,7 @@ function importNodesFromFile(schemeElement, callback) {
         if (!isTheSameNodeObj(DbNodeObj, existedNodeObj, newNodeObj)) {
           updateNodeObj(DbNodeObj, existedNodeObj, newNodeObj, (error) => {
             if (error) callback(error);
-            console.info(`Node "${newNode.name}" updated`);
+            console.info(`NodeObj "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -243,16 +262,14 @@ function importNodesFromFile(schemeElement, callback) {
           if (err) {
             callback(err);
           }
-          console.info(`Node "${newNode.name}" inserted`);
+          console.info(`NodeObj "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.info('Success.');
+    if (err === null) {
+      console.info(`importing from "${fullFileName}" successed.`);
     }
     callback(err);
   });
@@ -262,19 +279,29 @@ function checkIntegrity(callback) {
   console.info('Checking integrity...');
   DbNode.find({
     parentNode: null,
+    nodeType: myNodeType.getParentRequiresTypes(),
   }, null, { sort: { name: 1 } }, (err, netNodes) => {
     if (err) {
-      console.error(`Checking integrity failed: ${err}`);
+      setError(`Checking integrity failed: ${err}`);
       callback(err);
     } else if (netNodes.length > 0) {
       let s = '';
+      let locCount = 0;
       for (let i = 0; i < netNodes.length; i += 1) {
-        s += netNodes[i].name;
-        if (i < (netNodes.length) - 1) s += ',';
-        if (s.length > 100) break;
+        if (myNodeType.parentRequired(netNodes[i].nodeType)) {
+          s += netNodes[i].name;
+          locCount += 1;
+          if (i < (netNodes.length) - 1) s += ',';
+          if (s.length > 100) break;
+        }
       }
-      console.error(`Checking integrity failed: There are ${netNodes.length} nodes without parent: ${s}`);
-      callback(s);
+      if (locCount > 0) {
+        setError(`Checking integrity is failed: There are ${locCount} nodes without parent: ${s}`);
+        callback(s);
+      } else {
+        console.info('Success.');
+        callback(null);
+      }
     } else {
       console.info('Success.');
       callback(null);
