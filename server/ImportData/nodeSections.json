@@ -11,6 +11,10 @@
   {
     "name": "sec4", "x": 100, "y": 100, "parentNode": "psPart1",
     "caption": "sec4",
-    "description": "dummSsec2", "dummyParam": "param1"}
-
+    "description": "dummSsec2", "dummyParam": "param1"},
+  {
+      "name": "sec5", "x": 100, "y": 100, "parentNode": "psPart3",
+      "caption": "sec5",
+      "description": "dummSsec2", "dummyParam": "param1"}
+  
 ]

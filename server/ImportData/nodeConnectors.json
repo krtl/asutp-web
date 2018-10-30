@@ -16,7 +16,7 @@
     "description": "", "parentNode": "sec1"
 , "paramOnOffState": "param2"},
   {
-    "name": "c4", "x": 400, "y": 300,
+    "name": "c4", "x": 400, "y": 300, "parentNode": "sec5",
     "caption": "c4",
     "description": "zzz"
 , "paramOnOffState": "param3"},

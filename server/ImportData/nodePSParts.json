@@ -7,6 +7,11 @@
   {
     "name": "psPart2", 
     "caption": "psPart2222",
-    "description": "dummyPartPS2", "parentNode": "ps1"}
+    "description": "dummyPartPS2", "parentNode": "ps1"},
 
+    {
+      "name": "psPart3", 
+      "caption": "psPart2222",
+      "description": "dummyPartPS2", "parentNode": "ps2"}
+  
 ]

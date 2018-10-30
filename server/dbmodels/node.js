@@ -35,4 +35,4 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.UNKNOWN);
-define('compareProps', [ 'caption', 'description', 'nodeType' ]);
+define('compareProps', [ 'caption', 'description', 'parentNode', 'nodeType' ]);
