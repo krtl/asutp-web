@@ -10,6 +10,15 @@ const NodeEquipmentSchema = new mongoose.Schema({
   equipmentType: Number,
 });
 
-module.exports.nodeType = myNodeType.EQUIPMENT;
-module.exports.CompareProps = [ ];
 module.exports = mongoose.model('NodeEquipment', NodeEquipmentSchema);
+
+function define(name, value) {
+  Object.defineProperty(module.exports, name, {
+    value,
+    enumerable: true,
+  });
+}
+
+define('nodeType', myNodeType.EQUIPMENT);
+define('compareProps', [ ]);
+

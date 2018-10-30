@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 const async = require('async');
+const events = require('events');
 const config = require('../../config');
-const logger = require('../../server/logger');
+// const console = require('../../server/console');
 
 const DbNode = require('../dbmodels/netNode');
 const DbNodeRES = require('../dbmodels/nodeRES');
@@ -31,13 +32,13 @@ async.series([
   requireModels,
   importNodes,
 ], (err) => {
-//  logger.info(arguments);
+//  console.info(arguments);
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
 
 function open(callback) {
-  logger.info('open');
+  console.info('open');
 // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
@@ -45,9 +46,7 @@ function open(callback) {
 }
 
 function requireModels(callback) {
-  logger.info('models');
-  // require('mongoose').model('NetNode');  // eslint-disable-line global-require
-  // require('mongoose').model('NetWire');  // eslint-disable-line global-require
+  console.info('models');
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
     mongoose.models[modelName].ensureIndexes(callback);
@@ -61,6 +60,7 @@ function getNode(nodeName, callback) {
     callback(err, netNode);
   });
 }
+
 function getNodeObj(DbNodeObj, nodeName, callback) {
   DbNodeObj.findOne({
     name: nodeName,
@@ -78,19 +78,21 @@ function isTheSameNode(netNode1, netNode2) {
 
 function isTheSameNodeObj(DbNodeObj, netNode1, netNode2) {
   let result = true;
-  DbNodeObj.compareProps.forEach((pName) => {
-    const hasProperty1 = Object.prototype.hasOwnProperty.call(netNode1, pName);
-    const hasProperty2 = Object.prototype.hasOwnProperty.call(netNode2, pName);
+  for (let i = 0; i < DbNodeObj.compareProps.length; i += 1) {
+    const pName = DbNodeObj.compareProps[i];
+    const hasProperty1 = pName in netNode1;
+    const hasProperty2 = pName in netNode2;
 
     if ((hasProperty1) && (hasProperty2)) {
       if (netNode1[pName] !== netNode2[pName]) {
         result = false;
+        break;
       }
     } else {
       result = false;
-      // break;
+      break;
     }
-  });
+  }
   return result;
 }
 
@@ -103,21 +105,43 @@ function updateNode(originNode, newNode, callback) {
       y: newNode.y } }, callback);
 }
 
+function defineAProp(obj, name, value) {
+  Object.defineProperty(obj, name, {
+    value,
+    enumerable: true,
+  });
+}
+
 function updateNodeObj(DbNodeObj, originNode, newNode, callback) {
+  const obj = {};
+  for (let i = 0; i < DbNodeObj.compareProps.length; i += 1) {
+    const pName = DbNodeObj.compareProps[i];
+    const hasProperty1 = pName in originNode;
+    const hasProperty2 = pName in newNode;
+
+    if ((hasProperty1) && (hasProperty2)) {
+      if (originNode[pName] !== newNode[pName]) {
+        defineAProp(obj, pName, newNode[pName]);
+      }
+    } else {
+      console.error(`updateNodeObj error: Property ${pName} is not degined.`);
+      // break;
+    }
+  }
+
   DbNodeObj.update({ _id: originNode.id },
-    { $set: {
-      testPower: newNode.testPower, //!!
-    } }, callback);
+    { $set: obj }, callback);
 }
 
 function importNodes(callback) {
-  async.each(Sheme, (schemeElement, callback) => {
+  events.EventEmitter.defaultMaxListeners = 125;
+  async.eachSeries(Sheme, (schemeElement, callback) => {
     importNodesFromFile(schemeElement, callback);
   }, (err) => {
     if (err) {
-      logger.error(`Failed: ${err}`);
+      console.error(`Importing failed: ${err}`);
     } else {
-      logger.info('Success.');
+      console.info('Importing successed.');
     }
     callback(err);
   }, (err) => {
@@ -129,12 +153,12 @@ function importNodesFromFile(schemeElement, callback) {
   const DbNodeObj = schemeElement[0];
   const fileName = schemeElement[1];
   const fullFileName = `${config.importPath}${fileName}`;
-  logger.info(`importing from "${fullFileName}"..`);
+  console.info(`importing from "${fullFileName}"..`);
   let rawdata = '';
   try {
     rawdata = fs.readFileSync(fullFileName);
   } catch (err) {
-    logger.error(`Read file error: ${err.message}`);
+    console.error(`Read file error: ${err.message}`);
     callback(err.message);
     return;
   }
@@ -153,8 +177,11 @@ function importNodesFromFile(schemeElement, callback) {
         if (!isTheSameNode(netNode, newNode)) {
           updateNode(netNode, newNode, (error) => {
             if (error) callback(error);
-            logger.info(`Node "${newNode.name}" updated`);
+            console.info(`Node "${newNode.name}" updated`);
+            callback(null);
           });
+        } else {
+          callback(null);
         }
       } else {
         // does not exist
@@ -162,7 +189,8 @@ function importNodesFromFile(schemeElement, callback) {
           if (err) {
             callback(err);
           }
-          logger.info(`Node "${newNode.name}" inserted`);
+          console.info(`Node "${newNode.name}" inserted`);
+          callback(null);
         });
       }
     });
@@ -175,7 +203,7 @@ function importNodesFromFile(schemeElement, callback) {
         if (!isTheSameNodeObj(DbNodeObj, existedNodeObj, newNodeObj)) {
           updateNodeObj(DbNodeObj, existedNodeObj, newNodeObj, (error) => {
             if (error) callback(error);
-            logger.info(`Node "${newNode.name}" updated`);
+            console.info(`Node "${newNode.name}" updated`);
             callback(null);
           });
         } else {
@@ -187,16 +215,16 @@ function importNodesFromFile(schemeElement, callback) {
           if (err) {
             callback(err);
           }
-          logger.info(`Node "${newNode.name}" inserted`);
+          console.info(`Node "${newNode.name}" inserted`);
           callback(null);
         });
       }
     });
   }, (err) => {
     if (err) {
-      logger.error(`Failed: ${err}`);
+      console.error(`Failed: ${err}`);
     } else {
-      logger.info('Success.');
+      console.info('Success.');
     }
     callback(err);
   });

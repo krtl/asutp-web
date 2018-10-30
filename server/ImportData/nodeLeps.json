@@ -7,10 +7,14 @@
   {
     "name": "lep2", 
     "caption": "lep2",
-    "description": "dummyLEP22", "voltage": "35"},
+    "description": "dummyLEP22", "voltage": "305"},
 
   {
     "name": "lep3",
     "caption": "lep3",
-    "description": "dummyLEP22", "voltage": "10"}
+    "description": "dummyLEP22", "voltage": "100"},
+    {
+      "name": "lep4",
+      "caption": "lep444",
+      "description": "dummyLEP44", "voltage": "44"}
 ]

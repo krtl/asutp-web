@@ -11,6 +11,14 @@ const NodeConnectorSchema = new mongoose.Schema({
   toNode: String,
 });
 
-module.exports.nodeType = myNodeType.CONNECTOR;
-module.exports.CompareProps = [ 'fromNode', 'toNode' ];
 module.exports = mongoose.model('NodeConnector', NodeConnectorSchema);
+
+function define(name, value) {
+  Object.defineProperty(module.exports, name, {
+    value,
+    enumerable: true,
+  });
+}
+
+define('nodeType', myNodeType.CONNECTOR);
+define('compareProps', [ 'fromNode', 'toNode' ]);

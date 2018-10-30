@@ -9,6 +9,14 @@ const NodeRESSchema = new mongoose.Schema({
 
 });
 
-module.exports.nodeType = myNodeType.RES;
-module.exports.CompareProps = [ ];
 module.exports = mongoose.model('NodeRES', NodeRESSchema);
+
+function define(name, value) {
+  Object.defineProperty(module.exports, name, {
+    value,
+    enumerable: true,
+  });
+}
+
+define('nodeType', myNodeType.RES);
+define('compareProps', [ ]);

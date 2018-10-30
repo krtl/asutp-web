@@ -9,6 +9,14 @@ const NodePSSchema = new mongoose.Schema({
 
 });
 
-module.exports.nodeType = myNodeType.PS;
-module.exports.CompareProps = [ ];
 module.exports = mongoose.model('NodePS', NodePSSchema);
+
+function define(name, value) {
+  Object.defineProperty(module.exports, name, {
+    value,
+    enumerable: true,
+  });
+}
+
+define('nodeType', myNodeType.PS);
+define('compareProps', [ ]);

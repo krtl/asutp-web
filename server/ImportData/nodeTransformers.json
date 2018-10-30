@@ -2,16 +2,16 @@
 
   {    "name": "trans1",
    "caption": "t1",
-    "description": "test", "testPower": "100"},
+    "description": "test", "power": "100"},
 
   {
     "name": "trans2",
     "caption": "t2",
-    "description": "", "testPower": "10"},
+    "description": "", "power": "13450"},
 
   {
     "name": "trans3",
     "caption": "tra3",
     "description": ""
-, "testPower": "2000"}
+, "power": "2300"}
 ]
