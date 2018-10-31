@@ -10,8 +10,9 @@ const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
 const DbNodeTransformer = require('../dbmodels/nodeTransformer');
-const DbNodeConnector = require('../dbmodels/nodeConnector');
+const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector');
 const DbNodeSection = require('../dbmodels/nodeSection');
+const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const logger = require('../logger');
@@ -23,8 +24,9 @@ const MyNodeLEPConnection = require('./myNodeLEPConnection');
 const MyNodePS = require('./myNodePS');
 const MyNodePSPart = require('./myNodePSPart');
 const MyNodeTransformer = require('./myNodeTransformer');
+const MyNodeTransformerConnector = require('./myNodeTransformerConnector');
 const MyNodeSection = require('./myNodeSection');
-const MyNodeConnector = require('./myNodeConnector');
+const MyNodeSectionConnector = require('./myNodeSectionConnector');
 const MyNodeEquipment = require('./myNodeEquipment');
 
 const nodes = new Map();
@@ -39,8 +41,9 @@ const Sheme = [
   [ DbNodePS, MyNodePS ],
   [ DbNodePSPart, MyNodePSPart ],
   [ DbNodeTransformer, MyNodeTransformer ],
+  [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
   [ DbNodeSection, MyNodeSection ],
-  [ DbNodeConnector, MyNodeConnector ],
+  [ DbNodeSectionConnector, MyNodeSectionConnector ],
   [ DbNodeEquipment, MyNodeEquipment ],
 ];
 
@@ -157,7 +160,7 @@ function loadNodesFromDB(schemeElement, cb) {
   });
 }
 
-function linkTransformer(node) {
+function linkTransformerToPS(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PS) {
       node.parentNode.transformers.push(node);
@@ -174,7 +177,7 @@ function linkTransformer(node) {
   }
 }
 
-function linkSection(node) {
+function linkSectionToPS(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PS) {
       node.parentNode.sections.push(node);
@@ -197,8 +200,8 @@ function linkData(cb) {
       locNode.parentNode.nodes.push(locNode);
 
       switch (locNode.nodeType) {
-        case myNodeType.TRANSFORMER: { linkTransformer(locNode); break; }
-        case myNodeType.sections: { linkSection(locNode); break; }
+        case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
+        case myNodeType.sections: { linkSectionToPS(locNode); break; }
         default: {
           //
         }
@@ -207,6 +210,7 @@ function linkData(cb) {
   });
 
   // PSs.forEach((locPS) => {
+
   //    nodes.forEach((locPS) => {
 
   //   });
@@ -216,6 +220,19 @@ function linkData(cb) {
 }
 
 function checkData(cb) {
+  PSs.forEach((locPS) => {
+    locPS.transformers.forEach((locTransformer) => {
+      locTransformer.nodes.forEach((locTransConnector) => {
+        const locSection = locPS.sections.get(locTransConnector.toSection);
+        if (locSection === undefined) {
+          setError(`Failed to link Transformer ${locTransformer.name} to section ${locTransConnector.toSection}. There is no such section.`);
+        }
+      });
+    });
+
+
+    // ..
+  });
   // ..
   return cb();
 }

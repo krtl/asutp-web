@@ -287,3 +287,1096 @@ Error: Callback was already called.
     at runCallback (timers.js:789:20)
     at tryOnImmediate (timers.js:751:5)
     at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:02:47.247 - error: uncaughtException: mongoose.models.NetNode is not a constructor date=Wed Oct 31 2018 16:02:47 GMT+0200 (Финляндия (зима)), pid=23520, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\CreateDB.js], rss=66138112, heapTotal=39690240, heapUsed=19119560, external=17851243, loadavg=[0, 0, 0], uptime=704399.0638011
+TypeError: mongoose.models.NetNode is not a constructor
+    at async.each (d:\javascript\asutp-web-vs.code\server\consoleScripts\CreateDB.js:256:21)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3096:16
+    at eachOfArrayLike (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1055:9)
+    at eachOf (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1103:5)
+    at Object.eachLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3158:5)
+    at createNetNodes (d:\javascript\asutp-web-vs.code\server\consoleScripts\CreateDB.js:255:9)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at async.each (d:\javascript\asutp-web-vs.code\server\consoleScripts\CreateDB.js:223:5)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at iteratorCallback (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1050:13)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at paramValue.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\CreateDB.js:210:11)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62324736, heapTotal=39165952, heapUsed=18761888, external=17900171, loadavg=[0, 0, 0], uptime=704456.6159497
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at newNodeObj.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:268:11)
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\services\model\applyHooks.js:170:20
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62791680, heapTotal=39165952, heapUsed=19249384, external=17901885, loadavg=[0, 0, 0], uptime=704456.6329618
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at newNodeObj.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:268:11)
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\services\model\applyHooks.js:170:20
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62984192, heapTotal=39165952, heapUsed=20266576, external=17905556, loadavg=[0, 0, 0], uptime=704456.6499752
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at checkIfParentNodeExists (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:176:7)
+    at newNode.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:241:11)
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\services\model\applyHooks.js:170:20
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62984192, heapTotal=39165952, heapUsed=20358760, external=17905795, loadavg=[0, 0, 0], uptime=704456.6529773
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at checkIfParentNodeExists (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:176:7)
+    at newNode.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:241:11)
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\services\model\applyHooks.js:170:20
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62984192, heapTotal=39165952, heapUsed=20527032, external=17906011, loadavg=[0, 0, 0], uptime=704456.6559776
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at checkIfParentNodeExists (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:176:7)
+    at newNode.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:241:11)
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\services\model\applyHooks.js:170:20
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62984192, heapTotal=39165952, heapUsed=20624128, external=17906262, loadavg=[0, 0, 0], uptime=704456.65898
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at newNodeObj.save (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:268:11)
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16
+    at d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\services\model\applyHooks.js:170:20
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63238144, heapTotal=39165952, heapUsed=21747976, external=17919149, loadavg=[0, 0, 0], uptime=704456.6920034
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63238144, heapTotal=39165952, heapUsed=21850184, external=17919149, loadavg=[0, 0, 0], uptime=704456.6930047
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63246336, heapTotal=39165952, heapUsed=21948560, external=17919149, loadavg=[0, 0, 0], uptime=704456.6950058
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63324160, heapTotal=39165952, heapUsed=22934656, external=17923573, loadavg=[0, 0, 0], uptime=704456.7140182
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63324160, heapTotal=39165952, heapUsed=23030744, external=17923573, loadavg=[0, 0, 0], uptime=704456.7150198
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63324160, heapTotal=39165952, heapUsed=23111480, external=17931765, loadavg=[0, 0, 0], uptime=704456.7160196
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63475712, heapTotal=39165952, heapUsed=24097032, external=17936062, loadavg=[0, 0, 0], uptime=704456.7360342
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63475712, heapTotal=39165952, heapUsed=24192328, external=17936336, loadavg=[0, 0, 0], uptime=704456.738035
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63479808, heapTotal=39165952, heapUsed=24533784, external=17937592, loadavg=[0, 0, 0], uptime=704456.7430391
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64520192, heapTotal=39690240, heapUsed=17687536, external=17862176, loadavg=[0, 0, 0], uptime=704456.7610514
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64786432, heapTotal=39690240, heapUsed=17959128, external=17864269, loadavg=[0, 0, 0], uptime=704456.7640532
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64929792, heapTotal=39690240, heapUsed=18105232, external=17872461, loadavg=[0, 0, 0], uptime=704456.7660546
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66211840, heapTotal=39690240, heapUsed=19590016, external=17878183, loadavg=[0, 0, 0], uptime=704456.800079
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66211840, heapTotal=39690240, heapUsed=19882872, external=17880501, loadavg=[0, 0, 0], uptime=704456.8030822
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66211840, heapTotal=39690240, heapUsed=19992080, external=17880501, loadavg=[0, 0, 0], uptime=704456.8050831
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66211840, heapTotal=39690240, heapUsed=20117776, external=17880501, loadavg=[0, 0, 0], uptime=704456.8080849
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66211840, heapTotal=39690240, heapUsed=20240640, external=17880501, loadavg=[0, 0, 0], uptime=704456.8110881
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66519040, heapTotal=39690240, heapUsed=20309080, external=17888693, loadavg=[0, 0, 0], uptime=704456.8140914
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=66863104, heapTotal=39690240, heapUsed=21500200, external=17893566, loadavg=[0, 0, 0], uptime=704456.8451108
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=67207168, heapTotal=39690240, heapUsed=21847312, external=17895945, loadavg=[0, 0, 0], uptime=704456.8501137
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=67317760, heapTotal=39690240, heapUsed=21956056, external=17895945, loadavg=[0, 0, 0], uptime=704456.8511144
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=67473408, heapTotal=39690240, heapUsed=22113032, external=17895945, loadavg=[0, 0, 0], uptime=704456.8541165
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=69758976, heapTotal=39690240, heapUsed=23630696, external=17910279, loadavg=[0, 0, 0], uptime=704456.8921437
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=69386240, heapTotal=39690240, heapUsed=23978048, external=17913146, loadavg=[0, 0, 0], uptime=704456.8971466
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=69496832, heapTotal=39690240, heapUsed=24086320, external=17913146, loadavg=[0, 0, 0], uptime=704456.9001493
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=69603328, heapTotal=39690240, heapUsed=24195568, external=17913146, loadavg=[0, 0, 0], uptime=704456.9021504
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=69750784, heapTotal=39690240, heapUsed=24342624, external=17913146, loadavg=[0, 0, 0], uptime=704456.9041518
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=69857280, heapTotal=39690240, heapUsed=24451504, external=17913146, loadavg=[0, 0, 0], uptime=704456.9061532
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=71512064, heapTotal=40214528, heapUsed=17877640, external=17861764, loadavg=[0, 0, 0], uptime=704456.9451808
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=71520256, heapTotal=40214528, heapUsed=18053952, external=17871007, loadavg=[0, 0, 0], uptime=704456.9481826
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=71520256, heapTotal=40214528, heapUsed=18137296, external=17871391, loadavg=[0, 0, 0], uptime=704456.9501851
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=71520256, heapTotal=40214528, heapUsed=18204712, external=17871391, loadavg=[0, 0, 0], uptime=704456.9521851
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:45.345 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:45 GMT+0200 (Финляндия (зима)), pid=6044, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=71520256, heapTotal=40214528, heapUsed=18271432, external=17871391, loadavg=[0, 0, 0], uptime=704456.9531864
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62386176, heapTotal=39165952, heapUsed=18476688, external=17899497, loadavg=[0, 0, 0], uptime=704469.4001206
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62562304, heapTotal=39165952, heapUsed=18752456, external=17900907, loadavg=[0, 0, 0], uptime=704469.4051119
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62578688, heapTotal=39165952, heapUsed=19035976, external=17902711, loadavg=[0, 0, 0], uptime=704469.4091158
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62578688, heapTotal=39165952, heapUsed=19108624, external=17902711, loadavg=[0, 0, 0], uptime=704469.4111289
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62853120, heapTotal=39165952, heapUsed=19303784, external=17902711, loadavg=[0, 0, 0], uptime=704469.4161298
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62853120, heapTotal=39165952, heapUsed=19388096, external=17902711, loadavg=[0, 0, 0], uptime=704469.4181287
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62853120, heapTotal=39165952, heapUsed=20242712, external=17916999, loadavg=[0, 0, 0], uptime=704469.4321302
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62853120, heapTotal=39165952, heapUsed=20312488, external=17916999, loadavg=[0, 0, 0], uptime=704469.4331318
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62853120, heapTotal=39165952, heapUsed=20401352, external=17916999, loadavg=[0, 0, 0], uptime=704469.4351326
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63012864, heapTotal=39165952, heapUsed=20948912, external=17920557, loadavg=[0, 0, 0], uptime=704469.4441414
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63012864, heapTotal=39165952, heapUsed=21032664, external=17928749, loadavg=[0, 0, 0], uptime=704469.4451527
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63098880, heapTotal=39165952, heapUsed=21231336, external=17928749, loadavg=[0, 0, 0], uptime=704469.4511563
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63152128, heapTotal=39165952, heapUsed=21679232, external=17932371, loadavg=[0, 0, 0], uptime=704469.4571503
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63156224, heapTotal=39165952, heapUsed=21755224, external=17932371, loadavg=[0, 0, 0], uptime=704469.4591517
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63156224, heapTotal=39165952, heapUsed=21835912, external=17932371, loadavg=[0, 0, 0], uptime=704469.4601635
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63197184, heapTotal=39165952, heapUsed=22721480, external=17938455, loadavg=[0, 0, 0], uptime=704469.4731606
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63213568, heapTotal=39165952, heapUsed=22797856, external=17946647, loadavg=[0, 0, 0], uptime=704469.474163
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63213568, heapTotal=39165952, heapUsed=22873856, external=17946647, loadavg=[0, 0, 0], uptime=704469.4751629
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63221760, heapTotal=39165952, heapUsed=23708912, external=17952241, loadavg=[0, 0, 0], uptime=704469.4871687
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63221760, heapTotal=39165952, heapUsed=23785208, external=17952241, loadavg=[0, 0, 0], uptime=704469.4891704
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63221760, heapTotal=39165952, heapUsed=23874336, external=17952241, loadavg=[0, 0, 0], uptime=704469.4901717
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63221760, heapTotal=39165952, heapUsed=23942352, external=17952241, loadavg=[0, 0, 0], uptime=704469.4911718
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63410176, heapTotal=39165952, heapUsed=24024128, external=17960433, loadavg=[0, 0, 0], uptime=704469.4941747
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63148032, heapTotal=39165952, heapUsed=24352400, external=17960433, loadavg=[0, 0, 0], uptime=704469.5001801
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63897600, heapTotal=39690240, heapUsed=17414464, external=17860761, loadavg=[0, 0, 0], uptime=704469.5111858
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63971328, heapTotal=39690240, heapUsed=17490736, external=17860761, loadavg=[0, 0, 0], uptime=704469.5121868
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:57.357 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64053248, heapTotal=39690240, heapUsed=17571032, external=17860761, loadavg=[0, 0, 0], uptime=704469.5131875
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:57 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64126976, heapTotal=39690240, heapUsed=17646800, external=17860761, loadavg=[0, 0, 0], uptime=704469.5151883
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:58 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65400832, heapTotal=39690240, heapUsed=18696552, external=17876031, loadavg=[0, 0, 0], uptime=704469.5301999
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:58 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65470464, heapTotal=39690240, heapUsed=18764032, external=17876031, loadavg=[0, 0, 0], uptime=704469.5312015
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:58 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65556480, heapTotal=39690240, heapUsed=18852864, external=17876031, loadavg=[0, 0, 0], uptime=704469.5332026
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:58 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65626112, heapTotal=39690240, heapUsed=18928688, external=17876031, loadavg=[0, 0, 0], uptime=704469.5342153
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:58 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65626112, heapTotal=39690240, heapUsed=19017800, external=17876031, loadavg=[0, 0, 0], uptime=704469.5362041
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:03:58.358 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:03:58 GMT+0200 (Финляндия (зима)), pid=9016, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65626112, heapTotal=39690240, heapUsed=19101312, external=17876031, loadavg=[0, 0, 0], uptime=704469.5372182
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62394368, heapTotal=39165952, heapUsed=18477672, external=17899497, loadavg=[0, 0, 0], uptime=705387.7533842
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62570496, heapTotal=39165952, heapUsed=18753360, external=17900907, loadavg=[0, 0, 0], uptime=705387.759389
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62578688, heapTotal=39165952, heapUsed=19038128, external=17902711, loadavg=[0, 0, 0], uptime=705387.7633915
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at checkIfParentNodeExists (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:176:7)
+    at getNode (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:230:11)
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:77:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62578688, heapTotal=39165952, heapUsed=19114920, external=17902711, loadavg=[0, 0, 0], uptime=705387.7643928
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62853120, heapTotal=39165952, heapUsed=19308864, external=17902711, loadavg=[0, 0, 0], uptime=705387.7693974
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62857216, heapTotal=39165952, heapUsed=19393144, external=17902711, loadavg=[0, 0, 0], uptime=705387.7713977
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at getNodeObj (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:259:11)
+    at DbNodeObj.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:85:5)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62885888, heapTotal=39165952, heapUsed=20246992, external=17916999, loadavg=[0, 0, 0], uptime=705387.7844079
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62885888, heapTotal=39165952, heapUsed=20316336, external=17916999, loadavg=[0, 0, 0], uptime=705387.7854089
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=62885888, heapTotal=39165952, heapUsed=20405144, external=17916999, loadavg=[0, 0, 0], uptime=705387.7874109
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63025152, heapTotal=39165952, heapUsed=20952720, external=17920557, loadavg=[0, 0, 0], uptime=705387.79643
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63025152, heapTotal=39165952, heapUsed=21036392, external=17928749, loadavg=[0, 0, 0], uptime=705387.7974307
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63123456, heapTotal=39165952, heapUsed=21234624, external=17928749, loadavg=[0, 0, 0], uptime=705387.8024202
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63201280, heapTotal=39165952, heapUsed=21682464, external=17932371, loadavg=[0, 0, 0], uptime=705387.8084233
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63209472, heapTotal=39165952, heapUsed=21758424, external=17932371, loadavg=[0, 0, 0], uptime=705387.8104244
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63209472, heapTotal=39165952, heapUsed=21839080, external=17932371, loadavg=[0, 0, 0], uptime=705387.811426
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63242240, heapTotal=39165952, heapUsed=22723968, external=17946647, loadavg=[0, 0, 0], uptime=705387.8254349
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63242240, heapTotal=39165952, heapUsed=22800144, external=17946647, loadavg=[0, 0, 0], uptime=705387.8264362
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63242240, heapTotal=39165952, heapUsed=22876048, external=17946647, loadavg=[0, 0, 0], uptime=705387.8274366
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63250432, heapTotal=39165952, heapUsed=23358976, external=17949440, loadavg=[0, 0, 0], uptime=705387.835443
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63361024, heapTotal=39165952, heapUsed=23607512, external=17949440, loadavg=[0, 0, 0], uptime=705387.8424485
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63361024, heapTotal=39165952, heapUsed=23688168, external=17949440, loadavg=[0, 0, 0], uptime=705387.8434489
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63361024, heapTotal=39165952, heapUsed=23755840, external=17957632, loadavg=[0, 0, 0], uptime=705387.8454506
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63426560, heapTotal=39165952, heapUsed=23835832, external=17957632, loadavg=[0, 0, 0], uptime=705387.8464516
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=63541248, heapTotal=39165952, heapUsed=23901656, external=17957632, loadavg=[0, 0, 0], uptime=705387.8484521
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64208896, heapTotal=39690240, heapUsed=17570568, external=17871265, loadavg=[0, 0, 0], uptime=705387.8664647
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64286720, heapTotal=39690240, heapUsed=17646792, external=17871265, loadavg=[0, 0, 0], uptime=705387.867466
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64364544, heapTotal=39690240, heapUsed=17727056, external=17871265, loadavg=[0, 0, 0], uptime=705387.8694665
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=64442368, heapTotal=39690240, heapUsed=17802872, external=17879457, loadavg=[0, 0, 0], uptime=705387.8704667
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65552384, heapTotal=39690240, heapUsed=18852752, external=17886535, loadavg=[0, 0, 0], uptime=705387.8854775
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65634304, heapTotal=39690240, heapUsed=18936784, external=17886535, loadavg=[0, 0, 0], uptime=705387.8864782
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65671168, heapTotal=39690240, heapUsed=19025544, external=17886535, loadavg=[0, 0, 0], uptime=705387.8874794
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65671168, heapTotal=39690240, heapUsed=19101312, external=17886535, loadavg=[0, 0, 0], uptime=705387.8894808
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65671168, heapTotal=39690240, heapUsed=19181512, external=17886535, loadavg=[0, 0, 0], uptime=705387.8904815
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-10-31 16:19:16.1916 - error: uncaughtException: Callback was already called. date=Wed Oct 31 2018 16:19:16 GMT+0200 (Финляндия (зима)), pid=2140, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js], rss=65671168, heapTotal=39690240, heapUsed=19257336, external=17894727, loadavg=[0, 0, 0], uptime=705387.8914825
+Error: Callback was already called.
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:955:32
+    at DbNode.findOne (d:\javascript\asutp-web-vs.code\server\consoleScripts\importScheme.js:185:9)
+    at model.Query.<anonymous> (d:\javascript\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+    at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at Immediate._tickCallback [as _onImmediate] (internal/process/next_tick.js:180:9)
+    at runCallback (timers.js:789:20)
+    at tryOnImmediate (timers.js:751:5)
+    at processImmediate [as _immediateCallback] (timers.js:722:5)

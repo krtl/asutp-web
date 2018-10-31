@@ -1,0 +1,26 @@
+[
+
+    {    "name": "tc1",
+     "caption": "tc1",
+      "description": "test", "parentNode": "trans1", "toSection": "sec1"},
+    {
+      "name": "tc2", "x": 100, "y": 100,
+      "caption": "tc2",
+      "description": "test", "parentNode": "trans1", "toSection": "sec2"},
+    {
+      "name": "tc3",
+      "caption": "c3",
+      "description": "test", "parentNode": "trans2", "toSection": "sec3"},
+    {
+      "name": "tc4",
+      "caption": "c4",
+      "description": "test", "parentNode": "trans2", "toSection": "sec4"},
+    {
+      "name": "tc5",
+      "caption": "tc5",
+      "description": "test", "parentNode": "trans3", "toSection": "sec5"},
+    {
+      "name": "tc6",
+      "caption": "tc6",
+      "description": "test", "parentNode": "trans3", "toSection": "sec16"}
+  ]

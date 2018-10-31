@@ -6,29 +6,20 @@ const myNodeType = {
   PS: 4,
   PSPART: 5,
   SECTION: 6,
-  TRANSFORMER: 7,
-  CONNECTOR: 8,
-  EQUIPMENT: 9,
-  // properties: {
-  //   0: { name: 'unknown', value: 0, parentRequired: false },
-  //   1: { name: 'RES', value: 0, parentRequired: false },
-  //   2: { name: 'LEP', value: 0, parentRequired: false },
-  //   3: { name: 'LEP Connection', value: 0, parentRequired: true },
-  //   4: { name: 'PS', value: 0, parentRequired: true },
-  //   5: { name: 'PS Part', value: 0, parentRequired: true },
-  //   6: { name: 'Section', value: 0, parentRequired: true },
-  //   7: { name: 'Transformer', value: 0, parentRequired: true },
-  //   8: { name: 'Connector', value: 0, parentRequired: true },
-  //   9: { name: 'Equipment', value: 0, parentRequired: true },
-  // },
+  SECTIONCONNECTOR: 7,
+  TRANSFORMER: 8,
+  TRANSFORMERCONNECTOR: 9,
+  EQUIPMENT: 10,
 };
 
-const requireParent = [ myNodeType.LEPCONNECTION,
+const requireParent = [
+  myNodeType.LEPCONNECTION,
   myNodeType.PS,
   myNodeType.PSPART,
   myNodeType.SECTION,
+  myNodeType.SECTIONCONNECTOR,
   myNodeType.TRANSFORMER,
-  myNodeType.CONNECTOR,
+  myNodeType.TRANSFORMERCONNECTOR,
   myNodeType.EQUIPMENT,
 ];
 

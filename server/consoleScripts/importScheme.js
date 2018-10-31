@@ -12,8 +12,9 @@ const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
 const DbNodeTransformer = require('../dbmodels/nodeTransformer');
-const DbNodeConnector = require('../dbmodels/nodeConnector');
+const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector');
 const DbNodeSection = require('../dbmodels/nodeSection');
+const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const Sheme = [
@@ -23,8 +24,9 @@ const Sheme = [
   [ DbNodePS, 'nodePSs.json' ],
   [ DbNodePSPart, 'nodePSParts.json' ],
   [ DbNodeTransformer, 'nodeTransformers.json' ],
+  [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
   [ DbNodeSection, 'nodeSections.json' ],
-  [ DbNodeConnector, 'nodeConnectors.json' ],
+  [ DbNodeSectionConnector, 'nodeSectionConnectors.json' ],
   [ DbNodeEquipment, 'nodeEquipments.json' ],
 ];
 

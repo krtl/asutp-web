@@ -24,8 +24,6 @@ async.series([
   createParams,
   createParamLists,
   createParamValues,
-  createNetNodes,  // obsolete
-  createNetWires,  // obsolete
 ], (err) => {
   // console.log(arguments);
   mongoose.disconnect();
@@ -63,8 +61,9 @@ function requireModels(callback) {
   require('mongoose').model('NodePS');  // eslint-disable-line global-require
   require('mongoose').model('NodePSPart');  // eslint-disable-line global-require
   require('mongoose').model('NodeTransformer');  // eslint-disable-line global-require
+  require('mongoose').model('NodeTransformerConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodeSection');  // eslint-disable-line global-require
-  require('mongoose').model('NodeConnector');  // eslint-disable-line global-require
+  require('mongoose').model('NodeSectionConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodeEquipment');  // eslint-disable-line global-require
 
 
@@ -225,114 +224,5 @@ function createParamValues(callback) {
 
   // const data = JSON.stringify(paramValues);
   // fs.writeFileSync(`${config.importPath}paramValues-2.json`, data);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-function createNetNodes(callback) {
-  console.log('creating NetNodes - obsolete');
-  const fileName = `${config.importPath}obsolete-nodes.json`;
-  console.log(`importing from "${fileName}"..`);
-  let rawdata;
-  try {
-    rawdata = fs.readFileSync(fileName);
-  } catch (e) {
-    console.error(`Read file Error: ${e.message}`);
-    callback(e.message);
-    return;
-  }
-
-  let locPSs;
-  try {
-    locPSs = JSON.parse(rawdata);
-  } catch (e) {
-    console.error(`create NetNode Error: ${e.message}`);
-    callback(e.message);
-    return;
-  }
-
-  async.each(locPSs, (psData, callback) => {
-    const locNode = new mongoose.models.NetNode(psData);
-    locNode.save((err) => {
-      if (err) callback(err);
-      console.log(`NetNode "${locNode.name}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-  // const data = JSON.stringify(locPSs);
-  // fs.writeFileSync(`${config.importPath}PSs-2.json`, data);
-}
-
-function createNetWires(callback) {
-  console.log('create wires - obsolete');
-  const fileName = `${config.importPath}obsolete-wires.json`;
-  let rawdata = '';
-  try {
-    rawdata = fs.readFileSync(fileName);
-  } catch (err) {
-    console.error(`Read file error: ${err.message}`);
-    return;
-  }
-
-  let wires;
-  try {
-    wires = JSON.parse(rawdata);
-  } catch (e) {
-    console.error(`create wires Error: ${e.message}`);
-    return;
-  }
-
-  async.each(wires, (wireData, callback) => {
-    const wire = new mongoose.models.NetWire(wireData);
-
-    // Check nodes
-    mongoose.models.NetNode.findOne({
-      name: wire.nodeFrom,
-    }, (err, netNode) => {
-      if (err) throw err;
-      if (netNode) {
-          // node exists
-      } else {
-          // node does not exist
-        console.error(`create wire Error: NetNode (nodeFrom) "${wire.nodeFrom}" does not exists!`);
-      }
-    });
-
-    mongoose.models.NetNode.findOne({
-      name: wire.nodeTo,
-    }, (err, netNode) => {
-      if (err) throw err;
-      if (netNode) {
-        // node exists
-      } else {
-        // node does not exist
-        console.error(`create wire Error: NetNode (nodeTo) "${wire.nodeTo}" does not exists!`);
-      }
-    });
-
-    wire.save((err) => {
-      if (err) callback(err);
-      console.log(`NetWire "${wire.name}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-//  const data = JSON.stringify(wires, null, ' ');
-//  fs.writeFileSync(`${config.importPath}wires-2.json`, data);
 }
 

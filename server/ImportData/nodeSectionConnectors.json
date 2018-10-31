@@ -1,22 +1,18 @@
 [
-
-  {    "name": "c1",
- "x": 10, "y": 10,
-   "caption": "c1",
+  { "name": "c1",
+    "caption": "c1",
     "description": "test", "parentNode": "sec1"},
-
   {
-    "name": "c2", "x": 100, "y": 100,
+    "name": "c2",
     "caption": "c2",
     "description": "", "parentNode": "sec1"},
-
   {
     "name": "c3",
     "caption": "c3",
     "description": "", "parentNode": "sec1"
 , "paramOnOffState": "param2"},
   {
-    "name": "c4", "x": 400, "y": 300, "parentNode": "sec5",
+    "name": "c4", "parentNode": "sec5",
     "caption": "c4",
     "description": "zzz"
 , "paramOnOffState": "param3"},
@@ -26,7 +22,7 @@
     "description": "zzz1"
 , "paramOnOffState": "param13"},
   {
-    "name": "c6", "x": 30, "y": 90,
+    "name": "c6",
     "caption": "c6","parentNode": "sec2",
     "description": "zzz2"
 , "paramOnOffState": "param1"}
