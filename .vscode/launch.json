@@ -15,6 +15,12 @@
             "request": "launch",
             "name": "CreateDB script",
             "program": "${workspaceFolder}\\server\\consoleScripts\\CreateDB.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Load Nodes Model script",
+            "program": "${workspaceFolder}\\server\\consoleScripts\\LoadNodesModel.js"
         }
-    ]
+]
 }

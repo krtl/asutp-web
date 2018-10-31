@@ -2,25 +2,20 @@ const chai = require('chai');
 const mongoose = require('mongoose');
 
 const expect = chai.expect;
-const myDataModelParams = require('../models/myDataModelParams');
-const ParamList = require('../dbmodels/paramList');
-const Param = require('../dbmodels/param');
-const User = require('../dbmodels/authUser');
+const myDataModelNodes = require('../models/myDataModelNodes');
+// const ParamList = require('../dbmodels/paramList');
+// const Param = require('../dbmodels/param');
+// const User = require('../dbmodels/authUser');
 
 
 const config = require('../../config');
 
-const testUserName = 'TestUserName';
-const testParamName = 'TestParamName';
-const testParamListName = 'TestParamListName';
+// const testUserName = 'TestUserName';
+// const testParamName = 'TestParamName';
+// const testParamListName = 'TestParamListName';
 
 
-describe('myDataModelParams', () => {
-  it('GetAvailableParamsLists() should return 0 before loaded with data', () => {
-    const pl = myDataModelParams.GetAvailableParamsLists('TestUser');
-    expect(pl.length).to.equal(0);
-  });
-
+describe('myDataModelNodes', () => {
   before((done) => {
     // plug in the promise library:
     mongoose.Promise = global.Promise;
@@ -38,68 +33,13 @@ describe('myDataModelParams', () => {
     });
   });
 
-  describe('Test one Param in one ParamList', () => {
-    it('New User should be saved to database', (done) => {
-      const testUser = User({
-        email: 'test@test.test',
-        name: testUserName,
-        role: 'test user',
-        might: 'TestParamListName',
-      });
+  describe('Testing DataModelNodes', () => {
+    it('Should Load model from DB withour erros', (done) => {
+      myDataModelNodes.LoadFromDB((err) => {
+        expect(err).to.equal(null);
 
-      testUser.save(done);
-    });
-
-
-    it('New Param should be saved to database', (done) => {
-      const testParam = Param({
-        name: testParamName,
-        caption: 'TestParamCaption',
-        description: 'TestParamDescription',
-        type: 'TestParamType',
-      });
-
-      testParam.save(done);
-    });
-
-
-    it('New ParamList should be saved to database', (done) => {
-      const testParamList = ParamList({
-        name: testParamListName,
-        caption: 'TestParamListCaption',
-        description: 'TestParamListDescription',
-        params: [ 'TestParamName' ],
-      });
-
-      testParamList.save(done);
-    });
-
-    it('Should retrieve ParamList and Param for TestUser after Loading DataModel', (done) => {
-      myDataModelParams.LoadFromDB((err) => {
-        if (err) { throw err; }
-        const pLists = myDataModelParams.GetAvailableParamsLists(testUserName);
-        if (pLists.length !== 1) { throw new Error('No data!'); }
-        done();
-      });
-    });
-
-    it('Should remove test Param', (done) => {
-      Param.remove({ name: testParamName }, (err) => {
-        if (err) { throw err; }
-        done();
-      });
-    });
-
-    it('Should remove test ParamList', (done) => {
-      ParamList.remove({ name: testParamListName }, (err) => {
-        if (err) { throw err; }
-        done();
-      });
-    });
-
-    it('Should remove test User', (done) => {
-      User.remove({ name: testUserName }, (err) => {
-        if (err) { throw err; }
+        // const pLists = myDataModelNodes.GetAvailableParamsLists(testUserName);
+        // if (pLists.length !== 1) { throw new Error('No data!'); }
         done();
       });
     });

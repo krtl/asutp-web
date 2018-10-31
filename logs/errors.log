@@ -1,44 +1,8 @@
-2018-01-11 11:49:14.4914 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 11:49:24.4924 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 11:49:34.4934 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 11:49:44.4944 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 11:49:54.4954 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 11:50:04.504 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 11:50:14.5014 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 12:03:09.39 [ERROR] [dbValues] Failed to save last value. Error: ValidationError: dt: Cast to Date failed for value "[Function: now]" at path "dt"
-2018-01-11 12:03:09.39 [ERROR] [AMQP] conn error read ECONNRESET
-2018-01-11 12:03:09.39 [ERROR] [AMQP] reconnecting
-2018-10-05 09:23:50.2350 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:23:58.2358 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:06.246 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:14.2414 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:22.2422 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:30.2430 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:38.2438 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:46.2446 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:24:54.2454 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:25:02.252 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-05 09:25:10.2510 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:19:16.1916 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:19:24.1924 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:19:32.1932 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:19:40.1940 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:19:48.1948 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:19:56.1956 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:20:04.204 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:20:12.2012 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:20:20.2020 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:20:28.2028 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-23 14:20:36.2036 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
-2018-10-25 17:06:15.615 [ERROR] [sever] cannot find param "TestParamName" in "TestParamListName"
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\res_{}.json'
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\lep_{}.json'
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\ps_{}.json'
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\pspart_{}.json'
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\transformer_{}.json'
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\section_{}.json'
-2018-10-29 16:28:20.2820 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\connector_{}.json'
-2018-10-29 16:52:40.5240 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
-2018-10-29 16:52:44.5244 [ERROR] Failed: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
-2018-10-29 16:53:15.5315 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
-2018-10-29 16:53:26.5326 [ERROR] Read file error: ENOENT: no such file or directory, open 'D:\javascript\asutp-web-vs.code\server\ImportData\1nodeRESs.json'
+2018-10-31 12:00:57.057 [ERROR] Node Ojbect "trans1" has no property "power"!
+2018-10-31 12:01:00.10 [ERROR] Node Ojbect "trans2" has no property "power"!
+2018-10-31 12:01:01.11 [ERROR] Node Ojbect "trans3" has no property "power"!
+2018-10-31 12:01:44.144 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-10-31 12:04:51.451 [ERROR] Node Ojbect "trans1" has no property "power"!
+2018-10-31 12:04:51.451 [ERROR] Node Ojbect "trans2" has no property "power"!
+2018-10-31 12:04:51.451 [ERROR] Node Ojbect "trans3" has no property "power"!
+2018-10-31 12:05:06.56 [ERROR] [sever] loading nodes failed with 3 errors!

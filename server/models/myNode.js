@@ -1,11 +1,11 @@
-function MyNode(parentNode, name, caption, description, nodeType) {
-  this.parentNode = parentNode;
+function MyNode(name, caption, description, nodeType) {
   this.name = name;
   this.caption = caption;
   this.description = description;
   this.x = 0;
   this.y = 0;
   this.nodeType = nodeType;
+  this.parentNode = null;
   this.nodes = [];
   this.sapCode = '';
 }

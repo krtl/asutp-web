@@ -1,8 +1,8 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 
-function MyNodeEquiment(parentNode, name, caption, description) {
-  MyNode.call(parentNode, name, caption, description, myNodeType.EQUIPMENT);
+function MyNodeEquiment(name, caption, description) {
+  MyNode.call(this, name, caption, description, myNodeType.EQUIPMENT);
   this.equipmentType = null;
 }
 

@@ -12,7 +12,7 @@ const myNodeType = {
   // properties: {
   //   0: { name: 'unknown', value: 0, parentRequired: false },
   //   1: { name: 'RES', value: 0, parentRequired: false },
-  //   2: { name: '"LEP', value: 0, parentRequired: false },
+  //   2: { name: 'LEP', value: 0, parentRequired: false },
   //   3: { name: 'LEP Connection', value: 0, parentRequired: true },
   //   4: { name: 'PS', value: 0, parentRequired: true },
   //   5: { name: 'PS Part', value: 0, parentRequired: true },

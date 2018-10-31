@@ -269,14 +269,14 @@ function importNodesFromFile(schemeElement, callback) {
     });
   }, (err) => {
     if (err === null) {
-      console.info(`importing from "${fullFileName}" successed.`);
+      console.info('importing successed.');
     }
     callback(err);
   });
 }
 
 function checkIntegrity(callback) {
-  console.info('Checking integrity...');
+  console.info('Checking integrity..');
   DbNode.find({
     parentNode: null,
     nodeType: myNodeType.getParentRequiresTypes(),
@@ -299,11 +299,11 @@ function checkIntegrity(callback) {
         setError(`Checking integrity is failed: There are ${locCount} nodes without parent: ${s}`);
         callback(s);
       } else {
-        console.info('Success.');
+        console.info('Checking Successed.');
         callback(null);
       }
     } else {
-      console.info('Success.');
+      console.info('Checking Successed.');
       callback(null);
     }
   });

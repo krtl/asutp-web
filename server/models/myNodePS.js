@@ -1,9 +1,10 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 
-function MyNodePS(parentNode, name, caption, description) {
-  MyNode.call(parentNode, name, caption, description, myNodeType.PS);
-  this.dummyParam = null;
+function MyNodePS(name, caption, description) {
+  MyNode.call(this, name, caption, description, myNodeType.PS);
+  this.transformers = [];
+  this.sections = [];
 }
 
 
