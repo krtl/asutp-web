@@ -153,3 +153,123 @@
 2018-11-02 14:38:49.3849 [ERROR] Cannot convert Name to Object on "lepConnection2". Node Ojbect "c2" does not exists in loaded nodes!
 2018-11-02 14:38:49.3849 [ERROR] Cannot convert Name to Object on "lepConnection1". Node Ojbect "c1" does not exists in loaded nodes!
 2018-11-02 14:38:49.3849 [ERROR] [sever] loading nodes failed with 4 errors!
+2018-11-02 17:06:19.619 [INFO] Http server listening at: http://localhost:3001/
+2018-11-02 17:06:19.619 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:06:20.620 [INFO] [sever] loaded from DB with 31 Params and 7 paramLists
+2018-11-02 17:06:20.620 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:06:29.629 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList1
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList5
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList1
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList4
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList1
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList4
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:06:29.629 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-11-02 17:06:19","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:06:37.637 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:06:45.645 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:06:53.653 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:01.71 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:09.79 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:17.717 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:25.725 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:33.733 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:41.741 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:49.749 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:07:57.757 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:08:05.85 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:08:13.813 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:08:21.821 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:48:28.4828 [INFO] Http server listening at: http://localhost:3001/
+2018-11-02 17:48:29.4829 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:48:29.4829 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:48:31.4831 [INFO] [sever] loaded from DB with 31 Params and 7 paramLists
+2018-11-02 17:48:38.4838 [ERROR] [AMQP] connect ECONNREFUSED 127.0.0.1:5672
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList1
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList5
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param1","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList1
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList4
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param2","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList1
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList4
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param3","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param4","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param5","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param6","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param7","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param8","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList3
+2018-11-02 17:48:38.4838 [VERBOSE] [stompServer] Broker send message "{"paramName":"param9","value":0,"dt":"2018-11-02 17:48:28","qd":"NA"}" to /Values:paramList6
+2018-11-02 17:49:10.4910 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:51:25.5125 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:51:47.5147 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:53:35.5335 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:54:33.5433 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:55:12.5512 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:55:38.5538 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:56:13.5613 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:56:48.5648 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 17:59:50.5950 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:01:04.14 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:01:48.148 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:03:21.321 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:03:41.341 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:04:27.427 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:05:14.514 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:06:09.69 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:06:28.628 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:07:46.746 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:08:18.818 [ERROR] create NodeRES Error: DBNode "res1" does not exists!
+2018-11-02 18:08:18.818 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 18:09:51.951 [ERROR] create NodeRES Error: DBNode "res1" does not exists!
+2018-11-02 18:09:51.951 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 18:10:08.108 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:11:12.1112 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 18:11:37.1137 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:43:53.4353 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:44:17.4417 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:45:28.4528 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:46:25.4625 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:47:09.479 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:48:47.4847 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:49:13.4913 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:51:00.510 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:53:47.5347 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:57:12.5712 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:58:48.5848 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 20:59:35.5935 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:07:52.752 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:08:22.822 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:09:08.98 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:10:02.102 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:10:36.1036 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:11:53.1153 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:16:18.1618 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:18:46.1846 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:20:39.2039 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 21:21:12.2112 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web

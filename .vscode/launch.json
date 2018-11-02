@@ -8,19 +8,19 @@
             "type": "node",
             "request": "launch",
             "name": "DBImportScheme",
-            "program": "${workspaceFolder}\\server\\consoleScripts\\scriptDBImportScheme.js"
+            "program": "${workspaceFolder}/server/consoleScripts/scriptDBImportScheme.js"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "DBCreate",
-            "program": "${workspaceFolder}\\server\\consoleScripts\\scripDBCreate.js"
+            "program": "${workspaceFolder}/server/consoleScripts/scriptDBCreate.js"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "LoadModelNodes",
-            "program": "${workspaceFolder}\\server\\consoleScripts\\scriptLoadNodesModel.js"
+            "program": "${workspaceFolder}/server/consoleScripts/scriptLoadNodesModel.js"
         }
 ]
 }

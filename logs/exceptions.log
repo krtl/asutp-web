@@ -13790,3 +13790,51 @@ Error: Callback was already called.
     at d:\javascript\asutp-web-vs.code\node_modules\kareem\index.js:131:16
     at _combinedTickCallback (internal/process/next_tick.js:131:7)
     at process._tickCallback (internal/process/next_tick.js:180:9)
+2018-11-02 17:06:20.620 - error: uncaughtException: cb is not a function date=Fri Nov 02 2018 17:06:20 GMT+0200 (Финляндия (зима)), pid=2960, uid=null, gid=null, cwd=D:\_javascript\Projects\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v6.11.4, argv=[C:\Program Files\nodejs\node.exe, D:\_javascript\Projects\asutp-web-vs.code\server.js], rss=45498368, heapTotal=35581952, heapUsed=21356024, external=18169979, loadavg=[0, 0, 0], uptime=3266.0285717
+TypeError: cb is not a function
+    at LoadFromDB.async.series (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at DbParamList.find (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:93:12)
+    at Query.<anonymous> (D:\_javascript\Projects\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+2018-11-02 17:48:31.4831 - error: uncaughtException: cb is not a function date=Fri Nov 02 2018 17:48:31 GMT+0200 (GMT+02:00), pid=4120, uid=null, gid=null, cwd=D:\_javascript\Projects\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v10.13.0, argv=[C:\Program Files\nodejs\node.exe, D:\_javascript\Projects\asutp-web-vs.code\server.js], rss=49025024, heapTotal=33640448, heapUsed=16209020, external=17978319, loadavg=[0, 0, 0], uptime=5796
+TypeError: cb is not a function
+    at LoadFromDB.async.series (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:34:12)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3874:9
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:473:16
+    at replenish (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:993:25)
+    at iterateeCallback (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at checkData (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:99:10)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at linkData (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:113:10)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at iterateeCallback (D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:983:17)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:958:16
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\async\dist\async.js:3871:13
+    at DbParamList.find (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:93:12)
+    at model.Query.<anonymous> (D:\_javascript\Projects\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
+    at D:\_javascript\Projects\asutp-web-vs.code\node_modules\kareem\index.js:273:21

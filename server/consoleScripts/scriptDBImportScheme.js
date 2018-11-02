@@ -155,7 +155,7 @@ function updateNodeObj(DbNodeObj, originNode, newNode, callback) {
 }
 
 function preparingNodes(callback) {
-  DbNode.update({ },
+  DbNode.updateMany({ },
     { $set: {
       tag: 0 },
     }, callback);
@@ -173,13 +173,17 @@ function removingOldNodes(callback) {
   }, (err, netNodes) => {
     let s = '';
     netNodes.forEach((netNode) => {
-      if (s.length < 500) s += `${netNode.name}, `;
+      if (s.length < 500) s += `${netNode.name},`;
     });
-    console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
+    if (s !== '') {
+      console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
 
-    DbNode.deleteMany({ tag: 0 },
-       callback);
-//    callback();
+      DbNode.deleteMany({ tag: 0 }, (result) => {
+        !
+        console.warn(`[!] ${result} old nodes were deleted.`);
+      });
+    }
+    callback();
   });
 }
 
@@ -204,9 +208,9 @@ function checkIfParentNodeExists(node, callback) {
     if (myNodeType.isParentRequired(node.nodeType)) {
       const s = `Parent is required for node:"${node.name}"!`;
       setError(s);
-      callback(s);
+      // callback(s);
     } else {
-      callback(null);
+      // callback(null);
     }
   } else {
     DbNode.findOne({
@@ -215,12 +219,12 @@ function checkIfParentNodeExists(node, callback) {
       if (err) callback(err);
       if (netNode) {
         // node exists
-        callback(null);
+        // callback(null);
       } else {
         // node does not exist
         const s = `Parent node "${node.parentNode}" does not exists for node:"${node.name}"!`;
         setError(s);
-        callback(s);
+        // callback(s);
       }
     });
   }
@@ -261,7 +265,7 @@ function importNodesFromFile(schemeElement, callback) {
             // callback(null);
           });
         } else {
-          updateNodeTag(newNode, (error) => {
+          updateNodeTag(netNode, (error) => {
             if (error) callback(error);
             checkIfParentNodeExists(newNode, callback);
           });

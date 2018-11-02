@@ -5,14 +5,16 @@
   "dependencies": {
     "amqplib": "^0.5.2",
     "async": "^2.5.0",
-    "babel-core": "6.14.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.1",
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^2.0.0",
     "body-parser": "^1.15.2",
+    "chai": "^4.1.2",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.2.1",
     "konva": "^1.7.6",
     "material-ui": "^0.16.5",
+    "mocha": "^4.1.0",
     "moment": "^2.20.1",
     "mongoose": "^4.13.11",
     "passport": "^0.3.2",
@@ -32,9 +34,7 @@
     "validator": "^6.2.0",
     "webstomp-client": "^1.2.0",
     "winston": "^2.4.0",
-    "ws": "^3.3.3",
-    "chai": "^4.1.2",
-    "mocha": "^4.1.0"
+    "ws": "^3.3.3"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
