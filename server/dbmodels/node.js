@@ -22,6 +22,8 @@ const NodeSchema = new mongoose.Schema({
     default: 0,
   },
   sapCode: String,
+  tag: Number,
+
 });
 
 

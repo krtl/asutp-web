@@ -39,7 +39,9 @@ function setError(text) {
 async.series([
   open,
   requireModels,
+  preparingNodes,
   importNodes,
+  removingOldNodes,
   checkIntegrity,
 ], (err) => {
 //  console.info(arguments);
@@ -119,7 +121,9 @@ function updateNode(originNode, newNode, callback) {
       caption: newNode.caption,
       description: newNode.description,
       x: newNode.x,
-      y: newNode.y } }, callback);
+      y: newNode.y,
+      tag: 1,
+    } }, callback);
 }
 
 function defineAProp(obj, name, value) {
@@ -148,6 +152,35 @@ function updateNodeObj(DbNodeObj, originNode, newNode, callback) {
 
   DbNodeObj.update({ _id: originNode.id },
     { $set: obj }, callback);
+}
+
+function preparingNodes(callback) {
+  DbNode.update({ },
+    { $set: {
+      tag: 0 },
+    }, callback);
+}
+
+function updateNodeTag(originNode, callback) {
+  DbNode.update({ _id: originNode.id },
+    { $set: {
+      tag: 1 },
+    }, callback);
+}
+function removingOldNodes(callback) {
+  DbNode.find({
+    tag: 0,
+  }, (err, netNodes) => {
+    let s = '';
+    netNodes.forEach((netNode) => {
+      if (s.length < 500) s += `${netNode.name}, `;
+    });
+    console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
+
+    DbNode.deleteMany({ tag: 0 },
+       callback);
+//    callback();
+  });
 }
 
 function importNodes(callback) {
@@ -213,6 +246,7 @@ function importNodesFromFile(schemeElement, callback) {
     const newNode = new DbNode(locData);
     const newNodeObj = new DbNodeObj(locData);
     newNode.nodeType = DbNodeObj.nodeType;
+    newNode.tag = 1;
 
     getNode(newNode.name, (err, netNode) => {
       if (err) callback(err);
@@ -227,8 +261,10 @@ function importNodesFromFile(schemeElement, callback) {
             // callback(null);
           });
         } else {
-          checkIfParentNodeExists(newNode, callback);
-          // callback(null);
+          updateNodeTag(newNode, (error) => {
+            if (error) callback(error);
+            checkIfParentNodeExists(newNode, callback);
+          });
         }
       } else {
         // does not exist
