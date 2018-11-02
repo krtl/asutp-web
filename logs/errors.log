@@ -6,3 +6,25 @@
 2018-10-31 12:04:51.451 [ERROR] Node Ojbect "trans2" has no property "power"!
 2018-10-31 12:04:51.451 [ERROR] Node Ojbect "trans3" has no property "power"!
 2018-10-31 12:05:06.56 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 09:32:04.324 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:32:24.3224 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:32:34.3234 [ERROR] Failed to link Transformer trans1 to section undefined. There is no such section.
+2018-11-02 09:32:34.3234 [ERROR] Failed to link Transformer trans1 to section undefined. There is no such section.
+2018-11-02 09:32:36.3236 [ERROR] Failed to link Transformer trans2 to section undefined. There is no such section.
+2018-11-02 09:32:39.3239 [ERROR] Failed to link Transformer trans3 to section undefined. There is no such section.
+2018-11-02 09:32:39.3239 [ERROR] [sever] loading nodes failed with 6 errors!
+2018-11-02 09:34:39.3439 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:34:54.3454 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:35:08.358 [ERROR] [sever] loading nodes failed with 2 errors!
+2018-11-02 09:38:25.3825 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:38:30.3830 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:38:30.3830 [ERROR] loading failed: Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:38:30.3830 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 09:39:15.3915 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:39:15.3915 [ERROR] Cannot convert Name to Object. Node Ojbect "toSection" does not exists in loaded nodes!
+2018-11-02 09:39:19.3919 [ERROR] replacing failed: test
+2018-11-02 09:39:19.3919 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 09:42:37.4237 [ERROR] Cannot convert Name to Object. Node Ojbect "sec3" does not exists in loaded nodes!
+2018-11-02 09:42:37.4237 [ERROR] Cannot convert Name to Object. Node Ojbect "sec16" does not exists in loaded nodes!
+2018-11-02 09:42:55.4255 [ERROR] replacing failed: Cannot convert Name to Object. Node Ojbect "sec16" does not exists in loaded nodes!
+2018-11-02 09:42:55.4255 [ERROR] [sever] loading nodes failed with 3 errors!

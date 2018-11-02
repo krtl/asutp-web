@@ -21,3 +21,4 @@ function define(name, value) {
 
 define('nodeType', myNodeType.TRANSFORMERCONNECTOR);
 define('compareProps', [ 'toSection' ]);
+define('convertToObj', [ 'toSection' ]);

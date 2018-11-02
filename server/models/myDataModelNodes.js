@@ -40,11 +40,11 @@ const Sheme = [
   [ DbNodeLEPConnection, MyNodeLEPConnection ],
   [ DbNodePS, MyNodePS ],
   [ DbNodePSPart, MyNodePSPart ],
-  [ DbNodeTransformer, MyNodeTransformer ],
-  [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
   [ DbNodeSection, MyNodeSection ],
   [ DbNodeSectionConnector, MyNodeSectionConnector ],
   [ DbNodeEquipment, MyNodeEquipment ],
+  [ DbNodeTransformer, MyNodeTransformer ],
+  [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
 ];
 
 
@@ -68,6 +68,7 @@ const LoadFromDB = (cb) => {
   async.series([
     clearData,
     loadNodes,
+    replaceNamesWithObjects,
     linkData,
     checkData,
   ], () => {
@@ -126,8 +127,8 @@ function loadNodesFromDB(schemeElement, cb) {
             locNode.description);
           p.parentNode = locParentNode;
 
-          const props = DbNodeObj.compareProps;
-          props.forEach((pName) => {
+          const copyProps = DbNodeObj.compareProps;
+          copyProps.forEach((pName) => {
             const hasProperty = pName in p;
             if (hasProperty) {
               p[pName] = dbNodeObj[pName];
@@ -160,6 +161,45 @@ function loadNodesFromDB(schemeElement, cb) {
   });
 }
 
+function replaceNamesWithObjects(callback) {
+    // linking names to objects
+  async.each(Sheme, (schemeElement, callback) => {
+    const DbNodeObj = schemeElement[0];
+    let err = null;
+    const convertToObjProps = DbNodeObj.convertToObj;
+    if ((convertToObjProps) && (convertToObjProps.length > 0)) {
+      nodes.forEach((locNode) => {
+        if (locNode.nodeType === DbNodeObj.nodeType) {
+          convertToObjProps.forEach((pName) => {
+            const hasProperty = pName in locNode;
+            if (hasProperty) {
+              if (nodes.has(locNode[pName])) {
+                locNode[pName] = nodes.get(locNode[pName]);
+              } else {
+                err = `Cannot convert Name to Object. Node Ojbect "${locNode[pName]}" does not exists in loaded nodes!`;
+                setError(err);
+              }
+            } else {
+              err = `Cannot convert Name to Object. There is no property with Node "${pName}"!`;
+              setError(err);
+            }
+          });
+        }
+      });
+    }
+    callback(err);
+  }, (err) => {
+    if (err) {
+      setError(`replacing failed: ${err}`);
+    } else {
+        //
+    }
+    callback(err);
+  }, (err) => {
+    callback(err);
+  });
+}
+
 function linkTransformerToPS(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PS) {
@@ -167,7 +207,6 @@ function linkTransformerToPS(node) {
     } else if (node.parentNode.nodeType === myNodeType.PSPART) {
       if (node.parentNode.parentNode.nodeType === myNodeType.PS) {
         node.parentNode.parentNode.transformers.push(node);
-        node.parentNode.transformers.push(node);
       } else {
         setError(`Failed to link transformer ${node.name}. Owner PS is not found.`);
       }
@@ -184,7 +223,6 @@ function linkSectionToPS(node) {
     } else if (node.parentNode.nodeType === myNodeType.PSPART) {
       if (node.parentNode.parentNode.nodeType === myNodeType.PS) {
         node.parentNode.parentNode.sections.push(node);
-        node.parentNode.transformers.push(node);
       } else {
         setError(`Failed to link section ${node.name}. Owner PS is not found.`);
       }
@@ -201,7 +239,7 @@ function linkData(cb) {
 
       switch (locNode.nodeType) {
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
-        case myNodeType.sections: { linkSectionToPS(locNode); break; }
+        case myNodeType.SECTION: { linkSectionToPS(locNode); break; }
         default: {
           //
         }
@@ -223,8 +261,7 @@ function checkData(cb) {
   PSs.forEach((locPS) => {
     locPS.transformers.forEach((locTransformer) => {
       locTransformer.nodes.forEach((locTransConnector) => {
-        const locSection = locPS.sections.get(locTransConnector.toSection);
-        if (locSection === undefined) {
+        if (locTransConnector.toSection === undefined) {
           setError(`Failed to link Transformer ${locTransformer.name} to section ${locTransConnector.toSection}. There is no such section.`);
         }
       });
