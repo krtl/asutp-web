@@ -1,3 +1,6 @@
+/* eslint max-len: ["error", { "code": 300 }] */
+/* eslint no-param-reassign: ["error", { "props": false }] */
+
 const async = require('async');
 const events = require('events');
 
@@ -40,11 +43,11 @@ const Sheme = [
   [ DbNodeLEPConnection, MyNodeLEPConnection ],
   [ DbNodePS, MyNodePS ],
   [ DbNodePSPart, MyNodePSPart ],
+  [ DbNodeTransformer, MyNodeTransformer ],
+  [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
   [ DbNodeSection, MyNodeSection ],
   [ DbNodeSectionConnector, MyNodeSectionConnector ],
   [ DbNodeEquipment, MyNodeEquipment ],
-  [ DbNodeTransformer, MyNodeTransformer ],
-  [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
 ];
 
 
@@ -69,8 +72,8 @@ const LoadFromDB = (cb) => {
     clearData,
     loadNodes,
     replaceNamesWithObjects,
-    linkData,
-    checkData,
+    linkNodes,
+    checkIntegrity,
   ], () => {
     let res = null;
     if (errs === 0) {
@@ -95,7 +98,7 @@ function loadNodes(callback) {
     loadNodesFromDB(schemeElement, callback);
   }, (err) => {
     if (err) {
-      setError(`loading failed: ${err}`);
+      // setError(`loading failed: ${err}`);
     } else {
       //
     }
@@ -115,6 +118,7 @@ function loadNodesFromDB(schemeElement, cb) {
         name: dbNodeObj.name,
       }, (err, locNode) => {
         if (err) {
+          setError(err);
           callback(err);
         } else if (locNode) {
           let locParentNode = null;
@@ -126,6 +130,7 @@ function loadNodesFromDB(schemeElement, cb) {
             locNode.caption,
             locNode.description);
           p.parentNode = locParentNode;
+          p.nodeType = DbNodeObj.nodeType;
 
           const copyProps = DbNodeObj.compareProps;
           copyProps.forEach((pName) => {
@@ -148,7 +153,7 @@ function loadNodesFromDB(schemeElement, cb) {
         } else {
           // node does not exist
           const s = `create NodeRES Error: DBNode "${dbNodeObj.name}" does not exists!`;
-          logger.error(s);
+          setError(s);
           callback(s);
         }
         return false;
@@ -174,9 +179,10 @@ function replaceNamesWithObjects(callback) {
             const hasProperty = pName in locNode;
             if (hasProperty) {
               if (nodes.has(locNode[pName])) {
-                locNode[pName] = nodes.get(locNode[pName]);
+                const nodeItem = locNode;  // unwarn eslint
+                nodeItem[pName] = nodes.get(locNode[pName]);
               } else {
-                err = `Cannot convert Name to Object. Node Ojbect "${locNode[pName]}" does not exists in loaded nodes!`;
+                err = `Cannot convert Name to Object on "${locNode.name}". Node Ojbect "${locNode[pName]}" does not exists in loaded nodes!`;
                 setError(err);
               }
             } else {
@@ -190,7 +196,7 @@ function replaceNamesWithObjects(callback) {
     callback(err);
   }, (err) => {
     if (err) {
-      setError(`replacing failed: ${err}`);
+      // setError(`replacing failed: ${err}`);
     } else {
         //
     }
@@ -232,7 +238,7 @@ function linkSectionToPS(node) {
   }
 }
 
-function linkData(cb) {
+function linkNodes(cb) {
   nodes.forEach((locNode) => {
     if (locNode.parentNode) {
       locNode.parentNode.nodes.push(locNode);
@@ -257,16 +263,52 @@ function linkData(cb) {
   return cb();
 }
 
-function checkData(cb) {
+function checkIntegrity(cb) {
   PSs.forEach((locPS) => {
-    locPS.transformers.forEach((locTransformer) => {
-      locTransformer.nodes.forEach((locTransConnector) => {
-        if (locTransConnector.toSection === undefined) {
-          setError(`Failed to link Transformer ${locTransformer.name} to section ${locTransConnector.toSection}. There is no such section.`);
+    if (locPS.sections.length === 0) {
+      setError(`Integrity checking error: PS "${locPS.name}" has no sections!.`);
+    } else {
+      locPS.sections.forEach((locSection) => {
+        if (locSection.nodes.length === 0) {
+          setError(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
         }
       });
+    }
+
+    locPS.transformers.forEach((locTransformer) => {
+      if (locTransformer.nodes.length === 0) {
+        setError(`Integrity checking error: Transformer "${locTransformer.name}" has no connectors!.`);
+      } else if (locTransformer.nodes.length < 2) {
+        setError(`Integrity checking error: Transformer "${locTransformer.name}" should have at least 2 connectors!.`);
+      } else {
+        locTransformer.nodes.forEach((locTransConnector) => {
+          if (locTransConnector.toSection === undefined) {
+            setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${locTransConnector.toSection}". No such section. TransConnector: "${locTransConnector.name}"`);
+          } else if (!locPS.sections.includes(locTransConnector.toSection)) {
+            setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${locTransConnector.toSection.name}". The Section is not belongs to the parent PS "${locPS.name}". TransConnector: "${locTransConnector.name}"`);
+          }
+        });
+      }
     });
 
+    // each section should have a connector to transformer?
+    if (locPS.transformers.length > 0) {
+      locPS.sections.forEach((locSection) => {
+        locSection.tag = 0;
+      });
+
+      locPS.transformers.forEach((locTransformer) => {
+        locTransformer.nodes.forEach((locTransConnector) => {
+          locTransConnector.toSection.tag = 1;
+        });
+      });
+
+      locPS.sections.forEach((locSection) => {
+        if (locSection.tag === 0) {
+          setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
+        }
+      });
+    }
 
     // ..
   });

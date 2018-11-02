@@ -24,3 +24,4 @@ function define(name, value) {
 
 define('nodeType', myNodeType.LEPCONNECTION);
 define('compareProps', [ 'toNode', 'toNodeConnector' ]);
+define('convertToObj', [ 'toNode', 'toNodeConnector' ]);

@@ -1,29 +1,82 @@
 [
-  { "name": "c1",
-    "caption": "c1",
-    "description": "test", "parentNode": "sec1"},
+  { "name": "ps1sec1c1",
+    "caption": "ps1sec1c1",
+    "description": "test", "parentNode": "ps1sec1"},
   {
-    "name": "c2",
-    "caption": "c2",
-    "description": "", "parentNode": "sec1"},
+    "name": "ps1sec1c2",
+    "caption": "ps1sec1c2",
+    "description": "", "parentNode": "ps1sec1"},
   {
-    "name": "c3",
-    "caption": "c3",
-    "description": "", "parentNode": "sec1"
+    "name": "ps1sec1c3",
+    "caption": "ps1sec1c3",
+    "description": "", "parentNode": "ps1sec1"
 , "paramOnOffState": "param2"},
   {
-    "name": "c4", "parentNode": "sec5",
-    "caption": "c4",
+    "name": "ps1sec2c1", "parentNode": "ps1sec2",
+    "caption": "ps1sec2c1",
     "description": "zzz"
 , "paramOnOffState": "param3"},
   {
-    "name": "c5", "parentNode": "sec2",
-    "caption": "c5",
+    "name": "ps1sec2c2", "parentNode": "ps1sec2",
+    "caption": "ps1sec2c2",
     "description": "zzz1"
 , "paramOnOffState": "param13"},
   {
-    "name": "c6",
-    "caption": "c6","parentNode": "sec2",
+    "name": "ps1sec2c3",
+    "caption": "ps1sec2c3","parentNode": "ps1sec2",
+    "description": "zzz2"
+, "paramOnOffState": "param1"},
+{
+    "name": "ps1sec3c1", "parentNode": "ps1sec3",
+    "caption": "ps1sec2c1",
+    "description": "zzz"
+, "paramOnOffState": "param3"},
+  {
+    "name": "ps1sec3c2", "parentNode": "ps1sec3",
+    "caption": "ps1sec2c2",
+    "description": "zzz1"
+, "paramOnOffState": "param13"},
+  {
+    "name": "ps1sec4c1",
+    "caption": "ps1sec2c3","parentNode": "ps1sec4",
+    "description": "zzz2"
+, "paramOnOffState": "param1"},
+{ "name": "ps2sec1c1",
+    "caption": "ps2sec1c1",
+    "description": "test", "parentNode": "ps2sec1"},
+  {
+    "name": "ps2sec1c2",
+    "caption": "ps2sec1c2",
+    "description": "", "parentNode": "ps2sec1"},
+  {
+    "name": "ps2sec1c3",
+    "caption": "ps2sec1c3",
+    "description": "", "parentNode": "ps2sec1"
+, "paramOnOffState": "param2"},
+  {
+    "name": "ps2sec2c1", "parentNode": "ps2sec2",
+    "caption": "ps2sec2c1",
+    "description": "zzz"
+, "paramOnOffState": "param3"},
+  {
+    "name": "ps2sec2c2", "parentNode": "ps2sec2",
+    "caption": "ps2sec2c2",
+    "description": "zzz1"
+, "paramOnOffState": "param13"},
+  {
+    "name": "ps2sec2c3",
+    "caption": "ps2sec2c3","parentNode": "ps2sec2",
+    "description": "zzz2"
+, "paramOnOffState": "param1"},
+{
+    "name": "ps2sec3c1",
+    "caption": "ps2sec3c1","parentNode": "ps2sec3",
+    "description": "zzz2"
+, "paramOnOffState": "param1"},
+{
+    "name": "ps3sec1c1",
+    "caption": "ps3sec1c1","parentNode": "ps3sec1",
     "description": "zzz2"
 , "paramOnOffState": "param1"}
+
 ]

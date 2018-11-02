@@ -1,17 +1,17 @@
 [
 
-  {    "name": "trans1", "parentNode": "ps1", 
+  {    "name": "ps1trans1", "parentNode": "ps1", 
    "caption": "t1", 
     "description": "test", "power": "100"},
 
   {
-    "name": "trans2", "parentNode": "ps2",
+    "name": "ps1trans2", "parentNode": "ps1",
     "caption": "t2",
     "description": "", "power": "13450"},
 
   {
-    "name": "trans3", "parentNode": "ps3",
-    "caption": "trans3",
+    "name": "ps2trans1", "parentNode": "ps2",
+    "caption": "ps2trans1",
     "description": "ZZZzzz"
 , "power": "2300"}
 ]

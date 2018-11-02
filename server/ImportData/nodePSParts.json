@@ -1,17 +1,21 @@
 [
 
-  {    "name": "psPart1",
-   "caption": "psPart1111",
+  {    "name": "ps1Part1",
+   "caption": "ps2Part1111",
     "description": "dummyPartPS1", "parentNode": "ps1"},
 
   {
-    "name": "psPart2", 
-    "caption": "psPart2222",
+    "name": "ps1Part2", 
+    "caption": "ps2Part2222",
     "description": "dummyPartPS2", "parentNode": "ps1"},
 
     {
-      "name": "psPart3", 
-      "caption": "psPart2222",
-      "description": "dummyPartPS2", "parentNode": "ps2"}
-  
+      "name": "ps2Part1", 
+      "caption": "ps2Part2222",
+      "description": "dummyPartPS2", "parentNode": "ps2"},
+      {
+        "name": "ps3Part1", 
+        "caption": "ps3Part1",
+        "description": "dummyPartPS2", "parentNode": "ps3"}
+    
 ]

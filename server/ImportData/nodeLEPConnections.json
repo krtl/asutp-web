@@ -1,13 +1,18 @@
 [
 
-    {    "name": "lepConnection1",
-     "caption": "lepConnection1",
-      "description": "dummylepConnection1", "parentNode": "lep1", "toNode": "ps1", "toNodeConnector": "c1"},
-    {   "name": "lepConnection2",
-        "caption": "lepConnection2",
-        "description": "dummylepConnection2", "parentNode": "lep2", "toNode": "ps1", "toNodeConnector": "c2"},
-    {   "name": "lepConnection3",
-        "caption": "lepConnection3",
-        "description": "dummylepConnection3", "parentNode": "lep1", "toNode": "ps2", "toNodeConnector": "c3"}
+    {    "name": "lep1Con1", "caption": "lepConnection1",
+      "description": "dummylepConnection1", "parentNode": "lep1", "toNode": "ps1", "toNodeConnector": "ps2sec2c3"},
+    {   "name": "lep1Con2", "caption": "lepConnection2",
+        "description": "dummylepConnection2", "parentNode": "lep1", "toNode": "ps2", "toNodeConnector": "ps2sec1c1"},
+    {   "name": "lep2Con1", "caption": "lepConnection2",
+        "description": "dummylepConnection2", "parentNode": "lep2", "toNode": "ps2", "toNodeConnector": "ps2sec3c1"},
+    {   "name": "lep2Con2", "caption": "lepConnection2",
+        "description": "dummylepConnection2", "parentNode": "lep2", "toNode": "ps1", "toNodeConnector": "ps1sec2c1"},
+    {   "name": "lep3Con1", "caption": "lepConnection2",
+        "description": "dummylepConnection2", "parentNode": "lep3", "toNode": "ps1", "toNodeConnector": "ps333sec1c1"},
+    {   "name": "lep3Con2", "caption": "lepConnection2",
+        "description": "dummylepConnection2", "parentNode": "lep3", "toNode": "ps3", "toNodeConnector": "ps3sec1c1"},
+    {   "name": "lep3Con3", "caption": "lepConnection3",
+        "description": "dummylepConnection3", "parentNode": "lep3", "toNode": "ps2", "toNodeConnector": "ps2sec2c3"}
         
 ]

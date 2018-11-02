@@ -7,20 +7,20 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "import Scheme",
-            "program": "${workspaceFolder}\\server\\consoleScripts\\importScheme.js"
+            "name": "DBImportScheme",
+            "program": "${workspaceFolder}\\server\\consoleScripts\\scriptDBImportScheme.js"
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "CreateDB script",
-            "program": "${workspaceFolder}\\server\\consoleScripts\\CreateDB.js"
+            "name": "DBCreate",
+            "program": "${workspaceFolder}\\server\\consoleScripts\\scripDBCreate.js"
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Load Nodes Model script",
-            "program": "${workspaceFolder}\\server\\consoleScripts\\LoadNodesModel.js"
+            "name": "LoadModelNodes",
+            "program": "${workspaceFolder}\\server\\consoleScripts\\scriptLoadNodesModel.js"
         }
 ]
 }

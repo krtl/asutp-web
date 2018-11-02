@@ -42,3 +42,114 @@
 2018-11-02 09:42:37.4237 [ERROR] Cannot convert Name to Object. Node Ojbect "sec16" does not exists in loaded nodes!
 2018-11-02 09:42:55.4255 [ERROR] replacing failed: Cannot convert Name to Object. Node Ojbect "sec16" does not exists in loaded nodes!
 2018-11-02 09:42:55.4255 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 10:44:54.4454 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 10:46:57.4657 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 10:47:25.4725 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 10:47:36.4736 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 10:48:40.4840 [ERROR] Cannot convert Name to Object. Node Ojbect "sec6" does not exists in loaded nodes!
+2018-11-02 10:48:40.4840 [ERROR] replacing failed: Cannot convert Name to Object. Node Ojbect "sec6" does not exists in loaded nodes!
+2018-11-02 10:48:40.4840 [ERROR] [sever] loading nodes failed with 2 errors!
+2018-11-02 10:54:08.548 [ERROR] Cannot convert Name to Object. Node Ojbect "sec6" does not exists in loaded nodes!
+2018-11-02 10:54:08.548 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 10:54:39.5439 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 10:55:05.555 [INFO] [sever] loaded from DB with 41 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 10:58:50.5850 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 10:59:08.598 [INFO] [sever] loaded from DB with 41 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 11:07:38.738 [ERROR] Integrity checking error: Failed to link Transformer trans2 to section [object Object]. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:07:38.738 [ERROR] Integrity checking error: Failed to link Transformer trans2 to section [object Object]. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:07:38.738 [ERROR] Integrity checking error: Failed to link Transformer trans3 to section [object Object]. The Section is not belongs to the parent PS ps3.
+2018-11-02 11:07:38.738 [ERROR] Integrity checking error: Failed to link Transformer trans3 to section [object Object]. The Section is not belongs to the parent PS ps3.
+2018-11-02 11:07:38.738 [ERROR] [sever] loading nodes failed with 4 errors!
+2018-11-02 11:08:15.815 [ERROR] Integrity checking error: Failed to link Transformer trans2 to section [object Object]. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:08:16.816 [ERROR] Integrity checking error: Failed to link Transformer trans2 to section [object Object]. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:08:16.816 [ERROR] Integrity checking error: Failed to link Transformer trans3 to section [object Object]. The Section is not belongs to the parent PS ps3.
+2018-11-02 11:08:17.817 [ERROR] Integrity checking error: Failed to link Transformer trans3 to section [object Object]. The Section is not belongs to the parent PS ps3.
+2018-11-02 11:08:17.817 [ERROR] [sever] loading nodes failed with 4 errors!
+2018-11-02 11:13:50.1350 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:14:59.1459 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:19:18.1918 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:19:25.1925 [ERROR] Cannot convert Name to Object. Node Ojbect "ps1ec1" does not exists in loaded nodes!
+2018-11-02 11:19:25.1925 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 11:20:30.2030 [ERROR] Cannot convert Name to Object. Node Ojbect "ps1ec1" does not exists in loaded nodes!
+2018-11-02 11:20:30.2030 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 11:20:36.2036 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:21:29.2129 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:21:42.2142 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:27:10.2710 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:27:34.2734 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:27:46.2746 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:29:49.2949 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:29:57.2957 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:30:07.307 [INFO] [sever] loaded from DB with 50 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 11:32:30.3230 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:32:42.3242 [ERROR] Integrity checking error: Failed to link Transformer ps2trans1
+           to section [object Object]. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:32:42.3242 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 11:43:06.436 [ERROR] Integrity checking error: Failed to link Transformer ps2trans1 to section [object Object]. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:43:06.436 [ERROR] Integrity checking error: PS ps3 has no sections!.
+2018-11-02 11:43:06.436 [ERROR] [sever] loading nodes failed with 2 errors!
+2018-11-02 11:44:33.4433 [ERROR] Integrity checking error: Failed to link Transformer ps2trans1 to section ps1sec2. The Section is not belongs to the parent PS ps2.
+2018-11-02 11:44:33.4433 [ERROR] Integrity checking error: PS ps3 has no sections!.
+2018-11-02 11:44:33.4433 [ERROR] [sever] loading nodes failed with 2 errors!
+2018-11-02 11:45:38.4538 [ERROR] Integrity checking error: Failed to link Transformer "ps2trans1" to section "ps1sec2". The Section is not belongs to the parent PS "ps2".
+2018-11-02 11:45:38.4538 [ERROR] Integrity checking error: PS "ps3" has no sections!.
+2018-11-02 11:45:38.4538 [ERROR] [sever] loading nodes failed with 2 errors!
+2018-11-02 11:46:25.4625 [ERROR] Integrity checking error: Failed to link Transformer "ps2trans1" to section "ps1sec2". The Section is not belongs to the parent PS "ps2".
+2018-11-02 11:46:25.4625 [ERROR] Integrity checking error: PS "ps3" has no sections!.
+2018-11-02 11:46:25.4625 [ERROR] [sever] loading nodes failed with 2 errors!
+2018-11-02 11:50:46.5046 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:51:24.5124 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:52:28.5228 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:52:41.5241 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:52:57.5257 [ERROR] Integrity checking error: Failed to link Transformer "ps2trans1" to section "ps1sec2". The Section is not belongs to the parent PS "ps2".
+2018-11-02 11:52:57.5257 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 11:55:41.5541 [ERROR] Integrity checking error: Failed to link Transformer "ps2trans1" to section "ps1sec2". The Section is not belongs to the parent PS "ps2". TransConnector: "ps2tc2"
+2018-11-02 11:55:41.5541 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 11:56:12.5612 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:56:24.5624 [INFO] [sever] loaded from DB with 53 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 11:58:06.586 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 11:58:16.5816 [INFO] [sever] loaded from DB with 53 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 12:06:26.626 [ERROR] Integrity checking error: Section "ps1sec4" has no connectors!.
+2018-11-02 12:06:26.626 [ERROR] Integrity checking error: Section "ps1sec3" has no connectors!.
+2018-11-02 12:06:26.626 [ERROR] Integrity checking error: Section "ps3sec1" has no connectors!.
+2018-11-02 12:06:26.626 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 12:08:46.846 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 12:09:13.913 [ERROR] Integrity checking error: Section "ps3sec1" has no connectors!.
+2018-11-02 12:09:13.913 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 12:11:26.1126 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 12:11:33.1133 [INFO] [sever] loaded from DB with 57 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 12:55:40.5540 [INFO] [sever] loaded from DB with 57 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 13:28:27.2827 [INFO] [sever] loaded from DB with 57 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 13:29:07.297 [INFO] [sever] loaded from DB with 57 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 13:31:01.311 [INFO] [sever] loaded from DB with 57 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 13:33:16.3316 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 13:33:52.3352 [ERROR] Integrity checking error: The section "ps2sec3" is not connected to any transformer.
+2018-11-02 13:33:52.3352 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-02 13:37:27.3727 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 13:37:35.3735 [INFO] [sever] loaded from DB with 60 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 13:44:36.4436 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 13:45:59.4559 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 13:46:08.468 [INFO] [sever] loaded from DB with 60 Nodes: LEPs=4, RESs=2, PSs=3
+2018-11-02 14:05:28.528 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 14:24:55.2455 [ERROR] Cannot convert Name to Object. Node Ojbect "c1" does not exists in loaded nodes!
+2018-11-02 14:24:55.2455 [ERROR] Cannot convert Name to Object. Node Ojbect "c2" does not exists in loaded nodes!
+2018-11-02 14:24:55.2455 [ERROR] Cannot convert Name to Object. Node Ojbect "c3" does not exists in loaded nodes!
+2018-11-02 14:24:55.2455 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 14:26:53.2653 [ERROR] Cannot convert Name to Object on "lepConnection1". Node Ojbect "c1" does not exists in loaded nodes!
+2018-11-02 14:26:53.2653 [ERROR] Cannot convert Name to Object on "lepConnection2". Node Ojbect "c2" does not exists in loaded nodes!
+2018-11-02 14:26:53.2653 [ERROR] Cannot convert Name to Object on "lepConnection3". Node Ojbect "c3" does not exists in loaded nodes!
+2018-11-02 14:26:53.2653 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 14:27:03.273 [ERROR] Cannot convert Name to Object on "lepConnection1". Node Ojbect "c1" does not exists in loaded nodes!
+2018-11-02 14:27:03.273 [ERROR] Cannot convert Name to Object on "lepConnection2". Node Ojbect "c2" does not exists in loaded nodes!
+2018-11-02 14:27:03.273 [ERROR] Cannot convert Name to Object on "lepConnection3". Node Ojbect "c3" does not exists in loaded nodes!
+2018-11-02 14:27:03.273 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 14:38:19.3819 [ERROR] Cannot convert Name to Object on "lepConnection1". Node Ojbect "c1" does not exists in loaded nodes!
+2018-11-02 14:38:19.3819 [ERROR] Cannot convert Name to Object on "lepConnection2". Node Ojbect "c2" does not exists in loaded nodes!
+2018-11-02 14:38:19.3819 [ERROR] Cannot convert Name to Object on "lepConnection3". Node Ojbect "c3" does not exists in loaded nodes!
+2018-11-02 14:38:19.3819 [ERROR] [sever] loading nodes failed with 3 errors!
+2018-11-02 14:38:42.3842 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-02 14:38:49.3849 [ERROR] Cannot convert Name to Object on "lep3Con1". Node Ojbect "ps333sec1c1" does not exists in loaded nodes!
+2018-11-02 14:38:49.3849 [ERROR] Cannot convert Name to Object on "lepConnection3". Node Ojbect "c3" does not exists in loaded nodes!
+2018-11-02 14:38:49.3849 [ERROR] Cannot convert Name to Object on "lepConnection2". Node Ojbect "c2" does not exists in loaded nodes!
+2018-11-02 14:38:49.3849 [ERROR] Cannot convert Name to Object on "lepConnection1". Node Ojbect "c1" does not exists in loaded nodes!
+2018-11-02 14:38:49.3849 [ERROR] [sever] loading nodes failed with 4 errors!
