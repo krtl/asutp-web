@@ -35,9 +35,9 @@ function setError(text) {
   errs += 1;
   console.error(text);
 }
-let updateStarted = 0;
-let updated = 0;
-let processed = 0;
+let updateStarted = 0;  // for debugging
+let updated = 0;        // for debugging
+let processed = 0;      // for debugging
 
 
 async.series([
@@ -258,9 +258,9 @@ function checkIfParentNodeExists(node, callback) {
   }
 }
 
-let DbNodeObj = null;
-let newNode = null;
-let newNodeObj = null;
+let DbNodeObj = null;   // don't know how to pass into async.series function as parameters
+let newNode = null;     // don't know how to pass into async.series function as parameters
+let newNodeObj = null;  // don't know how to pass into async.series function as parameters
 
 function processNode(processNodeCallback) {
   getNode(newNode.name, (err, netNode) => {
