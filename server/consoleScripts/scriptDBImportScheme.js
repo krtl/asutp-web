@@ -178,9 +178,12 @@ function removingOldNodes(callback) {
     if (s !== '') {
       console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
 
-      DbNode.deleteMany({ tag: 0 }, (result) => {
-        !
-        console.warn(`[!] ${result} old nodes were deleted.`);
+      DbNode.deleteMany({ tag: 0 }, (err) => {
+        if (err) {
+          console.warn(`[!] ${err}`);
+        } else {
+          console.warn(`[!] ${netNodes.length}  old nodes were deleted.`);
+        }
       });
     }
     callback();

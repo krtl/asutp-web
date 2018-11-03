@@ -7,7 +7,6 @@ const NodeLEPConnectionSchema = new mongoose.Schema({
     index: { unique: true },
   },
 
-  toNode: String,
   toNodeConnector: String,
 
 });
@@ -23,5 +22,5 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.LEPCONNECTION);
-define('compareProps', [ 'toNode', 'toNodeConnector' ]);
-define('convertToObj', [ 'toNode', 'toNodeConnector' ]);
+define('compareProps', [ 'toNodeConnector' ]);
+define('convertToObj', [ 'toNodeConnector' ]);

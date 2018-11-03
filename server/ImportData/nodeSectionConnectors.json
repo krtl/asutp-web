@@ -73,10 +73,7 @@
     "caption": "ps2sec3c1","parentNode": "ps2sec3",
     "description": "zzz2"
 , "paramOnOffState": "param1"},
-{
-    "name": "ps3sec1c1",
-    "caption": "ps3sec1c1","parentNode": "ps3sec1",
-    "description": "zzz2"
-, "paramOnOffState": "param1"}
-
+{ "name": "ps3sec1c1",  "caption": "ps3sec1c1","parentNode": "ps3sec1", "description": "zzz2", "paramOnOffState": "param1"},
+{ "name": "ps3sec2c1",  "caption": "ps3sec2c1","parentNode": "ps3sec2", "description": "zzz2", "paramOnOffState": "param1"}
+  
 ]

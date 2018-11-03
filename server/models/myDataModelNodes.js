@@ -152,7 +152,7 @@ function loadNodesFromDB(schemeElement, cb) {
           callback(null);
         } else {
           // node does not exist
-          const s = `create NodeRES Error: DBNode "${dbNodeObj.name}" does not exists!`;
+          const s = `create myNode Error: DbNode "${dbNodeObj.name}" does not exists!`;
           setError(s);
           callback(s);
         }
@@ -206,6 +206,25 @@ function replaceNamesWithObjects(callback) {
   });
 }
 
+function linkLEPConnectorToPS(nodeLEPConnector) {
+  if (nodeLEPConnector.toNodeConnector) {
+    if (nodeLEPConnector.toNodeConnector.nodeType === myNodeType.SECTIONCONNECTOR) {
+      const section = nodeLEPConnector.toNodeConnector.parentNode;
+      if (section.parentNode.nodeType === myNodeType.PSPART) {
+        nodeLEPConnector.toNode = section.parentNode.parentNode;
+      } else if (section.parentNode.nodeType === myNodeType.PS) {
+        nodeLEPConnector.toNode = section.parentNode;
+      } else {
+        setError(`Failed to link LEPConnector: ${nodeLEPConnector.name}. toNodeConnector Owner is not a PS and not a PSPART.`);
+      }
+    } else {
+      setError(`Failed to link LEPConnector: ${nodeLEPConnector.name}. toNodeConnector is not a SECTIONCONNECTOR`);
+    }
+  } else {
+    setError(`Failed to link LEPConnector: ${nodeLEPConnector.name}. There is no Node to connect.`);
+  }
+}
+
 function linkTransformerToPS(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PS) {
@@ -244,6 +263,7 @@ function linkNodes(cb) {
       locNode.parentNode.nodes.push(locNode);
 
       switch (locNode.nodeType) {
+        case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
         case myNodeType.SECTION: { linkSectionToPS(locNode); break; }
         default: {
