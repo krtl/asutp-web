@@ -6,7 +6,7 @@ const NodeSectionSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
-
+  voltage: Number,
 });
 
 module.exports = mongoose.model('NodeSection', NodeSectionSchema);
@@ -19,4 +19,4 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.SECTION);
-define('compareProps', [ ]);
+define('compareProps', [ 'voltage' ]);

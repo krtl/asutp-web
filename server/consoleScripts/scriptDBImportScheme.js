@@ -35,14 +35,18 @@ function setError(text) {
   errs += 1;
   console.error(text);
 }
+let updateStarted = 0;
+let updated = 0;
+let processed = 0;
+
 
 async.series([
   open,
   requireModels,
   preparingNodes,
   importNodes,
-  removingOldNodes,
   checkIntegrity,
+  removingOldNodes,
 ], (err) => {
 //  console.info(arguments);
   mongoose.disconnect();
@@ -158,16 +162,37 @@ function preparingNodes(callback) {
   DbNode.updateMany({ },
     { $set: {
       tag: 0 },
-    }, callback);
+    }, (err, res) => {
+      if (err) {
+        console.warn(`[!] ${err}`);
+      } else {
+        console.debug(`[debug] ${res.nModified} updated.`);
+      }
+      callback(err);
+    });
 }
 
 function updateNodeTag(originNode, callback) {
-  DbNode.update({ _id: originNode.id },
+  updateStarted += 1;
+  DbNode.updateOne({ _id: originNode.id },
     { $set: {
       tag: 1 },
-    }, callback);
+    }, (err, res) => {
+      if (err) {
+        console.warn(`[!] ${err}`);
+      } else if (res.nModified === 0) {
+        console.warn('[!] did not updated.');
+      } else {
+        updated += 1;
+      }
+
+      callback(err);
+    });
 }
+
 function removingOldNodes(callback) {
+  console.debug(`[debug] processed = ${processed} updateStarted = ${updateStarted} updated = ${updated}`);
+
   DbNode.find({
     tag: 0,
   }, (err, netNodes) => {
@@ -178,11 +203,11 @@ function removingOldNodes(callback) {
     if (s !== '') {
       console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
 
-      DbNode.deleteMany({ tag: 0 }, (err) => {
+      DbNode.deleteMany({ tag: 0 }, (err, res) => {
         if (err) {
           console.warn(`[!] ${err}`);
         } else {
-          console.warn(`[!] ${netNodes.length}  old nodes were deleted.`);
+          console.warn(`[!] ${res} old nodes were deleted.`);
         }
       });
     }
@@ -211,9 +236,9 @@ function checkIfParentNodeExists(node, callback) {
     if (myNodeType.isParentRequired(node.nodeType)) {
       const s = `Parent is required for node:"${node.name}"!`;
       setError(s);
-      // callback(s);
+      callback(s);
     } else {
-      // callback(null);
+      callback(null);
     }
   } else {
     DbNode.findOne({
@@ -222,19 +247,94 @@ function checkIfParentNodeExists(node, callback) {
       if (err) callback(err);
       if (netNode) {
         // node exists
-        // callback(null);
+        callback(null);
       } else {
         // node does not exist
         const s = `Parent node "${node.parentNode}" does not exists for node:"${node.name}"!`;
         setError(s);
-        // callback(s);
+        callback(s);
       }
     });
   }
 }
 
+let DbNodeObj = null;
+let newNode = null;
+let newNodeObj = null;
+
+function processNode(processNodeCallback) {
+  getNode(newNode.name, (err, netNode) => {
+    if (err) processNodeCallback(err);
+    if (netNode) {
+        // node exists
+
+      if (!isTheSameNode(netNode, newNode)) {
+        updateNode(netNode, newNode, (error) => {
+          if (error) processNodeCallback(error);
+          console.info(`Node "${newNode.name}" updated`);
+          checkIfParentNodeExists(newNode, processNodeCallback);
+        });
+      } else {
+        updateNodeTag(netNode, (error) => {
+          if (error) processNodeCallback(error);
+          checkIfParentNodeExists(newNode, processNodeCallback);
+        });
+      }
+    } else {
+        // does not exist
+      newNode.save((err) => {
+        if (err) {
+          processNodeCallback(err);
+        }
+        console.info(`Node "${newNode.name}" inserted`);
+        checkIfParentNodeExists(newNode, processNodeCallback);
+      });
+    }
+  });
+}
+
+function processNodeObj(processNodeObjCallback) {
+  getNodeObj(DbNodeObj, newNode.name, (err, existedNodeObj) => {
+    if (err) processNodeObjCallback(err);
+    if (existedNodeObj) {
+          // node exists
+
+      if (!isTheSameNodeObj(DbNodeObj, existedNodeObj, newNodeObj)) {
+        updateNodeObj(DbNodeObj, existedNodeObj, newNodeObj, (error) => {
+          if (error) processNodeObjCallback(error);
+          console.info(`NodeObj "${newNode.name}" updated`);
+          processNodeObjCallback(null);
+        });
+      } else {
+        processNodeObjCallback(null);
+      }
+    } else {
+              // does not exist
+      newNodeObj.save((err) => {
+        if (err) {
+          processNodeObjCallback(err);
+        }
+        console.info(`NodeObj "${newNode.name}" inserted`);
+        processNodeObjCallback(null);
+      });
+    }
+  });
+}
+
+function processNodeSeries(callback) {
+  async.series([
+    processNode,
+    processNodeObj,
+  ], (err) => {
+    if (err) {
+      setError(err);
+    }
+    callback(err);
+  });
+}
+
 function importNodesFromFile(schemeElement, callback) {
-  const DbNodeObj = schemeElement[0];
+  DbNodeObj = schemeElement[0];
   const fileName = schemeElement[1];
   const fullFileName = `${config.importPath}${fileName}`;
   console.info(`importing from "${fullFileName}"..`);
@@ -249,72 +349,16 @@ function importNodesFromFile(schemeElement, callback) {
 
   const locObjects = JSON.parse(rawdata);
 
-  async.each(locObjects, (locData, callback) => {
-    const newNode = new DbNode(locData);
-    const newNodeObj = new DbNodeObj(locData);
+  async.eachSeries(locObjects, (locData, callback) => {
+    newNode = new DbNode(locData);
+    newNodeObj = new DbNodeObj(locData);
     newNode.nodeType = DbNodeObj.nodeType;
     newNode.tag = 1;
-
-    getNode(newNode.name, (err, netNode) => {
-      if (err) callback(err);
-      if (netNode) {
-        // node exists
-
-        if (!isTheSameNode(netNode, newNode)) {
-          updateNode(netNode, newNode, (error) => {
-            if (error) callback(error);
-            console.info(`Node "${newNode.name}" updated`);
-            checkIfParentNodeExists(newNode, callback);
-            // callback(null);
-          });
-        } else {
-          updateNodeTag(netNode, (error) => {
-            if (error) callback(error);
-            checkIfParentNodeExists(newNode, callback);
-          });
-        }
-      } else {
-        // does not exist
-        newNode.save((err) => {
-          if (err) {
-            callback(err);
-          }
-          console.info(`Node "${newNode.name}" inserted`);
-
-          checkIfParentNodeExists(newNode, callback);
-          // callback(null);
-        });
-      }
-    });
-
-    getNodeObj(DbNodeObj, newNode.name, (err, existedNodeObj) => {
-      if (err) callback(err);
-      if (existedNodeObj) {
-            // node exists
-
-        if (!isTheSameNodeObj(DbNodeObj, existedNodeObj, newNodeObj)) {
-          updateNodeObj(DbNodeObj, existedNodeObj, newNodeObj, (error) => {
-            if (error) callback(error);
-            console.info(`NodeObj "${newNode.name}" updated`);
-            callback(null);
-          });
-        } else {
-          callback(null);
-        }
-      } else {
-                // does not exist
-        newNodeObj.save((err) => {
-          if (err) {
-            callback(err);
-          }
-          console.info(`NodeObj "${newNode.name}" inserted`);
-          callback(null);
-        });
-      }
-    });
+    processed += 1;
+    processNodeSeries(callback);
   }, (err) => {
     if (err === null) {
-      console.info('importing successed.');
+      console.info('importing from file successed.');
     }
     callback(err);
   });
