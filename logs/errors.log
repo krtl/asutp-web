@@ -117,3 +117,13 @@
 2018-11-02 18:08:18.818 [ERROR] [sever] loading nodes failed with 1 errors!
 2018-11-02 18:09:51.951 [ERROR] create NodeRES Error: DBNode "res1" does not exists!
 2018-11-02 18:09:51.951 [ERROR] [sever] loading nodes failed with 1 errors!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps2sec1" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec1" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps2sec2" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec2" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps2sec3" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec3" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps3sec1" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec4" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps3sec2" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] [sever] loading nodes failed with 9 errors!

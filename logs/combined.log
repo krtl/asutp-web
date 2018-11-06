@@ -345,3 +345,21 @@
 2018-11-03 23:54:04.544 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
 2018-11-03 23:54:50.5450 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
 2018-11-03 23:55:23.5523 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-05 07:21:12.2112 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-05 07:22:12.2212 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-05 07:22:24.2224 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-05 07:22:45.2245 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-05 07:22:50.2250 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-06 16:17:09.179 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps2sec1" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec1" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps2sec2" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec2" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps2sec3" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec3" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps3sec1" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps1sec4" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] Node Ojbect "ps3sec2" has no property "voltage"!
+2018-11-06 16:17:21.1721 [ERROR] [sever] loading nodes failed with 9 errors!
+2018-11-06 16:19:33.1933 [INFO] [sever] loaded from DB with 68 Nodes: LEPs=7, RESs=2, PSs=3
+2018-11-06 16:21:34.2134 [INFO] [sever] loaded from DB with 68 Nodes: LEPs=7, RESs=2, PSs=3
