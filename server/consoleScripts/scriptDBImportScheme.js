@@ -20,7 +20,7 @@ const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const Sheme = [
   [ DbNodeRES, 'nodeRESs.json' ],
   [ DbNodeLEP, 'nodeLEPs.json' ],
-  [ DbNodeLEPConnection, 'nodeLEPConnections.json' ],
+  [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
   [ DbNodePS, 'nodePSs.json' ],
   [ DbNodePSPart, 'nodePSParts.json' ],
   [ DbNodeTransformer, 'nodeTransformers.json' ],

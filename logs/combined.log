@@ -363,3 +363,6 @@
 2018-11-06 16:17:21.1721 [ERROR] [sever] loading nodes failed with 9 errors!
 2018-11-06 16:19:33.1933 [INFO] [sever] loaded from DB with 68 Nodes: LEPs=7, RESs=2, PSs=3
 2018-11-06 16:21:34.2134 [INFO] [sever] loaded from DB with 68 Nodes: LEPs=7, RESs=2, PSs=3
+2018-11-07 15:20:38.2038 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-07 15:20:46.2046 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web
+2018-11-07 15:21:31.2131 [INFO] Mongoose connection opened to mongodb://127.0.0.1/asutp_web

@@ -7,7 +7,7 @@ const NodeTransformerConnectorSchema = new mongoose.Schema({
     index: { unique: true },
   },
 
-  toSection: String,
+  toConnector: String,
 });
 
 module.exports = mongoose.model('NodeTransformerConnector', NodeTransformerConnectorSchema);
@@ -20,5 +20,5 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.TRANSFORMERCONNECTOR);
-define('compareProps', [ 'toSection' ]);
-define('convertToObj', [ 'toSection' ]);
+define('compareProps', [ 'toConnector' ]);
+define('convertToObj', [ 'toConnector' ]);

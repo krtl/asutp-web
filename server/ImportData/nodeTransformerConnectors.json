@@ -1,30 +1,24 @@
 [
 
-    {    "name": "ps1tc1",
-     "caption": "ps1tc1",
-      "description": "test", "parentNode": "ps1trans1", "toSection": "ps1sec1"},
+    {    "name": "ps1tc1",  "caption": "ps1tc1",
+      "description": "test", "parentNode": "ps1trans1", "toConnector": "ps1sec1c1"},
     {
       "name": "ps1tc2", "x": 100, "y": 100,
       "caption": "ps1tc2",
-      "description": "test", "parentNode": "ps1trans1", "toSection": "ps1sec2"},
+      "description": "test", "parentNode": "ps1trans1", "toConnector": "ps1sec2c1"},
     {
-      "name": "ps1tc3",
-      "caption": "ps1c3",
-      "description": "test", "parentNode": "ps1trans2", "toSection": "ps1sec3"},
+      "name": "ps1tc3", "caption": "ps1c3",
+      "description": "test", "parentNode": "ps1trans2", "toConnector": "ps1sec3c1"},
     {
-      "name": "ps1tc4",
-      "caption": "ps1tc4",
-      "description": "test", "parentNode": "ps1trans2", "toSection": "ps1sec4"},
+      "name": "ps1tc4", "caption": "ps1tc4",
+      "description": "test", "parentNode": "ps1trans2", "toConnector": "ps1sec4c1"},
     {
-      "name": "ps2tc1",
-      "caption": "ps2tc1",
-      "description": "test", "parentNode": "ps2trans1", "toSection": "ps2sec1"},
+      "name": "ps2tc1",  "caption": "ps2tc1",
+      "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2sec1c1"},
     {
-      "name": "ps2tc2",
-      "caption": "ps2tc2",
-      "description": "test", "parentNode": "ps2trans1", "toSection": "ps2sec2"},
+      "name": "ps2tc2",   "caption": "ps2tc2",
+      "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2sec2c1"},
       {
-        "name": "ps2tc3",
-        "caption": "ps2tc3",
-        "description": "test", "parentNode": "ps2trans1", "toSection": "ps2sec3"}
+        "name": "ps2tc3",     "caption": "ps2tc3",
+        "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2sec3c1"}
     ]
