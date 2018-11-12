@@ -10,6 +10,7 @@ const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
 const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
+const DbNodePSConnector = require('../dbmodels/nodePSConnector');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
 const DbNodeTransformer = require('../dbmodels/nodeTransformer');
 const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector');
@@ -22,6 +23,7 @@ const Sheme = [
   [ DbNodeLEP, 'nodeLEPs.json' ],
   [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
   [ DbNodePS, 'nodePSs.json' ],
+  [ DbNodePSConnector, 'nodePSConnectors.json' ],
   [ DbNodePSPart, 'nodePSParts.json' ],
   [ DbNodeTransformer, 'nodeTransformers.json' ],
   [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
