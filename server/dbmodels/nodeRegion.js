@@ -18,5 +18,5 @@ function define(name, value) {
   });
 }
 
-define('nodeType', myNodeType.RES);
+define('nodeType', myNodeType.REGION);
 define('compareProps', [ ]);

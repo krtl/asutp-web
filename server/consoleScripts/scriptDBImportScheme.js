@@ -23,8 +23,8 @@ const Sheme = [
   [ DbNodeLEP, 'nodeLEPs.json' ],
   [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
   [ DbNodePS, 'nodePSs.json' ],
-  [ DbNodePSConnector, 'nodePSConnectors.json' ],
   [ DbNodePSPart, 'nodePSParts.json' ],
+  [ DbNodePSConnector, 'nodePSConnectors.json' ],
   [ DbNodeTransformer, 'nodeTransformers.json' ],
   [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
   [ DbNodeSection, 'nodeSections.json' ],
@@ -55,6 +55,7 @@ async.series([
 
   if (errs === 0) {
     console.info('Script successed.');
+    console.timeEnd('dbimport');
   } else {
     console.error(`Script failed with ${errs} errors!`);
   }
@@ -63,6 +64,7 @@ async.series([
 });
 
 function open(callback) {
+  console.time('dbimport');
   console.info('open');
 // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require

@@ -12,6 +12,7 @@ const DbNodeLEP = require('../dbmodels/nodeLEP');
 const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
+const DbNodePSConnector = require('../dbmodels/nodePSConnector');
 const DbNodeTransformer = require('../dbmodels/nodeTransformer');
 const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector');
 const DbNodeSection = require('../dbmodels/nodeSection');
@@ -26,6 +27,7 @@ const MyNodeLEP = require('./myNodeLEP');
 const MyNodeLEPConnection = require('./myNodeLEPConnection');
 const MyNodePS = require('./myNodePS');
 const MyNodePSPart = require('./myNodePSPart');
+const MyNodePSConnector = require('./myNodePSConnector');
 const MyNodeTransformer = require('./myNodeTransformer');
 const MyNodeTransformerConnector = require('./myNodeTransformerConnector');
 const MyNodeSection = require('./myNodeSection');
@@ -33,7 +35,7 @@ const MyNodeSectionConnector = require('./myNodeSectionConnector');
 const MyNodeEquipment = require('./myNodeEquipment');
 
 const nodes = new Map();
-const RESs = new Map();
+const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
 
@@ -43,6 +45,7 @@ const Sheme = [
   [ DbNodeLEPConnection, MyNodeLEPConnection ],
   [ DbNodePS, MyNodePS ],
   [ DbNodePSPart, MyNodePSPart ],
+  [ DbNodePSConnector, MyNodePSConnector ],
   [ DbNodeTransformer, MyNodeTransformer ],
   [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
   [ DbNodeSection, MyNodeSection ],
@@ -77,7 +80,7 @@ const LoadFromDB = (cb) => {
   ], () => {
     let res = null;
     if (errs === 0) {
-      logger.info(`[sever] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, RESs=${RESs.size}, PSs=${PSs.size}`);
+      logger.info(`[sever] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, Regions=${Regions.size}, PSs=${PSs.size}`);
     } else {
       res = `[sever] loading nodes failed with ${errs} errors!`;
       logger.error(res);
@@ -143,7 +146,7 @@ function loadNodesFromDB(schemeElement, cb) {
           });
 
           switch (DbNodeObj.nodeType) {
-            case myNodeType.RES: { RESs.set(locNode.name, p); break; }
+            case myNodeType.REGION: { Regions.set(locNode.name, p); break; }
             case myNodeType.LEP: { LEPs.set(locNode.name, p); break; }
             case myNodeType.PS: { PSs.set(locNode.name, p); break; }
             default: // nodes.set(locNode.name, p);
@@ -319,7 +322,12 @@ function checkIntegrity(cb) {
 
       locPS.transformers.forEach((locTransformer) => {
         locTransformer.nodes.forEach((locTransConnector) => {
-          locTransConnector.toSection.tag = 1;
+          if (locTransConnector.toConnector.parentNode.nodeType === myNodeType.SECTION) {
+            const locToSection = locTransConnector.toConnector.parentNode;
+            locToSection.tag = 1;
+          } else {
+            setError(`Integrity checking error: Transformer "${locTransformer.name}" connector "${locTransConnector.name}" does not connected to the section."`);
+          }
         });
       });
 
