@@ -1,0 +1,5 @@
+[
+  { "name": "ps1c1",  "caption": "ps1c1","parentNode": "ps1", "description": "zzz2", "paramOnOffState": "param1"},
+  { "name": "ps2c1",  "caption": "ps2c1","parentNode": "ps2", "description": "zzz2", "paramOnOffState": "param1"}
+    
+  ]

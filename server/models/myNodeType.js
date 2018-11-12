@@ -1,6 +1,6 @@
 const myNodeType = {
   UNKNOWN: 0,
-  RES: 1,
+  REGION: 1,
   LEP: 2,
   LEPCONNECTION: 3,
   PS: 4,

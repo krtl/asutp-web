@@ -6,7 +6,7 @@ const config = require('../../config');
 const myNodeType = require('../models/myNodeType');
 
 const DbNode = require('../dbmodels/node');
-const DbNodeRES = require('../dbmodels/nodeRES');
+const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
 const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
@@ -18,7 +18,7 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const Sheme = [
-  [ DbNodeRES, 'nodeRESs.json' ],
+  [ DbNodeRegion, 'nodeRegions.json' ],
   [ DbNodeLEP, 'nodeLEPs.json' ],
   [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
   [ DbNodePS, 'nodePSs.json' ],

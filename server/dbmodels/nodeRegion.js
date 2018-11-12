@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const myNodeType = require('../models/myNodeType');
 
-const NodeRESSchema = new mongoose.Schema({
+const NodeRegionSchema = new mongoose.Schema({
   name: {
     type: String,
     index: { unique: true },
@@ -9,7 +9,7 @@ const NodeRESSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('NodeRES', NodeRESSchema);
+module.exports = mongoose.model('NodeRegion', NodeRegionSchema);
 
 function define(name, value) {
   Object.defineProperty(module.exports, name, {

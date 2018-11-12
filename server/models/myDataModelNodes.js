@@ -7,7 +7,7 @@ const events = require('events');
 const myNodeType = require('./myNodeType');
 
 const DbNode = require('../dbmodels/node');
-const DbNodeRES = require('../dbmodels/nodeRES');
+const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
 const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
@@ -21,7 +21,7 @@ const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const logger = require('../logger');
 
 // const MyNode = require('./myNode');
-const MyNodeRES = require('./myNodeRES');
+const MyNodeRegion = require('./myNodeRegion');
 const MyNodeLEP = require('./myNodeLEP');
 const MyNodeLEPConnection = require('./myNodeLEPConnection');
 const MyNodePS = require('./myNodePS');
@@ -38,7 +38,7 @@ const LEPs = new Map();
 const PSs = new Map();
 
 const Sheme = [
-  [ DbNodeRES, MyNodeRES ],
+  [ DbNodeRegion, MyNodeRegion ],
   [ DbNodeLEP, MyNodeLEP ],
   [ DbNodeLEPConnection, MyNodeLEPConnection ],
   [ DbNodePS, MyNodePS ],

@@ -13838,3 +13838,111 @@ TypeError: cb is not a function
     at DbParamList.find (D:\_javascript\Projects\asutp-web-vs.code\server\models\myDataModelParams.js:93:12)
     at model.Query.<anonymous> (D:\_javascript\Projects\asutp-web-vs.code\node_modules\mongoose\lib\model.js:4074:16)
     at D:\_javascript\Projects\asutp-web-vs.code\node_modules\kareem\index.js:273:21
+2018-11-12 07:24:44.2444 - error: uncaughtException: Cannot find module './nodeRES' date=Mon Nov 12 2018 07:24:44 GMT+0200 (Финляндия (зима)), pid=7000, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js], rss=58109952, heapTotal=34971648, heapUsed=17518000, external=17931898, loadavg=[0, 0, 0], uptime=346421.5209246
+Error: Cannot find module './nodeRES'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at Object.module.exports.connect (d:\javascript\asutp-web-vs.code\server\dbmodels\index.js:41:3)
+    at open (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:36:26)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1002:9
+    at eachOfLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1027:24)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1032:16
+    at _parallel (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3865:5)
+    at Object.series (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:4721:5)
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:19:7)
+    at Module._compile (module.js:640:14)
+    at Object.Module._extensions..js (module.js:654:10)
+2018-11-12 07:25:30.2530 - error: uncaughtException: Cannot find module './nodeRES' date=Mon Nov 12 2018 07:25:30 GMT+0200 (Финляндия (зима)), pid=10088, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js], rss=57872384, heapTotal=34971648, heapUsed=17183568, external=17931898, loadavg=[0, 0, 0], uptime=346468.2978103
+Error: Cannot find module './nodeRES'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at Object.module.exports.connect (d:\javascript\asutp-web-vs.code\server\dbmodels\index.js:41:3)
+    at open (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:36:26)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1002:9
+    at eachOfLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1027:24)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1032:16
+    at _parallel (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3865:5)
+    at Object.series (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:4721:5)
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:19:7)
+    at Module._compile (module.js:640:14)
+    at Object.Module._extensions..js (module.js:654:10)
+2018-11-12 07:26:03.263 - error: uncaughtException: Cannot find module './nodeRES' date=Mon Nov 12 2018 07:26:03 GMT+0200 (Финляндия (зима)), pid=5204, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js], rss=57880576, heapTotal=34971648, heapUsed=17715544, external=17931898, loadavg=[0, 0, 0], uptime=346500.875986
+Error: Cannot find module './nodeRES'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at Object.module.exports.connect (d:\javascript\asutp-web-vs.code\server\dbmodels\index.js:41:3)
+    at open (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:36:26)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1002:9
+    at eachOfLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1027:24)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1032:16
+    at _parallel (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3865:5)
+    at Object.series (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:4721:5)
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:19:7)
+    at Module._compile (module.js:640:14)
+    at Object.Module._extensions..js (module.js:654:10)
+2018-11-12 07:26:47.2647 - error: uncaughtException: Cannot find module './nodeRES' date=Mon Nov 12 2018 07:26:47 GMT+0200 (Финляндия (зима)), pid=10212, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js], rss=57835520, heapTotal=34971648, heapUsed=17341560, external=17931898, loadavg=[0, 0, 0], uptime=346545.5070336
+Error: Cannot find module './nodeRES'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at Object.module.exports.connect (d:\javascript\asutp-web-vs.code\server\dbmodels\index.js:41:3)
+    at open (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:36:26)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1002:9
+    at eachOfLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1027:24)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1032:16
+    at _parallel (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3865:5)
+    at Object.series (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:4721:5)
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:19:7)
+    at Module._compile (module.js:640:14)
+    at Object.Module._extensions..js (module.js:654:10)
+2018-11-12 07:27:31.2731 - error: uncaughtException: Cannot find module './nodeRES' date=Mon Nov 12 2018 07:27:31 GMT+0200 (Финляндия (зима)), pid=7836, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js], rss=56909824, heapTotal=34971648, heapUsed=17078552, external=17931898, loadavg=[0, 0, 0], uptime=346588.7995964
+Error: Cannot find module './nodeRES'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at Object.module.exports.connect (d:\javascript\asutp-web-vs.code\server\dbmodels\index.js:41:3)
+    at open (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:36:26)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1002:9
+    at eachOfLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1027:24)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1032:16
+    at _parallel (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3865:5)
+    at Object.series (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:4721:5)
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:19:7)
+    at Module._compile (module.js:640:14)
+    at Object.Module._extensions..js (module.js:654:10)
+2018-11-12 07:33:25.3325 - error: uncaughtException: Cannot find module './nodeRES' date=Mon Nov 12 2018 07:33:24 GMT+0200 (Финляндия (зима)), pid=3952, uid=null, gid=null, cwd=d:\javascript\asutp-web-vs.code, execPath=C:\Program Files\nodejs\node.exe, version=v8.9.4, argv=[C:\Program Files\nodejs\node.exe, d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js], rss=58044416, heapTotal=34971648, heapUsed=17589416, external=17931898, loadavg=[0, 0, 0], uptime=346942.5223889
+Error: Cannot find module './nodeRES'
+    at Function.Module._resolveFilename (module.js:538:15)
+    at Function.Module._load (module.js:468:25)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at Object.module.exports.connect (d:\javascript\asutp-web-vs.code\server\dbmodels\index.js:41:3)
+    at open (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:36:26)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3866:24
+    at replenish (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:998:17)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1002:9
+    at eachOfLimit (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1027:24)
+    at d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:1032:16
+    at _parallel (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:3865:5)
+    at Object.series (d:\javascript\asutp-web-vs.code\node_modules\async\dist\async.js:4721:5)
+    at Object.<anonymous> (d:\javascript\asutp-web-vs.code\server\consoleScripts\scriptDBCreate.js:19:7)
+    at Module._compile (module.js:640:14)
+    at Object.Module._extensions..js (module.js:654:10)

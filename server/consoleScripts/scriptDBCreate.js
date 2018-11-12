@@ -5,7 +5,7 @@ const config = require('../../config');
 
 
 // const Sheme = [
-//   [ mongoose.models.NodeRES, 'nodeRESs.json' ],
+//   [ mongoose.models.NodeRegion, 'NodeRegions.json' ],
 //   [ mongoose.models.NodeLEP, 'nodeLEPs.json' ],
 //   [ mongoose.models.NodeLEPConnection, 'nodeLEPConnections.json' ],
 //   [ mongoose.models.NodePS, 'nodePSs.json' ],
@@ -55,7 +55,7 @@ function requireModels(callback) {
 //  require('mongoose').model('NetWire');  // eslint-disable-line global-require
 
   require('mongoose').model('Node');  // eslint-disable-line global-require
-  require('mongoose').model('NodeRES');  // eslint-disable-line global-require
+  require('mongoose').model('NodeRegion');  // eslint-disable-line global-require
   require('mongoose').model('NodeLEP');  // eslint-disable-line global-require
   require('mongoose').model('NodeLEPConnection');  // eslint-disable-line global-require
   require('mongoose').model('NodePS');  // eslint-disable-line global-require
