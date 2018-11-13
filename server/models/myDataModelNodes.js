@@ -305,10 +305,13 @@ function checkIntegrity(cb) {
         setError(`Integrity checking error: Transformer "${locTransformer.name}" should have at least 2 connectors!.`);
       } else {
         locTransformer.nodes.forEach((locTransConnector) => {
-          if (locTransConnector.toSection === undefined) {
-            setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${locTransConnector.toSection}". No such section. TransConnector: "${locTransConnector.name}"`);
-          } else if (!locPS.sections.includes(locTransConnector.toSection)) {
-            setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${locTransConnector.toSection.name}". The Section is not belongs to the parent PS "${locPS.name}". TransConnector: "${locTransConnector.name}"`);
+          if (locTransConnector.toConnector === undefined) {
+            setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to connector "${locTransConnector.toConnector}". No such connector. TransConnector: "${locTransConnector.name}"`);
+          } else {
+            const section = locTransConnector.toConnector.parentNode;
+            if (!locPS.sections.includes(section)) {
+              setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${section.name}". The Section is not belongs to the parent PS "${locPS.name}". TransConnector: "${locTransConnector.name}"`);
+            }
           }
         });
       }
@@ -331,11 +334,13 @@ function checkIntegrity(cb) {
         });
       });
 
-      locPS.sections.forEach((locSection) => {
-        if (locSection.tag === 0) {
-          setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
-        }
-      });
+      if (locPS.transformers.length > 0) {
+        locPS.sections.forEach((locSection) => {
+          if (locSection.tag === 0) {
+            setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
+          }
+        });
+      }
     }
 
     // ..
