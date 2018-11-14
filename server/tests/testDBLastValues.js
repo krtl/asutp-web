@@ -90,7 +90,7 @@ describe('Database Test ParamValues', () => {
       });
     });
 
-    it('Should retrieve correct count of test param values', (done) => {
+    it('Should retrieve no test param values', (done) => {
       ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
         if (err) { throw err; }
         if (count !== 0) { throw new Error('Wrong count!'); }
@@ -129,7 +129,7 @@ describe('Database Test ParamValues', () => {
       });
     });
 
-    it('Should retrieve correct count of test param values', (done) => {
+    it('Should retrieve zero of test param values', (done) => {
       ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
         if (err) { throw err; }
         if (count !== 0) { throw new Error('Wrong count!'); }

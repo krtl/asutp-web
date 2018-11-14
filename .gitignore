@@ -1,6 +1,6 @@
 cra-server-ex.graffle
 
-logs
+logs/
 node_modules
 coverage
 .nyc_output
@@ -11,3 +11,7 @@ npm-debug.log
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
+logs/combined.log
+logs/errors.log
+logs/exceptions.log
+

@@ -1,21 +1,32 @@
 const async = require('async');
 
-// const DbParam = require('mongoose').model('Param');
-// const DbParamList = require('mongoose').model('ParamList');
-
-let DbUser;
-let DbParam;
-let DbParamList;
+const DbUser = require('../dbmodels/authUser');  // eslint-disable-line global-require
+const DbParam = require('../dbmodels/param');  // eslint-disable-line global-require
+const DbParamList = require('../dbmodels/paramList');  // eslint-disable-line global-require
 
 const logger = require('../logger');
 const MyParam = require('./myParam');
 const MyParamList = require('./myParamList');
 // const MyParamValue = require('./myParamValue');
 
-
 const users = new Map();
 const params = new Map();
 const paramLists = new Map();
+
+let errs = 0;
+function setError(text) {
+  errs += 1;
+  logger.error(text);
+}
+
+process
+  .on('unhandledRejection', (reason, p) => {
+    setError(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', (err) => {
+    setError(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
 
 const LoadFromDB = (cb) => {
   async.series([
@@ -25,13 +36,15 @@ const LoadFromDB = (cb) => {
     loadParamLists,
     linkData,
     checkData,
-  ], (err) => {
-    if (err) {
-      logger.error(`[sever] failed to load params: ${err}`);
-      return cb(err);
+  ], () => {
+    let res = null;
+    if (errs === 0) {
+      logger.info(`[sever] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists`);
+    } else {
+      res = `[sever] loading params failed with ${errs} errors!`;
+      logger.error(res);
     }
-    logger.info(`[sever] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists`);
-    return cb('');
+    return cb(res);
   });
 };
 
@@ -39,10 +52,6 @@ function clearData(cb) {
   users.clear();
   params.clear();
   paramLists.clear();
-
-  DbUser = require('mongoose').model('AuthUser');  // eslint-disable-line global-require
-  DbParam = require('mongoose').model('Param');  // eslint-disable-line global-require
-  DbParamList = require('mongoose').model('ParamList');  // eslint-disable-line global-require
 
   return cb();
 }

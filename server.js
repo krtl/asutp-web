@@ -8,6 +8,15 @@ const projects = require('./server/routes/projects');
 const logger = require('./server/logger');
 const MyStompServer = require('./server/values/myStompServer');
 
+process
+  .on('unhandledRejection', (reason, p) => {
+    logger.error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', (err) => {
+    logger.error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
+
 
 // connect to the database and load models
 require('./server/dbmodels').connect(config.dbUri, true);
