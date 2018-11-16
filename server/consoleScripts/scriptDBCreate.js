@@ -59,12 +59,12 @@ function requireModels(callback) {
   require('mongoose').model('NodeLEP');  // eslint-disable-line global-require
   require('mongoose').model('NodeLEPConnection');  // eslint-disable-line global-require
   require('mongoose').model('NodePS');  // eslint-disable-line global-require
-  require('mongoose').model('NodePSConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodePSPart');  // eslint-disable-line global-require
   require('mongoose').model('NodeTransformer');  // eslint-disable-line global-require
   require('mongoose').model('NodeTransformerConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodeSection');  // eslint-disable-line global-require
   require('mongoose').model('NodeSectionConnector');  // eslint-disable-line global-require
+  require('mongoose').model('NodeSec2SecConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodeEquipment');  // eslint-disable-line global-require
 
 

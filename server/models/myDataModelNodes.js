@@ -12,11 +12,11 @@ const DbNodeLEP = require('../dbmodels/nodeLEP');
 const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
 const DbNodePS = require('../dbmodels/nodePS');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
-const DbNodePSConnector = require('../dbmodels/nodePSConnector');
 const DbNodeTransformer = require('../dbmodels/nodeTransformer');
 const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector');
 const DbNodeSection = require('../dbmodels/nodeSection');
 const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
+const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const logger = require('../logger');
@@ -27,11 +27,11 @@ const MyNodeLEP = require('./myNodeLEP');
 const MyNodeLEPConnection = require('./myNodeLEPConnection');
 const MyNodePS = require('./myNodePS');
 const MyNodePSPart = require('./myNodePSPart');
-const MyNodePSConnector = require('./myNodePSConnector');
 const MyNodeTransformer = require('./myNodeTransformer');
 const MyNodeTransformerConnector = require('./myNodeTransformerConnector');
 const MyNodeSection = require('./myNodeSection');
 const MyNodeSectionConnector = require('./myNodeSectionConnector');
+const MyNodeSec2SecConnector = require('./myNodeSec2SecConnector');
 const MyNodeEquipment = require('./myNodeEquipment');
 
 const nodes = new Map();
@@ -45,11 +45,11 @@ const Sheme = [
   [ DbNodeLEPConnection, MyNodeLEPConnection ],
   [ DbNodePS, MyNodePS ],
   [ DbNodePSPart, MyNodePSPart ],
-  [ DbNodePSConnector, MyNodePSConnector ],
   [ DbNodeTransformer, MyNodeTransformer ],
   [ DbNodeTransformerConnector, MyNodeTransformerConnector ],
   [ DbNodeSection, MyNodeSection ],
   [ DbNodeSectionConnector, MyNodeSectionConnector ],
+  [ DbNodeSec2SecConnector, MyNodeSec2SecConnector ],
   [ DbNodeEquipment, MyNodeEquipment ],
 ];
 
@@ -261,12 +261,12 @@ function linkSectionToPS(node) {
   }
 }
 
-function linkPSConnectorToPS(node) {
+function linkSec2SecConnectorToPS(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PS) {
       node.parentNode.connectors.push(node);
     } else {
-      setError(`Failed to link PSConnector. There is no parent PS for ${node.name}`);
+      setError(`Failed to link Sec2SecConnector. There is no parent PS for ${node.name}`);
     }
   }
 }
@@ -280,7 +280,7 @@ function linkNodes(cb) {
         case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
         case myNodeType.SECTION: { linkSectionToPS(locNode); break; }
-        case myNodeType.PSCONNECTOR: { linkPSConnectorToPS(locNode); break; }
+        case myNodeType.PSCONNECTOR: { linkSec2SecConnectorToPS(locNode); break; }
         default: {
           //
         }
@@ -315,7 +315,7 @@ function checkIntegrity(cb) {
       });
     }
 
-    // if more than one section with the same voltage, they should be connected with PSConnector
+    // if more than one section with the same voltage, they should be connected with Sec2SecConnector
     locPS.voltages.forEach((locVoltage) => {
       const locSections = [];
       locPS.sections.forEach((locSection) => {
@@ -324,19 +324,34 @@ function checkIntegrity(cb) {
           locSections.push(locSection);
         }
       });
-      if (locSections.length === 2) {
-        locPS.connectors.forEach((sec2secCon) => {
-          if (((sec2secCon.fromSection === locSections[0]) && (sec2secCon.toSection === locSections[1])) ||
-              ((sec2secCon.fromSection === locSections[1]) && (sec2secCon.toSection === locSections[0]))) {
-                  // ok
-          } else {
+
+      switch (locSections.length) {
+        case 0: {
+          setError(`Integrity checking error: No Sections found for voltage ${locVoltage} on PS "${locPS.name}".`);
+          break;
+        }
+        case 1: break;
+        case 2: {
+          let b = false;
+          locPS.connectors.forEach((sec2secCon) => {
+            if (((sec2secCon.fromSection === locSections[0]) && (sec2secCon.toSection === locSections[1])) ||
+                ((sec2secCon.fromSection === locSections[1]) && (sec2secCon.toSection === locSections[0]))) {
+              b = true;
+            }
+          });
+          if (!b) {
             setError(`Integrity checking error: No section to section connector found for "${locSections[0].name}" and "${locSections[1].name}" on PS "${locPS.name}"..`);
           }
-        });
-      } else if (locSections.length === 4) {
+          break;
+        }
+        case 4: {
         // not yet implemented.
-      } else {
-        setError(`Integrity checking error: Wrong Section number (${locSections.length}) for voltage ${locVoltage} on PS "${locPS.name}". Sections should be connected between eachother.`);
+          break;
+        }
+        default: {
+          setError(`Integrity checking error: Wrong Section number (${locSections.length}) for voltage ${locVoltage} on PS "${locPS.name}". Sections should be connected between eachother.`);
+          break;
+        }
       }
     });
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const myNodeType = require('../models/myNodeType');
 
-const NodePSConnectorSchema = new mongoose.Schema({
+const NodeSec2SecConnectorSchema = new mongoose.Schema({
   name: {
     type: String,
     index: { unique: true },
@@ -11,7 +11,7 @@ const NodePSConnectorSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('NodePSConnector', NodePSConnectorSchema);
+module.exports = mongoose.model('NodeSec2SecConnector', NodeSec2SecConnectorSchema);
 
 function define(name, value) {
   Object.defineProperty(module.exports, name, {

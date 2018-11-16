@@ -6,9 +6,9 @@ const NodeSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
-  parentNode: String,
   caption: String,
   description: String,
+  parentNode: String,
   x: {
     type: Number,
     default: 0,
