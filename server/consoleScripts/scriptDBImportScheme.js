@@ -203,6 +203,22 @@ function removingOldNodes(callback) {
     let s = '';
     netNodes.forEach((netNode) => {
       if (s.length < 500) s += `${netNode.name},`;
+      async.eachSeries(Sheme, (schemeElement, callback) => {
+        const DbNodeObj = schemeElement[0];
+        DbNodeObj.deleteOne({ name: netNode.name }, (err) => {
+          if (err) {
+            console.warn(`[!] Deleting DbNodeObj failed: ${err}`);
+          }
+          callback(err);
+        });
+      }, (err) => {
+        if (err) {
+          setError(`Deleting DbNodeObjects failed: ${err}`);
+        }
+        callback(err);
+      }, (err) => {
+        callback(err);
+      });
     });
     if (s !== '') {
       console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
