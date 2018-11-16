@@ -22,3 +22,4 @@ function define(name, value) {
 
 define('nodeType', myNodeType.PSCONNECTOR);
 define('compareProps', [ 'fromSection', 'toSection' ]);
+define('convertToObj', [ 'fromSection', 'toSection' ]);

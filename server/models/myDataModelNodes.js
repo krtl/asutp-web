@@ -76,6 +76,7 @@ const LoadFromDB = (cb) => {
     loadNodes,
     replaceNamesWithObjects,
     linkNodes,
+    setupPsNodes,
     checkIntegrity,
   ], () => {
     let res = null;
@@ -260,6 +261,16 @@ function linkSectionToPS(node) {
   }
 }
 
+function linkPSConnectorToPS(node) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === myNodeType.PS) {
+      node.parentNode.connectors.push(node);
+    } else {
+      setError(`Failed to link PSConnector. There is no parent PS for ${node.name}`);
+    }
+  }
+}
+
 function linkNodes(cb) {
   nodes.forEach((locNode) => {
     if (locNode.parentNode) {
@@ -269,6 +280,7 @@ function linkNodes(cb) {
         case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
         case myNodeType.SECTION: { linkSectionToPS(locNode); break; }
+        case myNodeType.PSCONNECTOR: { linkPSConnectorToPS(locNode); break; }
         default: {
           //
         }
@@ -276,13 +288,18 @@ function linkNodes(cb) {
     }
   });
 
-  // PSs.forEach((locPS) => {
+  return cb();
+}
 
-  //    nodes.forEach((locPS) => {
-
-  //   });
-  //  });
-
+function setupPsNodes(cb) {
+  PSs.forEach((locPS) => {
+    locPS.voltages = [];
+    locPS.sections.forEach((locSection) => {
+      if (locPS.voltages.indexOf(locSection.voltage) < 0) {
+        locPS.voltages.push(locSection.voltage);
+      }
+    });
+  });
   return cb();
 }
 
@@ -297,6 +314,31 @@ function checkIntegrity(cb) {
         }
       });
     }
+
+    // if more than one section with the same voltage, they should be connected with PSConnector
+    locPS.voltages.forEach((locVoltage) => {
+      const locSections = [];
+      locPS.sections.forEach((locSection) => {
+        if (locSection.voltage === locVoltage) {
+          locSection.tag = 0;
+          locSections.push(locSection);
+        }
+      });
+      if (locSections.length === 2) {
+        locPS.connectors.forEach((sec2secCon) => {
+          if (((sec2secCon.fromSection === locSections[0]) && (sec2secCon.toSection === locSections[1])) ||
+              ((sec2secCon.fromSection === locSections[1]) && (sec2secCon.toSection === locSections[0]))) {
+                  // ok
+          } else {
+            setError(`Integrity checking error: No section to section connector found for "${locSections[0].name}" and "${locSections[1].name}" on PS "${locPS.name}"..`);
+          }
+        });
+      } else if (locSections.length === 4) {
+        // not yet implemented.
+      } else {
+        setError(`Integrity checking error: Wrong Section number (${locSections.length}) for voltage ${locVoltage} on PS "${locPS.name}". Sections should be connected between eachother.`);
+      }
+    });
 
     locPS.transformers.forEach((locTransformer) => {
       if (locTransformer.nodes.length === 0) {
