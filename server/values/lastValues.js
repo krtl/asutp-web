@@ -1,9 +1,16 @@
+const dbValuesTracker = require('./dbValuesTracker');
+
 // const logger = require('../logger');
 
 const lastValues = new Map();
 let lastChanged = [];
+let useDbValueTracker = false;
 
 const setLastValue = (lastValue) => {
+  if (useDbValueTracker) {
+    dbValuesTracker.trackDbParamValue(lastValue, lastValues.get(lastValue.paramName));
+  }
+
   lastValues.set(lastValue.paramName, lastValue);
   if (lastChanged.indexOf(lastValue.paramName) < 0) {
     lastChanged.push(lastValue.paramName);
@@ -22,6 +29,11 @@ const getLastValuesCount = () => lastValues.size;
 
 const clearLastValues = () => lastValues.clear();
 
+function init(obj) {
+  useDbValueTracker = obj.useDbValueTracker;
+}
+
+module.exports.init = init;
 module.exports.setLastValue = setLastValue;
 module.exports.getLastValue = getLastValue;
 module.exports.getLastChanged = getLastChanged;

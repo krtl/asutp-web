@@ -1,17 +1,18 @@
 const amqp = require('amqplib/callback_api');
 const moment = require('moment');
 const logger = require('../logger');
+const config = require('../../config');
 
-process.env.CLOUDAMQP_URL = 'amqp://localhost';
+// process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
 let reconnectionStarted = false;
 function start() {
   reconnectionStarted = false;
-  amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, (err, conn) => {
+  amqp.connect(`${config.amqpUri}?heartbeat=60`, (err, conn) => {
     if (err) {
-      logger.error('[AMQP]', err.message);
+      logger.error('[AMQPSENDER]', err.message);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
@@ -19,18 +20,18 @@ function start() {
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
-        logger.error('[AMQP] conn error', err.message);
+        logger.error('[AMQPSENDER] conn error', err.message);
       }
     });
     conn.on('close', () => {
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
-        logger.error('[AMQP] reconnecting');
+        logger.error('[AMQPSENDER] reconnecting');
       }
     });
 
-    logger.info('[AMQP] connected');
+    logger.info('[AMQPSENDER] connected');
     amqpConn = conn;
 
     whenConnected();
@@ -47,18 +48,22 @@ function startPublisher() {
   amqpConn.createConfirmChannel((err, ch) => {
     if (closeOnErr(err)) return;
     ch.on('error', (err) => {
-      logger.error('[AMQP] channel error', err.message);
+      logger.error('[AMQPSENDER] channel error', err.message);
     });
     ch.on('close', () => {
-      logger.info('[AMQP] channel closed');
+      logger.info('[AMQPSENDER] channel closed');
     });
 
     pubChannel = ch;
-    while (true) {
+    let b = true;
+    while (b) {
       const m = offlinePubQueue.shift();
-      logger.info('M = ', m);
-      if (!m) break;
-      publish(m[0], m[1], m[2]);
+      if (m) {
+        logger.info('M = ', m);
+        publish(m[0], m[1], m[2]);
+      } else {
+        b = false;
+      }
     }
   });
 }
@@ -67,29 +72,29 @@ function startPublisher() {
 function publish(exchange, routingKey, content) {
   try {
     pubChannel.publish(exchange, routingKey, content, { persistent: true },
-      (err, ok) => {
+      (err) => {
         if (err) {
-          logger.error('[AMQP] publish', err);
+          logger.error('[AMQPSENDER] publish', err);
           offlinePubQueue.push([ exchange, routingKey, content ]);
           pubChannel.connection.close();
         }
       });
   } catch (e) {
-    logger.error('[AMQP] publish', e.message);
+    logger.error('[AMQPSENDER] publish', e.message);
     offlinePubQueue.push([ exchange, routingKey, content ]);
   }
 }
 
 function closeOnErr(err) {
   if (!err) return false;
-  logger.error('[AMQP] error', err);
+  logger.error('[AMQPSENDER] error', err);
   amqpConn.close();
   return true;
 }
 
 setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-  publish('', 'asutp.values.queue', new Buffer(`param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`));
+  publish('', config.amqpValuesQueueName, Buffer.from(`param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`));
 }, 3000);
 
 start();

@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "testAmqpSendReceive",
+            "program": "${workspaceFolder}/server/consoleScripts/testAmqpSendReceive.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "DBImportScheme",
             "program": "${workspaceFolder}/server/consoleScripts/scriptDBImportScheme.js"
         },

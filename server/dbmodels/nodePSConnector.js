@@ -6,6 +6,8 @@ const NodePSConnectorSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
+  fromSection: String,
+  toSection: String,
 
 });
 
@@ -19,4 +21,4 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.PSCONNECTOR);
-define('compareProps', [ ]);
+define('compareProps', [ 'fromSection', 'toSection' ]);

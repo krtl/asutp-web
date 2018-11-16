@@ -6,6 +6,7 @@ const NodeSectionConnectorSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
+  connectionType: Number, // source, consumer, bi-directional
 
 });
 

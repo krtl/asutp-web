@@ -2,15 +2,18 @@ const amqp = require('amqplib/callback_api');
 const logger = require('../logger');
 const lastValues = require('./lastValues');
 const MyParamValue = require('../models/myParamValue');
+const config = require('../../config');
 
-process.env.CLOUDAMQP_URL = 'amqp://localhost';
+
+// process.env.CLOUDAMQP_URL = 'amqp://localhost';
+
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
 let reconnectionStarted = false;
 function start() {
   reconnectionStarted = false;
-  amqp.connect(`${process.env.CLOUDAMQP_URL}?heartbeat=60`, (err, conn) => {
+  amqp.connect(`${config.amqpUri}?heartbeat=60`, (err, conn) => {
     if (err) {
       logger.error('[AMQP]', err.message);
       if (!reconnectionStarted) {
@@ -54,9 +57,9 @@ function startWorker() {
       logger.info('[AMQP] channel closed');
     });
     ch.prefetch(10);
-    ch.assertQueue('asutp.values.queue', { durable: true }, (err) => {
+    ch.assertQueue(config.amqpValuesQueueName, { durable: true }, (err) => {
       if (closeOnErr(err)) return;
-      ch.consume('asutp.values.queue', processMsg, { noAck: false });
+      ch.consume(config.amqpValuesQueueName, processMsg, { noAck: false });
       logger.info('[AMQP] Worker is started');
     });
 

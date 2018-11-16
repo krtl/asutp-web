@@ -1,5 +1,5 @@
 [
-  { "name": "ps1c1",  "caption": "ps1c1","parentNode": "ps1", "description": "zzz2", "paramOnOffState": "param1"},
-  { "name": "ps2c1",  "caption": "ps2c1","parentNode": "ps2", "description": "zzz2", "paramOnOffState": "param1"}
+  { "name": "ps1c1",  "caption": "ps1c1","parentNode": "ps1", "description": "zzz2", "fromSection": "ps1sec1", "toSection": "ps1sec2",  "paramOnOffState": "param1"},
+  { "name": "ps2c1",  "caption": "ps2c1","parentNode": "ps2", "description": "zzz2", "fromSection": "ps2sec1", "toSection": "ps2sec2222", "paramOnOffState": "param23"}
     
   ]
