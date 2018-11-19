@@ -13,6 +13,7 @@ const trackDbParamValue = (newParamValue, prevParamValue) => {
       dbValues.saveLastValue(newParamValue);
     }
 
+    // tracking disconnection should be redone to track disconnection on node model.
     if (param.trackDisconnection) {
       if (newParamValue.value !== prevParamValue) {
         const disconnectionStartValue = activeDisconnections.get(newParamValue.paramName);
@@ -38,6 +39,8 @@ const trackDbParamValue = (newParamValue, prevParamValue) => {
       trackedArr.push(newParamValue);
       paramValueBuffers.set(newParamValue.paramName, trackedArr);
     }
+  } else {
+    logger.warn(`[DbValuesTracker] Failed to track unknown param: "${newParamValue.paramName}".`);
   }
 };
 

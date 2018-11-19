@@ -164,7 +164,7 @@ router.get('/paramValues', (req, res, next) => {
   DbParamValues
     .find({ paramName })
     .sort({ dt: 'desc' })
-    .limit(5000)
+    .limit(500)
     .exec((err, paramValues) => {
       if (err) return next(err);
       res.status(200).json(paramValues);

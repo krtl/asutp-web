@@ -4,22 +4,26 @@ const dbParamList = require('../dbmodels/paramList');
 const dbParamValue = require('../dbmodels/paramValue');
 const async = require('async');
 const config = require('../../config');
-const logger = require('../../server/logger');
 
 
 async.series([
   open,
-  getParamCount,
   getParamListCount,
+  getParamCount,
   getParamValueCount,
 ], (err) => {
-//  logger.info(arguments);
+  console.info(arguments);
+  if (err) {
+    console.info(`Failed! ${err}`);
+  } else {
+    console.info('done.');
+  }
   mongoose.disconnect();
   process.exit(err ? 1 : 0);
 });
 
 function open(callback) {
-  logger.info('open');
+  console.info('open');
 // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
@@ -28,24 +32,33 @@ function open(callback) {
 
 function getParamCount(callback) {
   dbParam.count({}, (err, count) => {
-    if (err) throw callback(err);
-    logger.info(`dbParamCount=${count}`);
-    callback(null);
+    if (err) {
+      callback(err);
+    } else {
+      console.info(`dbParamCount=${count}`);
+      callback(null);
+    }
   });
 }
 
 function getParamListCount(callback) {
   dbParamList.count({}, (err, count) => {
-    if (err) throw callback(err);
-    logger.info(`dbParamListCount=${count}`);
-    callback(null);
+    if (err) {
+      callback(err);
+    } else {
+      console.info(`dbParamListCount=${count}`);
+      callback(null);
+    }
   });
 }
 
 function getParamValueCount(callback) {
   dbParamValue.count({}, (err, count) => {
-    if (err) throw callback(err);
-    logger.info(`dbParamValueCount=${count}`);
-    callback(null);
+    if (err) {
+      callback(err);
+    } else {
+      console.info(`dbParamValueCount=${count}`);
+      callback(null);
+    }
   });
 }
