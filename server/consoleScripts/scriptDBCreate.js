@@ -51,8 +51,8 @@ function requireModels(callback) {
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
   require('mongoose').model('ParamValue');  // eslint-disable-line global-require
 
-//  require('mongoose').model('NetNode');  // eslint-disable-line global-require
-//  require('mongoose').model('NetWire');  // eslint-disable-line global-require
+  require('mongoose').model('NetNode');  // eslint-disable-line global-require
+  require('mongoose').model('NetWire');  // eslint-disable-line global-require
 
   require('mongoose').model('Node');  // eslint-disable-line global-require
   require('mongoose').model('NodeRegion');  // eslint-disable-line global-require
