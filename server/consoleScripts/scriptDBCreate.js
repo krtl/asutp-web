@@ -24,6 +24,9 @@ async.series([
   createParams,
   createParamLists,
   createParamValues,
+  createNodesObsolete,
+  createWiresObsolete,
+
 ], (err) => {
   // console.log(arguments);
   mongoose.disconnect();
@@ -227,3 +230,53 @@ function createParamValues(callback) {
   // fs.writeFileSync(`${config.importPath}paramValues-2.json`, data);
 }
 
+
+function createNodesObsolete(callback) {
+  console.log('create nodes obsolete');
+  const rawdata = fs.readFileSync(`${config.importPath}obsolete-nodes.json`);
+  const nodes = JSON.parse(rawdata);
+
+  async.each(nodes, (data, callback) => {
+    const node = new mongoose.models.NetNode(data);
+    node.save((err) => {
+      if (err) callback(err);
+      console.log(`Node "${node.name}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(params);
+  // fs.writeFileSync(`${config.importPath}params-2.json`, data);
+}
+
+function createWiresObsolete(callback) {
+  console.log('create wires obsolete');
+  const rawdata = fs.readFileSync(`${config.importPath}obsolete-wires.json`);
+  const nodes = JSON.parse(rawdata);
+
+  async.each(nodes, (data, callback) => {
+    const wire = new mongoose.models.NetWire(data);
+    wire.save((err) => {
+      if (err) callback(err);
+      console.log(`Wire "${wire.name}" inserted`);
+      callback(null);
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+
+  // const data = JSON.stringify(params);
+  // fs.writeFileSync(`${config.importPath}params-2.json`, data);
+}
