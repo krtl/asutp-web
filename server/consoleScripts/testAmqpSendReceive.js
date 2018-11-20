@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 const myDataModelParams = require('../models/myDataModelParams');
 const config = require('../../config');
+// const amqpReceiver = require('../amqp/amqp_receive');
+const amqpSender = require('../amqp/amqp_send');
+// const MyParamValue = require('../models/myParamValue');
+// const lastValues = require('../values/lastValues');
+const moment = require('moment');
 
 mongoose.Promise = global.Promise;
 
@@ -24,14 +29,32 @@ myDataModelParams.LoadFromDB((err) => {
 });
 
 
-const lastValues = require('../values/lastValues');
+// lastValues.init(
+//     { useDbValueTracker: false });
 
-lastValues.init(
-    { useDbValueTracker: false });
+// amqpReceiver.start(config.amqpUri, config.amqpInsertValuesQueueName, (received) => {
+//   console.debug('[] Got msg', received);
 
+//       // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
+//   const s = received.split('<>');
+//   if (s.length === 4) {
+//     const dt = new Date(s[3]);
+//     const obj = new MyParamValue(s[0], s[1], dt, s[2]);
 
-require('../values/amqp_receive');
-require('../values/amqp_send');
+//     lastValues.setLastValue(obj);
+//   } else {
+//     console.error('[][MyParamValue] Failed to parse: ', received);
+//   }
+// });
+
+amqpSender.start(config.amqpUri);
+
+setInterval(() => {
+  const dt = moment().format('YYYY-MM-DD HH:mm:ss');
+  const s = `param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`;
+  console.debug('[] Sending msg', s);
+  amqpSender.send(config.amqpInsertValuesQueueName, s);
+}, 3000);
 
 
 // mongoose.connection.close((err) => {

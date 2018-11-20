@@ -10,7 +10,7 @@ const trackDbParamValue = (newParamValue, prevParamValue) => {
   const param = MyDataModelParams.GetParam(newParamValue.paramName);
   if (param !== undefined) {
     if (param.trackAllChanges) {
-      dbValues.saveLastValue(newParamValue);
+      dbValues.saveValue(newParamValue);
     }
 
     // tracking disconnection should be redone to track disconnection on node model.

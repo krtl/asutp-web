@@ -2,7 +2,7 @@ const dbParamValue = require('../dbmodels/paramValue');
 const logger = require('../logger');
 
 
-const saveLastValue = (lastValue) => {
+const saveValue = (lastValue) => {
   const paramValue = dbParamValue({
     paramName: lastValue.paramName,
     value: lastValue.value,
@@ -17,4 +17,4 @@ const saveLastValue = (lastValue) => {
   });
 };
 
-module.exports.saveLastValue = saveLastValue;
+module.exports.saveValue = saveValue;

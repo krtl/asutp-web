@@ -145,7 +145,7 @@ const initializeStompServer = (httpserver) => {
           stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(value));
         });
 
-        dbValues.saveLastValue(value);
+        dbValues.saveValue(value);
       }
     });
   }, 10000);

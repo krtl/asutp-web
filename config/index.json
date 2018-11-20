@@ -3,8 +3,9 @@
   "dbUri1": "mongodb://localhost/asutp_web",
   "amqpUri": "amqp://asutp:asutp@srv-android",
   "amqpUri1": "amqp://localhost",
-  "amqpValuesQueueName": "asutp.values.queue",
-    
+  "amqpRawValuesQueueName": "asutp.values.queue",
+  "amqpInsertValuesQueueName": "asutp.insertValues.queue",
+  "amqpInsertDisconnectionsQueueName": "asutp.insertDisconnections.queue",
   "jwtSecret": "asutpsecretasutpphrase",
   "importPath1": "D:/test/",
   "importPath2": "D:/mongodb_bases/",
