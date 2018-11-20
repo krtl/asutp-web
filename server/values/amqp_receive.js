@@ -57,9 +57,9 @@ function startWorker() {
       logger.info('[AMQP] channel closed');
     });
     ch.prefetch(10);
-    ch.assertQueue(config.amqpValuesQueueName, { durable: true }, (err) => {
+    ch.assertQueue(config.amqpRawValuesQueueName, { durable: true }, (err) => {
       if (closeOnErr(err)) return;
-      ch.consume(config.amqpValuesQueueName, processMsg, { noAck: false });
+      ch.consume(config.amqpRawValuesQueueName, processMsg, { noAck: false });
       logger.info('[AMQP] Worker is started');
     });
 

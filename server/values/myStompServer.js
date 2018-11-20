@@ -6,7 +6,7 @@ const dbValues = require('./dbValues');
 const MyParamValue = require('../models/myParamValue');
 const MyParamJsonSerialize = require('../models/myParam').MyParamJsonSerialize;
 
-require('./amqp_receive');
+require('./amqpRawValuesReceiver');
 
 // var StompServer = require('server/values/myStompServer');
 // const WebSocket = require('ws');
@@ -133,7 +133,7 @@ const initializeStompServer = (httpserver) => {
 
 
     const dt = Date.now();// moment().format('YYYY-MM-DD HH:mm:ss');
-    const obj = new MyParamValue(`Param${Math.floor(Math.random() * 10)}`, Math.round(Math.random() * 1000) / 100, dt, 'NA');
+    const obj = new MyParamValue(`param${Math.floor(Math.random() * 10)}`, Math.round(Math.random() * 1000) / 100, dt, 'NA');
     lastValues.setLastValue(obj);
 
     const lastChanged = lastValues.getLastChanged();

@@ -94,7 +94,7 @@ function closeOnErr(err) {
 
 setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-  publish('', config.amqpValuesQueueName, Buffer.from(`param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`));
+  publish('', config.amqpRawValuesQueueName, Buffer.from(`param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`));
 }, 3000);
 
 start();

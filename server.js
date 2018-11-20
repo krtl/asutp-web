@@ -1,3 +1,6 @@
+
+process.env.LOGGER_NAME = 'server';
+const logger = require('./server/logger');
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -5,7 +8,6 @@ const passport = require('passport');
 const config = require('./config');
 const users = require('./server/routes/users');
 const projects = require('./server/routes/projects');
-const logger = require('./server/logger');
 const MyStompServer = require('./server/values/myStompServer');
 
 process

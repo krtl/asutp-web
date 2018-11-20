@@ -1,11 +1,17 @@
 const mongoose = require('mongoose');
-const myDataModelParams = require('../models/myDataModelParams');
 const config = require('../../config');
 // const amqpReceiver = require('../amqp/amqp_receive');
+// require('../values/amqpRawValuesReceiver');
+
+process.env.LOGGER_NAME = 'amqpSender';
+require('../logger');
+
 const amqpSender = require('../amqp/amqp_send');
 // const MyParamValue = require('../models/myParamValue');
-// const lastValues = require('../values/lastValues');
+const lastValues = require('../values/lastValues');
 const moment = require('moment');
+const myDataModelParams = require('../models/myDataModelParams');
+
 
 mongoose.Promise = global.Promise;
 
@@ -29,8 +35,8 @@ myDataModelParams.LoadFromDB((err) => {
 });
 
 
-// lastValues.init(
-//     { useDbValueTracker: false });
+lastValues.init(
+    { useDbValueTracker: true });
 
 // amqpReceiver.start(config.amqpUri, config.amqpInsertValuesQueueName, (received) => {
 //   console.debug('[] Got msg', received);
@@ -54,7 +60,7 @@ setInterval(() => {
   const s = `param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
   amqpSender.send(config.amqpInsertValuesQueueName, s);
-}, 3000);
+}, 1000);
 
 
 // mongoose.connection.close((err) => {

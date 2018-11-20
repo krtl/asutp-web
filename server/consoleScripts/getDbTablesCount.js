@@ -12,7 +12,7 @@ async.series([
   getParamCount,
   getParamValueCount,
 ], (err) => {
-  //console.info(arguments);
+  // console.info(arguments);
   if (err) {
     console.info(`Failed! ${err}`);
   } else {

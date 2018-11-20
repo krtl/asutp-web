@@ -15,6 +15,8 @@ function MyParam(name, caption, description) {
 
 function myParamStringifyReplacer(key, value) {
   if (key === 'listNames') return undefined;
+  if (key === 'trackAllChanges') return undefined;
+  if (key === 'trackAveragePerHour') return undefined;
   return value;
 }
 

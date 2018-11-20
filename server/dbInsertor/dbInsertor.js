@@ -5,7 +5,9 @@ const config = require('../../config');
 const amqpReceiver = require('../amqp/amqp_receive');
 const dbValues = require('../values/dbValues');
 // const moment = require('moment');
+process.env.LOGGER_NAME = 'dbInsertor';
 const logger = require('../logger');
+
 
 mongoose.Promise = global.Promise;
 
