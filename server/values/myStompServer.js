@@ -1,12 +1,11 @@
 const StompServer = require('stomp-broker-js');
-const moment = require('moment');
+// const moment = require('moment');
 const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
 const dbValues = require('./dbValues');
 const MyParamValue = require('../models/myParamValue');
 const MyParamJsonSerialize = require('../models/myParam').MyParamJsonSerialize;
 
-require('./amqpRawValuesReceiver');
 
 // var StompServer = require('server/values/myStompServer');
 // const WebSocket = require('ws');
@@ -103,12 +102,6 @@ const initializeStompServer = (httpserver) => {
       logger.verbose(`[stompServer] Client ${ev.sessionId} unsubscribed from ${ev.topic}`);
     }
   });
-
-  const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-  for (let i = 0; i < 10; i += 1) {
-    const obj = new MyParamValue(`param${i}`, 0, dt, 'NA');
-    lastValues.setLastValue(obj);
-  }
 
   timerId = setInterval(() => {
     // .. for future use

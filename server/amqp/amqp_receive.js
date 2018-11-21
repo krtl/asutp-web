@@ -6,18 +6,20 @@ const logger = require('../logger');
 
 
 // process.env.CLOUDAMQP_URL = 'amqp://localhost';
-let amqpValuesQueueName = '';
-let doOnReceiveCallbackFunc = null;
+let locAmpqURI = '';
+let locAmqpValuesQueueName = '';
+let locOnReceiveCallbackFunc = null;
 
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
 let reconnectionStarted = false;
 function start(ampqURI, amqpQueueName, onReceiveCallback) {
-  amqpValuesQueueName = amqpQueueName;
-  doOnReceiveCallbackFunc = onReceiveCallback;
+  if (ampqURI !== undefined) locAmpqURI = ampqURI;
+  if (amqpQueueName !== undefined) locAmqpValuesQueueName = amqpQueueName;
+  if (onReceiveCallback !== undefined) locOnReceiveCallbackFunc = onReceiveCallback;
   reconnectionStarted = false;
-  amqp.connect(`${ampqURI}?heartbeat=60`, (err, conn) => {
+  amqp.connect(`${locAmpqURI}?heartbeat=60`, (err, conn) => {
     if (err) {
       logger.error('[AMQP]', err.message);
       if (!reconnectionStarted) {
@@ -61,9 +63,9 @@ function startWorker() {
       logger.info('[AMQP] channel closed');
     });
     ch.prefetch(10);
-    ch.assertQueue(amqpValuesQueueName, { durable: true }, (err) => {
+    ch.assertQueue(locAmqpValuesQueueName, { durable: true }, (err) => {
       if (closeOnErr(err)) return;
-      ch.consume(amqpValuesQueueName, processMsg, { noAck: false });
+      ch.consume(locAmqpValuesQueueName, processMsg, { noAck: false });
       logger.info('[AMQP] Worker is started');
     });
 
@@ -85,8 +87,8 @@ function startWorker() {
 function work(msg, cb) {
   logger.debug('[AMQP] Got msg', msg.content.toString());
 
-  if (doOnReceiveCallbackFunc != null) {
-    doOnReceiveCallbackFunc(msg.content.toString());
+  if (locOnReceiveCallbackFunc != null) {
+    locOnReceiveCallbackFunc(msg.content.toString());
   }
 
   cb(true);

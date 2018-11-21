@@ -5,13 +5,16 @@ const logger = require('../logger');
 
 // process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
+let locAmpqURI = '';
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
 let reconnectionStarted = false;
 function start(ampqURI) {
+  if (ampqURI !== undefined) locAmpqURI = ampqURI;
+
   reconnectionStarted = false;
-  amqp.connect(`${ampqURI}?heartbeat=60`, (err, conn) => {
+  amqp.connect(`${locAmpqURI}?heartbeat=60`, (err, conn) => {
     if (err) {
       logger.error('[AMQPSENDER]', err.message);
       if (!reconnectionStarted) {

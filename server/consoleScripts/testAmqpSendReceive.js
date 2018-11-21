@@ -8,7 +8,7 @@ require('../logger');
 
 const amqpSender = require('../amqp/amqp_send');
 // const MyParamValue = require('../models/myParamValue');
-const lastValues = require('../values/lastValues');
+// const lastValues = require('../values/lastValues');
 const moment = require('moment');
 const myDataModelParams = require('../models/myDataModelParams');
 
@@ -35,8 +35,8 @@ myDataModelParams.LoadFromDB((err) => {
 });
 
 
-lastValues.init(
-    { useDbValueTracker: true });
+// lastValues.init(
+//     { useDbValueTracker: true });
 
 // amqpReceiver.start(config.amqpUri, config.amqpInsertValuesQueueName, (received) => {
 //   console.debug('[] Got msg', received);
@@ -59,8 +59,9 @@ setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
   const s = `param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
-  amqpSender.send(config.amqpInsertValuesQueueName, s);
-}, 1000);
+  // amqpSender.send(config.amqpInsertValuesQueueName, s);
+  amqpSender.send(config.amqpRawValuesQueueName, s);
+}, 10);
 
 
 // mongoose.connection.close((err) => {

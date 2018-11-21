@@ -3,7 +3,7 @@ const winston = require('winston');
 
 let logger;
 
-if (process.env.LOGGER_NAME === 'dbInsertor') {
+if (process.env.LOGGER_NAME === '') {
   process.env.LOGGER_NAME = 'defaul';
 }
 

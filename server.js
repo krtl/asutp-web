@@ -6,22 +6,16 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config');
-const users = require('./server/routes/users');
-const projects = require('./server/routes/projects');
+// const users = require('./server/routes/users');
+// const projects = require('./server/routes/projects');
 const MyStompServer = require('./server/values/myStompServer');
-
-process
-  .on('unhandledRejection', (reason, p) => {
-    logger.error(reason, 'Unhandled Rejection at Promise', p);
-  })
-  .on('uncaughtException', (err) => {
-    logger.error(err, 'Uncaught Exception thrown');
-    process.exit(1);
-  });
 
 
 // connect to the database and load models
 require('./server/dbmodels').connect(config.dbUri, true);
+
+require('./server/values/amqpRawValuesReceiver');
+
 
 const app = express();
 
@@ -58,8 +52,8 @@ const apiRoutes = require('./server/routes/api');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
-projects(app);
-users(app);
+// projects(app);
+// users(app);
 
 // port
 app.set('port', process.env.PORT || 3001);
