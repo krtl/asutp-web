@@ -74,18 +74,22 @@ function startPublisher() {
 
 // method to publish a message, will queue messages internally if the connection is down and resend later
 function publish(exchange, routingKey, content) {
-  try {
-    pubChannel.publish(exchange, routingKey, content, { persistent: true },
-      (err) => {
-        if (err) {
-          logger.error('[AMQPSENDER] publish', err);
-          offlinePubQueue.push([ exchange, routingKey, content ]);
-          pubChannel.connection.close();
-        }
-      });
-  } catch (e) {
-    logger.error('[AMQPSENDER] publish', e.message);
+  if (pubChannel === null) {
     offlinePubQueue.push([ exchange, routingKey, content ]);
+  } else {
+    try {
+      pubChannel.publish(exchange, routingKey, content, { persistent: true },
+        (err) => {
+          if (err) {
+            logger.error('[AMQPSENDER] publish', err);
+            offlinePubQueue.push([ exchange, routingKey, content ]);
+            pubChannel.connection.close();
+          }
+        });
+    } catch (e) {
+      logger.error('[AMQPSENDER] publish', e.message);
+      offlinePubQueue.push([ exchange, routingKey, content ]);
+    }
   }
 }
 
