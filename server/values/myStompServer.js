@@ -2,8 +2,6 @@ const StompServer = require('stomp-broker-js');
 // const moment = require('moment');
 const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
-const dbValues = require('./dbValues');
-const MyParamValue = require('../models/myParamValue');
 const MyParamJsonSerialize = require('../models/myParam').MyParamJsonSerialize;
 
 
@@ -125,10 +123,6 @@ const initializeStompServer = (httpserver) => {
     // }, headers);
 
 
-    const dt = Date.now();// moment().format('YYYY-MM-DD HH:mm:ss');
-    const obj = new MyParamValue(`param${Math.floor(Math.random() * 10)}`, Math.round(Math.random() * 1000) / 100, dt, 'NA');
-    lastValues.setLastValue(obj);
-
     const lastChanged = lastValues.getLastChanged();
     lastChanged.forEach((paramName) => {
       const value = lastValues.getLastValue(paramName);
@@ -137,8 +131,6 @@ const initializeStompServer = (httpserver) => {
         param.listNames.forEach((lstName) => {
           stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(value));
         });
-
-        dbValues.saveValue(value);
       }
     });
   }, 10000);
