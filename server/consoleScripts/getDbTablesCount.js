@@ -18,6 +18,8 @@ async.series([
   } else {
     console.info('done.');
   }
+  console.timeEnd('getCount');
+
   mongoose.disconnect();
   process.exit(err ? 1 : 0);
 });
@@ -28,6 +30,8 @@ function open(callback) {
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
+
+  console.time('getCount');
 }
 
 function getParamCount(callback) {
