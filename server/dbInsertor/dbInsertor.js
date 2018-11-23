@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const MyParamValue = require('../models/myParamValue');
 const config = require('../../config');
 const amqpReceiver = require('../amqp/amqp_receive');
-const dbValues = require('../values/dbValues');
+const dbValues = require('./dbValues');
 // const moment = require('moment');
 
 

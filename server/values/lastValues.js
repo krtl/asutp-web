@@ -1,4 +1,4 @@
-const dbValuesTracker = require('./dbValuesTracker');
+const dbValuesTracker = require('./amqpInsertValueSender');
 
 // const logger = require('../logger');
 
@@ -8,7 +8,7 @@ let useDbValueTracker = false;
 
 const setLastValue = (lastValue) => {
   if (useDbValueTracker) {
-    dbValuesTracker.trackDbParamValue(lastValue, lastValues.get(lastValue.paramName));
+    dbValuesTracker.trackDbParamValue(lastValue);
   }
 
   lastValues.set(lastValue.paramName, lastValue);

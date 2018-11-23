@@ -35,7 +35,7 @@ const init = () => {
         timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,
-        maxFiles: 10,
+        maxFiles: 20,
         json: false,
       }),
 
@@ -45,7 +45,7 @@ const init = () => {
         timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,
-        maxFiles: 10,
+        maxFiles: 20,
         json: false,
       }),
 
@@ -64,7 +64,7 @@ const init = () => {
         filename: `logs/${process.env.LOGGER_NAME}_exceptions.log`,
         timestamp: myTimeStamp,
         maxsize: 50000000,
-        maxFiles: 10,
+        maxFiles: 20,
         json: false,
         handleExceptions: true,
         humanReadableUnhandledException: true,

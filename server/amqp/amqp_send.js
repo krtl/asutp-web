@@ -63,7 +63,7 @@ function startPublisher() {
     while (b) {
       const m = offlinePubQueue.shift();
       if (m) {
-        logger.info('M = ', m);
+        logger.debug('Publishing from offline quieue');
         publish(m[0], m[1], m[2]);
       } else {
         b = false;
