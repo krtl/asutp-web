@@ -9,7 +9,7 @@ const moment = require('moment');
 amqpSender.start(config.amqpUri);
 
 const trackDbParamValue = (newParamValue) => {
-  const param = MyDataModelParams.GetParam(newParamValue.paramName);
+  const param = MyDataModelParams.getParam(newParamValue.paramName);
   if (param !== undefined) {
     if (param.trackAllChanges) {
       const dt = moment(newParamValue.dt).format('YYYY-MM-DD HH:mm:ss');

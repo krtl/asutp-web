@@ -28,7 +28,7 @@ process
     process.exit(1);
   });
 
-const LoadFromDB = (cb) => {
+const loadFromDB = (cb) => {
   async.series([
     clearData,
     loadUsers,
@@ -122,9 +122,10 @@ function linkData(cb) {
   return cb();
 }
 
-const GetParam = paramName => params.get(paramName);
+const getParam = paramName => params.get(paramName);
+const getAllParamsAsArray = () => params.values();
 
-const GetParamsOfList = (paramListName) => {
+const getParamsOfList = (paramListName) => {
   const paramList = paramLists.get(paramListName);
   if (paramList) {
     const resultParams = [];
@@ -141,9 +142,9 @@ const GetParamsOfList = (paramListName) => {
   return [];
 };
 
-const GetParamsList = paramListName => paramLists.get(paramListName);
+const getParamsList = paramListName => paramLists.get(paramListName);
 
-const GetAvailableParamsLists = (userName) => {
+const getAvailableParamsLists = (userName) => {
   const result = [];
   if (userName === '') { // temporary!
     paramLists.forEach((value) => {
@@ -166,8 +167,9 @@ const GetAvailableParamsLists = (userName) => {
   return result;
 };
 
-module.exports.LoadFromDB = LoadFromDB;
-module.exports.GetParam = GetParam;
-module.exports.GetParamsOfList = GetParamsOfList;
-module.exports.GetParamsList = GetParamsList;
-module.exports.GetAvailableParamsLists = GetAvailableParamsLists;
+module.exports.loadFromDB = loadFromDB;
+module.exports.getParam = getParam;
+module.exports.getAllParamsAsArray = getAllParamsAsArray;
+module.exports.getParamsOfList = getParamsOfList;
+module.exports.getParamsList = getParamsList;
+module.exports.getAvailableParamsLists = getAvailableParamsLists;

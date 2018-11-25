@@ -26,7 +26,7 @@ db.on('connected', () => {
   console.info(`We are connected to ${config.dbUri}`);
 });
 
-// myDataModelParams.LoadFromDB((err) => {
+// myDataModelParams.loadFromDB((err) => {
 //   if (err) {
 //     console.error(`Failed! Error: ${err}`);
 //   } else {

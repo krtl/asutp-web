@@ -79,13 +79,13 @@ const initializeStompServer = (httpserver) => {
 
     if (ev.topic.startsWith(TOPIC_PARAMS)) {
       const locParamListName = ev.topic.replace(TOPIC_PARAMS, '');
-      const params = MyDataModelParams.GetParamsOfList(locParamListName);
+      const params = MyDataModelParams.getParamsOfList(locParamListName);
       stompServer.sendIndividual(ev.socket, ev.topic, {}, MyParamJsonSerialize(params));
     }
 
     if (ev.topic.startsWith(TOPIC_VALUES)) {
       const locParamListName = ev.topic.replace(TOPIC_VALUES, '');
-      const params = MyDataModelParams.GetParamsOfList(locParamListName);
+      const params = MyDataModelParams.getParamsOfList(locParamListName);
       params.forEach((param) => {
         const paramValue = lastValues.getLastValue(param.name);
         if (paramValue) {
@@ -126,7 +126,7 @@ const initializeStompServer = (httpserver) => {
     const lastChanged = lastValues.getLastChanged();
     lastChanged.forEach((paramName) => {
       const value = lastValues.getLastValue(paramName);
-      const param = MyDataModelParams.GetParam(paramName);
+      const param = MyDataModelParams.getParam(paramName);
       if ((param) && (value)) {
         param.listNames.forEach((lstName) => {
           stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(value));
