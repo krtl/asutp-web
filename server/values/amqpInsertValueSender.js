@@ -11,7 +11,7 @@ amqpSender.start(config.amqpUri);
 const trackDbParamValue = (newParamValue) => {
   const param = MyDataModelParams.getParam(newParamValue.paramName);
   if (param !== undefined) {
-    if (param.trackAllChanges) {
+    if ((param.trackAllChanges) || (param.trackAveragePerHour)) {
       const dt = moment(newParamValue.dt).format('YYYY-MM-DD HH:mm:ss');
       const s = `${newParamValue.paramName}<>${newParamValue.value}<>${newParamValue.qd}<>${dt}`;
       amqpSender.send(config.amqpInsertValuesQueueName, s);

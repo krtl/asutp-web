@@ -4,8 +4,8 @@ function MyParam(name, caption, description) {
   this.description = description;
   this.listNames = [];
 
-  this.trackAllChanges = true; // temporary
-  this.trackAveragePerHour = false; // temporary
+  this.trackAllChanges = false; // temporary
+  this.trackAveragePerHour = true; // temporary
 
 
   this.setListNames = (listNames) => {
