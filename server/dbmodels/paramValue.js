@@ -6,7 +6,7 @@ const ParamValueSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  value: String,
+  value: Number,
   qd: {
     type: String,
     enum: [ 'B', 'S', 'NV', 'NA' ],   //'B'-Blocked, 'S'-Substitution, 'NV'-Not Valid, 'NA'- Not Actual

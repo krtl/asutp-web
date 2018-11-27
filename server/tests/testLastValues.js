@@ -16,13 +16,13 @@ describe('lastValues', () => {
   });
 
   it('getLastValuesCount() should return 1 after one value passed in', () => {
-    const pv = new MyParamValue('testParam', '0', new Date(), '');
+    const pv = new MyParamValue('testParam', 0, new Date(), '');
     lastValues.setLastValue(pv);
     expect(lastValues.getLastValuesCount()).to.equal(1);
   });
 
   it('getLastValue() should return correct paramValue after issuing getLastValue()', () => {
-    const pv1 = new MyParamValue('testParam1', '123', new Date(), '');
+    const pv1 = new MyParamValue('testParam1', 123, new Date(), '');
     lastValues.setLastValue(pv1);
     const pv2 = lastValues.getLastValue('testParam1');
     expect(pv2.value).to.equal('123');
