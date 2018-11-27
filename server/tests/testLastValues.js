@@ -25,7 +25,7 @@ describe('lastValues', () => {
     const pv1 = new MyParamValue('testParam1', 123, new Date(), '');
     lastValues.setLastValue(pv1);
     const pv2 = lastValues.getLastValue('testParam1');
-    expect(pv2.value).to.equal('123');
+    expect(pv2.value).to.equal(123);
   });
 
   it('clearLastValues() should return 0', () => {
