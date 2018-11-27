@@ -59,9 +59,9 @@ setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
   const s = `param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
-  // amqpSender.send(config.amqpInsertValuesQueueName, s);
-  amqpSender.send(config.amqpRawValuesQueueName, s);
-}, 10);
+  amqpSender.send(config.amqpInsertValuesQueueName, s);
+  // amqpSender.send(config.amqpRawValuesQueueName, s);
+}, 2000);
 
 
 // mongoose.connection.close((err) => {

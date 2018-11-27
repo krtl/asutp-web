@@ -4,6 +4,7 @@ const ParamValueSchema = new mongoose.Schema({
   paramName: {
     type: String,
     required: true,
+    index: true,
   },
   value: String,
   qd: {
@@ -13,8 +14,11 @@ const ParamValueSchema = new mongoose.Schema({
   dt: {
     type: Date,
     default: Date.now,
+    index: true,
   },
 });
+
+ParamValueSchema.index({ paramName: 1, dt: -1 });
 
 
 module.exports = mongoose.model('ParamValue', ParamValueSchema);
