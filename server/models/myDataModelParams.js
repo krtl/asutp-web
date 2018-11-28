@@ -123,7 +123,7 @@ function linkData(cb) {
 }
 
 const getParam = paramName => params.get(paramName);
-const getAllParamsAsArray = () => params.values();
+const getAllParamsAsArray = () => Array.from(params.values());
 
 const getParamsOfList = (paramListName) => {
   const paramList = paramLists.get(paramListName);

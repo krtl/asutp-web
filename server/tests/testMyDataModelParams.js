@@ -17,7 +17,7 @@ const testParamListName = 'TestParamListName';
 
 describe('myDataModelParams', () => {
   it('GetAvailableParamsLists() should return 0 before loaded with data', () => {
-    const pl = myDataModelParams.GetAvailableParamsLists('TestUser');
+    const pl = myDataModelParams.getAvailableParamsLists('TestUser');
     expect(pl.length).to.equal(0);
   });
 
@@ -77,7 +77,7 @@ describe('myDataModelParams', () => {
     it('Should retrieve ParamList and Param for TestUser after Loading DataModel', (done) => {
       myDataModelParams.loadFromDB((err) => {
         if (err) { throw err; }
-        const pLists = myDataModelParams.GetAvailableParamsLists(testUserName);
+        const pLists = myDataModelParams.getAvailableParamsLists(testUserName);
         if (pLists.length !== 1) { throw new Error('No data!'); }
         done();
       });
