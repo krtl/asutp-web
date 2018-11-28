@@ -6,7 +6,6 @@ const dbParamValue = require('../dbmodels/paramValue');
 const MyParamValue = require('../models/myParamValue');
 const dbValues = require('./dbValues');
 const halfHourValuesProducer = require('./halfHourValuesProducer');
-// const dbValues = require('./dbValues');
 const logger = require('../logger');
 const moment = require('moment');
 
@@ -51,7 +50,7 @@ const loadLastTrackedValues = (callback) => {
     } else {
       // console.info('Importing successed.');
     }
-    logger.debug(`[DbValuesTracker] LastTrackedValues loaded. err="${err}".`);
+    logger.debug(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded. err="${err}".`);
     // eslint-disable-next-line no-console
     console.timeEnd('loadLastTrackedValues');
 
@@ -59,11 +58,14 @@ const loadLastTrackedValues = (callback) => {
   });
 };
 
-let lastTickDT = moment();// .minutes(0).seconds(0).milliseconds(0);
+let lastTickDT = moment();
 setInterval(() => {
-//  const now = moment().minutes(0).seconds(0).milliseconds(0);
+  const now = moment().minutes(0).seconds(0).milliseconds(0);
 
-  const now = moment().seconds(0).milliseconds(0);
+  if (lastTickDT.day() !== now.day()) { // day has changed.
+    dbValues.removeOldValues();
+  }
+
   if (!lastTickDT.isSame(now)) {
     lastTickDT = moment(now);
     lastTrackedValues.forEach((lastValue, paramName) => {
@@ -92,7 +94,8 @@ setInterval(() => {
       }
     });
   }
-}, 10000); // 30 min
+
+}, 60000); 
 
 
 module.exports.loadLastTrackedValues = loadLastTrackedValues;

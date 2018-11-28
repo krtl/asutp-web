@@ -1,3 +1,4 @@
+const moment = require('moment');
 const dbParamValue = require('../dbmodels/paramValue');
 const logger = require('../logger');
 
@@ -40,5 +41,16 @@ const updateAverageValue = (lastValue, callback) => {
   });
 };
 
+const removeOldValues = (callback) => {
+  const olderThan = moment().subtract(10, 'days');
+  dbParamValue.deleteMany({ dt: { $lt: olderThan.toDate() } }, (err) => {
+    if (err) {
+      logger.error(`[dbValues] Failed to save value. Error: ${err}`);
+    }
+    callback(err);
+  });
+};
+
 module.exports.saveValue = saveValue;
 module.exports.updateAverageValue = updateAverageValue;
+module.exports.removeOldValues = removeOldValues;

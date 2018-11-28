@@ -17,7 +17,7 @@ const TESTPARAMVALUE2 = 333.333;
 const TESTPARAMVALUE_AVERAGE_1_2 = 222.222;
 const TESTPARAMQD = 'NA';
 const TESTDT = moment().minutes(0).seconds(0).milliseconds(0);
-
+const OLDDT = moment().subtract(2, 'years').seconds(0).milliseconds(0);
 
 describe('Database Test ParamValues', () => {
   // Before starting the test, create a sandboxed database connection
@@ -128,6 +128,74 @@ describe('Database Test ParamValues', () => {
     });
   });
 
+  describe('Test removeOldValues function', () => {
+    it('insert oldvalue', (done) => {
+      const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE1, OLDDT, TESTPARAMQD);
+      dbValues.saveValue(pv, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('get test value', (done) => {
+      ParamValue.findOne({ paramName: TESTPARAMNAME }, (err, paramValue) => {
+        if (err) { throw err; }
+        if (paramValue.paramName !== TESTPARAMNAME) { throw new Error('Wrong Name!'); }
+        if (paramValue.value !== TESTPARAMVALUE1) { throw new Error('Wrong Value!'); }
+        if (!moment(paramValue.dt).isSame(moment(OLDDT))) { throw new Error('Wrong DT!'); }
+        if (paramValue.qd !== TESTPARAMQD) { throw new Error('Wrong QD!'); }
+        done();
+      });
+    });
+
+    it('remove old values', (done) => {
+      dbValues.removeOldValues((err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('check if test value removed', (done) => {
+      ParamValue.findOne({ paramName: TESTPARAMNAME }, (err, paramValue) => {
+        if (err) { throw err; }
+        if (paramValue) { throw new Error('Value does not removed!'); }
+        done();
+      });
+    });
+
+    it('insert new value', (done) => {
+      const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE1, TESTDT, TESTPARAMQD);
+      dbValues.saveValue(pv, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('remove old values again', (done) => {
+      dbValues.removeOldValues((err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('new value should not be removed', (done) => {
+      ParamValue.findOne({ paramName: TESTPARAMNAME }, (err, paramValue) => {
+        if (err) { throw err; }
+        if (paramValue.paramName !== TESTPARAMNAME) { throw new Error('Wrong Name!'); }
+        if (paramValue.value !== TESTPARAMVALUE1) { throw new Error('Wrong Value!'); }
+        if (!moment(paramValue.dt).isSame(moment(TESTDT))) { throw new Error('Wrong DT!'); }
+        if (paramValue.qd !== TESTPARAMQD) { throw new Error('Wrong QD!'); }
+        done();
+      });
+    });
+
+    it('delete test value', (done) => {
+      ParamValue.deleteMany({ paramName: TESTPARAMNAME }, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+  });
 
   // After all tests are finished drop database and close connection
   after((done) => {
