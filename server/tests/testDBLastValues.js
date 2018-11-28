@@ -1,24 +1,22 @@
 const mongoose = require('mongoose');
-const async = require('async');
+const moment = require('moment');
+const dbValues = require('../dbInsertor/dbValues');
 
 // const Schema = mongoose.Schema;
 // const chai = require('chai');
 
 // const expect = chai.expect;
 const config = require('../../config');
-
-// require('mongoose').model('AuthUser');  // eslint-disable-line global-require
 const ParamValue = require('../dbmodels/paramValue');
+const MyParamValue = require('../models/myParamValue');
 
-
-// Create a new schema that accepts a 'name' object.
-// 'name' is a required field
-// const testSchema = new Schema({
-//   name: { type: String, required: true },
-// });
-
-// Create a new collection called 'Name'
-// const Name = mongoose.model('Name', testSchema);
+const TESTPARAMNAME = 'testParam3245646';
+const TESTPARAMVALUE = 333.333;
+const TESTPARAMVALUE1 = 111.111;
+const TESTPARAMVALUE2 = 333.333;
+const TESTPARAMVALUE_AVERAGE_1_2 = 222.222;
+const TESTPARAMQD = 'NA';
+const TESTDT = moment().minutes(0).seconds(0).milliseconds(0);
 
 
 describe('Database Test ParamValues', () => {
@@ -41,102 +39,95 @@ describe('Database Test ParamValues', () => {
     });
   });
 
-  describe('Test one ParamValue', () => {
-    // Save object with 'name' value of 'TestName593"
-    it('New Param Value with origin name should be saved to database', (done) => {
-      const testParamValue = ParamValue({
-        paramName: 'TestName593',
-      });
-
-      testParamValue.save(done);
-    });
-
-    it('Dont save incorrect format to database', (done) => {
-      // Attempt to save with wrong info. An error should trigger
-      const wrongSave = ParamValue({
-        notName: 'Not TestName593',
-      });
-      wrongSave.save((err) => {
-        if (err) { return done(); }
-        throw new Error('Should generate error!');
-      });
-    });
-
-    it('Should retrieve data from test database', (done) => {
-      // Look up the 'TestName593' object previously saved.
-      ParamValue.find({ paramName: 'TestName593' }, (err, name) => {
+  describe('Test saveValue function', () => {
+    it('delete old test value', (done) => {
+      ParamValue.deleteMany({ paramName: TESTPARAMNAME }, (err) => {
         if (err) { throw err; }
-        if (name.length === 0) { throw new Error('No data!'); }
         done();
       });
     });
 
-    it('Should remove test param values', (done) => {
-      ParamValue.remove({ paramName: /^TestName/ }, (err) => {
+    it('save test value', (done) => {
+      const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE, TESTDT, TESTPARAMQD);
+      dbValues.saveValue(pv, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('get test value', (done) => {
+      ParamValue.findOne({ paramName: TESTPARAMNAME }, (err, paramValue) => {
+        if (err) { throw err; }
+        if (paramValue.paramName !== TESTPARAMNAME) { throw new Error('Wrong Name!'); }
+        if (paramValue.value !== TESTPARAMVALUE) { throw new Error('Wrong Value!'); }
+        if (!moment(paramValue.dt).isSame(moment(TESTDT))) { throw new Error('Wrong DT!'); }
+        if (paramValue.qd !== TESTPARAMQD) { throw new Error('Wrong QD!'); }
+        done();
+      });
+    });
+
+    it('delete test value', (done) => {
+      ParamValue.deleteMany({ paramName: TESTPARAMNAME }, (err) => {
         if (err) { throw err; }
         done();
       });
     });
   });
 
-  describe('Test multiple ParamValues', () => {
-    // test multiple random param values
-
-
-    it('Should remove all previous test param values', (done) => {
-      ParamValue.remove({ paramName: /^TestParam/ }, (err) => {
+  describe('Test updateAverageValue function', () => {
+    it('delete old test values if any', (done) => {
+      ParamValue.deleteMany({ paramName: TESTPARAMNAME }, (err) => {
         if (err) { throw err; }
         done();
       });
     });
 
-    it('Should retrieve no test param values', (done) => {
-      ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
-        if (err) { throw err; }
-        if (count !== 0) { throw new Error('Wrong count!'); }
-        done();
-      });
-    });
-
-    it('should insert 100 test param values ', (done) => {
-      const params = [];
-      for (let i = 0; i < 100; i += 1) {
-        params.push(i);
-      }
-      async.each(params, (paramData, done) => {
-        const testParamValue = ParamValue({
-          paramName: `TestParam${Math.floor(Math.random() * 1000)}`,
-          // paramName: 'TestParam',
-          value: (Math.random() * 1000) + paramData,
-          qd: 'NV',
-        });
-        testParamValue.save(done);
-      }, done);
-    });
-
-    it('Should retrieve correct count of test param values', (done) => {
-      ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
-        if (err) { throw err; }
-        if (count !== 100) { throw new Error('Wrong count!'); }
-        done();
-      });
-    });
-
-    it('Should remove all previous test param values', (done) => {
-      ParamValue.remove({ paramName: /^TestParam/ }, (err) => {
+    it('update should save test value', (done) => {
+      const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE1, TESTDT, TESTPARAMQD);
+      dbValues.updateAverageValue(pv, (err) => {
         if (err) { throw err; }
         done();
       });
     });
 
-    it('Should retrieve zero of test param values', (done) => {
-      ParamValue.count({ paramName: /^TestParam/ }, (err, count) => {
+    it('get test value', (done) => {
+      ParamValue.findOne({ paramName: TESTPARAMNAME }, (err, paramValue) => {
         if (err) { throw err; }
-        if (count !== 0) { throw new Error('Wrong count!'); }
+        if (paramValue.paramName !== TESTPARAMNAME) { throw new Error('Wrong Name!'); }
+        if (paramValue.value !== TESTPARAMVALUE1) { throw new Error('Wrong Value!'); }
+        if (!moment(paramValue.dt).isSame(moment(TESTDT))) { throw new Error('Wrong DT!'); }
+        if (paramValue.qd !== TESTPARAMQD) { throw new Error('Wrong QD!'); }
+        done();
+      });
+    });
+
+    it('update should update test value', (done) => {
+      const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE2, TESTDT, TESTPARAMQD);
+      dbValues.updateAverageValue(pv, (err) => {
+        if (err) { throw err; }
+        done();
+      });
+    });
+
+    it('get average value', (done) => {
+      ParamValue.findOne({ paramName: TESTPARAMNAME }, (err, paramValue) => {
+        if (err) { throw err; }
+        if (paramValue.paramName !== TESTPARAMNAME) { throw new Error('Wrong Name!'); }
+        if (paramValue.value !== TESTPARAMVALUE_AVERAGE_1_2) { throw new Error('Wrong Value!'); }
+        if (!moment(paramValue.dt).isSame(moment(TESTDT))) { throw new Error('Wrong DT!'); }
+        if (paramValue.qd !== TESTPARAMQD) { throw new Error('Wrong QD!'); }
+        done();
+      });
+    });
+
+    it('delete test value', (done) => {
+      ParamValue.deleteMany({ paramName: TESTPARAMNAME }, (err) => {
+        if (err) { throw err; }
         done();
       });
     });
   });
+
 
   // After all tests are finished drop database and close connection
   after((done) => {

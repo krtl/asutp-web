@@ -2,19 +2,43 @@ const dbParamValue = require('../dbmodels/paramValue');
 const logger = require('../logger');
 
 
-const saveValue = (lastValue) => {
+const saveValue = (lastValue, callback) => {
   const paramValue = dbParamValue({
     paramName: lastValue.paramName,
     value: lastValue.value,
-    qd: lastValue.qd,
     dt: lastValue.dt,
+    qd: lastValue.qd,
   });
 
   paramValue.save((err) => {
     if (err) {
-      logger.error(`[dbValues] Failed to save last value. Error: ${err}`);
+      logger.error(`[dbValues] Failed to save value. Error: ${err}`);
+    }
+    callback(err);
+  });
+};
+
+const updateAverageValue = (lastValue, callback) => {
+  dbParamValue.findOne({
+    paramName: lastValue.paramName,
+    dt: lastValue.dt,
+  }, (err, paramValue) => {
+    if (err) {
+      logger.error(`[dbValues] Failed to get value. Error: ${err}`);
+      callback(err);
+    } else if (paramValue) {
+      const newValue = (paramValue.value + lastValue.value) / 2;
+      dbParamValue.update({ _id: paramValue.id }, { $set: { value: newValue } }, (err) => {
+        if (err) {
+          logger.error(`[dbValues] Failed to update value. Error: ${err}`);
+        }
+        callback(err);
+      });
+    } else {
+      this.saveValue(lastValue, callback);
     }
   });
 };
 
 module.exports.saveValue = saveValue;
+module.exports.updateAverageValue = updateAverageValue;

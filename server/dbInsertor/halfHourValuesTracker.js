@@ -69,21 +69,26 @@ setInterval(() => {
     lastTrackedValues.forEach((lastValue, paramName) => {
       if (paramValueBuffers.has(paramName)) {
         const trackedValues = paramValueBuffers.get(paramName);
-        if (trackedValues.length > 0) {
-          halfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (halfHourValues) => {
-            let locLastValue = lastValue;
-            halfHourValues.forEach((newValue) => {
-              dbValues.saveValue(newValue);
-              if (locLastValue.dt < newValue.dt) {
-                locLastValue = newValue;
-              }
-            });
+        halfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (valuesToInsert, valuesToUpdate, valuesToTrackAgain) => {
+          let locLastValue = lastValue;
+          valuesToInsert.forEach((newValue) => {
+            dbValues.saveValue(newValue);
 
-            if (locLastValue !== lastValue) {
-              lastTrackedValues.set(paramName, locLastValue);
+            if (moment(locLastValue.dt).isBefore(moment(newValue.dt))) {
+              locLastValue = newValue;
             }
           });
-        }
+
+          if (locLastValue !== lastValue) {
+            lastTrackedValues.set(paramName, locLastValue);
+          }
+
+          valuesToUpdate.forEach((updateValue) => {
+            dbValues.updateAverageValue(updateValue);
+          });
+
+          paramValueBuffers.set(paramName, valuesToTrackAgain);
+        });
       }
     });
   }
