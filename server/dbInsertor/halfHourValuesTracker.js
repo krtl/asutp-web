@@ -20,7 +20,23 @@ const trackHalfHourParamValue = (newParamValue) => {
       if (trackedArr === undefined) {
         trackedArr = [];
       }
-      trackedArr.push(newParamValue);
+
+      let b = false;
+      const halfHourDt = halfHourValuesProducer.getHalfHourTime(moment(newParamValue.dt));
+      for (let j = 0; j < trackedArr.length; j += 1) {
+        const locTrackedValue = trackedArr[j];
+        if (moment(locTrackedValue.dt).isSame(halfHourDt)) {
+          locTrackedValue.value = (locTrackedValue.value + newParamValue.value) / 2;
+          b = true;
+          break;
+        }
+      }
+
+      if (!b) {
+        // eslint-disable-next-line no-param-reassign
+        newParamValue.dt = halfHourDt.toDate();
+        trackedArr.push(newParamValue);
+      }
       paramValueBuffers.set(newParamValue.paramName, trackedArr);
     }
   } else {
@@ -94,8 +110,7 @@ setInterval(() => {
       }
     });
   }
-
-}, 60000); 
+}, 1800000);
 
 
 module.exports.loadLastTrackedValues = loadLastTrackedValues;

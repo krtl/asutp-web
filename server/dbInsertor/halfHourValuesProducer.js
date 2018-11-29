@@ -7,7 +7,7 @@ const moment = require('moment');
 
 const PERIOD = 30; // minutes
 
-function getHalfHourTime(momentDt) {
+const getHalfHourMoment = (momentDt) => {
   const result = moment(momentDt);
   if (momentDt.minutes() <= 15) {
     result.minutes(0).seconds(0).milliseconds(0);
@@ -16,8 +16,8 @@ function getHalfHourTime(momentDt) {
   } else {
     result.add(1, 'hours').minutes(0).seconds(0).milliseconds(0);
   }
-  return result.toDate();
-}
+  return result;
+};
 
 const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, callback) => {
   const valuesForInsert = [];
@@ -69,8 +69,8 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
       if (locTrackedValue.tag === undefined) {
         const locTrackedMoment = moment(locTrackedValue.dt);
         if (locTrackedMoment.isBefore(currentMoment)) {
-          const dt = getHalfHourTime(locTrackedMoment);
-          const dtKey = moment(dt).format('YYYY_MM_DD_HH_mm');
+          const dtMoment = getHalfHourMoment(locTrackedMoment);
+          const dtKey = dtMoment.format('YYYY_MM_DD_HH_mm');
           const value = locTrackedValue.value;
 
           if (valuesForUpdate.has(dtKey)) {
@@ -78,7 +78,7 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
             locValue.value = (value + locValue.value) / 2;
             valuesForUpdate.set(dtKey, locValue);
           } else {
-            const newValue = new MyParamValue(locTrackedValue.paramName, locTrackedValue.value, dt, locTrackedValue.qd);
+            const newValue = new MyParamValue(locTrackedValue.paramName, locTrackedValue.value, dtMoment.toDate(), locTrackedValue.qd);
             valuesForUpdate.set(dtKey, newValue);
           }
           locTrackedValue.tag = 1;
@@ -109,3 +109,4 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
 };
 
 module.exports.produceHalfHourParamValues = produceHalfHourParamValues;
+module.exports.getHalfHourTime = getHalfHourMoment;
