@@ -8,7 +8,10 @@ const NodeSchema = new mongoose.Schema({
   },
   caption: String,
   description: String,
-  parentNode: String,
+  parentNode: {
+    type: String,
+    index: true,
+  },
   x: {
     type: Number,
     default: 0,
@@ -20,12 +23,20 @@ const NodeSchema = new mongoose.Schema({
   nodeType: {
     type: Number,
     default: 0,
+    index: true,
   },
-  sapCode: String,
-  tag: Number,
+  sapCode: {
+    type: String,
+    index: { unique: true },
+  },
+  tag: {
+    type: Number,
+    index: true,
+  },
 
 });
 
+NodeSchema.index({ parentNode: 1, nodeType: 1 });
 
 module.exports = mongoose.model('Node', NodeSchema);
 
