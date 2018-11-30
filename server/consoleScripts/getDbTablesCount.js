@@ -1,16 +1,47 @@
 const mongoose = require('mongoose');
-const dbParam = require('../dbmodels/param');
-const dbParamList = require('../dbmodels/paramList');
-const dbParamValue = require('../dbmodels/paramValue');
+const DbUser = require('../dbmodels/authUser');
+const DbParam = require('../dbmodels/param');
+const DbParamList = require('../dbmodels/paramList');
+const DbParamValue = require('../dbmodels/paramValue');
+const DbNode = require('../dbmodels/node');
+const DbNodeRegion = require('../dbmodels/nodeRegion');
+const DbNodeLEP = require('../dbmodels/nodeLEP');
+const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
+const DbNodePS = require('../dbmodels/nodePS');
+const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
+const DbNodePSPart = require('../dbmodels/nodePSPart');
+const DbNodeTransformer = require('../dbmodels/nodeTransformer');
+const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector');
+const DbNodeSection = require('../dbmodels/nodeSection');
+const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
+const DbNodeEquipment = require('../dbmodels/nodeEquipment');
+
 const async = require('async');
 const config = require('../../config');
+
+const Sheme = [
+  DbUser,
+  DbParam,
+  DbParamList,
+  DbParamValue,
+  DbNode,
+  DbNodeRegion,
+  DbNodeLEP,
+  DbNodeLEPConnection,
+  DbNodePS,
+  DbNodePSPart,
+  DbNodeSec2SecConnector,
+  DbNodeTransformer,
+  DbNodeTransformerConnector,
+  DbNodeSection,
+  DbNodeSectionConnector,
+  DbNodeEquipment,
+];
 
 
 async.series([
   open,
-  getParamListCount,
-  getParamCount,
-  getParamValueCount,
+  getCounts,
 ], (err) => {
   // console.info(arguments);
   if (err) {
@@ -34,34 +65,26 @@ function open(callback) {
   console.time('getCount');
 }
 
-function getParamCount(callback) {
-  dbParam.count({}, (err, count) => {
+function getCounts(callback) {
+  // events.EventEmitter.defaultMaxListeners = 125;
+  async.eachSeries(Sheme, (schemeElement, callback) => {
+    getCountForTable(schemeElement, callback);
+  }, (err) => {
     if (err) {
-      callback(err);
+      console.Error(`Failed: ${err}`);
     } else {
-      console.info(`dbParamCount=${count}`);
-      callback(null);
+      console.info('success.');
     }
+    callback(err);
   });
 }
 
-function getParamListCount(callback) {
-  dbParamList.count({}, (err, count) => {
+function getCountForTable(schemeElement, callback) {
+  schemeElement.count({}, (err, count) => {
     if (err) {
       callback(err);
     } else {
-      console.info(`dbParamListCount=${count}`);
-      callback(null);
-    }
-  });
-}
-
-function getParamValueCount(callback) {
-  dbParamValue.count({}, (err, count) => {
-    if (err) {
-      callback(err);
-    } else {
-      console.info(`dbParamValueCount=${count}`);
+      console.info(`${schemeElement.modelName}.Count = ${count}`);
       callback(null);
     }
   });
