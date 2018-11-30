@@ -19,6 +19,7 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const Sheme = [
+  [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
   [ DbNodeRegion, 'nodeRegions.json' ],
   [ DbNodeLEP, 'nodeLEPs.json' ],
   [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
@@ -26,7 +27,6 @@ const Sheme = [
   [ DbNodePSPart, 'nodePSParts.json' ],
   [ DbNodeSec2SecConnector, 'nodeSec2SecConnectors.json' ],
   [ DbNodeTransformer, 'nodeTransformers.json' ],
-  [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
   [ DbNodeSection, 'nodeSections.json' ],
   [ DbNodeSectionConnector, 'nodeSectionConnectors.json' ],
   [ DbNodeEquipment, 'nodeEquipments.json' ],
@@ -367,7 +367,14 @@ function importNodesFromFile(schemeElement, callback) {
     return;
   }
 
-  const locObjects = JSON.parse(rawdata);
+  let locObjects = null;
+  try {
+    locObjects = JSON.parse(rawdata);
+  } catch (err) {
+    setError(`Read file error: ${err.message}`);
+    callback(err.message);
+    return;
+  }
 
   async.eachSeries(locObjects, (locData, callback) => {
     newNode = new DbNode(locData);
