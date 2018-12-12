@@ -19,7 +19,6 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const Sheme = [
-  [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
   [ DbNodeRegion, 'nodeRegions.json' ],
   [ DbNodeLEP, 'nodeLEPs.json' ],
   [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
@@ -27,6 +26,7 @@ const Sheme = [
   [ DbNodePSPart, 'nodePSParts.json' ],
   [ DbNodeSec2SecConnector, 'nodeSec2SecConnectors.json' ],
   [ DbNodeTransformer, 'nodeTransformers.json' ],
+  [ DbNodeTransformerConnector, 'nodeTransformerConnectors.json' ],
   [ DbNodeSection, 'nodeSections.json' ],
   [ DbNodeSectionConnector, 'nodeSectionConnectors.json' ],
   [ DbNodeEquipment, 'nodeEquipments.json' ],
