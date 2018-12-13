@@ -211,8 +211,6 @@ function deleteNetNodeObjects(callback) {
         setError(`Deleting DbNodeObjects failed: ${err}`);
       }
       callback(err);
-    }, (err) => {
-      callback(err);
     });
   });
 }
@@ -239,7 +237,7 @@ function removingOldNodes(callback) {
 
       let count = DbNodesToDelete.length;
       let s = '';
-      if (count > 500) count = 500;
+      if (count > 50) count = 50;
       for (let i = 0; i < count; i += 1) {
         const netNode = DbNodesToDelete[i];
         s += `${netNode.name},`;
