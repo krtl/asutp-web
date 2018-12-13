@@ -194,44 +194,68 @@ function updateNodeTag(originNode, callback) {
     });
 }
 
+let DbNodesToDelete = null;   // don't know how to pass into async.series function as parameters
+
+function deleteNetNodeObjects(callback) {
+  DbNodesToDelete.forEach((netNode) => {
+    async.eachSeries(Sheme, (schemeElement, callback) => {
+      const DbNodeObj = schemeElement[0];
+      DbNodeObj.deleteOne({ name: netNode.name }, (err) => {
+        if (err) {
+          console.warn(`[!] Deleting DbNodeObj failed: ${err}`);
+        }
+        callback(err);
+      });
+    }, (err) => {
+      if (err) {
+        setError(`Deleting DbNodeObjects failed: ${err}`);
+      }
+      callback(err);
+    }, (err) => {
+      callback(err);
+    });
+  });
+}
+
+function deleteNetNodes(callback) {
+  DbNode.deleteMany({ tag: 0 }, (err, res) => {
+    if (err) {
+      console.warn(`[!] ${err}`);
+    } else {
+      console.warn(`[!] ${res} old nodes were deleted.`);
+    }
+  });
+  callback();
+}
+
 function removingOldNodes(callback) {
   console.debug(`[debug] processed = ${processed} updateStarted = ${updateStarted} updated = ${updated}`);
 
   DbNode.find({
     tag: 0,
   }, (err, netNodes) => {
-    let s = '';
-    netNodes.forEach((netNode) => {
-      if (s.length < 500) s += `${netNode.name},`;
-      async.eachSeries(Sheme, (schemeElement, callback) => {
-        const DbNodeObj = schemeElement[0];
-        DbNodeObj.deleteOne({ name: netNode.name }, (err) => {
-          if (err) {
-            console.warn(`[!] Deleting DbNodeObj failed: ${err}`);
-          }
-          callback(err);
-        });
-      }, (err) => {
-        if (err) {
-          setError(`Deleting DbNodeObjects failed: ${err}`);
-        }
-        callback(err);
-      }, (err) => {
-        callback(err);
-      });
-    });
-    if (s !== '') {
+    if (netNodes.length > 0) {
+      DbNodesToDelete = netNodes;
+
+      let count = DbNodesToDelete.length;
+      let s = '';
+      if (count > 500) count = 500;
+      for (let i = 0; i < count; i += 1) {
+        const netNode = DbNodesToDelete[i];
+        s += `${netNode.name},`;
+      }
+
       console.warn(`[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`);
 
-      DbNode.deleteMany({ tag: 0 }, (err, res) => {
-        if (err) {
-          console.warn(`[!] ${err}`);
-        } else {
-          console.warn(`[!] ${res} old nodes were deleted.`);
-        }
+      async.series([
+        deleteNetNodeObjects,
+        deleteNetNodes,
+      ], (err) => {
+        callback(err);
       });
+    } else {
+      callback();
     }
-    callback();
   });
 }
 

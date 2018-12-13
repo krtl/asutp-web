@@ -245,28 +245,33 @@ function linkTransformerToPS(node) {
   }
 }
 
-function linkSectionToPS(node) {
+function linkSectionToPSPart(node) {
   if (node.parentNode) {
-    if (node.parentNode.nodeType === myNodeType.PS) {
+    if (node.parentNode.nodeType === myNodeType.PSPART) {
       node.parentNode.sections.push(node);
-    } else if (node.parentNode.nodeType === myNodeType.PSPART) {
-      if (node.parentNode.parentNode.nodeType === myNodeType.PS) {
-        node.parentNode.parentNode.sections.push(node);
-      } else {
-        setError(`Failed to link section ${node.name}. Owner PS is not found.`);
-      }
     } else {
-      setError(`Failed to link section. There is no parent for ${node.name}`);
+      setError(`Failed to link section. There is no parent PSPart for ${node.name}`);
     }
   }
 }
 
-function linkSec2SecConnectorToPS(node) {
+function linkPSPartToPS(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PS) {
+      node.parentNode.psparts.push(node);
+    } else {
+      setError(`Failed to link PSPart. There is no parent PS for ${node.name}`);
+    }
+  }
+}
+
+
+function linkSec2SecConnectorToPSPart(node) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === myNodeType.PSPART) {
       node.parentNode.connectors.push(node);
     } else {
-      setError(`Failed to link Sec2SecConnector. There is no parent PS for ${node.name}`);
+      setError(`Failed to link Sec2SecConnector. There is no parent PSPart for ${node.name}`);
     }
   }
 }
@@ -279,8 +284,9 @@ function linkNodes(cb) {
       switch (locNode.nodeType) {
         case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
-        case myNodeType.SECTION: { linkSectionToPS(locNode); break; }
-        case myNodeType.PSCONNECTOR: { linkSec2SecConnectorToPS(locNode); break; }
+        case myNodeType.PSPART: { linkPSPartToPS(locNode); break; }
+        case myNodeType.SECTION: { linkSectionToPSPart(locNode); break; }
+        case myNodeType.SEC2SECCONNECTOR: { linkSec2SecConnectorToPSPart(locNode); break; }
         default: {
           //
         }
@@ -292,55 +298,39 @@ function linkNodes(cb) {
 }
 
 function setupPsNodes(cb) {
-  PSs.forEach((locPS) => {
-    locPS.voltages = [];
-    locPS.sections.forEach((locSection) => {
-      if (locPS.voltages.indexOf(locSection.voltage) < 0) {
-        locPS.voltages.push(locSection.voltage);
-      }
-    });
-  });
+  // ..
   return cb();
 }
 
 function checkIntegrity(cb) {
   PSs.forEach((locPS) => {
-    if (locPS.sections.length === 0) {
-      setError(`Integrity checking error: PS "${locPS.name}" has no sections!.`);
-    } else {
-      locPS.sections.forEach((locSection) => {
-        if (locSection.nodes.length === 0) {
-          setError(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
-        }
-      });
-    }
+    locPS.psparts.forEach((locPSPart) => {
+      if (locPSPart.sections.length === 0) {
+        setError(`Integrity checking error: PSPart "${locPSPart.name}" has no sections!.`);
+      } else {
+        locPSPart.sections.forEach((locSection) => {
+          if (locSection.nodes.length === 0) {
+            setError(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
+          }
+        });
+      }
+    });
 
     // if more than one section with the same voltage, they should be connected with Sec2SecConnector
-    locPS.voltages.forEach((locVoltage) => {
-      const locSections = [];
-      locPS.sections.forEach((locSection) => {
-        if (locSection.voltage === locVoltage) {
-          locSection.tag = 0;
-          locSections.push(locSection);
-        }
-      });
-
-      switch (locSections.length) {
+    locPS.psparts.forEach((locPSPart) => {
+      switch (locPSPart.sections.length) {
         case 0: {
-          setError(`Integrity checking error: No Sections found for voltage ${locVoltage} on PS "${locPS.name}".`);
+          setError(`Integrity checking error: No Sections found for ${locPSPart}.`);
           break;
         }
         case 1: break;
         case 2: {
-          let b = false;
-          locPS.connectors.forEach((sec2secCon) => {
-            if (((sec2secCon.fromSection === locSections[0]) && (sec2secCon.toSection === locSections[1])) ||
-                ((sec2secCon.fromSection === locSections[1]) && (sec2secCon.toSection === locSections[0]))) {
-              b = true;
+          if (locPSPart.connectors.length === 1) {
+            const sec2secCon = locPSPart.connectors[0];
+            if (!(((sec2secCon.fromSection === locPSPart.sections[0]) && (sec2secCon.toSection === locPSPart.sections[1])) ||
+            ((sec2secCon.fromSection === locPSPart.sections[1]) && (sec2secCon.toSection === locPSPart.sections[0])))) {
+              setError(`Integrity checking error: No section to section connector found for "${locPSPart.sections[0].name}" and "${locPSPart.sections[1].name}" on PS "${locPS.name}"..`);
             }
-          });
-          if (!b) {
-            setError(`Integrity checking error: No section to section connector found for "${locSections[0].name}" and "${locSections[1].name}" on PS "${locPS.name}"..`);
           }
           break;
         }
@@ -349,7 +339,7 @@ function checkIntegrity(cb) {
           break;
         }
         default: {
-          setError(`Integrity checking error: Wrong Section number (${locSections.length}) for voltage ${locVoltage} on PS "${locPS.name}". Sections should be connected between eachother.`);
+          setError(`Integrity checking error: Wrong Section number (${locPSPart.sections.length}) on PSPart "${locPSPart.name}". Sections should be connected between eachother.`);
           break;
         }
       }
@@ -365,10 +355,10 @@ function checkIntegrity(cb) {
           if (locTransConnector.toConnector === undefined) {
             setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to connector "${locTransConnector.toConnector}". No such connector. TransConnector: "${locTransConnector.name}"`);
           } else {
-            const section = locTransConnector.toConnector.parentNode;
-            if (!locPS.sections.includes(section)) {
-              setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${section.name}". The Section is not belongs to the parent PS "${locPS.name}". TransConnector: "${locTransConnector.name}"`);
-            }
+            // const section = locTransConnector.toConnector.parentNode;
+            // if (!locPS.sections.includes(section)) {
+            //   setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to section "${section.name}". The Section is not belongs to the parent PS "${locPS.name}". TransConnector: "${locTransConnector.name}"`);
+            // }
           }
         });
       }
@@ -376,29 +366,35 @@ function checkIntegrity(cb) {
 
     // each section should have a connector to transformer?
     if (locPS.transformers.length > 0) {
-      locPS.sections.forEach((locSection) => {
-        locSection.tag = 0;
-      });
-
-      locPS.transformers.forEach((locTransformer) => {
-        locTransformer.nodes.forEach((locTransConnector) => {
-          if (locTransConnector.toConnector.parentNode.nodeType === myNodeType.SECTION) {
-            const locToSection = locTransConnector.toConnector.parentNode;
-            locToSection.tag = 1;
-          } else {
-            setError(`Integrity checking error: Transformer "${locTransformer.name}" connector "${locTransConnector.name}" does not connected to the section."`);
-          }
+      locPS.psparts.forEach((locPSPart) => {
+        locPSPart.sections.forEach((locSection) => {
+          locSection.tag = 0;
         });
       });
+    }
 
-      if (locPS.transformers.length > 0) {
-        locPS.sections.forEach((locSection) => {
+
+    locPS.transformers.forEach((locTransformer) => {
+      locTransformer.nodes.forEach((locTransConnector) => {
+        if (locTransConnector.toConnector.parentNode.nodeType === myNodeType.SECTION) {
+          const locToSection = locTransConnector.toConnector.parentNode;
+          locToSection.tag = 1;
+        } else {
+          setError(`Integrity checking error: Transformer "${locTransformer.name}" connector "${locTransConnector.name}" does not connected to the section."`);
+        }
+      });
+    });
+
+    if (locPS.transformers.length > 0) {
+      locPS.psparts.forEach((locPSPart) => {
+        locPSPart.sections.forEach((locSection) => {
           if (locSection.tag === 0) {
             setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
           }
         });
-      }
+      });
     }
+
 
     // ..
   });
