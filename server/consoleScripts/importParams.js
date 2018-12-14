@@ -34,7 +34,7 @@ function requireModels(callback) {
 
 function importParams(callback) {
   console.log('importing params..');
-  const rawdata = fs.readFileSync(`${config.importPath}params.json`);
+  const rawdata = fs.readFileSync(`${config.importPath}asutpParams.json`);
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
