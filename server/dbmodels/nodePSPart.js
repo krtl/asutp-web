@@ -6,6 +6,7 @@ const NodePSPartSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
+  voltage: Number,
 
 });
 

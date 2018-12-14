@@ -1,9 +1,9 @@
 [
-  { "name": "lep1", "caption": "lep1211", "description": "dummyLep1", "voltage": "110"},
-  { "name": "lep2", "caption": "lep2", "description": "dummyLEP22", "voltage": "0.6"},
-  { "name": "lep3", "caption": "lep3", "description": "dummyLEP22", "voltage": "110"},
-  { "name": "lep4", "caption": "lep4", "description": "dummyLEP22", "voltage": "110"},
-  { "name": "lep5", "caption": "lep5", "description": "dummyLEP22", "voltage": "110"},
-  { "name": "lep6", "caption": "lep6", "description": "dummyLEP22", "voltage": "110"},
-  { "name": "lep7", "caption": "lep7", "description": "dummyLEP44", "voltage": ".22"}
+  { "name": "lep1", "caption": "lep1211", "description": "dummyLep1" },
+  { "name": "lep2", "caption": "lep2", "description": "dummyLEP22" },
+  { "name": "lep3", "caption": "lep3", "description": "dummyLEP22" },
+  { "name": "lep4", "caption": "lep4", "description": "dummyLEP22" },
+  { "name": "lep5", "caption": "lep5", "description": "dummyLEP22" },
+  { "name": "lep6", "caption": "lep6", "description": "dummyLEP22" },
+  { "name": "lep7", "caption": "lep7", "description": "dummyLEP44" }
 ]
