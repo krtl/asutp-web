@@ -138,6 +138,7 @@ function loadNodesFromDB(schemeElement, cb) {
             locNode.description);
           p.parentNode = locParentNode;
           p.nodeType = DbNodeObj.nodeType;
+          p.sapCode = locNode.sapCode;
 
           const copyProps = DbNodeObj.compareProps;
           copyProps.forEach((pName) => {
@@ -176,32 +177,40 @@ function loadNodesFromDB(schemeElement, cb) {
 function ExportPSs(callback) {
   async.each(PSs, (locNodePair, callback) => {
     const locPS = new MyNodePS(locNodePair[1].name, locNodePair[1].caption, locNodePair[1].description);
+    locPS.parentNode = locNodePair[1].parentNode.name;
+    locPS.sapCode = locNodePair[1].sapCode;
     locNodePair[1].transformers.forEach((transformer) => {
       const locTransformer = new MyNodeTransformer(transformer.name, transformer.caption, transformer.description);
+      locPS.transformers.push(locTransformer);
+      locTransformer.sapCode = transformer.sapCode;
       transformer.nodes.forEach((transConnector) => {
         const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
         locTransConnector.toConnector = transConnector.name;
         locTransformer.nodes.push(locTransConnector);
       });
-      locPS.transformers.push(transformer);
     });
     locNodePair[1].psparts.forEach((pspart) => {
       const locPSPart = new MyNodePSPart(pspart.name, pspart.caption, pspart.description);
+      locPS.psparts.push(locPSPart);
+      locPSPart.sapCode = pspart.sapCode;
       pspart.sections.forEach((section) => {
         const locSection = new MyNodeSection(section.name, section.caption, section.description);
         locPSPart.sections.push(locSection);
+        locSection.sapCode = section.sapCode;
         section.nodes.forEach((connection) => {
           const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
           locSection.nodes.push(locConnector);
+          locConnector.sapCode = connection.sapCode;
           connection.nodes.forEach((equipment) => {
             const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
             locConnector.nodes.push(locEquipment);
+            locEquipment.sapCode = equipment.sapCode;
             locEquipment.equipmentType = equipment.equipmentType;
           });
         });
       });
 
-      pspart.connectonrs.forEach((connection) => {
+      pspart.connectors.forEach((connection) => {
         const locConnector = new MyNodeSec2SecConnector(connection.name, connection.caption, connection.description);
         locPSPart.connectors.push(locConnector);
         locConnector.fromSection = connection.fromSection.name;
