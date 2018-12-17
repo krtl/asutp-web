@@ -2,8 +2,6 @@ function MyNode(name, caption, description, nodeType) {
   this.name = name;
   this.caption = caption;
   this.description = description;
-  this.x = 0;
-  this.y = 0;
   this.nodeType = nodeType;
   this.parentNode = null;
   this.nodes = [];
@@ -11,8 +9,9 @@ function MyNode(name, caption, description, nodeType) {
 }
 
 function myNodeStringifyReplacer(key, value) {
-  if (key === 'x') return undefined;
-  if (key === 'y') return undefined;
+//  if (key === 'x') return undefined;
+//  if (key === 'y') return undefined;
+  if (key === 'parentNode') return undefined;
   return value;
 }
 

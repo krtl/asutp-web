@@ -18,4 +18,4 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.SECTION);
-define('compareProps', [ 'voltage' ]);
+define('compareProps', [ ]);

@@ -1,5 +1,6 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 /* eslint no-param-reassign: ["error", { "props": false }] */
+const fs = require('fs');
 
 const async = require('async');
 const events = require('events');
@@ -20,6 +21,8 @@ const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const logger = require('../logger');
+const config = require('../../config');
+
 
 // const MyNode = require('./myNode');
 const MyNodeRegion = require('./myNodeRegion');
@@ -74,6 +77,7 @@ const LoadFromDB = (cb) => {
   async.series([
     clearData,
     loadNodes,
+    savePStoJson,
     replaceNamesWithObjects,
     linkNodes,
     setupPsNodes,
@@ -167,6 +171,23 @@ function loadNodesFromDB(schemeElement, cb) {
       cb(err);
     });
     return false;
+  });
+}
+
+function savePStoJson(callback) {
+  async.each(PSs, (locNodePair, callback) => {
+    const json = JSON.stringify(locNodePair[1]);
+    fs.writeFile(`${config.exportPath}${locNodePair[1].name}.json`, json, 'utf8', (err) => {
+      if (err) {
+        setError(err);
+        // console.error(`Failed! Error: ${err}`);
+      } else {
+        // console.info('FileWriteDone!');
+      }
+      callback(err);
+    });
+  }, (err) => {
+    callback(err);
   });
 }
 

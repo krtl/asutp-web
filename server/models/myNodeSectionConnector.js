@@ -4,8 +4,7 @@ const MyNode = require('./myNode');
 
 function MyNodeSectionConnector(name, caption, description) {
   MyNode.call(this, name, caption, description, myNodeType.SECTIONCONNECTOR);
-  this.fromNode = null;
-  this.toNode = null;
+  this.connectionType = null;
 }
 
 
