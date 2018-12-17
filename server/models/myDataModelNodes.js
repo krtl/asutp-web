@@ -77,7 +77,6 @@ const LoadFromDB = (cb) => {
   async.series([
     clearData,
     loadNodes,
-    savePStoJson,
     replaceNamesWithObjects,
     linkNodes,
     setupPsNodes,
@@ -174,10 +173,49 @@ function loadNodesFromDB(schemeElement, cb) {
   });
 }
 
-function savePStoJson(callback) {
+function ExportPSs(callback) {
   async.each(PSs, (locNodePair, callback) => {
-    const json = JSON.stringify(locNodePair[1]);
-    fs.writeFile(`${config.exportPath}${locNodePair[1].name}.json`, json, 'utf8', (err) => {
+    const locPS = new MyNodePS(locNodePair[1].name, locNodePair[1].caption, locNodePair[1].description);
+    locNodePair[1].transformers.forEach((transformer) => {
+      const locTransformer = new MyNodeTransformer(transformer.name, transformer.caption, transformer.description);
+      transformer.nodes.forEach((transConnector) => {
+        const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
+        locTransConnector.toConnector = transConnector.name;
+        locTransformer.nodes.push(locTransConnector);
+      });
+      locPS.transformers.push(transformer);
+    });
+    locNodePair[1].psparts.forEach((pspart) => {
+      const locPSPart = new MyNodePSPart(pspart.name, pspart.caption, pspart.description);
+      pspart.sections.forEach((section) => {
+        const locSection = new MyNodeSection(section.name, section.caption, section.description);
+        locPSPart.sections.push(locSection);
+        section.nodes.forEach((connection) => {
+          const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
+          locSection.nodes.push(locConnector);
+          connection.nodes.forEach((equipment) => {
+            const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
+            locConnector.nodes.push(locEquipment);
+            locEquipment.equipmentType = equipment.equipmentType;
+          });
+        });
+      });
+
+      pspart.connectonrs.forEach((connection) => {
+        const locConnector = new MyNodeSec2SecConnector(connection.name, connection.caption, connection.description);
+        locPSPart.connectors.push(locConnector);
+        locConnector.fromSection = connection.fromSection.name;
+        locConnector.toSection = connection.toSection.name;
+        connection.nodes.forEach((equipment) => {
+          const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
+          locConnector.nodes.push(locEquipment);
+          locEquipment.equipmentType = equipment.equipmentType;
+        });
+      });
+    });
+
+    const json = JSON.stringify(locPS);
+    fs.writeFile(`${config.exportPath}${locPS.name}.json`, json, 'utf8', (err) => {
       if (err) {
         setError(err);
         // console.error(`Failed! Error: ${err}`);
@@ -428,4 +466,5 @@ const GetNode = nodeName => nodes.get(nodeName);
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.GetNode = GetNode;
+module.exports.ExportPSs = ExportPSs;
 
