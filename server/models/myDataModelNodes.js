@@ -223,7 +223,7 @@ function ExportPSs(callback) {
       });
     });
 
-    const json = JSON.stringify(locPS);
+    const json = JSON.stringify(locPS, null, 2);
     fs.writeFile(`${config.exportPath}${locPS.name}.json`, json, 'utf8', (err) => {
       if (err) {
         setError(err);

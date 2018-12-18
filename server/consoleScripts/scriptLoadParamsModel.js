@@ -22,6 +22,8 @@ myDataModelParams.loadFromDB((err) => {
     console.info('Done!');
   }
 
+  // const lists = myDataModelParams.getAvailableParamsLists("");
+
   mongoose.connection.close((err) => {
     if (err) {
       console.info(`We are disconnected from db. Error: ${err}`);
