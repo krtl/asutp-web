@@ -3,8 +3,8 @@ const MyNode = require('./myNode');
 
 function MyNodeTransformer(name, caption, description) {
   MyNode.call(this, name, caption, description, myNodeType.TRANSFORMER);
-  this.connectors = [];
   this.power = null;
+  this.connectors = [];
 }
 
 

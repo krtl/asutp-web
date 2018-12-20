@@ -22,6 +22,7 @@ const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 
 const logger = require('../logger');
 const config = require('../../config');
+const MyNodeJsonSerialize = require('../models/myNode').MyNodeJsonSerialize;
 
 
 // const MyNode = require('./myNode');
@@ -61,6 +62,11 @@ let errs = 0;
 function setError(text) {
   errs += 1;
   logger.error(text);
+}
+
+function setWarning(text) {
+  // errs += 1;
+  logger.warn(text);
 }
 
 process
@@ -185,7 +191,7 @@ function ExportPSs(callback) {
       locTransformer.sapCode = transformer.sapCode;
       transformer.connectors.forEach((transConnector) => {
         const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
-        locTransConnector.toConnector = transConnector.name;
+        locTransConnector.toConnector = transConnector.toConnector.name;
         locTransformer.connectors.push(locTransConnector);
       });
     });
@@ -203,7 +209,7 @@ function ExportPSs(callback) {
           locConnector.sapCode = connection.sapCode;
           connection.connectors.forEach((equipment) => {
             const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
-            locConnector.connectors.push(locEquipment);
+            locConnector.equipments.push(locEquipment);
             locEquipment.sapCode = equipment.sapCode;
             locEquipment.equipmentType = equipment.equipmentType;
           });
@@ -223,7 +229,7 @@ function ExportPSs(callback) {
       });
     });
 
-    const json = JSON.stringify(locPS, null, 2);
+    const json = MyNodeJsonSerialize(locPS);
     fs.writeFile(`${config.exportPath}${locPS.name}.json`, json, 'utf8', (err) => {
       if (err) {
         setError(err);
@@ -397,7 +403,7 @@ function checkIntegrity(cb) {
       } else {
         locPSPart.sections.forEach((locSection) => {
           if (locSection.connectors.length === 0) {
-            setError(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
+            setWarning(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
           }
         });
       }
@@ -426,7 +432,7 @@ function checkIntegrity(cb) {
           break;
         }
         default: {
-          setError(`Integrity checking error: Wrong Section number (${locPSPart.sections.length}) on PSPart "${locPSPart.name}". Sections should be connected between eachother.`);
+          setWarning(`Integrity checking error: Wrong Section number (${locPSPart.sections.length}) on PSPart "${locPSPart.name}". Sections should be connected between eachother.`);
           break;
         }
       }
@@ -472,15 +478,15 @@ function checkIntegrity(cb) {
       });
     });
 
-    if (locPS.transformers.length > 0) {
-      locPS.psparts.forEach((locPSPart) => {
-        locPSPart.sections.forEach((locSection) => {
-          if (locSection.tag === 0) {
-            setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
-          }
-        });
-      });
-    }
+    // if (locPS.transformers.length > 0) {
+    //   locPS.psparts.forEach((locPSPart) => {
+    //     locPSPart.sections.forEach((locSection) => {
+    //       if (locSection.tag === 0) {
+    //         setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
+    //       }
+    //     });
+    //   });
+    // }
 
 
     // ..
