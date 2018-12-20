@@ -183,10 +183,10 @@ function ExportPSs(callback) {
       const locTransformer = new MyNodeTransformer(transformer.name, transformer.caption, transformer.description);
       locPS.transformers.push(locTransformer);
       locTransformer.sapCode = transformer.sapCode;
-      transformer.nodes.forEach((transConnector) => {
+      transformer.connectors.forEach((transConnector) => {
         const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
         locTransConnector.toConnector = transConnector.name;
-        locTransformer.nodes.push(locTransConnector);
+        locTransformer.connectors.push(locTransConnector);
       });
     });
     locNodePair[1].psparts.forEach((pspart) => {
@@ -197,13 +197,13 @@ function ExportPSs(callback) {
         const locSection = new MyNodeSection(section.name, section.caption, section.description);
         locPSPart.sections.push(locSection);
         locSection.sapCode = section.sapCode;
-        section.nodes.forEach((connection) => {
+        section.connectors.forEach((connection) => {
           const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
-          locSection.nodes.push(locConnector);
+          locSection.connectors.push(locConnector);
           locConnector.sapCode = connection.sapCode;
-          connection.nodes.forEach((equipment) => {
+          connection.connectors.forEach((equipment) => {
             const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
-            locConnector.nodes.push(locEquipment);
+            locConnector.connectors.push(locEquipment);
             locEquipment.sapCode = equipment.sapCode;
             locEquipment.equipmentType = equipment.equipmentType;
           });
@@ -215,9 +215,9 @@ function ExportPSs(callback) {
         locPSPart.connectors.push(locConnector);
         locConnector.fromSection = connection.fromSection.name;
         locConnector.toSection = connection.toSection.name;
-        connection.nodes.forEach((equipment) => {
+        connection.connectors.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
-          locConnector.nodes.push(locEquipment);
+          locConnector.connectors.push(locEquipment);
           locEquipment.equipmentType = equipment.equipmentType;
         });
       });
@@ -333,7 +333,6 @@ function linkPSPartToPS(node) {
   }
 }
 
-
 function linkSec2SecConnectorToPSPart(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PSPART) {
@@ -344,17 +343,37 @@ function linkSec2SecConnectorToPSPart(node) {
   }
 }
 
+function linkSectionConnectorToSection(node) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === myNodeType.SECTION) {
+      node.parentNode.connectors.push(node);
+    } else {
+      setError(`Failed to link SectionConnector. There is no parent Section for ${node.name}`);
+    }
+  }
+}
+
+function linkTransformerConnectorToTransformer(node) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === myNodeType.TRANSFORMER) {
+      node.parentNode.connectors.push(node);
+    } else {
+      setError(`Failed to link TransformerConnector. There is no parent Transformer for ${node.name}`);
+    }
+  }
+}
+
 function linkNodes(cb) {
   nodes.forEach((locNode) => {
     if (locNode.parentNode) {
-      locNode.parentNode.nodes.push(locNode);
-
       switch (locNode.nodeType) {
         case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
         case myNodeType.PSPART: { linkPSPartToPS(locNode); break; }
         case myNodeType.SECTION: { linkSectionToPSPart(locNode); break; }
         case myNodeType.SEC2SECCONNECTOR: { linkSec2SecConnectorToPSPart(locNode); break; }
+        case myNodeType.SECTIONCONNECTOR: { linkSectionConnectorToSection(locNode); break; }
+        case myNodeType.TRANSFORMERCONNECTOR: { linkTransformerConnectorToTransformer(locNode); break; }
         default: {
           //
         }
@@ -377,7 +396,7 @@ function checkIntegrity(cb) {
         setError(`Integrity checking error: PSPart "${locPSPart.name}" has no sections!.`);
       } else {
         locPSPart.sections.forEach((locSection) => {
-          if (locSection.nodes.length === 0) {
+          if (locSection.connectors.length === 0) {
             setError(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
           }
         });
@@ -414,12 +433,12 @@ function checkIntegrity(cb) {
     });
 
     locPS.transformers.forEach((locTransformer) => {
-      if (locTransformer.nodes.length === 0) {
+      if (locTransformer.connectors.length === 0) {
         setError(`Integrity checking error: Transformer "${locTransformer.name}" has no connectors!.`);
-      } else if (locTransformer.nodes.length < 2) {
+      } else if (locTransformer.connectors.length < 2) {
         setError(`Integrity checking error: Transformer "${locTransformer.name}" should have at least 2 connectors!.`);
       } else {
-        locTransformer.nodes.forEach((locTransConnector) => {
+        locTransformer.connectors.forEach((locTransConnector) => {
           if (locTransConnector.toConnector === undefined) {
             setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to connector "${locTransConnector.toConnector}". No such connector. TransConnector: "${locTransConnector.name}"`);
           } else {
@@ -443,7 +462,7 @@ function checkIntegrity(cb) {
 
 
     locPS.transformers.forEach((locTransformer) => {
-      locTransformer.nodes.forEach((locTransConnector) => {
+      locTransformer.connectors.forEach((locTransConnector) => {
         if (locTransConnector.toConnector.parentNode.nodeType === myNodeType.SECTION) {
           const locToSection = locTransConnector.toConnector.parentNode;
           locToSection.tag = 1;

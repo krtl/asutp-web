@@ -4,7 +4,6 @@ function MyNode(name, caption, description, nodeType) {
   this.description = description;
   this.nodeType = nodeType;
   this.parentNode = null;
-  this.nodes = [];
   this.sapCode = '';
 }
 
