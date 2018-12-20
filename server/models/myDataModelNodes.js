@@ -207,7 +207,7 @@ function ExportPSs(callback) {
           const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
           locSection.connectors.push(locConnector);
           locConnector.sapCode = connection.sapCode;
-          connection.connectors.forEach((equipment) => {
+          connection.equipments.forEach((equipment) => {
             const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
             locConnector.equipments.push(locEquipment);
             locEquipment.sapCode = equipment.sapCode;
@@ -221,9 +221,10 @@ function ExportPSs(callback) {
         locPSPart.connectors.push(locConnector);
         locConnector.fromSection = connection.fromSection.name;
         locConnector.toSection = connection.toSection.name;
-        connection.connectors.forEach((equipment) => {
+        connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
-          locConnector.connectors.push(locEquipment);
+          locConnector.equipments.push(locEquipment);
+          locEquipment.sapCode = equipment.sapCode;
           locEquipment.equipmentType = equipment.equipmentType;
         });
       });
@@ -369,6 +370,18 @@ function linkTransformerConnectorToTransformer(node) {
   }
 }
 
+function linkEquipmentToSectionConnector(node) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === myNodeType.SECTIONCONNECTOR) {
+      node.parentNode.equipments.push(node);
+    } else if (node.parentNode.nodeType === myNodeType.SEC2SECCONNECTOR) {
+      node.parentNode.equipments.push(node);
+    } else {
+      setError(`Failed to link Equipment. There is no parent Connector for ${node.name}`);
+    }
+  }
+}
+
 function linkNodes(cb) {
   nodes.forEach((locNode) => {
     if (locNode.parentNode) {
@@ -380,6 +393,7 @@ function linkNodes(cb) {
         case myNodeType.SEC2SECCONNECTOR: { linkSec2SecConnectorToPSPart(locNode); break; }
         case myNodeType.SECTIONCONNECTOR: { linkSectionConnectorToSection(locNode); break; }
         case myNodeType.TRANSFORMERCONNECTOR: { linkTransformerConnectorToTransformer(locNode); break; }
+        case myNodeType.EQUIPMENT: { linkEquipmentToSectionConnector(locNode); break; }
         default: {
           //
         }

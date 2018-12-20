@@ -20,6 +20,6 @@ function define(name, value) {
   });
 }
 
-define('nodeType', myNodeType.PSCONNECTOR);
+define('nodeType', myNodeType.SEC2SECCONNECTOR);
 define('compareProps', [ 'fromSection', 'toSection' ]);
 define('convertToObj', [ 'fromSection', 'toSection' ]);

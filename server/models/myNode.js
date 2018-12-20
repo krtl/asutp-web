@@ -11,6 +11,7 @@ function myNodeStringifyReplacer(key, value) {
 //  if (key === 'x') return undefined;
 //  if (key === 'y') return undefined;
   if (key === 'parentNode') return undefined;
+  if (key === 'description') return undefined;
   return value;
 }
 
