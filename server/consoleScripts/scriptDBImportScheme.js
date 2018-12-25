@@ -97,10 +97,23 @@ function getNodeObj(DbNodeObj, nodeName, callback) {
 }
 
 function isTheSameNode(netNode1, netNode2) {
-  return ((netNode1.caption === netNode2.caption) &&
-    (netNode1.description === netNode2.description) &&
-    (netNode1.x === netNode2.x) &&
-    (netNode1.y === netNode2.y));
+  let result = true;
+  for (let i = 0; i < DbNode.compareProps.length; i += 1) {
+    const pName = DbNode.compareProps[i];
+    const hasProperty1 = pName in netNode1;
+    const hasProperty2 = pName in netNode2;
+
+    if ((hasProperty1) && (hasProperty2)) {
+      if (netNode1[pName] !== netNode2[pName]) {
+        result = false;
+        break;
+      }
+    } else {
+      result = false;
+      break;
+    }
+  }
+  return result;
 }
 
 function isTheSameNodeObj(DbNodeObj, netNode1, netNode2) {
@@ -124,14 +137,24 @@ function isTheSameNodeObj(DbNodeObj, netNode1, netNode2) {
 }
 
 function updateNode(originNode, newNode, callback) {
+  const obj = {};
+  for (let i = 0; i < DbNode.compareProps.length; i += 1) {
+    const pName = DbNode.compareProps[i];
+    const hasProperty1 = pName in originNode;
+    const hasProperty2 = pName in newNode;
+
+    if ((hasProperty1) && (hasProperty2)) {
+      if (originNode[pName] !== newNode[pName]) {
+        defineAProp(obj, pName, newNode[pName]);
+      }
+    } else {
+      setError(`updateNode error: Property ${pName} is not degined.`);
+      // break;
+    }
+  }
+
   DbNode.update({ _id: originNode.id },
-    { $set: {
-      caption: newNode.caption,
-      description: newNode.description,
-      x: newNode.x,
-      y: newNode.y,
-      tag: 1,
-    } }, callback);
+    { $set: obj }, callback);
 }
 
 function defineAProp(obj, name, value) {
@@ -197,7 +220,7 @@ function updateNodeTag(originNode, callback) {
 let DbNodesToDelete = null;   // don't know how to pass into async.series function as parameters
 
 function deleteNetNodeObjects(callback) {
-  DbNodesToDelete.forEach((netNode) => {
+  async.eachSeries(DbNodesToDelete, (netNode, callback) => {
     async.eachSeries(Sheme, (schemeElement, callback) => {
       const DbNodeObj = schemeElement[0];
       DbNodeObj.deleteOne({ name: netNode.name }, (err) => {
@@ -207,11 +230,16 @@ function deleteNetNodeObjects(callback) {
         callback(err);
       });
     }, (err) => {
-      if (err) {
-        setError(`Deleting DbNodeObjects failed: ${err}`);
-      }
+      // if (err) {
+      //   setError(`Deleting DbNodeObjects failed: ${err}`);
+      // }
       callback(err);
     });
+  }, (err) => {
+    if (err) {
+      setError(`Deleting DbNodeObjects failed: ${err}`);
+    }
+    callback(err);
   });
 }
 

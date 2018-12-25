@@ -1,7 +1,7 @@
 [
     {    "name": "lep1lep2Con1", "caption": "lepConnection1",
-      "description": "dummylepConnection1", "parentNode": "lep1", "toNode": "lep2"},
+      "description": "dummylepConnection1", "parentNode": "lep1", "toNode": "lep2", "sapCode": "21"},
     {   "name": "lep2lep4", "caption": "lepConnection2",
-        "description": "dummylepConnection2", "parentNode": "lep3", "toNodeConnector": "lep4"}
+        "description": "dummylepConnection2", "parentNode": "lep3", "toNodeConnector": "lep4", "sapCode": "22"}
         
 ]

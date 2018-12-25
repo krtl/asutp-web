@@ -1,11 +1,11 @@
 [
 
-  {    "name": "ps1sec1c1eq1", "caption": "eq1",  "parentNode": "ps1sec1c1" },
-  {    "name": "ps1sec2c1eq2", "caption": "eq2",  "description": "zz1", "parentNode": "ps1sec1c1" },
-  {    "name": "ps1sec2c1eq3", "caption": "eq3",  "description": "zz1", "parentNode": "ps1sec2c1" },
-  {    "name": "ps1sec2c1eq4", "caption": "eq4",  "description": "zz1", "parentNode": "ps1sec2c1" },
-  {    "name": "ps1sec2c1eq5", "caption": "eq5",  "description": "zz1", "parentNode": "ps1sec2c1" },
-  {    "name": "ps1sec2c2eq1", "caption": "eq1",  "parentNode": "ps1sec1c2" },
-  {    "name": "ps1sec1c2eq2", "caption": "eq2",  "description": "zz1", "parentNode": "ps1sec1c2" },
-  {    "name": "ps1sec2c1eq6", "caption": "eq6",  "description": "zzz2", "parentNode": "ps1sec1c1"}
+  {    "name": "ps1sec1c1eq1", "caption": "eq1",  "parentNode": "ps1sec1c1", "sapCode": "11" },
+  {    "name": "ps1sec2c1eq2", "caption": "eq2",  "description": "zz1", "parentNode": "ps1sec1c1", "sapCode": "12" },
+  {    "name": "ps1sec2c1eq3", "caption": "eq3",  "description": "zz1", "parentNode": "ps1sec2c1", "sapCode": "13" },
+  {    "name": "ps1sec2c1eq4", "caption": "eq4",  "description": "zz1", "parentNode": "ps1sec2c1", "sapCode": "14" },
+  {    "name": "ps1sec2c1eq5", "caption": "eq5",  "description": "zz1", "parentNode": "ps1sec2c1", "sapCode": "15" },
+  {    "name": "ps1sec2c2eq1", "caption": "eq1",  "parentNode": "ps1sec1c2", "sapCode": "16" },
+  {    "name": "ps1sec1c2eq2", "caption": "eq2",  "description": "zz1", "parentNode": "ps1sec1c2", "sapCode": "17" },
+  {    "name": "ps1sec2c1eq6", "caption": "eq6",  "description": "zzz2", "parentNode": "ps1sec1c1", "sapCode": "18"}
 ]
