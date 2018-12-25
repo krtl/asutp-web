@@ -9,6 +9,6 @@
   {    "name": "ps2sec3", "parentNode": "ps2Part1", "caption": "ps2sec3", "description": "dummSsec2", "voltage": 3, "sapCode": "a7"},
   {    "name": "ps3sec1", "parentNode": "ps3Part1", "caption": "ps3sec1", "description": "dummSsec2", "voltage":1, "sapCode": "a8"},
   {    "name": "ps3sec2", "parentNode": "ps3Part1", "caption": "ps2sec2", "description": "dummSsec2", "voltage": 2, "sapCode": "a9"},
-  {    "name": "ps4sec2", "parentNode": "ps4Part2", "caption": "ps4sec2", "description": "dummSsec2", "voltage": 2, "sapCode": "a11"}
+  {    "name": "ps3sec3", "parentNode": "ps3Part2", "caption": "ps3sec3", "description": "dummSsec2", "voltage": 2, "sapCode": "a12"}
   
 ]

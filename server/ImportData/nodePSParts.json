@@ -4,6 +4,6 @@
   {    "name": "ps1Part2", "caption": "ps2Part2", "description": "dummyPartPS2", "parentNode": "ps1", "sapCode": "d2"},
   {    "name": "ps2Part1", "caption": "ps2Part1", "description": "dummyPartPS2", "parentNode": "ps2", "sapCode": "d3"},
   {    "name": "ps3Part1", "caption": "ps3Part1", "description": "dummyPartPS2", "parentNode": "ps3", "sapCode": "d4"},
-  {    "name": "ps4Part2", "caption": "ps4Part2", "description": "dummyPartPS2", "parentNode": "ps4", "sapCode": "d51"}
+  {    "name": "ps3Part2", "caption": "ps3Part2", "description": "dummyPartPS2", "parentNode": "ps3", "sapCode": "d52"}
     
 ]

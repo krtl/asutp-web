@@ -15,7 +15,7 @@
 { "name": "ps2sec2c2", "parentNode": "ps2sec2", "caption": "ps2sec2c2", "description": "zzz1","paramOnOffState": "param13", "sapCode": "294"},
 { "name": "ps2sec2c3", "caption": "ps2sec2c3","parentNode": "ps2sec2", "description": "zzz2", "paramOnOffState": "param1", "sapCode": "295"},
 { "name": "ps2sec3c1",  "caption": "ps2sec3c1","parentNode": "ps2sec3", "description": "zzz2", "paramOnOffState": "param1", "sapCode": "296"},
-{ "name": "ps4sec2c7",  "caption": "ps4sec2c7","parentNode": "ps4sec2", "description": "zzz2", "paramOnOffState": "param1", "sapCode": "3973"},
-{ "name": "ps4sec2c6",  "caption": "ps4sec2c6","parentNode": "ps4sec2", "description": "zzz2", "paramOnOffState": "param1", "sapCode": "3982"}
+{ "name": "ps3sec2c8",  "caption": "ps3sec2c8","parentNode": "ps3sec2", "description": "zzz2", "paramOnOffState": "param1", "sapCode": "339731"},
+{ "name": "ps3sec2c9",  "caption": "ps3sec2c9","parentNode": "ps3sec2", "description": "zzz2", "paramOnOffState": "param1", "sapCode": "339821"}
   
 ]
