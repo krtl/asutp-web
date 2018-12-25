@@ -34,7 +34,7 @@ describe('myDataModelNodes', () => {
   });
 
   describe('Testing DataModelNodes', () => {
-    it('Should Load model from DB withour erros', (done) => {
+    it('Should Load model from DB withour errors', (done) => {
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
 

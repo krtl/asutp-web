@@ -6,8 +6,8 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config');
-// const users = require('./server/routes/users');
-// const projects = require('./server/routes/projects');
+const routeUsers = require('./server/routes/users');
+const routeProjects = require('./server/routes/projects');
 const MyStompServer = require('./server/values/myStompServer');
 
 
@@ -52,8 +52,8 @@ const apiRoutes = require('./server/routes/api');
 app.use('/auth', authRoutes);
 app.use('/api', apiRoutes);
 
-// projects(app);
-// users(app);
+routeProjects(app);
+routeUsers(app);
 
 // port
 app.set('port', process.env.PORT || 3001);

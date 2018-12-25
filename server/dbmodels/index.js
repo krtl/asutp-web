@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
 const myDataModelParams = require('../models/myDataModelParams');
+const myDataModelNodes = require('../models/myDataModelNodes');
 
 
 module.exports.connect = (uri, useDataModel) => {
@@ -18,6 +19,11 @@ module.exports.connect = (uri, useDataModel) => {
 
     if (useDataModel) {
       myDataModelParams.loadFromDB((err) => {
+        if (err) {
+          process.exit(2);
+        }
+      });
+      myDataModelNodes.LoadFromDB((err) => {
         if (err) {
           process.exit(2);
         }

@@ -180,47 +180,32 @@ function loadNodesFromDB(schemeElement, cb) {
   });
 }
 
-function ExportPSs(callback) {
-  async.each(PSs, (locNodePair, callback) => {
-    const locPS = new MyNodePS(locNodePair[1].name, locNodePair[1].caption, locNodePair[1].description);
-    locPS.parentNode = locNodePair[1].parentNode.name;
-    locPS.sapCode = locNodePair[1].sapCode;
-    locNodePair[1].transformers.forEach((transformer) => {
-      const locTransformer = new MyNodeTransformer(transformer.name, transformer.caption, transformer.description);
-      locPS.transformers.push(locTransformer);
-      locTransformer.sapCode = transformer.sapCode;
-      transformer.connectors.forEach((transConnector) => {
-        const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
-        locTransConnector.toConnector = transConnector.toConnector.name;
-        locTransformer.connectors.push(locTransConnector);
-      });
+function getPSForJson(ps) {
+  const locPS = new MyNodePS(ps.name, ps.caption, ps.description);
+  locPS.parentNode = ps.parentNode.name;
+  locPS.sapCode = ps.sapCode;
+  ps.transformers.forEach((transformer) => {
+    const locTransformer = new MyNodeTransformer(transformer.name, transformer.caption, transformer.description);
+    locPS.transformers.push(locTransformer);
+    locTransformer.sapCode = transformer.sapCode;
+    transformer.connectors.forEach((transConnector) => {
+      const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
+      locTransConnector.toConnector = transConnector.toConnector.name;
+      locTransformer.connectors.push(locTransConnector);
     });
-    locNodePair[1].psparts.forEach((pspart) => {
-      const locPSPart = new MyNodePSPart(pspart.name, pspart.caption, pspart.description);
-      locPS.psparts.push(locPSPart);
-      locPSPart.sapCode = pspart.sapCode;
-      pspart.sections.forEach((section) => {
-        const locSection = new MyNodeSection(section.name, section.caption, section.description);
-        locPSPart.sections.push(locSection);
-        locSection.sapCode = section.sapCode;
-        section.connectors.forEach((connection) => {
-          const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
-          locSection.connectors.push(locConnector);
-          locConnector.sapCode = connection.sapCode;
-          connection.equipments.forEach((equipment) => {
-            const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
-            locConnector.equipments.push(locEquipment);
-            locEquipment.sapCode = equipment.sapCode;
-            locEquipment.equipmentType = equipment.equipmentType;
-          });
-        });
-      });
-
-      pspart.connectors.forEach((connection) => {
-        const locConnector = new MyNodeSec2SecConnector(connection.name, connection.caption, connection.description);
-        locPSPart.connectors.push(locConnector);
-        locConnector.fromSection = connection.fromSection.name;
-        locConnector.toSection = connection.toSection.name;
+  });
+  ps.psparts.forEach((pspart) => {
+    const locPSPart = new MyNodePSPart(pspart.name, pspart.caption, pspart.description);
+    locPS.psparts.push(locPSPart);
+    locPSPart.sapCode = pspart.sapCode;
+    pspart.sections.forEach((section) => {
+      const locSection = new MyNodeSection(section.name, section.caption, section.description);
+      locPSPart.sections.push(locSection);
+      locSection.sapCode = section.sapCode;
+      section.connectors.forEach((connection) => {
+        const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
+        locSection.connectors.push(locConnector);
+        locConnector.sapCode = connection.sapCode;
         connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
           locConnector.equipments.push(locEquipment);
@@ -230,8 +215,29 @@ function ExportPSs(callback) {
       });
     });
 
-    const json = MyNodeJsonSerialize(locPS);
-    fs.writeFile(`${config.exportPath}${locPS.name}.json`, json, 'utf8', (err) => {
+    pspart.connectors.forEach((connection) => {
+      const locConnector = new MyNodeSec2SecConnector(connection.name, connection.caption, connection.description);
+      locPSPart.connectors.push(locConnector);
+      locConnector.fromSection = connection.fromSection.name;
+      locConnector.toSection = connection.toSection.name;
+      connection.equipments.forEach((equipment) => {
+        const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
+        locConnector.equipments.push(locEquipment);
+        locEquipment.sapCode = equipment.sapCode;
+        locEquipment.equipmentType = equipment.equipmentType;
+      });
+    });
+  });
+
+  return locPS;
+}
+
+function ExportPSs(callback) {
+  async.each(PSs, (locNodePair, callback) => {
+    const ps = locNodePair[1];
+    const json = MyNodeJsonSerialize(getPSForJson(ps));
+
+    fs.writeFile(`${config.exportPath}${ps.name}.json`, json, 'utf8', (err) => {
       if (err) {
         setError(err);
         // console.error(`Failed! Error: ${err}`);
@@ -511,8 +517,33 @@ function checkIntegrity(cb) {
 
 const GetNode = nodeName => nodes.get(nodeName);
 
+const GetRegions = () => Array.from(Regions.values());
+const GetRegionPSs = (region) => {
+  const result = [];
+  PSs.forEach((ps) => {
+    if (ps.parentNode) {
+      if (ps.parentNode.name === region) {
+        result.push(ps);
+      }
+    }
+  });
+
+  return result;
+};
+
+const GetPSForJson = (name) => {
+  if (PSs.has(name)) {
+    const locPS = PSs.get(name);
+    return getPSForJson(locPS);
+  }
+  return null;
+};
+
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
+module.exports.GetRegions = GetRegions;
+module.exports.GetRegionPSs = GetRegionPSs;
+module.exports.GetPSForJson = GetPSForJson;
 

@@ -1,22 +1,34 @@
+const myDataModelParams = require('../models/myDataModelParams');
+const myDataModelNodes = require('../models/myDataModelNodes');
 
-const NetNode = require('../dbmodels/netNode');
 
 module.exports = (app) => {
-  app.get('/nodes', (req, res, next) => {
-    NetNode.find({}, (err, nodes) => {
-      if (err) return next(err);
-      res.json(nodes);
-      return true;
-    });
+  app.get('/allparamsasarray', (req, res) => {
+    const params = myDataModelParams.getAllParamsAsArray();
+    res.json(params);
+    return true;
   });
 
-  app.get('/nodes/:id', (req, res, next) => {
-    NetNode.findById(req.params.id, (err, node) => {
-      if (err) {
-        return next(err);
-      }
-      res.json(node);
-      return true;
+  app.get('/getregions', (req, res) => {
+    const params = myDataModelNodes.GetRegions();
+    res.json(params);
+    return true;
+  });
+
+  app.get('/getregionpss', (req, res) => {
+    const names = [];
+    const pss = myDataModelNodes.GetRegionPSs(req.query.name);
+    pss.forEach((ps) => {
+      const obj = { name: ps.name, caption: ps.caption };
+      names.push(obj);
     });
+    res.json(names);
+    return true;
+  });
+
+  app.get('/getjsonps', (req, res) => {
+    const ps = myDataModelNodes.GetPSForJson(req.query.name);
+    res.json(ps);
+    return true;
   });
 };
