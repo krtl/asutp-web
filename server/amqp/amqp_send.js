@@ -21,6 +21,7 @@ function start(ampqURI) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
       }
+      return;
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
