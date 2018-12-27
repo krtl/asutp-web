@@ -10,8 +10,13 @@ module.exports = (app) => {
   });
 
   app.get('/getregions', (req, res) => {
-    const params = myDataModelNodes.GetRegions();
-    res.json(params);
+    const names = [];
+    const regions = myDataModelNodes.GetRegions();
+    regions.forEach((reg) => {
+      const obj = { name: reg.name, caption: reg.caption, sapCode: reg.sapCode };
+      names.push(obj);
+    });
+    res.json(names);
     return true;
   });
 
@@ -27,8 +32,8 @@ module.exports = (app) => {
   });
 
   app.get('/getjsonps', (req, res) => {
-    const ps = myDataModelNodes.GetPSForJson(req.query.name);
-    res.json(ps);
+    const json = myDataModelNodes.GetPSForJson(req.query.name);
+    res.send(json);
     return true;
   });
 };

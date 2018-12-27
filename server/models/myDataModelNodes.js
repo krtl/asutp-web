@@ -534,7 +534,7 @@ const GetRegionPSs = (region) => {
 const GetPSForJson = (name) => {
   if (PSs.has(name)) {
     const locPS = PSs.get(name);
-    return getPSForJson(locPS);
+    return MyNodeJsonSerialize(getPSForJson(locPS));
   }
   return null;
 };

@@ -9,6 +9,7 @@ async.series([
   requireModels,
   importParams,
   importParamLists,
+  importAsutpConnections,
 ], (err) => {
 //  console.log(arguments);
   mongoose.disconnect();
@@ -27,6 +28,7 @@ function requireModels(callback) {
   console.log('models');
   require('mongoose').model('Param');  // eslint-disable-line global-require
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
+  require('mongoose').model('AsutpConnection');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
     mongoose.models[modelName].ensureIndexes(callback);
@@ -106,6 +108,59 @@ function importParamLists(callback) {
         newParamList.save((err) => {
           if (err) callback(err);
           console.log(`ParamList "${newParamList.name}" inserted`);
+          callback(null);
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      console.error(`Failed: ${err}`);
+    } else {
+      console.log('Success.');
+    }
+    callback(err);
+  });
+}
+
+function importAsutpConnections(callback) {
+  console.log('importing ASUTP Connections..');
+  const rawdata = fs.readFileSync(`${config.importPath}asutpConnections.json`);
+  const connections = JSON.parse(rawdata);
+
+  async.each(connections, (paramData, callback) => {
+    const newConnection = new mongoose.models.AsutpConnection(paramData);
+
+
+    mongoose.models.AsutpConnection.findOne({
+      name: newConnection.name }, (err, asutpConnection) => {
+      if (err) callback(err);
+      if (asutpConnection) {
+        // param exists
+
+        if ((asutpConnection.caption !== newConnection.caption) ||
+          (asutpConnection.voltage !== newConnection.voltage) ||
+          (asutpConnection.connectionNumber !== newConnection.connectionNumber) ||
+          (asutpConnection.VVParamName !== newConnection.VVParamName) ||
+          (asutpConnection.PParamName !== newConnection.PParamName)) {
+          mongoose.models.AsutpConnection.update({ _id: asutpConnection.id },
+            { $set: { caption: newConnection.caption,
+              voltage: newConnection.voltage,
+              connectionNumber: newConnection.connectionNumber,
+              VVParamName: newConnection.VVParamName,
+              PParamName: newConnection.PParamName,
+            } }, (error) => {
+              if (error) throw callback(error);
+              console.log(`asutpConnection "${newConnection.name}" updated`);
+              callback(null);
+            });
+        } else {
+          callback(null);
+        }
+      } else {
+          // param does not exist
+        newConnection.save((err) => {
+          if (err) callback(err);
+          console.log(`asutpConnection "${newConnection.name}" inserted`);
           callback(null);
         });
       }
