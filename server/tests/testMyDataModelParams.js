@@ -68,7 +68,7 @@ describe('myDataModelParams', () => {
         name: testParamListName,
         caption: 'TestParamListCaption',
         description: 'TestParamListDescription',
-        params: [ 'TestParamName' ],
+        paramNames: 'TestParamName',
       });
 
       testParamList.save(done);

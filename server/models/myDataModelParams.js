@@ -84,7 +84,7 @@ function loadParamLists(cb) {
     if (err) return cb(err);
 
     prmLists.forEach((prmList) => {
-      const prmNames = prmList.params;// .split(',');
+      const prmNames = prmList.paramNames.split(',');
 
       prmNames.forEach((prmName) => {
         if (!params.get(prmName)) {
@@ -129,7 +129,8 @@ const getParamsOfList = (paramListName) => {
   const paramList = paramLists.get(paramListName);
   if (paramList) {
     const resultParams = [];
-    paramList.paramNames.forEach((prmName) => {
+    const locParams = paramList.paramNames.split(',');
+    locParams.forEach((prmName) => {
       const param = params.get(prmName);
       if (param) {
         resultParams.push(param);

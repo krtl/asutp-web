@@ -85,17 +85,15 @@ function importParamLists(callback) {
   async.each(paramLists, (paramData, callback) => {
     const newParamList = new mongoose.models.ParamList(paramData);
 
-    newParamList.params = paramData.paramNames.split(',');
+    newParamList.description = paramData.sapCode;
 
     mongoose.models.ParamList.findOne({
       name: newParamList.name }, (err, paramList) => {
       if (err) callback(err);
       if (paramList) {
-        // param exists
-
-        if ((paramList.caption !== newParamList.caption) || (paramList.description !== newParamList.description) || (paramList.paramNames !== newParamList.params)) {
+        if ((paramList.caption !== newParamList.caption) || (paramList.description !== newParamList.description) || (paramList.paramNames !== newParamList.paramNames)) {
           mongoose.models.ParamList.update({ _id: paramList.id },
-             { $set: { caption: newParamList.caption, description: newParamList.description, params: newParamList.params } }, (error) => {
+             { $set: { caption: newParamList.caption, description: newParamList.description, paramNames: newParamList.paramNames } }, (error) => {
                if (error) throw callback(error);
                console.log(`ParamList "${newParamList.name}" updated`);
                callback(null);
@@ -104,7 +102,6 @@ function importParamLists(callback) {
           callback(null);
         }
       } else {
-          // param does not exist
         newParamList.save((err) => {
           if (err) callback(err);
           console.log(`ParamList "${newParamList.name}" inserted`);
@@ -130,13 +127,10 @@ function importAsutpConnections(callback) {
   async.each(connections, (paramData, callback) => {
     const newConnection = new mongoose.models.AsutpConnection(paramData);
 
-
     mongoose.models.AsutpConnection.findOne({
       name: newConnection.name }, (err, asutpConnection) => {
       if (err) callback(err);
       if (asutpConnection) {
-        // param exists
-
         if ((asutpConnection.caption !== newConnection.caption) ||
           (asutpConnection.voltage !== newConnection.voltage) ||
           (asutpConnection.connectionNumber !== newConnection.connectionNumber) ||
@@ -157,7 +151,6 @@ function importAsutpConnections(callback) {
           callback(null);
         }
       } else {
-          // param does not exist
         newConnection.save((err) => {
           if (err) callback(err);
           console.log(`asutpConnection "${newConnection.name}" inserted`);

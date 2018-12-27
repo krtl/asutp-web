@@ -134,8 +134,9 @@ router.get('/params', (req, res, next) => {
   }, (err, prmList) => {
     if (err) return next(err);
 
+    const locParams = prmList.paramNames.split(',');
     DbParam.find({
-      name: { $in: prmList.params } }, (err, params) => {
+      name: { $in: locParams } }, (err, params) => {
       if (err) return next(err);
       res.status(200).json(params);
       return 0;

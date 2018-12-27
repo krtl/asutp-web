@@ -21,9 +21,6 @@ async.series([
   dropDatabase,
   requireModels,
   createUsers,
-  createParams,
-  createParamLists,
-  createParamValues,
   createNodesObsolete,
   createWiresObsolete,
 
@@ -53,6 +50,8 @@ function requireModels(callback) {
   require('mongoose').model('Param');  // eslint-disable-line global-require
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
   require('mongoose').model('ParamValue');  // eslint-disable-line global-require
+
+  require('mongoose').model('AsutpConnection');  // eslint-disable-line global-require
 
   require('mongoose').model('NetNode');  // eslint-disable-line global-require
   require('mongoose').model('NetWire');  // eslint-disable-line global-require
@@ -109,125 +108,6 @@ function createUsers(callback) {
 
   // const data = JSON.stringify(users);
   // fs.writeFileSync(`${config.importPath}users-2.json`, data);
-}
-
-function createParams(callback) {
-  console.log('create params');
-  const rawdata = fs.readFileSync(`${config.importPath}params.json`);
-  const params = JSON.parse(rawdata);
-
-  async.each(params, (paramData, callback) => {
-    const param = new mongoose.models.Param(paramData);
-    param.save((err) => {
-      if (err) callback(err);
-      console.log(`Param "${param.name}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-  // const data = JSON.stringify(params);
-  // fs.writeFileSync(`${config.importPath}params-2.json`, data);
-}
-
-function createParamLists(callback) {
-  console.log('create paramLists');
-  const rawdata = fs.readFileSync(`${config.importPath}paramLists.json`);
-  let paramLists;
-  try {
-    paramLists = JSON.parse(rawdata);
-  } catch (e) {
-    console.error(`create paramLists Error: ${e.message}`);
-    return;
-  }
-
-  async.each(paramLists, (paramListData, callback) => {
-    const paramList = new mongoose.models.ParamList(paramListData);
-
-    // Check param names
-    for (let i = 0; i < paramList.params.length; i += 1) {
-      const locName = paramList.params[i];
-      mongoose.models.Param.findOne({
-        name: locName }, (err, param) => {
-        if (err) throw err;
-        if (param) {
-          // param exists
-        } else {
-          // param does not exist
-          console.error(`create paramLists Error: Param "${locName}" does not exists for "${paramList.name}"!`);
-        }
-      });
-    }
-
-    paramList.save((err) => {
-      if (err) callback(err);
-      console.log(`ParamList "${paramList.name}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-  // const data = JSON.stringify(paramLists);
-  // fs.writeFileSync(`${config.importPath}paramLists-2.json`, data);
-}
-
-function createParamValues(callback) {
-  console.log('creating paramValues');
-  const fileName = `${config.importPath}paramValues.json`;
-  console.log(`importing from "${fileName}"..`);
-  const rawdata = fs.readFileSync(fileName);
-  let paramValues;
-  try {
-    paramValues = JSON.parse(rawdata);
-  } catch (e) {
-    console.error(`create paramValues Error: ${e.message}`);
-    return;
-  }
-
-  async.each(paramValues, (paramValueData, callback) => {
-    const paramValue = new mongoose.models.ParamValue(paramValueData);
-
-    // Check param name
-    const locName = paramValue.paramName;
-    mongoose.models.Param.findOne({
-      name: locName }, (err, param) => {
-      if (err) throw err;
-      if (param) {
-        // param exists
-        paramValue.save((err) => {
-          if (err) callback(err);
-          console.log(`ParamValue "${param.name}" inserted`);
-          callback(null);
-        });
-      } else {
-          // param does not exist
-        console.error(`create paramValue Error: Param "${locName}" does not exists for "${paramValue.name}"!`);
-      }
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-
-  // const data = JSON.stringify(paramValues);
-  // fs.writeFileSync(`${config.importPath}paramValues-2.json`, data);
 }
 
 

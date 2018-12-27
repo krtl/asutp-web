@@ -7,7 +7,7 @@ const ParamListSchema = new mongoose.Schema({
   },
   caption: String,
   description: String,
-  params: Array,
+  paramNames: String,
 });
 
 module.exports = mongoose.model('ParamList', ParamListSchema);
