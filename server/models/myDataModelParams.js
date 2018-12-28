@@ -84,10 +84,12 @@ function loadParamLists(cb) {
     if (err) return cb(err);
 
     prmLists.forEach((prmList) => {
-      const prmNames = prmList.paramNames.split(',');
-
+      let prmNames = [];
+      if (prmList.paramNames) {
+        prmNames = prmList.paramNames.split(',');
+      }
       prmNames.forEach((prmName) => {
-        if (!params.get(prmName)) {
+        if (!params.has(prmName)) {
           logger.error(`[sever] cannot find param "${prmName}" in "${prmList.name}"`);
         }
       });
@@ -129,7 +131,7 @@ const getParamsOfList = (paramListName) => {
   const paramList = paramLists.get(paramListName);
   if (paramList) {
     const resultParams = [];
-    const locParams = paramList.paramNames.split(',');
+    const locParams = paramList.paramNames;// .split(',');
     locParams.forEach((prmName) => {
       const param = params.get(prmName);
       if (param) {

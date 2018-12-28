@@ -132,12 +132,14 @@ function importAsutpConnections(callback) {
       if (err) callback(err);
       if (asutpConnection) {
         if ((asutpConnection.caption !== newConnection.caption) ||
+          (asutpConnection.sapCode !== newConnection.sapCode) ||
           (asutpConnection.voltage !== newConnection.voltage) ||
           (asutpConnection.connectionNumber !== newConnection.connectionNumber) ||
           (asutpConnection.VVParamName !== newConnection.VVParamName) ||
           (asutpConnection.PParamName !== newConnection.PParamName)) {
           mongoose.models.AsutpConnection.update({ _id: asutpConnection.id },
             { $set: { caption: newConnection.caption,
+              sapCode: newConnection.sapCode,
               voltage: newConnection.voltage,
               connectionNumber: newConnection.connectionNumber,
               VVParamName: newConnection.VVParamName,

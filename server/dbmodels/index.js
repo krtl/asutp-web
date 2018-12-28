@@ -22,11 +22,11 @@ module.exports.connect = (uri, useDataModel) => {
         if (err) {
           process.exit(2);
         }
-      });
-      myDataModelNodes.LoadFromDB((err) => {
-        if (err) {
-          process.exit(2);
-        }
+        myDataModelNodes.LoadFromDB((err) => {
+          if (err) {
+            process.exit(2);
+          }
+        });
       });
     }
   });

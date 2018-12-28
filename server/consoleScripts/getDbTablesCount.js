@@ -3,6 +3,7 @@ const DbUser = require('../dbmodels/authUser');
 const DbParam = require('../dbmodels/param');
 const DbParamList = require('../dbmodels/paramList');
 const DbParamValue = require('../dbmodels/paramValue');
+const DbAsutpConnection = require('../dbmodels/asutpConnection');
 const DbNode = require('../dbmodels/node');
 const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
@@ -24,6 +25,7 @@ const Sheme = [
   DbParam,
   DbParamList,
   DbParamValue,
+  DbAsutpConnection,
   DbNode,
   DbNodeRegion,
   DbNodeLEP,

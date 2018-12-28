@@ -113,7 +113,16 @@ function createUsers(callback) {
 
 function createNodesObsolete(callback) {
   console.log('create nodes obsolete');
-  const rawdata = fs.readFileSync(`${config.importPath}obsolete-nodes.json`);
+
+  const fileName = `${config.importPath}obsolete-nodess.json`;
+
+  if (!fs.existsSync(fileName)) {
+    console.log(`file "${fileName}" does not exists`);
+    callback();
+    return;
+  }
+
+  const rawdata = fs.readFileSync(fileName);
   const nodes = JSON.parse(rawdata);
 
   async.each(nodes, (data, callback) => {
@@ -138,7 +147,15 @@ function createNodesObsolete(callback) {
 
 function createWiresObsolete(callback) {
   console.log('create wires obsolete');
-  const rawdata = fs.readFileSync(`${config.importPath}obsolete-wires.json`);
+  const fileName = `${config.importPath}obsolete-wires.json`;
+
+  if (!fs.existsSync(fileName)) {
+    console.log(`file "${fileName}" does not exists`);
+    callback();
+    return;
+  }
+
+  const rawdata = fs.readFileSync(fileName);
   const nodes = JSON.parse(rawdata);
 
   async.each(nodes, (data, callback) => {

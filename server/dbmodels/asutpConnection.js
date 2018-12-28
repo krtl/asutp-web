@@ -6,11 +6,13 @@ const AsutpConnectionSchema = new mongoose.Schema({
     index: { unique: true },
   },
   caption: String,
-  psSapCoded: String,
+  psSapCode: String,
   voltage: String,
   connectionNumber: String,
   VVParamName: String,
   PParamName: String,
 });
+
+AsutpConnectionSchema.index({ psSapCode: 1 });
 
 module.exports = mongoose.model('AsutpConnection', AsutpConnectionSchema);
