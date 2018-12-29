@@ -58,6 +58,11 @@
             "request": "launch",
             "name": "Run server",
             "program": "${workspaceFolder}/server.js"
-        }
-    ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run test stomp client",
+            "program": "${workspaceFolder}/testclient/myTestStompClient.js"
+        }    ]
 }

@@ -16,7 +16,7 @@ const testParamListName = 'TestParamListName';
 
 
 describe('myDataModelParams', () => {
-  it('GetAvailableParamsLists() should return 0 before loaded with data', () => {
+  it('getAvailableParamsLists() should return 0 before loaded with data', () => {
     const pl = myDataModelParams.getAvailableParamsLists('TestUser');
     expect(pl.length).to.equal(0);
   });

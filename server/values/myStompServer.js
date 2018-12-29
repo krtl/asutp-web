@@ -51,7 +51,7 @@ const initializeStompServer = (httpserver) => {
       switch (ev.dest) {
         case TOPIC_COMMANDS: {
           if (ev.frame.body === CMD_RELOAD) {
-            const paramLists = MyDataModelParams.GetAvailableParamsLists('');
+            const paramLists = MyDataModelParams.getAvailableParamsLists('');
             stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
           }
           break;
@@ -69,7 +69,7 @@ const initializeStompServer = (httpserver) => {
 
     switch (ev.topic) {
       case TOPIC_PARAM_LIST: {
-        const paramLists = MyDataModelParams.GetAvailableParamsLists('');
+        const paramLists = MyDataModelParams.getAvailableParamsLists('');
         stompServer.sendIndividual(ev.socket, TOPIC_PARAM_LIST, {}, JSON.stringify(paramLists));
         break;
       }

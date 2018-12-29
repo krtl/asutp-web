@@ -38,7 +38,7 @@ describe('myDataModelNodes', () => {
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
 
-        // const pLists = myDataModelNodes.GetAvailableParamsLists(testUserName);
+        // const pLists = myDataModelNodes.getAvailableParamsLists(testUserName);
         // if (pLists.length !== 1) { throw new Error('No data!'); }
         done();
       });
