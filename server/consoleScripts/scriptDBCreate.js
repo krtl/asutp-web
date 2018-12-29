@@ -4,26 +4,11 @@ const async = require('async');
 const config = require('../../config');
 
 
-// const Sheme = [
-//   [ mongoose.models.NodeRegion, 'NodeRegions.json' ],
-//   [ mongoose.models.NodeLEP, 'nodeLEPs.json' ],
-//   [ mongoose.models.NodeLEPConnection, 'nodeLEPConnections.json' ],
-//   [ mongoose.models.NodePS, 'nodePSs.json' ],
-//   [ mongoose.models.NodePSPart, 'nodePSParts.json' ],
-//   [ mongoose.models.NodeTransformer, 'nodeTransformers.json' ],
-//   [ mongoose.models.NodeSection, 'nodeSections.json' ],
-//   [ mongoose.models.NodeConnector, 'nodeConnectors.json' ],
-//   [ mongoose.models.NodeEquipment, 'nodeEquipments.json' ],
-// ];
-
 async.series([
   open,
   dropDatabase,
   requireModels,
   createUsers,
-  createNodesObsolete,
-  createWiresObsolete,
-
 ], (err) => {
   // console.log(arguments);
   mongoose.disconnect();
@@ -110,70 +95,3 @@ function createUsers(callback) {
   // fs.writeFileSync(`${config.importPath}users-2.json`, data);
 }
 
-
-function createNodesObsolete(callback) {
-  console.log('create nodes obsolete');
-
-  const fileName = `${config.importPath}obsolete-nodess.json`;
-
-  if (!fs.existsSync(fileName)) {
-    console.log(`file "${fileName}" does not exists`);
-    callback();
-    return;
-  }
-
-  const rawdata = fs.readFileSync(fileName);
-  const nodes = JSON.parse(rawdata);
-
-  async.each(nodes, (data, callback) => {
-    const node = new mongoose.models.NetNode(data);
-    node.save((err) => {
-      if (err) callback(err);
-      console.log(`Node "${node.name}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-  // const data = JSON.stringify(params);
-  // fs.writeFileSync(`${config.importPath}params-2.json`, data);
-}
-
-function createWiresObsolete(callback) {
-  console.log('create wires obsolete');
-  const fileName = `${config.importPath}obsolete-wires.json`;
-
-  if (!fs.existsSync(fileName)) {
-    console.log(`file "${fileName}" does not exists`);
-    callback();
-    return;
-  }
-
-  const rawdata = fs.readFileSync(fileName);
-  const nodes = JSON.parse(rawdata);
-
-  async.each(nodes, (data, callback) => {
-    const wire = new mongoose.models.NetWire(data);
-    wire.save((err) => {
-      if (err) callback(err);
-      console.log(`Wire "${wire.name}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-
-  // const data = JSON.stringify(params);
-  // fs.writeFileSync(`${config.importPath}params-2.json`, data);
-}
