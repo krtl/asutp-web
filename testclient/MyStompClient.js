@@ -20,13 +20,15 @@ let paramsListName = '';
 let cbOnParamsReceived = null;
 let cbOnValueReceived = null;
 
+let reconnectionStarted = false;
+
 
 const connectCallback = () => {
   console.log('connected');
 
-  if (subsciptionParamLists) {
-    subsciptionParamLists.unsubscribe({});
-  }
+  // if (subsciptionParamLists) {
+  //   subsciptionParamLists.unsubscribe({});
+  // }
 
   subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
     console.log(`[stompClient] received ParamLists: ${message}`);
@@ -37,13 +39,13 @@ const connectCallback = () => {
     }
   }, {});
 
-  if (subsciptionParams) {
-    subsciptionParams.unsubscribe({});
-  }
+  // if (subsciptionParams) {
+  //   subsciptionParams.unsubscribe({});
+  // }
 
-  if (subsciptionValues) {
-    subsciptionValues.unsubscribe({});
-  }
+  // if (subsciptionValues) {
+  //   subsciptionValues.unsubscribe({});
+  // }
 
   if (paramsListName !== '') {
     subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
@@ -81,16 +83,31 @@ const headers = {
 };
 
 const connect = (host) => {
-  if (stompClient) {
-    stompClient.disconnect();
-    // stompClient._cleanUp();
-  }
+  // if (stompClient) {
+  //   stompClient.disconnect();
+  //   // stompClient._cleanUp();
+  // }
 
-  locHost = host;
+  if (host !== undefined) {
+    locHost = host;
+  }
+  reconnectionStarted = false;
+
 
   const options = { debug: false, protocols: webstomp.VERSIONS.supportedProtocols() };
   const ws = new WebSocket(`ws://${locHost}/stomp`);
   // stompClient = webstomp.client(`ws://${locHost}/stomp`);
+  ws.on('error', (err) => {
+    console.log(`[!] error: ${err}`);
+  });
+  ws.on('close', () => {
+    console.log('[!] disconnected');
+    if (!reconnectionStarted) {
+      reconnectionStarted = true;
+      setTimeout(connect, 7000);
+      console.log('reconnecting..');
+    }
+  });
 
   stompClient = webstomp.over(ws, options);
   stompClient.heartbeat.outgoing = 2000;
