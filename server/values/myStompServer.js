@@ -23,6 +23,15 @@ const traceMessages = true;
 let stompServer;
 let timerId;
 
+process
+  .on('unhandledRejection', (reason, p) => {
+    logger.Error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', (err) => {
+    logger.Error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
+
 const initializeStompServer = (httpserver) => {
   stompServer = new StompServer({ server: httpserver });
 
@@ -41,6 +50,14 @@ const initializeStompServer = (httpserver) => {
   stompServer.on('disconnected', (sessionId) => {
     if (traceMessages) {
       logger.verbose(`[stompServer] Client ${sessionId} disconnected`);
+    }
+  });
+
+  stompServer.on('error', (err) => {
+    if (traceMessages) {
+      if (err) {
+        logger.warn(`[stompServer] Client connection error: ${err.code} Stack: ${err.stack}`);
+      }
     }
   });
 
