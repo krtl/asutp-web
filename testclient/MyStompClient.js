@@ -9,6 +9,7 @@ const TOPIC_COMMANDS = '/Commands';
 const CMD_RELOAD = 'RELOAD';
 
 let locHost = 'localhost';
+let locConnectedCallback = null;
 
 let stompClient;
 let subsciptionParamLists;
@@ -25,6 +26,10 @@ let reconnectionStarted = false;
 
 const connectCallback = () => {
   console.log('connected');
+
+  if (locConnectedCallback) {
+    locConnectedCallback(null);
+  }
 
   // if (subsciptionParamLists) {
   //   subsciptionParamLists.unsubscribe({});
@@ -73,6 +78,9 @@ const connectCallback = () => {
 
 const errorCallback = (error) => {
   console.warn(error); // not yet clean
+  if (locConnectedCallback) {
+    locConnectedCallback(error);
+  }
 };
 
 const headers = {
@@ -82,7 +90,7 @@ const headers = {
   'client-id': 'my-client-id',
 };
 
-const connect = (host) => {
+const connect = (host, callback) => {
   // if (stompClient) {
   //   stompClient.disconnect();
   //   // stompClient._cleanUp();
@@ -91,6 +99,11 @@ const connect = (host) => {
   if (host !== undefined) {
     locHost = host;
   }
+
+  if (callback !== undefined) {
+    locConnectedCallback = callback;
+  }
+
   reconnectionStarted = false;
 
 
