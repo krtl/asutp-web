@@ -198,6 +198,7 @@ function getPSForJson(ps) {
     const locPSPart = new MyNodePSPart(pspart.name, pspart.caption, pspart.description);
     locPS.psparts.push(locPSPart);
     locPSPart.sapCode = pspart.sapCode;
+    locPSPart.voltage = pspart.voltage;
     pspart.sections.forEach((section) => {
       const locSection = new MyNodeSection(section.name, section.caption, section.description);
       locPSPart.sections.push(locSection);
@@ -206,6 +207,7 @@ function getPSForJson(ps) {
         const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
         locSection.connectors.push(locConnector);
         locConnector.sapCode = connection.sapCode;
+        locConnector.cellNumber = connection.cellNumber;
         connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
           locConnector.equipments.push(locEquipment);
@@ -220,6 +222,7 @@ function getPSForJson(ps) {
       locPSPart.connectors.push(locConnector);
       locConnector.fromSection = connection.fromSection.name;
       locConnector.toSection = connection.toSection.name;
+      locConnector.cellNumber = connection.cellNumber;
       connection.equipments.forEach((equipment) => {
         const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
         locConnector.equipments.push(locEquipment);
