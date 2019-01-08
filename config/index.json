@@ -8,11 +8,11 @@
   "amqpInsertDisconnectionsQueueName": "asutp.insertDisconnections.queue",
   "jwtSecret": "asutpsecretasutpphrase",
   "exportPath1": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports/",
-  "exportPath": "D:/data/exported_data/",
+  "exportPath": "D:/javascript/asutp-web-vs.code/data/exported_data/",
   "importPath1": "D:/test/",
   "importPath2": "D:/mongodb_bases/",
   "importPath0": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/",
-  "importPath": "D:/data/imported_data/",
+  "importPath": "D:/javascript/asutp-web-vs.code/data/imported_data/",
   "importPath_": "D:/javascript/asutp-web-vs.code/server/ImportData/",
   "importPath00": "D:/_javascript/Projects/asutp-web-vs.code/server/ImportData/"
 }

@@ -1,6 +1,7 @@
 cra-server-ex.graffle
 
 logs/
+data
 node_modules
 coverage
 .nyc_output

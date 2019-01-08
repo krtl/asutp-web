@@ -8,16 +8,40 @@
                     "/*.json"
                 ],
                 "exclude": [
-                    "tests/**"
+                    "tests/**",
+                    "logs/**",
+                    "node_modules/**",
+                    "client/node_modules/**"
                 ],                
-                "deployOnSave": [ "My network folder" ],
+                "ignore": [
+                    "tests/**",
+                    "logs/**",
+                    "data/**",
+                    "node_modules/**",
+                    "client/node_modules/**"
+                ],                
                 
                 "button": {
-                    "text": "Deploy to My network folder'",
-                    "tooltip": "Click here to deploy to the target...",
+                    "text": "Deploy package to asutp-web'",
+                    "tooltip": "Click here to deploy package to asutp-web server...",
+                    "targets": [ "My network package folder" ]
+                },
+                "deployOnChange": false,
+                "deployOnSave": false
+            },
+            {
+                "name": "asutp-web data",
+                "files": [
+                    "data/imported_data/*.json"
+                ],
 
-                    "targets": [ "My network folder" ]
-                }
+                "button": {
+                    "text": "Deploy data to asutp-web'",
+                    "tooltip": "Click here to deploy data to asutp-web server...",
+                    "targets": [ "My network data folder" ]
+                },
+                "deployOnChange": false,
+                "deployOnSave": false
             }
         ],        
         "targets": [
@@ -31,18 +55,18 @@
             },
             {
                 "type": "local",
-                "name": "My network folder",
-                "description": "A SMB shared network folder",
+                "name": "My network package folder",
+                "description": "package",
 
-                "dir": "\\\\asutp-web\\d$\\asutp-web_package_files"
+                "dir": "\\\\asutp-web\\d$\\\\javascript\\asutp-web-vs.code"
             },
             {
-                "type": "zip",
-                "name": "My ZIP file",
-                "description": "Create a ZIP file in a target directory",
+                "type": "local",
+                "name": "My network data folder",
+                "description": "data",
 
-                "target": "D:/test"
-            }            
+                "dir": "\\\\asutp-web\\d$\\\\javascript\\asutp-web-vs.code\\data\\imported_data"
+            }
         ]
     }
 }

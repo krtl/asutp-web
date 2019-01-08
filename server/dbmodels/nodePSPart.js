@@ -20,4 +20,4 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.PSPART);
-define('compareProps', [ ]);
+define('compareProps', [ 'voltage' ]);
