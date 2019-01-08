@@ -1,0 +1,48 @@
+{
+    "deploy.reloaded": {
+        "packages": [
+            {
+                "name": "asutp-web package",
+                "files": [
+                    "**/*.js",
+                    "/*.json"
+                ],
+                "exclude": [
+                    "tests/**"
+                ],                
+                "deployOnSave": [ "My network folder" ],
+                
+                "button": {
+                    "text": "Deploy to My network folder'",
+                    "tooltip": "Click here to deploy to the target...",
+
+                    "targets": [ "My network folder" ]
+                }
+            }
+        ],        
+        "targets": [
+
+            {
+                "type": "local",
+                "name": "My local folder",
+                "description": "A local folder",
+
+                "dir": "D:/test/asutp-web_package_files"
+            },
+            {
+                "type": "local",
+                "name": "My network folder",
+                "description": "A SMB shared network folder",
+
+                "dir": "\\\\asutp-web\\d$\\asutp-web_package_files"
+            },
+            {
+                "type": "zip",
+                "name": "My ZIP file",
+                "description": "Create a ZIP file in a target directory",
+
+                "target": "D:/test"
+            }            
+        ]
+    }
+}

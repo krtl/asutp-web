@@ -7,6 +7,7 @@ const NodeSectionConnectorSchema = new mongoose.Schema({
     index: { unique: true },
   },
   connectionType: Number, // source, consumer, bi-directional
+  cellNumber: String,
 
 });
 
@@ -20,4 +21,4 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.SECTIONCONNECTOR);
-define('compareProps', [ ]);
+define('compareProps', [ 'connectionType', 'cellNumber' ]);

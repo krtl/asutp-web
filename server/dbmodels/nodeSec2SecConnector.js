@@ -6,6 +6,7 @@ const NodeSec2SecConnectorSchema = new mongoose.Schema({
     type: String,
     index: { unique: true },
   },
+  cellNumber: String,
   fromSection: String,
   toSection: String,
 
@@ -21,5 +22,5 @@ function define(name, value) {
 }
 
 define('nodeType', myNodeType.SEC2SECCONNECTOR);
-define('compareProps', [ 'fromSection', 'toSection' ]);
+define('compareProps', [ 'cellNumber', 'fromSection', 'toSection' ]);
 define('convertToObj', [ 'fromSection', 'toSection' ]);

@@ -12,6 +12,7 @@ async.series([
   importAsutpConnections,
 ], (err) => {
 //  console.log(arguments);
+  if (err) console.error('Failed!');
   mongoose.disconnect();
   process.exit(err ? 255 : 0);
 });
@@ -37,7 +38,17 @@ function requireModels(callback) {
 
 function importParams(callback) {
   console.log('importing params..');
-  const rawdata = fs.readFileSync(`${config.importPath}asutpParams.json`);
+
+  const fileName = `${config.importPath}asutpParams.json`;
+
+  if (!fs.existsSync(fileName)) {
+    const err = `file "${fileName}" does not exists`;
+    console.log(err);
+    callback(err);
+    return;
+  }
+
+  const rawdata = fs.readFileSync(fileName);
   const params = JSON.parse(rawdata);
 
   async.each(params, (paramData, callback) => {
@@ -79,7 +90,16 @@ function importParams(callback) {
 
 function importParamLists(callback) {
   console.log('importing paramLists..');
-  const rawdata = fs.readFileSync(`${config.importPath}asutpParamLists.json`);
+
+  const fileName = `${config.importPath}asutpParams.json`;
+
+  if (!fs.existsSync(fileName)) {
+    const err = `file "${fileName}" does not exists`;
+    console.log(err);
+    callback(err);
+  }
+
+  const rawdata = fs.readFileSync(fileName);
   const paramLists = JSON.parse(rawdata);
 
   async.each(paramLists, (paramData, callback) => {
@@ -121,7 +141,17 @@ function importParamLists(callback) {
 
 function importAsutpConnections(callback) {
   console.log('importing ASUTP Connections..');
-  const rawdata = fs.readFileSync(`${config.importPath}asutpConnections.json`);
+
+  const fileName = `${config.importPath}asutpConnections.json`;
+
+  if (!fs.existsSync(fileName)) {
+    const err = `file "${fileName}" does not exists`;
+    console.log(err);
+    callback(err);
+    return;
+  }
+
+  const rawdata = fs.readFileSync(fileName);
   const connections = JSON.parse(rawdata);
 
   async.each(connections, (paramData, callback) => {

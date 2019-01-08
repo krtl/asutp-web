@@ -1,18 +1,18 @@
 {
   "dbUri": "mongodb://127.0.0.1/asutp_web",
   "dbUri1": "mongodb://localhost/asutp_web",
-  "amqpUri": "amqp://asutp:asutp@srv-android",
+  "amqpUri": "amqp://asutp:asutp@asutp-web",
   "amqpUri1": "amqp://localhost",
   "amqpRawValuesQueueName": "asutp.values.queue",
   "amqpInsertValuesQueueName": "asutp.insertValues.queue",
   "amqpInsertDisconnectionsQueueName": "asutp.insertDisconnections.queue",
   "jwtSecret": "asutpsecretasutpphrase",
-  "exportPath": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports/",
-  "exportPath1": "D:/test/Exports/",
+  "exportPath1": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports/",
+  "exportPath": "D:/data/exported_data/",
   "importPath1": "D:/test/",
   "importPath2": "D:/mongodb_bases/",
   "importPath0": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/",
-  "importPath_": "D:/SAP/ImportFromSAP/ImportFromSAP/bin/Debug/",
-  "importPath": "D:/javascript/asutp-web-vs.code/server/ImportData/",
+  "importPath": "D:/data/imported_data/",
+  "importPath_": "D:/javascript/asutp-web-vs.code/server/ImportData/",
   "importPath00": "D:/_javascript/Projects/asutp-web-vs.code/server/ImportData/"
 }
