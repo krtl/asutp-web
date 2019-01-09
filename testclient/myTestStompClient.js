@@ -9,7 +9,7 @@ const logger = require('../server/logger');
 MyStompClient.loadParamLists((paramLists) => {
   if (paramLists.length > 0) {
     const listName = paramLists[0].name; // paramLists.slice(0, MATCHING_PARAMS_LIMIT);
-    MyStompClient.loadParams(listName, (params) => {
+    MyStompClient.loadParams(listName, () => {
       MyStompClient.subscribeToValues(listName, (value) => {
         logger.trace(value);
       });
@@ -24,6 +24,7 @@ MyStompClient.connect('127.0.0.1:3001', (err) => {
       if (!err) {
         MyStompClient.connect('127.0.0.1:3001', (err) => {
           if (!err) {
+            //
           }
         });
       }
