@@ -25,10 +25,10 @@ let timerId;
 
 process
   .on('unhandledRejection', (reason, p) => {
-    logger.Error(reason, 'Unhandled Rejection at Promise', p);
+    logger.Error(`Unhandled Rejection at Promise: ${reason}  ${p}`);
   })
   .on('uncaughtException', (err) => {
-    logger.Error(err, 'Uncaught Exception thrown');
+    logger.Error(`Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`);
     process.exit(1);
   });
 

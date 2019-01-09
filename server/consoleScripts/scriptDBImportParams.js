@@ -3,6 +3,13 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
+const FileNames = [
+  // 'asutpParams.json',
+  // 'asutpParamLists.json',
+  'testParams.json',
+  'testParamLists.json',
+  'asutpConnections.json',
+];
 
 async.series([
   open,
@@ -39,7 +46,7 @@ function requireModels(callback) {
 function importParams(callback) {
   console.log('importing params..');
 
-  const fileName = `${config.importPath}asutpParams.json`;
+  const fileName = `${config.importPath}${FileNames[0]}`;
 
   if (!fs.existsSync(fileName)) {
     const err = `file "${fileName}" does not exists`;
@@ -91,7 +98,7 @@ function importParams(callback) {
 function importParamLists(callback) {
   console.log('importing paramLists..');
 
-  const fileName = `${config.importPath}asutpParams.json`;
+  const fileName = `${config.importPath}${FileNames[1]}`;
 
   if (!fs.existsSync(fileName)) {
     const err = `file "${fileName}" does not exists`;
@@ -142,7 +149,7 @@ function importParamLists(callback) {
 function importAsutpConnections(callback) {
   console.log('importing ASUTP Connections..');
 
-  const fileName = `${config.importPath}asutpConnections.json`;
+  const fileName = `${config.importPath}${FileNames[2]}`;
 
   if (!fs.existsSync(fileName)) {
     const err = `file "${fileName}" does not exists`;

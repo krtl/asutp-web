@@ -71,10 +71,10 @@ function setWarning(text) {
 
 process
   .on('unhandledRejection', (reason, p) => {
-    setError(reason, 'Unhandled Rejection at Promise', p);
+    setError(`Unhandled Rejection at Promise: ${reason}  ${p}`);
   })
   .on('uncaughtException', (err) => {
-    setError(err, 'Uncaught Exception thrown');
+    setError(`Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`);
     process.exit(1);
   });
 

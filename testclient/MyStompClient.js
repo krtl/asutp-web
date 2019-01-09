@@ -6,9 +6,9 @@ const TOPIC_PARAMS = '/Params:';
 const TOPIC_VALUES = '/Values:';
 const TOPIC_COMMANDS = '/Commands';
 
-const CMD_RELOAD = 'RELOAD';
+// const CMD_RELOAD = 'RELOAD';
 
-let locHost = 'localhost';
+let locHost = 'localhost:3001';
 let locConnectedCallback = null;
 
 let stompClient;
@@ -25,59 +25,63 @@ let reconnectionStarted = false;
 
 
 const connectCallback = () => {
-  console.log('connected');
+  console.log('[stompClient] connected');
 
   if (locConnectedCallback) {
     locConnectedCallback(null);
   }
 
-  // if (subsciptionParamLists) {
-  //   subsciptionParamLists.unsubscribe({});
-  // }
-
-  subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
-    console.log(`[stompClient] received ParamLists: ${message}`);
-    message.ack();
-
-    if (cbOnParamListsReceived) {
-      cbOnParamListsReceived(JSON.parse(message.body));
+  if (cbOnParamListsReceived) {
+    if (subsciptionParamLists) {
+      subsciptionParamLists.unsubscribe({});
     }
-  }, {});
 
-  // if (subsciptionParams) {
-  //   subsciptionParams.unsubscribe({});
-  // }
-
-  // if (subsciptionValues) {
-  //   subsciptionValues.unsubscribe({});
-  // }
-
-  if (paramsListName !== '') {
-    subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
-      console.log(`[stompClient] received Params: ${message}`);
+    subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
+      console.log(`[stompClient] received ParamLists: ${message}`);
       message.ack();
 
-      if (cbOnParamsReceived) {
-        cbOnParamsReceived(JSON.parse(message.body));
-      }
-    }, {});
-
-    subsciptionValues = stompClient.subscribe(TOPIC_VALUES + paramsListName, (message) => {
-      console.log(`[stompClient] received values: ${message}`);
-      message.ack();
-
-      if (cbOnValueReceived) {
-        cbOnValueReceived(JSON.parse(message.body));
+      if (cbOnParamListsReceived) {
+        cbOnParamListsReceived(JSON.parse(message.body));
       }
     }, {});
   }
 
-  stompClient.send(TOPIC_COMMANDS, CMD_RELOAD, {});
+  if (cbOnParamListsReceived) {
+    if (subsciptionParams) {
+      subsciptionParams.unsubscribe({});
+    }
+
+    if (subsciptionValues) {
+      subsciptionValues.unsubscribe({});
+    }
+
+    if (paramsListName !== '') {
+      subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
+        console.log(`[stompClient] received Params: ${message}`);
+        message.ack();
+
+        if (cbOnParamsReceived) {
+          cbOnParamsReceived(JSON.parse(message.body));
+        }
+      }, {});
+
+      subsciptionValues = stompClient.subscribe(TOPIC_VALUES + paramsListName, (message) => {
+        console.log(`[stompClient] received values: ${message}`);
+        message.ack();
+
+        if (cbOnValueReceived) {
+          cbOnValueReceived(JSON.parse(message.body));
+        }
+      }, {});
+    }
+  }
+
+//  stompClient.send(TOPIC_COMMANDS, CMD_RELOAD, {});
 };
 
 
 const errorCallback = (error) => {
-  console.warn(error); // not yet clean
+  console.warn(`[stompClient] stomp error: ${error}`); // not yet clean
   if (locConnectedCallback) {
     locConnectedCallback(error);
   }
@@ -111,14 +115,14 @@ const connect = (host, callback) => {
   const ws = new WebSocket(`ws://${locHost}/stomp`);
   // stompClient = webstomp.client(`ws://${locHost}/stomp`);
   ws.on('error', (err) => {
-    console.log(`[!] error: ${err}`);
+    console.log(`[stompClient] socket error: ${err}`);
   });
   ws.on('close', () => {
-    console.log('[!] disconnected');
+    console.log('[stompClient] socket disconnected');
     if (!reconnectionStarted) {
       reconnectionStarted = true;
-      setTimeout(connect, 7000);
-      console.log('reconnecting..');
+      setTimeout(connect, 10000);
+      console.log('[stompClient] reconnecting after 10 sec..');
     }
   });
 
@@ -127,7 +131,7 @@ const connect = (host, callback) => {
   stompClient.heartbeat.incoming = 2000;
 
   stompClient.debug = (str) => {
-    console.log(str);
+    console.log(`[stompClient] stomp debug: ${str}`);
   };
 
   stompClient.connect(headers, connectCallback, errorCallback);

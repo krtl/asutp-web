@@ -27,7 +27,7 @@ class MainFormPage extends React.Component {
           this.setState({
             secretData: xhr.response.message,
           });
-          MyStompClient.connect(this.doOnWebsocketDataReceived);
+          MyStompClient.connect(this.doOnWebsocketConnected);
           break;
         }
         case 401: {
@@ -44,8 +44,10 @@ class MainFormPage extends React.Component {
     xhr.send();
   }
 
-  doOnWebsocketDataReceived(data) {
-    console.log(`Received: ${data}`);
+  doOnWebsocketConnected(err) {
+    if (!err){
+
+    }
   }
 
   render() {

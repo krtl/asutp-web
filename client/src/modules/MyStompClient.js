@@ -5,7 +5,11 @@ const TOPIC_PARAMS = '/Params:';
 const TOPIC_VALUES = '/Values:';
 const TOPIC_COMMANDS = '/Commands';
 
-const CMD_RELOAD = 'RELOAD';
+//const CMD_RELOAD = 'RELOAD';
+
+//let locHost = 'localhost:3001';
+let locConnectedCallback = null;
+
 
 const CreateMySocketClient = function () {
   let stompClient;
@@ -13,27 +17,36 @@ const CreateMySocketClient = function () {
   let subsciptionParams;
   let subsciptionValues;
 
+//  let cbOnConnected = null;
   let cbOnParamListsReceived = null;
   let paramsListName = '';
   let cbOnParamsReceived = null;
   let cbOnValueReceived = null;
 
   const connectCallback = function () {
-    console.log('connected');
+    console.log('[stompClient] connected');
 
-    if (subsciptionParamLists) {
-      subsciptionParamLists.unsubscribe({});
-    }
+    if (locConnectedCallback) {
+      locConnectedCallback(null);
+    }  
 
-    subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
-      console.log(`[stompClient] received ParamLists: ${message}`);
-      message.ack();
+    if (cbOnParamListsReceived) {
 
-      if (cbOnParamListsReceived) {
-        cbOnParamListsReceived(JSON.parse(message.body));
+      if (subsciptionParamLists) {
+        subsciptionParamLists.unsubscribe({});
       }
-    }, {});
 
+      subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
+        console.log(`[stompClient] received ParamLists: ${message}`);
+        message.ack();
+
+        if (cbOnParamListsReceived) {
+          cbOnParamListsReceived(JSON.parse(message.body));
+        }
+      }, {});
+  }
+
+  if (cbOnParamsReceived) {
     if (subsciptionParams) {
       subsciptionParams.unsubscribe({});
     }
@@ -61,12 +74,23 @@ const CreateMySocketClient = function () {
         }
       }, {});
     }
+  }
 
-    stompClient.send(TOPIC_COMMANDS, CMD_RELOAD, {});
+  //  stompClient.send(TOPIC_COMMANDS, CMD_RELOAD, {});
   };
 
   const errorCallback = function (error) {
-    console.warn(error); // not yet clean
+    console.warn(`[stompClient] stomp error: ${error}`); // not yet clean
+    if (locConnectedCallback) {
+      locConnectedCallback(error);
+    }
+
+      if (error.type === 'close') {
+        // eslint-disable-next-line
+        setTimeout(MyStompClient.connect, 10000);
+        console.log('[stompClient] reconnecting after 10 sec..');
+      }    
+  
   };
 
   const headers = {
@@ -76,11 +100,15 @@ const CreateMySocketClient = function () {
     'client-id': 'my-client-id',
   };
 
-  this.connect = function (doOnReceived) {
+  this.connect = function (callback) {
     if (stompClient) {
       stompClient.disconnect();
       // stompClient._cleanUp();
     }
+
+    if (callback !== undefined) {
+      locConnectedCallback = callback;
+    }  
 
     // ws = new WebSocket(`ws://${location.host}`);
     stompClient = webstomp.client(`ws://${location.host}/stomp`);
@@ -90,6 +118,19 @@ const CreateMySocketClient = function () {
     stompClient.debug = function (str) {
       console.log(str);
     };
+
+    stompClient.ws.onerror = (err) => {
+      console.log(`[stompClient] socket error: ${err}`);
+    }
+
+    stompClient.ws.onclose = () => {
+      console.log('[stompClient] socket disconnected');
+      // if (!reconnectionStarted) {
+      //   reconnectionStarted = true;
+      //   setTimeout(connect, 10000);
+      //   console.log('[stompClient] reconnecting after 10 sec..');
+      // }
+    };    
 
     stompClient.connect(headers, connectCallback, errorCallback);
   };

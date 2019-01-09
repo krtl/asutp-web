@@ -4,13 +4,17 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import MyParams from './MyParams';
 import MyShutdowns from './MyShutdowns';
 import MyStage from './MyStage';
-import Client from '../modules/Client'; // eslint-disable-line
-
+// import Client from '../modules/Client'; // eslint-disable-line
 
 class MainForm extends React.Component {
   // constructor(props) {
   //   super(props);
   // }
+
+  componentDidMount() {
+    console.log('MainForm did mount');
+   }
+   
 
   render() {
     return (
