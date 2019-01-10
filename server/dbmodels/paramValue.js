@@ -18,7 +18,7 @@ const ParamValueSchema = new mongoose.Schema({
   },
 });
 
-ParamValueSchema.index({ paramName: 1, dt: -1 });
+ParamValueSchema.index({ paramName: 1, dt: -1 }, { unique: true });
 
 
 module.exports = mongoose.model('ParamValue', ParamValueSchema);

@@ -115,7 +115,7 @@ export default class MyParams extends React.Component {
             style={styles.customWidth}
           >
             {this.state.paramLists.map(paramList => (
-              <MenuItem key={paramList.name} value={paramList} primaryText={paramList.name} secondaryText={paramList.name} />
+              <MenuItem key={paramList.name} value={paramList} primaryText={paramList.caption} secondaryText={paramList.name} />
             ))
             }
           </SelectField>

@@ -5,12 +5,14 @@
                 "name": "asutp-web package",
                 "files": [
                     "**/*.js",
+                    "**/*.jsx",
                     "**/*.json",
                     "/*.cmd"
                 ],
                 "exclude": [
                     "tests/**",
                     "logs/**",
+                    "data/**",
                     "node_modules/**",
                     "client/node_modules/**"
                 ],                
@@ -25,7 +27,7 @@
                 "button": {
                     "text": "Deploy package to asutp-web'",
                     "tooltip": "Click here to deploy package to asutp-web server...",
-                    "targets": [ "My network package folder" ]
+                    "targets": [ "My network folder" ]
                 },
                 "deployOnChange": false,
                 "deployOnSave": false
@@ -39,7 +41,7 @@
                 "button": {
                     "text": "Deploy data to asutp-web'",
                     "tooltip": "Click here to deploy data to asutp-web server...",
-                    "targets": [ "My network data folder" ]
+                    "targets": [ "My network folder" ]
                 },
                 "deployOnChange": false,
                 "deployOnSave": false
@@ -56,15 +58,8 @@
             },
             {
                 "type": "local",
-                "name": "My network package folder",
+                "name": "My network folder",
                 "description": "package",
-
-                "dir": "\\\\asutp-web\\d$\\\\javascript\\asutp-web-vs.code"
-            },
-            {
-                "type": "local",
-                "name": "My network data folder",
-                "description": "data",
 
                 "dir": "\\\\asutp-web\\d$\\\\javascript\\asutp-web-vs.code"
             }

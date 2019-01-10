@@ -6,7 +6,7 @@ const logger = require('../logger');
 const saveValue = (lastValue, callback) => {
   const paramValue = dbParamValue({
     paramName: lastValue.paramName,
-    value: lastValue.value,
+    value: Math.round(lastValue.value * 1000) / 1000,
     dt: lastValue.dt,
     qd: lastValue.qd,
   });
@@ -30,12 +30,15 @@ const updateAverageValue = (lastValue, callback) => {
       logger.error(`[dbValues] Failed to get value. Error: ${err}`);
       callback(err);
     } else if (paramValue) {
-      const newValue = (paramValue.value + lastValue.value) / 2;
+      let newValue = (paramValue.value + lastValue.value) / 2;
+      newValue = Math.round(newValue * 1000) / 1000;
       dbParamValue.update({ _id: paramValue.id }, { $set: { value: newValue } }, (err) => {
         if (err) {
           logger.error(`[dbValues] Failed to update value. Error: ${err}`);
         }
-        callback(err);
+        if (callback) {
+          callback(err);
+        }
       });
     } else {
       this.saveValue(lastValue, callback);

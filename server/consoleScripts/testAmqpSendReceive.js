@@ -58,7 +58,7 @@ amqpSender.start(config.amqpUri);
 
 setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-  const s = `param${Math.round(Math.random() * 20)}<>${Math.round(Math.random() * 1000)}.${Math.round(Math.random() * 100)}<>NA<>${dt}`;
+  const s = `param${Math.round(Math.random() * 20)}<>${Math.round(Math.random() * 100000) / 100}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
   // amqpSender.send(config.amqpInsertValuesQueueName, s);
   amqpSender.send(config.amqpRawValuesQueueName, s);
