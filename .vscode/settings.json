@@ -5,7 +5,8 @@
                 "name": "asutp-web package",
                 "files": [
                     "**/*.js",
-                    "/*.json"
+                    "**/*.json",
+                    "/*.cmd"
                 ],
                 "exclude": [
                     "tests/**",
@@ -65,7 +66,7 @@
                 "name": "My network data folder",
                 "description": "data",
 
-                "dir": "\\\\asutp-web\\d$\\\\javascript\\asutp-web-vs.code\\data\\imported_data"
+                "dir": "\\\\asutp-web\\d$\\\\javascript\\asutp-web-vs.code"
             }
         ]
     }

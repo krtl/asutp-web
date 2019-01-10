@@ -58,11 +58,11 @@ amqpSender.start(config.amqpUri);
 
 setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss');
-  const s = `param${Math.floor(Math.random() * 10)}<>${Math.random() * 1000}<>NA<>${dt}`;
+  const s = `param${Math.round(Math.random() * 20)}<>${Math.round(Math.random() * 1000)}.${Math.round(Math.random() * 100)}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
-  amqpSender.send(config.amqpInsertValuesQueueName, s);
-  // amqpSender.send(config.amqpRawValuesQueueName, s);
-}, 2000);
+  // amqpSender.send(config.amqpInsertValuesQueueName, s);
+  amqpSender.send(config.amqpRawValuesQueueName, s);
+}, 1000);
 
 
 // mongoose.connection.close((err) => {

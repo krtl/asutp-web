@@ -15,7 +15,9 @@ const saveValue = (lastValue, callback) => {
     if (err) {
       logger.error(`[dbValues] Failed to save value. Error: ${err}`);
     }
-    callback(err);
+    if (callback) {
+      callback(err);
+    }
   });
 };
 
@@ -42,12 +44,14 @@ const updateAverageValue = (lastValue, callback) => {
 };
 
 const removeOldValues = (callback) => {
-  const olderThan = moment().subtract(10, 'days');
+  const olderThan = moment().subtract(200, 'days');
   dbParamValue.deleteMany({ dt: { $lt: olderThan.toDate() } }, (err) => {
     if (err) {
       logger.error(`[dbValues] Failed to save value. Error: ${err}`);
     }
-    callback(err);
+    if (callback) {
+      callback(err);
+    }
   });
 };
 
