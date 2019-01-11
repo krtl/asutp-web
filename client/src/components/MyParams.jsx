@@ -30,7 +30,7 @@ const styles = {
   customWidth: {
     width: 750,
   },
-  customHeight: {
+  cellCustomHeight: {
     height: 12,
   }
 };
@@ -79,6 +79,10 @@ export default class MyParams extends React.Component {
   }
 
   handleLoadParamsClick(selectedListItem) {
+    if (selectedListItem === undefined) {
+      selectedListItem = this.state.selectedParamList;
+    }
+
     if (selectedListItem) {
       MyStompClient.loadParams(selectedListItem.name, (params) => {
         this.setState({
@@ -148,13 +152,13 @@ export default class MyParams extends React.Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
             {this.state.params.map(param => (
-              <TableRow key={param.name} style={styles.customHeight}> 
-                <TableRowColumn  style={styles.customHeight}>{param.name}</TableRowColumn>
-                <TableRowColumn  style={styles.customHeight}>{param.caption}</TableRowColumn>
-                <TableRowColumn  style={styles.customHeight}>{param.value}</TableRowColumn>
-                <TableRowColumn  style={styles.customHeight}><Moment format='YYYY.MM.DD HH:mm:ss'>{param.dt}</Moment></TableRowColumn>
-                <TableRowColumn style={styles.customHeight}>{param.qd}</TableRowColumn>
-                <TableRowColumn style={styles.customHeight}>
+              <TableRow key={param.name} style={styles.cellCustomHeight}> 
+                <TableRowColumn  style={styles.cellCustomHeight}>{param.name}</TableRowColumn>
+                <TableRowColumn  style={styles.cellCustomHeight}>{param.caption}</TableRowColumn>
+                <TableRowColumn  style={styles.cellCustomHeight}>{param.value}</TableRowColumn>
+                <TableRowColumn  style={styles.cellCustomHeight}><Moment format='YYYY.MM.DD HH:mm:ss'>{param.dt}</Moment></TableRowColumn>
+                <TableRowColumn style={styles.cellCustomHeight}>{param.qd}</TableRowColumn>
+                <TableRowColumn style={styles.cellCustomHeight}>
                   <Link to={`/paramHistory/${param.name}`}>History</Link>
                 </TableRowColumn>
               </TableRow>))

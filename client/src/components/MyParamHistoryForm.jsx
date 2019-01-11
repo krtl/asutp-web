@@ -20,6 +20,13 @@ import Client from '../modules/Client';
 
 const MATCHING_VALUES_LIMIT = 2500;
 
+const styles = {
+  cellCustomHeight: {
+    height: 12,
+  }
+};
+
+
 
 export default class MyParamHistoryForm extends React.Component {
   constructor(props) {
@@ -95,10 +102,10 @@ export default class MyParamHistoryForm extends React.Component {
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
                 {this.state.paramValues.map(value => (
-                  <TableRow key={value.dt}>
-                    <TableRowColumn><Moment format='YYYY.MM.DD HH:mm:ss'>{value.dt}</Moment></TableRowColumn>
-                    <TableRowColumn>{value.value}</TableRowColumn>
-                    <TableRowColumn>{value.qd}</TableRowColumn>
+                  <TableRow key={value.dt} style={styles.cellCustomHeight}>
+                    <TableRowColumn style={styles.cellCustomHeight}><Moment format='YYYY.MM.DD HH:mm:ss'>{value.dt}</Moment></TableRowColumn>
+                    <TableRowColumn style={styles.cellCustomHeight}>{value.value}</TableRowColumn>
+                    <TableRowColumn style={styles.cellCustomHeight}>{value.qd}</TableRowColumn>
                   </TableRow>))
                 }
               </TableBody>
