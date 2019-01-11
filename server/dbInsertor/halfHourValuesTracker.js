@@ -2,7 +2,7 @@
 // const config = require('../../config');
 const async = require('async');
 const MyDataModelParams = require('../models/myDataModelParams');
-const dbParamValue = require('../dbmodels/paramValue');
+const dbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const MyParamValue = require('../models/myParamValue');
 const dbValues = require('./dbValues');
 const halfHourValuesProducer = require('./halfHourValuesProducer');
@@ -51,9 +51,9 @@ const loadLastTrackedValues = (callback) => {
 
   // events.EventEmitter.defaultMaxListeners = 125;
   async.each(params, (param, callback) => {
-    dbParamValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
+    dbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
       if (err) {
-        logger.error(`[DbValuesTracker] Failed to get last value: "${err}".`);
+        logger.error(`[DbValuesTracker] Failed to get last half hour value: "${err}".`);
       } else if (paramValue) {
         const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
         lastTrackedValues.set(param.name, lastValue);
@@ -90,7 +90,7 @@ setInterval(() => {
         halfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (valuesToInsert, valuesToUpdate, valuesToTrackAgain) => {
           let locLastValue = lastValue;
           valuesToInsert.forEach((newValue) => {
-            dbValues.saveValue(newValue);
+            dbValues.saveHalfHourValue(newValue);
 
             if (moment(locLastValue.dt).isBefore(moment(newValue.dt))) {
               locLastValue = newValue;
@@ -102,7 +102,7 @@ setInterval(() => {
           }
 
           valuesToUpdate.forEach((updateValue) => {
-            dbValues.updateAverageValue(updateValue);
+            dbValues.updateAverageHalfHourValue(updateValue);
           });
 
           paramValueBuffers.set(paramName, valuesToTrackAgain);

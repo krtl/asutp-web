@@ -35,6 +35,7 @@ function requireModels(callback) {
   require('mongoose').model('Param');  // eslint-disable-line global-require
   require('mongoose').model('ParamList');  // eslint-disable-line global-require
   require('mongoose').model('ParamValue');  // eslint-disable-line global-require
+  require('mongoose').model('ParamJalfHourValue');  // eslint-disable-line global-require
 
   require('mongoose').model('AsutpConnection');  // eslint-disable-line global-require
 
