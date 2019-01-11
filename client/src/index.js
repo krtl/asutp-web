@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 
+
 import { loadState } from './modules/localStorage';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -13,6 +14,7 @@ import { Router, hashHistory } from 'react-router';
 // import { browserHistory, Router } from 'react-router';
 import routes from './routes';
 import reducer from './reducers';
+
 
 
 // remove tap delay, essential for MaterialUI to work properly

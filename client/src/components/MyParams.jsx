@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
-// import PropTypes from 'prop-types';
+// import PropTypes from "prop-types";
+// import { styled } from '@material-ui/styles';
 import SelectField from 'material-ui/SelectField';
 import {
   Table,
@@ -17,11 +18,23 @@ import Moment from 'react-moment';
 
 import MyStompClient from '../modules/MyStompClient';
 
+// const MyTableRow = styled(TableRow)({
+//   height: 10,
+// });
+
+// const MyTable = styled(Table)({
+//   minWidth: 700
+// });
+
 const styles = {
   customWidth: {
     width: 750,
   },
+  customHeight: {
+    height: 12,
+  }
 };
+
 
 const MATCHING_PARAMS_LIMIT = 2500;
 const MATCHING_LISTS_LIMIT = 1000;
@@ -65,47 +78,49 @@ export default class MyParams extends React.Component {
     MyStompClient.unsubscribeFromValues();
   }
 
-  handleLoadParamsClick() {
-    MyStompClient.loadParams(this.state.selectedParamList.name, (params) => {
-      this.setState({
-        params: params.slice(0, MATCHING_PARAMS_LIMIT),
-      });
-
-      localStorage.setItem('selectedParamList', this.state.selectedParamList.name);
-    });
-
-    const locThis = this;  // should be rewritten!
-
-    MyStompClient.subscribeToValues(this.state.selectedParamList.name, (value) => {
-      const locParams = locThis.state.params.slice();
-      let b = false;
-      for (let i = 0; i < locParams.length; i += 1) {
-        const locParam = locParams[i];
-        if (locParam.name === value.paramName) {
-          locParam.value = value.value;
-          locParam.dt = value.dt;
-          locParam.qd = value.qd;
-          b = true;
-          break;
-        }
-      }
-      if (b) {
+  handleLoadParamsClick(selectedListItem) {
+    if (selectedListItem) {
+      MyStompClient.loadParams(selectedListItem.name, (params) => {
         this.setState({
-          params: locParams,
+          params: params.slice(0, MATCHING_PARAMS_LIMIT),
         });
+  
+        localStorage.setItem('selectedParamList', selectedListItem.name);
+      });
+  
+      const locThis = this;  // should be rewritten!
+  
+      MyStompClient.subscribeToValues(selectedListItem.name, (value) => {
+        const locParams = locThis.state.params.slice();
+        let b = false;
+        for (let i = 0; i < locParams.length; i += 1) {
+          const locParam = locParams[i];
+          if (locParam.name === value.paramName) {
+            locParam.value = value.value;
+            locParam.dt = value.dt;
+            locParam.qd = value.qd;
+            b = true;
+            break;
+          }
+        }
+        if (b) {
+          this.setState({
+            params: locParams,
+          });
+        }
+      });
       }
-    });
   }
 
   handleChange(event, index, value) {
     this.setState({ selectedParamList: value });
 
-    this.handleLoadParamsClick();
+    this.handleLoadParamsClick(value);
   }
 
   render() {
-    return (
 
+    return (
       <div>
         <div>
           <SelectField
@@ -133,13 +148,13 @@ export default class MyParams extends React.Component {
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
             {this.state.params.map(param => (
-              <TableRow key={param.name}>
-                <TableRowColumn>{param.name}</TableRowColumn>
-                <TableRowColumn>{param.caption}</TableRowColumn>
-                <TableRowColumn>{param.value}</TableRowColumn>
-                <TableRowColumn><Moment format='YYYY.MM.DD HH:mm:ss'>{param.dt}</Moment></TableRowColumn>
-                <TableRowColumn>{param.qd}</TableRowColumn>
-                <TableRowColumn>
+              <TableRow key={param.name} style={styles.customHeight}> 
+                <TableRowColumn  style={styles.customHeight}>{param.name}</TableRowColumn>
+                <TableRowColumn  style={styles.customHeight}>{param.caption}</TableRowColumn>
+                <TableRowColumn  style={styles.customHeight}>{param.value}</TableRowColumn>
+                <TableRowColumn  style={styles.customHeight}><Moment format='YYYY.MM.DD HH:mm:ss'>{param.dt}</Moment></TableRowColumn>
+                <TableRowColumn style={styles.customHeight}>{param.qd}</TableRowColumn>
+                <TableRowColumn style={styles.customHeight}>
                   <Link to={`/paramHistory/${param.name}`}>History</Link>
                 </TableRowColumn>
               </TableRow>))

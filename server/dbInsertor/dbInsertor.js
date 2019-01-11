@@ -37,7 +37,7 @@ db.on('connected', () => {
             const s = received.split('<>');
             if (s.length === 4) {
               const dt = new Date(s[3]);
-              const float = parseFloat(s[1]);
+              const float = parseFloat(s[1].replace(',', '.'));
               const obj = new MyParamValue(s[0], float, dt, s[2]);
 
               dbValuesTracker.trackDbParamValue(obj);
