@@ -71,9 +71,16 @@ function loadParams(paramListName, cb) {
     .then(cb);
 }
 
-function loadParamValues(paramName, cb) {
+function loadParamValues(paramName, useHalfHourValues, cb) {
   if (!myHeaders) { recreateHeader(); }
-  return fetch(new Request(`api/paramValues?paramName=${paramName}`, myGetInit), {
+  let uri = '';
+  if (useHalfHourValues){
+    uri=`api/paramHalfHourValues?paramName=${paramName}`;
+  }
+  else {
+    uri=`api/paramValues?paramName=${paramName}`;
+  }
+  return fetch(new Request(uri, myGetInit), {
     accept: 'application/json',
   })
     .then(checkStatus)

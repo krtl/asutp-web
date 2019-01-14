@@ -57,7 +57,13 @@ const loadLastTrackedValues = (callback) => {
       } else if (paramValue) {
         const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
         lastTrackedValues.set(param.name, lastValue);
+      } else {
+        // temporary this way
+        const now = moment().minutes(0).seconds(0).milliseconds(0);
+        const lastValue = new MyParamValue(param.name, 0, now, 'NA');
+        lastTrackedValues.set(param.name, lastValue);
       }
+
       callback(err);
     });
   }, (err) => {
@@ -85,29 +91,30 @@ setInterval(() => {
   if (!lastTickDT.isSame(now)) {
     lastTickDT = moment(now);
     lastTrackedValues.forEach((lastValue, paramName) => {
+      let trackedValues = [];
       if (paramValueBuffers.has(paramName)) {
-        const trackedValues = paramValueBuffers.get(paramName);
-        halfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (valuesToInsert, valuesToUpdate, valuesToTrackAgain) => {
-          let locLastValue = lastValue;
-          valuesToInsert.forEach((newValue) => {
-            dbValues.saveHalfHourValue(newValue);
-
-            if (moment(locLastValue.dt).isBefore(moment(newValue.dt))) {
-              locLastValue = newValue;
-            }
-          });
-
-          if (locLastValue !== lastValue) {
-            lastTrackedValues.set(paramName, locLastValue);
-          }
-
-          valuesToUpdate.forEach((updateValue) => {
-            dbValues.updateAverageHalfHourValue(updateValue);
-          });
-
-          paramValueBuffers.set(paramName, valuesToTrackAgain);
-        });
+        trackedValues = paramValueBuffers.get(paramName);
       }
+      halfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (valuesToInsert, valuesToUpdate, valuesToTrackAgain) => {
+        let locLastValue = lastValue;
+        valuesToInsert.forEach((newValue) => {
+          dbValues.saveHalfHourValue(newValue);
+
+          if (moment(locLastValue.dt).isBefore(moment(newValue.dt))) {
+            locLastValue = newValue;
+          }
+        });
+
+        if (locLastValue !== lastValue) {
+          lastTrackedValues.set(paramName, locLastValue);
+        }
+
+        valuesToUpdate.forEach((updateValue) => {
+          dbValues.updateAverageHalfHourValue(updateValue);
+        });
+
+        paramValueBuffers.set(paramName, valuesToTrackAgain);
+      });
     });
   }
 }, 1800000);

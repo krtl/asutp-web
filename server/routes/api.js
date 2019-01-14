@@ -15,6 +15,8 @@ const NetWire = require('mongoose').model('NetWire');
 const DbParam = require('mongoose').model('Param');
 const DbParamList = require('mongoose').model('ParamList');
 const DbParamValues = require('mongoose').model('ParamValue');
+const DbParamHalfHourValues = require('mongoose').model('ParamHalfHourValue');
+
 
 router.get('/nodes', (req, res, next) => {
   const project = req.query.proj;
@@ -163,6 +165,34 @@ router.get('/paramValues', (req, res, next) => {
   }
 
   DbParamValues
+    .find({ paramName })
+    .sort({ dt: 'desc' })
+    .limit(500)
+    .exec((err, paramValues) => {
+      if (err) return next(err);
+      res.status(200).json(paramValues);
+      return 0;
+    });
+});
+
+router.get('/paramHalfHourValues', (req, res, next) => {
+  const paramName = req.query.paramName;
+
+  if (!paramName) {
+    res.json({
+      error: 'Missing required parameter `paramName`!',
+    });
+    return;
+  }
+
+  if ((paramName === '') || (paramName === 'undefined')) {
+    res.json({
+      error: 'Required parameter `paramName` is wrong!',
+    });
+    return;
+  }
+
+  DbParamHalfHourValues
     .find({ paramName })
     .sort({ dt: 'desc' })
     .limit(500)

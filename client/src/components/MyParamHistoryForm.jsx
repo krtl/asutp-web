@@ -38,24 +38,29 @@ export default class MyParamHistoryForm extends React.Component {
     };
 
     this.handleReloadParamValuesClick = this.handleReloadParamValuesClick.bind(this);
+    this.handleReloadParamHalfHourValuesClick = this.handleReloadParamHalfHourValuesClick.bind(this);
   }
 
   componentDidMount() {
-    this.reloadParamValues();
+    this.reloadParamValues(true);
   }
 
   handleReloadParamValuesClick() {
-    this.reloadParamValues();
+    this.reloadParamValues(false);
   }
 
-  reloadParamValues() {
+  handleReloadParamHalfHourValuesClick() {
+    this.reloadParamValues(true);
+  }
+  
+  reloadParamValues(useHalfHourValues) {
     const historyParamName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
 
     this.setState({
       paramName: historyParamName,
     });
 
-    Client.loadParamValues(historyParamName, (values) => {
+    Client.loadParamValues(historyParamName, useHalfHourValues, (values) => {
       this.setState({
         paramValues: values.slice(0, MATCHING_VALUES_LIMIT),
       });
@@ -82,11 +87,12 @@ export default class MyParamHistoryForm extends React.Component {
 
 
     return (
-
+      
       <Card className='container'>
         <div>
           <CardText>{this.state.paramName}</CardText>
           <RaisedButton onClick={this.handleReloadParamValuesClick}>Reload</RaisedButton>
+          <RaisedButton onClick={this.handleReloadParamHalfHourValuesClick}>HalfHour</RaisedButton>
         </div>
 
         <Tabs>
