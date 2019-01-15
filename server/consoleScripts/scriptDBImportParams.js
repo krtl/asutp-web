@@ -4,10 +4,10 @@ const async = require('async');
 const config = require('../../config');
 
 const FileNames = [
-  // 'asutpParams.json',
-  // 'asutpParamLists.json',
-  'testParams.json',
-  'testParamLists.json',
+  'asutpParams.json',
+  'asutpParamLists.json',
+  // 'testParams.json',
+  // 'testParamLists.json',
   'asutpConnections.json',
 ];
 

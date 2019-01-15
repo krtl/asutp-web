@@ -8,8 +8,8 @@ const ParamValueSchema = new mongoose.Schema({
   },
   value: Number,
   qd: {
-    type: String,
-    enum: [ 'B', 'S', 'NV', 'NA' ],   //'B'-Blocked, 'S'-Substitution, 'NV'-Not Valid, 'NA'- Not Actual
+    type: String,  //  ',B' + ',Z' + ',NA' +',NV'
+    // enum: [ 'B', 'S', 'NV', 'NA' ],   //'B'-Blocked, 'S'-Substitution, 'NV'-Not Valid, 'NA'- Not Actual
   },
   dt: {
     type: Date,
