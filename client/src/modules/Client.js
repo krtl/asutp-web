@@ -4,6 +4,7 @@ import Auth from './Auth';
 let myHeaders = null;
 let myGetInit = null;
 let myPostInit = null;
+let loading = false;
 
 function recreateHeader() {
   myHeaders = new Headers({
@@ -23,6 +24,7 @@ function recreateHeader() {
 }
 
 function loadNodes(prjName, cb) {
+  loading = true;
   if (!myHeaders) { recreateHeader(); }
   return fetch(new Request(`api/nodes?proj=${prjName}`, myGetInit), {
     accept: 'application/json',
@@ -33,6 +35,7 @@ function loadNodes(prjName, cb) {
 }
 
 function loadWires(prjName, cb) {
+  loading = true;
   if (!myHeaders) { recreateHeader(); }
   return fetch(new Request(`api/wires?proj=${prjName}`, myGetInit), {
     accept: 'application/json',
@@ -43,16 +46,18 @@ function loadWires(prjName, cb) {
 }
 
 function saveNodes(s, cb) {
+  loading = true;
   fetch(new Request('api/save_node', myPostInit),
     {
       body: s,
     })
     .then(checkStatus)
     .then(parseJSON)
-    .then(cb);
+    .then(csb);
 }
 
 function loadParamLists(userName, cb) {
+  loading = true;
   if (!myHeaders) { recreateHeader(); }
   return fetch(new Request(`api/paramLists?user=${userName}`, myGetInit), {
     accept: 'application/json',
@@ -63,6 +68,7 @@ function loadParamLists(userName, cb) {
 }
 
 function loadParams(paramListName, cb) {
+  loading = true;
   return fetch(new Request(`api/params?prmLstName=${paramListName}`, myGetInit), {
     accept: 'application/json',
   })
@@ -72,6 +78,7 @@ function loadParams(paramListName, cb) {
 }
 
 function loadParamValues(paramName, useHalfHourValues, cb) {
+  loading = true;
   if (!myHeaders) { recreateHeader(); }
   let uri = '';
   if (useHalfHourValues){
@@ -89,6 +96,7 @@ function loadParamValues(paramName, useHalfHourValues, cb) {
 }
 
 function checkStatus(response) {
+  loading = false;
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -103,5 +111,5 @@ function parseJSON(response) {
   return response.json();
 }
 
-const Client = { loadNodes, loadWires, saveNodes, loadParams, loadParamLists, loadParamValues, resetHeader: recreateHeader };
+const Client = { loadNodes, loadWires, saveNodes, loadParams, loadParamLists, loadParamValues, resetHeader: recreateHeader, loading };
 export default Client;

@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
+// import Client from '../modules/Client';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
-const Base = ({ children }) => (
+const Base = ({ loading, children }) => (
   <div>
     <div className='top-bar'>
       <div className='top-bar-left'>
         <IndexLink to='/'>ASUTP</IndexLink>
+        {loading && <CircularProgress size={22} />}
       </div>
 
       {Auth.isUserAuthenticated() ? (
@@ -32,6 +35,7 @@ const Base = ({ children }) => (
 );
 
 Base.propTypes = {
+  loading: PropTypes.bool,
   children: PropTypes.object.isRequired,
 };
 
