@@ -39,7 +39,7 @@ MainStatus.defaultProps = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-    nowLoading: true,
+    nowLoading: state.mainStatus.nowLoading,
   });
   
 export default connect(mapStateToProps)(MainStatus);

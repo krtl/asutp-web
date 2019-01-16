@@ -7,7 +7,7 @@ const initialStatus = { nowLoading: false};
 
 export default function mainStatus(state = initialStatus, action) {
   if (action.type === LOADING_BEGIN) {
-    return action.payload;
+    return { nowLoading: true};
   } else if (action.type === LOADING_END) {
     return initialStatus;
   }

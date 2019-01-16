@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import RaisedButton from 'material-ui/RaisedButton';
 // import SelectField from 'material-ui/SelectField';
@@ -15,6 +15,11 @@ import {
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Moment from 'react-moment';
 // import moment from 'moment';
+import { connect } from 'react-redux';
+import {
+  loadingBegin,
+  loadingEnd
+} from '../reducers/actions'
 
 import Client from '../modules/Client';
 
@@ -28,7 +33,7 @@ const styles = {
 
 
 
-export default class MyParamHistoryForm extends React.Component {
+class MyParamHistoryForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -60,10 +65,14 @@ export default class MyParamHistoryForm extends React.Component {
       paramName: historyParamName,
     });
 
+    this.props.onLoadingStart();
+
+
     Client.loadParamValues(historyParamName, useHalfHourValues, (values) => {
       this.setState({
         paramValues: values.slice(0, MATCHING_VALUES_LIMIT),
       });
+      this.props.onLoadingEnd();
     });
   }
 
@@ -141,12 +150,25 @@ export default class MyParamHistoryForm extends React.Component {
 }
 
 
-// MyParamHistoryForm.propTypes = {
+ MyParamHistoryForm.propTypes = {
+  onLoadingStart: PropTypes.func.isRequired,
+  onLoadingEnd: PropTypes.func.isRequired,   
 //   paramValues: PropTypes.arrayOf(PropTypes.shape({
 //     paramName: PropTypes.string,
 //     value: PropTypes.string,
 //     dt: PropTypes.string,
 //     qd: PropTypes.string,
 //   })),
-// };
+ };
 
+
+export default connect(null,
+  dispatch => ({
+    onLoadingStart: (payload) => {
+      dispatch(loadingBegin(payload));      
+    },
+    onLoadingEnd: (payload) => {
+      dispatch(loadingEnd(payload));
+    },
+  }),
+)(MyParamHistoryForm);
