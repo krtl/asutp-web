@@ -1,15 +1,19 @@
-export const LOADING_BEGIN = 'LOADING_BEGIN'
-export function loadingBegin() {
+export const FETCHING_BEGIN = 'FETCHING_BEGIN'
+export function fetchingBegin(url, method) {
   return {
-    type: LOADING_BEGIN,
+    type: FETCHING_BEGIN,
+    url,
+    method,
   }
 }
 
-export const LOADING_END = 'LOADING_END'
-export function loadingEnd(error) {
+export const FETCHING_END = 'FETCHING_END'
+export function fetchingEnd(data, error) {
   return {
-    type: LOADING_END,
+    type: FETCHING_END,
+    data,
     error,
     receivedAt: Date.now()
   }
 }
+

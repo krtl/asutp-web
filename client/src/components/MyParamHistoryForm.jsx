@@ -14,16 +14,7 @@ import {
 } from 'material-ui/Table';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import Moment from 'react-moment';
-// import moment from 'moment';
-import { connect } from 'react-redux';
-import {
-  loadingBegin,
-  loadingEnd
-} from '../reducers/actions'
 
-import Client from '../modules/Client';
-
-const MATCHING_VALUES_LIMIT = 2500;
 
 const styles = {
   cellCustomHeight: {
@@ -32,60 +23,31 @@ const styles = {
 };
 
 
-
-class MyParamHistoryForm extends React.Component {
+export default class MyParamHistoryForm extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      paramName: '',
-      paramValues: [],
-    };
 
     this.handleReloadParamValuesClick = this.handleReloadParamValuesClick.bind(this);
     this.handleReloadParamHalfHourValuesClick = this.handleReloadParamHalfHourValuesClick.bind(this);
   }
 
   componentDidMount() {
-    this.reloadParamValues(true);
+    this.props.onReloadParamValues(this.props.paramName, true);
   }
 
   handleReloadParamValuesClick() {
-    this.reloadParamValues(false);
+    this.props.onReloadParamValues(this.props.paramName, false);
   }
 
   handleReloadParamHalfHourValuesClick() {
-    this.reloadParamValues(true);
-  }
-  
-  reloadParamValues(useHalfHourValues) {
-    const historyParamName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
-
-    this.setState({
-      paramName: historyParamName,
-    });
-
-    this.props.onLoadingStart();
-
-
-    Client.loadParamValues(historyParamName, useHalfHourValues, (values) => {
-      this.setState({
-        paramValues: values.slice(0, MATCHING_VALUES_LIMIT),
-      });
-      this.props.onLoadingEnd();
-    });
-  }
-
+    this.props.onReloadParamValues(this.props.paramName, true);
+  }    
 
   render() {
-    const data = [
-      {
-        value: 0,
-        dt: 0,
-      },
+    const data = [      
     ];
 
-    this.state.paramValues.forEach((vl) => {
+    this.props.paramValues.forEach((vl) => {
       data.push(
         {
           value: vl.value,
@@ -99,7 +61,7 @@ class MyParamHistoryForm extends React.Component {
       
       <Card className='container'>
         <div>
-          <CardText>{this.state.paramName}</CardText>
+          <CardText>{this.props.paramName}</CardText>
           <RaisedButton onClick={this.handleReloadParamValuesClick}>Reload</RaisedButton>
           <RaisedButton onClick={this.handleReloadParamHalfHourValuesClick}>HalfHour</RaisedButton>
         </div>
@@ -116,7 +78,7 @@ class MyParamHistoryForm extends React.Component {
                 </TableRow>
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
-                {this.state.paramValues.map(value => (
+                {this.props.paramValues.map(value => (
                   <TableRow key={value.dt} style={styles.cellCustomHeight}>
                     <TableRowColumn style={styles.cellCustomHeight}><Moment format='YYYY.MM.DD HH:mm:ss'>{value.dt}</Moment></TableRowColumn>
                     <TableRowColumn style={styles.cellCustomHeight}>{value.value}</TableRowColumn>
@@ -151,24 +113,15 @@ class MyParamHistoryForm extends React.Component {
 
 
  MyParamHistoryForm.propTypes = {
-  onLoadingStart: PropTypes.func.isRequired,
-  onLoadingEnd: PropTypes.func.isRequired,   
-//   paramValues: PropTypes.arrayOf(PropTypes.shape({
-//     paramName: PropTypes.string,
-//     value: PropTypes.string,
-//     dt: PropTypes.string,
-//     qd: PropTypes.string,
-//   })),
+  paramName: PropTypes.string,
+  paramValues: PropTypes.arrayOf(PropTypes.shape({
+     paramName: PropTypes.string,
+     value: PropTypes.string,
+     dt: PropTypes.string,
+     qd: PropTypes.string,
+   })),
+   onReloadParamValues: PropTypes.func,
  };
 
 
-export default connect(null,
-  dispatch => ({
-    onLoadingStart: (payload) => {
-      dispatch(loadingBegin(payload));      
-    },
-    onLoadingEnd: (payload) => {
-      dispatch(loadingEnd(payload));
-    },
-  }),
-)(MyParamHistoryForm);
+

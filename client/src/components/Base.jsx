@@ -4,11 +4,9 @@ import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
 // import Client from '../modules/Client';
 import MainStatus from './MainStatus';
-import MyFetchClient from '../containers/MyFetchClient'
 
 const Base = ({ children }) => (
-  <div>    
-  <MyFetchClient />
+  <div>      
     <div className='top-bar'>
       <div className='top-bar-left'>
         <IndexLink to='/'>ASUTP</IndexLink>

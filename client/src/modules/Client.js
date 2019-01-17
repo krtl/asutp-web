@@ -53,7 +53,7 @@ function saveNodes(s, cb) {
     })
     .then(checkStatus)
     .then(parseJSON)
-    .then(csb);
+    .then(cb);
 }
 
 function loadParamLists(userName, cb) {
@@ -92,7 +92,12 @@ function loadParamValues(paramName, useHalfHourValues, cb) {
   })
     .then(checkStatus)
     .then(parseJSON)
-    .then(cb);
+    .then(cb)
+    .catch( setError );
+}
+
+function setError(error) {
+  console.log(error); // eslint-disable-line no-console  
 }
 
 function checkStatus(response) {
