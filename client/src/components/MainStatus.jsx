@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 function MySpinner(props) {
     const isActive = props.isActive
  if (isActive) {
-   return <CircularProgress size={22} />;
+   return <CircularProgress size={20} />;
  }
  return null;
 }
