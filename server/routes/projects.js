@@ -4,13 +4,13 @@ const DbAsutpConnection = require('../dbmodels/asutpConnection');
 
 
 module.exports = (app) => {
-  app.get('/allparamsasarray', (req, res) => {
+  app.get('/allParamsAsArray', (req, res) => {
     const params = myDataModelParams.getAllParamsAsArray();
     res.json(params);
     return true;
   });
 
-  app.get('/getregions', (req, res) => {
+  app.get('/getRegions', (req, res) => {
     const names = [];
     const regions = myDataModelNodes.GetRegions();
     regions.forEach((reg) => {
@@ -21,7 +21,7 @@ module.exports = (app) => {
     return true;
   });
 
-  app.get('/getregionpss', (req, res) => {
+  app.get('/getRegionPSs', (req, res) => {
     const names = [];
     const pss = myDataModelNodes.GetRegionPSs(req.query.name);
     pss.forEach((ps) => {
@@ -32,13 +32,13 @@ module.exports = (app) => {
     return true;
   });
 
-  app.get('/getjsonps', (req, res) => {
+  app.get('/getJsonPS', (req, res) => {
     const json = myDataModelNodes.GetPSForJson(req.query.name);
     res.send(json);
     return true;
   });
 
-  app.get('/getasutpconnectionsfor', (req, res, next) => {
+  app.get('/getAsutpConnectionsFor', (req, res, next) => {
     DbAsutpConnection
     .find({ psSapCode: req.query.psSapCode })
     .sort({ voltage: 'desc' })

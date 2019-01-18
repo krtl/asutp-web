@@ -37,33 +37,12 @@ export default class MyStage extends React.Component {
 
   handleLoadSchemeClick() {
     this.props.onLoadScheme();
-
-    // Client.loadNodes('test_proj', (nodes) => {
-    //   this.setState({
-    //     nodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
-    //     enodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
-    //     edited: false,
-    //   });
-    // });
-    // Client.loadWires('test_proj', (wires) => {
-    //   this.setState({
-    //     wires: wires.slice(0, MATCHING_ITEM_LIMIT),
-    //     edited: false,
-    //   });
-    // });
   }
 
   handleSaveSchemeClick() {
     if (this.state.edited) {
       const s = JSON.stringify(this.props.enodes);
       this.props.onSaveScheme(s);
-
-      // const s = JSON.stringify(this.props.enodes);
-      // Client.saveNodes(s, () => {
-      //   this.setState({
-      //     edited: false,
-      //   });
-      // });
     }
   }
 

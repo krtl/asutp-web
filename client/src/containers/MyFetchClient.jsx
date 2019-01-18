@@ -78,6 +78,11 @@ class MyFetchClient extends React.Component {
         if (response.status >= 200 && response.status < 300) {
           return response;
         }
+        if (response.status === 401) {
+          Auth.deauthenticateUser();
+          window.location.reload();
+          return;
+        }        
         const error = new Error(`HTTP Error ${response.statusText}`);
         error.status = response.statusText;
         error.response = response;

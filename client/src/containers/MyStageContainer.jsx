@@ -17,7 +17,6 @@ export default class MyStageContainer extends React.Component {
       nodes: [],
       enodes: [],
       wires: [],
-      edited: false,
       };
 
     this.onLoadScheme = this.onLoadScheme.bind(this);

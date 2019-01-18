@@ -22,6 +22,9 @@ class MainForm extends React.Component {
         <Tab label='Params' >
           <MyParams />
         </Tab>
+        <Tab label='PSs' >
+          {/* <MyPSs /> */}
+        </Tab>
         <Tab label='Shutdowns' >
           <MyShutdowns
             shutdowns={[]}
@@ -30,8 +33,6 @@ class MainForm extends React.Component {
         <Tab label='Scheme' >
           <div className='container'>
 
-
-            {/* {this.props.secretData && <CardText style={{ fontSize: '16px', color: 'green' }}>{this.props.secretData}</CardText>} */}
 
             <MyStageContainer />
           </div>
@@ -42,7 +43,14 @@ class MainForm extends React.Component {
 }
 
 MainForm.propTypes = {
-  secretData: PropTypes.string.isRequired,
+  paramsLists: PropTypes.array.isRequired,
+  params: PropTypes.array.isRequired,
+  regions: PropTypes.array.isRequired,
+  PSs: PropTypes.array.isRequired,
+  ps: PropTypes.string.isRequired,
+  onGetParams: PropTypes.func.isRequired,
+  onGetPSs: PropTypes.func.isRequired,
+  onGetPS: PropTypes.func.isRequired,
 };
 
 export default MainForm;
