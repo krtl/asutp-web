@@ -41,31 +41,31 @@ class MyFetchClient extends React.Component {
         };
       }
      
-      doPost(data, cb) {
+      doPost(request) {
 
         this.props.onLoadingStart();
 
-        fetch(new Request(this.props.fetchUrl, myPostInit),
+        fetch(new Request(request.fetchUrl, myPostInit),
           {
-            body: data,
+            body: request.fetchData,
           })
           .then(this.checkStatus)
           .then(this.parseJSON)
-          .then(cb)
+          .then(request.fetchCallback)
           .catch(this.setError);
       }
 
-      doGet(cb) {
+      doGet(request) {
 
         this.props.onLoadingStart();
 
         if (!myHeaders) { this.recreateHeader(); }
-        return fetch(new Request(this.props.fetchUrl, myGetInit), {
+        return fetch(new Request(request.fetchUrl, myGetInit), {
           accept: 'application/json',
         })
           .then(this.checkStatus)
           .then(this.parseJSON)
-          .then(cb)
+          .then(request.fetchCallback)
           .catch(this.setError);
       }
       
@@ -90,18 +90,20 @@ class MyFetchClient extends React.Component {
       }      
 
     componentDidUpdate(prevProps){
-        if (this.props.fetchUrl !== prevProps.fetchUrl) {
-          if (this.props.fetchUrl) {
-            if (this.props.fetchCallback) {
-              if (this.props.fetchMethod === 'post') {
-                this.doPost(this.props.fetchData, this.props.fetchCallback);
-              }
-              else {
-                this.doGet(this.props.fetchCallback);
-              }
-            }
+        if (this.props.cmdUid !== prevProps.cmdUid) {
+            this.props.fetchRequests.forEach(request => {
+                if (request.fetchUrl) {
+                  if (request.fetchCallback) {
+                    if (request.fetchMethod === 'post') {
+                      this.doPost(request);
+                    }
+                    else {
+                      this.doGet(request);
+                    }
+                  }
+                }
+            });
           }
-        }
       }
 
     render() {
@@ -111,10 +113,13 @@ class MyFetchClient extends React.Component {
  
 
  MyFetchClient.propTypes = {
-    fetchUrl: PropTypes.string,
-    fetchMethod: PropTypes.string,
-    fetchData: PropTypes.string,
-    fetchCallback: PropTypes.func,
+  cmdUid: PropTypes.string.isRequired,
+  fetchRequests: PropTypes.arrayOf(PropTypes.shape({
+      fetchUrl: PropTypes.string,
+      fetchMethod: PropTypes.string,
+      fetchData: PropTypes.string,
+      fetchCallback: PropTypes.func,
+    })).isRequired,
     onLoadingStart: PropTypes.func.isRequired,
     onLoadingEnd: PropTypes.func.isRequired,   
    };

@@ -9,7 +9,6 @@ export default class MyStage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      enodes: [],
       edited: false,
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
@@ -22,9 +21,9 @@ export default class MyStage extends React.Component {
     if (this.props.wires) {
         for (let i = 0; i < this.props.wires.length; i += 1) {
           const locWire = this.props.wires[i];
-          const locNode1 = this.state.enodes.find(node => node.name === locWire.nodeFrom);
-          const locNode2 = this.state.enodes.find(node => node.name === locWire.nodeTo);
-          if ((locNode1 !== 'undefined') && (locNode2 !== 'undefined')) {
+          const locNode1 = this.props.enodes.find(node => node.name === locWire.nodeFrom);
+          const locNode2 = this.props.enodes.find(node => node.name === locWire.nodeTo);
+          if ((locNode1 !== undefined) && (locNode2 !== undefined)) {
             result.push(
               {
                 name: this.props.wires[i].name,
@@ -56,9 +55,10 @@ export default class MyStage extends React.Component {
 
   handleSaveSchemeClick() {
     if (this.state.edited) {
-      this.props.onSaveScheme();
+      const s = JSON.stringify(this.props.enodes);
+      this.props.onSaveScheme(s);
 
-      // const s = JSON.stringify(this.state.enodes);
+      // const s = JSON.stringify(this.props.enodes);
       // Client.saveNodes(s, () => {
       //   this.setState({
       //     edited: false,
@@ -68,8 +68,8 @@ export default class MyStage extends React.Component {
   }
 
   handleDragEnd(nodeObj) {
-    const locNode = this.state.enodes.find(node => node.name === nodeObj.name);
-    if (locNode !== 'undefined') {
+    const locNode = this.props.enodes.find(node => node.name === nodeObj.name);
+    if (locNode !== undefined) {
       // console.log(`[MyStage] Drag ends for ${locNode.name}`);
 
       locNode.x = nodeObj.x;
@@ -120,6 +120,7 @@ export default class MyStage extends React.Component {
 
  MyStage.propTypes = {
   nodes: PropTypes.array.isRequired,
+  enodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,

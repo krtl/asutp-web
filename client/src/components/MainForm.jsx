@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import MyParams from './MyParams';
 import MyShutdowns from './MyShutdowns';
-import MyStage from './MyStage';
+import MyStageContainer from '../containers/MyStageContainer';
 // import Client from '../modules/Client'; // eslint-disable-line
 
 class MainForm extends React.Component {
@@ -33,7 +33,7 @@ class MainForm extends React.Component {
 
             {/* {this.props.secretData && <CardText style={{ fontSize: '16px', color: 'green' }}>{this.props.secretData}</CardText>} */}
 
-            <MyStage />
+            <MyStageContainer />
           </div>
         </Tab>
       </Tabs>

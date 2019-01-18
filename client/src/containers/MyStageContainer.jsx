@@ -4,6 +4,15 @@ import MyFetchClient from './MyFetchClient'
 
 const MATCHING_ITEM_LIMIT = 2500;
 
+function makeUid(length) {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < length; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
 
 export default class MyStageContainer extends React.Component {
 
@@ -11,11 +20,10 @@ export default class MyStageContainer extends React.Component {
     super(props);
 
     this.state = {
-      fetchUrl: '',
-      fetchData: '',
-      fetchMethod: '',
-      fetchCallback: null,
+      cmdUid: '',
+      fetchRequests: [],
       nodes: [],
+      enodes: [],
       wires: [],
       edited: false,
       };
@@ -26,19 +34,20 @@ export default class MyStageContainer extends React.Component {
 
   onLoadScheme() {
     const prjName = 'test_proj';
-
-    this.setState({
+    const uid = makeUid(5);
+    const cmds = [
+      {
         fetchUrl: `api/nodes?proj=${prjName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (nodes) => {
           this.setState({
             nodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
+            enodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
           });
         }
-      });
-
-      this.setState({
+      },
+      {
         fetchUrl: `api/wires?proj=${prjName}`,
         fetchMethod: 'get',
         fetchData: '',
@@ -47,38 +56,51 @@ export default class MyStageContainer extends React.Component {
             wires: wires.slice(0, MATCHING_ITEM_LIMIT),
         });
         }
-      });  
+      }
+    ]
+
+    this.setState({
+        cmdUid: uid,
+        fetchRequests: cmds,
+      });
   }
 
   onSaveScheme(s) {
-    const prjName = 'test_proj';
-
-    this.setState({
-        fetchUrl: `api/nodes?proj=${prjName}`,
+    // const prjName = 'test_proj';
+    const uid = makeUid(5);
+    const cmds = [
+      {
+//        fetchUrl: `api/save_node?proj=${prjName}`,
+        fetchUrl: 'api/save_node',
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: (nodes) => {
-          this.setState({
-            nodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
-          });
+          // this.setState({
+          // });
         }
+      },
+    ]
+
+    this.setState({
+        cmdUid: uid,
+        fetchRequests: cmds,
       });
-  }  
+  }
 
   render() {
     return (
       <div>      
       <MyStage 
         nodes={this.state.nodes}
+        enodes={this.state.enodes}
         wires={this.state.wires}
         onLoadScheme={this.onLoadScheme} 
         onSaveScheme={this.onSaveScheme} 
       />
       <MyFetchClient 
-        fetchUrl={this.state.fetchUrl}
-        fetchData={this.state.fetchData}
-        fetchMethod={this.state.fetchMethod}
-        fetchCallback={this.state.fetchCallback}/>
+        cmdUid={this.state.cmdUid}
+        fetchRequests={this.state.fetchRequests}
+      />
       </div>      
       );
   }
