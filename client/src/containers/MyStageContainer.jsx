@@ -1,18 +1,10 @@
 import React from 'react';
 import MyStage from '../components/MyStage';
-import MyFetchClient from './MyFetchClient'
+import MyFetchClient from './MyFetchClient';
+import makeUid from '../modules/MyFuncs';
 
 const MATCHING_ITEM_LIMIT = 2500;
 
-function makeUid(length) {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < length; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
-}
 
 export default class MyStageContainer extends React.Component {
 

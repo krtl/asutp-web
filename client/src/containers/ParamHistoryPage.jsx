@@ -1,6 +1,7 @@
 import React from 'react';
 import MyParamHistoryForm from '../components/MyParamHistoryForm';
-import MyFetchClient from './MyFetchClient'
+import MyFetchClient from './MyFetchClient';
+import makeUid from '../modules/MyFuncs';
 
 const MATCHING_VALUES_LIMIT = 2500;
 
@@ -11,10 +12,8 @@ export default class ParamHistoryPage extends React.Component {
     super(props);
 
     this.state = {
-      fetchUrl: '',
-      fetchData: '',
-      fetchMethod: '',
-      fetchCallback: null,
+      cmdUid: '',
+      fetchRequests: [],
       paramName: '',
       paramValues: [],      
     };
@@ -32,18 +31,27 @@ export default class ParamHistoryPage extends React.Component {
     else {
       url=`api/paramValues?paramName=${historyParamName}`;
     }
-  
-    this.setState({
-      paramName: historyParamName,
-      fetchUrl: url,
-      fetchMethod: 'get',
-      fetchData: '',
-      fetchCallback: (values) => {
-        this.setState({
-          paramValues: values.slice(0, MATCHING_VALUES_LIMIT),
-        });
+
+    const uid = makeUid(5);
+    const cmds = [
+      {
+        fetchUrl: url,
+        fetchMethod: 'get',
+        fetchData: '',
+        fetchCallback: (values) => {
+          this.setState({
+            paramValues: values.slice(0, MATCHING_VALUES_LIMIT),
+          });
+        },
       }
-    });
+    ]
+
+    this.setState({
+        cmdUid: uid,
+        fetchRequests: cmds,
+        paramName: historyParamName,
+      });
+
   }
 
 
@@ -56,10 +64,9 @@ export default class ParamHistoryPage extends React.Component {
       onReloadParamValues={this.reloadParamValues} 
       />
       <MyFetchClient 
-        fetchUrl={this.state.fetchUrl}
-        fetchData={this.state.fetchData}
-        fetchMethod={this.state.fetchMethod}
-        fetchCallback={this.state.fetchCallback}/>
+        cmdUid={this.state.cmdUid}
+        fetchRequests={this.state.fetchRequests}
+      />
       </div>      
       );
   }
