@@ -22,11 +22,11 @@ export default class MainPage extends React.Component {
       ps: '',
       };
 
-    this.onGetParams = this.onGetParams.bind(this);
-    this.onGetPSs = this.onGetPSs.bind(this);
-    this.onGetPSs = this.onGetPSs.bind(this);
+    this.onLoadParams = this.onLoadParams.bind(this);
+    this.onLoadPSs = this.onLoadPSs.bind(this);
+    this.onLoadPS = this.onLoadPS.bind(this);
 
-    MyStompClient.connect(this.doOnWebsocketConnected);
+//    MyStompClient.connect(this.doOnWebsocketConnected);
 
   }
 
@@ -61,7 +61,7 @@ export default class MainPage extends React.Component {
       });
   }
 
-  onGetParams(paramListName) {
+  onLoadParams(paramListName) {
     const cmds = [
       {
         fetchUrl: `api/params?prmLstName=${paramListName}`,
@@ -81,7 +81,7 @@ export default class MainPage extends React.Component {
       });
   }
 
-  onGetPSs(regionName) {
+  onLoadPSs(regionName) {
     const cmds = [
       {
         fetchUrl: `projects/getRegionPSs?name=${regionName}`,
@@ -101,7 +101,7 @@ export default class MainPage extends React.Component {
       });
   }  
 
-  onGetPS(psName) {
+  onLoadPS(psName) {
     const cmds = [
       {
         fetchUrl: `projects/getJsonPS?name=${psName}`,
@@ -131,9 +131,9 @@ export default class MainPage extends React.Component {
         regions={this.state.regions}
         PSs={this.state.PSs}
         ps={this.state.ps}  
-        onGetParams={this.onGetParams} 
-        onGetPSs={this.onGetPSs} 
-        onGetPS={this.onGetPS} 
+        onLoadParams={this.onLoadParams} 
+        onLoadPSs={this.onLoadPSs} 
+        onLoadPS={this.onLoadPS} 
       />
       <MyFetchClient 
         cmdUid={this.state.cmdUid}

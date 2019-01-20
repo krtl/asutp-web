@@ -45,8 +45,6 @@ export default class MyParams extends React.Component {
 
     this.state = {
       selectedParamList: '',
-      paramLists: [],
-      params: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -54,12 +52,13 @@ export default class MyParams extends React.Component {
   }
 
   componentDidMount() {
-    MyStompClient.loadParamLists((paramLists) => {
-      this.setState({
-        paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
-      });
+    // MyStompClient.loadParamLists((paramLists) => {
+    //   this.setState({
+    //     paramLists: paramLists.slice(0, MATCHING_LISTS_LIMIT),
+    //   });
 
       const selectedParamListName = localStorage.getItem('selectedParamList');
+
       if (selectedParamListName) {
         for (let i = 0; i < this.state.paramLists.length; i += 1) {
           if (this.state.paramLists[i].name === selectedParamListName) {
@@ -71,7 +70,7 @@ export default class MyParams extends React.Component {
           }
         }
       }
-    });
+    // });
   }
 
   componentWillUnmount() {
@@ -84,15 +83,7 @@ export default class MyParams extends React.Component {
     }
 
     if (selectedListItem) {
-      MyStompClient.loadParams(selectedListItem.name, (params) => {
-        this.setState({
-          params: params.slice(0, MATCHING_PARAMS_LIMIT),
-        });
-  
-        localStorage.setItem('selectedParamList', selectedListItem.name);
-      });
-  
-      const locThis = this;  // should be rewritten!
+      this.props.onLoadParams(selectedListItem.name);
   
       MyStompClient.subscribeToValues(selectedListItem.name, (value) => {
         const locParams = locThis.state.params.slice();
@@ -170,6 +161,9 @@ export default class MyParams extends React.Component {
   }
 }
 
-// MyParams.propTypes = {
-// };
+MyParams.propTypes = {
+  paramLists: PropTypes.array.isRequired,
+  params: PropTypes.array.isRequired,
+  onLoadParams: PropTypes.func,
+};
 

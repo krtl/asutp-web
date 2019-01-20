@@ -1,7 +1,8 @@
 import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';
-import DashboardPage from './containers/MainPage.jsx';
+import MainPage from './containers/MainPage.jsx';
 import ParamHistoryPage from './containers/ParamHistoryPage.jsx';
+import PSSchemePage from './containers/MyPSSchemePage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import Auth from './modules/Auth';
@@ -16,7 +17,7 @@ const routes = {
       path: '/',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
-          callback(null, DashboardPage);
+          callback(null, MainPage);
         } else {
           callback(null, HomePage);
         }
@@ -33,7 +34,16 @@ const routes = {
         }
       },
     },
-
+    {
+      path: '/psScheme/:psName',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, PSSchemePage);
+        } else {
+          callback(null, HomePage);
+        }
+      },
+    },
     {
       path: '/login',
       component: LoginPage,

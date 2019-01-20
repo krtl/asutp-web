@@ -7,9 +7,11 @@ import MyStageContainer from '../containers/MyStageContainer';
 // import Client from '../modules/Client'; // eslint-disable-line
 
 class MainForm extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+
+  }
 
   componentDidMount() {
     console.log('MainForm did mount');
@@ -20,10 +22,18 @@ class MainForm extends React.Component {
     return (
       <Tabs>
         <Tab label='Params' >
-          <MyParams />
+          <MyParams
+            paramLists={this.props.paramLists}
+            params={this.props.params}
+            onLoadParams={this.props.onLoadParams}
+           />
         </Tab>
         <Tab label='PSs' >
-          {/* <MyPSs /> */}
+          <MyPSs
+          regions={this.props.regions}
+          PSs={this.props.PSs}
+          onLoadPSs={this.props.onLoadPSs}
+          />
         </Tab>
         <Tab label='Shutdowns' >
           <MyShutdowns
@@ -48,9 +58,9 @@ MainForm.propTypes = {
   regions: PropTypes.array.isRequired,
   PSs: PropTypes.array.isRequired,
   ps: PropTypes.string.isRequired,
-  onGetParams: PropTypes.func.isRequired,
-  onGetPSs: PropTypes.func.isRequired,
-  onGetPS: PropTypes.func.isRequired,
+  onLoadParams: PropTypes.func.isRequired,
+  onLoadPSs: PropTypes.func.isRequired,
+  onLoadPS: PropTypes.func.isRequired,
 };
 
 export default MainForm;
