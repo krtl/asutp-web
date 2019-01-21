@@ -1,7 +1,7 @@
 import React from 'react';
 import MainForm from '../components/MainForm';
 import MyFetchClient from './MyFetchClient';
-import MyStompClient from '../modules/MyStompClient';
+// import MyStompClient from '../modules/MyStompClient';
 import makeUid from '../modules/MyFuncs';
 
 const MATCHING_ITEM_LIMIT = 2500;
@@ -15,7 +15,7 @@ export default class MainPage extends React.Component {
     this.state = {
       cmdUid: '',
       fetchRequests: [],
-      paramsLists: [],
+      paramLists: [],
       params: [],
       regions: [],
       PSs: [],
@@ -37,14 +37,14 @@ export default class MainPage extends React.Component {
         fetchUrl: 'api/paramLists',
         fetchMethod: 'get',
         fetchData: '',
-        fetchCallback: (paramsLists) => {
+        fetchCallback: (paramLists) => {
           this.setState({
-            paramsLists: paramsLists.slice(0, MATCHING_ITEM_LIMIT),
+            paramLists: paramLists.slice(0, MATCHING_ITEM_LIMIT),
           });
         }
       },
       {
-        fetchUrl: 'project/getRegions',
+        fetchUrl: 'getRegions',
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (regions) => {
@@ -84,7 +84,7 @@ export default class MainPage extends React.Component {
   onLoadPSs(regionName) {
     const cmds = [
       {
-        fetchUrl: `projects/getRegionPSs?name=${regionName}`,
+        fetchUrl: `getRegionPSs?name=${regionName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (pss) => {
@@ -104,7 +104,7 @@ export default class MainPage extends React.Component {
   onLoadPS(psName) {
     const cmds = [
       {
-        fetchUrl: `projects/getJsonPS?name=${psName}`,
+        fetchUrl: `getJsonPS?name=${psName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (ps) => {
@@ -126,7 +126,7 @@ export default class MainPage extends React.Component {
     return (
       <div>      
       <MainForm
-        paramsLists={this.state.paramLists}
+        paramLists={this.state.paramLists}
         params={this.state.params}
         regions={this.state.regions}
         PSs={this.state.PSs}

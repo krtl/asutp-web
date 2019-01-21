@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 // import { styled } from '@material-ui/styles';
 import SelectField from 'material-ui/SelectField';
 import {
@@ -15,7 +15,6 @@ import MenuItem from 'material-ui/MenuItem';
 
 /* global localStorage */
 
-import MyStompClient from '../modules/MyStompClient';
 
 // const MyTableRow = styled(TableRow)({
 //   height: 10,
@@ -64,7 +63,7 @@ export default class MyPSs extends React.Component {
   handleChange(event, index, value) {
     this.setState({ selectedRegion: value });
 
-    this.props.handleLoadPSsClick(value);
+    this.handleLoadPSsClick(value);
   }
 
   render() {

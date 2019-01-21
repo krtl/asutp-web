@@ -26,12 +26,12 @@ export default class PSSchemePage extends React.Component {
     const uid = makeUid(5);
     const cmds = [
       {
-        fetchUrl: `api/psJson?psName=${psName}`,
+        fetchUrl: `getJsonPS?name=${psName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (value) => {
           this.setState({
-            psJsons: value,
+            psJson: JSON.stringify(value),
           });
         },
       }

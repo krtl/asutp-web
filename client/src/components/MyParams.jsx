@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 // import { styled } from '@material-ui/styles';
 import SelectField from 'material-ui/SelectField';
 import {
@@ -16,7 +16,7 @@ import Moment from 'react-moment';
 
 /* global localStorage */
 
-import MyStompClient from '../modules/MyStompClient';
+// import MyStompClient from '../modules/MyStompClient';
 
 // const MyTableRow = styled(TableRow)({
 //   height: 10,
@@ -35,9 +35,6 @@ const styles = {
   }
 };
 
-
-const MATCHING_PARAMS_LIMIT = 2500;
-const MATCHING_LISTS_LIMIT = 1000;
 
 export default class MyParams extends React.Component {
   constructor(props) {
@@ -60,10 +57,10 @@ export default class MyParams extends React.Component {
       const selectedParamListName = localStorage.getItem('selectedParamList');
 
       if (selectedParamListName) {
-        for (let i = 0; i < this.state.paramLists.length; i += 1) {
-          if (this.state.paramLists[i].name === selectedParamListName) {
+        for (let i = 0; i < this.props.paramLists.length; i += 1) {
+          if (this.props.paramLists[i].name === selectedParamListName) {
             this.setState({
-              selectedParamList: this.state.paramLists[i],
+              selectedParamList: this.props.paramLists[i],
             });
             this.handleLoadParamsClick();
             break;
@@ -74,7 +71,7 @@ export default class MyParams extends React.Component {
   }
 
   componentWillUnmount() {
-    MyStompClient.unsubscribeFromValues();
+    // MyStompClient.unsubscribeFromValues();
   }
 
   handleLoadParamsClick(selectedListItem) {
@@ -85,25 +82,25 @@ export default class MyParams extends React.Component {
     if (selectedListItem) {
       this.props.onLoadParams(selectedListItem.name);
   
-      MyStompClient.subscribeToValues(selectedListItem.name, (value) => {
-        const locParams = locThis.state.params.slice();
-        let b = false;
-        for (let i = 0; i < locParams.length; i += 1) {
-          const locParam = locParams[i];
-          if (locParam.name === value.paramName) {
-            locParam.value = value.value;
-            locParam.dt = value.dt;
-            locParam.qd = value.qd;
-            b = true;
-            break;
-          }
-        }
-        if (b) {
-          this.setState({
-            params: locParams,
-          });
-        }
-      });
+      // MyStompClient.subscribeToValues(selectedListItem.name, (value) => {
+      //   const locParams = locThis.state.params.slice();
+      //   let b = false;
+      //   for (let i = 0; i < locParams.length; i += 1) {
+      //     const locParam = locParams[i];
+      //     if (locParam.name === value.paramName) {
+      //       locParam.value = value.value;
+      //       locParam.dt = value.dt;
+      //       locParam.qd = value.qd;
+      //       b = true;
+      //       break;
+      //     }
+      //   }
+      //   if (b) {
+      //     this.setState({
+      //       params: locParams,
+      //     });
+      //   }
+      // });
       }
   }
 
@@ -124,7 +121,7 @@ export default class MyParams extends React.Component {
             onChange={this.handleChange}
             style={styles.customWidth}
           >
-            {this.state.paramLists.map(paramList => (
+            {this.props.paramLists.map(paramList => (
               <MenuItem key={paramList.name} value={paramList} primaryText={paramList.caption} secondaryText={paramList.name} />
             ))
             }
@@ -142,7 +139,7 @@ export default class MyParams extends React.Component {
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
-            {this.state.params.map(param => (
+            {this.props.params.map(param => (
               <TableRow key={param.name} style={styles.cellCustomHeight}> 
                 <TableRowColumn  style={styles.cellCustomHeight}>{param.name}</TableRowColumn>
                 <TableRowColumn  style={styles.cellCustomHeight}>{param.caption}</TableRowColumn>

@@ -29,8 +29,9 @@ export default class MyPSScheme extends React.Component {
           <CardText>{this.props.psName}</CardText>
           <RaisedButton onClick={this.handleReloadPSClick}>Reload</RaisedButton>
         </div>
-
-        <CardText>{this.props.psJson}</CardText>
+        <div>
+          <CardText>{this.props.psJson}</CardText>
+        </div>
           
       </Card>
     );
