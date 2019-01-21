@@ -30,6 +30,18 @@ const styles = {
   },
   cellCustomHeight: {
     height: 12,
+  },
+  cellCustomSize1: {
+    height: 12,
+    width: '30%',
+  },
+  cellCustomSize2: {
+    height: 12,
+    width: '60%',
+  },
+  cellCustomSize3: {
+    height: 12,
+    width: '10%',
   }
 };
 
@@ -84,6 +96,11 @@ export default class MyPSs extends React.Component {
           </SelectField>
         </div>
         <Table height='600px'>
+        {/* <colgroup>
+          <col style={{width:'10%'}}/>
+          <col style={{width:'80%'}}/>
+          <col style={{width:'10%'}}/>
+        </colgroup> */}
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn>Name</TableHeaderColumn>
@@ -94,9 +111,9 @@ export default class MyPSs extends React.Component {
           <TableBody displayRowCheckbox={false}>
             {this.props.PSs.map(ps => (
               <TableRow key={ps.name} style={styles.cellCustomHeight}> 
-                <TableRowColumn  style={styles.cellCustomHeight}>{ps.name}</TableRowColumn>
-                <TableRowColumn  style={styles.cellCustomHeight}>{ps.caption}</TableRowColumn>
-                <TableRowColumn style={styles.cellCustomHeight}>
+                <TableRowColumn style={styles.cellCustomSize1}>{ps.name}</TableRowColumn>
+                <TableRowColumn style={styles.cellCustomSize2}>{ps.caption}</TableRowColumn>
+                <TableRowColumn style={styles.cellCustomSize3} > 
                   <Link to={`/psScheme/${ps.name}`}>Scheme</Link>
                 </TableRowColumn>
               </TableRow>))

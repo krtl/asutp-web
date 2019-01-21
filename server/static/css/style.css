@@ -19,8 +19,7 @@ a:hover {
 }
 
 .top-bar {
-  padding: 10px 15px;
-  margin-bottom: 50px;
+  padding: 10px;
 }
 .top-bar::after {
   content: '';
