@@ -1,7 +1,7 @@
 import webstomp from 'webstomp-client';
 
-const TOPIC_PARAM_LIST = '/ParamLists';
-const TOPIC_PARAMS = '/Params:';
+// const TOPIC_PARAM_LIST = '/ParamLists';
+// const TOPIC_PARAMS = '/Params:';
 const TOPIC_VALUES = '/Values:';
 const TOPIC_COMMANDS = '/Commands';
 
@@ -13,14 +13,14 @@ let locConnectedCallback = null;
 
 const CreateMySocketClient = function () {
   let stompClient;
-  let subsciptionParamLists;
-  let subsciptionParams;
+  // let subsciptionParamLists;
+  // let subsciptionParams;
   let subsciptionValues;
 
 //  let cbOnConnected = null;
-  let cbOnParamListsReceived = null;
+  // let cbOnParamListsReceived = null;
   let paramsListName = '';
-  let cbOnParamsReceived = null;
+  // let cbOnParamsReceived = null;
   let cbOnValueReceived = null;
 
   const connectCallback = function () {
@@ -30,40 +30,40 @@ const CreateMySocketClient = function () {
       locConnectedCallback(null);
     }  
 
-    if (cbOnParamListsReceived) {
+  //   if (cbOnParamListsReceived) {
 
-      if (subsciptionParamLists) {
-        subsciptionParamLists.unsubscribe({});
-      }
+  //     if (subsciptionParamLists) {
+  //       subsciptionParamLists.unsubscribe({});
+  //     }
 
-      subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
-        console.log(`[stompClient] received ParamLists: ${message}`);
-        message.ack();
+  //     subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
+  //       console.log(`[stompClient] received ParamLists: ${message}`);
+  //       message.ack();
 
-        if (cbOnParamListsReceived) {
-          cbOnParamListsReceived(JSON.parse(message.body));
-        }
-      }, {});
-  }
+  //       if (cbOnParamListsReceived) {
+  //         cbOnParamListsReceived(JSON.parse(message.body));
+  //       }
+  //     }, {});
+  // }
 
-  if (cbOnParamsReceived) {
-    if (subsciptionParams) {
-      subsciptionParams.unsubscribe({});
-    }
+  if (cbOnValueReceived) {
+    // if (subsciptionParams) {
+    //   subsciptionParams.unsubscribe({});
+    // }
 
     if (subsciptionValues) {
       subsciptionValues.unsubscribe({});
     }
 
     if (paramsListName !== '') {
-      subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
-        console.log(`[stompClient] received Params: ${message}`);
-        message.ack();
+      // subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
+      //   console.log(`[stompClient] received Params: ${message}`);
+      //   message.ack();
 
-        if (cbOnParamsReceived) {
-          cbOnParamsReceived(JSON.parse(message.body));
-        }
-      }, {});
+      //   if (cbOnParamsReceived) {
+      //     cbOnParamsReceived(JSON.parse(message.body));
+      //   }
+      // }, {});
 
       subsciptionValues = stompClient.subscribe(TOPIC_VALUES + paramsListName, (message) => {
         console.log(`[stompClient] received values: ${message}`);
@@ -144,34 +144,34 @@ const CreateMySocketClient = function () {
     stompClient.send(TOPIC_COMMANDS, data, {});
   };
 
-  this.loadParamLists = function (cb) {
-    cbOnParamListsReceived = cb;
-    if (stompClient !== undefined) {
-      if (subsciptionParamLists) {
-        subsciptionParamLists.unsubscribe({});
-      }
-      subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
-        console.log(`[stompClient] received ParamLists: ${message}`);
-        message.ack();
-        cb(JSON.parse(message.body));
-      }, {});
-    }
-  };
+  // this.loadParamLists = function (cb) {
+  //   cbOnParamListsReceived = cb;
+  //   if (stompClient !== undefined) {
+  //     if (subsciptionParamLists) {
+  //       subsciptionParamLists.unsubscribe({});
+  //     }
+  //     subsciptionParamLists = stompClient.subscribe(TOPIC_PARAM_LIST, (message) => {
+  //       console.log(`[stompClient] received ParamLists: ${message}`);
+  //       message.ack();
+  //       cb(JSON.parse(message.body));
+  //     }, {});
+  //   }
+  // };
 
-  this.loadParams = function (aParamsListName, cb) {
-    paramsListName = aParamsListName;
-    cbOnParamsReceived = cb;
-    if (stompClient !== undefined) {
-      if (subsciptionParams) {
-        subsciptionParams.unsubscribe({});
-      }
-      subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
-        console.log(`[stompClient] received Params: ${message}`);
-        message.ack();
-        cb(JSON.parse(message.body));
-      }, {});
-    }
-  };
+  // this.loadParams = function (aParamsListName, cb) {
+  //   paramsListName = aParamsListName;
+  //   cbOnParamsReceived = cb;
+  //   if (stompClient !== undefined) {
+  //     if (subsciptionParams) {
+  //       subsciptionParams.unsubscribe({});
+  //     }
+  //     subsciptionParams = stompClient.subscribe(TOPIC_PARAMS + paramsListName, (message) => {
+  //       console.log(`[stompClient] received Params: ${message}`);
+  //       message.ack();
+  //       cb(JSON.parse(message.body));
+  //     }, {});
+  //   }
+  // };
 
   this.subscribeToValues = function (aParamsListName, cb) {
     cbOnValueReceived = cb;

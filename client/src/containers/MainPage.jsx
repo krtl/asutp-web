@@ -1,7 +1,7 @@
 import React from 'react';
 import MainForm from '../components/MainForm';
 import MyFetchClient from './MyFetchClient';
-// import MyStompClient from '../modules/MyStompClient';
+import MyStompClient from '../modules/MyStompClient';
 import makeUid from '../modules/MyFuncs';
 
 const MATCHING_ITEM_LIMIT = 2500;
@@ -26,7 +26,7 @@ export default class MainPage extends React.Component {
     this.onLoadPSs = this.onLoadPSs.bind(this);
     this.onLoadPS = this.onLoadPS.bind(this);
 
-//    MyStompClient.connect(this.doOnWebsocketConnected);
+    MyStompClient.connect(this.doOnWebsocketConnected);
 
   }
 
@@ -38,8 +38,20 @@ export default class MainPage extends React.Component {
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (paramLists) => {
+          let locParamLists = paramLists.slice(0, MATCHING_ITEM_LIMIT);
+          locParamLists.sort((pl1, pl2) => {
+              if (pl1.caption > pl2.caption) {
+                return 1;
+              }
+              if (pl1.caption < pl2.caption) {
+                return -1;
+              }
+              return 0;
+            }
+          );
+
           this.setState({
-            paramLists: paramLists.slice(0, MATCHING_ITEM_LIMIT),
+            paramLists: locParamLists,
           });
         }
       },
@@ -48,8 +60,19 @@ export default class MainPage extends React.Component {
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (regions) => {
+          let locRegions = regions.slice(0, MATCHING_ITEM_LIMIT);
+          locRegions.sort((r1, r2) => {
+              if (r1.caption > r2.caption) {
+                return 1;
+              }
+              if (r1.caption < r2.caption) {
+                return -1;
+              }
+              return 0;
+            }
+          );
           this.setState({
-            regions: regions.slice(0, MATCHING_ITEM_LIMIT),
+            regions: locRegions,
         });
         }
       }
@@ -61,6 +84,11 @@ export default class MainPage extends React.Component {
       });
   }
 
+  componentWillUnmount() {
+    MyStompClient.unsubscribeFromValues();
+  }
+
+
   onLoadParams(paramListName) {
     const cmds = [
       {
@@ -71,6 +99,27 @@ export default class MainPage extends React.Component {
           this.setState({
             params: params.slice(0, MATCHING_ITEM_LIMIT),
           });
+
+          const locThis = this;
+          MyStompClient.subscribeToValues(paramListName, (value) => {
+            const locParams = locThis.state.params.slice();
+            let b = false;
+            for (let i = 0; i < locParams.length; i += 1) {
+              const locParam = locParams[i];
+              if (locParam.name === value.paramName) {
+                locParam.value = value.value;
+                locParam.dt = value.dt;
+                locParam.qd = value.qd;
+                b = true;
+                break;
+              }
+            }
+            if (b) {
+              this.setState({
+                params: locParams,
+              });
+            }
+          });          
         }
       },
     ]
