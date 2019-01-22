@@ -3,6 +3,7 @@ import HomePage from './components/HomePage.jsx';
 import MainPage from './containers/MainPage.jsx';
 import ParamHistoryPage from './containers/ParamHistoryPage.jsx';
 import PSSchemePage from './containers/MyPSSchemePage.jsx';
+import PSAsutpLinkagePage from './containers/MyPSAsutpLinkagePage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import Auth from './modules/Auth';
@@ -44,6 +45,16 @@ const routes = {
         }
       },
     },
+    {
+      path: '/psAsutpLinkage/:psName',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, PSAsutpLinkagePage);
+        } else {
+          callback(null, HomePage);
+        }
+      },
+    },    
     {
       path: '/login',
       component: LoginPage,

@@ -37,12 +37,16 @@ const styles = {
   },
   cellCustomSize2: {
     height: 12,
-    width: '60%',
+    width: '50%',
   },
   cellCustomSize3: {
     height: 12,
     width: '10%',
-  }
+  },
+  cellCustomSize4: {
+    height: 12,
+    width: '10%',
+  }  
 };
 
 
@@ -106,6 +110,7 @@ export default class MyPSs extends React.Component {
               <TableHeaderColumn>Name</TableHeaderColumn>
               <TableHeaderColumn>Caption</TableHeaderColumn>
               <TableHeaderColumn />
+              <TableHeaderColumn />
             </TableRow>
           </TableHeader>
           <TableBody displayRowCheckbox={false}>
@@ -115,6 +120,9 @@ export default class MyPSs extends React.Component {
                 <TableRowColumn style={styles.cellCustomSize2}>{ps.caption}</TableRowColumn>
                 <TableRowColumn style={styles.cellCustomSize3} > 
                   <Link to={`/psScheme/${ps.name}`}>Scheme</Link>
+                </TableRowColumn>
+                <TableRowColumn style={styles.cellCustomSize3} > 
+                  <Link to={`/psAsutpLinkage/${ps.name}`}>Linkage</Link>
                 </TableRowColumn>
               </TableRow>))
           }
