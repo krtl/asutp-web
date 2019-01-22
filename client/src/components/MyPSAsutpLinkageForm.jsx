@@ -74,12 +74,23 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                  nodeType: connector.nodeType,
                  sapCode: connector.sapCode
                 })
+                rows.push({name: connector.name + '.paramP',
+                    caption: connector.paramP,
+                    nodeType: '',
+                    sapCode: ''
+                   })   
                 connector.equipments.forEach(equipment => {
                     rows.push({name: equipment.name,
                      caption: equipment.caption,
                      nodeType: equipment.nodeType,
                      sapCode: equipment.sapCode
                     })
+                    rows.push({name: equipment.name + '.paramState',
+                    caption: equipment.paramState,
+                    nodeType: '',
+                    sapCode: ''
+                   })   
+
                 });
             });
           });

@@ -208,11 +208,13 @@ function getPSForJson(ps) {
         locSection.connectors.push(locConnector);
         locConnector.sapCode = connection.sapCode;
         locConnector.cellNumber = connection.cellNumber;
+        locConnector.paramP = connection.paramP;
         connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
           locConnector.equipments.push(locEquipment);
           locEquipment.sapCode = equipment.sapCode;
           locEquipment.equipmentType = equipment.equipmentType;
+          locEquipment.paramState = equipment.paramState;
         });
       });
     });
@@ -228,6 +230,7 @@ function getPSForJson(ps) {
         locConnector.equipments.push(locEquipment);
         locEquipment.sapCode = equipment.sapCode;
         locEquipment.equipmentType = equipment.equipmentType;
+        locEquipment.paramState = equipment.paramState;
       });
     });
   });

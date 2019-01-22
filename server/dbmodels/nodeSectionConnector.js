@@ -8,6 +8,7 @@ const NodeSectionConnectorSchema = new mongoose.Schema({
   },
   connectionType: Number, // source, consumer, bi-directional
   cellNumber: String,
+  paramP: String,
 
 });
 

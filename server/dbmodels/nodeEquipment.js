@@ -8,6 +8,7 @@ const NodeEquipmentSchema = new mongoose.Schema({
   },
 
   equipmentType: Number,
+  paramState: String,   // On/Off
 });
 
 module.exports = mongoose.model('NodeEquipment', NodeEquipmentSchema);
