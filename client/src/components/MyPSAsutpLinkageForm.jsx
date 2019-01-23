@@ -10,6 +10,8 @@ import {
     TableRow,
     TableRowColumn,
   } from 'material-ui/Table';
+import MyPSAsutpLinkageDialog from './MyPSAsutpLinkageDialog'
+
 
   const styles = {
     customWidth: {
@@ -35,13 +37,26 @@ import {
       width: '10%',
     }  
   };
+
+const propNameParamRolePower = "paramP";   // this is a temporary solution
+const propNameParamRoleState = "paramState";   // this is a temporary solution
   
 
 export default class MyPSAsutpLinkageForm extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+        open: false,
+        paramRole: '',
+        initialParamName: '',
+        editedNodeName: '',
+      };
+    
     this.handleReloadPSClick = this.handleReloadPSClick.bind(this);
+    // this.handleRowDblClick = this.handleRowDblClick.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
+
   }
 
   componentDidMount() {
@@ -51,6 +66,64 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   handleReloadPSClick() {
     this.props.onReloadPS(this.props.psName, false);
   }
+
+  handleRowDblClick(param, val) {
+    let role = '';
+    let nodeName = '';
+    if (param.name.endsWith(propNameParamRolePower)) {
+      role = propNameParamRolePower;
+      nodeName = param.name.replace('.' + propNameParamRolePower, '');
+    } else if (param.name.endsWith(propNameParamRoleState)) {
+      role = propNameParamRoleState
+      nodeName = param.name.replace('.' + propNameParamRoleState, '');
+    }
+
+    if (role !== '') {
+      this.setState({ 
+        open: true,
+        paramRole: role,
+        initialParamName: param.caption, // this is a temporary solution
+        editedNodeName: nodeName,
+       });
+    }
+  }
+
+  getNodeByName(nodeName) {
+    if (this.props.PS) {
+      for(let i=0; i<this.props.PS.psparts.length; i++) {
+        let pspart = this.props.PS.psparts[i];
+        for(let j=0; j<pspart.sections.length; j++) {
+          let section = pspart.sections[j];
+          for(let k=0; k<section.connectors.length; k++) {
+            let connector = section.connectors[k];
+            if(connector.name === nodeName) {
+               return connector;
+            }
+            for(let l=0; l<connector.equipments.length; l++) {
+              let equipment = connector.equipments[l] 
+              if(equipment.name === nodeName) {
+                return equipment;
+              }
+            }
+          }
+        }
+      }
+    }
+    return null;    
+  }
+
+  handleDialogClose (newParamName) {
+    this.setState({ open: false });
+
+    if (newParamName !== '') {
+      const node = this.getNodeByName(this.state.editedNodeName)
+      if (node) {
+        if (this.state.paramRole in node){
+          node[this.state.paramRole] = newParamName;
+        }
+      }
+    }
+  };
 
   render() {
 
@@ -74,7 +147,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                  nodeType: connector.nodeType,
                  sapCode: connector.sapCode
                 })
-                rows.push({name: connector.name + '.paramP',
+                rows.push({name: connector.name + '.' + propNameParamRolePower, 
                     caption: connector.paramP,
                     nodeType: '',
                     sapCode: ''
@@ -85,12 +158,11 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                      nodeType: equipment.nodeType,
                      sapCode: equipment.sapCode
                     })
-                    rows.push({name: equipment.name + '.paramState',
+                    rows.push({name: equipment.name + '.' + propNameParamRoleState,
                     caption: equipment.paramState,
                     nodeType: '',
                     sapCode: ''
-                   })   
-
+                   })
                 });
             });
           });
@@ -106,7 +178,6 @@ export default class MyPSAsutpLinkageForm extends React.Component {
           <RaisedButton onClick={this.handleReloadPSClick}>Reload</RaisedButton>
         </div>
         <div>
-
           {/* <CardText>{this.props.PS}</CardText> */}
           <Table height='600px'>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -120,7 +191,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
               </TableHeader>
               <TableBody displayRowCheckbox={false}>
                 {rows.map(row => (
-                  <TableRow key={row.name} style={styles.cellCustomHeight}>
+                  <TableRow key={row.name} style={styles.cellCustomHeight} onDoubleClick={this.handleRowDblClick.bind(this, row)} >
                     <TableRowColumn style={styles.cellCustomHeight}>{row.name}</TableRowColumn>
                     <TableRowColumn style={styles.cellCustomHeight}>{row.caption}</TableRowColumn>
                     <TableRowColumn style={styles.cellCustomHeight}>{row.nodeType}</TableRowColumn>
@@ -131,7 +202,14 @@ export default class MyPSAsutpLinkageForm extends React.Component {
               </TableBody>
             </Table>
         </div>
-         
+        <MyPSAsutpLinkageDialog
+                open={this.state.open}
+                onClose={this.handleDialogClose}
+                asutpConnections={this.props.asutpConnections}
+                paramRole={this.state.paramRole}
+                initialParamName={this.state.initialParamName}
+                editedNodeName={this.state.editedNodeName}
+          />         
       </Card>
     );
   }
@@ -140,6 +218,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
  MyPSAsutpLinkageForm.propTypes = {
   psName: PropTypes.string,
   PS: PropTypes.object,
+  asutpConnections: PropTypes.array,
   onReloadPS: PropTypes.func,
  };
 

@@ -3,6 +3,7 @@ import MyPSAsutpLinkageForm from '../components/MyPSAsutpLinkageForm';
 import MyFetchClient from './MyFetchClient';
 import makeUid from '../modules/MyFuncs';
 
+
 export default class PSAsutpLinkagePage extends React.Component {
 
   constructor(props) {
@@ -12,10 +13,12 @@ export default class PSAsutpLinkagePage extends React.Component {
       cmdUid: '',
       fetchRequests: [],
       psName: '',
-      PS: {psparts:[]},
+      PS: null,
+      asutpConnections: [],
     };
 
     this.reloadPS = this.reloadPS.bind(this);
+    this.reloadAsutpConnections = this.reloadAsutpConnections.bind(this);
   }
 
   reloadPS(psName) {
@@ -33,6 +36,8 @@ export default class PSAsutpLinkagePage extends React.Component {
           this.setState({
             PS: value,
           });
+          if (value)
+          this.reloadAsutpConnections(value.sapCode)
         },
       }
     ]
@@ -44,6 +49,27 @@ export default class PSAsutpLinkagePage extends React.Component {
       });
   }
 
+  reloadAsutpConnections(psSapCode) {
+
+    const uid = makeUid(5);
+    const cmds = [
+      {
+        fetchUrl: `getAsutpConnectionsFor?psSapCode=${psSapCode}`,
+        fetchMethod: 'get',
+        fetchData: '',
+        fetchCallback: (value) => {
+          this.setState({
+            asutpConnections: value,
+          });
+        },
+      }
+    ]
+
+    this.setState({
+        cmdUid: uid,
+        fetchRequests: cmds,
+      });
+  }  
 
   render() {
     return (
@@ -51,6 +77,7 @@ export default class PSAsutpLinkagePage extends React.Component {
       <MyPSAsutpLinkageForm 
         psName={this.state.psName}
         PS={this.state.PS}
+        asutpConnections={this.state.asutpConnections}
         onReloadPS={this.reloadPS} 
       />
       <MyFetchClient 

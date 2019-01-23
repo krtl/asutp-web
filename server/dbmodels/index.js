@@ -64,4 +64,6 @@ module.exports.connect = (uri, useDataModel) => {
   require('./nodeSectionConnector');// eslint-disable-line global-require
   require('./nodeSec2SecConnector');// eslint-disable-line global-require
   require('./nodeEquipment');// eslint-disable-line global-require
+
+  require('./nodeState');// eslint-disable-line global-require
 };

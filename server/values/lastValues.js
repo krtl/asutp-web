@@ -1,14 +1,20 @@
 const dbValuesTracker = require('./amqpInsertValueSender');
+const nodeStateValuesTracker = require('./nodeStateValuesTracker');
 
 // const logger = require('../logger');
 
 const lastValues = new Map();
 let lastChanged = [];
 let useDbValueTracker = false;
+let useNodeStateValueTracker = true;
 
 const setLastValue = (lastValue) => {
   if (useDbValueTracker) {
     dbValuesTracker.trackDbParamValue(lastValue);
+  }
+
+  if (useNodeStateValueTracker) {
+    nodeStateValuesTracker.trackNodeStateValue(lastValue);
   }
 
   lastValues.set(lastValue.paramName, lastValue);
@@ -30,7 +36,12 @@ const getLastValuesCount = () => lastValues.size;
 const clearLastValues = () => lastValues.clear();
 
 function init(obj) {
-  useDbValueTracker = obj.useDbValueTracker;
+  if (obj.useDbValueTracker) {
+    useDbValueTracker = obj.useDbValueTracker;
+  }
+  if (obj.useNodeStateValueTracker) {
+    useNodeStateValueTracker = obj.useNodeStateValueTracker;
+  }
 }
 
 module.exports.init = init;

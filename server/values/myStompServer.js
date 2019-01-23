@@ -150,7 +150,7 @@ const initializeStompServer = (httpserver) => {
         });
       }
     });
-  }, 5000);
+  }, 3000);
 };
 
 const finalizeStompServer = () => {

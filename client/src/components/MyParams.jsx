@@ -67,11 +67,11 @@ const styles = {
   },
   cellCustomSizeQD: {
     height: 12,
-    width: '7%',
+    width: '6%',
   },
   cellCustomSizeHistory: {
     height: 12,
-    width: '8%',
+    width: '9%',
   }
 };
 
