@@ -17,6 +17,7 @@ const DbNodeTransformerConnector = require('../dbmodels/nodeTransformerConnector
 const DbNodeSection = require('../dbmodels/nodeSection');
 const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
+const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 const DbNodeState = require('../dbmodels/nodeState');
 
 const async = require('async');
@@ -42,6 +43,7 @@ const Sheme = [
   DbNodeSectionConnector,
   DbNodeEquipment,
   DbNodeState,
+  DbNodeParamLinkage,
 ];
 
 

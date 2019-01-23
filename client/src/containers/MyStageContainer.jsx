@@ -65,7 +65,7 @@ export default class MyStageContainer extends React.Component {
         fetchUrl: 'api/save_node',
         fetchMethod: 'post',
         fetchData: s,
-        fetchCallback: (nodes) => {
+        fetchCallback: () => {
           // this.setState({
           // });
         }

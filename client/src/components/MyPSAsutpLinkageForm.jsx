@@ -54,6 +54,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
       };
     
     this.handleReloadPSClick = this.handleReloadPSClick.bind(this);
+    this.handleSavePSLinkageClick = this.handleSavePSLinkageClick.bind(this);
     // this.handleRowDblClick = this.handleRowDblClick.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
 
@@ -65,6 +66,41 @@ export default class MyPSAsutpLinkageForm extends React.Component {
 
   handleReloadPSClick() {
     this.props.onReloadPS(this.props.psName, false);
+  }
+
+  handleSavePSLinkageClick() {
+    let linkage = [];
+    if (this.props.PS) {
+      for(let i=0; i<this.props.PS.psparts.length; i++) {
+        let pspart = this.props.PS.psparts[i];
+        for(let j=0; j<pspart.sections.length; j++) {
+          let section = pspart.sections[j];
+          for(let k=0; k<section.connectors.length; k++) {
+            let connector = section.connectors[k];
+            if(('Modified' in connector)) {
+               linkage.push({
+                 nodeName: connector.name,
+                 paramPropName: propNameParamRolePower,
+                 paramPropValue: connector[propNameParamRolePower]
+                });
+            }
+            for(let l=0; l<connector.equipments.length; l++) {
+              let equipment = connector.equipments[l] 
+              if(('Modified' in equipment)) {
+                linkage.push({
+                  nodeName: equipment.name,
+                  paramPropName: propNameParamRoleState,
+                  paramPropValue: equipment[propNameParamRoleState]
+                 });
+               }
+            }
+          }
+        }
+      }
+    }
+    
+    let s = JSON.stringify(linkage);
+    this.props.onSavePSLinkage(this.props.psName, s);
   }
 
   handleRowDblClick(param, val) {
@@ -119,7 +155,10 @@ export default class MyPSAsutpLinkageForm extends React.Component {
       const node = this.getNodeByName(this.state.editedNodeName)
       if (node) {
         if (this.state.paramRole in node){
-          node[this.state.paramRole] = newParamName;
+          if (node[this.state.paramRole] !== newParamName) {
+            node[this.state.paramRole] = newParamName;
+            node['Modified'] = true;
+            }
         }
       }
     }
@@ -149,7 +188,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                 })
                 rows.push({name: connector.name + '.' + propNameParamRolePower, 
                     caption: connector.paramP,
-                    nodeType: '',
+                    nodeType: ('Modified' in connector) ? 'Modified' : '',
                     sapCode: ''
                    })   
                 connector.equipments.forEach(equipment => {
@@ -160,7 +199,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                     })
                     rows.push({name: equipment.name + '.' + propNameParamRoleState,
                     caption: equipment.paramState,
-                    nodeType: '',
+                    nodeType: ('Modified' in equipment) ? 'Modified' : '',
                     sapCode: ''
                    })
                 });
@@ -176,6 +215,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
         <div>
           <CardText>{this.props.psName}</CardText>
           <RaisedButton onClick={this.handleReloadPSClick}>Reload</RaisedButton>
+          <RaisedButton onClick={this.handleSavePSLinkageClick}>Save</RaisedButton>
         </div>
         <div>
           {/* <CardText>{this.props.PS}</CardText> */}
@@ -220,6 +260,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   PS: PropTypes.object,
   asutpConnections: PropTypes.array,
   onReloadPS: PropTypes.func,
+  onSavePSLinkage: PropTypes.func,
  };
 
 

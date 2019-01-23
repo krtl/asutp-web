@@ -18,6 +18,7 @@ export default class PSAsutpLinkagePage extends React.Component {
     };
 
     this.reloadPS = this.reloadPS.bind(this);
+    this.savePSLinkage = this.savePSLinkage.bind(this);
     this.reloadAsutpConnections = this.reloadAsutpConnections.bind(this);
   }
 
@@ -26,7 +27,6 @@ export default class PSAsutpLinkagePage extends React.Component {
         psName = window.location.href.slice(window.location.href.lastIndexOf('/') + 1);
     }
 
-    const uid = makeUid(5);
     const cmds = [
       {
         fetchUrl: `getJsonPS?name=${psName}`,
@@ -43,15 +43,32 @@ export default class PSAsutpLinkagePage extends React.Component {
     ]
 
     this.setState({
-        cmdUid: uid,
+        cmdUid: makeUid(5),
         fetchRequests: cmds,
         psName: psName,
       });
   }
 
-  reloadAsutpConnections(psSapCode) {
+  savePSLinkage(psName, linkage) {
+    const cmds = [
+      {
+        fetchUrl: `savePSLinkage?name=${psName}`,
+        fetchMethod: 'post',
+        fetchData: linkage,
+        fetchCallback: () => {
+          // this.setState({
+          // });
+        }
+      },
+    ]
 
-    const uid = makeUid(5);
+    this.setState({
+        cmdUid: makeUid(5),
+        fetchRequests: cmds,
+      });
+  }
+
+  reloadAsutpConnections(psSapCode) {
     const cmds = [
       {
         fetchUrl: `getAsutpConnectionsFor?psSapCode=${psSapCode}`,
@@ -66,7 +83,7 @@ export default class PSAsutpLinkagePage extends React.Component {
     ]
 
     this.setState({
-        cmdUid: uid,
+        cmdUid: makeUid(5),
         fetchRequests: cmds,
       });
   }  
@@ -78,7 +95,8 @@ export default class PSAsutpLinkagePage extends React.Component {
         psName={this.state.psName}
         PS={this.state.PS}
         asutpConnections={this.state.asutpConnections}
-        onReloadPS={this.reloadPS} 
+        onReloadPS={this.reloadPS}
+        onSavePSLinkage={this.savePSLinkage}
       />
       <MyFetchClient 
         cmdUid={this.state.cmdUid}
