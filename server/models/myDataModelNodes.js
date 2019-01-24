@@ -551,6 +551,10 @@ function linkParamsToNodes(cb) {
   });
 }
 
+const RelinkParamsToNodes = (cb) => {
+  linkParamsToNodes(cb);
+};
+
 const GetNode = nodeName => nodes.get(nodeName);
 
 const GetRegions = () => Array.from(Regions.values());
@@ -577,6 +581,7 @@ const GetPSForJson = (name) => {
 
 
 module.exports.LoadFromDB = LoadFromDB;
+module.exports.RelinkParamsToNodes = RelinkParamsToNodes;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetRegions = GetRegions;

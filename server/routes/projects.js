@@ -112,6 +112,15 @@ module.exports = (app) => {
         // });
       } else {
         logger.info('All nodeLinkages are saved successfully');
+
+        myDataModelNodes.RelinkParamsToNodes((err) => {
+          if (err) {
+            logger.warn('Something wrong on RelinkParamsToNodes!');
+          } else {
+            logger.info('Nodes are successfully relinked to Params.');
+          }
+        });
+
         res.status(200).json({
           message: "'All nodeLinkages are saved successfully'",
         });
