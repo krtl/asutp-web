@@ -57,7 +57,6 @@ export default class MyPSAsutpLinkageForm extends React.Component {
     this.handleSavePSLinkageClick = this.handleSavePSLinkageClick.bind(this);
     // this.handleRowDblClick = this.handleRowDblClick.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
-
   }
 
   componentDidMount() {
@@ -78,11 +77,12 @@ export default class MyPSAsutpLinkageForm extends React.Component {
           for(let k=0; k<section.connectors.length; k++) {
             let connector = section.connectors[k];
             if(('Modified' in connector)) {
-               linkages.push({
+              linkages.push({
                  nodeName: connector.name,
                  paramPropName: propNameParamRolePower,
                  paramPropValue: connector[propNameParamRolePower]
                 });
+              delete connector['Modified'];
             }
             for(let l=0; l<connector.equipments.length; l++) {
               let equipment = connector.equipments[l] 
@@ -92,7 +92,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                   paramPropName: propNameParamRoleState,
                   paramPropValue: equipment[propNameParamRoleState]
                  });
-               }
+                 delete equipment['Modified'];
+                }
             }
           }
         }
@@ -151,15 +152,13 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   handleDialogClose (newParamName) {
     this.setState({ open: false });
 
-    if (newParamName !== '') {
-      const node = this.getNodeByName(this.state.editedNodeName)
-      if (node) {
-        if (this.state.paramRole in node){
-          if (node[this.state.paramRole] !== newParamName) {
-            node[this.state.paramRole] = newParamName;
-            node['Modified'] = true;
-            }
-        }
+    const node = this.getNodeByName(this.state.editedNodeName)
+    if (node) {
+      if (this.state.paramRole in node){
+        if (node[this.state.paramRole] !== newParamName) {
+          node[this.state.paramRole] = newParamName;
+          node['Modified'] = true;
+          }
       }
     }
   };

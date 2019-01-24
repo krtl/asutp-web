@@ -64,6 +64,16 @@ export default class MyPSAsutpLinkageDialog extends React.Component {
           ];          
       
     const radios = [];
+
+    radios.push(
+      <RadioButton
+        key={0}
+        value={''}
+        label={'none'}
+        style={styles.radioButton}
+      />
+    )
+
     this.props.asutpConnections.forEach(element => {
       let locParamName = '';
 
