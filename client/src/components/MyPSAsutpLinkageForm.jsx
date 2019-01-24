@@ -69,7 +69,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   }
 
   handleSavePSLinkageClick() {
-    let linkage = [];
+    let linkages = [];
     if (this.props.PS) {
       for(let i=0; i<this.props.PS.psparts.length; i++) {
         let pspart = this.props.PS.psparts[i];
@@ -78,7 +78,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
           for(let k=0; k<section.connectors.length; k++) {
             let connector = section.connectors[k];
             if(('Modified' in connector)) {
-               linkage.push({
+               linkages.push({
                  nodeName: connector.name,
                  paramPropName: propNameParamRolePower,
                  paramPropValue: connector[propNameParamRolePower]
@@ -87,7 +87,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
             for(let l=0; l<connector.equipments.length; l++) {
               let equipment = connector.equipments[l] 
               if(('Modified' in equipment)) {
-                linkage.push({
+                linkages.push({
                   nodeName: equipment.name,
                   paramPropName: propNameParamRoleState,
                   paramPropValue: equipment[propNameParamRoleState]
@@ -99,7 +99,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
       }
     }
     
-    let s = JSON.stringify(linkage);
+    let s = JSON.stringify(linkages);    
     this.props.onSavePSLinkage(this.props.psName, s);
   }
 

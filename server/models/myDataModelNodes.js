@@ -19,6 +19,8 @@ const DbNodeSection = require('../dbmodels/nodeSection');
 const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
+const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
+
 
 const logger = require('../logger');
 const config = require('../../config');
@@ -43,7 +45,7 @@ const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
 
-const Sheme = [
+const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
   [ DbNodeLEP, MyNodeLEP ],
   [ DbNodeLEPConnection, MyNodeLEPConnection ],
@@ -87,6 +89,7 @@ const LoadFromDB = (cb) => {
     linkNodes,
     setupPsNodes,
     checkIntegrity,
+    linkParamsToNodes,
   ], () => {
     let res = null;
     if (errs === 0) {
@@ -107,7 +110,7 @@ function clearData(cb) {
 
 function loadNodes(callback) {
   events.EventEmitter.defaultMaxListeners = 125;
-  async.eachSeries(Sheme, (schemeElement, callback) => {
+  async.eachSeries(Shema, (schemeElement, callback) => {
     loadNodesFromDB(schemeElement, callback);
   }, (err) => {
     if (err) {
@@ -259,7 +262,7 @@ function ExportPSs(callback) {
 
 function replaceNamesWithObjects(callback) {
     // linking names to objects
-  async.each(Sheme, (schemeElement, callback) => {
+  async.each(Shema, (schemeElement, callback) => {
     const DbNodeObj = schemeElement[0];
     let err = null;
     const convertToObjProps = DbNodeObj.convertToObj;
@@ -519,6 +522,33 @@ function checkIntegrity(cb) {
   });
   // ..
   return cb();
+}
+
+
+function linkParamsToNodes(cb) {
+  DbNodeParamLinkage.find({}, null, { }, (err, linkages) => {
+    if (err) return cb(err);
+
+    logger.debug(`[sever] found ${linkages.length} NodeParamLinkages..`);
+
+    linkages.forEach((dbNodeLinkage) => {
+      const locNode = nodes.get(dbNodeLinkage.nodeName);
+      if (locNode) {
+        const hasProperty = dbNodeLinkage.paramPropName in locNode;
+        if (hasProperty) {
+          locNode[dbNodeLinkage.paramPropName] = dbNodeLinkage.paramPropValue;
+        } else {
+          setError(`Node "${locNode.name}" has no property "${dbNodeLinkage.paramPropName}"!`);
+        }
+      } else {
+          // node does not exist
+        const s = `create myNode Error: DbNode "${dbNodeLinkage.name}" does not exists!`;
+        setError(s);
+        cb(s);
+      }
+    });
+    return cb();
+  });
 }
 
 const GetNode = nodeName => nodes.get(nodeName);
