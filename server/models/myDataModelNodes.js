@@ -40,6 +40,11 @@ const MyNodeSectionConnector = require('./myNodeSectionConnector');
 const MyNodeSec2SecConnector = require('./myNodeSec2SecConnector');
 const MyNodeEquipment = require('./myNodeEquipment');
 
+const myNodeState = require('./myNodeState');
+const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
+const MyParamList = require('./myParamList');
+
+
 const nodes = new Map();
 const Regions = new Map();
 const LEPs = new Map();
@@ -89,7 +94,7 @@ const LoadFromDB = (cb) => {
     linkNodes,
     setupPsNodes,
     checkIntegrity,
-    linkParamsToNodes,
+    linkParamNamesToNodes,
   ], () => {
     let res = null;
     if (errs === 0) {
@@ -211,13 +216,13 @@ function getPSForJson(ps) {
         locSection.connectors.push(locConnector);
         locConnector.sapCode = connection.sapCode;
         locConnector.cellNumber = connection.cellNumber;
-        locConnector.paramP = connection.paramP;
+        locConnector[MyNodePropNameParamRole.POWER] = connection[MyNodePropNameParamRole.POWER];
         connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
           locConnector.equipments.push(locEquipment);
           locEquipment.sapCode = equipment.sapCode;
           locEquipment.equipmentType = equipment.equipmentType;
-          locEquipment.paramState = equipment.paramState;
+          locEquipment[MyNodePropNameParamRole.STATE] = equipment[MyNodePropNameParamRole.STATE];
         });
       });
     });
@@ -228,12 +233,13 @@ function getPSForJson(ps) {
       locConnector.fromSection = connection.fromSection.name;
       locConnector.toSection = connection.toSection.name;
       locConnector.cellNumber = connection.cellNumber;
+      locConnector[MyNodePropNameParamRole.POWER] = connection[MyNodePropNameParamRole.POWER];
       connection.equipments.forEach((equipment) => {
         const locEquipment = new MyNodeEquipment(equipment.name, equipment.caption, equipment.description);
         locConnector.equipments.push(locEquipment);
         locEquipment.sapCode = equipment.sapCode;
         locEquipment.equipmentType = equipment.equipmentType;
-        locEquipment.paramState = equipment.paramState;
+        locEquipment[MyNodePropNameParamRole.STATE] = equipment[MyNodePropNameParamRole.STATE];
       });
     });
   });
@@ -525,7 +531,7 @@ function checkIntegrity(cb) {
 }
 
 
-function linkParamsToNodes(cb) {
+function linkParamNamesToNodes(cb) {
   DbNodeParamLinkage.find({}, null, { }, (err, linkages) => {
     if (err) return cb(err);
 
@@ -551,8 +557,9 @@ function linkParamsToNodes(cb) {
   });
 }
 
-const RelinkParamsToNodes = (cb) => {
-  linkParamsToNodes(cb);
+
+const RelinkParamNamesToNodes = (cb) => {
+  linkParamNamesToNodes(cb);
 };
 
 const GetNode = nodeName => nodes.get(nodeName);
@@ -579,12 +586,83 @@ const GetPSForJson = (name) => {
   return null;
 };
 
+function pushIfNotPushed(array, element) {
+  if (array.indexOf(element) < 0) {
+    array.push(element);
+  }
+}
+
+function arrayUnique(array) {
+  const a = array.concat();
+  for (let i = 0; i < a.length; i += 1) {
+    for (let j = i + 1; j < a.length; j += 1) {
+      if (a[i] === a[j]) {
+        a.splice(j -= 1, 1);
+      }
+    }
+  }
+  return a;
+}
+
+const GetParamsListsForEachPS = () => {
+  const paramLists = [];
+  PSs.forEach((ps) => {
+    const paramNames = [];
+    const stateParamNames = [];
+    ps.psparts.forEach((pspart) => {
+      pspart.sections.forEach((section) => {
+        section.connectors.forEach((connector) => {
+          if (MyNodePropNameParamRole.POWER in connector) {
+            if (connector[MyNodePropNameParamRole.POWER] !== '') {
+              pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+            }
+          }
+
+          connector.equipments.forEach((equipment) => {
+            if (MyNodePropNameParamRole.STATE in equipment) {
+              if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+                pushIfNotPushed(stateParamNames, equipment[MyNodePropNameParamRole.STATE]);
+              }
+            }
+          });
+        });
+      });
+
+      pspart.connectors.forEach((connector) => {
+        if (MyNodePropNameParamRole.POWER in connector) {
+          if (connector[MyNodePropNameParamRole.POWER] !== '') {
+            pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+          }
+        }
+
+        connector.equipments.forEach((equipment) => {
+          if (MyNodePropNameParamRole.STATE in equipment) {
+            if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+              pushIfNotPushed(stateParamNames, equipment[MyNodePropNameParamRole.STATE]);
+            }
+          }
+        });
+      });
+    });
+
+    if (stateParamNames.length > 0) {
+      const pl = new MyParamList(myNodeState.PARAMLIST_STATE_PREFIX + ps.name, '', '', stateParamNames);
+      paramLists.push(pl);
+    }
+    if ((paramNames.length > 0) || (stateParamNames.length > 0)) {
+      const concatenatedParamNames = arrayUnique(paramNames.concat(stateParamNames));
+      const pl = new MyParamList(ps.name, ps.caption, '', concatenatedParamNames);
+      paramLists.push(pl);
+    }
+  });
+  return paramLists;
+};
 
 module.exports.LoadFromDB = LoadFromDB;
-module.exports.RelinkParamsToNodes = RelinkParamsToNodes;
+module.exports.RelinkParamsToNodes = RelinkParamNamesToNodes;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetRegions = GetRegions;
 module.exports.GetRegionPSs = GetRegionPSs;
 module.exports.GetPSForJson = GetPSForJson;
-
+module.exports.GetParamsListsForEachPS = GetParamsListsForEachPS;

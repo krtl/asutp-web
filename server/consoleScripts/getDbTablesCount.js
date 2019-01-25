@@ -42,8 +42,8 @@ const Sheme = [
   DbNodeSection,
   DbNodeSectionConnector,
   DbNodeEquipment,
-  DbNodeState,
   DbNodeParamLinkage,
+  DbNodeState,
 ];
 
 

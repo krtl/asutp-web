@@ -75,7 +75,7 @@ describe('myDataModelParams', () => {
     });
 
     it('Should retrieve ParamList and Param for TestUser after Loading DataModel', (done) => {
-      myDataModelParams.loadFromDB((err) => {
+      myDataModelParams.LoadFromDB((err) => {
         if (err) { throw err; }
         const pLists = myDataModelParams.getAvailableParamsLists(testUserName);
         if (pLists.length !== 1) { throw new Error('No data!'); }

@@ -21,7 +21,7 @@ const db = mongoose.connection;
 db.on('error', logger.error.bind(logger, 'connection error'));
 db.on('connected', () => {
   logger.info(`We are connected to ${config.dbUri}`);
-  myDataModelParams.loadFromDB((err) => {
+  myDataModelParams.LoadFromDB((err) => {
     if (err) {
       logger.error(`Failed! Error: ${err}`);
     } else {

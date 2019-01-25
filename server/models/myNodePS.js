@@ -7,5 +7,12 @@ function MyNodePS(name, caption, description) {
   this.psparts = [];
 }
 
+MyNodePS.prototype = Object.create(MyNode.prototype);
+MyNodePS.prototype.recalculateState = () => {
+
+  // this.nodeState
+
+};
+
 
 module.exports = MyNodePS;

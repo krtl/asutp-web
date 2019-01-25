@@ -1,3 +1,5 @@
+const myNodeState = require('./myNodeState');
+
 function MyNode(name, caption, description, nodeType) {
   this.name = name;
   this.caption = caption;
@@ -5,11 +7,17 @@ function MyNode(name, caption, description, nodeType) {
   this.nodeType = nodeType;
   this.parentNode = null;
   this.sapCode = '';
+
+  this.nodeState = myNodeState.UNKNOWN;
 }
 
+MyNode.prototype.recalculateState = () => {
+
+  // this.nodeState
+
+};
+
 function myNodeStringifyReplacer(key, value) {
-//  if (key === 'x') return undefined;
-//  if (key === 'y') return undefined;
   if (key === 'parentNode') return undefined;
   if (key === 'description') return undefined;
   return value;

@@ -11,6 +11,7 @@ import {
     TableRowColumn,
   } from 'material-ui/Table';
 import MyPSAsutpLinkageDialog from './MyPSAsutpLinkageDialog'
+import {MyNodePropNameParamRole} from '../modules/MyConsts';
 
 
   const styles = {
@@ -38,9 +39,7 @@ import MyPSAsutpLinkageDialog from './MyPSAsutpLinkageDialog'
     }  
   };
 
-const propNameParamRolePower = "paramP";   // this is a temporary solution
-const propNameParamRoleState = "paramState";   // this is a temporary solution
-  
+ 
 
 export default class MyPSAsutpLinkageForm extends React.Component {
   constructor(props) {
@@ -79,8 +78,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
             if(('Modified' in connector)) {
               linkages.push({
                  nodeName: connector.name,
-                 paramPropName: propNameParamRolePower,
-                 paramPropValue: connector[propNameParamRolePower]
+                 paramPropName: MyNodePropNameParamRole.POWER,
+                 paramPropValue: connector[MyNodePropNameParamRole.POWER]
                 });
               delete connector['Modified'];
             }
@@ -89,8 +88,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
               if(('Modified' in equipment)) {
                 linkages.push({
                   nodeName: equipment.name,
-                  paramPropName: propNameParamRoleState,
-                  paramPropValue: equipment[propNameParamRoleState]
+                  paramPropName: MyNodePropNameParamRole.STATE,
+                  paramPropValue: equipment[MyNodePropNameParamRole.STATE]
                  });
                  delete equipment['Modified'];
                 }
@@ -107,12 +106,12 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   handleRowDblClick(param, val) {
     let role = '';
     let nodeName = '';
-    if (param.name.endsWith(propNameParamRolePower)) {
-      role = propNameParamRolePower;
-      nodeName = param.name.replace('.' + propNameParamRolePower, '');
-    } else if (param.name.endsWith(propNameParamRoleState)) {
-      role = propNameParamRoleState
-      nodeName = param.name.replace('.' + propNameParamRoleState, '');
+    if (param.name.endsWith(MyNodePropNameParamRole.POWER)) {
+      role = MyNodePropNameParamRole.POWER;
+      nodeName = param.name.replace('.' + MyNodePropNameParamRole.POWER, '');
+    } else if (param.name.endsWith(MyNodePropNameParamRole.STATE)) {
+      role = MyNodePropNameParamRole.STATE
+      nodeName = param.name.replace('.' + MyNodePropNameParamRole.STATE, '');
     }
 
     if (role !== '') {
@@ -185,8 +184,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                  nodeType: connector.nodeType,
                  sapCode: connector.sapCode
                 })
-                rows.push({name: connector.name + '.' + propNameParamRolePower, 
-                    caption: connector.paramP,
+                rows.push({name: connector.name + '.' + MyNodePropNameParamRole.POWER, 
+                    caption: connector[MyNodePropNameParamRole.POWER],
                     nodeType: ('Modified' in connector) ? 'Modified' : '',
                     sapCode: ''
                    })   
@@ -196,8 +195,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                      nodeType: equipment.nodeType,
                      sapCode: equipment.sapCode
                     })
-                    rows.push({name: equipment.name + '.' + propNameParamRoleState,
-                    caption: equipment.paramState,
+                    rows.push({name: equipment.name + '.' + MyNodePropNameParamRole.STATE,
+                    caption: equipment[MyNodePropNameParamRole.STATE],
                     nodeType: ('Modified' in equipment) ? 'Modified' : '',
                     sapCode: ''
                    })
@@ -206,13 +205,17 @@ export default class MyPSAsutpLinkageForm extends React.Component {
           });
          });
         }
-                
+         
+        let psCaption = this.props.psName;
+        if (this.props.PS) {  
+          psCaption += ` (${this.props.PS.caption})`;
+        }      
 
     return (
       
       <Card className='container'>
         <div>
-          <CardText>{this.props.psName}</CardText>
+          <CardText>{psCaption}</CardText>
           <RaisedButton onClick={this.handleReloadPSClick}>Reload</RaisedButton>
           <RaisedButton onClick={this.handleSavePSLinkageClick}>Save</RaisedButton>
         </div>

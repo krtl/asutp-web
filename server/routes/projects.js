@@ -113,7 +113,7 @@ module.exports = (app) => {
       } else {
         logger.info('All nodeLinkages are saved successfully');
 
-        myDataModelNodes.RelinkParamsToNodes((err) => {
+        myDataModelNodes.RelinkParamNamesToNodes((err) => {
           if (err) {
             logger.warn('Something wrong on RelinkParamsToNodes!');
           } else {

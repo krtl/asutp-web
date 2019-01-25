@@ -18,11 +18,11 @@ module.exports.connect = (uri, useDataModel) => {
     logger.info(`Mongoose connection opened to ${uri}`);
 
     if (useDataModel) {
-      myDataModelParams.loadFromDB((err) => {
+      myDataModelNodes.LoadFromDB((err) => {
         if (err) {
           process.exit(2);
         }
-        myDataModelNodes.LoadFromDB((err) => {
+        myDataModelParams.LoadFromDB((err) => {
           if (err) {
             process.exit(2);
           }

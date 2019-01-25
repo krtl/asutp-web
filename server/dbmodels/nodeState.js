@@ -6,7 +6,7 @@ const NodeStateSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  value: Number,
+  value: Number,      // Unknown, On, Off, Alarm
   dt: {
     type: Date,
     default: Date.now,

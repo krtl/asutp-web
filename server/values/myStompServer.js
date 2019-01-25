@@ -21,7 +21,7 @@ const CMD_RELOAD = 'RELOAD';
 const traceMessages = true;
 
 let stompServer;
-let timerId;
+// let timerId;
 
 process
   .on('unhandledRejection', (reason, p) => {
@@ -118,45 +118,23 @@ const initializeStompServer = (httpserver) => {
     }
   });
 
-  timerId = setInterval(() => {
-    // .. for future use
-
-
-    // const headers = { id: 'sub-0' };
-    // stompServer.subscribe(`${TOPIC_PARAMS}paramList1`, (msg, headers) => {
-    //   const topic = headers.destination;
-    //
-    //   if (traceMessages) {
-    //     logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
-    //   }
-    // }, headers);
-
-    // stompServer.subscribe(`${TOPIC_VALUES}paramList1`, (msg, headers) => {
-    //   const topic = headers.destination;
-    //
-    //   if (traceMessages) {
-    //     logger.verbose(`[stompServer] topic: ${topic} received: ${msg}`);
-    //   }
-    // }, headers);
-
-
-    const lastChanged = lastValues.getLastChanged();
-    lastChanged.forEach((paramName) => {
-      const value = lastValues.getLastValue(paramName);
-      const param = MyDataModelParams.getParam(paramName);
-      if ((param) && (value)) {
-        param.listNames.forEach((lstName) => {
-          stompServer.send(TOPIC_VALUES + lstName, {}, JSON.stringify(value));
-        });
-      }
-    });
-  }, 3000);
+  // timerId = setInterval(() => {
+  //   // .. for future use
+  // }, 3000);
 };
 
+const sendParamValue = (listName, paramValue) => {
+  if (StompServer) {
+    stompServer.send(TOPIC_VALUES + listName, {}, JSON.stringify(paramValue));
+  }
+};
+
+
 const finalizeStompServer = () => {
-  clearInterval(timerId);
+  // clearInterval(timerId);
 };
 
 
 module.exports.initializeStompServer = initializeStompServer;
 module.exports.finalizeStompServer = finalizeStompServer;
+module.exports.sendParamValue = sendParamValue;

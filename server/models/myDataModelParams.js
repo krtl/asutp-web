@@ -4,6 +4,8 @@ const DbUser = require('../dbmodels/authUser');  // eslint-disable-line global-r
 const DbParam = require('../dbmodels/param');  // eslint-disable-line global-require
 const DbParamList = require('../dbmodels/paramList');  // eslint-disable-line global-require
 
+const myDataModelNodes = require('../models/myDataModelNodes');
+
 const logger = require('../logger');
 const MyParam = require('./myParam');
 const MyParamList = require('./myParamList');
@@ -28,13 +30,14 @@ process
     process.exit(1);
   });
 
-const loadFromDB = (cb) => {
+const LoadFromDB = (cb) => {
   async.series([
     clearData,
     loadUsers,
     loadParams,
     loadParamLists,
-    linkData,
+    loadParamListsFromNodesModel,
+    makeListNamesForEachParam,
     checkData,
   ], () => {
     let res = null;
@@ -105,12 +108,23 @@ function loadParamLists(cb) {
   });
 }
 
-function checkData(cb) {
-  // ..
+function loadParamListsFromNodesModel(cb) {
+  const lists = myDataModelNodes.GetParamsListsForEachPS();
+
+  lists.forEach((prmList) => {
+    prmList.paramNames.forEach((prmName) => {
+      if (!params.has(prmName)) {
+        logger.error(`[sever] cannot find param "${prmName}" in "${prmList.name}"`);
+      }
+    });
+
+    paramLists.set(prmList.name, prmList);
+  });
+
   return cb();
 }
 
-function linkData(cb) {
+function makeListNamesForEachParam(cb) {
   params.forEach((prm) => {
     const locListNames = [];
     paramLists.forEach((prmList) => {
@@ -123,6 +137,12 @@ function linkData(cb) {
 
   return cb();
 }
+
+function checkData(cb) {
+  // ..
+  return cb();
+}
+
 
 const getParam = paramName => params.get(paramName);
 const getAllParamsAsArray = () => Array.from(params.values());
@@ -170,7 +190,7 @@ const getAvailableParamsLists = (userName) => {
   return result;
 };
 
-module.exports.loadFromDB = loadFromDB;
+module.exports.LoadFromDB = LoadFromDB;
 module.exports.getParam = getParam;
 module.exports.getAllParamsAsArray = getAllParamsAsArray;
 module.exports.getParamsOfList = getParamsOfList;
