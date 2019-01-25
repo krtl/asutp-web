@@ -6,9 +6,11 @@ const amqpSender = require('../amqp/amqp_send');
 // const logger = require('../logger');
 const moment = require('moment');
 
-amqpSender.start(config.amqpUri);
+const Start = () => {
+  amqpSender.start(config.amqpUri);
+};
 
-const trackDbParamValue = (newParamValue) => {
+const TrackDbParamValue = (newParamValue) => {
   const param = MyDataModelParams.getParam(newParamValue.paramName);
   if (param !== undefined) {
     if ((param.trackAllChanges) || (param.trackAveragePerHour)) {
@@ -21,5 +23,6 @@ const trackDbParamValue = (newParamValue) => {
   }
 };
 
-module.exports.trackDbParamValue = trackDbParamValue;
+module.exports.TrackDbParamValue = TrackDbParamValue;
+module.exports.Start = Start;
 

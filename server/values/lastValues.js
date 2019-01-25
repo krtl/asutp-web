@@ -8,7 +8,7 @@ let useDbValueTracker = false;
 
 const setLastValue = (lastValue) => {
   if (useDbValueTracker) {
-    dbValuesTracker.trackDbParamValue(lastValue);
+    dbValuesTracker.TrackDbParamValue(lastValue);
   }
 
   lastValues.set(lastValue.paramName, lastValue);
@@ -33,6 +33,7 @@ function init(obj) {
   if (obj.useDbValueTracker) {
     useDbValueTracker = obj.useDbValueTracker;
   }
+  dbValuesTracker.Start();
 }
 
 module.exports.init = init;

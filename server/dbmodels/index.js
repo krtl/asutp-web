@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const logger = require('../logger');
 const myDataModelParams = require('../models/myDataModelParams');
 const myDataModelNodes = require('../models/myDataModelNodes');
+const paramValuesProcessor = require('../values/paramValuesProcessor');
 
 
 module.exports.connect = (uri, useDataModel) => {
@@ -26,6 +27,7 @@ module.exports.connect = (uri, useDataModel) => {
           if (err) {
             process.exit(2);
           }
+          paramValuesProcessor.initializeParamValuesProcessor();
         });
       });
     }

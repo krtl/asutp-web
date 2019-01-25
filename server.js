@@ -14,8 +14,6 @@ const MyStompServer = require('./server/values/myStompServer');
 // connect to the database and load models
 require('./server/dbmodels').connect(config.dbUri, true);
 
-require('./server/values/amqpRawValuesReceiver');
-
 
 const app = express();
 

@@ -4,11 +4,17 @@ const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
 const MyStompServer = require('./myStompServer');
 const myNodeState = require('../models/myNodeState');
+const ampqRawValuesReceiver = require('./amqpRawValuesReceiver');
 // const logger = require('../logger');
 
 let timerId;
 
 const initializeParamValuesProcessor = () => {
+  lastValues.init(
+    { useDbValueTracker: true });
+
+  ampqRawValuesReceiver.Start();
+
   timerId = setInterval(() => {
     const recalcPSs = [];
     const lastChanged = lastValues.getLastChanged();
