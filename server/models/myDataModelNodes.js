@@ -659,7 +659,7 @@ const GetParamsListsForEachPS = () => {
 };
 
 module.exports.LoadFromDB = LoadFromDB;
-module.exports.RelinkParamsToNodes = RelinkParamNamesToNodes;
+module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetRegions = GetRegions;
