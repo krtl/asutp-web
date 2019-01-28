@@ -1,0 +1,7 @@
+[
+{"name":"con1","caption":"Caption1","psSapCode":"sapTestCode1","voltage":"10 êÂ","connectionNumber":"1","VVParamName":"param1_VV","PParamName":"param1_P"},
+{"name":"con2","caption":"Caption2","psSapCode":"sapTestCode1","voltage":"10 êÂ","connectionNumber":"2","VVParamName":"param2_VV","PParamName":"param2_P"},
+{"name":"con3","caption":"Caption3","psSapCode":"sapTestCode1","voltage":"10 êÂ","connectionNumber":"3","VVParamName":"param3_VV","PParamName":"param3_P"},
+{"name":"con4","caption":"Caption4","psSapCode":"sapTestCode1","voltage":"10 êÂ","connectionNumber":"4","VVParamName":"param4_VV","PParamName":"param4_P"},
+{"name":"con5","caption":"Caption5","psSapCode":"sapTestCode1","voltage":"10 êÂ","connectionNumber":"5","VVParamName":"param5_VV","PParamName":"param5_P"}
+]
