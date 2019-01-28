@@ -9,6 +9,11 @@ function MyNode(name, caption, description, nodeType) {
   this.sapCode = '';
 
   this.nodeState = myNodeState.UNKNOWN;
+  this.doOnStateChanged = (node, oldState, newState) => {
+    if (this.stateChangeHandler) {
+      this.stateChangeHandler(node, oldState, newState);
+    }
+  };
 }
 
 MyNode.prototype.recalculateState = () => {

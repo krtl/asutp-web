@@ -562,6 +562,38 @@ const RelinkParamNamesToNodes = (cb) => {
   linkParamNamesToNodes(cb);
 };
 
+const SetStateChangedHandler = (stateHandler) => {
+  PSs.forEach((ps) => {
+    ps.stateChangeHandler = stateHandler;
+    ps.psparts.forEach((pspart) => {
+      pspart.stateChangeHandler = stateHandler;
+
+      pspart.sections.forEach((section) => {
+        section.stateChangeHandler = stateHandler;
+        section.connectors.forEach((connector) => {
+          connector.stateChangeHandler = stateHandler;
+
+          connector.equipments.forEach((equipment) => {
+            equipment.stateChangeHandler = stateHandler;
+          });
+        });
+      });
+
+      pspart.connectors.forEach((connector) => {
+        connector.stateChangeHandler = stateHandler;
+
+        connector.equipments.forEach((equipment) => {
+          equipment.stateChangeHandler = stateHandler;
+        });
+      });
+    });
+    ps.transformers.forEach((transformer) => {
+      transformer.stateChangeHandler = stateHandler;
+    });
+  });
+};
+
+
 const GetNode = nodeName => nodes.get(nodeName);
 
 const GetRegions = () => Array.from(Regions.values());
@@ -660,6 +692,7 @@ const GetParamsListsForEachPS = () => {
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
+module.exports.SetStateChangedHandler = SetStateChangedHandler;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetRegions = GetRegions;
