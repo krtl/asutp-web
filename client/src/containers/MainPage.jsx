@@ -137,6 +137,18 @@ export default class MainPage extends React.Component {
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (pss) => {
+
+          pss.sort((ps1, ps2) => {
+            if (ps1.name > ps2.name) {
+              return 1;
+            }
+            if (ps1.name < ps2.name) {
+              return -1;
+            }
+            return 0;
+          }
+        );
+
           this.setState({
             PSs: pss.slice(0, MATCHING_ITEM_LIMIT),
           });

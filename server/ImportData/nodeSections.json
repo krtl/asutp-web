@@ -1,14 +1,14 @@
 [
 
-  {    "name": "ps1sec1", "caption": "ps1sec1", "parentNode": "ps1Part1",  "description": "dummySec1", "voltage": 1, "sapCode": "a1"},
-  {    "name": "ps1sec2", "parentNode": "ps1Part1", "caption": "ps1sec2", "description": "dummySec2", "voltage": 2, "sapCode": "a2"},
-  {    "name": "ps1sec3", "parentNode": "ps1Part2", "caption": "ps1sec3", "description": "dummySec2", "voltage": 1, "sapCode": "a3"},
-  {    "name": "ps1sec4", "parentNode": "ps1Part2", "caption": "ps1sec4", "description": "dummSsec2", "voltage": 2, "sapCode": "a4"},
-  {    "name": "ps2sec1", "parentNode": "ps2Part1", "caption": "ps2sec3", "description": "dummSsec2", "voltage": 1, "sapCode": "a5"},
-  {    "name": "ps2sec2", "parentNode": "ps2Part1", "caption": "ps2sec2", "description": "dummSsec2", "voltage": 2, "sapCode": "a6"},
-  {    "name": "ps2sec3", "parentNode": "ps2Part1", "caption": "ps2sec3", "description": "dummSsec2", "voltage": 3, "sapCode": "a7"},
-  {    "name": "ps3sec1", "parentNode": "ps3Part1", "caption": "ps3sec1", "description": "dummSsec2", "voltage":1, "sapCode": "a8"},
-  {    "name": "ps3sec2", "parentNode": "ps3Part1", "caption": "ps2sec2", "description": "dummSsec2", "voltage": 2, "sapCode": "a9"},
-  {    "name": "ps3sec3", "parentNode": "ps3Part2", "caption": "ps3sec3", "description": "dummSsec2", "voltage": 2, "sapCode": "a12"}
+  {    "name": "ps1part1sec1", "caption": "ps1sec1", "parentNode": "ps1part1",  "description": "dummySec1", "voltage": 1, "sapCode": "a1"},
+  {    "name": "ps1part1sec2", "parentNode": "ps1part1", "caption": "ps1sec2", "description": "dummySec2", "voltage": 2, "sapCode": "a2"},
+  {    "name": "ps1part2sec3", "parentNode": "ps1part2", "caption": "ps1sec3", "description": "dummySec2", "voltage": 1, "sapCode": "a3"},
+  {    "name": "ps1part2sec4", "parentNode": "ps1part2", "caption": "ps1sec4", "description": "dummSsec2", "voltage": 2, "sapCode": "a4"},
+  {    "name": "ps2part1sec1", "parentNode": "ps2part1", "caption": "ps2sec3", "description": "dummSsec2", "voltage": 1, "sapCode": "a5"},
+  {    "name": "ps2part1sec2", "parentNode": "ps2part1", "caption": "ps2sec2", "description": "dummSsec2", "voltage": 2, "sapCode": "a6"},
+  {    "name": "ps2part1sec3", "parentNode": "ps2part1", "caption": "ps2sec3", "description": "dummSsec2", "voltage": 3, "sapCode": "a7"},
+  {    "name": "ps3part1sec1", "parentNode": "ps3part1", "caption": "ps3sec1", "description": "dummSsec2", "voltage":1, "sapCode": "a8"},
+  {    "name": "ps3part1sec2", "parentNode": "ps3part1", "caption": "ps2sec2", "description": "dummSsec2", "voltage": 2, "sapCode": "a9"},
+  {    "name": "ps3part2sec3", "parentNode": "ps3part2", "caption": "ps3sec3", "description": "dummSsec2", "voltage": 2, "sapCode": "a12"}
   
 ]

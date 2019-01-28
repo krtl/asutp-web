@@ -1,9 +1,14 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 
-function MyNodeLEP(name, caption, description) {
-  MyNode.call(this, name, caption, description, myNodeType.LEP);
-  this.voltage = null;
+
+class MyNodeLEP extends MyNode {
+
+  constructor(name, caption, description) {
+    super(name, caption, description, myNodeType.LEP);
+    this.voltage = null;
+    this.connections = [];
+  }
 }
 
 

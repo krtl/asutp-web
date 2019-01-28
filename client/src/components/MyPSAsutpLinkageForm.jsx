@@ -206,6 +206,18 @@ export default class MyPSAsutpLinkageForm extends React.Component {
          });
         }
          
+        rows.sort((row1, row2) => {
+          if (row1.name > row2.name) {
+            return 1;
+          }
+          if (row1.name < row2.name) {
+            return -1;
+          }
+          return 0;
+        }
+      );
+
+                
         let psCaption = this.props.psName;
         if (this.props.PS) {  
           psCaption += ` (${this.props.PS.caption})`;

@@ -3,35 +3,34 @@ const MyNode = require('./myNode');
 const myNodeState = require('./myNodeState');
 
 
-function MyNodeSection(name, caption, description) {
-  MyNode.call(this, name, caption, description, myNodeType.SECTION);
-  this.connectors = [];
-}
+class MyNodeSection extends MyNode {
 
+  constructor(name, caption, description) {
+    super(name, caption, description, myNodeType.SECTION);
+    this.connectors = [];
+  }
 
-MyNodeSection.prototype = Object.create(MyNode.prototype);
-MyNodeSection.prototype.recalculateState = () => {
-  let isPSConnected = false;
-  for (let i = 0; i < this.connectors.length; i += 1) {
-    const connector = this.connectors[i];
-    connector.recalculateState();
-    if (connector.nodeState === myNodeState.ON) {
-      isPSConnected = true;
+  recalculateState() {
+    let isPSConnected = false;
+    for (let i = 0; i < this.connectors.length; i += 1) {
+      const connector = this.connectors[i];
+      connector.recalculateState();
+      if (connector.nodeState === myNodeState.NODE_STATE_ON) {
+        isPSConnected = true;
+      }
+    }
+
+    let newState = myNodeState.NODE_STATE_UNKNOWN;
+    if (isPSConnected) {
+      newState = myNodeState.NODE_STATE_ON;
+    } else {
+      newState = myNodeState.NODE_STATE_OFF;
+    }
+
+    if (this.nodeState !== newState) {
+      this.doOnStateChanged(newState);
     }
   }
-
-  let newState = myNodeState.UNKNOWN;
-  if (isPSConnected) {
-    newState = myNodeState.ON;
-  } else {
-    newState = myNodeState.OFF;
-  }
-
-  if (this.nodeState !== newState) {
-    this.nodeState = newState;
-
-    // event handler here
-  }
-};
+}
 
 module.exports = MyNodeSection;

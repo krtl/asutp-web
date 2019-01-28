@@ -5,32 +5,32 @@ const lastValues = require('../values/lastValues');
 const myNodeState = require('./myNodeState');
 
 
-function MyNodeEquiment(name, caption, description) {
-  MyNode.call(this, name, caption, description, myNodeType.EQUIPMENT);
-  this.equipmentType = null;
-  this[MyNodePropNameParamRole.STATE] = '';
-}
+class MyNodeEquiment extends MyNode {
 
-MyNodeEquiment.prototype = Object.create(MyNode.prototype);
-MyNodeEquiment.prototype.recalculateState = () => {
-  if (this[MyNodePropNameParamRole.STATE] !== '') {
-    const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.STATE]);
-    if (paramValue) {
-      let newState = myNodeState.UNKNOWN;
-      if (paramValue.value === 0) {
-        newState = myNodeState.ON;
-      } else {
-        newState = myNodeState.OFF;
-      }
+  constructor(name, caption, description) {
+    super(name, caption, description, myNodeType.EQUIPMENT);
+    this.equipmentType = null;
+    this[MyNodePropNameParamRole.STATE] = '';
+  }
 
-      if (this.nodeState !== newState) {
-        this.nodeState = newState;
+  recalculateState() {
+    if (this[MyNodePropNameParamRole.STATE] !== '') {
+      const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.STATE]);
+      if (paramValue) {
+        let newState = myNodeState.NODE_STATE_UNKNOWN;
+        if (paramValue.value === 0) {
+          newState = myNodeState.NODE_STATE_OFF;
+        } else {
+          newState = myNodeState.NODE_STATE_ON;
+        }
 
-        // event handler here
+        if (this.nodeState !== newState) {
+          this.doOnStateChanged(newState);
+        }
       }
     }
   }
-};
+}
 
 
 module.exports = MyNodeEquiment;

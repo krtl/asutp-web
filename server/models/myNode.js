@@ -8,11 +8,12 @@ function MyNode(name, caption, description, nodeType) {
   this.parentNode = null;
   this.sapCode = '';
 
-  this.nodeState = myNodeState.UNKNOWN;
-  this.doOnStateChanged = (node, oldState, newState) => {
+  this.nodeState = myNodeState.NODE_STATE_UNKNOWN;
+  this.doOnStateChanged = (newState) => {
     if (this.stateChangeHandler) {
-      this.stateChangeHandler(node, oldState, newState);
+      this.stateChangeHandler(this, this.nodeState, newState);
     }
+    this.nodeState = newState;
   };
 }
 

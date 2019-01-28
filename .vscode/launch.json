@@ -38,6 +38,18 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "DBExportNodeParamLinkage",
+            "program": "${workspaceFolder}/server/consoleScripts/scriptDBExportNodeParamLinkage.js"
+        },        
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "DBImportNodeParamLinkage",
+            "program": "${workspaceFolder}/server/consoleScripts/scriptDBImportNodeParamLinkage.js"
+        },        
+        {
+            "type": "node",
+            "request": "launch",
             "name": "DBCreate",
             "program": "${workspaceFolder}/server/consoleScripts/scriptDBCreate.js"
         },

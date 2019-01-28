@@ -74,9 +74,21 @@ export default class PSAsutpLinkagePage extends React.Component {
         fetchUrl: `getAsutpConnectionsFor?psSapCode=${psSapCode}`,
         fetchMethod: 'get',
         fetchData: '',
-        fetchCallback: (value) => {
+        fetchCallback: (connections) => {
+
+          connections.sort((con1, con2) => {
+            if (con1.name > con2.name) {
+              return 1;
+            }
+            if (con1.name < con2.name) {
+              return -1;
+            }
+            return 0;
+          }
+        );
+
           this.setState({
-            asutpConnections: value,
+            asutpConnections: connections,
           });
         },
       }
