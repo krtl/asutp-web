@@ -5,7 +5,9 @@ const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
 const MyStompServer = require('./myStompServer');
 const myNodeState = require('../models/myNodeState');
+const MyNodeStateValue = require('../models/myNodeStateValue');
 const ampqRawValuesReceiver = require('./amqpRawValuesReceiver');
+const dbNodeStateValuesTracker = require('./amqpInsertNodeStateValueSender');
 const logger = require('../logger');
 
 let timerId;
@@ -16,7 +18,12 @@ const initializeParamValuesProcessor = () => {
 
   myDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
     logger.info(`[debug] State changed for Node: ${node} from ${oldState} to ${newState}.`);
+
+    const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
+    dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
   });
+
+  dbNodeStateValuesTracker.Start();
 
   ampqRawValuesReceiver.Start();
 

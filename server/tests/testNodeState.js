@@ -7,6 +7,9 @@ const myDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('../values/lastValues');
 const MyParamValue = require('../models/myParamValue');
 
+const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
+const myNodeState = require('../models/myNodeState');
+
 // const paramValuesProcessor = require('../values/paramValuesProcessor');
 
 // const ParamList = require('../dbmodels/paramList');
@@ -16,9 +19,6 @@ const MyParamValue = require('../models/myParamValue');
 
 const config = require('../../config');
 
-// const testUserName = 'TestUserName';
-// const testParamName = 'TestParamName';
-// const testParamListName = 'TestParamListName'
 
 let changedStates = [];
 
@@ -104,27 +104,58 @@ describe('nodeState', () => {
   });
 
 
-  describe('testing states for VV1=0', () => {
-    it('Should Load ParamsModel from DB withour errors', (done) => {
+  describe('testing states for ParamState=OFF', () => {
+    it('Should call statechangeHandle with new NodeState=OFF for correspondent linked node', (done) => {
       changedStates = [];
+
       const ps = myDataModelNodes.GetNode('ps1');
       if (!ps) {
         throw new Error('cannot find PS "ps1"!');
       }
 
-      const param = myDataModelParams.getParam('param1_VV');
+      const paramName = 'param1_VV';
+      let nodeName = null;
+
+      ps.psparts.forEach((pspart) => {
+        pspart.sections.forEach((section) => {
+          section.connectors.forEach((connector) => {
+            connector.equipments.forEach((equipment) => {
+              if (equipment[MyNodePropNameParamRole.STATE] === paramName) {
+                nodeName = equipment.name;
+              }
+            });
+          });
+        });
+        if (!nodeName) {
+          throw new Error(`cannot find linked node for param "${paramName}"!`);
+        }
+      });
+
+
+      const param = myDataModelParams.getParam(paramName);
       if (param) {
-        const pv = new MyParamValue(param.name, 0, new Date(), '');
+        const pv = new MyParamValue(param.name, myNodeState.NODE_STATE_OFF, new Date(), '');
         lastValues.setLastValue(pv);
+
         ps.recalculateState();
+
         if (changedStates.length === 0) {
           throw new Error('no states has been changed!');
         }
-        for (let i = 0; i < this.changedStates.length; i += 1) {
-          // console.log(this.changedStates[i]);
+        let b = false;
+        for (let i = 0; i < changedStates.length; i += 1) {
+          const node = changedStates[i].node;
+          if (node.name === nodeName) {
+            if (changedStates[i].newState === myNodeState.NODE_STATE_OFF) {
+              b = true;
+              break;
+            }
+          }
+          // node, oldState, newState
         }
+        if (!b) throw new Error('no states has been changed!');
       } else {
-        throw new Error('cannot find param "param1_VV"!');
+        throw new Error(`cannot find param "${paramName}"!`);
       }
 
         // const pLists = myDataModelNodes.getAvailableParamsLists(testUserName);

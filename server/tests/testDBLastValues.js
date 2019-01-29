@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
-const dbValues = require('../dbInsertor/dbValues');
+const dbParamValues = require('../dbInsertor/dbParamValues');
 
 // const Schema = mongoose.Schema;
 // const chai = require('chai');
@@ -49,7 +49,7 @@ describe('Database Test ParamValues', () => {
 
     it('save test value', (done) => {
       const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE, TESTDT, TESTPARAMQD);
-      dbValues.saveValue(pv, (err) => {
+      dbParamValues.SaveParamValue(pv, (err) => {
         if (err) { throw err; }
         done();
       });
@@ -74,7 +74,7 @@ describe('Database Test ParamValues', () => {
     });
   });
 
-  describe('Test updateAverageValue function', () => {
+  describe('Test UpdateAverageHalfHourParamValue function', () => {
     it('delete old test values if any', (done) => {
       ParamValue.deleteMany({ paramName: TESTPARAMNAME }, (err) => {
         if (err) { throw err; }
@@ -84,7 +84,7 @@ describe('Database Test ParamValues', () => {
 
     it('update should save test value', (done) => {
       const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE1, TESTDT, TESTPARAMQD);
-      dbValues.updateAverageValue(pv, (err) => {
+      dbParamValues.UpdateAverageHalfHourParamValue(pv, (err) => {
         if (err) { throw err; }
         done();
       });
@@ -103,7 +103,7 @@ describe('Database Test ParamValues', () => {
 
     it('update should update test value', (done) => {
       const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE2, TESTDT, TESTPARAMQD);
-      dbValues.updateAverageValue(pv, (err) => {
+      dbParamValues.UpdateAverageHalfHourParamValue(pv, (err) => {
         if (err) { throw err; }
         done();
       });
@@ -131,7 +131,7 @@ describe('Database Test ParamValues', () => {
   describe('Test removeOldValues function', () => {
     it('insert oldvalue', (done) => {
       const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE1, OLDDT, TESTPARAMQD);
-      dbValues.saveValue(pv, (err) => {
+      dbParamValues.SaveParamValue(pv, (err) => {
         if (err) { throw err; }
         done();
       });
@@ -149,7 +149,7 @@ describe('Database Test ParamValues', () => {
     });
 
     it('remove old values', (done) => {
-      dbValues.removeOldValues((err) => {
+      dbParamValues.RemoveOldParamValues((err) => {
         if (err) { throw err; }
         done();
       });
@@ -165,14 +165,14 @@ describe('Database Test ParamValues', () => {
 
     it('insert new value', (done) => {
       const pv = new MyParamValue(TESTPARAMNAME, TESTPARAMVALUE1, TESTDT, TESTPARAMQD);
-      dbValues.saveValue(pv, (err) => {
+      dbParamValues.SaveParamValue(pv, (err) => {
         if (err) { throw err; }
         done();
       });
     });
 
     it('remove old values again', (done) => {
-      dbValues.removeOldValues((err) => {
+      dbParamValues.RemoveOldParamValues((err) => {
         if (err) { throw err; }
         done();
       });

@@ -1,13 +1,15 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 // const config = require('../../config');
 const async = require('async');
-const MyDataModelParams = require('../models/myDataModelParams');
-const dbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
-const MyParamValue = require('../models/myParamValue');
-const dbValues = require('./dbValues');
-const halfHourValuesProducer = require('./halfHourValuesProducer');
 const logger = require('../logger');
 const moment = require('moment');
+
+const MyDataModelParams = require('../models/myDataModelParams');
+const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
+const MyParamValue = require('../models/myParamValue');
+const DbParamValues = require('./dbParamValues');
+const DbNodeStateValues = require('./dbNodeStateValues');
+const HalfHourValuesProducer = require('./halfHourValuesProducer');
 
 const paramValueBuffers = new Map();
 const lastTrackedValues = new Map();
@@ -22,7 +24,7 @@ const trackHalfHourParamValue = (newParamValue) => {
       }
 
       let b = false;
-      const halfHourDt = halfHourValuesProducer.getHalfHourTime(moment(newParamValue.dt));
+      const halfHourDt = HalfHourValuesProducer.getHalfHourTime(moment(newParamValue.dt));
       for (let j = 0; j < trackedArr.length; j += 1) {
         const locTrackedValue = trackedArr[j];
         if (moment(locTrackedValue.dt).isSame(halfHourDt)) {
@@ -51,7 +53,7 @@ const loadLastTrackedValues = (callback) => {
 
   // events.EventEmitter.defaultMaxListeners = 125;
   async.each(params, (param, callback) => {
-    dbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
+    DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
       if (err) {
         logger.error(`[DbValuesTracker] Failed to get last half hour value: "${err}".`);
       } else if (paramValue) {
@@ -85,7 +87,8 @@ setInterval(() => {
   const now = moment().minutes(0).seconds(0).milliseconds(0);
 
   if (lastTickDT.day() !== now.day()) { // day has changed.
-    dbValues.removeOldValues();
+    DbParamValues.RemoveOldParamValues();
+    DbNodeStateValues.RemoveOldParamValues();
   }
 
   if (!lastTickDT.isSame(now)) {
@@ -95,10 +98,10 @@ setInterval(() => {
       if (paramValueBuffers.has(paramName)) {
         trackedValues = paramValueBuffers.get(paramName);
       }
-      halfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (valuesToInsert, valuesToUpdate, valuesToTrackAgain) => {
+      HalfHourValuesProducer.produceHalfHourParamValues(now, lastValue, trackedValues, (valuesToInsert, valuesToUpdate, valuesToTrackAgain) => {
         let locLastValue = lastValue;
         valuesToInsert.forEach((newValue) => {
-          dbValues.saveHalfHourValue(newValue);
+          DbParamValues.SaveHalfHourParamValue(newValue);
 
           if (moment(locLastValue.dt).isBefore(moment(newValue.dt))) {
             locLastValue = newValue;
@@ -110,7 +113,7 @@ setInterval(() => {
         }
 
         valuesToUpdate.forEach((updateValue) => {
-          dbValues.updateAverageHalfHourValue(updateValue);
+          DbParamValues.UpdateAverageHalfHourParamValue(updateValue);
         });
 
         paramValueBuffers.set(paramName, valuesToTrackAgain);

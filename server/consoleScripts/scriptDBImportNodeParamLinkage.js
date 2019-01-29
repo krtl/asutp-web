@@ -10,7 +10,7 @@ const config = require('../../config');
 let warns = 0;
 function setWarn(text) {
   warns += 1;
-  console.warn(text);
+  console.warn(`[!] ${text}`);
 }
 
 

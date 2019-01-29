@@ -69,5 +69,5 @@ module.exports.connect = (uri, useDataModel) => {
 
   require('./nodeParamLinkage');// eslint-disable-line global-require
 
-  require('./nodeState');// eslint-disable-line global-require
+  require('./nodeStateValue');// eslint-disable-line global-require
 };

@@ -5,7 +5,7 @@
   "amqpUri": "amqp://localhost",
   "amqpRawValuesQueueName": "asutp.values.queue",
   "amqpInsertValuesQueueName": "asutp.insertValues.queue",
-  "amqpInsertDisconnectionsQueueName": "asutp.insertDisconnections.queue",
+  "amqpInsertNodeStateQueueName": "asutp.insertNodeState.queue",
   "jwtSecret": "asutpsecretasutpphrase",
   "exportPath1": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports/",
   "exportPath": "D:/javascript/asutp-web-vs.code/data/exported_data/",
