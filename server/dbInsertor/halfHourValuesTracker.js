@@ -71,10 +71,11 @@ const loadLastTrackedValues = (callback) => {
   }, (err) => {
     if (err) {
       // setError(`Importing failed: ${err}`);
+      logger.error(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded wirh error: "${err}".`);
     } else {
       // console.info('Importing successed.');
+      logger.debug(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded.`);
     }
-    logger.debug(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded. err="${err}".`);
     // eslint-disable-next-line no-console
     console.timeEnd('loadLastTrackedValues');
 

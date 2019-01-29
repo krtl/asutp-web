@@ -16,6 +16,7 @@ const DbParam = require('mongoose').model('Param');
 const DbParamList = require('mongoose').model('ParamList');
 const DbParamValues = require('mongoose').model('ParamValue');
 const DbParamHalfHourValues = require('mongoose').model('ParamHalfHourValue');
+const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 
 
 router.get('/nodes', (req, res, next) => {
@@ -202,5 +203,36 @@ router.get('/paramHalfHourValues', (req, res, next) => {
       return 0;
     });
 });
+
+
+router.get('/nodeStateValues', (req, res, next) => {
+  const nodeName = req.query.nodeName;
+
+  if (!nodeName) {
+    res.json({
+      error: 'Missing required parameter `nodeName`!',
+    });
+    return;
+  }
+
+  if ((nodeName === '') || (nodeName === 'undefined')) {
+    res.json({
+      error: 'Required parameter `nodeName` is wrong!',
+    });
+    return;
+  }
+
+  DbNodeStateValue
+    .find({ nodeName })
+    .select({ nodeName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
+    .sort({ dt: 'desc' })
+    .limit(500)
+    .exec((err, nodeStateValues) => {
+      if (err) return next(err);
+      res.status(200).json(nodeStateValues);
+      return 0;
+    });
+});
+
 
 module.exports = router;

@@ -41,36 +41,37 @@ let updateStarted = 0;  // for debugging
 let updated = 0;        // for debugging
 let processed = 0;      // for debugging
 
-
-async.series([
-  open,
-  requireModels,
-  preparingNodes,
-  importNodes,
-  checkIntegrity,
-  removingOldNodes,
-], (err) => {
+function Start(cb) {
+  console.time('importNodes');
+  async.series([
+    // open,
+    requireModels,
+    preparingNodes,
+    importNodes,
+    checkIntegrity,
+    removingOldNodes,
+  ], (err) => {
 //  console.info(arguments);
-  mongoose.disconnect();
+    // mongoose.disconnect();
 
-  if (errs === 0) {
-    console.info('Script successed.');
-    console.timeEnd('dbimport');
-  } else {
-    console.error(`Script failed with ${errs} errors!`);
-  }
+    if (errs === 0) {
+      console.info('Script successed.');
+      console.timeEnd('importNodes');
+    } else {
+      console.error(`Script failed with ${errs} errors!`);
+    }
 
-  process.exit(err ? 255 : 0);
-});
-
-function open(callback) {
-  console.time('dbimport');
-  console.info('open');
-// connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
-
-  mongoose.connection.on('open', callback);
+    cb(err);
+  });
 }
+
+// function open(callback) {
+//     console.info('open');
+//     // connect to the database and load dbmodels
+//     require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
+
+//     mongoose.connection.on('open', callback);
+// }
 
 function requireModels(callback) {
   console.info('models');
@@ -474,3 +475,5 @@ function checkIntegrity(callback) {
     }
   });
 }
+
+module.exports.Start = Start;

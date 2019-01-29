@@ -7,5 +7,5 @@
   {    "name": "ps1part1sec2c1eq5", "caption": "eq5",  "description": "zz1", "parentNode": "ps1part1sec2c1", "sapCode": "15" },
   {    "name": "ps1part1sec2c2eq1", "caption": "eq1",  "parentNode": "ps1part1sec1c2", "sapCode": "16" },
   {    "name": "ps1part1sec1c2eq2", "caption": "eq2",  "description": "zz1", "parentNode": "ps1part1sec1c2", "sapCode": "17" },
-  {    "name": "ps1part1sec2c1eq3", "caption": "eq3",  "description": "zzz2", "parentNode": "ps1part1sec2c1", "sapCode": "19"}
+  {    "name": "ps1part1sec2c1eq6", "caption": "eq6",  "description": "zzz2", "parentNode": "ps1part1sec2c1", "sapCode": "19"}
 ]

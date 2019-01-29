@@ -11,26 +11,30 @@ const FileNames = [
   'asutpConnections.json',
 ];
 
-async.series([
-  open,
-  requireModels,
-  importParams,
-  importParamLists,
-  importAsutpConnections,
-], (err) => {
+function Start(cb) {
+  console.time('importParams');
+  async.series([
+    // open,
+    requireModels,
+    importParams,
+    importParamLists,
+    importAsutpConnections,
+  ], (err) => {
 //  console.log(arguments);
-  if (err) console.error('Failed!');
-  mongoose.disconnect();
-  process.exit(err ? 255 : 0);
-});
-
-function open(callback) {
-  console.log('open');
-// connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
-
-  mongoose.connection.on('open', callback);
+    if (err) console.error('Failed!');
+    console.timeEnd('importParams');
+    // mongoose.disconnect();
+    cb(err);
+  });
 }
+
+// function open(callback) {
+//   console.log('open');
+// // connect to the database and load dbmodels
+//   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
+
+//   mongoose.connection.on('open', callback);
+// }
 
 function requireModels(callback) {
   console.log('models');
@@ -206,3 +210,5 @@ function importAsutpConnections(callback) {
     callback(err);
   });
 }
+
+module.exports.Start = Start;

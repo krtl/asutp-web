@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const fs = require('fs');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 const myDataModelParams = require('../models/myDataModelParams');
@@ -13,36 +13,36 @@ function setWarn(text) {
   console.warn(`[!] ${text}`);
 }
 
-
-async.series([
-  open,
-  loadNodesModel,
-  loadParamsModel,
-  importLinkages,
-], (err) => {
+function Start(cb) {
+  console.time('importLinkages');
+  async.series([
+    // open,
+    loadNodesModel,
+    loadParamsModel,
+    importLinkages,
+  ], (err) => {
   // console.info(arguments);
-  if (err) {
-    console.error(`Failed! ${err}`);
-  } else if (warns === 0) {
-    console.info('done.');
-  } else {
-    console.info(`done. warns ${warns}`);
-  }
-  console.timeEnd('export');
+    if (err) {
+      console.error(`Failed! ${err}`);
+    } else if (warns === 0) {
+      console.info('done.');
+    } else {
+      console.info(`done. warns ${warns}`);
+    }
+    console.timeEnd('importLinkages');
 
-  mongoose.disconnect();
-  process.exit(err ? 1 : 0);
-});
-
-function open(callback) {
-  console.info('open');
-// connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
-
-  mongoose.connection.on('open', callback);
-
-  console.time('export');
+    // mongoose.disconnect();
+    cb(err);
+  });
 }
+
+// function open(callback) {
+//     console.info('open');
+//     // connect to the database and load dbmodels
+//     require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
+
+//     mongoose.connection.on('open', callback);
+// }
 
 function loadNodesModel(callback) {
   myDataModelNodes.LoadFromDB((err) => {
@@ -58,7 +58,7 @@ function loadParamsModel(callback) {
 
 function importLinkages(callback) {
   let rawdata = null;
-  const fileName = `${config.exportPath}nodeParamLinkage.json`;
+  const fileName = `${config.importPath}nodeParamLinkage.json`;
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
@@ -109,7 +109,7 @@ function importLinkages(callback) {
         } else {
           newLinkage.save((err) => {
             if (err) callback(err);
-            console.info(`Linkage "${linkage.nodeName}.${linkage.paramPropName}" inserted`);
+            console.info(`Linkage "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`);
             callback(null);
           });
         }
@@ -124,4 +124,6 @@ function importLinkages(callback) {
     callback(err);
   });
 }
+
+module.exports.Start = Start;
 

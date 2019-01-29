@@ -1,6 +1,6 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 // const config = require('../../config');
-const myDataModelNodes = require('../models/myDataModelNodes');
+const MyDataModelNodes = require('../models/myDataModelNodes');
 const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
 const MyStompServer = require('./myStompServer');
@@ -16,8 +16,8 @@ const initializeParamValuesProcessor = () => {
   lastValues.init(
     { useDbValueTracker: true });
 
-  myDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
-    logger.info(`[debug] State changed for Node: ${node} from ${oldState} to ${newState}.`);
+  MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
+    logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
 
     const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
     dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
@@ -49,8 +49,12 @@ const initializeParamValuesProcessor = () => {
     }
 
     for (let i = 0; i < recalcPSs.length; i += 1) {
-      const ps = recalcPSs[i];
-      ps.recalculateState();
+      const ps = MyDataModelNodes.GetNode(recalcPSs[i]);
+      if (ps) {
+        ps.recalculateState();
+      } else {
+        logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSs[i]}"`);
+      }
     }
   }, 3000);
 };

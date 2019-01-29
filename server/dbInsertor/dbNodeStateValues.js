@@ -6,8 +6,8 @@ const logger = require('../logger');
 const SaveNodeStateValue = (stateValue, callback) => {
   const nodeStateValue = DbNodeStateValue({
     nodeName: stateValue.nodeName,
-    oldValue: stateValue.oldValue,
-    newValue: stateValue.newValue,
+    oldState: stateValue.oldState,
+    newState: stateValue.newState,
     dt: stateValue.dt,
   });
 

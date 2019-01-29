@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import MyParams from './MyParams';
 import MyPSs from './MyPSs';
-import MyShutdowns from './MyShutdowns';
+import MyNodeStateHistory from '../containers/MyNodeStateHistory';
 import MyStageContainer from '../containers/MyStageContainer';
 // import Client from '../modules/Client'; // eslint-disable-line
 
@@ -35,8 +35,7 @@ class MainForm extends React.Component {
           />
         </Tab>
         <Tab label='Shutdowns' >
-          <MyShutdowns
-            shutdowns={[]}
+          <MyNodeStateHistory
           />
         </Tab>
         <Tab label='Scheme' >

@@ -116,7 +116,7 @@ export default class MyParamHistoryForm extends React.Component {
   paramName: PropTypes.string,
   paramValues: PropTypes.arrayOf(PropTypes.shape({
      paramName: PropTypes.string,
-     value: PropTypes.string,
+     value: PropTypes.number,
      dt: PropTypes.string,
      qd: PropTypes.string,
    })),

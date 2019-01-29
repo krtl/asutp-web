@@ -6,8 +6,8 @@ const NodeStateValueSchema = new mongoose.Schema({
     required: true,
     index: true,
   },
-  oldValue: Number,      // Unknown, On, Off, Alarm
-  newValue: Number,      // Unknown, On, Off, Alarm
+  oldState: Number,      // Unknown, On, Off, Alarm
+  newState: Number,      // Unknown, On, Off, Alarm
   dt: {
     type: Date,
     default: Date.now,

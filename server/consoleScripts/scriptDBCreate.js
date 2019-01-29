@@ -3,25 +3,26 @@ const fs = require('fs');
 const async = require('async');
 const config = require('../../config');
 
-
-async.series([
-  open,
-  dropDatabase,
-  requireModels,
-  createUsers,
-], (err) => {
-  // console.log(arguments);
-  mongoose.disconnect();
-  process.exit(err ? 255 : 0);
-});
-
-function open(callback) {
-  console.log('open');
-// connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
-
-  mongoose.connection.on('open', callback);
+function Start(cb) {
+  async.series([
+    // open,
+    dropDatabase,
+    requireModels,
+    createUsers,
+  ], (err) => {
+    // console.log(arguments);
+    // mongoose.disconnect();
+    cb(err);
+  });
 }
+
+// function open(callback) {
+//   console.log('open');
+// // connect to the database and load dbmodels
+//   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
+
+//   mongoose.connection.on('open', callback);
+// }
 
 function dropDatabase(callback) {
   console.log('drop');
@@ -92,8 +93,7 @@ function createUsers(callback) {
     }
     callback(err);
   });
-
-  // const data = JSON.stringify(users);
-  // fs.writeFileSync(`${config.importPath}users-2.json`, data);
 }
+
+module.exports.Start = Start;
 
