@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+const moment = require('moment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 
 const async = require('async');
 const config = require('../../config');
 
+
+const start = moment();
 
 async.series([
   open,
@@ -14,9 +17,9 @@ async.series([
   if (err) {
     console.info(`Failed! ${err}`);
   } else {
-    console.info('done.');
+    const duration = moment().diff(start);
+    console.info(`done in ${moment(duration).format('mm:ss.SSS')}`);
   }
-  console.timeEnd('export');
 
   mongoose.disconnect();
   process.exit(err ? 1 : 0);
@@ -28,8 +31,6 @@ function open(callback) {
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
-
-  console.time('export');
 }
 
 function exportLinkages(callback) {

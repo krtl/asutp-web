@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const async = require('async');
+const moment = require('moment');
+const config = require('../../config');
+
 const DbUser = require('../dbmodels/authUser');
 const DbParam = require('../dbmodels/param');
 const DbParamList = require('../dbmodels/paramList');
@@ -19,9 +23,6 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
-
-const async = require('async');
-const config = require('../../config');
 
 const Sheme = [
   DbUser,
@@ -47,6 +48,8 @@ const Sheme = [
 ];
 
 
+const start = moment();
+
 async.series([
   open,
   getCounts,
@@ -55,9 +58,9 @@ async.series([
   if (err) {
     console.info(`Failed! ${err}`);
   } else {
-    console.info('done.');
+    const duration = moment().diff(start);
+    console.info(`done in ${moment(duration).format('mm:ss.SSS')}`);
   }
-  console.timeEnd('getCount');
 
   mongoose.disconnect();
   process.exit(err ? 1 : 0);
@@ -69,8 +72,6 @@ function open(callback) {
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
-
-  console.time('getCount');
 }
 
 function getCounts(callback) {

@@ -1,5 +1,6 @@
 // const mongoose = require('mongoose');
 const fs = require('fs');
+const moment = require('moment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 const myDataModelParams = require('../models/myDataModelParams');
 const myDataModelNodes = require('../models/myDataModelNodes');
@@ -14,7 +15,7 @@ function setWarn(text) {
 }
 
 function Start(cb) {
-  console.time('importLinkages');
+  const start = moment();
   async.series([
     // open,
     loadNodesModel,
@@ -25,11 +26,11 @@ function Start(cb) {
     if (err) {
       console.error(`Failed! ${err}`);
     } else if (warns === 0) {
-      console.info('done.');
+      const duration = moment().diff(start);
+      console.info(`done in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
       console.info(`done. warns ${warns}`);
     }
-    console.timeEnd('importLinkages');
 
     // mongoose.disconnect();
     cb(err);

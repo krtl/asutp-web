@@ -6,7 +6,7 @@ const MyDataModelParams = require('../models/myDataModelParams');
 const MyParamValue = require('../models/myParamValue');
 const MyNodeStateValue = require('../models/myNodeStateValue');
 const amqpValuesReceiver = require('../amqp/amqp_receive');
-const amqpNodeStateReceiver = require('../amqp/amqp_receive');
+const amqpNodeStateReceiver = require('../amqp/amqp_receive1');
 const DbValuesTracker = require('./dbValuesTracker');
 const HalfHourValuesTracker = require('./halfHourValuesTracker');
 // const moment = require('moment');
@@ -50,22 +50,22 @@ db.on('connected', () => {
 
           // should be remaked!
 
-          // amqpNodeStateReceiver.start(config.amqpUri, config.amqpInsertNodeStateQueueName, (received) => {
-          //   logger.debug('[] Got msg', received);
+          amqpNodeStateReceiver.start(config.amqpUri, config.amqpInsertNodeStateQueueName, (received) => {
+            logger.debug('[] Got msg', received);
 
-          //       // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
-          //   const s = received.split('<>');
-          //   if (s.length === 4) {
-          //     const oldState = parseInt(s[1], 10);
-          //     const newState = parseInt(s[2], 10);
-          //     const dt = new Date(s[3]);
-          //     const obj = new MyNodeStateValue(s[0], oldState, newState, dt);
+                // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
+            const s = received.split('<>');
+            if (s.length === 4) {
+              const oldState = parseInt(s[1], 10);
+              const newState = parseInt(s[2], 10);
+              const dt = new Date(s[3]);
+              const obj = new MyNodeStateValue(s[0], oldState, newState, dt);
 
-          //     DbValuesTracker.trackDbNodeStateValue(obj);
-          //   } else {
-          //     logger.error('[][MyNodeStateValue] Failed to parse: ', received);
-          //   }
-          // });
+              DbValuesTracker.trackDbNodeStateValue(obj);
+            } else {
+              logger.error('[][MyNodeStateValue] Failed to parse: ', received);
+            }
+          });
         }
       });
     }

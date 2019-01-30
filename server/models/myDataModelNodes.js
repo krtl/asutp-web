@@ -21,7 +21,7 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
-const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+// const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 
 
 const logger = require('../logger');
@@ -95,7 +95,6 @@ const LoadFromDB = (cb) => {
     loadNodes,
     replaceNamesWithObjects,
     linkNodes,
-    setupPsNodes,
     checkIntegrity,
     linkParamNamesToNodes,
     restoreLastStateValues,
@@ -103,7 +102,7 @@ const LoadFromDB = (cb) => {
     let res = null;
     if (errs === 0) {
       const duration = moment().diff(start);
-      logger.info(`[ModelNodes] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, Regions=${Regions.size}, PSs=${PSs.size} in ${moment(duration).format('mm:ss.SSS')}`);
+      logger.info(`[ModelNodes] loaded from DB with ${nodes.size} Nodes in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
       res = `loading nodes failed with ${errs} errors!`;
       logger.error(res);
@@ -279,8 +278,9 @@ function replaceNamesWithObjects(callback) {
     let err = null;
     const convertToObjProps = DbNodeObj.convertToObj;
     if ((convertToObjProps) && (convertToObjProps.length > 0)) {
-      for (let i = 0; i < nodes.length; i += 1) {
-        const locNode = nodes[i];
+      const locNodes = Array.from(nodes.values());
+      for (let i = 0; i < locNodes.length; i += 1) {
+        const locNode = locNodes[i];
         if (locNode.nodeType === DbNodeObj.nodeType) {
           for (let j = 0; j < convertToObjProps.length; j += 1) {
             const pName = convertToObjProps[j];
@@ -412,8 +412,9 @@ function linkEquipmentToSectionConnector(node) {
 }
 
 function linkNodes(cb) {
-  for (let i = 0; i < nodes.length; i += 1) {
-    const locNode = nodes[i];
+  const locNodes = Array.from(nodes.values());
+  for (let i = 0; i < locNodes.length; i += 1) {
+    const locNode = locNodes[i];
     if (locNode.parentNode) {
       switch (locNode.nodeType) {
         case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
@@ -434,14 +435,10 @@ function linkNodes(cb) {
   return cb();
 }
 
-function setupPsNodes(cb) {
-  // ..
-  return cb();
-}
-
 function checkIntegrity(cb) {
-  for (let i = 0; i < PSs.length; i += 1) {
-    const locPS = PSs[i];
+  const locPSs = Array.from(PSs.values());
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const locPS = locPSs[i];
     for (let j = 0; j < locPS.psparts.length; j += 1) {
       const locPSPart = locPS.psparts[j];
       if (locPSPart.sections.length === 0) {
@@ -576,8 +573,9 @@ const RelinkParamNamesToNodes = (cb) => {
 };
 
 const SetStateChangedHandler = (stateHandler) => {
-  for (let i = 0; i < PSs.length; i += 1) {
-    const ps = PSs[i];
+  const locPSs = Array.from(PSs.values());
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const ps = locPSs[i];
     ps.stateChangeHandler = stateHandler;
     for (let j = 0; j < ps.psparts.length; j += 1) {
       const pspart = ps.psparts[j];
@@ -684,8 +682,9 @@ function arrayUnique(array) {
 
 const GetParamsListsForEachPS = () => {
   const paramLists = [];
-  for (let i = 0; i < PSs.length; i += 1) {
-    const ps = PSs[i];
+  const locPSs = Array.from(PSs.values());
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const ps = locPSs[i];
     const paramNames = [];
     const stateParamNames = [];
     for (let j = 0; j < ps.psparts.length; j += 1) {

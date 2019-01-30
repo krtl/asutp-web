@@ -8,12 +8,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "testDBInsertor",
-            "program": "${workspaceFolder}/server/dbInsertor/dbInsertor.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "getDbTablesCount",
             "program": "${workspaceFolder}/server/consoleScripts/getDbTablesCount.js"
         },
@@ -48,6 +42,12 @@
             "program": "${workspaceFolder}/server/consoleScripts/scriptLoadParamsModel.js"
         },
         {
+            "type": "node",
+            "request": "launch",
+            "name": "run DBInsertor",
+            "program": "${workspaceFolder}/server/dbInsertor/dbInsertor.js"
+        },
+       {
             "type": "node",
             "request": "launch",
             "name": "Run server",

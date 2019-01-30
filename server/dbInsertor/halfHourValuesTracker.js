@@ -47,9 +47,9 @@ const trackHalfHourParamValue = (newParamValue) => {
 };
 
 const loadLastTrackedValues = (callback) => {
+  const start = moment();
+
   const params = MyDataModelParams.getAllParamsAsArray();
-  // eslint-disable-next-line no-console
-  console.time('loadLastTrackedValues');
 
   // events.EventEmitter.defaultMaxListeners = 125;
   async.each(params, (param, callback) => {
@@ -73,11 +73,9 @@ const loadLastTrackedValues = (callback) => {
       // setError(`Importing failed: ${err}`);
       logger.error(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded wirh error: "${err}".`);
     } else {
-      // console.info('Importing successed.');
-      logger.debug(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded.`);
+      const duration = moment().diff(start);
+      logger.debug(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
     }
-    // eslint-disable-next-line no-console
-    console.timeEnd('loadLastTrackedValues');
 
     callback(err);
   });
@@ -89,7 +87,7 @@ setInterval(() => {
 
   if (lastTickDT.day() !== now.day()) { // day has changed.
     DbParamValues.RemoveOldParamValues();
-    DbNodeStateValues.RemoveOldParamValues();
+    DbNodeStateValues.RemoveOldNodeStateValues();
   }
 
   if (!lastTickDT.isSame(now)) {
