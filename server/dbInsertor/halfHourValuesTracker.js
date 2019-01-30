@@ -74,7 +74,7 @@ const loadLastTrackedValues = (callback) => {
       logger.error(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded wirh error: "${err}".`);
     } else {
       const duration = moment().diff(start);
-      logger.debug(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
+      logger.info(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
     }
 
     callback(err);

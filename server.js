@@ -1,5 +1,7 @@
 
 process.env.LOGGER_NAME = 'server';
+// process.env.LOGGER_LEVEL = 'debug';
+
 const logger = require('./server/logger');
 const express = require('express');
 const http = require('http');
@@ -9,11 +11,18 @@ const config = require('./config');
 const routeUsers = require('./server/routes/users');
 const routeProjects = require('./server/routes/projects');
 const MyStompServer = require('./server/values/myStompServer');
+const dbModels = require('./server/dbmodels');
 
+process.env.NODE_ENV = 'production';
 
 // connect to the database and load models
-require('./server/dbmodels').connect(config.dbUri, true);
-
+dbModels.connect(config.dbUri, true, (err) => {
+  if (err) {
+    process.exit(2);
+  }
+  // start listening only after models has loaded.
+  // ...
+});
 
 const app = express();
 
@@ -67,6 +76,7 @@ app.use(httpErrorMiddleware);
 app.use((req, res) => {
   res.sendStatus(404);
 });
+
 
 MyStompServer.initializeStompServer(httpserver);
 

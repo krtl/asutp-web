@@ -3,10 +3,12 @@ const winston = require('winston');
 
 let logger;
 
-if (process.env.LOGGER_NAME === '') {
+if (!process.env.LOGGER_NAME) {
   process.env.LOGGER_NAME = 'defaul';
 }
-
+if (!process.env.LOGGER_LEVEL) {
+  process.env.LOGGER_LEVEL = 'info';
+}
 function myTimeStamp() {
   return moment().format('YYYY-MM-DD HH:mm:ss.ms');
 }
@@ -19,7 +21,7 @@ function myFormatter(options) {
 
 const init = () => {
   logger = new winston.Logger({
-    level: 'debug',
+    level: process.env.LOGGER_LEVEL,
   // format: winston.format.json(),
     json: false,
     timestamp: true,

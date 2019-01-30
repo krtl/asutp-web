@@ -4,6 +4,8 @@ const config = require('../../config');
 // require('../values/amqpRawValuesReceiver');
 
 process.env.LOGGER_NAME = 'amqpSender';
+process.env.LOGGER_LEVEL = 'debug';
+
 require('../logger');
 
 const amqpSender = require('../amqp/amqp_send');

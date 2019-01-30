@@ -2,6 +2,15 @@ const express = require('express');
 const async = require('async');
 const logger = require('../logger');
 
+const NetNode = require('../dbmodels/netNode');
+const NetWire = require('../dbmodels/netWire');
+const DbParam = require('../dbmodels/param');
+const DbParamList = require('../dbmodels/paramList');
+const DbParamValues = require('../dbmodels/paramValue');
+const DbParamHalfHourValues = require('../dbmodels/paramHalfHourValue');
+const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+
+
 const router = new express.Router();
 
 router.get('/dashboard', (req, res) => {
@@ -9,15 +18,6 @@ router.get('/dashboard', (req, res) => {
     message: "You're authorized to see this secret message.",
   });
 });
-
-const NetNode = require('mongoose').model('NetNode');
-const NetWire = require('mongoose').model('NetWire');
-const DbParam = require('mongoose').model('Param');
-const DbParamList = require('mongoose').model('ParamList');
-const DbParamValues = require('mongoose').model('ParamValue');
-const DbParamHalfHourValues = require('mongoose').model('ParamHalfHourValue');
-const DbNodeStateValue = require('../dbmodels/nodeStateValue');
-
 
 router.get('/nodes', (req, res, next) => {
   const project = req.query.proj;

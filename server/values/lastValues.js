@@ -88,7 +88,7 @@ function restoreLastParamValues(callback) {
     } else {
       // console.info('Importing successed.');
       const duration = moment().diff(start);
-      logger.debug(`[LastParamValues] ${lastValues.size} LastParamValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
+      logger.info(`[LastParamValues] ${lastValues.size} LastParamValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
     }
 
     callback(err);

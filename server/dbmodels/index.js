@@ -5,7 +5,7 @@ const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 
 
-module.exports.connect = (uri, useDataModel) => {
+module.exports.connect = (uri, useDataModel, callback) => {
   // mongoose.connect(uri);
   mongoose.connect(uri, {
     useMongoClient: true,
@@ -21,13 +21,14 @@ module.exports.connect = (uri, useDataModel) => {
     if (useDataModel) {
       myDataModelNodes.LoadFromDB((err) => {
         if (err) {
-          process.exit(2);
+          if (callback) callback(err);
+          return;
         }
         myDataModelParams.LoadFromDB((err) => {
-          if (err) {
-            process.exit(2);
+          if (!err) {
+            paramValuesProcessor.initializeParamValuesProcessor();
           }
-          paramValuesProcessor.initializeParamValuesProcessor();
+          if (callback) callback(err);
         });
       });
     }

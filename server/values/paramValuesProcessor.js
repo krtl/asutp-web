@@ -35,7 +35,7 @@ const initializeParamValuesProcessor = () => {
       const value = lastValues.getLastValue(paramName);
       const param = MyDataModelParams.getParam(paramName);
       if ((param) && (value)) {
-        for (let i = 0; i < param.listNames; i += 1) {
+        for (let i = 0; i < param.listNames.length; i += 1) {
           const lstName = param.listNames[i];
           MyStompServer.sendParamValue(lstName, value);
 

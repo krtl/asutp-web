@@ -1,4 +1,6 @@
 process.env.LOGGER_NAME = 'dbInsertor';
+process.env.LOGGER_LEVEL = 'info';
+
 const logger = require('../logger');
 const mongoose = require('mongoose');
 const config = require('../../config');

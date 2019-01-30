@@ -545,7 +545,7 @@ function linkParamNamesToNodes(cb) {
   DbNodeParamLinkage.find({}, null, { }, (err, linkages) => {
     if (err) return cb(err);
 
-    logger.debug(`[ModelNodes] found ${linkages.length} NodeParamLinkages..`);
+    logger.info(`[ModelNodes] found ${linkages.length} NodeParamLinkages..`);
     for (let i = 0; i < linkages.length; i += 1) {
       const dbNodeLinkage = linkages[i];
       const locNode = nodes.get(dbNodeLinkage.nodeName);

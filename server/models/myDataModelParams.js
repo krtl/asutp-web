@@ -113,15 +113,16 @@ function loadParamLists(cb) {
 function loadParamListsFromNodesModel(cb) {
   const lists = myDataModelNodes.GetParamsListsForEachPS();
 
-  lists.forEach((prmList) => {
-    prmList.paramNames.forEach((prmName) => {
+  for (let i = 0; i < lists.length; i += 1) {
+    const prmList = lists[i];
+    for (let j = 0; j < prmList.paramNames.length; j += 1) {
+      const prmName = prmList.paramNames[j];
       if (!params.has(prmName)) {
         setError(`cannot find param "${prmName}" in "${prmList.name}"`);
       }
-    });
-
+    }
     paramLists.set(prmList.name, prmList);
-  });
+  }
 
   return cb();
 }
