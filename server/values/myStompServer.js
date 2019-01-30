@@ -103,12 +103,13 @@ const initializeStompServer = (httpserver) => {
     if (ev.topic.startsWith(TOPIC_VALUES)) {
       const locParamListName = ev.topic.replace(TOPIC_VALUES, '');
       const params = MyDataModelParams.getParamsOfList(locParamListName);
-      params.forEach((param) => {
+      for (let i = 0; i < params.length; i += 1) {
+        const param = params[i];
         const paramValue = lastValues.getLastValue(param.name);
         if (paramValue) {
           stompServer.sendIndividual(ev.socket, TOPIC_VALUES + locParamListName, {}, JSON.stringify(paramValue));
         }
-      });
+      }
     }
   });
 

@@ -98,10 +98,11 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
 
   if (!newValueIsTracked) {
         // save the last tracked value again
-    missedMoments.forEach((locMoment) => {
+    for (let i = 0; i < missedMoments.length; i += 1) {
+      const locMoment = missedMoments[i];
       const newValue = new MyParamValue(lastValue.paramName, lastValue.value, locMoment.toDate(), lastValue.qd);
       valuesForInsert.push(newValue);
-    });
+    }
   }
 
 

@@ -35,7 +35,8 @@ const initializeParamValuesProcessor = () => {
       const value = lastValues.getLastValue(paramName);
       const param = MyDataModelParams.getParam(paramName);
       if ((param) && (value)) {
-        param.listNames.forEach((lstName) => {
+        for (let i = 0; i < param.listNames; i += 1) {
+          const lstName = param.listNames[i];
           MyStompServer.sendParamValue(lstName, value);
 
           if (lstName.startsWith(myNodeState.PARAMLIST_STATE_PREFIX)) {
@@ -44,7 +45,7 @@ const initializeParamValuesProcessor = () => {
               recalcPSs.push(psName);
             }
           }
-        });
+        }
       }
     }
 

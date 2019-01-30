@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+const moment = require('moment');
 const async = require('async');
 const events = require('events');
 const config = require('../../config');
@@ -42,7 +43,7 @@ let updated = 0;        // for debugging
 let processed = 0;      // for debugging
 
 function Start(cb) {
-  console.time('importNodes');
+  const start = moment();
   async.series([
     // open,
     requireModels,
@@ -55,10 +56,10 @@ function Start(cb) {
     // mongoose.disconnect();
 
     if (errs === 0) {
-      console.info('Script successed.');
-      console.timeEnd('importNodes');
+      const duration = moment().diff(start);
+      console.log(`Importing nodes done in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
-      console.error(`Script failed with ${errs} errors!`);
+      console.error(`Importing nodes failed with ${errs} errors!`);
     }
 
     cb(err);

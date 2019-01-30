@@ -36,16 +36,18 @@ function requireModels(callback) {
 function compareParamList(paramList1, paramList2) {
   let result = ((paramList1.caption === paramList2.caption) && (paramList1.description === paramList2.description));
   if (result) {
-    paramList1.params.forEach((paramName1) => {
-      if (paramList2.params.indexOf(paramName1) < 0) {
+    for (let i = 0; i < paramList1.params.length; i += 1) {
+      const paramName = paramList1.params[i];
+      if (paramList2.params.indexOf(paramName) < 0) {
         result = false;
       }
-    });
-    paramList2.params.forEach((paramName2) => {
-      if (paramList1.params.indexOf(paramName2) < 0) {
+    }
+    for (let i = 0; i < paramList2.params.length; i += 1) {
+      const paramName = paramList2.params[i];
+      if (paramList1.params.indexOf(paramName) < 0) {
         result = false;
       }
-    });
+    }
   }
   return result;
 }

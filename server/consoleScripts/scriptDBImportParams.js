@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
+const moment = require('moment');
 const async = require('async');
 const config = require('../../config');
 
@@ -12,7 +13,7 @@ const FileNames = [
 ];
 
 function Start(cb) {
-  console.time('importParams');
+  const start = moment();
   async.series([
     // open,
     requireModels,
@@ -22,7 +23,13 @@ function Start(cb) {
   ], (err) => {
 //  console.log(arguments);
     if (err) console.error('Failed!');
-    console.timeEnd('importParams');
+
+    if (err) {
+      console.error(`Importing params failed with ${err}`);
+    } else {
+      const duration = moment().diff(start);
+      console.log(`Importing params done in ${moment(duration).format('mm:ss.SSS')}`);
+    }
     // mongoose.disconnect();
     cb(err);
   });

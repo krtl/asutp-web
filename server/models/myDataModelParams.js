@@ -1,4 +1,5 @@
 const async = require('async');
+const moment = require('moment');
 
 const DbUser = require('../dbmodels/authUser');  // eslint-disable-line global-require
 const DbParam = require('../dbmodels/param');  // eslint-disable-line global-require
@@ -31,6 +32,7 @@ process
   });
 
 const LoadFromDB = (cb) => {
+  const start = moment();
   async.series([
     clearData,
     loadUsers,
@@ -41,7 +43,8 @@ const LoadFromDB = (cb) => {
   ], () => {
     let res = null;
     if (errs === 0) {
-      logger.info(`[ModelParams] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists`);
+      const duration = moment().diff(start);
+      logger.info(`[ModelParams] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
       res = `loading params failed with ${errs} errors!`;
       logger.error(res);

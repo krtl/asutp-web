@@ -1,5 +1,6 @@
 const async = require('async');
 const logger = require('../logger');
+const moment = require('moment');
 
 const dbValuesTracker = require('./amqpInsertValueSender');
 const MyDataModelParams = require('../models/myDataModelParams');
@@ -48,48 +49,50 @@ function init(obj) {
 }
 
 function restoreLastParamValues(callback) {
-  callback();
+  // callback();
 
+  const start = moment();
 
-  // const params = MyDataModelParams.getAllParamsAsArray();
+  const params = MyDataModelParams.getAllParamsAsArray();
 
-  // // events.EventEmitter.defaultMaxListeners = 125;
-  // async.each(params, (param, callback) => {
-  //   DbParamValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
-  //     if (err) {
-  //       logger.error(`[LastParamValues] Failed to get last value: "${err}".`);
-  //       callback(err);
-  //     } else if (paramValue) {
-  //       const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
-  //       lastValues.set(param.name, lastValue);
-  //       callback(err);
-  //     } else {
-  //       DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
-  //         if (err) {
-  //           logger.error(`[LastParamValues] Failed to get last halfhour value: "${err}".`);
-  //           callback(err);
-  //         } else if (paramValue) {
-  //           const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
-  //           lastValues.set(param.name, lastValue);
-  //           callback(err);
-  //         } else {
-  //           // none
-  //           callback(err);
-  //         }
-  //       });
-  //     }
-  //   });
-  // }, (err) => {
-  //   if (err) {
-  //     // setError(`Importing failed: ${err}`);
-  //     logger.error(`[LastParamValues] ${lastValues.size} LastParamValues loaded wirh error: "${err}".`);
-  //   } else {
-  //     // console.info('Importing successed.');
-  //     logger.debug(`[LastParamValues] ${lastValues.size} LastParamValues loaded.`);
-  //   }
+  // events.EventEmitter.defaultMaxListeners = 125;
+  async.each(params, (param, callback) => {
+    DbParamValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
+      if (err) {
+        logger.error(`[LastParamValues] Failed to get last value: "${err}".`);
+        callback(err);
+      } else if (paramValue) {
+        const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
+        lastValues.set(param.name, lastValue);
+        callback(err);
+      } else {
+        DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
+          if (err) {
+            logger.error(`[LastParamValues] Failed to get last halfhour value: "${err}".`);
+            callback(err);
+          } else if (paramValue) {
+            const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
+            lastValues.set(param.name, lastValue);
+            callback(err);
+          } else {
+            // none
+            callback(err);
+          }
+        });
+      }
+    });
+  }, (err) => {
+    if (err) {
+      // setError(`Importing failed: ${err}`);
+      logger.error(`[LastParamValues] ${lastValues.size} LastParamValues loaded with error: "${err}".`);
+    } else {
+      // console.info('Importing successed.');
+      const duration = moment().diff(start);
+      logger.debug(`[LastParamValues] ${lastValues.size} LastParamValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
+    }
 
-  //   callback(err);
-  // });
+    callback(err);
+  });
 }
 
 

@@ -1,6 +1,7 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 /* eslint no-param-reassign: ["error", { "props": false }] */
 const fs = require('fs');
+const moment = require('moment');
 
 const async = require('async');
 const events = require('events');
@@ -87,6 +88,7 @@ process
   });
 
 const LoadFromDB = (cb) => {
+  const start = moment();
   errs = 0;
   async.series([
     clearData,
@@ -100,7 +102,8 @@ const LoadFromDB = (cb) => {
   ], () => {
     let res = null;
     if (errs === 0) {
-      logger.info(`[ModelNodes] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, Regions=${Regions.size}, PSs=${PSs.size}`);
+      const duration = moment().diff(start);
+      logger.info(`[ModelNodes] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, Regions=${Regions.size}, PSs=${PSs.size} in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
       res = `loading nodes failed with ${errs} errors!`;
       logger.error(res);
@@ -157,14 +160,15 @@ function loadNodesFromDB(schemeElement, cb) {
           p.sapCode = locNode.sapCode;
 
           const copyProps = DbNodeObj.compareProps;
-          copyProps.forEach((pName) => {
+          for (let i = 0; i < copyProps.length; i += 1) {
+            const pName = copyProps[i];
             const hasProperty = pName in p;
             if (hasProperty) {
               p[pName] = dbNodeObj[pName];
             } else {
               setError(`Node Ojbect "${dbNodeObj.name}" has no property "${pName}"!`);
             }
-          });
+          }
 
           switch (DbNodeObj.nodeType) {
             case myNodeType.REGION: { Regions.set(locNode.name, p); break; }
@@ -275,9 +279,11 @@ function replaceNamesWithObjects(callback) {
     let err = null;
     const convertToObjProps = DbNodeObj.convertToObj;
     if ((convertToObjProps) && (convertToObjProps.length > 0)) {
-      nodes.forEach((locNode) => {
+      for (let i = 0; i < nodes.length; i += 1) {
+        const locNode = nodes[i];
         if (locNode.nodeType === DbNodeObj.nodeType) {
-          convertToObjProps.forEach((pName) => {
+          for (let j = 0; j < convertToObjProps.length; j += 1) {
+            const pName = convertToObjProps[j];
             const hasProperty = pName in locNode;
             if (hasProperty) {
               if (nodes.has(locNode[pName])) {
@@ -291,9 +297,9 @@ function replaceNamesWithObjects(callback) {
               err = `Cannot convert Name to Object. There is no property with Node "${pName}"!`;
               setError(err);
             }
-          });
+          }
         }
-      });
+      }
     }
     callback(err);
   }, (err) => {
@@ -406,7 +412,8 @@ function linkEquipmentToSectionConnector(node) {
 }
 
 function linkNodes(cb) {
-  nodes.forEach((locNode) => {
+  for (let i = 0; i < nodes.length; i += 1) {
+    const locNode = nodes[i];
     if (locNode.parentNode) {
       switch (locNode.nodeType) {
         case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
@@ -422,7 +429,7 @@ function linkNodes(cb) {
         }
       }
     }
-  });
+  }
 
   return cb();
 }
@@ -433,21 +440,25 @@ function setupPsNodes(cb) {
 }
 
 function checkIntegrity(cb) {
-  PSs.forEach((locPS) => {
-    locPS.psparts.forEach((locPSPart) => {
+  for (let i = 0; i < PSs.length; i += 1) {
+    const locPS = PSs[i];
+    for (let j = 0; j < locPS.psparts.length; j += 1) {
+      const locPSPart = locPS.psparts[j];
       if (locPSPart.sections.length === 0) {
         setError(`Integrity checking error: PSPart "${locPSPart.name}" has no sections!.`);
       } else {
-        locPSPart.sections.forEach((locSection) => {
+        for (let k = 0; k < locPSPart.sections.length; k += 1) {
+          const locSection = locPSPart.sections[k];
           if (locSection.connectors.length === 0) {
             setWarning(`Integrity checking error: Section "${locSection.name}" has no connectors!.`);
           }
-        });
+        }
       }
-    });
+    }
 
     // if more than one section with the same voltage, they should be connected with Sec2SecConnector
-    locPS.psparts.forEach((locPSPart) => {
+    for (let j = 0; j < locPS.psparts.length; j += 1) {
+      const locPSPart = locPS.psparts[j];
       switch (locPSPart.sections.length) {
         case 0: {
           setError(`Integrity checking error: No Sections found for ${locPSPart}.`);
@@ -473,7 +484,7 @@ function checkIntegrity(cb) {
           break;
         }
       }
-    });
+    }
 
     locPS.transformers.forEach((locTransformer) => {
       if (locTransformer.connectors.length === 0) {
@@ -527,7 +538,7 @@ function checkIntegrity(cb) {
 
 
     // ..
-  });
+  }
   // ..
   return cb();
 }
@@ -538,8 +549,8 @@ function linkParamNamesToNodes(cb) {
     if (err) return cb(err);
 
     logger.debug(`[ModelNodes] found ${linkages.length} NodeParamLinkages..`);
-
-    linkages.forEach((dbNodeLinkage) => {
+    for (let i = 0; i < linkages.length; i += 1) {
+      const dbNodeLinkage = linkages[i];
       const locNode = nodes.get(dbNodeLinkage.nodeName);
       if (locNode) {
         const hasProperty = dbNodeLinkage.paramPropName in locNode;
@@ -554,7 +565,7 @@ function linkParamNamesToNodes(cb) {
         setError(s);
         cb(s);
       }
-    });
+    }
     return cb();
   });
 }
@@ -565,40 +576,43 @@ const RelinkParamNamesToNodes = (cb) => {
 };
 
 const SetStateChangedHandler = (stateHandler) => {
-  PSs.forEach((ps) => {
+  for (let i = 0; i < PSs.length; i += 1) {
+    const ps = PSs[i];
     ps.stateChangeHandler = stateHandler;
-    ps.psparts.forEach((pspart) => {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
       pspart.stateChangeHandler = stateHandler;
-
-      pspart.sections.forEach((section) => {
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
         section.stateChangeHandler = stateHandler;
-        section.connectors.forEach((connector) => {
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
           connector.stateChangeHandler = stateHandler;
-
-          connector.equipments.forEach((equipment) => {
+          for (let m = 0; m < connector.equipments.length; m += 1) {
+            const equipment = connector.equipments[m];
             equipment.stateChangeHandler = stateHandler;
-          });
-        });
-      });
+          }
+        }
+      }
 
-      pspart.connectors.forEach((connector) => {
+      for (let l = 0; l < pspart.connectors.length; l += 1) {
+        const connector = pspart.connectors[l];
         connector.stateChangeHandler = stateHandler;
 
-        connector.equipments.forEach((equipment) => {
+        for (let m = 0; m < connector.equipments.length; m += 1) {
+          const equipment = connector.equipments[m];
           equipment.stateChangeHandler = stateHandler;
-        });
-      });
-    });
-    ps.transformers.forEach((transformer) => {
-      transformer.stateChangeHandler = stateHandler;
-    });
-  });
+        }
+      }
+    }
+  }
 };
 
 
 function restoreLastStateValues(callback) {
   callback();
 
+  // const start = moment();
   // let count = 0;
   // // events.EventEmitter.defaultMaxListeners = 125;
   // async.each(nodes, (node, callback) => {
@@ -617,8 +631,8 @@ function restoreLastStateValues(callback) {
   //   if (err) {
   //     setError(`${count} LastStateValues loaded with error: "${err}".`);
   //   } else {
-  //     // console.info('Importing successed.');
-  //     logger.debug(`[ModelNodes] ${count} LastStateValues loaded.`);
+  //     const duration = moment().diff(start);
+  //     logger.debug(`[ModelNodes] ${count} LastStateValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
   //   }
 
   //   callback(err);
@@ -670,44 +684,50 @@ function arrayUnique(array) {
 
 const GetParamsListsForEachPS = () => {
   const paramLists = [];
-  PSs.forEach((ps) => {
+  for (let i = 0; i < PSs.length; i += 1) {
+    const ps = PSs[i];
     const paramNames = [];
     const stateParamNames = [];
-    ps.psparts.forEach((pspart) => {
-      pspart.sections.forEach((section) => {
-        section.connectors.forEach((connector) => {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
           if (MyNodePropNameParamRole.POWER in connector) {
             if (connector[MyNodePropNameParamRole.POWER] !== '') {
               pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
             }
           }
-
-          connector.equipments.forEach((equipment) => {
+          for (let m = 0; m < connector.equipments.length; m += 1) {
+            const equipment = connector.equipments[m];
             if (MyNodePropNameParamRole.STATE in equipment) {
               if (equipment[MyNodePropNameParamRole.STATE] !== '') {
                 pushIfNotPushed(stateParamNames, equipment[MyNodePropNameParamRole.STATE]);
               }
             }
-          });
-        });
-      });
+          }
+        }
+      }
 
-      pspart.connectors.forEach((connector) => {
+      for (let l = 0; l < pspart.connectors.length; l += 1) {
+        const connector = pspart.connectors[l];
         if (MyNodePropNameParamRole.POWER in connector) {
           if (connector[MyNodePropNameParamRole.POWER] !== '') {
             pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
           }
         }
 
-        connector.equipments.forEach((equipment) => {
+        for (let m = 0; m < connector.equipments.length; m += 1) {
+          const equipment = connector.equipments[m];
           if (MyNodePropNameParamRole.STATE in equipment) {
             if (equipment[MyNodePropNameParamRole.STATE] !== '') {
               pushIfNotPushed(stateParamNames, equipment[MyNodePropNameParamRole.STATE]);
             }
           }
-        });
-      });
-    });
+        }
+      }
+    }
 
     if (stateParamNames.length > 0) {
       const pl = new MyParamList(myNodeState.PARAMLIST_STATE_PREFIX + ps.name, '', '', stateParamNames);
@@ -718,7 +738,7 @@ const GetParamsListsForEachPS = () => {
       const pl = new MyParamList(ps.name, ps.caption, '', concatenatedParamNames);
       paramLists.push(pl);
     }
-  });
+  }
   return paramLists;
 };
 
