@@ -18,7 +18,7 @@ const paramLists = new Map();
 let errs = 0;
 function setError(text) {
   errs += 1;
-  logger.error(text);
+  logger.error(`[ModelParams] ${text}`);
 }
 
 process
@@ -38,13 +38,12 @@ const LoadFromDB = (cb) => {
     loadParamLists,
     loadParamListsFromNodesModel,
     makeListNamesForEachParam,
-    checkData,
   ], () => {
     let res = null;
     if (errs === 0) {
-      logger.info(`[sever] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists`);
+      logger.info(`[ModelParams] loaded from DB with ${params.size} Params and ${paramLists.size} paramLists`);
     } else {
-      res = `[sever] loading params failed with ${errs} errors!`;
+      res = `loading params failed with ${errs} errors!`;
       logger.error(res);
     }
     return cb(res);
@@ -93,7 +92,7 @@ function loadParamLists(cb) {
       }
       prmNames.forEach((prmName) => {
         if (!params.has(prmName)) {
-          logger.error(`[sever] cannot find param "${prmName}" in "${prmList.name}"`);
+          setError(`cannot find param "${prmName}" in "${prmList.name}"`);
         }
       });
 
@@ -114,7 +113,7 @@ function loadParamListsFromNodesModel(cb) {
   lists.forEach((prmList) => {
     prmList.paramNames.forEach((prmName) => {
       if (!params.has(prmName)) {
-        logger.error(`[sever] cannot find param "${prmName}" in "${prmList.name}"`);
+        setError(`cannot find param "${prmName}" in "${prmList.name}"`);
       }
     });
 
@@ -138,12 +137,6 @@ function makeListNamesForEachParam(cb) {
   return cb();
 }
 
-function checkData(cb) {
-  // ..
-  return cb();
-}
-
-
 const getParam = paramName => params.get(paramName);
 const getAllParamsAsArray = () => Array.from(params.values());
 
@@ -157,7 +150,7 @@ const getParamsOfList = (paramListName) => {
       if (param) {
         resultParams.push(param);
       } else {
-        logger.error(`[sever] cannot find param "${prmName}" in "${paramList.name}"`);
+        setError(`cannot find param "${prmName}" in "${paramList.name}"`);
       }
     });
     return resultParams;

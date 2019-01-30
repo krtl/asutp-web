@@ -48,22 +48,24 @@ db.on('connected', () => {
             }
           });
 
-          amqpNodeStateReceiver.start(config.amqpUri, config.amqpInsertNodeStateQueueName, (received) => {
-            logger.debug('[] Got msg', received);
+          // should be remaked!
 
-                // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
-            const s = received.split('<>');
-            if (s.length === 4) {
-              const oldState = parseInt(s[1], 10);
-              const newState = parseInt(s[2], 10);
-              const dt = new Date(s[3]);
-              const obj = new MyNodeStateValue(s[0], oldState, newState, dt);
+          // amqpNodeStateReceiver.start(config.amqpUri, config.amqpInsertNodeStateQueueName, (received) => {
+          //   logger.debug('[] Got msg', received);
 
-              DbValuesTracker.trackDbNodeStateValue(obj);
-            } else {
-              logger.error('[][MyNodeStateValue] Failed to parse: ', received);
-            }
-          });
+          //       // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
+          //   const s = received.split('<>');
+          //   if (s.length === 4) {
+          //     const oldState = parseInt(s[1], 10);
+          //     const newState = parseInt(s[2], 10);
+          //     const dt = new Date(s[3]);
+          //     const obj = new MyNodeStateValue(s[0], oldState, newState, dt);
+
+          //     DbValuesTracker.trackDbNodeStateValue(obj);
+          //   } else {
+          //     logger.error('[][MyNodeStateValue] Failed to parse: ', received);
+          //   }
+          // });
         }
       });
     }

@@ -20,6 +20,7 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
+const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 
 
 const logger = require('../logger');
@@ -68,12 +69,12 @@ const Shema = [
 let errs = 0;
 function setError(text) {
   errs += 1;
-  logger.error(text);
+  logger.error(`[ModelNodes] ${text}`);
 }
 
 function setWarning(text) {
   // errs += 1;
-  logger.warn(text);
+  logger.warn(`[ModelNodes] ${text}`);
 }
 
 process
@@ -95,12 +96,13 @@ const LoadFromDB = (cb) => {
     setupPsNodes,
     checkIntegrity,
     linkParamNamesToNodes,
+    restoreLastStateValues,
   ], () => {
     let res = null;
     if (errs === 0) {
-      logger.info(`[sever] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, Regions=${Regions.size}, PSs=${PSs.size}`);
+      logger.info(`[ModelNodes] loaded from DB with ${nodes.size} Nodes: LEPs=${LEPs.size}, Regions=${Regions.size}, PSs=${PSs.size}`);
     } else {
-      res = `[sever] loading nodes failed with ${errs} errors!`;
+      res = `loading nodes failed with ${errs} errors!`;
       logger.error(res);
     }
     return cb(res);
@@ -535,7 +537,7 @@ function linkParamNamesToNodes(cb) {
   DbNodeParamLinkage.find({}, null, { }, (err, linkages) => {
     if (err) return cb(err);
 
-    logger.debug(`[sever] found ${linkages.length} NodeParamLinkages..`);
+    logger.debug(`[ModelNodes] found ${linkages.length} NodeParamLinkages..`);
 
     linkages.forEach((dbNodeLinkage) => {
       const locNode = nodes.get(dbNodeLinkage.nodeName);
@@ -592,6 +594,36 @@ const SetStateChangedHandler = (stateHandler) => {
     });
   });
 };
+
+
+function restoreLastStateValues(callback) {
+  callback();
+
+  // let count = 0;
+  // // events.EventEmitter.defaultMaxListeners = 125;
+  // async.each(nodes, (node, callback) => {
+  //   DbNodeStateValue.findOne({ nodeName: node[0] }, null, { sort: { dt: 'desc' } }, (err, stateValue) => {
+  //     if (err) {
+  //       setError(`Failed to get last state value: "${err}".`);
+  //     } else if (stateValue) {
+  //       node.stateValue = stateValue.newState;
+  //       count += 1;
+  //     } else {
+  //       // none
+  //     }
+  //     callback(err);
+  //   });
+  // }, (err) => {
+  //   if (err) {
+  //     setError(`${count} LastStateValues loaded with error: "${err}".`);
+  //   } else {
+  //     // console.info('Importing successed.');
+  //     logger.debug(`[ModelNodes] ${count} LastStateValues loaded.`);
+  //   }
+
+  //   callback(err);
+  // });
+}
 
 
 const GetNode = nodeName => nodes.get(nodeName);
