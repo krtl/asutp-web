@@ -4,6 +4,7 @@ process.env.LOGGER_NAME = 'server';
 
 const logger = require('./server/logger');
 const express = require('express');
+// const mongoose = require('mongoose');
 const http = require('http');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -13,7 +14,7 @@ const routeProjects = require('./server/routes/projects');
 const MyStompServer = require('./server/values/myStompServer');
 const dbModels = require('./server/dbmodels');
 
-process.env.NODE_ENV = 'production';
+// process.env.NODE_ENV = 'production';
 
 // connect to the database and load models
 dbModels.connect(config.dbUri, true, (err) => {
@@ -87,3 +88,39 @@ httpserver.listen(app.get('port'), () => {
   logger.info(`Http server listening at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
 
+// process.on('exit', code => logger.log(`About to exit with code ${code}`));
+
+// // graceful shutdown
+// process.on('SIGTERM', () => {
+//   logger.info('SIGTERM signal received.');
+//   logger.log('Closing http server.');
+//   httpserver.close(() => {
+//     logger.log('Http server closed.');
+//     // boolean means [force], see in mongoose doc
+//     mongoose.connection.close(false, () => {
+//       logger.log('MongoDb connection closed.');
+//       process.exit(0);
+//     });
+//   });
+// });
+
+process.stdin.resume(); // so the program will not close instantly
+
+function exitHandler(options, exitCode) {
+  if (options.cleanup) logger.log('clean');
+  if (exitCode || exitCode === 0) logger.log(exitCode);
+  if (options.exit) process.exit();
+}
+
+// do something when app is closing
+process.on('exit', exitHandler.bind(null, { cleanup: true }));
+
+// catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, { exit: true }));
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
+process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
+
+// catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, { exit: true }));

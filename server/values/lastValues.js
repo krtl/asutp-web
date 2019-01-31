@@ -15,14 +15,18 @@ const lastValues = new Map();
 let lastChanged = [];
 let useDbValueTracker = false;
 
-const setLastValue = (lastValue) => {
-  if (useDbValueTracker) {
-    dbValuesTracker.TrackDbParamValue(lastValue);
-  }
+const setLastValue = (newValue) => {
+  // removing duplicates
+  const lastValue = lastValues.get(newValue.paramName);
+  if ((!lastValue) || (lastValue.value !== newValue.value) || (lastValue.dt !== newValue.dt)) {
+    if (useDbValueTracker) {
+      dbValuesTracker.TrackDbParamValue(newValue);
+    }
 
-  lastValues.set(lastValue.paramName, lastValue);
-  if (lastChanged.indexOf(lastValue.paramName) < 0) {
-    lastChanged.push(lastValue.paramName);
+    lastValues.set(newValue.paramName, newValue);
+    if (lastChanged.indexOf(newValue.paramName) < 0) {
+      lastChanged.push(newValue.paramName);
+    }
   }
 };
 

@@ -1,8 +1,8 @@
 {
   "dbUri": "mongodb://127.0.0.1/asutp_web",
   "dbUri1": "mongodb://localhost/asutp_web",
-  "amqpUri1": "amqp://asutp:asutp@asutp-web",
-  "amqpUri": "amqp://localhost",
+  "amqpUri": "amqp://asutp:asutp@asutp-web",
+  "amqpUri1": "amqp://localhost",
   "amqpRawValuesQueueName": "asutp.values.queue",
   "amqpInsertValuesQueueName": "asutp.insertValues.queue",
   "amqpInsertNodeStateQueueName": "asutp.insertNodeState.queue",
