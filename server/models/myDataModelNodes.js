@@ -559,7 +559,7 @@ function linkParamNamesToNodes(cb) {
       } else {
           // node does not exist
         const s = `create myNode Error: DbNode "${dbNodeLinkage.nodeName}" does not exists!`;
-        setError(s);
+        setWarning(s);
       }
     }
     return cb();

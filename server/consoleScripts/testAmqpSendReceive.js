@@ -46,7 +46,8 @@ db.on('connected', () => {
 //       // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
 //   const s = received.split('<>');
 //   if (s.length === 4) {
-//     const dt = new Date(s[3]);
+  // const momentDT = moment(s[3]);
+  // const dt = new Date(momentDT);
 //     const float = parseFloat(s[1]);
 //     const obj = new MyParamValue(s[0], float, dt, s[2]);
 
@@ -59,7 +60,7 @@ db.on('connected', () => {
 amqpSender.start(config.amqpUri);
 
 setInterval(() => {
-  const dt = moment().format('YYYY-MM-DD HH:mm:ss');
+  const dt = moment().format('YYYY-MM-DD HH:mm:ss.ms');
   const s = `param${Math.round(Math.random() * 20)}<>${Math.round(Math.random() * 100000) / 100}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
   // amqpSender.send(config.amqpInsertValuesQueueName, s);
@@ -67,7 +68,7 @@ setInterval(() => {
 }, 1000);
 
 setInterval(() => {
-  const dt = moment().format('YYYY-MM-DD HH:mm:ss');
+  const dt = moment().format('YYYY-MM-DD HH:mm:ss.ms');
   const s = `param${Math.round(Math.random() * 5)}_VV<>${Math.round(Math.random() * 1)}<>NV<>${dt}`;
   console.debug('[] Sending msg', s);
   // amqpSender.send(config.amqpInsertValuesQueueName, s);

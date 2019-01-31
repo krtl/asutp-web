@@ -1,7 +1,8 @@
 process.env.LOGGER_NAME = 'dbInsertor';
-process.env.LOGGER_LEVEL = 'info';
+process.env.LOGGER_LEVEL = 'debug';
 
 const logger = require('../logger');
+const moment = require('moment');
 const mongoose = require('mongoose');
 const config = require('../../config');
 const MyDataModelParams = require('../models/myDataModelParams');
@@ -11,7 +12,6 @@ const amqpValuesReceiver = require('../amqp/amqp_receive');
 const amqpNodeStateReceiver = require('../amqp/amqp_receive1');
 const DbValuesTracker = require('./dbValuesTracker');
 const HalfHourValuesTracker = require('./halfHourValuesTracker');
-// const moment = require('moment');
 
 
 mongoose.Promise = global.Promise;
@@ -40,7 +40,8 @@ db.on('connected', () => {
                 // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
             const s = received.split('<>');
             if (s.length === 4) {
-              const dt = new Date(s[3]);
+              const momentDT = moment(s[3]);
+              const dt = new Date(momentDT);
               const float = parseFloat(s[1].replace(',', '.'));
               const obj = new MyParamValue(s[0], float, dt, s[2]);
 
@@ -60,7 +61,8 @@ db.on('connected', () => {
             if (s.length === 4) {
               const oldState = parseInt(s[1], 10);
               const newState = parseInt(s[2], 10);
-              const dt = new Date(s[3]);
+              const momentDT = moment(s[3]);
+              const dt = new Date(momentDT);
               const obj = new MyNodeStateValue(s[0], oldState, newState, dt);
 
               DbValuesTracker.trackDbNodeStateValue(obj);

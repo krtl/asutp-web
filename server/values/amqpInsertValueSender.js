@@ -13,7 +13,7 @@ const TrackDbParamValue = (newParamValue) => {
   const param = MyDataModelParams.getParam(newParamValue.paramName);  // is that realy required??
   if (param !== undefined) {
     if ((param.trackAllChanges) || (param.trackAveragePerHour)) {
-      const dt = moment(newParamValue.dt).format('YYYY-MM-DD HH:mm:ss');
+      const dt = moment(newParamValue.dt).format('YYYY-MM-DD HH:mm:ss.ms');
       const s = `${newParamValue.paramName}<>${newParamValue.value}<>${newParamValue.qd}<>${dt}`;
       amqpSender.send(config.amqpInsertValuesQueueName, s);
     }

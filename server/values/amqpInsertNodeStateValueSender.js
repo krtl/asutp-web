@@ -13,7 +13,7 @@ const TrackDbNodeStateValue = (newNodeStateValue) => {
   const node = MyDataModelNodes.GetNode(newNodeStateValue.nodeName);  // is that realy required??
   if (node !== undefined) {
     // if (node.trackStateChanges) {
-    const dt = moment(newNodeStateValue.dt).format('YYYY-MM-DD HH:mm:ss');
+    const dt = moment(newNodeStateValue.dt).format('YYYY-MM-DD HH:mm:ss.ms');
     const s = `${newNodeStateValue.nodeName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}`;
     amqpSender.send(config.amqpInsertNodeStateQueueName, s);
     // }
