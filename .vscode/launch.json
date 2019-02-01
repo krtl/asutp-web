@@ -14,6 +14,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "clearDbTablesData",
+            "program": "${workspaceFolder}/server/consoleScripts/removeDbData.js"
+        },
+        
+        {
+            "type": "node",
+            "request": "launch",
             "name": "testAmqpSendReceive",
             "program": "${workspaceFolder}/server/consoleScripts/testAmqpSendReceive.js"
         },

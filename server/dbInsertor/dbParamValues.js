@@ -12,9 +12,10 @@ const SaveParamValue = (lastValue, callback) => {
     qd: lastValue.qd,
   });
 
+  logger.debug(`[dbParamValues] saving: ${paramValue.paramName} ${moment(paramValue.dt).format('YYYY-MM-DD HH:mm:ss.SSS')}`);
   paramValue.save((err) => {
     if (err) {
-      logger.error(`[dbParamValues] Failed to save value. Error: ${err}`);
+      logger.error(`[dbParamValues] Failed to save value. Error: ${err}  ${lastValue}`);
     }
     if (callback) {
       callback(err);

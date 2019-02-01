@@ -60,7 +60,7 @@ db.on('connected', () => {
 amqpSender.start(config.amqpUri);
 
 setInterval(() => {
-  const dt = moment().format('YYYY-MM-DD HH:mm:ss.ms');
+  const dt = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
   const s = `param${Math.round(Math.random() * 20)}<>${Math.round(Math.random() * 100000) / 100}<>NA<>${dt}`;
   console.debug('[] Sending msg', s);
   // amqpSender.send(config.amqpInsertValuesQueueName, s);
@@ -68,7 +68,7 @@ setInterval(() => {
 }, 1000);
 
 setInterval(() => {
-  const dt = moment().format('YYYY-MM-DD HH:mm:ss.ms');
+  const dt = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
   const s = `param${Math.round(Math.random() * 5)}_VV<>${Math.round(Math.random() * 1)}<>NV<>${dt}`;
   console.debug('[] Sending msg', s);
   // amqpSender.send(config.amqpInsertValuesQueueName, s);

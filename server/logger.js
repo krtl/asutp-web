@@ -10,7 +10,7 @@ if (!process.env.LOGGER_LEVEL) {
   process.env.LOGGER_LEVEL = 'info';
 }
 function myTimeStamp() {
-  return moment().format('YYYY-MM-DD HH:mm:ss.ms');
+  return moment().format('YYYY-MM-DD HH:mm:ss.SSS');
 }
 
 function myFormatter(options) {
