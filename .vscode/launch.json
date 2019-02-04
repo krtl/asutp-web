@@ -51,8 +51,14 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Run Logger",
+            "program": "${workspaceFolder}/server/serviceLogger/serviceLogger.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Run DBInsertor",
-            "program": "${workspaceFolder}/server/dbInsertor/dbInsertor.js"
+            "program": "${workspaceFolder}/server/serviceDbInsertor/serviceDbInsertor.js"
         },
        {
             "type": "node",

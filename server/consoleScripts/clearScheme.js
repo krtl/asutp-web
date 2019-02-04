@@ -3,7 +3,7 @@ const netNodes = require('../dbmodels/netNode');
 const netWires = require('../dbmodels/netWire');
 const async = require('async');
 const config = require('../../config');
-const logger = require('../../server/logger');
+const logger = require('../logger');
 
 
 async.series([

@@ -1,5 +1,5 @@
-process.env.LOGGER_NAME = 'dbInsertor';
-process.env.LOGGER_LEVEL = 'debug';
+process.env.LOGGER_NAME = 'serviceDbInsertor';
+process.env.LOGGER_LEVEL = 'info';
 
 const logger = require('../logger');
 const moment = require('moment');
@@ -37,7 +37,7 @@ db.on('connected', () => {
           amqpValuesReceiver.start(config.amqpUri, config.amqpInsertValuesQueueName, (received) => {
             logger.debug('[] Got msg', received);
 
-                // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
+            // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
             const s = received.split('<>');
             if (s.length === 4) {
               const momentDT = moment(s[3]);
