@@ -90,7 +90,7 @@ function startWorker() {
 }
 
 function work(msg, cb) {
-  logger.debug(`[AMQP] Got msg ${msg.content.toString()}`);
+  logger.verbose(`[AMQP] Got msg ${msg.content.toString()}`);
 
   if (locOnReceiveCallbackFunc != null) {
     locOnReceiveCallbackFunc(msg.content.toString());
