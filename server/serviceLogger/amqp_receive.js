@@ -1,10 +1,5 @@
-
-// have no time to remake receiver to receive from several queues
-// so for now this is just a copy of receiver.
-
-
 const amqp = require('amqplib/callback_api');
-const logger = require('../logger');
+const logger = require('../logger_to_file');
 // const lastValues = require('./lastValues');
 // const MyParamValue = require('../models/myParamValue');
 // const config = require('../../config');

@@ -11,12 +11,12 @@ function myFormatter(options) {
     }`;
 }
 
-const Start = (settings) => {
+const Start = (sets) => {
   const logger = new winston.Logger({
-    level: settings.level,
+    level: sets.level,
   // format: winston.format.json(),
     json: false,
-    timestamp: settings.timestamp,
+    timestamp: sets.timestamp,
     transports: [
     //
     // - Write to all logs with level `info` and below to `combined.log`
@@ -24,7 +24,7 @@ const Start = (settings) => {
     //
       new winston.transports.File({
         name: 'error-file',
-        filename: `logs/${settings.loggerName}_errors.log`,
+        filename: `logs/${sets.name}_errors.log`,
         level: 'error',
         timestamp: myTimeStamp,
         formatter: myFormatter,
@@ -35,7 +35,7 @@ const Start = (settings) => {
 
       new winston.transports.File({
         name: 'combined-file',
-        filename: `logs/${settings.loggerName}_combined.log`,
+        filename: `logs/${sets.name}_combined.log`,
         timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,
@@ -55,7 +55,7 @@ const Start = (settings) => {
     exceptionHandlers: [
       new winston.transports.File({
         name: 'exception-file',
-        filename: `logs/${settings.loggerName}_exceptions.log`,
+        filename: `logs/${sets.name}_exceptions.log`,
         timestamp: myTimeStamp,
         maxsize: 50000000,
         maxFiles: 20,

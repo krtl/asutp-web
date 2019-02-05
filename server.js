@@ -3,6 +3,10 @@ process.env.LOGGER_NAME = 'server';
 // process.env.LOGGER_LEVEL = 'debug';
 
 const logger = require('./server/logger');
+const amqpLogSender = require('./server/amqp/amqp_send');
+
+logger.setup({ amqpSender: amqpLogSender });
+
 const express = require('express');
 // const mongoose = require('mongoose');
 const http = require('http');

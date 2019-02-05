@@ -10,7 +10,6 @@ let locAmpqURI = '';
 let locAmqpValuesQueueName = '';
 let locOnReceiveCallbackFunc = null;
 
-
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
 let reconnectionStarted = false;
@@ -21,7 +20,7 @@ function start(ampqURI, amqpQueueName, onReceiveCallback) {
   reconnectionStarted = false;
   amqp.connect(`${locAmpqURI}?heartbeat=60`, (err, conn) => {
     if (err) {
-      logger.error('[AMQP]', err.message);
+      logger.error(`[AMQP] ${err.message}`);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
@@ -30,7 +29,7 @@ function start(ampqURI, amqpQueueName, onReceiveCallback) {
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
-        logger.error('[AMQP] conn error', err.message);
+        logger.error(`[AMQP] conn error ${err.message}`);
       }
     });
     conn.on('close', () => {
@@ -57,7 +56,7 @@ function startWorker() {
   amqpConn.createChannel((err, ch) => {
     if (closeOnErr(err)) return;
     ch.on('error', (err) => {
-      logger.error('[AMQP] channel error', err.message);
+      logger.error(`[AMQP] channel error ${err.message}`);
     });
     ch.on('close', () => {
       logger.info('[AMQP] channel closed');
@@ -85,7 +84,7 @@ function startWorker() {
 }
 
 function work(msg, cb) {
-  logger.debug('[AMQP] Got msg', msg.content.toString());
+  logger.debug(`[AMQP] Got msg ${msg.content.toString()}`);
 
   if (locOnReceiveCallbackFunc != null) {
     locOnReceiveCallbackFunc(msg.content.toString());
@@ -96,7 +95,7 @@ function work(msg, cb) {
 
 function closeOnErr(err) {
   if (!err) return false;
-  logger.error('[AMQP] error', err);
+  logger.error(`[AMQP] error ${err}`);
   amqpConn.close();
   return true;
 }

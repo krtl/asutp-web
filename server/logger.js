@@ -1,8 +1,10 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 const config = require('../config');
-const amqpSender = require('./amqp/amqp_send');
+// const amqpSender = require('./amqp/amqp_send');
 // const logger = require('../logger');
 const moment = require('moment');
+
+let amqpSender;
 
 if (!process.env.LOGGER_NAME) {
   process.env.LOGGER_NAME = 'defaul';
@@ -11,12 +13,12 @@ if (!process.env.LOGGER_LEVEL) {
   process.env.LOGGER_LEVEL = 'info';
 }
 
-amqpSender.start(config.amqpUri);
-
 const amqpSend = (level, message) => {
-  const dt = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
-  const s = `${process.env.LOGGER_NAME}<>${level}<>${dt}<>${message}`;
-  amqpSender.send(config.amqpServiceLoggsQueueName, s);
+  if (amqpSender) {
+    const dt = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
+    const s = `${process.env.LOGGER_NAME}<>${level}<>${dt}<>${message}`;
+    amqpSender.send(config.amqpServiceLoggsQueueName, s);
+  }
 };
 
 const error = (message) => {
@@ -34,4 +36,9 @@ const debug = (message) => {
   amqpSend('debug', message);
 };
 
-module.exports = { error, warn, info, debug };
+const setup = (setts) => {
+  amqpSender = setts.amqpSender;
+  amqpSender.start(config.amqpUri);
+};
+
+module.exports = { error, warn, info, debug, setup };

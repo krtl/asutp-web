@@ -1,17 +1,19 @@
+process.env.LOGGER_NAME = 'serviceLogger';
+process.env.LOGGER_LEVEL = 'info';
 
-
+const logger = require('../logger_to_file');
 const loggerStarter = require('./logger');
 const config = require('../../config');
-const amqpServiceLoggsReceiver = require('../amqp/amqp_receive');
+const amqpServiceLoggsReceiver = require('./amqp_receive');
 
-
-const log = loggerStarter.Start({ name: 'serviceLogger', level: 'info', timestamp: true });
 
 const loggers = new Map();
 
+logger.info('serviceLogger is started.');
+
 
 amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName, (received) => {
-  log.debug('[] Got ServiceLoggs msg', received);
+  logger.debug('[] Got ServiceLoggs msg', received);
 
   // loggerName<>info<>2017-11-17 10:05:44.132<>message
 
@@ -26,7 +28,7 @@ amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName,
     if (loggers.has(loggerName)) {
       logger = loggers.get(loggerName);
     } else {
-      logger = loggerStarter.Start({ name: 'serviceLogger', level: 'info', timestamp: true });
+      logger = loggerStarter.Start({ name: loggerName, level, timestamp: true });
       loggers.set(loggerName, logger);
     }
 
@@ -51,7 +53,7 @@ amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName,
     }
       //  ...
   } else {
-    log.error('[] Failed to parse: ', received);
+    logger.error('[] Failed to parse: ', received);
   }
 });
 
