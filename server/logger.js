@@ -16,7 +16,7 @@ if (!process.env.LOGGER_LEVEL) {
 const amqpSend = (level, message) => {
   if (amqpSender) {
     const dt = moment().format('YYYY-MM-DD HH:mm:ss.SSS');
-    const s = `${process.env.LOGGER_NAME}<>${level}<>${dt}<>${message}`;
+    const s = `${process.env.LOGGER_NAME}<|>${level}<|>${dt}<|>${message}`;
     amqpSender.send(config.amqpServiceLoggsQueueName, s);
   }
 };
@@ -33,7 +33,15 @@ const info = (message) => {
 };
 
 const debug = (message) => {
-  amqpSend('debug', message);
+  if (process.env.LOGGER_LEVEL === 'debug') {
+    amqpSend('debug', message);
+  }
+};
+
+const verbose = (message) => {
+  if (process.env.LOGGER_LEVEL === 'verbose') {
+    amqpSend('verbose', message);
+  }
 };
 
 const setup = (setts) => {
@@ -41,4 +49,4 @@ const setup = (setts) => {
   amqpSender.start(config.amqpUri);
 };
 
-module.exports = { error, warn, info, debug, setup };
+module.exports = { error, warn, info, debug, verbose, setup };

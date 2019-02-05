@@ -1,6 +1,6 @@
 
 process.env.LOGGER_NAME = 'server';
-// process.env.LOGGER_LEVEL = 'debug';
+process.env.LOGGER_LEVEL = 'debug';
 
 const logger = require('./server/logger');
 const amqpLogSender = require('./server/amqp/amqp_send');

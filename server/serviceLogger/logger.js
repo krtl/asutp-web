@@ -6,9 +6,8 @@ function myTimeStamp() {
 }
 
 function myFormatter(options) {
-  return `${options.timestamp()} [${options.level.toUpperCase()}] ${
-    options.message ? options.message : ''
-    }`;
+  // return `${options.timestamp()} [${options.level.toUpperCase()}] ${options.message ? options.message : ''}`;
+  return `[${options.level.toUpperCase()}] ${options.message ? options.message : ''}`;
 }
 
 const Start = (sets) => {
@@ -26,7 +25,7 @@ const Start = (sets) => {
         name: 'error-file',
         filename: `logs/${sets.name}_errors.log`,
         level: 'error',
-        timestamp: myTimeStamp,
+        // timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,
         maxFiles: 20,
@@ -36,7 +35,7 @@ const Start = (sets) => {
       new winston.transports.File({
         name: 'combined-file',
         filename: `logs/${sets.name}_combined.log`,
-        timestamp: myTimeStamp,
+        // timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,
         maxFiles: 20,

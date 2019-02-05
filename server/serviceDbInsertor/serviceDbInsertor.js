@@ -1,5 +1,5 @@
 process.env.LOGGER_NAME = 'serviceDbInsertor';
-process.env.LOGGER_LEVEL = 'info';
+process.env.LOGGER_LEVEL = 'debug';
 
 const logger = require('../logger');
 const amqpLogSender = require('../amqp/amqp_send');
