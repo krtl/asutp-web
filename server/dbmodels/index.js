@@ -16,7 +16,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
   mongoose.Promise = global.Promise;
 
   mongoose.connection.on('connected', () => {
-    logger.info(`Mongoose connection opened to ${uri}`);
+    logger.info(`Mongoose connected to ${uri}`);
 
     if (useDataModel) {
       myDataModelNodes.LoadFromDB((err) => {
@@ -36,7 +36,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
 
   mongoose.connection.on('error', (err) => {
     logger.error(`Mongoose connection error: ${err}`);
-    process.exit(1);
+    process.exit(3);
   });
 
   mongoose.connection.on('disconnected', () => {

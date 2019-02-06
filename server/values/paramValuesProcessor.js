@@ -14,18 +14,18 @@ let timerId;
 
 const initializeParamValuesProcessor = () => {
   lastValues.init(
-    { useDbValueTracker: true });
+    { useDbValueTracker: true }, () => {
+      MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
+        logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
 
-  MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
-    logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
+        const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
+        dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
+      });
 
-    const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
-    dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
-  });
+      dbNodeStateValuesTracker.Start();
 
-  dbNodeStateValuesTracker.Start();
-
-  ampqRawValuesReceiver.Start();
+      ampqRawValuesReceiver.Start();
+    });
 
   timerId = setInterval(() => {
     const recalcPSs = [];
@@ -62,12 +62,7 @@ const initializeParamValuesProcessor = () => {
 
 const finalizeParamValuesProcessor = () => {
   clearInterval(timerId);
-  MyDataModelNodes.StoreLastStateValues((err) => {
-    if (err) {
-      logger.error(`Error on storing LastStateValues: ${err}`);
-    }
-  },
-  );
+  MyDataModelNodes.StoreLastStateValues();
 };
 
 

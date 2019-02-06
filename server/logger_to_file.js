@@ -45,7 +45,7 @@ const init = () => {
 
       new winston.transports.File({
         name: 'combined-file',
-        filename: `logs/${process.env.LOGGER_NAME}_combined.log`,
+        filename: `logs/${process.env.LOGGER_NAME}.log`,
         timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,

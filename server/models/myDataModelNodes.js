@@ -84,7 +84,7 @@ process
   })
   .on('uncaughtException', (err) => {
     setError(`Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`);
-    process.exit(1);
+    process.exit(2);
   });
 
 const LoadFromDB = (cb) => {
@@ -604,7 +604,7 @@ const SetStateChangedHandler = (stateHandler) => {
   }
 };
 
-function StoreLastStateValues(callback) {
+function StoreLastStateValues() {
   const start = moment();
   const states = [];
   const locNodes = Array.from(nodes.values());
@@ -616,15 +616,14 @@ function StoreLastStateValues(callback) {
   }
   const data = JSON.stringify(states);
   const duration1 = moment().diff(start);
-  fs.writeFile(`${config.storePath}lastStates.json`, data, (err) => {
-    if (err) {
-      callback(err);
-      return;
-    }
-    const duration2 = moment().diff(start);
-    logger.debug(`[ModelNodes] LastStateValues prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
-    callback();
-  });
+  try {
+    fs.writeFileSync(`${config.storePath}lastStates.json`, data);
+  } catch (err) {
+    logger.error(`[ModelNodes] saving LastStateValues error: ${err}`);
+    return;
+  }
+  const duration2 = moment().diff(start);
+  logger.debug(`[ModelNodes] LastStateValues prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
 }
 
 function restoreLastStateValues(callback) {
@@ -635,6 +634,7 @@ function restoreLastStateValues(callback) {
   if (!fs.exists(fileName, (exists) => {
     if (!exists) {
       const err = `file "${fileName}" does not exists`;
+      logger.warn(`[ModelNodes][restoreLastStateValues] failed. File "${fileName}" is not found.`);
       callback(err);
       return;
     }

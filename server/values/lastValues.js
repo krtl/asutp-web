@@ -42,13 +42,14 @@ const getLastValuesCount = () => lastValues.size;
 
 const clearLastValues = () => lastValues.clear();
 
-function init(obj) {
+function init(obj, callback) {
   if (obj.useDbValueTracker) {
     useDbValueTracker = obj.useDbValueTracker;
   }
 
   restoreLastParamValues(() => {
     dbValuesTracker.Start();
+    callback();
   });
 }
 

@@ -7,6 +7,8 @@ const amqpLogSender = require('./server/amqp/amqp_send');
 
 logger.setup({ amqpSender: amqpLogSender });
 
+logger.info('[] Starting ...');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
@@ -93,10 +95,13 @@ httpserver.listen(app.get('port'), () => {
   logger.info(`Http server listening at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
 
+process.on('exit', () => {
+  paramValuesProcessor.finalizeParamValuesProcessor();
+});
 
 process.on('SIGINT', () => {
-  logger.info('SIGINT signal received.');
-  // Stops the server from accepting new connections and finishes existing connections.
+  logger.info('[] Stopping ...');
+
   httpserver.close((err) => {
     if (err) {
       logger.error(`Error on close HttpServer: ${err}`);
@@ -109,13 +114,6 @@ process.on('SIGINT', () => {
         process.exit(1);
       }
       logger.log('Mongoose connection disconnected');
-
-      paramValuesProcessor.finalizeParamValuesProcessor((err) => {
-        if (err) {
-          logger.error(`Error on finalization: ${err}`);
-        }
-        process.exit(0);
-      });
     });
   });
 });

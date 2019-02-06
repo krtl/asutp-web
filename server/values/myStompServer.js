@@ -29,7 +29,7 @@ process
   })
   .on('uncaughtException', (err) => {
     logger.Error(`Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`);
-    process.exit(1);
+    process.exit(2);
   });
 
 const initializeStompServer = (httpserver) => {

@@ -36,7 +36,8 @@ function start(ampqURI) {
       }
     });
 
-    logger.info('[AMQPSENDER] connected');
+    logger.info(`[AMQPSENDER] connected to ${locAmpqURI}`);
+
     amqpConn = conn;
 
     whenConnected();

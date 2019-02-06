@@ -34,7 +34,7 @@ const Start = (sets) => {
 
       new winston.transports.File({
         name: 'combined-file',
-        filename: `logs/${sets.name}_combined.log`,
+        filename: `logs/${sets.name}.log`,
         // timestamp: myTimeStamp,
         formatter: myFormatter,
         maxsize: 50000000,

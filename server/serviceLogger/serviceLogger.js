@@ -28,7 +28,7 @@ amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName,
     if (loggers.has(loggerName)) {
       locLogger = loggers.get(loggerName);
     } else {
-      locLogger = loggerStarter.Start({ name: loggerName, level, timestamp: false });
+      locLogger = loggerStarter.Start({ name: loggerName, level: 'verbose', timestamp: false });
       loggers.set(loggerName, locLogger);
     }
 

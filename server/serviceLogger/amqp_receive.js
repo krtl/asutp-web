@@ -41,7 +41,7 @@ function start(ampqURI, amqpQueueName, onReceiveCallback) {
       }
     });
 
-    logger.info('[AMQP] connected');
+    logger.info(`[AMQP] connected to ${locAmpqURI}`);
     amqpConn = conn;
 
     whenConnected();
@@ -66,7 +66,7 @@ function startWorker() {
     ch.assertQueue(locAmqpValuesQueueName, { durable: true }, (err) => {
       if (closeOnErr(err)) return;
       ch.consume(locAmqpValuesQueueName, processMsg, { noAck: false });
-      logger.info('[AMQP] Worker is started');
+      logger.info(`[AMQP] Worker is started to read from "${locAmqpValuesQueueName}"`);
     });
 
     function processMsg(msg) {
