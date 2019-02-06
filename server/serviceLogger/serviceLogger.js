@@ -13,7 +13,7 @@ logger.info('serviceLogger is started.');
 
 
 amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName, (received) => {
-  logger.debug('[] Got ServiceLoggs msg', received);
+  logger.verbose('[LoggsReceiver] Got msg', received);
 
   // loggerName<|>info<|>2017-11-17 10:05:44.132<|>message
 
@@ -57,7 +57,7 @@ amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName,
     }
       //  ...
   } else {
-    logger.error('[] Failed to parse: ', received);
+    logger.error('[LoggsReceiver] Failed to parse: ', received);
   }
 });
 

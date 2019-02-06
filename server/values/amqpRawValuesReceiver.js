@@ -1,13 +1,13 @@
 const MyParamValue = require('../models/myParamValue');
 const config = require('../../config');
-const amqpReceiver = require('../amqp/amqp_receive');
+const amqpRawValuesReceiver = require('../amqp/amqp_receive');
 const lastValues = require('../values/lastValues');
 const logger = require('../logger');
 const moment = require('moment');
 
 const Start = () => {
-  amqpReceiver.start(config.amqpUri, config.amqpRawValuesQueueName, (received) => {
-    logger.debug(`[] Got msg ${received}`);
+  amqpRawValuesReceiver.start(config.amqpUri, config.amqpRawValuesQueueName, (received) => {
+    logger.verbose(`[RawValuesReceiver] Got msg ${received}`);
 
       // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
     const s = received.split('<>');
@@ -19,7 +19,7 @@ const Start = () => {
 
       lastValues.setLastValue(obj);
     } else {
-      logger.error(`[][MyParamValue] Failed to parse:  ${received}`);
+      logger.error(`[RawValuesReceiver][MyParamValue] Failed to parse:  ${received}`);
     }
   });
 };

@@ -62,6 +62,12 @@ const initializeParamValuesProcessor = () => {
 
 const finalizeParamValuesProcessor = () => {
   clearInterval(timerId);
+  MyDataModelNodes.StoreLastStateValues((err) => {
+    if (err) {
+      logger.error(`Error on storing LastStateValues: ${err}`);
+    }
+  },
+  );
 };
 
 

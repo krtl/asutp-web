@@ -8,7 +8,7 @@ const amqpLogSender = require('./server/amqp/amqp_send');
 logger.setup({ amqpSender: amqpLogSender });
 
 const express = require('express');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const http = require('http');
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -17,6 +17,7 @@ const routeUsers = require('./server/routes/users');
 const routeProjects = require('./server/routes/projects');
 const MyStompServer = require('./server/values/myStompServer');
 const dbModels = require('./server/dbmodels');
+const paramValuesProcessor = require('./server/values/paramValuesProcessor');
 
 // process.env.NODE_ENV = 'production';
 
@@ -92,39 +93,29 @@ httpserver.listen(app.get('port'), () => {
   logger.info(`Http server listening at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
 
-// process.on('exit', code => logger.log(`About to exit with code ${code}`));
 
-// // graceful shutdown
-// process.on('SIGTERM', () => {
-//   logger.info('SIGTERM signal received.');
-//   logger.log('Closing http server.');
-//   httpserver.close(() => {
-//     logger.log('Http server closed.');
-//     // boolean means [force], see in mongoose doc
-//     mongoose.connection.close(false, () => {
-//       logger.log('MongoDb connection closed.');
-//       process.exit(0);
-//     });
-//   });
-// });
+process.on('SIGINT', () => {
+  logger.info('SIGINT signal received.');
+  // Stops the server from accepting new connections and finishes existing connections.
+  httpserver.close((err) => {
+    if (err) {
+      logger.error(`Error on close HttpServer: ${err}`);
+      process.exit(1);
+    }
 
-process.stdin.resume(); // so the program will not close instantly
+    mongoose.connection.close((err) => {
+      if (err) {
+        logger.error(`Error on close Mongoose connection: ${err}`);
+        process.exit(1);
+      }
+      logger.log('Mongoose connection disconnected');
 
-function exitHandler(options, exitCode) {
-  if (options.cleanup) logger.log('clean');
-  if (exitCode || exitCode === 0) logger.log(exitCode);
-  if (options.exit) process.exit();
-}
-
-// do something when app is closing
-process.on('exit', exitHandler.bind(null, { cleanup: true }));
-
-// catches ctrl+c event
-process.on('SIGINT', exitHandler.bind(null, { exit: true }));
-
-// catches "kill pid" (for example: nodemon restart)
-process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
-process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
-
-// catches uncaught exceptions
-process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
+      paramValuesProcessor.finalizeParamValuesProcessor((err) => {
+        if (err) {
+          logger.error(`Error on finalization: ${err}`);
+        }
+        process.exit(0);
+      });
+    });
+  });
+});

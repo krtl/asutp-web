@@ -566,7 +566,6 @@ function linkParamNamesToNodes(cb) {
   });
 }
 
-
 const RelinkParamNamesToNodes = (cb) => {
   linkParamNamesToNodes(cb);
 };
@@ -605,35 +604,64 @@ const SetStateChangedHandler = (stateHandler) => {
   }
 };
 
+function StoreLastStateValues(callback) {
+  const start = moment();
+  const states = [];
+  const locNodes = Array.from(nodes.values());
+  for (let i = 0; i < locNodes.length; i += 1) {
+    const locNode = locNodes[i];
+    if (locNode.nodeState !== myNodeState.NODE_STATE_UNKNOWN) {
+      states.push({ n: locNode.name, v: locNode.nodeState });
+    }
+  }
+  const data = JSON.stringify(states);
+  const duration1 = moment().diff(start);
+  fs.writeFile(`${config.storePath}lastStates.json`, data, (err) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    const duration2 = moment().diff(start);
+    logger.debug(`[ModelNodes] LastStateValues prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
+    callback();
+  });
+}
 
 function restoreLastStateValues(callback) {
-  callback();
+  const start = moment();
+  let count = 0;
+  const fileName = `${config.storePath}lastStates.json`;
 
-  // const start = moment();
-  // let count = 0;
-  // // events.EventEmitter.defaultMaxListeners = 125;
-  // async.each(nodes, (node, callback) => {
-  //   DbNodeStateValue.findOne({ nodeName: node[0] }, null, { sort: { dt: 'desc' } }, (err, stateValue) => {
-  //     if (err) {
-  //       setError(`Failed to get last state value: "${err}".`);
-  //     } else if (stateValue) {
-  //       node.stateValue = stateValue.newState;
-  //       count += 1;
-  //     } else {
-  //       // none
-  //     }
-  //     callback(err);
-  //   });
-  // }, (err) => {
-  //   if (err) {
-  //     setError(`${count} LastStateValues loaded with error: "${err}".`);
-  //   } else {
-  //     const duration = moment().diff(start);
-  //     logger.debug(`[ModelNodes] ${count} LastStateValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
-  //   }
+  if (!fs.exists(fileName, (exists) => {
+    if (!exists) {
+      const err = `file "${fileName}" does not exists`;
+      callback(err);
+      return;
+    }
+    fs.readFile(fileName, (err, data) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      const states = JSON.parse(data);
+      const duration1 = moment().diff(start);
 
-  //   callback(err);
-  // });
+      for (let i = 0; i < states.length; i += 1) {
+        const state = states[i];
+        if (nodes.has(state.n)) {
+          const node = nodes.get(state.n);
+          node.stateValue = state.v;
+          count += 1;
+        } else {
+          logger.warn(`[ModelNodes][restoreLastStateValues] failed to find node: ${state.n}`);
+        }
+      }
+
+      const duration2 = moment().diff(start);
+      logger.debug(`[ModelNodes] ${count} LastStateValues loaded in ${moment(duration2).format('mm:ss.SSS')} (file loaded and parsed in ${moment(duration1).format('mm:ss.SSS')})`);
+      callback();
+    });
+  }));
 }
 
 
@@ -749,3 +777,4 @@ module.exports.GetRegions = GetRegions;
 module.exports.GetRegionPSs = GetRegionPSs;
 module.exports.GetPSForJson = GetPSForJson;
 module.exports.GetParamsListsForEachPS = GetParamsListsForEachPS;
+module.exports.StoreLastStateValues = StoreLastStateValues;

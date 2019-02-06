@@ -1,5 +1,5 @@
 process.env.LOGGER_NAME = 'serviceDbInsertor';
-process.env.LOGGER_LEVEL = 'debug';
+process.env.LOGGER_LEVEL = 'info';
 
 const logger = require('../logger');
 const amqpLogSender = require('../amqp/amqp_send');
@@ -39,7 +39,7 @@ db.on('connected', () => {
           logger.error(`Failed! Error: ${err}`);
         } else {
           amqpValuesReceiver.start(config.amqpUri, config.amqpInsertValuesQueueName, (received) => {
-            logger.debug(`[] Got msg ${received}`);
+            logger.verbose(`[ValuesReceiver] Got msg ${received}`);
 
             // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
             const s = received.split('<>');
@@ -51,14 +51,14 @@ db.on('connected', () => {
 
               DbValuesTracker.trackDbParamValue(obj);
             } else {
-              logger.error(`[][MyParamValue] Failed to parse: ${received}`);
+              logger.error(`[ValuesReceiver][MyParamValue] Failed to parse: ${received}`);
             }
           });
 
           // should be remaked!
 
           amqpNodeStateReceiver.start(config.amqpUri, config.amqpInsertNodeStateQueueName, (received) => {
-            logger.debug(`[] Got msg ${received}`);
+            logger.verbose(`[NodeStateReceiver] Got msg ${received}`);
 
                 // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
             const s = received.split('<>');
@@ -71,7 +71,7 @@ db.on('connected', () => {
 
               DbValuesTracker.trackDbNodeStateValue(obj);
             } else {
-              logger.error(`[][MyNodeStateValue] Failed to parse: ${received}`);
+              logger.error(`[NodeStateReceiver][MyNodeStateValue] Failed to parse: ${received}`);
             }
           });
         }
