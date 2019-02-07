@@ -24,13 +24,20 @@ let stompServer;
 // let timerId;
 
 process
-  .on('unhandledRejection', (reason, p) => {
-    logger.Error(`Unhandled Rejection at Promise: ${reason}  ${p}`);
-  })
-  .on('uncaughtException', (err) => {
-    logger.Error(`Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`);
-    process.exit(2);
-  });
+.on('unhandledRejection', (reason, p) => {
+  const s = `Unhandled Rejection at Promise: ${reason}  ${p}`;
+  logger.error(s);
+  // eslint-disable-next-line no-console
+  console.error(s);
+  process.exit(1);
+})
+.on('uncaughtException', (err) => {
+  const s = `Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`;
+  logger.error(s);
+  // eslint-disable-next-line no-console
+  console.error(s);
+  process.exit(1);
+});
 
 const initializeStompServer = (httpserver) => {
   stompServer = new StompServer({ server: httpserver });

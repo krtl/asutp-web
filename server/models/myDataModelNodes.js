@@ -80,11 +80,18 @@ function setWarning(text) {
 
 process
   .on('unhandledRejection', (reason, p) => {
-    setError(`Unhandled Rejection at Promise: ${reason}  ${p}`);
+    const s = `Unhandled Rejection at Promise: ${reason}  ${p}`;
+    setError(s);
+    // eslint-disable-next-line no-console
+    console.error(s);
+    process.exit(1);
   })
   .on('uncaughtException', (err) => {
-    setError(`Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`);
-    process.exit(2);
+    const s = `Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`;
+    setError(s);
+    // eslint-disable-next-line no-console
+    console.error(s);
+    process.exit(1);
   });
 
 const LoadFromDB = (cb) => {

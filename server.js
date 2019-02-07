@@ -26,7 +26,9 @@ const paramValuesProcessor = require('./server/values/paramValuesProcessor');
 // connect to the database and load models
 dbModels.connect(config.dbUri, true, (err) => {
   if (err) {
-    process.exit(2);
+    // eslint-disable-next-line no-console
+    console.error(`dbModels connection error: ${err}`);
+    process.exit(1);
   }
   // start listening only after models has loaded.
   // ...
@@ -95,22 +97,31 @@ httpserver.listen(app.get('port'), () => {
   logger.info(`Http server listening at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
 
+
+process.on('beforeExit', () => {
+  logger.info('[] OnBeforeExit ...');
+});
+
 process.on('exit', () => {
-  paramValuesProcessor.finalizeParamValuesProcessor();
+  logger.info('[] OnExit ...');
+  // paramValuesProcessor.finalizeParamValuesProcessor();
 });
 
 process.on('SIGINT', () => {
   logger.info('[] Stopping ...');
+  paramValuesProcessor.finalizeParamValuesProcessor();
 
   httpserver.close((err) => {
     if (err) {
-      logger.error(`Error on close HttpServer: ${err}`);
+      // eslint-disable-next-line no-console
+      console.error(`Error on close HttpServer: ${err}`);
       process.exit(1);
     }
 
     mongoose.connection.close((err) => {
       if (err) {
-        logger.error(`Error on close Mongoose connection: ${err}`);
+        // eslint-disable-next-line no-console
+        console.error(`Error on close Mongoose connection: ${err}`);
         process.exit(1);
       }
       logger.log('Mongoose connection disconnected');

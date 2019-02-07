@@ -36,7 +36,9 @@ module.exports.connect = (uri, useDataModel, callback) => {
 
   mongoose.connection.on('error', (err) => {
     logger.error(`Mongoose connection error: ${err}`);
-    process.exit(3);
+    // eslint-disable-next-line no-console
+    console.error(`Mongoose connection error: ${err}`);
+    process.exit(1);
   });
 
   mongoose.connection.on('disconnected', () => {
