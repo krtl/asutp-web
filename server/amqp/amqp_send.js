@@ -16,7 +16,7 @@ function start(ampqURI) {
   reconnectionStarted = false;
   amqp.connect(`${locAmpqURI}?heartbeat=60`, (err, conn) => {
     if (err) {
-      logger.error('[AMQPSENDER]', err.message);
+      logger.error(`[AMQPSENDER] ${err.message}`);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         setTimeout(start, 7000);
@@ -25,7 +25,7 @@ function start(ampqURI) {
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
-        logger.error('[AMQPSENDER] conn error', err.message);
+        logger.error(`[AMQPSENDER] conn error ${err.message}`);
       }
     });
     conn.on('close', () => {
@@ -54,7 +54,7 @@ function startPublisher() {
   amqpConn.createConfirmChannel((err, ch) => {
     if (closeOnErr(err)) return;
     ch.on('error', (err) => {
-      logger.error('[AMQPSENDER] channel error', err.message);
+      logger.error(`[AMQPSENDER] channel error ${err.message}`);
     });
     ch.on('close', () => {
       logger.info('[AMQPSENDER] channel closed');
@@ -83,13 +83,13 @@ function publish(exchange, routingKey, content) {
       pubChannel.publish(exchange, routingKey, content, { persistent: true },
         (err) => {
           if (err) {
-            logger.error('[AMQPSENDER] publish', err);
+            logger.error(`[AMQPSENDER] publish ${err}`);
             offlinePubQueue.push([ exchange, routingKey, content ]);
             pubChannel.connection.close();
           }
         });
     } catch (e) {
-      logger.error('[AMQPSENDER] publish', e.message);
+      logger.error(`[AMQPSENDER] publish ${e.message}`);
       offlinePubQueue.push([ exchange, routingKey, content ]);
     }
   }
@@ -97,7 +97,7 @@ function publish(exchange, routingKey, content) {
 
 function closeOnErr(err) {
   if (!err) return false;
-  logger.error('[AMQPSENDER] error', err);
+  logger.error(`[AMQPSENDER] error ${err}`);
   amqpConn.close();
   return true;
 }

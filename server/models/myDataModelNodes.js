@@ -657,7 +657,7 @@ function restoreLastStateValues(callback) {
         const state = states[i];
         if (nodes.has(state.n)) {
           const node = nodes.get(state.n);
-          node.stateValue = state.v;
+          node.nodeState = state.v;
           count += 1;
         } else {
           logger.warn(`[ModelNodes][restoreLastStateValues] failed to find node: ${state.n}`);

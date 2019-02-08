@@ -124,7 +124,8 @@ process.on('SIGINT', () => {
         console.error(`Error on close Mongoose connection: ${err}`);
         process.exit(1);
       }
-      logger.log('Mongoose connection disconnected');
+        // eslint-disable-next-line no-console
+      console.log('Mongoose connection disconnected');
     });
   });
 });
