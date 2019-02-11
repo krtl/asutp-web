@@ -11,7 +11,8 @@ const myNodeType = require('./myNodeType');
 const DbNode = require('../dbmodels/node');
 const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
-const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
+const DbNodeLEP2LEPConnection = require('../dbmodels/nodeLEP2LEPConnection');
+const DbNodeLEP2PSConnection = require('../dbmodels/nodeLEP2PSConnection');
 const DbNodePS = require('../dbmodels/nodePS');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
 const DbNodeTransformer = require('../dbmodels/nodeTransformer');
@@ -32,7 +33,8 @@ const MyNodeJsonSerialize = require('../models/myNode').MyNodeJsonSerialize;
 // const MyNode = require('./myNode');
 const MyNodeRegion = require('./myNodeRegion');
 const MyNodeLEP = require('./myNodeLEP');
-const MyNodeLEPConnection = require('./myNodeLEPConnection');
+const MyNodeLEP2LEPConnection = require('./myNodeLEP2LEPConnection');
+const MyNodeLEP2PSConnection = require('./myNodeLEP2PSConnection');
 const MyNodePS = require('./myNodePS');
 const MyNodePSPart = require('./myNodePSPart');
 const MyNodeTransformer = require('./myNodeTransformer');
@@ -51,11 +53,14 @@ const nodes = new Map();
 const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
+const LEP2LEPConections = [];
+const LEP2PSConections = [];
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
   [ DbNodeLEP, MyNodeLEP ],
-  [ DbNodeLEPConnection, MyNodeLEPConnection ],
+  [ DbNodeLEP2LEPConnection, MyNodeLEP2LEPConnection ],
+  [ DbNodeLEP2PSConnection, MyNodeLEP2PSConnection ],
   [ DbNodePS, MyNodePS ],
   [ DbNodePSPart, MyNodePSPart ],
   [ DbNodeTransformer, MyNodeTransformer ],
@@ -180,6 +185,9 @@ function loadNodesFromDB(schemeElement, cb) {
             case myNodeType.REGION: { Regions.set(locNode.name, p); break; }
             case myNodeType.LEP: { LEPs.set(locNode.name, p); break; }
             case myNodeType.PS: { PSs.set(locNode.name, p); break; }
+            case myNodeType.LEP2LEPCONNECTION: { LEP2LEPConections.push(p); break; }
+            case myNodeType.LEP2PSCONNECTION: { LEP2PSConections.push(p); break; }
+
             default: // nodes.set(locNode.name, p);
           }
           nodes.set(locNode.name, p);
@@ -424,7 +432,7 @@ function linkNodes(cb) {
     const locNode = locNodes[i];
     if (locNode.parentNode) {
       switch (locNode.nodeType) {
-        case myNodeType.LEPCONNECTION: { linkLEPConnectorToPS(locNode); break; }
+        case myNodeType.LEP2PSCONNECTION: { linkLEPConnectorToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
         case myNodeType.PSPART: { linkPSPartToPS(locNode); break; }
         case myNodeType.SECTION: { linkSectionToPSPart(locNode); break; }
@@ -688,6 +696,48 @@ const GetRegionPSs = (region) => {
   return result;
 };
 
+const GetRegionScheme = (region) => {
+  const pss = [];
+  const lep2leps = [];
+  const lep2pss = [];
+  const locLEPs = new Map();
+  const locPSs = Array.from(PSs.values());
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const ps = locPSs[i];
+    if (ps.parentNode) {
+      if (ps.parentNode.name === region) {
+        pss.push(ps);
+        for (let j = 0; j < LEP2PSConections.length; j += 1) {
+          const lep2ps = LEP2PSConections[j];
+          const psName = lep2ps.toNodeConnector.split('.');
+          if (psName.length > 0) {
+            if (psName[0] === ps.name) {
+              lep2pss.push(lep2ps);
+            }
+          }
+        }
+      }
+    }
+  }
+  for (let i = 0; i < lep2pss.length; i += 1) {
+    const lep2ps = lep2pss[i];
+    if (lep2ps.parentNode) {
+      locLEPs.set(lep2ps.parentNode.name, lep2ps.parentNode);
+    }
+  }
+  for (let i = 0; i < LEP2LEPConections.length; i += 1) {
+    const lep2lep = LEP2LEPConections[i];
+    if ((lep2lep.parentNode) && (lep2lep.toNode)) {
+      if ((locLEPs.has(lep2lep.parentNode.name)) && (locLEPs.has(lep2lep.toNode.name))) {
+        lep2leps.push(lep2lep);
+      }
+    }
+  }
+  const leps = Array.from(locLEPs.values());
+  const result = { leps, pss, lep2leps, lep2pss };
+  return result;
+};
+
 const GetPSForJson = (name) => {
   if (PSs.has(name)) {
     const locPS = PSs.get(name);
@@ -783,5 +833,6 @@ module.exports.ExportPSs = ExportPSs;
 module.exports.GetRegions = GetRegions;
 module.exports.GetRegionPSs = GetRegionPSs;
 module.exports.GetPSForJson = GetPSForJson;
+module.exports.GetRegionScheme = GetRegionScheme;
 module.exports.GetParamsListsForEachPS = GetParamsListsForEachPS;
 module.exports.StoreLastStateValues = StoreLastStateValues;

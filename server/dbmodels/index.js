@@ -60,7 +60,8 @@ module.exports.connect = (uri, useDataModel, callback) => {
   require('./node');// eslint-disable-line global-require
   require('./nodeRegion');// eslint-disable-line global-require
   require('./nodeLEP');// eslint-disable-line global-require
-  require('./nodeLEPConnection');// eslint-disable-line global-require
+  require('./nodeLEP2LEPConnection');// eslint-disable-line global-require
+  require('./nodeLEP2PSConnection');// eslint-disable-line global-require
   require('./nodePS');// eslint-disable-line global-require
   require('./nodePSPart');// eslint-disable-line global-require
   require('./nodeTransformer');// eslint-disable-line global-require

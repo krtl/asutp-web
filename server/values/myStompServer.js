@@ -44,7 +44,7 @@ const initializeStompServer = (httpserver) => {
 
   stompServer.on('connected', (sessionId) => {
     if (traceMessages) {
-      logger.verbose(`[stompServer] Client ${sessionId} connected`);
+      logger.debug(`[stompServer] Client ${sessionId} connected`);
     }
   });
 
@@ -56,7 +56,7 @@ const initializeStompServer = (httpserver) => {
 
   stompServer.on('disconnected', (sessionId) => {
     if (traceMessages) {
-      logger.verbose(`[stompServer] Client ${sessionId} disconnected`);
+      logger.debug(`[stompServer] Client ${sessionId} disconnected`);
     }
   });
 
@@ -88,7 +88,7 @@ const initializeStompServer = (httpserver) => {
 
   stompServer.on('subscribe', (ev) => {
     if (traceMessages) {
-      logger.verbose(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+      logger.debug(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
     }
 
     switch (ev.topic) {
@@ -122,7 +122,7 @@ const initializeStompServer = (httpserver) => {
 
   stompServer.on('unsubscribe', (ev) => {
     if (traceMessages) {
-      logger.verbose(`[stompServer] Client ${ev.sessionId} unsubscribed from ${ev.topic}`);
+      logger.debug(`[stompServer] Client ${ev.sessionId} unsubscribed from ${ev.topic}`);
     }
   });
 

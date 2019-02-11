@@ -2,12 +2,12 @@ const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 
 
-class MyNodeLEPConnection extends MyNode {
+class MyNodeLEP2PSConnection extends MyNode {
 
   constructor(name, caption, description) {
-    super(name, caption, description, myNodeType.LEP);
+    super(name, caption, description, myNodeType.LEP2PSCONNECTION);
     this.toNodeConnector = null;
   }
 }
 
-module.exports = MyNodeLEPConnection;
+module.exports = MyNodeLEP2PSConnection;

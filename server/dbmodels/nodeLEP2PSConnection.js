@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const myNodeType = require('../models/myNodeType');
 
-const NodeLEPConnectionSchema = new mongoose.Schema({
+const NodeLEP2PSConnectionSchema = new mongoose.Schema({
   name: {
     type: String,
     index: { unique: true },
@@ -12,7 +12,7 @@ const NodeLEPConnectionSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model('NodeLEPConnection', NodeLEPConnectionSchema);
+module.exports = mongoose.model('NodeLEP2PSConnection', NodeLEP2PSConnectionSchema);
 
 function define(name, value) {
   Object.defineProperty(module.exports, name, {
@@ -21,6 +21,6 @@ function define(name, value) {
   });
 }
 
-define('nodeType', myNodeType.LEPCONNECTION);
+define('nodeType', myNodeType.LEP2PSCONNECTION);
 define('compareProps', [ 'toNodeConnector' ]);
 define('convertToObj', [ 'toNodeConnector' ]);

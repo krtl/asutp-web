@@ -9,7 +9,8 @@ const myNodeType = require('../models/myNodeType');
 const DbNode = require('../dbmodels/node');
 const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
-const DbNodeLEPConnection = require('../dbmodels/nodeLEPConnection');
+const DbNodeLEP2LEPConnection = require('../dbmodels/nodeLEP2LEPConnection');
+const DbNodeLEP2PSConnection = require('../dbmodels/nodeLEP2PSConnection');
 const DbNodePS = require('../dbmodels/nodePS');
 const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodePSPart = require('../dbmodels/nodePSPart');
@@ -22,7 +23,8 @@ const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const Sheme = [
   [ DbNodeRegion, 'nodeRegions.json' ],
   [ DbNodeLEP, 'nodeLEPs.json' ],
-  [ DbNodeLEPConnection, 'nodeLEP2PSConnections.json' ],
+  [ DbNodeLEP2LEPConnection, 'nodeLEP2LEPConnections.json' ],
+  [ DbNodeLEP2PSConnection, 'nodeLEP2PSConnections.json' ],
   [ DbNodePS, 'nodePSs.json' ],
   [ DbNodePSPart, 'nodePSParts.json' ],
   [ DbNodeSec2SecConnector, 'nodeSec2SecConnectors.json' ],
