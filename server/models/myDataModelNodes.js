@@ -30,7 +30,7 @@ const config = require('../../config');
 const MyNodeJsonSerialize = require('../models/myNode').MyNodeJsonSerialize;
 
 
-// const MyNode = require('./myNode');
+const MyNode = require('./myNode');
 const MyNodeRegion = require('./myNodeRegion');
 const MyNodeLEP = require('./myNodeLEP');
 const MyNodeLEP2LEPConnection = require('./myNodeLEP2LEPConnection');
@@ -696,6 +696,48 @@ const GetRegionPSs = (region) => {
   return result;
 };
 
+const getRegionSchemeForJson = (scheme) => {
+  const leps = [];
+  const pss = [];
+  const lep2leps = [];
+  const lep2pss = [];
+
+  for (let i = 0; i < scheme.pss.length; i += 1) {
+    const ps = scheme.pss[i];
+    const locPS = new MyNode(ps.name, ps.caption, ps.description);
+    locPS.parentNode = ps.parentNode.name;
+    locPS.sapCode = ps.sapCode;
+    locPS.nodeState = ps.nodeState;
+    pss.push(locPS);
+  }
+  for (let i = 0; i < scheme.leps.length; i += 1) {
+    const lep = scheme.leps[i];
+    const locLEP = new MyNode(lep.name, lep.caption, lep.description);
+    locLEP.parentNode = lep.parentNode.name;
+    locLEP.sapCode = lep.sapCode;
+    locLEP.nodeState = lep.nodeState;
+    leps.push(locLEP);
+  }
+  for (let i = 0; i < scheme.lep2leps.length; i += 1) {
+    const lep2lep = scheme.lep2leps[i];
+    const locLEP2LEP = new MyNode(lep2lep.name, lep2lep.caption, lep2lep.description);
+    locLEP2LEP.parentNode = lep2lep.parentNode.name;
+    locLEP2LEP.sapCode = lep2lep.sapCode;
+    locLEP2LEP.nodeState = lep2lep.nodeState;
+    lep2leps.push(locLEP2LEP);
+  }
+  for (let i = 0; i < scheme.lep2pss.length; i += 1) {
+    const lep2ps = scheme.lep2pss[i];
+    const locLEP2PS = new MyNode(lep2ps.name, lep2ps.caption, lep2ps.description);
+    locLEP2PS.parentNode = lep2ps.parentNode.name;
+    locLEP2PS.sapCode = lep2ps.sapCode;
+    locLEP2PS.nodeState = lep2ps.nodeState;
+    lep2pss.push(locLEP2PS);
+  }
+
+  return { leps, pss, lep2leps, lep2pss };
+};
+
 const GetRegionScheme = (region) => {
   const pss = [];
   const lep2leps = [];
@@ -734,9 +776,10 @@ const GetRegionScheme = (region) => {
     }
   }
   const leps = Array.from(locLEPs.values());
-  const result = { leps, pss, lep2leps, lep2pss };
+  const result = getRegionSchemeForJson({ leps, pss, lep2leps, lep2pss });
   return result;
 };
+
 
 const GetPSForJson = (name) => {
   if (PSs.has(name)) {
