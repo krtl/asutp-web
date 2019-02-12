@@ -101,10 +101,12 @@ export default class MyStage extends React.Component {
   }
 
   render() {
-    const locNodes = this.props.nodes;
+    const locNodes = this.props.enodes;
     const locLines = this.getLines();
-    const locW = window.innerWidth - 30;
-    const locH = window.innerHeight - 30;
+    // const locW = window.innerWidth - 30;
+    // const locH = window.innerHeight - 30;
+    const locW = 3000;
+    const locH = 3000;
 
     return (
       <div>
