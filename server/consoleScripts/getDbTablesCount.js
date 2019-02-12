@@ -24,6 +24,7 @@ const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+const DbNetNodeShema = require('../dbmodels/netNodeSchema');
 
 const Sheme = [
   DbUser,
@@ -47,6 +48,7 @@ const Sheme = [
   DbNodeEquipment,
   DbNodeParamLinkage,
   DbNodeStateValue,
+  DbNetNodeShema,
 ];
 
 

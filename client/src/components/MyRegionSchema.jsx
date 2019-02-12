@@ -1,19 +1,46 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Layer, Stage, Line } from 'react-konva';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
-import MyRect from './MyRect';
+import MySchemaNode from './MySchemaNode';
+import {MyConsts} from '../modules/MyConsts';
 
+
+const styles = {
+  customWidth: {
+    width: 350,
+  },
+}
 
 export default class MyStage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedRegion: '',
       edited: false,
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
+    this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
+  }
+
+  getCenterX(node) {
+    switch (node.nodeType) {
+      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_WIDTH / 2;
+      case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
+      default: return 0;
+    }
+  }
+
+  getCenterY(node) {
+    switch (node.nodeType) {
+      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_Y_OFFSET + MyConsts.NODE_LEP_HEIGHT / 2;
+      case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
+      default: return 0;
+    }
   }
 
   getLines() {
@@ -27,7 +54,8 @@ export default class MyStage extends React.Component {
             result.push(
               {
                 name: this.props.wires[i].name,
-                points: [ locNode1.x, locNode1.y, locNode2.x, locNode2.y ],
+                points: [ locNode1.x + this.getCenterX(locNode1), locNode1.y + this.getCenterY(locNode1),
+                   locNode2.x + this.getCenterX(locNode2), locNode2.y + this.getCenterY(locNode2) ],
               });
           }
         }
@@ -35,9 +63,23 @@ export default class MyStage extends React.Component {
     return result;
   }
 
-  handleLoadSchemeClick() {
-    this.props.onLoadScheme();
+  handleLoadSchemeClick(selectedListItem) {
+
+    if (selectedListItem === undefined) {
+      selectedListItem = this.state.selectedRegion;
+    }
+
+    if (selectedListItem) {
+      this.props.onLoadScheme(selectedListItem.name);
+    }
+
   }
+
+  handleRegionChange(event, index, value) {
+    this.setState({ selectedRegion: value });
+
+    this.handleLoadSchemeClick(value);
+  }  
 
   handleSaveSchemeClick() {
     if (this.state.edited) {
@@ -66,15 +108,27 @@ export default class MyStage extends React.Component {
 
     return (
       <div>
-        <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
-        <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
+        <div>
+          <SelectField
+            floatingLabelText='Regions:'
+            value={this.state.selectedRegion}
+            onChange={this.handleRegionChange}
+            style={styles.customWidth}
+          >
+            {this.props.regions.map(region => (
+              <MenuItem key={region.name} value={region} primaryText={region.caption} secondaryText={region.name} />
+            ))
+            }
+          </SelectField>
+          <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
+          <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
+        </div>
 
         <Stage width={locW} height={locH}>
 
-
           <Layer>
             {locNodes.map(rec => (
-              <MyRect
+              <MySchemaNode
                 key={rec.name}
                 node={rec}
                 onDragEnd={this.handleDragEnd}
@@ -98,6 +152,7 @@ export default class MyStage extends React.Component {
 }
 
  MyStage.propTypes = {
+  regions: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   enodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,

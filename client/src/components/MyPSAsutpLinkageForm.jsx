@@ -11,7 +11,7 @@ import {
     TableRowColumn,
   } from 'material-ui/Table';
 import MyPSAsutpLinkageDialog from './MyPSAsutpLinkageDialog'
-import {MyNodePropNameParamRole} from '../modules/MyConsts';
+import {MyConsts} from '../modules/MyConsts';
 
 
   const styles = {
@@ -78,8 +78,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
             if(('Modified' in connector)) {
               linkages.push({
                  nodeName: connector.name,
-                 paramPropName: MyNodePropNameParamRole.POWER,
-                 paramPropValue: connector[MyNodePropNameParamRole.POWER]
+                 paramPropName: MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER,
+                 paramPropValue: connector[MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER]
                 });
               delete connector['Modified'];
             }
@@ -88,8 +88,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
               if(('Modified' in equipment)) {
                 linkages.push({
                   nodeName: equipment.name,
-                  paramPropName: MyNodePropNameParamRole.STATE,
-                  paramPropValue: equipment[MyNodePropNameParamRole.STATE]
+                  paramPropName: MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE,
+                  paramPropValue: equipment[MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE]
                  });
                  delete equipment['Modified'];
                 }
@@ -106,12 +106,12 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   handleRowDblClick(param, val) {
     let role = '';
     let nodeName = '';
-    if (param.name.endsWith(MyNodePropNameParamRole.POWER)) {
-      role = MyNodePropNameParamRole.POWER;
-      nodeName = param.name.replace('.' + MyNodePropNameParamRole.POWER, '');
-    } else if (param.name.endsWith(MyNodePropNameParamRole.STATE)) {
-      role = MyNodePropNameParamRole.STATE
-      nodeName = param.name.replace('.' + MyNodePropNameParamRole.STATE, '');
+    if (param.name.endsWith(MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER)) {
+      role = MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER;
+      nodeName = param.name.replace('.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER, '');
+    } else if (param.name.endsWith(MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE)) {
+      role = MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE
+      nodeName = param.name.replace('.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE, '');
     }
 
     if (role !== '') {
@@ -184,8 +184,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                  nodeType: connector.nodeType,
                  sapCode: connector.sapCode
                 })
-                rows.push({name: connector.name + '.' + MyNodePropNameParamRole.POWER, 
-                    caption: connector[MyNodePropNameParamRole.POWER],
+                rows.push({name: connector.name + '.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER, 
+                    caption: connector[MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER],
                     nodeType: ('Modified' in connector) ? 'Modified' : '',
                     sapCode: ''
                    })   
@@ -195,8 +195,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                      nodeType: equipment.nodeType,
                      sapCode: equipment.sapCode
                     })
-                    rows.push({name: equipment.name + '.' + MyNodePropNameParamRole.STATE,
-                    caption: equipment[MyNodePropNameParamRole.STATE],
+                    rows.push({name: equipment.name + '.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE,
+                    caption: equipment[MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE],
                     nodeType: ('Modified' in equipment) ? 'Modified' : '',
                     sapCode: ''
                    })

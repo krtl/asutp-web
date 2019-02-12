@@ -56,6 +56,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
 
   require('./netNode');// eslint-disable-line global-require
   require('./netWire');// eslint-disable-line global-require
+  require('./netNodeSchema');// eslint-disable-line global-require
 
   require('./node');// eslint-disable-line global-require
   require('./nodeRegion');// eslint-disable-line global-require

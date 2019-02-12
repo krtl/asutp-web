@@ -9,6 +9,7 @@ const DbParamList = require('../dbmodels/paramList');
 const DbParamValues = require('../dbmodels/paramValue');
 const DbParamHalfHourValues = require('../dbmodels/paramHalfHourValue');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+const DbNetNodeShema = require('../dbmodels/netNodeSchema');
 
 
 const router = new express.Router();
@@ -118,16 +119,9 @@ router.get('/paramLists', (req, res, next) => {
 router.get('/params', (req, res, next) => {
   const paramListName = req.query.prmLstName;
 
-  if (!paramListName) {
+  if ((!paramListName) || (paramListName === '')) {
     res.json({
       error: 'Missing required parameter `prmLstName`!',
-    });
-    return;
-  }
-
-  if ((paramListName === '') || (paramListName === 'undefined')) {
-    res.json({
-      error: 'Required parameter `prmLstName` is wrong!',
     });
     return;
   }
@@ -151,16 +145,9 @@ router.get('/params', (req, res, next) => {
 router.get('/paramValues', (req, res, next) => {
   const paramName = req.query.paramName;
 
-  if (!paramName) {
+  if ((!paramName) || (paramName === '')) {
     res.json({
       error: 'Missing required parameter `paramName`!',
-    });
-    return;
-  }
-
-  if ((paramName === '') || (paramName === 'undefined')) {
-    res.json({
-      error: 'Required parameter `paramName` is wrong!',
     });
     return;
   }
@@ -179,16 +166,9 @@ router.get('/paramValues', (req, res, next) => {
 router.get('/paramHalfHourValues', (req, res, next) => {
   const paramName = req.query.paramName;
 
-  if (!paramName) {
+  if ((!paramName) || (paramName === '')) {
     res.json({
       error: 'Missing required parameter `paramName`!',
-    });
-    return;
-  }
-
-  if ((paramName === '') || (paramName === 'undefined')) {
-    res.json({
-      error: 'Required parameter `paramName` is wrong!',
     });
     return;
   }
@@ -208,16 +188,9 @@ router.get('/paramHalfHourValues', (req, res, next) => {
 router.get('/nodeStateValues', (req, res, next) => {
   const nodeName = req.query.nodeName;
 
-  if (!nodeName) {
+  if ((!nodeName) || (nodeName === '')) {
     res.json({
       error: 'Missing required parameter `nodeName`!',
-    });
-    return;
-  }
-
-  if ((nodeName === '') || (nodeName === 'undefined')) {
-    res.json({
-      error: 'Required parameter `nodeName` is wrong!',
     });
     return;
   }
@@ -232,6 +205,101 @@ router.get('/nodeStateValues', (req, res, next) => {
       res.status(200).json(nodeStateValues);
       return 0;
     });
+});
+
+
+router.get('/netNodeSchema', (req, res, next) => {
+  const schemaName = req.query.schemaName;
+
+  if ((!schemaName) || (schemaName === '')) {
+    res.json({
+      error: 'Missing required parameter `schemaName`!',
+    });
+    return;
+  }
+
+  DbNetNodeShema
+    .find({ schemaName })
+    .select({ nodeName: 1, x: 1, y: 1, _id: 0 })
+    .limit(10000)
+    .exec((err, schemaNodes) => {
+      if (err) return next(err);
+      res.status(200).json(schemaNodes);
+      return 0;
+    });
+});
+
+router.post('/saveNetNodeSchema', (req, res, next) => {
+  const schemaName = req.query.schemaName;
+
+  if ((!schemaName) || (schemaName === '')) {
+    res.json({
+      error: 'Missing required parameter `schemaName`!',
+    });
+    return;
+  }
+
+  const nodes = req.body;
+  // throw new Error('TestErr!');
+
+  async.each(nodes, (locNode, callback) => {
+    DbNetNodeShema.findOne({
+      schemaName,
+      nodename: locNode.name,
+    }, (err, netNode) => {
+      if (err) {
+        logger.info(`[saveNetNodeSchema] findOne error: ${err}`);
+        return callback(err);
+      }
+
+      if (netNode) {
+         // node exists
+        if ((locNode.x !== netNode.x) || (locNode.y !== netNode.y)) {
+          NetNode.update({ _id: netNode.id },
+            { $set: {
+              // caption: locNode.caption,
+              // description: locNode.description,
+              x: locNode.x,
+              y: locNode.y } }, (err) => {
+                if (err) return callback(err);
+
+                logger.debug(`[saveNetNodeSchema] updated node "${netNode.name}" in "${schemaName}"`);
+
+                return callback(null);
+              });
+        } else {
+          return callback(null);
+        }
+      } else {
+        const newNetNodeShema = new DbNetNodeShema(locNode);
+        newNetNodeShema.nodeName = locNode.name;
+        newNetNodeShema.schemaName = schemaName;
+        newNetNodeShema.save((err) => {
+          if (err) {
+            logger.warn(`[saveNetNodeSchema] newNetNodeShema.save error: ${err}`);
+            return callback(err);
+          }
+          logger.debug(`[saveNetNodeSchema] node "${locNode.name}" inserted into "${schemaName}"`);
+
+          return callback(null);
+        });
+      }
+      return null;
+    });
+  }, (err) => {
+    if (err) {
+      logger.info(`[saveNetNodeSchema] Failed: ${err}`);
+      next(err);
+      // res.status(500).json({
+      //   message: err.message,
+      // });
+    } else {
+      logger.debug('[saveNetNodeSchema] All saved successfully');
+      res.status(200).json({
+        message: "'All saved successfully'",
+      });
+    }
+  });
 });
 
 

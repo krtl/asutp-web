@@ -35,6 +35,13 @@ module.exports = (app) => {
     return true;
   });
 
+  app.get('/getRegionScheme', (req, res) => {
+    const json = myDataModelNodes.GetRegionScheme(req.query.name);
+    res.send(json);
+    return true;
+  });
+
+
   app.get('/getJsonPS', (req, res) => {
     const json = myDataModelNodes.GetPSForJson(req.query.name);
     res.send(json);
@@ -81,7 +88,7 @@ module.exports = (app) => {
                   return callback(err);
                 }
 
-                logger.info(`updated nodeLinkage "${linkage.nodeName}.${linkage.paramPropName}"`);
+                logger.debug(`updated nodeLinkage "${linkage.nodeName}.${linkage.paramPropName}"`);
 
                 return callback(null);
               });
@@ -96,7 +103,7 @@ module.exports = (app) => {
               logger.warn('Something wrong when DbNodeParamLinkage save!');
               return callback(err);
             }
-            logger.log(`nodeLinkage "${locLinkage.nodeName}.${locLinkage.paramPropName}" inserted`);
+            logger.debug(`nodeLinkage "${locLinkage.nodeName}.${locLinkage.paramPropName}" inserted`);
 
             return callback(null);
           });

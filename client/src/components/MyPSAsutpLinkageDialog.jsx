@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import {MyNodePropNameParamRole} from '../modules/MyConsts';
+import {MyConsts} from '../modules/MyConsts';
+
 
 
 const styles = {
@@ -76,11 +77,11 @@ export default class MyPSAsutpLinkageDialog extends React.Component {
       let locParamName = '';
 
       switch (this.props.paramRole){
-        case MyNodePropNameParamRole.POWER: {
+        case MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER: {
           locParamName = element.PParamName;
           break;
         }
-        case MyNodePropNameParamRole.STATE: {
+        case MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE: {
           locParamName = element.VVParamName;
           break;
         }

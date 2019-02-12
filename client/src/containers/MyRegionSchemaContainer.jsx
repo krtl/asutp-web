@@ -1,9 +1,9 @@
 import React from 'react';
-import MyStage from '../components/MyStage';
+import MyRegionSchema from '../components/MyRegionSchema';
 import MyFetchClient from './MyFetchClient';
 import makeUid from '../modules/MyFuncs';
 
-const MATCHING_ITEM_LIMIT = 2500;
+const MATCHING_ITEM_LIMIT = 10000;
 
 
 export default class MyStageContainer extends React.Component {
@@ -14,6 +14,7 @@ export default class MyStageContainer extends React.Component {
     this.state = {
       cmdUid: '',
       fetchRequests: [],
+      regionName: '',
       nodes: [],
       enodes: [],
       wires: [],
@@ -23,46 +24,58 @@ export default class MyStageContainer extends React.Component {
     this.onSaveScheme = this.onSaveScheme.bind(this);
   }
 
-  onLoadScheme() {
-    const prjName = 'test_proj';
-    const uid = makeUid(5);
+  onLoadScheme(regionName) {
+    this.setState({regionName}) ;
+
     const cmds = [
       {
-        fetchUrl: `api/nodes?proj=${prjName}`,
+        // fetchUrl: `api/getRegionSheme?name=${regionName}`,
+        fetchUrl: `getRegionScheme?name=${regionName}`,
         fetchMethod: 'get',
         fetchData: '',
-        fetchCallback: (nodes) => {
+        fetchCallback: (schema) => {
           this.setState({
-            nodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
-            enodes: nodes.slice(0, MATCHING_ITEM_LIMIT),
+            nodes: schema.nodes,
+            enodes: schema.nodes,
+            wires: schema.wires,
           });
         }
       },
       {
-        fetchUrl: `api/wires?proj=${prjName}`,
+        fetchUrl: `api/netNodeSchema?schemaName=${regionName}`,
         fetchMethod: 'get',
         fetchData: '',
-        fetchCallback: (wires) => {
+        fetchCallback: (schemaNodes) => {
+
+          const locSchemaNodes = schemaNodes.slice(0, MATCHING_ITEM_LIMIT);
+          for(let i=0; i<this.state.nodes.length; i++) {
+            const node = this.state.nodes[i];
+            for(let j=0; i<locSchemaNodes.length; j++) {
+              const schemaNode = locSchemaNodes[j];
+              if (node.name === schemaNode.nodeName) {
+                node.x = schemaNode.x;
+                node.y = schemaNode.y;
+                break;
+              }
+            }
+          }
           this.setState({
-            wires: wires.slice(0, MATCHING_ITEM_LIMIT),
-        });
+            nodes: this.state.nodes,// update coordinates ?
+          });
         }
       }
     ]
 
     this.setState({
-        cmdUid: uid,
+        cmdUid: makeUid(5),
         fetchRequests: cmds,
       });
   }
 
   onSaveScheme(s) {
-    // const prjName = 'test_proj';
-    const uid = makeUid(5);
     const cmds = [
       {
-//        fetchUrl: `api/save_node?proj=${prjName}`,
-        fetchUrl: 'api/save_node',
+        fetchUrl: `api/saveNetNodeSchema?schemaName=${this.state.regionName}`,
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: () => {
@@ -73,7 +86,7 @@ export default class MyStageContainer extends React.Component {
     ]
 
     this.setState({
-        cmdUid: uid,
+        cmdUid: makeUid(5),
         fetchRequests: cmds,
       });
   }
@@ -81,7 +94,8 @@ export default class MyStageContainer extends React.Component {
   render() {
     return (
       <div>      
-      <MyStage 
+      <MyRegionSchema 
+        regions={this.props.regions}
         nodes={this.state.nodes}
         enodes={this.state.enodes}
         wires={this.state.wires}

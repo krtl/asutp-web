@@ -21,6 +21,6 @@ function define(name, value) {
   });
 }
 
-define('nodeType', myNodeType.LEP2PSCONNECTION);
+define('nodeType', myNodeType.LEP2LEPCONNECTION);
 define('compareProps', [ 'toNode' ]);
 define('convertToObj', [ 'toNode' ]);

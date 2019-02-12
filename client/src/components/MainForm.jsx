@@ -4,7 +4,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import MyParams from './MyParams';
 import MyPSs from './MyPSs';
 import MyNodeStateHistory from '../containers/MyNodeStateHistory';
-import MyStageContainer from '../containers/MyStageContainer';
+import MyRegionSchemaContainer from '../containers/MyRegionSchemaContainer';
 // import Client from '../modules/Client'; // eslint-disable-line
 
 class MainForm extends React.Component {
@@ -42,7 +42,9 @@ class MainForm extends React.Component {
           <div className='container'>
 
 
-            <MyStageContainer />
+            <MyRegionSchemaContainer
+              regions={this.props.regions}
+            />
           </div>
         </Tab>
       </Tabs>

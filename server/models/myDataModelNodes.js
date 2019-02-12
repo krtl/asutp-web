@@ -48,6 +48,8 @@ const myNodeState = require('./myNodeState');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 const MyParamList = require('./myParamList');
 
+const MySchemeWire = require('./mySchemeWire');
+
 
 const nodes = new Map();
 const Regions = new Map();
@@ -119,6 +121,9 @@ const LoadFromDB = (cb) => {
       res = `loading nodes failed with ${errs} errors!`;
       logger.error(res);
     }
+    // eslint-disable-next-line no-console
+    console.debug('[ModelNodes] loaded');
+
     return cb(res);
   });
 };
@@ -696,65 +701,46 @@ const GetRegionPSs = (region) => {
   return result;
 };
 
-const getRegionSchemeForJson = (scheme) => {
-  const leps = [];
-  const pss = [];
-  const lep2leps = [];
-  const lep2pss = [];
+const getNodeForScheme = (nodes) => {
+  const resultNodes = [];
 
-  for (let i = 0; i < scheme.pss.length; i += 1) {
-    const ps = scheme.pss[i];
-    const locPS = new MyNode(ps.name, ps.caption, ps.description);
-    locPS.parentNode = ps.parentNode.name;
-    locPS.sapCode = ps.sapCode;
-    locPS.nodeState = ps.nodeState;
-    pss.push(locPS);
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    const locNode = new MyNode(node.name, node.caption, node.description, node.nodeType);
+    locNode.parentNode = node.parentNode.name;
+    locNode.sapCode = node.sapCode;
+    locNode.nodeState = node.nodeState;
+    locNode.parentNode = undefined;
+    locNode.description = undefined;
+    resultNodes.push(locNode);
   }
-  for (let i = 0; i < scheme.leps.length; i += 1) {
-    const lep = scheme.leps[i];
-    const locLEP = new MyNode(lep.name, lep.caption, lep.description);
-    locLEP.parentNode = lep.parentNode.name;
-    locLEP.sapCode = lep.sapCode;
-    locLEP.nodeState = lep.nodeState;
-    leps.push(locLEP);
-  }
-  for (let i = 0; i < scheme.lep2leps.length; i += 1) {
-    const lep2lep = scheme.lep2leps[i];
-    const locLEP2LEP = new MyNode(lep2lep.name, lep2lep.caption, lep2lep.description);
-    locLEP2LEP.parentNode = lep2lep.parentNode.name;
-    locLEP2LEP.sapCode = lep2lep.sapCode;
-    locLEP2LEP.nodeState = lep2lep.nodeState;
-    lep2leps.push(locLEP2LEP);
-  }
-  for (let i = 0; i < scheme.lep2pss.length; i += 1) {
-    const lep2ps = scheme.lep2pss[i];
-    const locLEP2PS = new MyNode(lep2ps.name, lep2ps.caption, lep2ps.description);
-    locLEP2PS.parentNode = lep2ps.parentNode.name;
-    locLEP2PS.sapCode = lep2ps.sapCode;
-    locLEP2PS.nodeState = lep2ps.nodeState;
-    lep2pss.push(locLEP2PS);
-  }
-
-  return { leps, pss, lep2leps, lep2pss };
+  return resultNodes;
 };
 
-const GetRegionScheme = (region) => {
+const GetRegionScheme = (regionName) => {
   const pss = [];
-  const lep2leps = [];
   const lep2pss = [];
   const locLEPs = new Map();
   const locPSs = Array.from(PSs.values());
+  const wires = [];
   for (let i = 0; i < locPSs.length; i += 1) {
     const ps = locPSs[i];
     if (ps.parentNode) {
-      if (ps.parentNode.name === region) {
+      if (ps.parentNode.name === regionName) {
         pss.push(ps);
         for (let j = 0; j < LEP2PSConections.length; j += 1) {
           const lep2ps = LEP2PSConections[j];
-          const psName = lep2ps.toNodeConnector.split('.');
-          if (psName.length > 0) {
-            if (psName[0] === ps.name) {
-              lep2pss.push(lep2ps);
+          if (lep2ps.toNodeConnector) {
+            const psName = lep2ps.toNodeConnector.name.split('.');
+            if (psName.length > 0) {
+              if (psName[0] === ps.name) {
+                lep2pss.push(lep2ps);
+
+                const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
+                wire.nodeFrom = lep2ps.parentNode.name;
+                wire.nodeTo = ps.name;
+                wires.push(wire);
+              }
             }
           }
         }
@@ -771,12 +757,16 @@ const GetRegionScheme = (region) => {
     const lep2lep = LEP2LEPConections[i];
     if ((lep2lep.parentNode) && (lep2lep.toNode)) {
       if ((locLEPs.has(lep2lep.parentNode.name)) && (locLEPs.has(lep2lep.toNode.name))) {
-        lep2leps.push(lep2lep);
+        const wire = new MySchemeWire(lep2lep.name, lep2lep.caption, lep2lep.description, lep2lep.nodeType);
+        wire.nodeFrom = lep2lep.parentNode.name;
+        wire.nodeTo = lep2lep.toNode.name;
+        wires.push(wire);
       }
     }
   }
   const leps = Array.from(locLEPs.values());
-  const result = getRegionSchemeForJson({ leps, pss, lep2leps, lep2pss });
+  const result = { nodes: getNodeForScheme(leps.concat(pss)), wires };
+
   return result;
 };
 

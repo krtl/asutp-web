@@ -82,10 +82,10 @@ function importLinkages(callback) {
     const param = myDataModelParams.getParam(linkageRawData.paramPropValue);
 
     if (!node) {
-      setWarn(`Unknown node ${linkageRawData.nodeName}`);
+      setWarn(`Unknown node "${linkageRawData.nodeName}" on importing linkages`);
       callback(null);
     } else if (!param) {
-      setWarn(`Unknown param ${linkageRawData.paramPropValue}`);
+      setWarn(`Unknown param "${linkageRawData.paramPropValue}" on importing linkages`);
       callback(null);
     } else {
       const newLinkage = new DbNodeParamLinkage(linkageRawData);

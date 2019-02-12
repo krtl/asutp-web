@@ -42,6 +42,7 @@ function requireModels(callback) {
 
   require('mongoose').model('NetNode');  // eslint-disable-line global-require
   require('mongoose').model('NetWire');  // eslint-disable-line global-require
+  require('mongoose').model('NetNodeSchema');  // eslint-disable-line global-require
 
   require('mongoose').model('Node');  // eslint-disable-line global-require
   require('mongoose').model('NodeRegion');  // eslint-disable-line global-require
