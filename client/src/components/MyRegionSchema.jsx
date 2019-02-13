@@ -20,11 +20,13 @@ export default class MyStage extends React.Component {
     this.state = {
       selectedRegion: '',
       edited: false,
+      stateChanged: false,
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleStateChanged = this.handleStateChanged.bind(this);
   }
 
   getCenterX(node) {
@@ -48,8 +50,8 @@ export default class MyStage extends React.Component {
     if (this.props.wires) {
         for (let i = 0; i < this.props.wires.length; i += 1) {
           const locWire = this.props.wires[i];
-          const locNode1 = this.props.enodes.find(node => node.name === locWire.nodeFrom);
-          const locNode2 = this.props.enodes.find(node => node.name === locWire.nodeTo);
+          const locNode1 = this.props.nodes.find(node => node.name === locWire.nodeFrom);
+          const locNode2 = this.props.nodes.find(node => node.name === locWire.nodeTo);
           if ((locNode1 !== undefined) && (locNode2 !== undefined)) {
             result.push(
               {
@@ -63,45 +65,68 @@ export default class MyStage extends React.Component {
     return result;
   }
 
+  doLoadScheme(selectedRegion) {
+
+    if (selectedRegion === undefined) {
+      selectedRegion = this.state.selectedRegion;
+    }
+
+    if (selectedRegion) {
+      this.props.onLoadScheme(selectedRegion.name);
+    }
+  }
+
   handleLoadSchemeClick(selectedListItem) {
-
-    if (selectedListItem === undefined) {
-      selectedListItem = this.state.selectedRegion;
-    }
-
-    if (selectedListItem) {
-      this.props.onLoadScheme(selectedListItem.name);
-    }
-
+    this.doLoadScheme(this.state.selectedRegion);
   }
 
   handleRegionChange(event, index, value) {
     this.setState({ selectedRegion: value });
-
-    this.handleLoadSchemeClick(value);
+    this.doLoadScheme(value);
   }  
 
   handleSaveSchemeClick() {
     if (this.state.edited) {
-      const s = JSON.stringify(this.props.enodes);
-      this.props.onSaveScheme(s);
+      let nodes = [];
+      this.props.nodes.forEach((node) => {
+        if (node.changed !== undefined) {
+          nodes.push({ nodeName: node.name, x: node.x, y: node.y });
+        }
+      });
+      
+      if (nodes.length > 0) {
+        const s = JSON.stringify(nodes);
+        this.props.onSaveScheme(s);
+      }
     }
   }
 
   handleDragEnd(nodeObj) {
-    const locNode = this.props.enodes.find(node => node.name === nodeObj.name);
+    const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
     if (locNode !== undefined) {
       // console.log(`[MyStage] Drag ends for ${locNode.name}`);
 
       locNode.x = nodeObj.x;
       locNode.y = nodeObj.y;
+      locNode.changed = true;
       this.setState({
         edited: true });
     }
   }
 
+  handleStateChanged(nodeObj) {
+    const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
+    if (locNode !== undefined) {
+      locNode.nodeState = nodeObj.state;
+      locNode.stateChanged = true;
+      this.setState({
+        stateChanged: true });
+    }
+  }
+
+
   render() {
-    const locNodes = this.props.enodes;
+    const locNodes = this.props.nodes;
     const locLines = this.getLines();
     // const locW = window.innerWidth - 30;
     // const locH = window.innerHeight - 30;
@@ -134,6 +159,7 @@ export default class MyStage extends React.Component {
                 key={rec.name}
                 node={rec}
                 onDragEnd={this.handleDragEnd}
+                onStateChanged={this.handleStateChanged}
               />
             ))
           }
@@ -156,7 +182,6 @@ export default class MyStage extends React.Component {
  MyStage.propTypes = {
   regions: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
-  enodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,

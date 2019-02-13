@@ -240,12 +240,11 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
   }
 
   const nodes = req.body;
-  // throw new Error('TestErr!');
 
   async.each(nodes, (locNode, callback) => {
     DbNetNodeShema.findOne({
       schemaName,
-      nodename: locNode.name,
+      nodeName: locNode.nodeName,
     }, (err, netNode) => {
       if (err) {
         logger.info(`[saveNetNodeSchema] findOne error: ${err}`);
@@ -253,17 +252,14 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
       }
 
       if (netNode) {
-         // node exists
         if ((locNode.x !== netNode.x) || (locNode.y !== netNode.y)) {
-          NetNode.update({ _id: netNode.id },
+          DbNetNodeShema.update({ _id: netNode.id },
             { $set: {
-              // caption: locNode.caption,
-              // description: locNode.description,
               x: locNode.x,
               y: locNode.y } }, (err) => {
                 if (err) return callback(err);
 
-                logger.debug(`[saveNetNodeSchema] updated node "${netNode.name}" in "${schemaName}"`);
+                logger.debug(`[saveNetNodeSchema] updated node "${netNode.nodeName}" in "${schemaName}"`);
 
                 return callback(null);
               });
@@ -272,14 +268,14 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
         }
       } else {
         const newNetNodeShema = new DbNetNodeShema(locNode);
-        newNetNodeShema.nodeName = locNode.name;
+        newNetNodeShema.nodeName = locNode.nodeName;
         newNetNodeShema.schemaName = schemaName;
         newNetNodeShema.save((err) => {
           if (err) {
             logger.warn(`[saveNetNodeSchema] newNetNodeShema.save error: ${err}`);
             return callback(err);
           }
-          logger.debug(`[saveNetNodeSchema] node "${locNode.name}" inserted into "${schemaName}"`);
+          logger.debug(`[saveNetNodeSchema] node "${locNode.nodeName}" inserted into "${schemaName}"`);
 
           return callback(null);
         });

@@ -16,8 +16,8 @@ export default class MyStageContainer extends React.Component {
       cmdUid: '',
       fetchRequests: [],
       regionName: '',
+      doNotRender: false,
       nodes: [],
-      enodes: [],
       wires: [],
       };
 
@@ -26,7 +26,12 @@ export default class MyStageContainer extends React.Component {
   }
 
   onLoadScheme(regionName) {
-    this.setState({regionName}) ;
+    this.setState({
+      regionName,
+      nodes: [],
+      wires: [],
+      doNotRender: false,
+    });
 
     const cmds = [
       {
@@ -37,8 +42,8 @@ export default class MyStageContainer extends React.Component {
         fetchCallback: (schema) => {
           this.setState({
             nodes: schema.nodes,
-            enodes: schema.nodes,
             wires: schema.wires,
+            doNotRender: true,
           });
         }
       },
@@ -55,8 +60,8 @@ export default class MyStageContainer extends React.Component {
             // use default coordinates!
             let x = 0;
             let y = 0;
-            for(let i=0; i<this.state.enodes.length; i++) {
-              const node = this.state.enodes[i];
+            for(let i=0; i<this.state.nodes.length; i++) {
+              const node = this.state.nodes[i];
               switch (node.nodeType) {
                 case MyConsts.NODE_TYPE_LEP: {
                   x += MyConsts.NODE_LEP_WIDTH + 30;
@@ -89,8 +94,8 @@ export default class MyStageContainer extends React.Component {
               
             }
           } else {
-            for(let i=0; i<this.state.enodes.length; i++) {
-              const node = this.state.enodes[i];
+            for(let i=0; i<this.state.nodes.length; i++) {
+              const node = this.state.nodes[i];
               for(let j=0; i<locSchemaNodes.length; j++) {
                 const schemaNode = locSchemaNodes[j];
                 if (node.name === schemaNode.nodeName) {
@@ -103,7 +108,7 @@ export default class MyStageContainer extends React.Component {
           }
 
           this.setState({
-            nodes: this.state.nodes,// update coordinates ?
+            doNotRender: false,
           });
         }
       }
@@ -134,13 +139,16 @@ export default class MyStageContainer extends React.Component {
       });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !(nextState.doNotRender);
+  }  
+
   render() {
     return (
       <div>      
       <MyRegionSchema 
         regions={this.props.regions}
         nodes={this.state.nodes}
-        enodes={this.state.enodes}
         wires={this.state.wires}
         onLoadScheme={this.onLoadScheme} 
         onSaveScheme={this.onSaveScheme} 

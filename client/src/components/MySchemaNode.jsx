@@ -8,7 +8,7 @@ export default class MyRect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nodeState: props.node.nodeState,
+      // nodeState: props.node.nodeState,
       // x: props.node.x,
       // y: props.node.y,
     };
@@ -18,7 +18,7 @@ export default class MyRect extends React.Component {
 
   handleClick() {
     let newState = MyConsts.NODE_STATE_UNKNOWN;
-    switch (this.state.nodeState) {
+    switch (this.props.node.nodeState) {
       case MyConsts.NODE_STATE_ON: {
         newState = MyConsts.NODE_STATE_OFF
         break;
@@ -32,9 +32,7 @@ export default class MyRect extends React.Component {
         break;
         }
     }
-    this.setState({
-      nodeState: newState,
-    });
+    this.props.onStateChanged({ name: this.props.node.name, state: newState });
 
   // window.Konva is a global variable for Konva framework namespace
     // this.setState({
@@ -54,25 +52,19 @@ export default class MyRect extends React.Component {
       x: args.target.x(),
       y: args.target.y(),
     });
-
-    // this.setState({
-    //   x: args.target.x(),
-    //   y: args.target.y(),
-    // });
-
   }
 
   render() {
     const x = this.props.node.x;
     const y = this.props.node.y;
     let color;
-    switch (this.state.nodeState) {
+    switch (this.props.node.nodeState) {
       case MyConsts.NODE_STATE_ON: {
         color = 'red'
         break;
         }
       case MyConsts.NODE_STATE_OFF: {
-        color = 'red'
+        color = 'green'
         break;
         }
       default: {
@@ -202,4 +194,5 @@ MyRect.propTypes = {
     nodeState: PropTypes.number,
   }).isRequired,
   onDragEnd: PropTypes.func.isRequired,
+  onStateChanged: PropTypes.func.isRequired,
 };
