@@ -36,9 +36,14 @@ module.exports = (app) => {
   });
 
   app.get('/getRegionScheme', (req, res) => {
-    const json = myDataModelNodes.GetRegionScheme(req.query.name);
-    res.send(json);
-    return true;
+    myDataModelNodes.GetRegionScheme(req.query.name, (err, json) => {
+      if (err) {
+        res.send(err);  // ??
+        return false;
+      }
+      res.send(json);
+      return true;
+    });
   });
 
 

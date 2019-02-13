@@ -2,9 +2,9 @@ import React from 'react';
 import MyRegionSchema from '../components/MyRegionSchema';
 import MyFetchClient from './MyFetchClient';
 import makeUid from '../modules/MyFuncs';
-import {MyConsts} from '../modules/MyConsts';
+// import {MyConsts} from '../modules/MyConsts';
 
-const MATCHING_ITEM_LIMIT = 10000;
+// const MATCHING_ITEM_LIMIT = 10000;
 
 
 export default class MyStageContainer extends React.Component {
@@ -16,7 +16,7 @@ export default class MyStageContainer extends React.Component {
       cmdUid: '',
       fetchRequests: [],
       regionName: '',
-      doNotRender: false,
+      // doNotRender: false,
       nodes: [],
       wires: [],
       };
@@ -30,7 +30,7 @@ export default class MyStageContainer extends React.Component {
       regionName,
       nodes: [],
       wires: [],
-      doNotRender: false,
+      // doNotRender: false,
     });
 
     const cmds = [
@@ -43,75 +43,75 @@ export default class MyStageContainer extends React.Component {
           this.setState({
             nodes: schema.nodes,
             wires: schema.wires,
-            doNotRender: true,
+            // doNotRender: true,
           });
         }
       },
-      {
-        fetchUrl: `api/netNodeSchema?schemaName=${regionName}`,
-        fetchMethod: 'get',
-        fetchData: '',
-        fetchCallback: (schemaNodes) => {
+      // {
+      //   fetchUrl: `api/netNodeSchema?schemaName=${regionName}`,
+      //   fetchMethod: 'get',
+      //   fetchData: '',
+      //   fetchCallback: (schemaNodes) => {
 
-          const locSchemaNodes = schemaNodes.slice(0, MATCHING_ITEM_LIMIT);
+      //     const locSchemaNodes = schemaNodes.slice(0, MATCHING_ITEM_LIMIT);
 
-          if (locSchemaNodes.length === 0)
-          { 
-            // use default coordinates!
-            let x = 0;
-            let y = 0;
-            for(let i=0; i<this.state.nodes.length; i++) {
-              const node = this.state.nodes[i];
-              switch (node.nodeType) {
-                case MyConsts.NODE_TYPE_LEP: {
-                  x += MyConsts.NODE_LEP_WIDTH + 30;
-                  if (x > 2900) {
-                    x = 0;
-                    y += MyConsts.NODE_LEP_HEIGHT + MyConsts.NODE_LEP_Y_OFFSET + 20;
-                  }
-                  break;
-                }
+      //     if (locSchemaNodes.length === 0)
+      //     { 
+      //       // use default coordinates!
+      //       let x = 0;
+      //       let y = 0;
+      //       for(let i=0; i<this.state.nodes.length; i++) {
+      //         const node = this.state.nodes[i];
+      //         switch (node.nodeType) {
+      //           case MyConsts.NODE_TYPE_LEP: {
+      //             x += MyConsts.NODE_LEP_WIDTH + 30;
+      //             if (x > 2900) {
+      //               x = 0;
+      //               y += MyConsts.NODE_LEP_HEIGHT + MyConsts.NODE_LEP_Y_OFFSET + 20;
+      //             }
+      //             break;
+      //           }
                 
-                case MyConsts.NODE_TYPE_PS:  {
-                  x += MyConsts.NODE_PS_RADIUS + 30;
-                  if (x > 2900) {
-                    x = 0;
-                    y += MyConsts.NODE_PS_RADIUS + 20;
-                  }
-                  break;
-                }
-                default: {
-                  x += 50;
-                  if (x > 2900) {
-                    x = 0;
-                    y += 50;
-                  }
-                }
-              }
+      //           case MyConsts.NODE_TYPE_PS:  {
+      //             x += MyConsts.NODE_PS_RADIUS + 30;
+      //             if (x > 2900) {
+      //               x = 0;
+      //               y += MyConsts.NODE_PS_RADIUS + 20;
+      //             }
+      //             break;
+      //           }
+      //           default: {
+      //             x += 50;
+      //             if (x > 2900) {
+      //               x = 0;
+      //               y += 50;
+      //             }
+      //           }
+      //         }
               
-              node.x = x;
-              node.y = y;               
+      //         node.x = x;
+      //         node.y = y;               
               
-            }
-          } else {
-            for(let i=0; i<this.state.nodes.length; i++) {
-              const node = this.state.nodes[i];
-              for(let j=0; i<locSchemaNodes.length; j++) {
-                const schemaNode = locSchemaNodes[j];
-                if (node.name === schemaNode.nodeName) {
-                  node.x = schemaNode.x;
-                  node.y = schemaNode.y;
-                  break;
-                }
-              }
-            }
-          }
+      //       }
+      //     } else {
+      //       for(let i=0; i<this.state.nodes.length; i++) {
+      //         const node = this.state.nodes[i];
+      //         for(let j=0; j<locSchemaNodes.length; j++) {
+      //           const schemaNode = locSchemaNodes[j];
+      //           if (node.name === schemaNode.nodeName) {
+      //             node.x = schemaNode.x;
+      //             node.y = schemaNode.y;
+      //             break;
+      //           }
+      //         }
+      //       }
+      //     }
 
-          this.setState({
-            doNotRender: false,
-          });
-        }
-      }
+      //     this.setState({
+      //       doNotRender: false,
+      //     });
+      //   }
+      // }
     ]
 
     this.setState({
@@ -139,9 +139,9 @@ export default class MyStageContainer extends React.Component {
       });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !(nextState.doNotRender);
-  }  
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return !(nextState.doNotRender);
+  // }  
 
   render() {
     return (

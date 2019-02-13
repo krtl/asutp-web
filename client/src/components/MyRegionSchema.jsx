@@ -87,18 +87,21 @@ export default class MyStage extends React.Component {
 
   handleSaveSchemeClick() {
     if (this.state.edited) {
-      let nodes = [];
-      this.props.nodes.forEach((node) => {
-        if (node.changed !== undefined) {
-          nodes.push({ nodeName: node.name, x: node.x, y: node.y });
-        }
-      });
-      
-      if (nodes.length > 0) {
-        const s = JSON.stringify(nodes);
-        this.props.onSaveScheme(s);
-      }
+      const s = JSON.stringify(this.props.nodes); //currently we save all scheme due to automatic redistribution on server side.
+      this.props.onSaveScheme(s);
     }
+    //   let nodes = [];
+    //   this.props.nodes.forEach((node) => {
+    //     if (node.changed !== undefined) {
+    //       nodes.push({ nodeName: node.name, x: node.x, y: node.y });
+    //     }
+    //   });
+      
+    //   if (nodes.length > 0) {
+    //     const s = JSON.stringify(nodes);
+    //     this.props.onSaveScheme(s);
+    //   }
+    // }
   }
 
   handleDragEnd(nodeObj) {
@@ -108,7 +111,7 @@ export default class MyStage extends React.Component {
 
       locNode.x = nodeObj.x;
       locNode.y = nodeObj.y;
-      locNode.changed = true;
+      // locNode.changed = true;
       this.setState({
         edited: true });
     }

@@ -23,6 +23,7 @@ const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 // const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+const DbNetNodeShema = require('../dbmodels/netNodeSchema');
 
 
 const logger = require('../logger');
@@ -717,7 +718,7 @@ const getNodeForScheme = (nodes) => {
   return resultNodes;
 };
 
-const GetRegionScheme = (regionName) => {
+const getRegionScheme1 = (regionName, callback) => {
   const pss = [];
   const lep2pss = [];
   const locLEPs = new Map();
@@ -730,17 +731,14 @@ const GetRegionScheme = (regionName) => {
         pss.push(ps);
         for (let j = 0; j < LEP2PSConections.length; j += 1) {
           const lep2ps = LEP2PSConections[j];
-          if (lep2ps.toNodeConnector) {
-            const psName = lep2ps.toNodeConnector.name.split('.');
-            if (psName.length > 0) {
-              if (psName[0] === ps.name) {
-                lep2pss.push(lep2ps);
+          if (lep2ps.toNode) {
+            if (lep2ps.toNode.name === ps.name) {
+              lep2pss.push(lep2ps);
 
-                const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
-                wire.nodeFrom = lep2ps.parentNode.name;
-                wire.nodeTo = ps.name;
-                wires.push(wire);
-              }
+              const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
+              wire.nodeFrom = lep2ps.parentNode.name;
+              wire.nodeTo = ps.name;
+              wires.push(wire);
             }
           }
         }
@@ -765,11 +763,182 @@ const GetRegionScheme = (regionName) => {
     }
   }
   const leps = Array.from(locLEPs.values());
-  const result = { nodes: getNodeForScheme(leps.concat(pss)), wires };
+  const nodes = getNodeForScheme(leps.concat(pss));
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    node.peers = [];
+    node.tag = '';
+  }
 
-  return result;
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    for (let j = 0; j < wires.length; j += 1) {
+      const wire = wires[j];
+      if (wire.nodeFrom === node.name) {
+        const locNode = nodes.find(nde => (nde.name === wire.nodeTo));
+        if (locNode) {
+          node.peers.push(locNode);
+        }
+      }
+      if (wire.nodeTo === node.name) {
+        const locNode = nodes.find(nde => (nde.name === wire.nodeFrom));
+        if (locNode) {
+          node.peers.push(locNode);
+        }
+      }
+    }
+  }
+
+  nodes.sort((a, b) => {
+    if (a.peers.length > b.peers.length) {
+      return -1;
+    }
+    if (a.peers.length < b.peers.length) {
+      return 1;
+    }
+    return 0;
+  });
+
+  // const setPeers = (node) => {
+  //   for (let j = 0; j < node.peers.length; j += 1) {
+  //     const peer = node.peers[j];
+  //     if ((peer.peers.length > 0) && (peer.tag === '')) {
+  //       peer.tag = `${node.name}_${j}`;
+  //       setPeers(peer);
+  //     }
+  //   }
+  // };
+
+  // for (let i = 0; i < nodes.length; i += 1) {
+  //   const node = nodes[i];
+  //   if ((node.peers.length > 0) && (node.tag === '')) {
+  //     node.tag = node.name;
+  //     setPeers(node);
+  //   }
+  // }
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    if ((node.peers.length > 0) && (node.tag === '')) {
+      node.tag = node.name;
+      for (let j = 0; j < node.peers.length; j += 1) {
+        const peer = node.peers[j];
+        if (peer.tag === '') {
+          peer.tag = `${node.name}_${j}`;
+        }
+      }
+    }
+  }
+
+  nodes.sort((a, b) => {
+    if (a.tag > b.tag) {
+      return 1;
+    }
+    if (a.tag < b.tag) {
+      return -1;
+    }
+    return 0;
+  });
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    node.peers = undefined;
+    node.tag = undefined;
+  }
+
+  const result = { nodes, wires };
+
+  callback('', result);
+  // return result;
 };
 
+const getRegionScheme = (regionName, callback) => {
+  setTimeout(() => {
+    getRegionScheme1(regionName, callback);
+  }, 0);
+};
+
+const getNodeSchemeCoordinates = (regionName, callback) => {
+  DbNetNodeShema
+    .find({ schemaName: regionName })
+    .select({ nodeName: 1, x: 1, y: 1, _id: 0 })
+    .limit(10000)
+    .exec((err, schemaNodes) => {
+      callback(err, schemaNodes);
+    });
+};
+
+const GetRegionScheme = (regionName, callback) => {
+  async.parallel({
+    schema: getRegionScheme.bind(null, regionName),
+    coordinates: getNodeSchemeCoordinates.bind(null, regionName),
+  }, (err, result) => {
+    if (err) {
+      callback(err, result);
+      return;
+    }
+
+    if (result.coordinates.length === 0) {
+      // use default coordinates!
+      const NODE_LEP_WIDTH = 100;
+      const NODE_LEP_HEIGHT = 6;
+      const NODE_LEP_Y_OFFSET = 10;
+      const NODE_PS_RADIUS = 10;
+
+      let x = 0;
+      let y = 0;
+      for (let i = 0; i < result.schema.nodes.length; i += 1) {
+        const node = result.schema.nodes[i];
+        switch (node.nodeType) {
+          case myNodeType.LEP: {
+            x += NODE_LEP_WIDTH + 30;
+            if (x > 2900) {
+              x = 0;
+              y += NODE_LEP_HEIGHT + NODE_LEP_Y_OFFSET + 20;
+            }
+            break;
+          }
+
+          case myNodeType.PS: {
+            x += NODE_PS_RADIUS + 30;
+            if (x > 2900) {
+              x = 0;
+              y += NODE_PS_RADIUS + 20;
+            }
+            break;
+          }
+          default: {
+            x += 50;
+            if (x > 2900) {
+              x = 0;
+              y += 50;
+            }
+          }
+        }
+
+        node.x = x;
+        node.y = y;
+      }
+    } else {
+      for (let i = 0; i < result.schema.nodes.length; i += 1) {
+        const node = result.schema.nodes[i];
+        for (let j = 0; j < result.coordinates.length; j += 1) {
+          const schemaNode = result.coordinates[j];
+          if (node.name === schemaNode.nodeName) {
+            node.x = schemaNode.x;
+            node.y = schemaNode.y;
+            break;
+          }
+        }
+      }
+    }
+
+
+    console.log(result.schema, result.coordinates);
+
+    callback(null, result.schema);
+  });
+};
 
 const GetPSForJson = (name) => {
   if (PSs.has(name)) {
