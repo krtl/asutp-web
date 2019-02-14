@@ -957,9 +957,9 @@ const getRegionScheme1 = (regionName, callback) => {
   }
 
   const nodesMatrix = [];
-  for (let i = 0; i < WIDTH; i += 1) {
+  for (let i = 0; i < HEIGHT; i += 1) {
     nodesMatrix[i] = [];
-    for (let j = 0; j < HEIGHT; j += 1) {
+    for (let j = 0; j < WIDTH; j += 1) {
       nodesMatrix[i][j] = 0;
     }
   }
@@ -967,10 +967,10 @@ const getRegionScheme1 = (regionName, callback) => {
   const isMatrixPositionFree = (dimension, x, y) => {
     for (let i = 0; i < dimension.height; i += 1) {
       for (let j = 0; j < dimension.width; j += 1) {
-        if ((x + i >= WIDTH) || (y + j >= HEIGHT)) {
+        if ((x + j >= WIDTH) || (y + i >= HEIGHT)) {
           return false;
         }
-        if (nodesMatrix[x + i][y + j] !== 0) {
+        if (nodesMatrix[y + i][x + j] !== 0) {
           return false;
         }
       }
@@ -981,7 +981,7 @@ const getRegionScheme1 = (regionName, callback) => {
   const occupyMatrixPosition = (dimension, x, y) => {
     for (let i = 0; i < dimension.height; i += 1) {
       for (let j = 0; j < dimension.width; j += 1) {
-        nodesMatrix[x + i][y + j] = 1;
+        nodesMatrix[y + i][x + j] = 1;
       }
     }
   };
@@ -1037,11 +1037,11 @@ const getRegionScheme1 = (regionName, callback) => {
       return { x, y };
     }
 
-    for (let k = 0; k < WIDTH; k += 1) {
-      for (let l = 0; l < HEIGHT; l += 1) {
+    for (let k = 0; k < HEIGHT; k += 1) {
+      for (let l = 0; l < WIDTH; l += 1) {
         if (nodesMatrix[k][l] === 0) {
-          if (isMatrixPositionFree(dimension, k, l)) {
-            return { x: k, y: l };
+          if (isMatrixPositionFree(dimension, l, k)) {
+            return { x: l, y: k };
           }
         }
       }
@@ -1074,12 +1074,12 @@ const getRegionScheme1 = (regionName, callback) => {
       for (let j = 0; j < line.length; j += 1) {
         const node = line[j];
 
-        for (let k = 0; k < WIDTH; k += 1) {
-          for (let l = 0; l < HEIGHT; l += 1) {
+        for (let k = 0; k < HEIGHT; k += 1) {
+          for (let l = 0; l < WIDTH; l += 1) {
             if (nodesMatrix[k][l] === 0) {
               nodesMatrix[k][l] = 1;
-              node.x = k;
-              node.y = l;
+              node.x = l;
+              node.y = k;
               k = WIDTH;
               break;
             }
