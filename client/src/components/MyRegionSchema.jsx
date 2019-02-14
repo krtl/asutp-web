@@ -134,7 +134,7 @@ export default class MyStage extends React.Component {
     // const locW = window.innerWidth - 30;
     // const locH = window.innerHeight - 30;
     const locW = 3000;
-    const locH = 3000;
+    const locH = 5000;
 
     return (
       <div>

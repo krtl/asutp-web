@@ -767,7 +767,7 @@ const getRegionScheme1 = (regionName, callback) => {
   for (let i = 0; i < nodes.length; i += 1) {
     const node = nodes[i];
     node.peers = [];
-    node.tag = '';
+    node.tag = 0;
   }
 
   for (let i = 0; i < nodes.length; i += 1) {
@@ -789,61 +789,342 @@ const getRegionScheme1 = (regionName, callback) => {
     }
   }
 
-  nodes.sort((a, b) => {
-    if (a.peers.length > b.peers.length) {
-      return -1;
+  // nodes.sort((a, b) => {
+  //   if (a.peers.length > b.peers.length) {
+  //     return -1;
+  //   }
+  //   if (a.peers.length < b.peers.length) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
+
+  let matrixNum = 1;
+  const setPeersNumber = (node) => {
+    node.tag = matrixNum;
+    matrixNum += 1;
+    for (let j = 0; j < node.peers.length; j += 1) {
+      const peer = node.peers[j];
+      if (node.peers.length < peer.peers.length) {
+        setPeersNumber(peer);
+      } else {
+        peer.tag = node.tag;
+      }
     }
-    if (a.peers.length < b.peers.length) {
-      return 1;
+  };
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    if ((node.peers.length > 0) && (node.tag === 0)) {
+      setPeersNumber(node);
+    }
+  }
+
+  const matrix = [];
+  for (let i = 0; i < matrixNum; i += 1) {
+    const line = [];
+    for (let j = 0; j < nodes.length; j += 1) {
+      const node = nodes[j];
+      if (node.tag === i) {
+        line.push(node);
+      }
+    }
+    if (line.length > 0) {
+      line.sort((a, b) => (b.peers.length - a.peers.length));
+      matrix.push(line);
+    }
+  }
+
+  // const getRelatedPeersCount = (nodes, peerNumb) => {
+  //   let result = 0;
+  //   for (let i = 0; i < nodes.length; i += 1) {
+  //     const node = nodes[i];
+  //     for (let j = 0; j < node.peers.length; j += 1) {
+  //       const peer = node.peers[j];
+  //       if (peer.tag === peerNumb) {
+  //         result += 1;
+  //       }
+  //     }
+  //   }
+  //   return result;
+  // };
+
+  // matrix.sort((a, b) => {
+  //   if ((a.length > 0) && (b.length > 0)) {
+  //     const nodeA = a[0];
+  //     const nodeB = b[0];
+  //     return (getRelatedPeersCount(b, nodeA.tag) - getRelatedPeersCount(a, nodeB.tag));
+  //   }
+  //   return 0;
+  // });
+
+  const getPeersCount = (nodes) => {
+    let result = 0;
+    for (let i = 0; i < nodes.length; i += 1) {
+      const node = nodes[i];
+      result += node.peers.length;
+    }
+    return result;
+  };
+
+  matrix.sort((a, b) => {
+    if ((a.length > 0) && (b.length > 0)) {
+      return (getPeersCount(b) - getPeersCount(a));
     }
     return 0;
   });
 
-  // const setPeers = (node) => {
-  //   for (let j = 0; j < node.peers.length; j += 1) {
-  //     const peer = node.peers[j];
-  //     if ((peer.peers.length > 0) && (peer.tag === '')) {
-  //       peer.tag = `${node.name}_${j}`;
-  //       setPeers(peer);
-  //     }
-  //   }
-  // };
+  const WIDTH = 55;
+  const HEIGHT = Math.ceil(nodes.length / 50) + 2;
 
-  // for (let i = 0; i < nodes.length; i += 1) {
-  //   const node = nodes[i];
-  //   if ((node.peers.length > 0) && (node.tag === '')) {
-  //     node.tag = node.name;
-  //     setPeers(node);
-  //   }
-  // }
+  const setMatrixForLine = (line) => {
+    if (line.length < 4) {
+      for (let i = 0; i < line.length; i += 1) {
+        const node = line[i];
+        node.x = i;
+        node.y = 0;
+      }
+      return { height: 1, width: line.length };
+    }
 
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i];
-    if ((node.peers.length > 0) && (node.tag === '')) {
-      node.tag = node.name;
-      for (let j = 0; j < node.peers.length; j += 1) {
-        const peer = node.peers[j];
-        if (peer.tag === '') {
-          peer.tag = `${node.name}_${j}`;
+    if (line.length < 9) {
+      const width = Math.ceil(line.length / 2);
+      for (let i = 0; i < line.length; i += 1) {
+        const node = line[i];
+        if (i < width) {
+          node.x = i;
+          node.y = 0;
+        } else {
+          node.x = i - width;
+          node.y = 1;
+        }
+      }
+      return { height: 2, width };
+    }
+
+    const height = Math.ceil(Math.sqrt(line.length));
+    const width = Math.ceil(line.length / height);
+    let x1 = Math.floor(width / 2);
+    let y1 = Math.floor(height / 2);
+    let x2 = x1 + 1;
+    let y2 = y1;
+
+
+    for (let i = 0; i < line.length; i += 1) {
+      const node = line[i];
+      if ((i % 2) > 0) {
+        node.x = x2;
+        node.y = y2;
+        if (x2 < width - 1) {
+          x2 += 1;
+        } else {
+          x2 = 0;
+          y2 += 1;
+          if (y2 >= height) {
+            x2 = 0;
+            y2 = 0;
+            // eslint-disable-next-line no-console
+            // console.error('setMatrix error!');
+          }
+        }
+      } else {
+        node.x = x1;
+        node.y = y1;
+        if (x1 > 0) {
+          x1 -= 1;
+        } else {
+          x1 = width - 1;
+          y1 -= 1;
+          if (y1 < 0) {
+            x1 = width - 1;
+            y1 = height - 1;
+            // eslint-disable-next-line no-console
+            // console.error('setMatrix error!');
+          }
+        }
+      }
+    }
+    return { height, width };
+  };
+
+  const dimensions = [];
+  const located = [];
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    const dimension = setMatrixForLine(line);
+    dimensions.push(dimension);
+    located.push(0);
+  }
+
+  const nodesMatrix = [];
+  for (let i = 0; i < WIDTH; i += 1) {
+    nodesMatrix[i] = [];
+    for (let j = 0; j < HEIGHT; j += 1) {
+      nodesMatrix[i][j] = 0;
+    }
+  }
+
+  const isMatrixPositionFree = (dimension, x, y) => {
+    for (let i = 0; i < dimension.height; i += 1) {
+      for (let j = 0; j < dimension.width; j += 1) {
+        if ((x + i >= WIDTH) || (y + j >= HEIGHT)) {
+          return false;
+        }
+        if (nodesMatrix[x + i][y + j] !== 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const occupyMatrixPosition = (dimension, x, y) => {
+    for (let i = 0; i < dimension.height; i += 1) {
+      for (let j = 0; j < dimension.width; j += 1) {
+        nodesMatrix[x + i][y + j] = 1;
+      }
+    }
+  };
+
+  const moveCoordinatesForLine = (line, offsetX, offsetY) => {
+    for (let i = 0; i < line.length; i += 1) {
+      const node = line[i];
+      node.x += offsetX;
+      node.y += offsetY;
+    }
+  };
+
+  const getNextXY = (dimension, _x, _y) => {
+    let x = _x;
+    let y = _y;
+    x = _x + dimension.width;
+    if ((x < WIDTH) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x + dimension.width;
+    y = _y - dimension.height;
+    if ((x < WIDTH) && (y >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x;
+    y = _y - dimension.height;
+    if ((x >= 0) && (y >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x - dimension.width;
+    y = _y - dimension.height;
+    if ((x >= 0) && (y >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x - dimension.width;
+    y = _y;
+    if ((x >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x - dimension.width;
+    y = _y + dimension.height;
+    if ((x >= 0) && (y < HEIGHT) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x;
+    y = _y + dimension.height;
+    if ((x >= 0) && (y < HEIGHT) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x + dimension.width;
+    y = _y + dimension.height;
+    if ((x < WIDTH) && (y < HEIGHT) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+
+    for (let k = 0; k < WIDTH; k += 1) {
+      for (let l = 0; l < HEIGHT; l += 1) {
+        if (nodesMatrix[k][l] === 0) {
+          if (isMatrixPositionFree(dimension, k, l)) {
+            return { x: k, y: l };
+          }
+        }
+      }
+    }
+
+    // eslint-disable-next-line no-console
+    console.error(`setNextXY error for ${dimension.width}:${dimension.height}`);
+    return { x: 0, y: 0 };
+  };
+
+  let x = Math.floor(WIDTH / 3);
+  let y = Math.floor(HEIGHT / 3);
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    const dimension = dimensions[i];
+    const xy = getNextXY(dimension, x, y);
+    x = xy.x;
+    y = xy.y;
+    if (isMatrixPositionFree(dimension, x, y)) {
+      occupyMatrixPosition(dimension, x, y);
+      moveCoordinatesForLine(line, x, y);
+      located[i] = 1;
+    }
+  }
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    if (located[i] === 0) {
+      located[i] = 1;
+      for (let j = 0; j < line.length; j += 1) {
+        const node = line[j];
+
+        for (let k = 0; k < WIDTH; k += 1) {
+          for (let l = 0; l < HEIGHT; l += 1) {
+            if (nodesMatrix[k][l] === 0) {
+              nodesMatrix[k][l] = 1;
+              node.x = k;
+              node.y = l;
+              k = WIDTH;
+              break;
+            }
+          }
         }
       }
     }
   }
 
-  nodes.sort((a, b) => {
-    if (a.tag > b.tag) {
-      return 1;
+  const nodes1 = [];
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    for (let j = 0; j < line.length; j += 1) {
+      const node = line[j];
+      nodes1.push(node);
     }
-    if (a.tag < b.tag) {
-      return -1;
-    }
-    return 0;
-  });
+  }
 
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i];
+  // eslint-disable-next-line no-console
+  // console.log(matrix);
+
+
+  // correction
+  // for (let i = 0; i < nodes.length; i += 1) {
+  //   const node = nodes[i];
+
+  // }
+
+  // nodes.sort((a, b) => {
+  //   if (a.tag > b.tag) {
+  //     return 1;
+  //   }
+  //   if (a.tag < b.tag) {
+  //     return -1;
+  //   }
+  //   return 0;
+  // });
+
+  const NODE_RADIUS = 50;
+  for (let i = 0; i < nodes1.length; i += 1) {
+    const node = nodes1[i];
     node.peers = undefined;
     node.tag = undefined;
+    node.x *= NODE_RADIUS;
+    node.y *= NODE_RADIUS;
   }
 
   const result = { nodes, wires };
@@ -880,45 +1161,45 @@ const GetRegionScheme = (regionName, callback) => {
 
     if (result.coordinates.length === 0) {
       // use default coordinates!
-      const NODE_LEP_WIDTH = 100;
-      const NODE_LEP_HEIGHT = 6;
-      const NODE_LEP_Y_OFFSET = 10;
-      const NODE_PS_RADIUS = 10;
+      // const NODE_LEP_WIDTH = 100;
+      // const NODE_LEP_HEIGHT = 6;
+      // const NODE_LEP_Y_OFFSET = 10;
+      // const NODE_PS_RADIUS = 10;
 
-      let x = 0;
-      let y = 0;
-      for (let i = 0; i < result.schema.nodes.length; i += 1) {
-        const node = result.schema.nodes[i];
-        switch (node.nodeType) {
-          case myNodeType.LEP: {
-            x += NODE_LEP_WIDTH + 30;
-            if (x > 2900) {
-              x = 0;
-              y += NODE_LEP_HEIGHT + NODE_LEP_Y_OFFSET + 20;
-            }
-            break;
-          }
+      // let x = 0;
+      // let y = 0;
+      // for (let i = 0; i < result.schema.nodes.length; i += 1) {
+      //   const node = result.schema.nodes[i];
+      //   switch (node.nodeType) {
+      //     case myNodeType.LEP: {
+      //       x += NODE_LEP_WIDTH + 30;
+      //       if (x > 2900) {
+      //         x = 0;
+      //         y += NODE_LEP_HEIGHT + NODE_LEP_Y_OFFSET + 20;
+      //       }
+      //       break;
+      //     }
 
-          case myNodeType.PS: {
-            x += NODE_PS_RADIUS + 30;
-            if (x > 2900) {
-              x = 0;
-              y += NODE_PS_RADIUS + 20;
-            }
-            break;
-          }
-          default: {
-            x += 50;
-            if (x > 2900) {
-              x = 0;
-              y += 50;
-            }
-          }
-        }
+      //     case myNodeType.PS: {
+      //       x += NODE_PS_RADIUS + 30;
+      //       if (x > 2900) {
+      //         x = 0;
+      //         y += NODE_PS_RADIUS + 20;
+      //       }
+      //       break;
+      //     }
+      //     default: {
+      //       x += 50;
+      //       if (x > 2900) {
+      //         x = 0;
+      //         y += 50;
+      //       }
+      //     }
+      //   }
 
-        node.x = x;
-        node.y = y;
-      }
+      //   node.x = x;
+      //   node.y = y;
+      // }
     } else {
       for (let i = 0; i < result.schema.nodes.length; i += 1) {
         const node = result.schema.nodes[i];
@@ -934,7 +1215,7 @@ const GetRegionScheme = (regionName, callback) => {
     }
 
 
-    console.log(result.schema, result.coordinates);
+//    console.log(result.schema, result.coordinates);
 
     callback(null, result.schema);
   });

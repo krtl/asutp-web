@@ -6,7 +6,7 @@ export const MyConsts = {
     NODE_STATE_UNKNOWN: -1,    
     NODE_TYPE_LEP: 2,
     NODE_TYPE_PS: 5,
-    NODE_LEP_WIDTH: 100,
+    NODE_LEP_WIDTH: 40,
     NODE_LEP_HEIGHT: 6,
     NODE_LEP_Y_OFFSET: 10,
     NODE_PS_RADIUS: 10,
