@@ -13,17 +13,17 @@ class MyNodePSPart extends MyNode {
   }
 
   recalculateState() {
-    let isPSConnected = false;
+    let isConnected = false;
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
       section.recalculateState();
       if (section.nodeState === myNodeState.NODE_STATE_ON) {
-        isPSConnected = true;
+        isConnected = true;
       }
     }
 
     let newState = myNodeState.UNKNOWN;
-    if (isPSConnected) {
+    if (isConnected) {
       newState = myNodeState.NODE_STATE_ON;
     } else {
       newState = myNodeState.NODE_STATE_OFF;

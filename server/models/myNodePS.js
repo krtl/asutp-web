@@ -11,20 +11,21 @@ class MyNodePS extends MyNode {
     super(name, caption, description, myNodeType.PS);
     this.transformers = [];
     this.psparts = [];
+    this.lep2psConnectors = [];
   }
 
   recalculateState() {
-    let isPSConnected = false;
+    let isConnected = false;
     for (let i = 0; i < this.psparts.length; i += 1) {
       const pspart = this.psparts[i];
       pspart.recalculateState();
       if (pspart.nodeState === myNodeState.NODE_STATE_ON) {
-        isPSConnected = true;
+        isConnected = true;
       }
     }
 
     let newState = myNodeState.NODE_STATE_UNKNOWN;
-    if (isPSConnected) {
+    if (isConnected) {
       newState = myNodeState.NODE_STATE_ON;
     } else {
       newState = myNodeState.NODE_STATE_OFF;

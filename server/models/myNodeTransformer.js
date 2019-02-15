@@ -12,19 +12,19 @@ class MyNodeTransformer extends MyNode {
   }
 
   recalculateState() {
-    let isPSConnected = false;
+    let isConnected = false;
     for (let i = 0; i < this.connectors.length; i += 1) {
       const connector = this.connectors[i].toConnector;
       if (connector) {
       // connector.recalculateState();  // connector should be allready recalculated
         if (connector.nodeState === myNodeState.NODE_STATE_ON) {
-          isPSConnected = true;
+          isConnected = true;
         }
       }
     }
 
     let newState = myNodeState.NODE_STATE_UNKNOWN;
-    if (isPSConnected) {
+    if (isConnected) {
       newState = myNodeState.NODE_STATE_ON;
     } else {
       newState = myNodeState.NODE_STATE_OFF;

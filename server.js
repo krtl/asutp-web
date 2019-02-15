@@ -21,6 +21,8 @@ const MyStompServer = require('./server/values/myStompServer');
 const dbModels = require('./server/dbmodels');
 const paramValuesProcessor = require('./server/values/paramValuesProcessor');
 
+require('http-shutdown').extend();
+
 // process.env.NODE_ENV = 'production';
 
 // connect to the database and load models
@@ -37,7 +39,7 @@ dbModels.connect(config.dbUri, true, (err) => {
 const app = express();
 
 // initialize a simple http httpserver
-const httpserver = http.createServer(app);
+const httpserver = http.createServer(app).withShutdown();
 
 
 // tell the app to look for static files in these directories
@@ -98,26 +100,25 @@ httpserver.listen(app.get('port'), () => {
 });
 
 
-process.on('beforeExit', () => {
-  logger.info('[] OnBeforeExit ...');
-});
+// process.on('beforeExit', () => {
+//   logger.info('[] OnBeforeExit ...');
+// });
 
-process.on('exit', () => {
-  logger.info('[] OnExit ...');
-  // paramValuesProcessor.finalizeParamValuesProcessor();
-});
+// process.on('exit', () => {
+//   logger.info('[] OnExit ...');
+//   // paramValuesProcessor.finalizeParamValuesProcessor();
+// });
+
 
 process.on('SIGINT', () => {
   logger.info('[] Stopping ...');
-  paramValuesProcessor.finalizeParamValuesProcessor();
-
-  httpserver.close((err) => {
-    if (err) {
-      // eslint-disable-next-line no-console
-      console.error(`Error on close HttpServer: ${err}`);
-      process.exit(1);
-    }
-
+  httpserver.shutdown(() => {
+    // httpserver.close((err) => {
+    //   if (err) {
+    //   // eslint-disable-next-line no-console
+    //   console.error(`Error on close HttpServer: ${err}`);
+    //   process.exit(1);
+    // }
     mongoose.connection.close((err) => {
       if (err) {
         // eslint-disable-next-line no-console
@@ -128,4 +129,6 @@ process.on('SIGINT', () => {
       console.log('Mongoose connection disconnected');
     });
   });
+
+  paramValuesProcessor.finalizeParamValuesProcessor();
 });

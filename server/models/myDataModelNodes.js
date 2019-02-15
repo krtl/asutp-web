@@ -56,8 +56,6 @@ const nodes = new Map();
 const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
-const LEP2LEPConections = [];
-const LEP2PSConections = [];
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
@@ -192,9 +190,6 @@ function loadNodesFromDB(schemeElement, cb) {
             case myNodeType.REGION: { Regions.set(locNode.name, p); break; }
             case myNodeType.LEP: { LEPs.set(locNode.name, p); break; }
             case myNodeType.PS: { PSs.set(locNode.name, p); break; }
-            case myNodeType.LEP2LEPCONNECTION: { LEP2LEPConections.push(p); break; }
-            case myNodeType.LEP2PSCONNECTION: { LEP2PSConections.push(p); break; }
-
             default: // nodes.set(locNode.name, p);
           }
           nodes.set(locNode.name, p);
@@ -336,22 +331,45 @@ function replaceNamesWithObjects(callback) {
   });
 }
 
-function linkLEPConnectorToPS(nodeLEPConnector) {
-  if (nodeLEPConnector.toNodeConnector) {
-    if (nodeLEPConnector.toNodeConnector.nodeType === myNodeType.SECTIONCONNECTOR) {
-      const section = nodeLEPConnector.toNodeConnector.parentNode;
+function linkLEP2LEPConnectorToLEP(node) {
+  if (node.parentNode) {
+    if (node.parentNode.nodeType === myNodeType.LEP) {
+      node.parentNode.lep2lepConnectors.push(node);
+    } else {
+      setError(`Failed to link LEP2LEPConnector. There is no parent LEP for ${node.name}`);
+    }
+  }
+}
+
+function linkLEP2PSConnectorToLepAndToPS(lep2psConnector) {
+  if (lep2psConnector.parentNode) {
+    if (lep2psConnector.parentNode.nodeType === myNodeType.LEP) {
+      const lep = lep2psConnector.parentNode;
+      lep.lep2psConnectors.push(lep2psConnector);
+    } else {
+      setError(`Failed to link LEP2PSConnector. There is no parent LEP for ${lep2psConnector.name}`);
+    }
+  }
+
+  if (lep2psConnector.toNodeConnector) {
+    if (lep2psConnector.toNodeConnector.nodeType === myNodeType.SECTIONCONNECTOR) {
+      const section = lep2psConnector.toNodeConnector.parentNode;
       if (section.parentNode.nodeType === myNodeType.PSPART) {
-        nodeLEPConnector.toNode = section.parentNode.parentNode;
-      } else if (section.parentNode.nodeType === myNodeType.PS) {
-        nodeLEPConnector.toNode = section.parentNode;
+        const pspart = section.parentNode;
+        if (pspart.parentNode.nodeType === myNodeType.PS) {
+          const ps = pspart.parentNode;
+          ps.lep2psConnectors.push(lep2psConnector);
+        } else {
+          setError(`Failed to link LEPConnector: ${lep2psConnector.name}. toNodeConnector Owner is not PS`);
+        }
       } else {
-        setError(`Failed to link LEPConnector: ${nodeLEPConnector.name}. toNodeConnector Owner is not a PS and not a PSPART.`);
+        setError(`Failed to link LEPConnector: ${lep2psConnector.name}. toNodeConnector Owner is not PS`);
       }
     } else {
-      setError(`Failed to link LEPConnector: ${nodeLEPConnector.name}. toNodeConnector is not a SECTIONCONNECTOR`);
+      setError(`Failed to link LEP2PSConnector: ${lep2psConnector.name}. toNodeConnector is not a SECTIONCONNECTOR`);
     }
   } else {
-    setError(`Failed to link LEPConnector: ${nodeLEPConnector.name}. There is no Node to connect.`);
+    setError(`Failed to link LEP2PSConnector: ${lep2psConnector.name}. There is no Node to connect.`);
   }
 }
 
@@ -439,7 +457,8 @@ function linkNodes(cb) {
     const locNode = locNodes[i];
     if (locNode.parentNode) {
       switch (locNode.nodeType) {
-        case myNodeType.LEP2PSCONNECTION: { linkLEPConnectorToPS(locNode); break; }
+        case myNodeType.LEP2LEPCONNECTION: { linkLEP2LEPConnectorToLEP(locNode); break; }
+        case myNodeType.LEP2PSCONNECTION: { linkLEP2PSConnectorToLepAndToPS(locNode); break; }
         case myNodeType.TRANSFORMER: { linkTransformerToPS(locNode); break; }
         case myNodeType.PSPART: { linkPSPartToPS(locNode); break; }
         case myNodeType.SECTION: { linkSectionToPSPart(locNode); break; }
@@ -743,7 +762,7 @@ const getNodeForScheme = (nodes) => {
 
 const getRegionScheme1 = (regionName, callback) => {
   const pss = [];
-  const lep2pss = [];
+  const leps = [];
   const locLEPs = new Map();
   const locPSs = Array.from(PSs.values());
   const wires = [];
@@ -752,40 +771,39 @@ const getRegionScheme1 = (regionName, callback) => {
     if (ps.parentNode) {
       if (ps.parentNode.name === regionName) {
         pss.push(ps);
-        for (let j = 0; j < LEP2PSConections.length; j += 1) {
-          const lep2ps = LEP2PSConections[j];
-          if (lep2ps.toNode) {
-            if (lep2ps.toNode.name === ps.name) {
-              lep2pss.push(lep2ps);
+        for (let j = 0; j < ps.lep2psConnectors.length; j += 1) {
+          const lep2ps = ps.lep2psConnectors[j];
 
-              const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
-              wire.nodeFrom = lep2ps.parentNode.name;
-              wire.nodeTo = ps.name;
-              wires.push(wire);
+          if (lep2ps.parentNode) {
+            const lep = lep2ps.parentNode;
+            if (leps.indexOf(lep) < 0) {
+              leps.push(lep);
             }
           }
+          const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
+          wire.nodeFrom = lep2ps.parentNode.name;
+          wire.nodeTo = ps.name;
+          wires.push(wire);
         }
       }
     }
   }
-  for (let i = 0; i < lep2pss.length; i += 1) {
-    const lep2ps = lep2pss[i];
-    if (lep2ps.parentNode) {
-      locLEPs.set(lep2ps.parentNode.name, lep2ps.parentNode);
-    }
-  }
-  for (let i = 0; i < LEP2LEPConections.length; i += 1) {
-    const lep2lep = LEP2LEPConections[i];
-    if ((lep2lep.parentNode) && (lep2lep.toNode)) {
-      if ((locLEPs.has(lep2lep.parentNode.name)) && (locLEPs.has(lep2lep.toNode.name))) {
-        const wire = new MySchemeWire(lep2lep.name, lep2lep.caption, lep2lep.description, lep2lep.nodeType);
-        wire.nodeFrom = lep2lep.parentNode.name;
-        wire.nodeTo = lep2lep.toNode.name;
-        wires.push(wire);
+
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    for (let j = 0; j < lep.lep2lepConnectors.length; j += 1) {
+      const lep2lep = lep.lep2lepConnectors[j];
+      if ((lep2lep.parentNode) && (lep2lep.toNode)) {
+        if ((locLEPs.has(lep2lep.parentNode.name)) && (locLEPs.has(lep2lep.toNode.name))) {
+          const wire = new MySchemeWire(lep2lep.name, lep2lep.caption, lep2lep.description, lep2lep.nodeType);
+          wire.nodeFrom = lep2lep.parentNode.name;
+          wire.nodeTo = lep2lep.toNode.name;
+          wires.push(wire);
+        }
       }
     }
   }
-  const leps = Array.from(locLEPs.values());
+
   const nodes = getNodeForScheme(leps.concat(pss));
   for (let i = 0; i < nodes.length; i += 1) {
     const node = nodes[i];

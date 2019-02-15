@@ -15,17 +15,17 @@ class MyNodeSec2SecConnector extends MyNode {
   }
 
   recalculateState() {
-    let isPSConnected = false;
+    let isConnected = false;
     for (let i = 0; i < this.equipments.length; i += 1) {
       const equipment = this.equipments[i];
       equipment.recalculateState();
       if (equipment.nodeState === myNodeState.NODE_STATE_ON) {
-        isPSConnected = true;
+        isConnected = true;
       }
     }
 
     let newState = myNodeState.NODE_STATE_UNKNOWN;
-    if (isPSConnected) {
+    if (isConnected) {
       newState = myNodeState.NODE_STATE_ON;
     } else {
       newState = myNodeState.NODE_STATE_OFF;
