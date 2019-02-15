@@ -11,6 +11,8 @@ const DbParamHalfHourValues = require('../dbmodels/paramHalfHourValue');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNetNodeShema = require('../dbmodels/netNodeSchema');
 
+const myDataModelNodes = require('../models/myDataModelNodes');
+
 
 const router = new express.Router();
 
@@ -207,7 +209,7 @@ router.get('/nodeStateValues', (req, res, next) => {
     });
 });
 
-
+// obsolete
 router.get('/netNodeSchema', (req, res, next) => {
   const schemaName = req.query.schemaName;
 
@@ -296,6 +298,24 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
       });
     }
   });
+});
+
+router.post('/saveManualNodeStates', (req, res, next) => {
+  const manualtates = req.body;
+  const err = myDataModelNodes.SetManualStates(manualtates);
+
+  if (err) {
+    logger.info(`[saveManualNodeStates] Failed: ${err}`);
+    next(err);
+    // res.status(500).json({
+    //   message: err.message,
+    // });
+  } else {
+    logger.debug('[saveManualNodeStates] All saved successfully');
+    res.status(200).json({
+      message: "'All saved successfully'",
+    });
+  }
 });
 
 

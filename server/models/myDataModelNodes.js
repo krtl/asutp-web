@@ -118,12 +118,13 @@ const LoadFromDB = (cb) => {
     if (errs === 0) {
       const duration = moment().diff(start);
       logger.info(`[ModelNodes] loaded from DB with ${nodes.size} Nodes in ${moment(duration).format('mm:ss.SSS')}`);
+
+      // eslint-disable-next-line no-console
+      console.debug(`[ModelNodes] loaded in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
       res = `loading nodes failed with ${errs} errors!`;
       logger.error(res);
     }
-    // eslint-disable-next-line no-console
-    console.debug('[ModelNodes] loaded');
 
     return cb(res);
   });
@@ -623,6 +624,28 @@ const SetStateChangedHandler = (stateHandler) => {
       }
     }
   }
+};
+
+const SetManualStates = (manualStates) => {
+  let err = '';
+  for (let i = 0; i < manualStates.length; i += 1) {
+    const locState = manualStates[i];
+    if (nodes.has(locState.nodeName)) {
+      const locNode = nodes.get(locState.nodeName);
+
+      if (locNode.nodeState !== locState.newState) {
+        logger.debug(`[ModelNodes][SetManualStates] "${locNode.name}" ${locNode.nodeState}->${locState.newState}.`);
+        locNode.doOnStateChanged(locState.newState);
+      }
+    } else {
+      err += `${locState.nodeName}, `;
+    }
+  }
+
+  if (err !== '') {
+    err = `Unknown nodes: ${err}`;
+  }
+  return err;
 };
 
 function StoreLastStateValues() {
@@ -1311,6 +1334,7 @@ const GetParamsListsForEachPS = () => {
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.SetStateChangedHandler = SetStateChangedHandler;
+module.exports.SetManualStates = SetManualStates;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetRegions = GetRegions;

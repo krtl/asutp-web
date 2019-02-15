@@ -21,8 +21,9 @@ export default class MyStageContainer extends React.Component {
       wires: [],
       };
 
-    this.onLoadScheme = this.onLoadScheme.bind(this);
+    this.onLoadScheme = this.onLoadScheme.bind(this);    
     this.onSaveScheme = this.onSaveScheme.bind(this);
+    this.onSaveManualStates = this.onSaveManualStates.bind(this);
   }
 
   onLoadScheme(regionName) {
@@ -139,6 +140,25 @@ export default class MyStageContainer extends React.Component {
       });
   }
 
+  onSaveManualStates(s) {
+    const cmds = [
+      {
+        fetchUrl: 'api/saveManualNodeStates',
+        fetchMethod: 'post',
+        fetchData: s,
+        fetchCallback: () => {
+          // this.setState({
+          // });
+        }
+      },
+    ]
+
+    this.setState({
+        cmdUid: makeUid(5),
+        fetchRequests: cmds,
+      });
+  }
+
   // shouldComponentUpdate(nextProps, nextState) {
   //   return !(nextState.doNotRender);
   // }  
@@ -151,7 +171,8 @@ export default class MyStageContainer extends React.Component {
         nodes={this.state.nodes}
         wires={this.state.wires}
         onLoadScheme={this.onLoadScheme} 
-        onSaveScheme={this.onSaveScheme} 
+        onSaveScheme={this.onSaveScheme}
+        onSaveManualStates={this.onSaveManualStates} 
       />
       <MyFetchClient 
         cmdUid={this.state.cmdUid}

@@ -1,4 +1,4 @@
-  // basicaly this is a state of connection to voltage line
+  // basicaly this state described is node connected to the voltage line (supplyed by voltage)
 const NODE_STATE_UNKNOWN = -1;
 const NODE_STATE_OFF = 0;
 const NODE_STATE_ON = 1;
