@@ -68,7 +68,7 @@ export default class MyParamHistoryForm extends React.Component {
 
         <Tabs>
           <Tab label='Table' >
-            <Table height='600px'>
+            <Table height='1000px'>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
                   <TableHeaderColumn>DateTime</TableHeaderColumn>

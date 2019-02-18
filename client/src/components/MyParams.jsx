@@ -139,7 +139,7 @@ export default class MyParams extends React.Component {
             }
           </SelectField>
         </div>
-        <Table height='600px'>
+        <Table height='1000px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
               <TableHeaderColumn style={styles.cellCustomSizeName}>Name</TableHeaderColumn>

@@ -233,7 +233,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
         </div>
         <div>
           {/* <CardText>{this.props.PS}</CardText> */}
-          <Table height='600px'>
+          <Table height='1000px'>
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
                   <TableHeaderColumn>Name</TableHeaderColumn>

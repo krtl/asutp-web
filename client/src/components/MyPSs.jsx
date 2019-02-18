@@ -99,7 +99,7 @@ export default class MyPSs extends React.Component {
             }
           </SelectField>
         </div>
-        <Table height='600px'>
+        <Table height='1000px'>
         {/* <colgroup>
           <col style={{width:'10%'}}/>
           <col style={{width:'80%'}}/>
