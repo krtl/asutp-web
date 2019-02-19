@@ -6,6 +6,9 @@ import makeUid from '../modules/MyFuncs';
 
 const MATCHING_ITEM_LIMIT = 2500;
 
+let updateCount = 0;
+let valuesUpdated = 0;
+let timerId;
 
 export default class MainPage extends React.Component {
 
@@ -20,6 +23,7 @@ export default class MainPage extends React.Component {
       regions: [],
       PSs: [],
       ps: '',
+      update: false,
       };
 
     this.onLoadParams = this.onLoadParams.bind(this);
@@ -77,17 +81,27 @@ export default class MainPage extends React.Component {
         }
       }
     ]
-
+    
     this.setState({
         cmdUid: makeUid(5),
         fetchRequests: cmds,
       });
+
+
+      timerId = setInterval(() => {
+        if(valuesUpdated > 0) {
+          valuesUpdated = 0;
+          this.setState({
+                update: true,
+              });
+        }
+      }, 1000);    
   }
 
   componentWillUnmount() {
     MyStompClient.unsubscribeFromValues();
+    clearInterval(timerId);
   }
-
 
   onLoadParams(paramListName) {
     const cmds = [
@@ -100,12 +114,10 @@ export default class MainPage extends React.Component {
             params: params.slice(0, MATCHING_ITEM_LIMIT),
           });
 
-          const locThis = this;
           MyStompClient.subscribeToValues(paramListName, (value) => {
-            const locParams = locThis.state.params.slice();
             let b = false;
-            for (let i = 0; i < locParams.length; i += 1) {
-              const locParam = locParams[i];
+            for (let i = 0; i < this.state.params.length; i += 1) {
+              const locParam = this.state.params[i];
               if (locParam.name === value.paramName) {
                 locParam.value = value.value;
                 locParam.dt = value.dt;
@@ -115,9 +127,7 @@ export default class MainPage extends React.Component {
               }
             }
             if (b) {
-              this.setState({
-                params: locParams,
-              });
+              valuesUpdated = 1;
             }
           });          
         }
@@ -184,8 +194,10 @@ export default class MainPage extends React.Component {
 
 
   render() {
+    updateCount += 1;
+    const c = updateCount;
     return (
-      <div>      
+      <div>{c}      
       <MainForm
         paramLists={this.state.paramLists}
         params={this.state.params}

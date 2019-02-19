@@ -26,6 +26,13 @@ export default class MyStageContainer extends React.Component {
     this.onSaveManualStates = this.onSaveManualStates.bind(this);
   }
 
+  componentWillUnmount() {
+    this.setState({
+      nodes: [],
+      wires: [],
+    });
+  }  
+
   onLoadScheme(regionName) {
     this.setState({
       regionName,
