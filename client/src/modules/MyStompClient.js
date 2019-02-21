@@ -179,6 +179,7 @@ const CreateMySocketClient = function () {
       if (subsciptionValues) {
         subsciptionValues.unsubscribe({});
       }
+      paramsListName = aParamsListName;      
       subsciptionValues = stompClient.subscribe(TOPIC_VALUES + aParamsListName, (message) => {
         console.log(`[stompClient] received values: ${message}`);
         message.ack();
