@@ -27,6 +27,13 @@ const requireParent = [
   myNodeType.EQUIPMENT,
 ];
 
+const requireSchemaRecalculation = [
+  myNodeType.LEP,
+  myNodeType.LEP2PSCONNECTION,
+  myNodeType.LEP2LEPCONNECTION,
+  myNodeType.PS,
+];
+
 function getNodesThatShouldHaveAParent() {
   return requireParent;
 }
@@ -35,6 +42,11 @@ function isParentRequiredFor(nodeType) {
   return (requireParent.includes[nodeType]);
 }
 
+function isSchemaRecalculationRequiredFor(nodeType) {
+  return (requireSchemaRecalculation.includes[nodeType]);
+}
+
 module.exports = myNodeType;
-module.exports.isParentRequired = isParentRequiredFor;
+module.exports.isParentRequiredFor = isParentRequiredFor;
+module.exports.isSchemaRecalculationRequiredFor = isSchemaRecalculationRequiredFor;
 module.exports.getParentRequiresTypes = getNodesThatShouldHaveAParent;

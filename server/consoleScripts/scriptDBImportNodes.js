@@ -307,7 +307,7 @@ function importNodes(callback) {
 
 function checkIfParentNodeExists(node, callback) {
   if ((node.parentNode === undefined) || (node.parentNode === null) || (node.parentNode === '')) {
-    if (myNodeType.isParentRequired(node.nodeType)) {
+    if (myNodeType.isParentRequiredFor(node.nodeType)) {
       const s = `Parent is required for node:"${node.name}"!`;
       setError(s);
       callback(s);

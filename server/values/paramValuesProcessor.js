@@ -1,5 +1,6 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 // const config = require('../../config');
+const myNodeType = require('../models/myNodeType');
 const MyDataModelNodes = require('../models/myDataModelNodes');
 const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
@@ -11,6 +12,7 @@ const dbNodeStateValuesTracker = require('./amqpInsertNodeStateValueSender');
 const logger = require('../logger');
 
 let timerId;
+let recalculateSchema = false;
 
 const initializeParamValuesProcessor = () => {
   lastValues.init(
@@ -18,8 +20,17 @@ const initializeParamValuesProcessor = () => {
       MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
         logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
 
+        for (let i = 0; i < node.listNames.length; i += 1) {
+          const lstName = node.listNames[i];
+          MyStompServer.sendNodeStateValue(lstName, node);
+        }
+
         const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
+
+        if (myNodeType.isSchemaRecalculationRequiredFor(node.nodeType)) {
+          recalculateSchema = true;
+        }
       });
 
       dbNodeStateValuesTracker.Start();
@@ -56,6 +67,12 @@ const initializeParamValuesProcessor = () => {
       } else {
         logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSs[i]}"`);
       }
+    }
+
+    if (recalculateSchema) {
+      recalculateSchema = false;
+
+      // ..;
     }
   }, 3000);
 };
