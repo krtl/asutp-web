@@ -155,13 +155,13 @@ export default class MyStage extends React.Component {
       <div>
         <div>
           <SelectField
-            floatingLabelText='Regions:'
+            floatingLabelText='Schemas:'
             value={this.state.selectedRegion}
             onChange={this.handleRegionChange}
             style={styles.customWidth}
           >
-            {this.props.regions.map(region => (
-              <MenuItem key={region.name} value={region} primaryText={region.caption} secondaryText={region.name} />
+            {this.props.schemas.map(schema => (
+              <MenuItem key={schema.name} value={schema} primaryText={schema.caption} secondaryText={schema.name} />
             ))
             }
           </SelectField>
@@ -199,7 +199,7 @@ export default class MyStage extends React.Component {
 }
 
  MyStage.propTypes = {
-  regions: PropTypes.array.isRequired,
+  schemas: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,

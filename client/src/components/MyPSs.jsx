@@ -55,7 +55,7 @@ export default class MyPSs extends React.Component {
     super(props);
 
     this.state = {
-      selectedRegion: '',
+      selectedSchema: '',
       paramLists: [],
       params: [],
     };
@@ -66,7 +66,7 @@ export default class MyPSs extends React.Component {
 
    handleLoadPSsClick(selectedListItem) {
     if (selectedListItem === undefined) {
-      selectedListItem = this.state.selectedRegion;
+      selectedListItem = this.state.selectedSchema;
     }
 
     if (selectedListItem) {
@@ -88,13 +88,13 @@ export default class MyPSs extends React.Component {
       <div>
         <div>
           <SelectField
-            floatingLabelText='Regions:'
-            value={this.state.selectedRegion}
+            floatingLabelText='Schemas:'
+            value={this.state.selectedSchema}
             onChange={this.handleChange}
             style={styles.customWidth}
           >
-            {this.props.regions.map(region => (
-              <MenuItem key={region.name} value={region} primaryText={region.caption} secondaryText={region.name} />
+            {this.props.schemas.map(schema => (
+              <MenuItem key={schema.name} value={schema} primaryText={schema.caption} secondaryText={schema.name} />
             ))
             }
           </SelectField>
@@ -134,7 +134,7 @@ export default class MyPSs extends React.Component {
 }
 
 MyPSs.propTypes = {
-    regions: PropTypes.array.isRequired,
+    schemas: PropTypes.array.isRequired,
     PSs: PropTypes.array.isRequired,
     onLoadPSs: PropTypes.func,
 };

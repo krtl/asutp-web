@@ -13,20 +13,20 @@ module.exports = (app) => {
     return true;
   });
 
-  app.get('/getRegions', (req, res) => {
+  app.get('/getSchemas', (req, res) => {
     const names = [];
-    const regions = myDataModelNodes.GetRegions();
-    regions.forEach((reg) => {
-      const obj = { name: reg.name, caption: reg.caption, sapCode: reg.sapCode };
+    const schemas = myDataModelNodes.GetNodeLists();
+    schemas.forEach((nodeList) => {
+      const obj = { name: nodeList.name, caption: nodeList.caption, sapCode: nodeList.sapCode };
       names.push(obj);
     });
     res.json(names);
     return true;
   });
 
-  app.get('/getRegionPSs', (req, res) => {
+  app.get('/getSchemaPSs', (req, res) => {
     const names = [];
-    const pss = myDataModelNodes.GetRegionPSs(req.query.name);
+    const pss = myDataModelNodes.GetSchemaPSs(req.query.name);
     pss.forEach((ps) => {
       const obj = { name: ps.name, caption: ps.caption };
       names.push(obj);
@@ -35,8 +35,8 @@ module.exports = (app) => {
     return true;
   });
 
-  app.get('/getRegionScheme', (req, res) => {
-    myDataModelNodes.GetRegionScheme(req.query.name, (err, json) => {
+  app.get('/getSchema', (req, res) => {
+    myDataModelNodes.GetSchema(req.query.name, (err, json) => {
       if (err) {
         res.send(err);  // ??
         return false;

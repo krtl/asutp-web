@@ -20,7 +20,7 @@ export default class MainPage extends React.Component {
       fetchRequests: [],
       paramLists: [],
       params: [],
-      regions: [],
+      schemas: [],
       PSs: [],
       ps: '',
       update: false,
@@ -60,12 +60,12 @@ export default class MainPage extends React.Component {
         }
       },
       {
-        fetchUrl: 'getRegions',
+        fetchUrl: 'getSchemas',
         fetchMethod: 'get',
         fetchData: '',
-        fetchCallback: (regions) => {
-          let locRegions = regions.slice(0, MATCHING_ITEM_LIMIT);
-          locRegions.sort((r1, r2) => {
+        fetchCallback: (schemas) => {
+          let locSchemas = schemas.slice(0, MATCHING_ITEM_LIMIT);
+          locSchemas.sort((r1, r2) => {
               if (r1.caption > r2.caption) {
                 return 1;
               }
@@ -76,7 +76,7 @@ export default class MainPage extends React.Component {
             }
           );
           this.setState({
-            regions: locRegions,
+            schemas: locSchemas,
         });
         }
       }
@@ -140,10 +140,10 @@ export default class MainPage extends React.Component {
       });
   }
 
-  onLoadPSs(regionName) {
+  onLoadPSs(schemaName) {
     const cmds = [
       {
-        fetchUrl: `getRegionPSs?name=${regionName}`,
+        fetchUrl: `getSchemaPSs?name=${schemaName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (pss) => {
@@ -201,7 +201,7 @@ export default class MainPage extends React.Component {
       <MainForm
         paramLists={this.state.paramLists}
         params={this.state.params}
-        regions={this.state.regions}
+        schemas={this.state.schemas}
         PSs={this.state.PSs}
         ps={this.state.ps}  
         onLoadParams={this.onLoadParams} 

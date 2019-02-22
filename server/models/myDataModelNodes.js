@@ -24,6 +24,7 @@ const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 // const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNetNodeShema = require('../dbmodels/netNodeSchema');
+const DbNodeList = require('../dbmodels/nodeList');
 
 
 const logger = require('../logger');
@@ -50,12 +51,14 @@ const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 const MyParamList = require('./myParamList');
 
 const MySchemeWire = require('./mySchemeWire');
+const MyNodeList = require('./myNodeList');
 
 
 const nodes = new Map();
 const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
+const nodeLists = new Map();
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
@@ -111,6 +114,8 @@ const LoadFromDB = (cb) => {
     checkIntegrity,
     linkParamNamesToNodes,
     restoreLastStateValues,
+    loadNodeLists,
+    createNodeListsForRegions,
   ], () => {
     let res = null;
     if (errs === 0) {
@@ -730,16 +735,20 @@ function restoreLastStateValues(callback) {
 
 const GetNode = nodeName => nodes.get(nodeName);
 
+const GetNodeLists = () => Array.from(nodeLists.values());
 const GetRegions = () => Array.from(Regions.values());
-const GetRegionPSs = (region) => {
+
+const GetSchemaPSs = (schemaName) => {
   const result = [];
-  PSs.forEach((ps) => {
-    if (ps.parentNode) {
-      if (ps.parentNode.name === region) {
-        result.push(ps);
+  if (nodeLists.has(schemaName)) {
+    const nodeList = nodeLists.get(schemaName);
+    for (let i = 0; i < nodeList.nodes.length; i += 1) {
+      const node = nodeList.nodes[i];
+      if (node.nodeType === myNodeType.PS) {
+        result.push(node);
       }
     }
-  });
+  }
 
   return result;
 };
@@ -760,32 +769,49 @@ const getNodeForScheme = (nodes) => {
   return resultNodes;
 };
 
-const getRegionScheme1 = (regionName, callback) => {
+const getSchema1 = (schemaName, callback) => {
   const pss = [];
   const leps = [];
-  const locLEPs = new Map();
-  const locPSs = Array.from(PSs.values());
   const wires = [];
-  for (let i = 0; i < locPSs.length; i += 1) {
-    const ps = locPSs[i];
-    if (ps.parentNode) {
-      if (ps.parentNode.name === regionName) {
-        pss.push(ps);
-        for (let j = 0; j < ps.lep2psConnectors.length; j += 1) {
-          const lep2ps = ps.lep2psConnectors[j];
 
-          if (lep2ps.parentNode) {
-            const lep = lep2ps.parentNode;
-            if (leps.indexOf(lep) < 0) {
-              leps.push(lep);
-            }
-          }
-          const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
-          wire.nodeFrom = lep2ps.parentNode.name;
-          wire.nodeTo = ps.name;
-          wires.push(wire);
+  if (!nodeLists.has(schemaName)) {
+    // eslint-disable-next-line no-console
+    console.error(`Unknown nodeList with name= ${schemaName}`);
+    const result = { nodes: [], wires };
+
+    callback('', result);
+    return 1;
+  }
+
+  const locNodeList = nodeLists.get(schemaName);
+  for (let i = 0; i < locNodeList.nodes.length; i += 1) {
+    const node = locNodeList.nodes[i];
+    switch (node.nodeType) {
+      case myNodeType.PS: { pss.push(node); break; }
+      case myNodeType.LEP: { leps.push(node); break; }
+      default: {
+        //
+      }
+    }
+  }
+
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+
+    for (let j = 0; j < ps.lep2psConnectors.length; j += 1) {
+      const lep2ps = ps.lep2psConnectors[j];
+
+      if (lep2ps.parentNode) {
+        const lep = lep2ps.parentNode;
+        if (leps.indexOf(lep) < 0) {
+          leps.push(lep);
+          logger.warn(`[ModelNodes][getSchema] added lep: ${lep.name} that should be previously include into NodeList: ${locNodeList.name}`);
         }
       }
+      const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
+      wire.nodeFrom = lep2ps.parentNode.name;
+      wire.nodeTo = ps.name;
+      wires.push(wire);
     }
   }
 
@@ -794,11 +820,13 @@ const getRegionScheme1 = (regionName, callback) => {
     for (let j = 0; j < lep.lep2lepConnectors.length; j += 1) {
       const lep2lep = lep.lep2lepConnectors[j];
       if ((lep2lep.parentNode) && (lep2lep.toNode)) {
-        if ((locLEPs.has(lep2lep.parentNode.name)) && (locLEPs.has(lep2lep.toNode.name))) {
+        if ((leps.indexOf(lep2lep.parentNode) > 0) && (leps.indexOf(lep2lep.toNode.name) > 0)) {
           const wire = new MySchemeWire(lep2lep.name, lep2lep.caption, lep2lep.description, lep2lep.nodeType);
           wire.nodeFrom = lep2lep.parentNode.name;
           wire.nodeTo = lep2lep.toNode.name;
           wires.push(wire);
+        } else {
+          logger.warn(`[ModelNodes][getSchema] failed to find nodes on lep2lep: ${lep2lep.name}`);
         }
       }
     }
@@ -1171,18 +1199,18 @@ const getRegionScheme1 = (regionName, callback) => {
   const result = { nodes, wires };
 
   callback('', result);
-  // return result;
+  return 0;
 };
 
-const getRegionScheme = (regionName, callback) => {
+const getSchema = (schemaName, callback) => {
   setTimeout(() => {
-    getRegionScheme1(regionName, callback);
+    getSchema1(schemaName, callback);
   }, 0);
 };
 
-const getNodeSchemeCoordinates = (regionName, callback) => {
+const getNodeSchemeCoordinates = (schemaName, callback) => {
   DbNetNodeShema
-    .find({ schemaName: regionName })
+    .find({ schemaName })
     .select({ nodeName: 1, x: 1, y: 1, _id: 0 })
     .limit(10000)
     .exec((err, schemaNodes) => {
@@ -1190,10 +1218,10 @@ const getNodeSchemeCoordinates = (regionName, callback) => {
     });
 };
 
-const GetRegionScheme = (regionName, callback) => {
+const GetSchema = (schemaName, callback) => {
   async.parallel({
-    schema: getRegionScheme.bind(null, regionName),
-    coordinates: getNodeSchemeCoordinates.bind(null, regionName),
+    schema: getSchema.bind(null, schemaName),
+    coordinates: getNodeSchemeCoordinates.bind(null, schemaName),
   }, (err, result) => {
     if (err) {
       callback(err, result);
@@ -1349,15 +1377,87 @@ const GetParamsListsForEachPS = () => {
   return paramLists;
 };
 
+function loadNodeLists(cb) {
+  DbNodeList.find({}, null, { sort: { name: 1 } }, (err, dbNodeLists) => {
+    if (err) return cb(err);
+
+    dbNodeLists.forEach((list) => {
+      let nodeNames = [];
+      if (list.paramNames) {
+        nodeNames = list.paramNames.split(',');
+      }
+
+      const nodes = [];
+      nodeNames.forEach((nodeName) => {
+        if (!nodes.has(nodeName)) {
+          setError(`cannot find node "${nodeName}" in "${list.name}"`);
+        } else {
+          nodes.push(nodes.get(nodeName));
+        }
+      });
+
+
+      const nl = new MyNodeList(list.name,
+        list.caption,
+        list.description,
+        nodes);
+
+      nodeLists.set(list.name, nl);
+    });
+    return cb();
+  });
+}
+
+function createNodeListsForRegions(cb) {
+  const locPSs = Array.from(PSs.values());
+  const locRegions = Array.from(Regions.values());
+
+  for (let i = 0; i < locRegions.length; i += 1) {
+    const region = locRegions[i];
+    const nodes = [];
+
+    for (let j = 0; j < locPSs.length; j += 1) {
+      const ps = locPSs[j];
+      if (ps.parentNode) {
+        if (ps.parentNode.name === region.name) {
+          if (nodes.indexOf(ps) < 0) {
+            nodes.push(ps);
+          }
+
+          for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
+            const lep2ps = ps.lep2psConnectors[k];
+
+            if (lep2ps.parentNode) {
+              const lep = lep2ps.parentNode;
+
+              if (nodes.indexOf(lep) < 0) {
+                nodes.push(lep);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const nl = new MyNodeList(`nodes_of_${region.name}`,
+      region.caption,
+      region.description,
+      nodes);
+    nodeLists.set(nl.name, nl);
+  }
+  return cb();
+}
+
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.SetStateChangedHandler = SetStateChangedHandler;
 module.exports.SetManualStates = SetManualStates;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
+module.exports.GetNodeLists = GetNodeLists;
 module.exports.GetRegions = GetRegions;
-module.exports.GetRegionPSs = GetRegionPSs;
+module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetPSForJson = GetPSForJson;
-module.exports.GetRegionScheme = GetRegionScheme;
+module.exports.GetSchema = GetSchema;
 module.exports.GetParamsListsForEachPS = GetParamsListsForEachPS;
 module.exports.StoreLastStateValues = StoreLastStateValues;

@@ -29,7 +29,7 @@ class MainForm extends React.Component {
         </Tab>
         <Tab label='PSs' >
           <MyPSs
-          regions={this.props.regions}
+          schemas={this.props.schemas}
           PSs={this.props.PSs}
           onLoadPSs={this.props.onLoadPSs}
           />
@@ -43,7 +43,7 @@ class MainForm extends React.Component {
 
 
             <MyRegionSchemaContainer
-              regions={this.props.regions}
+              schemas={this.props.schemas}
             />
           </div>
         </Tab>
@@ -55,7 +55,7 @@ class MainForm extends React.Component {
 MainForm.propTypes = {
   paramLists: PropTypes.array.isRequired,
   params: PropTypes.array.isRequired,
-  regions: PropTypes.array.isRequired,
+  schemas: PropTypes.array.isRequired,
   PSs: PropTypes.array.isRequired,
   ps: PropTypes.string.isRequired,
   onLoadParams: PropTypes.func.isRequired,
