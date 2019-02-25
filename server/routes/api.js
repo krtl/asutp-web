@@ -9,7 +9,7 @@ const DbParamList = require('../dbmodels/paramList');
 const DbParamValues = require('../dbmodels/paramValue');
 const DbParamHalfHourValues = require('../dbmodels/paramHalfHourValue');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
-const DbNetNodeShema = require('../dbmodels/netNodeSchema');
+const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
 
 const myDataModelNodes = require('../models/myDataModelNodes');
 
@@ -210,7 +210,7 @@ router.get('/nodeStateValues', (req, res, next) => {
 });
 
 // obsolete
-router.get('/netNodeSchema', (req, res, next) => {
+router.get('/getNodeCoordinates', (req, res, next) => {
   const schemaName = req.query.schemaName;
 
   if ((!schemaName) || (schemaName === '')) {
@@ -220,7 +220,7 @@ router.get('/netNodeSchema', (req, res, next) => {
     return;
   }
 
-  DbNetNodeShema
+  DbNodeCoordinates
     .find({ schemaName })
     .select({ nodeName: 1, x: 1, y: 1, _id: 0 })
     .limit(10000)
@@ -231,7 +231,7 @@ router.get('/netNodeSchema', (req, res, next) => {
     });
 });
 
-router.post('/saveNetNodeSchema', (req, res, next) => {
+router.post('/saveNodeCoordinates', (req, res, next) => {
   const schemaName = req.query.schemaName;
 
   if ((!schemaName) || (schemaName === '')) {
@@ -244,24 +244,24 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
   const nodes = req.body;
 
   async.each(nodes, (locNode, callback) => {
-    DbNetNodeShema.findOne({
+    DbNodeCoordinates.findOne({
       schemaName,
       nodeName: locNode.nodeName,
     }, (err, netNode) => {
       if (err) {
-        logger.info(`[saveNetNodeSchema] findOne error: ${err}`);
+        logger.info(`[saveNodeCoordinates] findOne error: ${err}`);
         return callback(err);
       }
 
       if (netNode) {
         if ((locNode.x !== netNode.x) || (locNode.y !== netNode.y)) {
-          DbNetNodeShema.update({ _id: netNode.id },
+          DbNodeCoordinates.update({ _id: netNode.id },
             { $set: {
               x: locNode.x,
               y: locNode.y } }, (err) => {
                 if (err) return callback(err);
 
-                logger.debug(`[saveNetNodeSchema] updated node "${netNode.nodeName}" in "${schemaName}"`);
+                logger.debug(`[saveNodeCoordinates] updated node "${netNode.nodeName}" in "${schemaName}"`);
 
                 return callback(null);
               });
@@ -269,15 +269,15 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
           return callback(null);
         }
       } else {
-        const newNetNodeShema = new DbNetNodeShema(locNode);
-        newNetNodeShema.nodeName = locNode.nodeName;
-        newNetNodeShema.schemaName = schemaName;
-        newNetNodeShema.save((err) => {
+        const newNodeCoordinates = new DbNodeCoordinates(locNode);
+        newNodeCoordinates.nodeName = locNode.nodeName;
+        newNodeCoordinates.schemaName = schemaName;
+        newNodeCoordinates.save((err) => {
           if (err) {
-            logger.warn(`[saveNetNodeSchema] newNetNodeShema.save error: ${err}`);
+            logger.warn(`[saveNodeCoordinates] newNetNodeShema.save error: ${err}`);
             return callback(err);
           }
-          logger.debug(`[saveNetNodeSchema] node "${locNode.nodeName}" inserted into "${schemaName}"`);
+          logger.debug(`[saveNodeCoordinates] node "${locNode.nodeName}" inserted into "${schemaName}"`);
 
           return callback(null);
         });
@@ -286,13 +286,13 @@ router.post('/saveNetNodeSchema', (req, res, next) => {
     });
   }, (err) => {
     if (err) {
-      logger.info(`[saveNetNodeSchema] Failed: ${err}`);
+      logger.info(`[saveNodeCoordinates] Failed: ${err}`);
       next(err);
       // res.status(500).json({
       //   message: err.message,
       // });
     } else {
-      logger.debug('[saveNetNodeSchema] All saved successfully');
+      logger.debug('[saveNodeCoordinates] All saved successfully');
       res.status(200).json({
         message: "'All saved successfully'",
       });

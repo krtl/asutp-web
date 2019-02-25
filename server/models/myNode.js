@@ -15,6 +15,11 @@ function MyNode(name, caption, description, nodeType) {
     }
     this.nodeState = newState;
   };
+
+  this.listNames = [];
+  this.setListNames = (listNames) => {
+    this.listNames = listNames;
+  };
 }
 
 MyNode.prototype.recalculateState = () => {

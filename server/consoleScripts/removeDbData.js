@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 // const dbParam = require('../dbmodels/param');
-// const dbParamList = require('../dbmodels/paramList');
 const dbParamValue = require('../dbmodels/paramValue');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');

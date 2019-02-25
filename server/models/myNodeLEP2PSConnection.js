@@ -13,8 +13,8 @@ class MyNodeLEP2PSConnection extends MyNode {
   recalculateState() {
     let isConnected = false;
     if (this.toNodeConnector) {
-      this.toNode.recalculateState();
-      if (this.toNode.nodeState === myNodeState.NODE_STATE_ON) {
+      this.toNodeConnector.recalculateState();
+      if (this.toNodeConnector.nodeState === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }
       if (this.parentNode.nodeState === myNodeState.NODE_STATE_ON) {

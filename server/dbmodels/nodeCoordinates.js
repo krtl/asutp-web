@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const NetNodeSchemaSchema = new mongoose.Schema({
+const NodeCoordinatesSchema = new mongoose.Schema({
   schemaName: {
     type: String,
     // index: { unique: true },
@@ -21,7 +21,7 @@ const NetNodeSchemaSchema = new mongoose.Schema({
 
 });
 
-NetNodeSchemaSchema.index({ schemaName: 1, nodeName: 1 }, { unique: true });
+NodeCoordinatesSchema.index({ schemaName: 1, nodeName: 1 }, { unique: true });
 
 
-module.exports = mongoose.model('NetNodeSchema', NetNodeSchemaSchema);
+module.exports = mongoose.model('NodeCoordinates', NodeCoordinatesSchema);

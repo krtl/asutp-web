@@ -23,7 +23,7 @@ const DbNodeSec2SecConnector = require('../dbmodels/nodeSec2SecConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 // const DbNodeStateValue = require('../dbmodels/nodeStateValue');
-const DbNetNodeShema = require('../dbmodels/netNodeSchema');
+const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
 const DbNodeList = require('../dbmodels/nodeList');
 
 
@@ -116,6 +116,7 @@ const LoadFromDB = (cb) => {
     restoreLastStateValues,
     loadNodeLists,
     createNodeListsForRegions,
+    makeListNamesForEachNode,
   ], () => {
     let res = null;
     if (errs === 0) {
@@ -1209,7 +1210,7 @@ const getSchema = (schemaName, callback) => {
 };
 
 const getNodeSchemeCoordinates = (schemaName, callback) => {
-  DbNetNodeShema
+  DbNodeCoordinates
     .find({ schemaName })
     .select({ nodeName: 1, x: 1, y: 1, _id: 0 })
     .limit(10000)
@@ -1447,6 +1448,25 @@ function createNodeListsForRegions(cb) {
   }
   return cb();
 }
+
+function makeListNamesForEachNode(cb) {
+  const locNodes = Array.from(nodes.values());
+  const locLists = Array.from(nodeLists.values());
+
+  for (let i = 0; i < locNodes.length; i += 1) {
+    const node = locNodes[i];
+    const locListNames = [];
+    for (let j = 0; j < locLists.length; j += 1) {
+      const list = locLists[j];
+      if (locListNames.indexOf(list.name) > -1) {
+        locListNames.push(list.name);
+      }
+    }
+    node.setListNames(locListNames);
+  }
+  return cb();
+}
+
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;

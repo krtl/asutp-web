@@ -20,13 +20,13 @@ const initializeParamValuesProcessor = () => {
       MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
         logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
 
-        for (let i = 0; i < node.listNames.length; i += 1) {
-          const lstName = node.listNames[i];
-          MyStompServer.sendNodeStateValue(lstName, node);
-        }
-
         const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
+
+        for (let i = 0; i < node.listNames.length; i += 1) {
+          const lstName = node.listNames[i];
+          MyStompServer.sendNodeStateValue(lstName, nodeStateValue);
+        }
 
         if (myNodeType.isSchemaRecalculationRequiredFor(node.nodeType)) {
           recalculateSchema = true;

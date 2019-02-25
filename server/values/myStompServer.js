@@ -137,6 +137,11 @@ const sendParamValue = (listName, paramValue) => {
   }
 };
 
+const sendNodeStateValue = (listName, stateValue) => {
+  if (StompServer) {
+    stompServer.send(TOPIC_VALUES + listName, {}, JSON.stringify(stateValue));
+  }
+};
 
 const finalizeStompServer = () => {
   // clearInterval(timerId);
@@ -146,3 +151,4 @@ const finalizeStompServer = () => {
 module.exports.initializeStompServer = initializeStompServer;
 module.exports.finalizeStompServer = finalizeStompServer;
 module.exports.sendParamValue = sendParamValue;
+module.exports.sendNodeStateValue = sendNodeStateValue;

@@ -63,7 +63,7 @@ export default class MyStageContainer extends React.Component {
   onSaveScheme(s) {
     const cmds = [
       {
-        fetchUrl: `api/saveNetNodeSchema?schemaName=${this.state.regionName}`,
+        fetchUrl: `api/saveNodeCoordinates?schemaName=${this.state.regionName}`,
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: () => {
