@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 const expect = chai.expect;
 const myDataModelNodes = require('../models/myDataModelNodes');
-const myDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('../values/lastValues');
 const MyParamValue = require('../models/myParamValue');
 
@@ -11,10 +10,6 @@ const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
 const myNodeState = require('../models/myNodeState');
 
 // const paramValuesProcessor = require('../values/paramValuesProcessor');
-
-// const ParamList = require('../dbmodels/paramList');
-// const Param = require('../dbmodels/param');
-// const User = require('../dbmodels/authUser');
 
 
 const config = require('../../config');
@@ -39,45 +34,30 @@ describe('nodeState', () => {
       console.info(`We are connected to ${config.dbUri}`);
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
-        myDataModelParams.LoadFromDB((err) => {
-          expect(err).to.equal(null);
-          myDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
-            console.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
-            changedStates.push({ node, oldState, newState });
-          });
-          const nodeSchemas = myDataModelNodes.GetNodeSchemas();
-          for (let i = 0; i < nodeSchemas.length; i += 1) {
-            const nodeSchema = nodeSchemas[i];
-            const PSs = myDataModelNodes.GetSchemaPSs(nodeSchema.name);
-            for (let j = 0; j < PSs.length; j += 1) {
-              const ps = PSs[j];
-              if (ps.stateChangeHandler === undefined) {
-                throw new Error(`There is no stateChangeHandler for ${ps.name}!`);
+        myDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
+          console.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
+          changedStates.push({ node, oldState, newState });
+        });
+        const nodeSchemas = myDataModelNodes.GetNodeSchemas();
+        for (let i = 0; i < nodeSchemas.length; i += 1) {
+          const nodeSchema = nodeSchemas[i];
+          const PSs = myDataModelNodes.GetSchemaPSs(nodeSchema.name);
+          for (let j = 0; j < PSs.length; j += 1) {
+            const ps = PSs[j];
+            if (ps.stateChangeHandler === undefined) {
+              throw new Error(`There is no stateChangeHandler for ${ps.name}!`);
+            }
+
+            ps.psparts.forEach((pspart) => {
+              if (pspart.stateChangeHandler === undefined) {
+                throw new Error(`There is no stateChangeHandler for ${pspart.name}!`);
               }
 
-              ps.psparts.forEach((pspart) => {
-                if (pspart.stateChangeHandler === undefined) {
-                  throw new Error(`There is no stateChangeHandler for ${pspart.name}!`);
+              pspart.sections.forEach((section) => {
+                if (section.stateChangeHandler === undefined) {
+                  throw new Error(`There is no stateChangeHandler for ${section.name}!`);
                 }
-
-                pspart.sections.forEach((section) => {
-                  if (section.stateChangeHandler === undefined) {
-                    throw new Error(`There is no stateChangeHandler for ${section.name}!`);
-                  }
-                  section.connectors.forEach((connector) => {
-                    if (connector.stateChangeHandler === undefined) {
-                      throw new Error(`There is no stateChangeHandler for ${connector.name}!`);
-                    }
-
-                    connector.equipments.forEach((equipment) => {
-                      if (equipment.stateChangeHandler === undefined) {
-                        throw new Error(`There is no stateChangeHandler for ${equipment.name}!`);
-                      }
-                    });
-                  });
-                });
-
-                pspart.connectors.forEach((connector) => {
+                section.connectors.forEach((connector) => {
                   if (connector.stateChangeHandler === undefined) {
                     throw new Error(`There is no stateChangeHandler for ${connector.name}!`);
                   }
@@ -89,16 +69,28 @@ describe('nodeState', () => {
                   });
                 });
               });
-              ps.transformers.forEach((transformer) => {
-                if (transformer.stateChangeHandler === undefined) {
-                  throw new Error(`There is no stateChangeHandler for ${transformer.name}!`);
-                }
-              });
-            }
-          }
 
-          done();
-        });
+              pspart.connectors.forEach((connector) => {
+                if (connector.stateChangeHandler === undefined) {
+                  throw new Error(`There is no stateChangeHandler for ${connector.name}!`);
+                }
+
+                connector.equipments.forEach((equipment) => {
+                  if (equipment.stateChangeHandler === undefined) {
+                    throw new Error(`There is no stateChangeHandler for ${equipment.name}!`);
+                  }
+                });
+              });
+            });
+            ps.transformers.forEach((transformer) => {
+              if (transformer.stateChangeHandler === undefined) {
+                throw new Error(`There is no stateChangeHandler for ${transformer.name}!`);
+              }
+            });
+          }
+        }
+
+        done();
       });
     });
   });
@@ -132,7 +124,7 @@ describe('nodeState', () => {
       });
 
 
-      const param = myDataModelParams.getParam(paramName);
+      const param = myDataModelNodes.GetParam(paramName);
       if (param) {
         const pv = new MyParamValue(param.name, myNodeState.NODE_STATE_OFF, new Date(), '');
         lastValues.setLastValue(pv);
@@ -158,8 +150,6 @@ describe('nodeState', () => {
         throw new Error(`cannot find param "${paramName}"!`);
       }
 
-        // const pLists = myDataModelNodes.getAvailableParamsLists(testUserName);
-        // if (pLists.length !== 1) { throw new Error('No data!'); }
       done();
     });
   });

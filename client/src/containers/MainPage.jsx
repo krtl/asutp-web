@@ -18,9 +18,8 @@ export default class MainPage extends React.Component {
     this.state = {
       cmdUid: '',
       fetchRequests: [],
-      paramLists: [],
-      params: [],
       schemas: [],
+      params: [],
       PSs: [],
       ps: '',
       update: false,
@@ -37,28 +36,6 @@ export default class MainPage extends React.Component {
   componentDidMount() {
 
     const cmds = [
-      {
-        fetchUrl: 'api/paramLists',
-        fetchMethod: 'get',
-        fetchData: '',
-        fetchCallback: (paramLists) => {
-          let locParamLists = paramLists.slice(0, MATCHING_ITEM_LIMIT);
-          locParamLists.sort((pl1, pl2) => {
-              if (pl1.caption > pl2.caption) {
-                return 1;
-              }
-              if (pl1.caption < pl2.caption) {
-                return -1;
-              }
-              return 0;
-            }
-          );
-
-          this.setState({
-            paramLists: locParamLists,
-          });
-        }
-      },
       {
         fetchUrl: 'getSchemas',
         fetchMethod: 'get',
@@ -103,10 +80,10 @@ export default class MainPage extends React.Component {
     clearInterval(timerId);
   }
 
-  onLoadParams(paramListName) {
+  onLoadParams(schemaName) {
     const cmds = [
       {
-        fetchUrl: `api/params?prmLstName=${paramListName}`,
+        fetchUrl: `api/params?schemaName=${schemaName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (params) => {
@@ -114,7 +91,7 @@ export default class MainPage extends React.Component {
             params: params.slice(0, MATCHING_ITEM_LIMIT),
           });
 
-          MyStompClient.subscribeToValues(paramListName, (value) => {
+          MyStompClient.subscribeToValues(schemaName, (value) => {
             let b = false;
             for (let i = 0; i < this.state.params.length; i += 1) {
               const locParam = this.state.params[i];
@@ -199,9 +176,8 @@ export default class MainPage extends React.Component {
     return (
       <div>{c}      
       <MainForm
-        paramLists={this.state.paramLists}
-        params={this.state.params}
         schemas={this.state.schemas}
+        params={this.state.params}
         PSs={this.state.PSs}
         ps={this.state.ps}  
         onLoadParams={this.onLoadParams} 

@@ -5,7 +5,6 @@ const config = require('../../config');
 
 const DbUser = require('../dbmodels/authUser');
 const DbParam = require('../dbmodels/param');
-const DbParamList = require('../dbmodels/paramList');
 const DbParamValue = require('../dbmodels/paramValue');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const DbAsutpConnection = require('../dbmodels/asutpConnection');
@@ -30,7 +29,6 @@ const DbNodeSchema = require('../dbmodels/nodeSchema');
 const Sheme = [
   DbUser,
   DbParam,
-  DbParamList,
   DbParamValue,
   DbParamHalfHourValue,
   DbAsutpConnection,

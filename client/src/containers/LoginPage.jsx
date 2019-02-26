@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Auth from '../modules/Auth';
-import Client from '../modules/Client';
 import LoginForm from '../components/LoginForm.jsx';
 
 
@@ -56,7 +55,6 @@ class LoginPage extends React.Component {
 
         // save the token and data
         Auth.authenticateUser(xhr.response.token, xhr.response.user.name);
-        Client.resetHeader();
 
 
         // change the current URL to /

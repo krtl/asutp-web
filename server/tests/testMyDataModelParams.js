@@ -2,8 +2,8 @@ const chai = require('chai');
 const mongoose = require('mongoose');
 
 const expect = chai.expect;
-const myDataModelParams = require('../models/myDataModelParams');
-const ParamList = require('../dbmodels/paramList');
+const myDataModelNodes = require('../models/myDataModelNodes');
+const DBNodeSchema = require('../dbmodels/nodeSchema');
 const Param = require('../dbmodels/param');
 const User = require('../dbmodels/authUser');
 
@@ -15,10 +15,10 @@ const testParamName = 'TestParamName';
 const testParamListName = 'TestParamListName';
 
 
-describe('myDataModelParams', () => {
-  it('getAvailableParamsLists() should return 0 before loaded with data', () => {
-    const pl = myDataModelParams.getAvailableParamsLists('TestUser');
-    expect(pl.length).to.equal(0);
+describe('myDataModelNodes', () => {
+  it('GetAvailableSchemas() should return 0 before loaded with data', () => {
+    const schemas = myDataModelNodes.GetAvailableSchemas('TestUser');
+    expect(schemas.length).to.equal(0);
   });
 
   before((done) => {
@@ -64,7 +64,7 @@ describe('myDataModelParams', () => {
 
 
     it('New ParamList should be saved to database', (done) => {
-      const testParamList = ParamList({
+      const testParamList = DBNodeSchema({
         name: testParamListName,
         caption: 'TestParamListCaption',
         description: 'TestParamListDescription',
@@ -75,10 +75,10 @@ describe('myDataModelParams', () => {
     });
 
     it('Should retrieve ParamList and Param for TestUser after Loading DataModel', (done) => {
-      myDataModelParams.LoadFromDB((err) => {
+      myDataModelNodes.LoadFromDB((err) => {
         if (err) { throw err; }
-        const pLists = myDataModelParams.getAvailableParamsLists(testUserName);
-        if (pLists.length !== 1) { throw new Error('No data!'); }
+        const schemas = myDataModelNodes.GetAvailableSchemas(testUserName);
+        if (schemas.length !== 1) { throw new Error('No data!'); }
         done();
       });
     });
@@ -91,7 +91,7 @@ describe('myDataModelParams', () => {
     });
 
     it('Should remove test ParamList', (done) => {
-      ParamList.remove({ name: testParamListName }, (err) => {
+      DBNodeSchema.remove({ name: testParamListName }, (err) => {
         if (err) { throw err; }
         done();
       });

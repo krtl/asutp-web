@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
-const myDataModelParams = require('../models/myDataModelParams');
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 
@@ -24,12 +23,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
           if (callback) callback(err);
           return;
         }
-        myDataModelParams.LoadFromDB((err) => {
-          if (!err) {
-            paramValuesProcessor.initializeParamValuesProcessor();
-          }
-          if (callback) callback(err);
-        });
+        paramValuesProcessor.initializeParamValuesProcessor();
       });
     }
   });
@@ -48,7 +42,6 @@ module.exports.connect = (uri, useDataModel, callback) => {
   // load models
   require('./authUser');// eslint-disable-line global-require
   require('./param');// eslint-disable-line global-require
-  require('./paramList');// eslint-disable-line global-require
   require('./paramValue');// eslint-disable-line global-require
   require('./paramHalfHourValue');// eslint-disable-line global-require
 

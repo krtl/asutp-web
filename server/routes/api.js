@@ -5,11 +5,11 @@ const logger = require('../logger');
 const NetNode = require('../dbmodels/netNode');
 const NetWire = require('../dbmodels/netWire');
 const DbParam = require('../dbmodels/param');
-const DbParamList = require('../dbmodels/paramList');
 const DbParamValues = require('../dbmodels/paramValue');
 const DbParamHalfHourValues = require('../dbmodels/paramHalfHourValue');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
+const DbNodeSchema = require('../dbmodels/nodeSchema');
 
 const myDataModelNodes = require('../models/myDataModelNodes');
 
@@ -110,36 +110,40 @@ router.post('/save_node', (req, res, next) => {
   });
 });
 
-router.get('/paramLists', (req, res, next) => {
-  DbParamList.find({}, (err, prmLists) => {
+router.get('/schemas', (req, res, next) => {  // currently not used
+  DbNodeSchema.find({}, (err, schemas) => {
     if (err) return next(err);
-    res.status(200).json(prmLists);
+    res.status(200).json(schemas);
     return 0;
   });
 });
 
 router.get('/params', (req, res, next) => {
-  const paramListName = req.query.prmLstName;
+  const schemaName = req.query.schemaName;
 
-  if ((!paramListName) || (paramListName === '')) {
+  if ((!schemaName) || (schemaName === '')) {
     res.json({
-      error: 'Missing required parameter `prmLstName`!',
+      error: 'Missing required parameter `schemaName`!',
     });
     return;
   }
 
-  DbParamList.findOne({
-    name: paramListName,
+  DbNodeSchema.findOne({
+    name: schemaName,
   }, (err, prmList) => {
     if (err) return next(err);
 
-    const locParams = prmList.paramNames.split(',');
-    DbParam.find({
-      name: { $in: locParams } }, (err, params) => {
-      if (err) return next(err);
-      res.status(200).json(params);
-      return 0;
-    });
+    if (prmList) {
+      const locParams = prmList.paramNames.split(',');
+      DbParam.find({
+        name: { $in: locParams } }, (err, params) => {
+        if (err) return next(err);
+        res.status(200).json(params);
+        return 0;
+      });
+    } else {
+      res.status(200).json([]);
+    }
     return 0;
   });
 });

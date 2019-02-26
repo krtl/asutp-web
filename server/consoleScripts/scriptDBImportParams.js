@@ -12,6 +12,7 @@ const FileNames = [
   'asutpConnections.json',
 ];
 
+
 function Start(cb) {
   const start = moment();
   async.series([
@@ -46,7 +47,7 @@ function Start(cb) {
 function requireModels(callback) {
   console.log('models');
   require('mongoose').model('Param');  // eslint-disable-line global-require
-  require('mongoose').model('ParamList');  // eslint-disable-line global-require
+  require('mongoose').model('NodeSchema');  // eslint-disable-line global-require
   require('mongoose').model('AsutpConnection');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
@@ -121,28 +122,28 @@ function importParamLists(callback) {
   const paramLists = JSON.parse(rawdata);
 
   async.each(paramLists, (paramData, callback) => {
-    const newParamList = new mongoose.models.ParamList(paramData);
+    const newNodeSchema = new mongoose.models.NodeSchema(paramData);
 
-    newParamList.description = paramData.sapCode;
+    newNodeSchema.description = paramData.sapCode;
 
-    mongoose.models.ParamList.findOne({
-      name: newParamList.name }, (err, paramList) => {
+    mongoose.models.NodeSchema.findOne({
+      name: newNodeSchema.name }, (err, schema) => {
       if (err) callback(err);
-      if (paramList) {
-        if ((paramList.caption !== newParamList.caption) || (paramList.description !== newParamList.description) || (paramList.paramNames !== newParamList.paramNames)) {
-          mongoose.models.ParamList.update({ _id: paramList.id },
-             { $set: { caption: newParamList.caption, description: newParamList.description, paramNames: newParamList.paramNames } }, (error) => {
+      if (schema) {
+        if ((schema.caption !== newNodeSchema.caption) || (schema.description !== newNodeSchema.description) || (schema.paramNames !== newNodeSchema.paramNames)) {
+          mongoose.models.NodeSchema.update({ _id: schema.id },
+             { $set: { caption: newNodeSchema.caption, description: newNodeSchema.description, paramNames: newNodeSchema.paramNames } }, (error) => {
                if (error) throw callback(error);
-               console.log(`ParamList "${newParamList.name}" updated`);
+               console.log(`NodeSchema "${newNodeSchema.name}" updated`);
                callback(null);
              });
         } else {
           callback(null);
         }
       } else {
-        newParamList.save((err) => {
+        newNodeSchema.save((err) => {
           if (err) callback(err);
-          console.log(`ParamList "${newParamList.name}" inserted`);
+          console.log(`NodeSchema "${newNodeSchema.name}" inserted`);
           callback(null);
         });
       }

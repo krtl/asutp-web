@@ -8,6 +8,9 @@ const events = require('events');
 
 const myNodeType = require('./myNodeType');
 
+const DbUser = require('../dbmodels/authUser');  // eslint-disable-line global-require
+const DbParam = require('../dbmodels/param');  // eslint-disable-line global-require
+
 const DbNode = require('../dbmodels/node');
 const DbNodeRegion = require('../dbmodels/nodeRegion');
 const DbNodeLEP = require('../dbmodels/nodeLEP');
@@ -29,9 +32,9 @@ const DbNodeSchema = require('../dbmodels/nodeSchema');
 
 const logger = require('../logger');
 const config = require('../../config');
-const MyNodeJsonSerialize = require('../models/myNode').MyNodeJsonSerialize;
+const MyNodeJsonSerialize = require('./myNode').MyNodeJsonSerialize;
 
-
+const MyParam = require('./myParam');
 const MyNode = require('./myNode');
 const MyNodeRegion = require('./myNodeRegion');
 const MyNodeLEP = require('./myNodeLEP');
@@ -48,17 +51,19 @@ const MyNodeEquipment = require('./myNodeEquipment');
 
 const myNodeState = require('./myNodeState');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
-const MyParamList = require('./myParamList');
 
 const MySchemeWire = require('./mySchemeWire');
 const MyNodeSchema = require('./myNodeSchema');
 
 
+const users = new Map();
+const params = new Map();
 const nodes = new Map();
 const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
 const nodeSchemas = new Map();
+const psSchemas = new Map();
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
@@ -108,6 +113,8 @@ const LoadFromDB = (cb) => {
   errs = 0;
   async.series([
     clearData,
+    loadUsers,
+    loadParams,
     loadNodes,
     replaceNamesWithObjects,
     linkNodes,
@@ -116,7 +123,9 @@ const LoadFromDB = (cb) => {
     restoreLastStateValues,
     loadNodeSchemas,
     createNodeSchemasForRegions,
-    makeListNamesForEachNode,
+    createNodeSchemasForPSs,
+    makeSchemaNamesForEachNode,
+    makeSchemaNamesForEachParam,
   ], () => {
     let res = null;
     if (errs === 0) {
@@ -135,9 +144,39 @@ const LoadFromDB = (cb) => {
 };
 
 function clearData(cb) {
+  users.clear();
+  params.clear();
   nodes.clear();
+  Regions.clear();
+  LEPs.clear();
+  PSs.clear();
+  nodeSchemas.clear();
+  psSchemas.clear();
 
   return cb();
+}
+
+function loadUsers(cb) {
+  DbUser.find({}, null, { sort: { name: 1 } }, (err, usrs) => {
+    if (err) return cb(err);
+    usrs.forEach((usr) => {
+      users.set(usr.name, usr.might);
+    });
+    return cb();
+  });
+}
+
+function loadParams(cb) {
+  DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) return cb(err);
+    prms.forEach((prm) => {
+      const p = new MyParam(prm.name,
+         prm.caption,
+         prm.description);
+      params.set(prm.name, p);
+    });
+    return cb();
+  });
 }
 
 function loadNodes(callback) {
@@ -1305,105 +1344,43 @@ function pushIfNotPushed(array, element) {
   }
 }
 
-function arrayUnique(array) {
-  const a = array.concat();
-  for (let i = 0; i < a.length; i += 1) {
-    for (let j = i + 1; j < a.length; j += 1) {
-      if (a[i] === a[j]) {
-        a.splice(j -= 1, 1);
-      }
-    }
-  }
-  return a;
-}
-
-const GetParamsListsForEachPS = () => {
-  const paramLists = [];
-  const locPSs = Array.from(PSs.values());
-  for (let i = 0; i < locPSs.length; i += 1) {
-    const ps = locPSs[i];
-    const paramNames = [];
-    const stateParamNames = [];
-    for (let j = 0; j < ps.psparts.length; j += 1) {
-      const pspart = ps.psparts[j];
-      for (let k = 0; k < pspart.sections.length; k += 1) {
-        const section = pspart.sections[k];
-        for (let l = 0; l < section.connectors.length; l += 1) {
-          const connector = section.connectors[l];
-          if (MyNodePropNameParamRole.POWER in connector) {
-            if (connector[MyNodePropNameParamRole.POWER] !== '') {
-              pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
-            }
-          }
-          for (let m = 0; m < connector.equipments.length; m += 1) {
-            const equipment = connector.equipments[m];
-            if (MyNodePropNameParamRole.STATE in equipment) {
-              if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-                pushIfNotPushed(stateParamNames, equipment[MyNodePropNameParamRole.STATE]);
-              }
-            }
-          }
-        }
-      }
-
-      for (let l = 0; l < pspart.connectors.length; l += 1) {
-        const connector = pspart.connectors[l];
-        if (MyNodePropNameParamRole.POWER in connector) {
-          if (connector[MyNodePropNameParamRole.POWER] !== '') {
-            pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
-          }
-        }
-
-        for (let m = 0; m < connector.equipments.length; m += 1) {
-          const equipment = connector.equipments[m];
-          if (MyNodePropNameParamRole.STATE in equipment) {
-            if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-              pushIfNotPushed(stateParamNames, equipment[MyNodePropNameParamRole.STATE]);
-            }
-          }
-        }
-      }
-    }
-
-    if (stateParamNames.length > 0) {
-      const pl = new MyParamList(myNodeState.PARAMLIST_STATE_PREFIX + ps.name, '', '', stateParamNames);
-      paramLists.push(pl);
-    }
-    if ((paramNames.length > 0) || (stateParamNames.length > 0)) {
-      const concatenatedParamNames = arrayUnique(paramNames.concat(stateParamNames));
-      const pl = new MyParamList(ps.name, ps.caption, '', concatenatedParamNames);
-      paramLists.push(pl);
-    }
-  }
-  return paramLists;
-};
-
 function loadNodeSchemas(cb) {
   DbNodeSchema.find({}, null, { sort: { name: 1 } }, (err, dbNodeSchemas) => {
     if (err) return cb(err);
 
-    dbNodeSchemas.forEach((list) => {
+    dbNodeSchemas.forEach((schema) => {
       let nodeNames = [];
-      if (list.paramNames) {
-        nodeNames = list.paramNames.split(',');
+      if (schema.nodeNames) {
+        nodeNames = schema.nodeNames.split(',');
       }
 
       const nodes = [];
       nodeNames.forEach((nodeName) => {
         if (!nodes.has(nodeName)) {
-          setError(`cannot find node "${nodeName}" in "${list.name}"`);
+          setError(`[ModelNodes][loadNodeSchemas] Cannot find node "${nodeName}" in "${schema.name}"`);
         } else {
           nodes.push(nodes.get(nodeName));
         }
       });
 
+      let prmNames = [];
+      if (schema.paramNames) {
+        prmNames = schema.paramNames.split(',');
+      }
+      prmNames.forEach((prmName) => {
+        if (!params.has(prmName)) {
+          setError(`[ModelNodes][loadNodeSchemas] Cannot find param "${prmName}" in "${schema.name}"`);
+        }
+      });
 
-      const nl = new MyNodeSchema(list.name,
-        list.caption,
-        list.description,
-        nodes);
 
-      nodeSchemas.set(list.name, nl);
+      const nl = new MyNodeSchema(schema.name,
+        schema.caption,
+        schema.description,
+        nodes,
+        prmNames);
+
+      nodeSchemas.set(schema.name, nl);
     });
     return cb();
   });
@@ -1415,14 +1392,14 @@ function createNodeSchemasForRegions(cb) {
 
   for (let i = 0; i < locRegions.length; i += 1) {
     const region = locRegions[i];
-    const nodes = [];
+    const locNodes = [];
 
     for (let j = 0; j < locPSs.length; j += 1) {
       const ps = locPSs[j];
       if (ps.parentNode) {
         if (ps.parentNode.name === region.name) {
-          if (nodes.indexOf(ps) < 0) {
-            nodes.push(ps);
+          if (locNodes.indexOf(ps) < 0) {
+            locNodes.push(ps);
           }
 
           for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
@@ -1431,8 +1408,8 @@ function createNodeSchemasForRegions(cb) {
             if (lep2ps.parentNode) {
               const lep = lep2ps.parentNode;
 
-              if (nodes.indexOf(lep) < 0) {
-                nodes.push(lep);
+              if (locNodes.indexOf(lep) < 0) {
+                locNodes.push(lep);
               }
             }
           }
@@ -1443,29 +1420,166 @@ function createNodeSchemasForRegions(cb) {
     const nl = new MyNodeSchema(`nodes_of_${region.name}`,
       region.caption,
       region.description,
-      nodes);
+      locNodes, []);
     nodeSchemas.set(nl.name, nl);
   }
   return cb();
 }
 
-function makeListNamesForEachNode(cb) {
+function createNodeSchemasForPSs(cb) {
+  const locPSs = Array.from(PSs.values());
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const ps = locPSs[i];
+    const locNodes = [];
+    const paramNames = [];
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      locNodes.push(pspart);
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        locNodes.push(section);
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          locNodes.push(connector);
+          if (MyNodePropNameParamRole.POWER in connector) {
+            if (connector[MyNodePropNameParamRole.POWER] !== '') {
+              pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+            }
+          }
+          for (let m = 0; m < connector.equipments.length; m += 1) {
+            const equipment = connector.equipments[m];
+            locNodes.push(equipment);
+            if (MyNodePropNameParamRole.STATE in equipment) {
+              if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+                pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
+
+                if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
+                  const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
+                  param.stateVarOf = ps.name;
+                } else {
+                  logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      for (let l = 0; l < pspart.connectors.length; l += 1) {
+        const connector = pspart.connectors[l];
+        locNodes.push(connector);
+        if (MyNodePropNameParamRole.POWER in connector) {
+          if (connector[MyNodePropNameParamRole.POWER] !== '') {
+            pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+          }
+        }
+
+        for (let m = 0; m < connector.equipments.length; m += 1) {
+          const equipment = connector.equipments[m];
+          locNodes.push(equipment);
+          if (MyNodePropNameParamRole.STATE in equipment) {
+            if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+              pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
+
+              if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
+                const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
+                param.stateVarOf = ps.name;
+              } else {
+                logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const nl = new MyNodeSchema(`nodes_of_${ps.name}`,
+      ps.caption,
+      ps.description,
+      locNodes,
+      paramNames);
+    psSchemas.set(nl.name, nl);
+  }
+  return cb();
+}
+
+function makeSchemaNamesForEachNode(cb) {
   const locNodes = Array.from(nodes.values());
   const locSchemas = Array.from(nodeSchemas.values());
 
   for (let i = 0; i < locNodes.length; i += 1) {
     const node = locNodes[i];
-    const locListNames = [];
+    const locSchemaNames = [];
     for (let j = 0; j < locSchemas.length; j += 1) {
       const schema = locSchemas[j];
-      if (locListNames.indexOf(schema.name) > -1) {
-        locListNames.push(schema.name);
+      if (schema.nodes.indexOf(node.name) > -1) {
+        if (locSchemaNames.indexOf(schema.name) < 0) {
+          locSchemaNames.push(schema.name);
+        }
       }
     }
-    node.setListNames(locListNames);
+    node.setSchemaNames(locSchemaNames);
   }
   return cb();
 }
+
+function makeSchemaNamesForEachParam(cb) {
+  const locParams = Array.from(params.values());
+  const locSchemas = Array.from(nodeSchemas.values());
+
+  for (let i = 0; i < locParams.length; i += 1) {
+    const param = locParams[i];
+    const locSchemaNames = [];
+    for (let j = 0; j < locSchemas.length; j += 1) {
+      const schema = locSchemas[j];
+      if (schema.paramNames.indexOf(param.name) > -1) {
+        if (locSchemaNames.indexOf(schema.name) < 0) {
+          locSchemaNames.push(schema.name);
+        }
+      }
+    }
+    param.setSchemaNames(locSchemaNames);
+  }
+  return cb();
+}
+
+const GetAvailableSchemas = (userName) => {
+  const locSchemas = Array.from(nodeSchemas.values());
+  const result = [];
+  if (userName === '') { // temporary!
+    for (let j = 0; j < locSchemas.length; j += 1) {
+      const value = locSchemas[j];
+      result.push({ name: value.name,
+        caption: value.caption,
+        description: value.description });
+    }
+  } else if (users.has(userName)) {
+    const locMight = users.get(userName);
+    const locMights = locMight.split(',');
+    locMights.forEach((schemaName) => {
+      if (nodeSchemas.has(schemaName)) {
+        const locSchema = nodeSchemas.get(schemaName);
+        if (locSchema !== undefined) {
+          result.push(locSchema);
+        }
+      }
+    });
+  }
+  return result;
+};
+
+const GetSchemaParamNames = (schemaName) => {
+  if (nodeSchemas.has(schemaName)) {
+    const locSchema = nodeSchemas.get(schemaName);
+    if (locSchema !== undefined) {
+      return locSchema.paramNames;
+    }
+  }
+  return [];
+};
+
+const GetParam = paramName => params.get(paramName);
+const GetAllParamsAsArray = () => Array.from(params.values());
 
 
 module.exports.LoadFromDB = LoadFromDB;
@@ -1479,5 +1593,8 @@ module.exports.GetRegions = GetRegions;
 module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetPSForJson = GetPSForJson;
 module.exports.GetSchema = GetSchema;
-module.exports.GetParamsListsForEachPS = GetParamsListsForEachPS;
 module.exports.StoreLastStateValues = StoreLastStateValues;
+module.exports.GetAvailableSchemas = GetAvailableSchemas;
+module.exports.GetSchemaParamNames = GetSchemaParamNames;
+module.exports.GetParam = GetParam;
+module.exports.GetAllParamsAsArray = GetAllParamsAsArray;

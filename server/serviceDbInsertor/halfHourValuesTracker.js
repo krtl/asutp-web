@@ -4,7 +4,7 @@ const async = require('async');
 const logger = require('../logger');
 const moment = require('moment');
 
-const MyDataModelParams = require('../models/myDataModelParams');
+const MyDataModelParams = require('./myDataModelParams');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const MyParamValue = require('../models/myParamValue');
 const DbParamValues = require('./dbParamValues');

@@ -81,7 +81,7 @@ export default class MyParams extends React.Component {
     super(props);
 
     this.state = {
-      selectedParamList: '',
+      selectedSchema: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -90,13 +90,13 @@ export default class MyParams extends React.Component {
 
   componentDidMount() {
 
-      const selectedParamListName = localStorage.getItem('selectedParamList');
+      const selectedSchemaName = localStorage.getItem('selectedSchema');
 
-      if (selectedParamListName) {
-        for (let i = 0; i < this.props.paramLists.length; i += 1) {
-          if (this.props.paramLists[i].name === selectedParamListName) {
+      if (selectedSchemaName) {
+        for (let i = 0; i < this.props.schemas.length; i += 1) {
+          if (this.props.schemas[i].name === selectedSchemaName) {
             this.setState({
-              selectedParamList: this.props.paramLists[i],
+              selectedSchema: this.props.schemas[i],
             });
             this.handleLoadParamsClick();
             break;
@@ -108,7 +108,7 @@ export default class MyParams extends React.Component {
   
   handleLoadParamsClick(selectedListItem) {
     if (selectedListItem === undefined) {
-      selectedListItem = this.state.selectedParamList;
+      selectedListItem = this.state.selectedSchema;
     }
 
     if (selectedListItem) {
@@ -117,7 +117,7 @@ export default class MyParams extends React.Component {
   }
 
   handleChange(event, index, value) {
-    this.setState({ selectedParamList: value });
+    this.setState({ selectedSchema: value });
 
     this.handleLoadParamsClick(value);
   }
@@ -128,13 +128,13 @@ export default class MyParams extends React.Component {
       <div>
         <div>
           <SelectField
-            floatingLabelText='Params List:'
-            value={this.state.selectedParamList}
+            floatingLabelText='Schema:'
+            value={this.state.selectedSchema}
             onChange={this.handleChange}
             style={styles.customWidth}
           >
-            {this.props.paramLists.map(paramList => (
-              <MenuItem key={paramList.name} value={paramList} primaryText={paramList.caption} secondaryText={paramList.name} />
+            {this.props.schemas.map(schema => (
+              <MenuItem key={schema.name} value={schema} primaryText={schema.caption} secondaryText={schema.name} />
             ))
             }
           </SelectField>
@@ -171,7 +171,7 @@ export default class MyParams extends React.Component {
 }
 
 MyParams.propTypes = {
-  paramLists: PropTypes.array.isRequired,
+  schemas: PropTypes.array.isRequired,
   params: PropTypes.array.isRequired,
   onLoadParams: PropTypes.func,
 };

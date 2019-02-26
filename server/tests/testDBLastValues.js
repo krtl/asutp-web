@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
-const dbParamValues = require('../dbInsertor/dbParamValues');
+const dbParamValues = require('../serviceDbInsertor/dbParamValues');
 
 // const Schema = mongoose.Schema;
 // const chai = require('chai');

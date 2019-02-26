@@ -1,6 +1,5 @@
 const async = require('async');
 const logger = require('../logger');
-const myDataModelParams = require('../models/myDataModelParams');
 const myDataModelNodes = require('../models/myDataModelNodes');
 const DbAsutpConnection = require('../dbmodels/asutpConnection');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
@@ -8,7 +7,7 @@ const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 
 module.exports = (app) => {
   app.get('/allParamsAsArray', (req, res) => {
-    const params = myDataModelParams.getAllParamsAsArray();
+    const params = myDataModelNodes.GetAllParamsAsArray();
     res.json(params);
     return true;
   });

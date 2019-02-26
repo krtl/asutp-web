@@ -5,7 +5,6 @@ import MyParams from './MyParams';
 import MyPSs from './MyPSs';
 import MyNodeStateHistory from '../containers/MyNodeStateHistory';
 import MyRegionSchemaContainer from '../containers/MyRegionSchemaContainer';
-// import Client from '../modules/Client'; // eslint-disable-line
 
 class MainForm extends React.Component {
   // constructor(props) {
@@ -22,7 +21,7 @@ class MainForm extends React.Component {
       <Tabs>
         <Tab label='Params' >
           <MyParams
-            paramLists={this.props.paramLists}
+            schemas={this.props.schemas}
             params={this.props.params}
             onLoadParams={this.props.onLoadParams}
            />
@@ -53,7 +52,6 @@ class MainForm extends React.Component {
 }
 
 MainForm.propTypes = {
-  paramLists: PropTypes.array.isRequired,
   params: PropTypes.array.isRequired,
   schemas: PropTypes.array.isRequired,
   PSs: PropTypes.array.isRequired,

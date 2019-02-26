@@ -2,10 +2,8 @@
 // const config = require('../../config');
 const myNodeType = require('../models/myNodeType');
 const MyDataModelNodes = require('../models/myDataModelNodes');
-const MyDataModelParams = require('../models/myDataModelParams');
 const lastValues = require('./lastValues');
 const MyStompServer = require('./myStompServer');
-const myNodeState = require('../models/myNodeState');
 const MyNodeStateValue = require('../models/myNodeStateValue');
 const ampqRawValuesReceiver = require('./amqpRawValuesReceiver');
 const dbNodeStateValuesTracker = require('./amqpInsertNodeStateValueSender');
@@ -23,9 +21,9 @@ const initializeParamValuesProcessor = () => {
         const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
 
-        for (let i = 0; i < node.listNames.length; i += 1) {
-          const lstName = node.listNames[i];
-          MyStompServer.sendNodeStateValue(lstName, nodeStateValue);
+        for (let i = 0; i < node.schemaNames.length; i += 1) {
+          const schemaName = node.schemaNames[i];
+          MyStompServer.sendNodeStateValue(schemaName, nodeStateValue);
         }
 
         if (myNodeType.isSchemaRecalculationRequiredFor(node.nodeType)) {
@@ -44,16 +42,15 @@ const initializeParamValuesProcessor = () => {
     for (let i = 0; i < lastChanged.length; i += 1) {
       const paramName = lastChanged[i];
       const value = lastValues.getLastValue(paramName);
-      const param = MyDataModelParams.getParam(paramName);
+      const param = MyDataModelNodes.GetParam(paramName);
       if ((param) && (value)) {
-        for (let i = 0; i < param.listNames.length; i += 1) {
-          const lstName = param.listNames[i];
-          MyStompServer.sendParamValue(lstName, value);
+        for (let i = 0; i < param.schemaNames.length; i += 1) {
+          const schemaName = param.schemaNames[i];
+          MyStompServer.sendParamValue(schemaName, value);
 
-          if (lstName.startsWith(myNodeState.PARAMLIST_STATE_PREFIX)) {
-            const psName = lstName.replace(myNodeState.PARAMLIST_STATE_PREFIX, '');
-            if (recalcPSs.indexOf(psName) < 0) {
-              recalcPSs.push(psName);
+          if (param.stateVarOf) {
+            if (recalcPSs.indexOf(param.stateVarOf) < 0) {
+              recalcPSs.push(param.stateVarOf);
             }
           }
         }

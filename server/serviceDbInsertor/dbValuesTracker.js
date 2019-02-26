@@ -1,6 +1,6 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 // const config = require('../../config');
-const MyDataModelParams = require('../models/myDataModelParams');
+const MyDataModelParams = require('./myDataModelParams');
 const dbParamValues = require('./dbParamValues');
 const dbNodeStateValues = require('./dbNodeStateValues');
 const logger = require('../logger');

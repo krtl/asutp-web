@@ -3,16 +3,9 @@ const mongoose = require('mongoose');
 
 const expect = chai.expect;
 const myDataModelNodes = require('../models/myDataModelNodes');
-// const ParamList = require('../dbmodels/paramList');
-// const Param = require('../dbmodels/param');
-// const User = require('../dbmodels/authUser');
 
 
 const config = require('../../config');
-
-// const testUserName = 'TestUserName';
-// const testParamName = 'TestParamName';
-// const testParamListName = 'TestParamListName';
 
 
 describe('myDataModelNodes', () => {
@@ -38,8 +31,6 @@ describe('myDataModelNodes', () => {
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
 
-        // const pLists = myDataModelNodes.getAvailableParamsLists(testUserName);
-        // if (pLists.length !== 1) { throw new Error('No data!'); }
         done();
       });
     });

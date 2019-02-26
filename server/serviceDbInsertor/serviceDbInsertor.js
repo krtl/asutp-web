@@ -9,7 +9,7 @@ logger.setup({ amqpSender: amqpLogSender });
 const moment = require('moment');
 const mongoose = require('mongoose');
 const config = require('../../config');
-const MyDataModelParams = require('../models/myDataModelParams');
+const MyDataModelParams = require('./myDataModelParams');
 const MyParamValue = require('../models/myParamValue');
 const MyNodeStateValue = require('../models/myNodeStateValue');
 const amqpValuesReceiver = require('../amqp/amqp_receive');

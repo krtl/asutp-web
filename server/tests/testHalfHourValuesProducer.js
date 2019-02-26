@@ -1,6 +1,6 @@
 const moment = require('moment');
 const MyParamValue = require('../models/myParamValue');
-const halfHourValuesProducer = require('../dbInsertor/halfHourValuesProducer');
+const halfHourValuesProducer = require('../serviceDbInsertor/halfHourValuesProducer');
 
 const TESTPARAMNAME = 'testParam3245646';
 const TESTPARAMVALUE = 333.333;

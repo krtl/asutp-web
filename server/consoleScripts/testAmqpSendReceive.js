@@ -12,7 +12,6 @@ const amqpSender = require('../amqp/amqp_send');
 // const MyParamValue = require('../models/myParamValue');
 // const lastValues = require('../values/lastValues');
 const moment = require('moment');
-// const myDataModelParams = require('../models/myDataModelParams');
 
 
 mongoose.Promise = global.Promise;
@@ -27,14 +26,6 @@ db.on('error', console.error.bind(console, 'connection error'));
 db.on('connected', () => {
   console.info(`We are connected to ${config.dbUri}`);
 });
-
-// myDataModelParams.LoadFromDB((err) => {
-//   if (err) {
-//     console.error(`Failed! Error: ${err}`);
-//   } else {
-//     // console.info('Done!');
-//   }
-// });
 
 
 // lastValues.init(

@@ -3,7 +3,7 @@ const logger = require('../logger');
 const moment = require('moment');
 
 const dbValuesTracker = require('./amqpInsertValueSender');
-const MyDataModelParams = require('../models/myDataModelParams');
+const myDataModelNodes = require('../models/myDataModelNodes');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const DbParamValue = require('../dbmodels/paramValue');
 const MyParamValue = require('../models/myParamValue');
@@ -58,7 +58,7 @@ function restoreLastParamValues(callback) {
 
   const start = moment();
 
-  const params = MyDataModelParams.getAllParamsAsArray();
+  const params = myDataModelNodes.GetAllParamsAsArray();
 
   // events.EventEmitter.defaultMaxListeners = 125;
   async.each(params, (param, callback) => {

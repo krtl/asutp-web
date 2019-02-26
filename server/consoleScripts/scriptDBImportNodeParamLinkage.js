@@ -2,7 +2,6 @@
 const fs = require('fs');
 const moment = require('moment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
-const myDataModelParams = require('../models/myDataModelParams');
 const myDataModelNodes = require('../models/myDataModelNodes');
 
 const async = require('async');
@@ -19,7 +18,6 @@ function Start(cb) {
   async.series([
     // open,
     loadNodesModel,
-    loadParamsModel,
     importLinkages,
   ], (err) => {
   // console.info(arguments);
@@ -51,12 +49,6 @@ function loadNodesModel(callback) {
   });
 }
 
-function loadParamsModel(callback) {
-  myDataModelParams.LoadFromDB((err) => {
-    callback(err);
-  });
-}
-
 function importLinkages(callback) {
   let rawdata = null;
   const fileName = `${config.importPath}nodeParamLinkage.json`;
@@ -79,7 +71,7 @@ function importLinkages(callback) {
 
   async.each(linkages, (linkageRawData, callback) => {
     const node = myDataModelNodes.GetNode(linkageRawData.nodeName);
-    const param = myDataModelParams.getParam(linkageRawData.paramPropValue);
+    const param = myDataModelNodes.GetParam(linkageRawData.paramPropValue);
 
     if (!node) {
       setWarn(`Unknown node "${linkageRawData.nodeName}" on importing linkages`);

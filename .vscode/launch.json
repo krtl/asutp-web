@@ -45,12 +45,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "LoadModelParams",
-            "program": "${workspaceFolder}/server/consoleScripts/scriptLoadParamsModel.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Run Logger",
             "program": "${workspaceFolder}/server/serviceLogger/serviceLogger.js"
         },

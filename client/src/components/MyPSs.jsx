@@ -56,7 +56,6 @@ export default class MyPSs extends React.Component {
 
     this.state = {
       selectedSchema: '',
-      paramLists: [],
       params: [],
     };
 
