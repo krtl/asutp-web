@@ -15,9 +15,9 @@ module.exports = (app) => {
 
   app.get('/getSchemas', (req, res) => {
     const names = [];
-    const schemas = myDataModelNodes.GetNodeLists();
-    schemas.forEach((nodeList) => {
-      const obj = { name: nodeList.name, caption: nodeList.caption, sapCode: nodeList.sapCode };
+    const schemas = myDataModelNodes.GetNodeSchemas();
+    schemas.forEach((nodeSchema) => {
+      const obj = { name: nodeSchema.name, caption: nodeSchema.caption, sapCode: nodeSchema.sapCode };
       names.push(obj);
     });
     res.json(names);

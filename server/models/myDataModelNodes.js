@@ -24,7 +24,7 @@ const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 // const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
-const DbNodeList = require('../dbmodels/nodeList');
+const DbNodeSchema = require('../dbmodels/nodeSchema');
 
 
 const logger = require('../logger');
@@ -51,14 +51,14 @@ const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 const MyParamList = require('./myParamList');
 
 const MySchemeWire = require('./mySchemeWire');
-const MyNodeList = require('./myNodeList');
+const MyNodeSchema = require('./myNodeSchema');
 
 
 const nodes = new Map();
 const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
-const nodeLists = new Map();
+const nodeSchemas = new Map();
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
@@ -114,8 +114,8 @@ const LoadFromDB = (cb) => {
     checkIntegrity,
     linkParamNamesToNodes,
     restoreLastStateValues,
-    loadNodeLists,
-    createNodeListsForRegions,
+    loadNodeSchemas,
+    createNodeSchemasForRegions,
     makeListNamesForEachNode,
   ], () => {
     let res = null;
@@ -736,15 +736,15 @@ function restoreLastStateValues(callback) {
 
 const GetNode = nodeName => nodes.get(nodeName);
 
-const GetNodeLists = () => Array.from(nodeLists.values());
+const GetNodeSchemas = () => Array.from(nodeSchemas.values());
 const GetRegions = () => Array.from(Regions.values());
 
 const GetSchemaPSs = (schemaName) => {
   const result = [];
-  if (nodeLists.has(schemaName)) {
-    const nodeList = nodeLists.get(schemaName);
-    for (let i = 0; i < nodeList.nodes.length; i += 1) {
-      const node = nodeList.nodes[i];
+  if (nodeSchemas.has(schemaName)) {
+    const nodeSchema = nodeSchemas.get(schemaName);
+    for (let i = 0; i < nodeSchema.nodes.length; i += 1) {
+      const node = nodeSchema.nodes[i];
       if (node.nodeType === myNodeType.PS) {
         result.push(node);
       }
@@ -775,18 +775,18 @@ const getSchema1 = (schemaName, callback) => {
   const leps = [];
   const wires = [];
 
-  if (!nodeLists.has(schemaName)) {
+  if (!nodeSchemas.has(schemaName)) {
     // eslint-disable-next-line no-console
-    console.error(`Unknown nodeList with name= ${schemaName}`);
+    console.error(`Unknown nodeSchema with name= ${schemaName}`);
     const result = { nodes: [], wires };
 
     callback('', result);
     return 1;
   }
 
-  const locNodeList = nodeLists.get(schemaName);
-  for (let i = 0; i < locNodeList.nodes.length; i += 1) {
-    const node = locNodeList.nodes[i];
+  const locNodeSchema = nodeSchemas.get(schemaName);
+  for (let i = 0; i < locNodeSchema.nodes.length; i += 1) {
+    const node = locNodeSchema.nodes[i];
     switch (node.nodeType) {
       case myNodeType.PS: { pss.push(node); break; }
       case myNodeType.LEP: { leps.push(node); break; }
@@ -806,7 +806,7 @@ const getSchema1 = (schemaName, callback) => {
         const lep = lep2ps.parentNode;
         if (leps.indexOf(lep) < 0) {
           leps.push(lep);
-          logger.warn(`[ModelNodes][getSchema] added lep: ${lep.name} that should be previously include into NodeList: ${locNodeList.name}`);
+          logger.warn(`[ModelNodes][getSchema] added lep: ${lep.name} that should be previously include into NodeSchema: ${locNodeSchema.name}`);
         }
       }
       const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
@@ -1378,11 +1378,11 @@ const GetParamsListsForEachPS = () => {
   return paramLists;
 };
 
-function loadNodeLists(cb) {
-  DbNodeList.find({}, null, { sort: { name: 1 } }, (err, dbNodeLists) => {
+function loadNodeSchemas(cb) {
+  DbNodeSchema.find({}, null, { sort: { name: 1 } }, (err, dbNodeSchemas) => {
     if (err) return cb(err);
 
-    dbNodeLists.forEach((list) => {
+    dbNodeSchemas.forEach((list) => {
       let nodeNames = [];
       if (list.paramNames) {
         nodeNames = list.paramNames.split(',');
@@ -1398,18 +1398,18 @@ function loadNodeLists(cb) {
       });
 
 
-      const nl = new MyNodeList(list.name,
+      const nl = new MyNodeSchema(list.name,
         list.caption,
         list.description,
         nodes);
 
-      nodeLists.set(list.name, nl);
+      nodeSchemas.set(list.name, nl);
     });
     return cb();
   });
 }
 
-function createNodeListsForRegions(cb) {
+function createNodeSchemasForRegions(cb) {
   const locPSs = Array.from(PSs.values());
   const locRegions = Array.from(Regions.values());
 
@@ -1440,26 +1440,26 @@ function createNodeListsForRegions(cb) {
       }
     }
 
-    const nl = new MyNodeList(`nodes_of_${region.name}`,
+    const nl = new MyNodeSchema(`nodes_of_${region.name}`,
       region.caption,
       region.description,
       nodes);
-    nodeLists.set(nl.name, nl);
+    nodeSchemas.set(nl.name, nl);
   }
   return cb();
 }
 
 function makeListNamesForEachNode(cb) {
   const locNodes = Array.from(nodes.values());
-  const locLists = Array.from(nodeLists.values());
+  const locSchemas = Array.from(nodeSchemas.values());
 
   for (let i = 0; i < locNodes.length; i += 1) {
     const node = locNodes[i];
     const locListNames = [];
-    for (let j = 0; j < locLists.length; j += 1) {
-      const list = locLists[j];
-      if (locListNames.indexOf(list.name) > -1) {
-        locListNames.push(list.name);
+    for (let j = 0; j < locSchemas.length; j += 1) {
+      const schema = locSchemas[j];
+      if (locListNames.indexOf(schema.name) > -1) {
+        locListNames.push(schema.name);
       }
     }
     node.setListNames(locListNames);
@@ -1474,7 +1474,7 @@ module.exports.SetStateChangedHandler = SetStateChangedHandler;
 module.exports.SetManualStates = SetManualStates;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
-module.exports.GetNodeLists = GetNodeLists;
+module.exports.GetNodeSchemas = GetNodeSchemas;
 module.exports.GetRegions = GetRegions;
 module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetPSForJson = GetPSForJson;

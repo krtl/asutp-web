@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const NodeListSchema = new mongoose.Schema({
+const NodeSchemaSchema = new mongoose.Schema({
   name: {
     type: String,
     index: { unique: true },
@@ -8,6 +8,7 @@ const NodeListSchema = new mongoose.Schema({
   caption: String,
   description: String,
   nodeNames: String,
+  paramNames: String,
 });
 
-module.exports = mongoose.model('NodeList', NodeListSchema);
+module.exports = mongoose.model('NodeSchema', NodeSchemaSchema);

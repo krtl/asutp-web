@@ -45,10 +45,10 @@ describe('nodeState', () => {
             console.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
             changedStates.push({ node, oldState, newState });
           });
-          const nodeLists = myDataModelNodes.GetNodeLists();
-          for (let i = 0; i < nodeLists.length; i += 1) {
-            const nodeList = nodeLists[i];
-            const PSs = myDataModelNodes.GetSchemaPSs(nodeList.name);
+          const nodeSchemas = myDataModelNodes.GetNodeSchemas();
+          for (let i = 0; i < nodeSchemas.length; i += 1) {
+            const nodeSchema = nodeSchemas[i];
+            const PSs = myDataModelNodes.GetSchemaPSs(nodeSchema.name);
             for (let j = 0; j < PSs.length; j += 1) {
               const ps = PSs[j];
               if (ps.stateChangeHandler === undefined) {

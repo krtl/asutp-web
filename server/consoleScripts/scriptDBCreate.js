@@ -42,7 +42,6 @@ function requireModels(callback) {
 
   require('mongoose').model('NetNode');  // eslint-disable-line global-require
   require('mongoose').model('NetWire');  // eslint-disable-line global-require
-  require('mongoose').model('NodeList');  // eslint-disable-line global-require
 
   require('mongoose').model('Node');  // eslint-disable-line global-require
   require('mongoose').model('NodeRegion');  // eslint-disable-line global-require
@@ -58,6 +57,7 @@ function requireModels(callback) {
   require('mongoose').model('NodeSec2SecConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodeEquipment');  // eslint-disable-line global-require
 
+  require('mongoose').model('NodeSchema');  // eslint-disable-line global-require
   require('mongoose').model('NodeStateValue');  // eslint-disable-line global-require
   require('mongoose').model('NodeCoordinates');  // eslint-disable-line global-require
 
