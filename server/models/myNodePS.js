@@ -24,13 +24,13 @@ class MyNodePS extends MyNode {
       }
     }
 
-    for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
-      const connector = this.lep2psConnectors[i];
-      connector.recalculateState();
-      if (connector.nodeState === myNodeState.NODE_STATE_ON) {
-        isConnected = true;
-      }
-    }
+    // for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
+    //   const connector = this.lep2psConnectors[i];
+    //   connector.recalculateState();
+    //   if (connector.nodeState === myNodeState.NODE_STATE_ON) {
+    //     isConnected = true;
+    //   }
+    // }
 
     let newState = myNodeState.NODE_STATE_UNKNOWN;
     if (isConnected) {

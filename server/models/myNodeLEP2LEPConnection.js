@@ -13,7 +13,7 @@ class MyNodeLEP2LEPConnection extends MyNode {
   recalculateState() {
     let isConnected = false;
     if (this.toNode) {
-      this.toNode.recalculateState();
+      // this.toNode.recalculateState();
       if (this.toNode.nodeState === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }

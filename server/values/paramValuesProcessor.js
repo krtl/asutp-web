@@ -1,5 +1,7 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 // const config = require('../../config');
+const moment = require('moment');
+
 const myNodeType = require('../models/myNodeType');
 const MyDataModelNodes = require('../models/myDataModelNodes');
 const lastValues = require('./lastValues');
@@ -17,13 +19,16 @@ const initializeParamValuesProcessor = () => {
     { useDbValueTracker: true }, () => {
       MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
         logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
+        console.log(`State changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}.`);
 
         const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
 
+        // console.log(node.schemaNames);
         for (let i = 0; i < node.schemaNames.length; i += 1) {
           const schemaName = node.schemaNames[i];
           MyStompServer.sendNodeStateValue(schemaName, nodeStateValue);
+          // console.log(nodeStateValue);
         }
 
         if (myNodeType.isSchemaRecalculationRequiredFor(node.nodeType)) {
@@ -68,6 +73,14 @@ const initializeParamValuesProcessor = () => {
 
     if (recalculateSchema) {
       recalculateSchema = false;
+
+      const start = moment();
+
+      MyDataModelNodes.RecalculateWholeShema();
+
+      const duration = moment().diff(start);
+      console.debug(`Schema recalculated in ${moment(duration).format('mm:ss.SSS')}`);
+
 
       // ..;
     }

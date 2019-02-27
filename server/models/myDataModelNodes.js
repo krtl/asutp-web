@@ -2,7 +2,6 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
 const fs = require('fs');
 const moment = require('moment');
-
 const async = require('async');
 const events = require('events');
 
@@ -63,7 +62,7 @@ const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
 const nodeSchemas = new Map();
-const psSchemas = new Map();
+const psSchemas = new Map();  // temporary
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
@@ -121,8 +120,8 @@ const LoadFromDB = (cb) => {
     checkIntegrity,
     linkParamNamesToNodes,
     restoreLastStateValues,
-    loadNodeSchemas,
     createNodeSchemasForRegions,
+    loadNodeSchemas,
     createNodeSchemasForPSs,
     makeSchemaNamesForEachNode,
     makeSchemaNamesForEachParam,
@@ -404,6 +403,7 @@ function linkLEP2PSConnectorToLepAndToPS(lep2psConnector) {
         if (pspart.parentNode.nodeType === myNodeType.PS) {
           const ps = pspart.parentNode;
           ps.lep2psConnectors.push(lep2psConnector);
+          lep2psConnector.toNodeConnector.lep2PsConnector = lep2psConnector;
         } else {
           setError(`Failed to link LEPConnector: ${lep2psConnector.name}. toNodeConnector Owner is not PS`);
         }
@@ -522,6 +522,21 @@ function linkNodes(cb) {
 }
 
 function checkIntegrity(cb) {
+  const locLEPs = Array.from(LEPs.values());
+  for (let i = 0; i < locLEPs.length; i += 1) {
+    const lep = locLEPs[i];
+    for (let j = 0; j < lep.lep2lepConnectors.length; j += 1) {
+      const lep2lep = lep.lep2lepConnectors[j];
+      if ((lep2lep.parentNode) && (lep2lep.toNode)) {
+        if (lep2lep.parentNode === lep2lep.toNode) {
+          setError(`Integrity checking error: lep2lep "${lep2lep.name}" has the same parent and toNode.`);
+        }
+      } else {
+        setError(`Integrity checking error: lep2lep "${lep2lep.name}" has no parent or toNode.`);
+      }
+    }
+  }
+
   const locPSs = Array.from(PSs.values());
   for (let i = 0; i < locPSs.length; i += 1) {
     const locPS = locPSs[i];
@@ -1512,7 +1527,7 @@ function makeSchemaNamesForEachNode(cb) {
     const locSchemaNames = [];
     for (let j = 0; j < locSchemas.length; j += 1) {
       const schema = locSchemas[j];
-      if (schema.nodes.indexOf(node.name) > -1) {
+      if (schema.nodes.indexOf(node) > -1) {
         if (locSchemaNames.indexOf(schema.name) < 0) {
           locSchemaNames.push(schema.name);
         }
@@ -1581,6 +1596,21 @@ const GetSchemaParamNames = (schemaName) => {
 const GetParam = paramName => params.get(paramName);
 const GetAllParamsAsArray = () => Array.from(params.values());
 
+function RecalculateWholeShema() {
+  const leps = Array.from(LEPs.values());
+  const pss = Array.from(PSs.values());
+
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    lep.recalculateState();
+  }
+
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+    ps.recalculateState();
+  }
+}
+
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
@@ -1598,3 +1628,4 @@ module.exports.GetAvailableSchemas = GetAvailableSchemas;
 module.exports.GetSchemaParamNames = GetSchemaParamNames;
 module.exports.GetParam = GetParam;
 module.exports.GetAllParamsAsArray = GetAllParamsAsArray;
+module.exports.RecalculateWholeShema = RecalculateWholeShema;

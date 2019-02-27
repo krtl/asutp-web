@@ -21,21 +21,23 @@ myDataModelNodes.LoadFromDB((err) => {
   } else {
     console.info('LoadFromDB Done!');
 
-    myDataModelNodes.ExportPSs((err) => {
-      if (err) {
-        console.error(`Failed! ExportPSs Error: ${err}`);
-      } else {
-        console.info('ExportPSs Done!');
-      }
+    // myDataModelNodes.RecalculateWholeShema();
 
-      mongoose.connection.close((err) => {
-        if (err) {
-          console.info(`We are disconnected from db. Error: ${err}`);
-        } else {
-          console.info('We are disconnected from db.');
-        }
-      });
+    // myDataModelNodes.ExportPSs((err) => {
+    //   if (err) {
+    //     console.error(`Failed! ExportPSs Error: ${err}`);
+    //   } else {
+    //     console.info('ExportPSs Done!');
+    //   }
+
+    mongoose.connection.close((err) => {
+      if (err) {
+        console.info(`We are disconnected from db. Error: ${err}`);
+      } else {
+        console.info('We are disconnected from db.');
+      }
     });
+    // });
   }
 });
 

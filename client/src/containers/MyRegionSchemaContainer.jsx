@@ -2,10 +2,13 @@ import React from 'react';
 import MyRegionSchema from '../components/MyRegionSchema';
 import MyFetchClient from './MyFetchClient';
 import makeUid from '../modules/MyFuncs';
+import MyStompClient from '../modules/MyStompClient';
 // import {MyConsts} from '../modules/MyConsts';
 
 // const MATCHING_ITEM_LIMIT = 10000;
 
+let valuesUpdated = 0;
+let timerId;
 
 export default class MyStageContainer extends React.Component {
 
@@ -19,19 +22,37 @@ export default class MyStageContainer extends React.Component {
       // doNotRender: false,
       nodes: [],
       wires: [],
+      update: false,
       };
 
     this.onLoadScheme = this.onLoadScheme.bind(this);    
     this.onSaveScheme = this.onSaveScheme.bind(this);
     this.onSaveManualStates = this.onSaveManualStates.bind(this);
+
+    // MyStompClient.connect(this.doOnWebsocketConnected);
+  }
+
+  componentDidMount() {
+
+    timerId = setInterval(() => {
+        if(valuesUpdated > 0) {
+          valuesUpdated = 0;
+          this.setState({
+                update: true,
+              });
+        }
+      }, 1000);    
   }
 
   componentWillUnmount() {
+    MyStompClient.unsubscribeFromValues();
+    clearInterval(timerId);
+
     this.setState({
       nodes: [],
       wires: [],
     });
-  }  
+  }
 
   onLoadScheme(schemaName) {
     this.setState({
@@ -50,6 +71,24 @@ export default class MyStageContainer extends React.Component {
             nodes: schema.nodes,
             wires: schema.wires,
           });
+
+          MyStompClient.subscribeToValues(schemaName, (value) => {
+            if('nodeName' in value) {
+              let b = false;
+              for (let i = 0; i < this.state.nodes.length; i += 1) {
+                const locNode = this.state.nodes[i];
+                if (locNode.name === value.nodeName) {
+                  locNode.nodeState = value.newState;
+                  locNode.qd = value.qd;
+                  b = true;
+                  break;
+                }
+              }
+              if (b) {
+                valuesUpdated = 1;
+              }
+            }
+          });           
         }
       },
     ]

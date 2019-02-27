@@ -15,15 +15,28 @@ class MyNodeSectionConnector extends MyNode {
     this[MyNodePropNameParamRole.POWER] = '';
     this.equipments = [];
     this.connectors = [];
+    this.lep2PsConnector = null;
   }
 
   recalculateState() {
     let isConnected = false;
+    let isSwitchedOn = false;
     for (let i = 0; i < this.equipments.length; i += 1) {
       const equipment = this.equipments[i];
       equipment.recalculateState();
       if (equipment.nodeState === myNodeState.NODE_STATE_ON) {
+        isSwitchedOn = true;
+      }
+    }
+
+    if (isSwitchedOn) {
+      if (this.parentNode.nodeState === myNodeState.NODE_STATE_ON) {
         isConnected = true;
+      }
+      if (this.lep2PsConnector) {
+        if (this.lep2PsConnector.nodeState === myNodeState.NODE_STATE_ON) {
+          isConnected = true;
+        }
       }
     }
 

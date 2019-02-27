@@ -39,11 +39,11 @@ function getNodesThatShouldHaveAParent() {
 }
 
 function isParentRequiredFor(nodeType) {
-  return (requireParent.includes[nodeType]);
+  return (requireParent.indexOf(nodeType) > -1);
 }
 
 function isSchemaRecalculationRequiredFor(nodeType) {
-  return (requireSchemaRecalculation.includes[nodeType]);
+  return (requireSchemaRecalculation.indexOf(nodeType) > -1);
 }
 
 module.exports = myNodeType;

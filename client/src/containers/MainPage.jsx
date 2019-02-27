@@ -92,19 +92,21 @@ export default class MainPage extends React.Component {
           });
 
           MyStompClient.subscribeToValues(schemaName, (value) => {
-            let b = false;
-            for (let i = 0; i < this.state.params.length; i += 1) {
-              const locParam = this.state.params[i];
-              if (locParam.name === value.paramName) {
-                locParam.value = value.value;
-                locParam.dt = value.dt;
-                locParam.qd = value.qd;
-                b = true;
-                break;
+            if('paramName' in value) {
+              let b = false;
+              for (let i = 0; i < this.state.params.length; i += 1) {
+                const locParam = this.state.params[i];
+                if (locParam.name === value.paramName) {
+                  locParam.value = value.value;
+                  locParam.dt = value.dt;
+                  locParam.qd = value.qd;
+                  b = true;
+                  break;
+                }
               }
-            }
-            if (b) {
-              valuesUpdated = 1;
+              if (b) {
+                valuesUpdated = 1;
+              }
             }
           });          
         }
