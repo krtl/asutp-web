@@ -26,10 +26,11 @@ class MyNodeSec2SecConnector extends MyNode {
     }
 
     if (isSwitchedOn) {
-      if (this.fromSection.nodeState === myNodeState.NODE_STATE_ON) {
-        isConnected = true;
-      }
-      if (this.toSection.nodeState === myNodeState.NODE_STATE_ON) {
+      if (this.fromSection.kTrust >= this.toSection.kTrust) {
+        if (this.fromSection.nodeState === myNodeState.NODE_STATE_ON) {
+          isConnected = true;
+        }
+      } else if (this.toSection.nodeState === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }
     }

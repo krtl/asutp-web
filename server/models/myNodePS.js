@@ -4,8 +4,6 @@ const myNodeState = require('./myNodeState');
 
 
 class MyNodePS extends MyNode {
-  // transformers = [];
-  // psparts = [];
 
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.PS);

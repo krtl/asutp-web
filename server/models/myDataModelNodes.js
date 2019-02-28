@@ -1600,14 +1600,14 @@ function RecalculateWholeShema() {
   const leps = Array.from(LEPs.values());
   const pss = Array.from(PSs.values());
 
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    lep.recalculateState();
-  }
-
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
     ps.recalculateState();
+  }
+
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    lep.recalculateState();
   }
 }
 

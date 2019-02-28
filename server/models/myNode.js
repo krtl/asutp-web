@@ -8,6 +8,7 @@ function MyNode(name, caption, description, nodeType) {
   this.parentNode = null;
   this.sapCode = '';
 
+  this.kTrust = 0;  // confidence coefficient
   this.nodeState = myNodeState.NODE_STATE_UNKNOWN;
   this.doOnStateChanged = (newState) => {
     if (this.stateChangeHandler) {
