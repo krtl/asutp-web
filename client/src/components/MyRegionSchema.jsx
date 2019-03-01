@@ -205,5 +205,5 @@ export default class MyStage extends React.Component {
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
   onSaveManualStates: PropTypes.func,
- };
+};
 

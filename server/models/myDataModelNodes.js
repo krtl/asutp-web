@@ -1263,6 +1263,497 @@ const getSchema = (schemaName, callback) => {
   }, 0);
 };
 
+const getPSSchema1 = (psName, callback) => {
+  const wires = [];
+
+  if ((!psSchemas.has(psName)) || (!PSs.has(psName))) {
+    // eslint-disable-next-line no-console
+    console.error(`Unknown psSchema with name = ${psName}`);
+    const result = { nodes: [], wires };
+
+    callback('', result);
+    return 1;
+  }
+
+
+  const ps = PSs.get(psName);
+    const locNodes = [];
+    const paramNames = [];
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      locNodes.push(pspart);
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        locNodes.push(section);
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          locNodes.push(connector);
+          if (MyNodePropNameParamRole.POWER in connector) {
+            if (connector[MyNodePropNameParamRole.POWER] !== '') {
+              pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+            }
+          }
+          for (let m = 0; m < connector.equipments.length; m += 1) {
+            const equipment = connector.equipments[m];
+            locNodes.push(equipment);
+            if (MyNodePropNameParamRole.STATE in equipment) {
+              if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+                pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
+
+                if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
+                  const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
+                  param.stateVarOf = ps.name;
+                } else {
+                  logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      for (let l = 0; l < pspart.connectors.length; l += 1) {
+        const connector = pspart.connectors[l];
+        locNodes.push(connector);
+        if (MyNodePropNameParamRole.POWER in connector) {
+          if (connector[MyNodePropNameParamRole.POWER] !== '') {
+            pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+          }
+        }
+
+        for (let m = 0; m < connector.equipments.length; m += 1) {
+          const equipment = connector.equipments[m];
+          locNodes.push(equipment);
+          if (MyNodePropNameParamRole.STATE in equipment) {
+            if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+              pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
+
+              if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
+                const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
+                param.stateVarOf = ps.name;
+              } else {
+                logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+
+    for (let j = 0; j < ps.lep2psConnectors.length; j += 1) {
+      const lep2ps = ps.lep2psConnectors[j];
+
+      if (lep2ps.parentNode) {
+        const lep = lep2ps.parentNode;
+        if (leps.indexOf(lep) < 0) {
+          leps.push(lep);
+          logger.warn(`[ModelNodes][getSchema] added lep: ${lep.name} that should be previously include into NodeSchema: ${locNodeSchema.name}`);
+        }
+      }
+      const wire = new MySchemeWire(lep2ps.name, lep2ps.caption, lep2ps.description, lep2ps.nodeType);
+      wire.nodeFrom = lep2ps.parentNode.name;
+      wire.nodeTo = ps.name;
+      wires.push(wire);
+    }
+  }
+
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    for (let j = 0; j < lep.lep2lepConnectors.length; j += 1) {
+      const lep2lep = lep.lep2lepConnectors[j];
+      if ((lep2lep.parentNode) && (lep2lep.toNode)) {
+        if ((leps.indexOf(lep2lep.parentNode) > 0) && (leps.indexOf(lep2lep.toNode.name) > 0)) {
+          const wire = new MySchemeWire(lep2lep.name, lep2lep.caption, lep2lep.description, lep2lep.nodeType);
+          wire.nodeFrom = lep2lep.parentNode.name;
+          wire.nodeTo = lep2lep.toNode.name;
+          wires.push(wire);
+        } else {
+          logger.warn(`[ModelNodes][getSchema] failed to find nodes on lep2lep: ${lep2lep.name}`);
+        }
+      }
+    }
+  }
+
+  const nodes = getNodeForScheme(leps.concat(pss));
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    node.peers = [];
+    node.tag = 0;
+  }
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    for (let j = 0; j < wires.length; j += 1) {
+      const wire = wires[j];
+      if (wire.nodeFrom === node.name) {
+        const locNode = nodes.find(nde => (nde.name === wire.nodeTo));
+        if (locNode) {
+          node.peers.push(locNode);
+        }
+      }
+      if (wire.nodeTo === node.name) {
+        const locNode = nodes.find(nde => (nde.name === wire.nodeFrom));
+        if (locNode) {
+          node.peers.push(locNode);
+        }
+      }
+    }
+  }
+
+  // nodes.sort((a, b) => {
+  //   if (a.peers.length > b.peers.length) {
+  //     return -1;
+  //   }
+  //   if (a.peers.length < b.peers.length) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
+
+  let matrixNum = 1;
+  const setPeersNumber = (node) => {
+    node.tag = matrixNum;
+    matrixNum += 1;
+    for (let j = 0; j < node.peers.length; j += 1) {
+      const peer = node.peers[j];
+      if (node.peers.length < peer.peers.length) {
+        setPeersNumber(peer);
+      } else {
+        peer.tag = node.tag;
+      }
+    }
+  };
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    if ((node.peers.length > 0) && (node.tag === 0)) {
+      setPeersNumber(node);
+    }
+  }
+
+  const matrix = [];
+  for (let i = 0; i < matrixNum; i += 1) {
+    const line = [];
+    for (let j = 0; j < nodes.length; j += 1) {
+      const node = nodes[j];
+      if (node.tag === i) {
+        line.push(node);
+      }
+    }
+    if (line.length > 0) {
+      line.sort((a, b) => (b.peers.length - a.peers.length));
+      matrix.push(line);
+    }
+  }
+
+  // const getRelatedPeersCount = (nodes, peerNumb) => {
+  //   let result = 0;
+  //   for (let i = 0; i < nodes.length; i += 1) {
+  //     const node = nodes[i];
+  //     for (let j = 0; j < node.peers.length; j += 1) {
+  //       const peer = node.peers[j];
+  //       if (peer.tag === peerNumb) {
+  //         result += 1;
+  //       }
+  //     }
+  //   }
+  //   return result;
+  // };
+
+  // matrix.sort((a, b) => {
+  //   if ((a.length > 0) && (b.length > 0)) {
+  //     const nodeA = a[0];
+  //     const nodeB = b[0];
+  //     return (getRelatedPeersCount(b, nodeA.tag) - getRelatedPeersCount(a, nodeB.tag));
+  //   }
+  //   return 0;
+  // });
+
+  const getPeersCount = (nodes) => {
+    let result = 0;
+    for (let i = 0; i < nodes.length; i += 1) {
+      const node = nodes[i];
+      result += node.peers.length;
+    }
+    return result;
+  };
+
+  matrix.sort((a, b) => {
+    if ((a.length > 0) && (b.length > 0)) {
+      return (getPeersCount(b) - getPeersCount(a));
+    }
+    return 0;
+  });
+
+  const WIDTH = 55;
+  const HEIGHT = Math.ceil(nodes.length / 50) + 2;
+
+  const setMatrixForLine = (line) => {
+    if (line.length < 4) {
+      for (let i = 0; i < line.length; i += 1) {
+        const node = line[i];
+        node.x = i;
+        node.y = 0;
+      }
+      return { height: 1, width: line.length };
+    }
+
+    if (line.length < 9) {
+      const width = Math.ceil(line.length / 2);
+      for (let i = 0; i < line.length; i += 1) {
+        const node = line[i];
+        if (i < width) {
+          node.x = i;
+          node.y = 0;
+        } else {
+          node.x = i - width;
+          node.y = 1;
+        }
+      }
+      return { height: 2, width };
+    }
+
+    const height = Math.ceil(Math.sqrt(line.length));
+    const width = Math.ceil(line.length / height);
+    let x1 = Math.floor(width / 2);
+    let y1 = Math.floor(height / 2);
+    let x2 = x1 + 1;
+    let y2 = y1;
+
+
+    for (let i = 0; i < line.length; i += 1) {
+      const node = line[i];
+      if ((i % 2) > 0) {
+        node.x = x2;
+        node.y = y2;
+        if (x2 < width - 1) {
+          x2 += 1;
+        } else {
+          x2 = 0;
+          y2 += 1;
+          if (y2 >= height) {
+            x2 = 0;
+            y2 = 0;
+            // eslint-disable-next-line no-console
+            // console.error('setMatrix error!');
+          }
+        }
+      } else {
+        node.x = x1;
+        node.y = y1;
+        if (x1 > 0) {
+          x1 -= 1;
+        } else {
+          x1 = width - 1;
+          y1 -= 1;
+          if (y1 < 0) {
+            x1 = width - 1;
+            y1 = height - 1;
+            // eslint-disable-next-line no-console
+            // console.error('setMatrix error!');
+          }
+        }
+      }
+    }
+    return { height, width };
+  };
+
+  const dimensions = [];
+  const located = [];
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    const dimension = setMatrixForLine(line);
+    dimensions.push(dimension);
+    located.push(0);
+  }
+
+  const nodesMatrix = [];
+  for (let i = 0; i < HEIGHT; i += 1) {
+    nodesMatrix[i] = [];
+    for (let j = 0; j < WIDTH; j += 1) {
+      nodesMatrix[i][j] = 0;
+    }
+  }
+
+  const isMatrixPositionFree = (dimension, x, y) => {
+    for (let i = 0; i < dimension.height; i += 1) {
+      for (let j = 0; j < dimension.width; j += 1) {
+        if ((x + j >= WIDTH) || (y + i >= HEIGHT)) {
+          return false;
+        }
+        if (nodesMatrix[y + i][x + j] !== 0) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const occupyMatrixPosition = (dimension, x, y) => {
+    for (let i = 0; i < dimension.height; i += 1) {
+      for (let j = 0; j < dimension.width; j += 1) {
+        nodesMatrix[y + i][x + j] = 1;
+      }
+    }
+  };
+
+  const moveCoordinatesForLine = (line, offsetX, offsetY) => {
+    for (let i = 0; i < line.length; i += 1) {
+      const node = line[i];
+      node.x += offsetX;
+      node.y += offsetY;
+    }
+  };
+
+  const getNextXY = (dimension, _x, _y) => {
+    let x = _x;
+    let y = _y;
+    x = _x + dimension.width;
+    if ((x < WIDTH) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x + dimension.width;
+    y = _y - dimension.height;
+    if ((x < WIDTH) && (y >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x;
+    y = _y - dimension.height;
+    if ((x >= 0) && (y >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x - dimension.width;
+    y = _y - dimension.height;
+    if ((x >= 0) && (y >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x - dimension.width;
+    y = _y;
+    if ((x >= 0) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x - dimension.width;
+    y = _y + dimension.height;
+    if ((x >= 0) && (y < HEIGHT) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x;
+    y = _y + dimension.height;
+    if ((x >= 0) && (y < HEIGHT) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+    x = _x + dimension.width;
+    y = _y + dimension.height;
+    if ((x < WIDTH) && (y < HEIGHT) && (isMatrixPositionFree(dimension, x, y))) {
+      return { x, y };
+    }
+
+    for (let k = 0; k < HEIGHT; k += 1) {
+      for (let l = 0; l < WIDTH; l += 1) {
+        if (nodesMatrix[k][l] === 0) {
+          if (isMatrixPositionFree(dimension, l, k)) {
+            return { x: l, y: k };
+          }
+        }
+      }
+    }
+
+    // eslint-disable-next-line no-console
+    console.error(`setNextXY error for ${dimension.width}:${dimension.height}`);
+    return { x: 0, y: 0 };
+  };
+
+  let x = Math.floor(WIDTH / 3);
+  let y = Math.floor(HEIGHT / 3);
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    const dimension = dimensions[i];
+    const xy = getNextXY(dimension, x, y);
+    x = xy.x;
+    y = xy.y;
+    if (isMatrixPositionFree(dimension, x, y)) {
+      occupyMatrixPosition(dimension, x, y);
+      moveCoordinatesForLine(line, x, y);
+      located[i] = 1;
+    }
+  }
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    if (located[i] === 0) {
+      located[i] = 1;
+      for (let j = 0; j < line.length; j += 1) {
+        const node = line[j];
+
+        for (let k = 0; k < HEIGHT; k += 1) {
+          for (let l = 0; l < WIDTH; l += 1) {
+            if (nodesMatrix[k][l] === 0) {
+              nodesMatrix[k][l] = 1;
+              node.x = l;
+              node.y = k;
+              k = WIDTH;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  const nodes1 = [];
+  for (let i = 0; i < matrix.length; i += 1) {
+    const line = matrix[i];
+    for (let j = 0; j < line.length; j += 1) {
+      const node = line[j];
+      nodes1.push(node);
+    }
+  }
+
+  // eslint-disable-next-line no-console
+  // console.log(matrix);
+
+
+  // correction
+  // for (let i = 0; i < nodes.length; i += 1) {
+  //   const node = nodes[i];
+
+  // }
+
+  // nodes.sort((a, b) => {
+  //   if (a.tag > b.tag) {
+  //     return 1;
+  //   }
+  //   if (a.tag < b.tag) {
+  //     return -1;
+  //   }
+  //   return 0;
+  // });
+
+  const NODE_RADIUS = 50;
+  for (let i = 0; i < nodes1.length; i += 1) {
+    const node = nodes1[i];
+    node.peers = undefined;
+    node.tag = undefined;
+    node.x *= NODE_RADIUS;
+    node.y *= NODE_RADIUS;
+  }
+
+  const result = { nodes, wires };
+
+  callback('', result);
+  return 0;
+};
+
+const getPSSchema = (psName, callback) => {
+  setTimeout(() => {
+    getPSSchema1(psName, callback);
+  }, 0);
+};
 const getNodeSchemeCoordinates = (schemaName, callback) => {
   DbNodeCoordinates
     .find({ schemaName })
@@ -1285,45 +1776,41 @@ const GetSchema = (schemaName, callback) => {
 
     if (result.coordinates.length === 0) {
       // use default coordinates!
-      // const NODE_LEP_WIDTH = 100;
-      // const NODE_LEP_HEIGHT = 6;
-      // const NODE_LEP_Y_OFFSET = 10;
-      // const NODE_PS_RADIUS = 10;
 
-      // let x = 0;
-      // let y = 0;
-      // for (let i = 0; i < result.schema.nodes.length; i += 1) {
-      //   const node = result.schema.nodes[i];
-      //   switch (node.nodeType) {
-      //     case myNodeType.LEP: {
-      //       x += NODE_LEP_WIDTH + 30;
-      //       if (x > 2900) {
-      //         x = 0;
-      //         y += NODE_LEP_HEIGHT + NODE_LEP_Y_OFFSET + 20;
-      //       }
-      //       break;
-      //     }
+    } else {
+      for (let i = 0; i < result.schema.nodes.length; i += 1) {
+        const node = result.schema.nodes[i];
+        for (let j = 0; j < result.coordinates.length; j += 1) {
+          const schemaNode = result.coordinates[j];
+          if (node.name === schemaNode.nodeName) {
+            node.x = schemaNode.x;
+            node.y = schemaNode.y;
+            break;
+          }
+        }
+      }
+    }
 
-      //     case myNodeType.PS: {
-      //       x += NODE_PS_RADIUS + 30;
-      //       if (x > 2900) {
-      //         x = 0;
-      //         y += NODE_PS_RADIUS + 20;
-      //       }
-      //       break;
-      //     }
-      //     default: {
-      //       x += 50;
-      //       if (x > 2900) {
-      //         x = 0;
-      //         y += 50;
-      //       }
-      //     }
-      //   }
 
-      //   node.x = x;
-      //   node.y = y;
-      // }
+//    console.log(result.schema, result.coordinates);
+
+    callback(null, result.schema);
+  });
+};
+
+const GetPSSchema = (psName, callback) => {
+  async.parallel({
+    schema: getPSSchema.bind(null, psName),
+    coordinates: getNodeSchemeCoordinates.bind(null, psName),
+  }, (err, result) => {
+    if (err) {
+      callback(err, result);
+      return;
+    }
+
+    if (result.coordinates.length === 0) {
+      // use default coordinates!
+
     } else {
       for (let i = 0; i < result.schema.nodes.length; i += 1) {
         const node = result.schema.nodes[i];
@@ -1508,7 +1995,7 @@ function createNodeSchemasForPSs(cb) {
       }
     }
 
-    const nl = new MyNodeSchema(`nodes_of_${ps.name}`,
+    const nl = new MyNodeSchema(ps.name,
       ps.caption,
       ps.description,
       locNodes,
@@ -1623,6 +2110,7 @@ module.exports.GetRegions = GetRegions;
 module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetPSForJson = GetPSForJson;
 module.exports.GetSchema = GetSchema;
+module.exports.GetPSSchema = GetPSSchema;
 module.exports.StoreLastStateValues = StoreLastStateValues;
 module.exports.GetAvailableSchemas = GetAvailableSchemas;
 module.exports.GetSchemaParamNames = GetSchemaParamNames;

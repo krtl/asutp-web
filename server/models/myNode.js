@@ -30,6 +30,7 @@ MyNode.prototype.recalculateState = () => {
 };
 
 function myNodeStringifyReplacer(key, value) {
+  if (key === 'kTrust') return undefined;
   if (key === 'schemaNames') return undefined;
   if (key === 'parentNode') return undefined;
   if (key === 'description') return undefined;

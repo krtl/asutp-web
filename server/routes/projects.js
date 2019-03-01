@@ -45,6 +45,16 @@ module.exports = (app) => {
     });
   });
 
+  app.get('/getPSSchema', (req, res) => {
+    myDataModelNodes.GetPSSchema(req.query.name, (err, json) => {
+      if (err) {
+        res.send(err);  // ??
+        return false;
+      }
+      res.send(json);
+      return true;
+    });
+  });
 
   app.get('/getJsonPS', (req, res) => {
     const json = myDataModelNodes.GetPSForJson(req.query.name);
