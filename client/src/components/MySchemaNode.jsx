@@ -123,9 +123,53 @@ export default class MyRect extends React.Component {
               fontSize={9}
               text={this.props.node.name}
             />
+            <Circle
+              x={10}
+              y={10}
+              radius={10}
+              stroke={'black'}
+              strokeWidth={2}
+              fill={color}
+              shadowBlur={0}
+              onClick={this.handleClick}
+            />
+            <Circle
+              x={20}
+              y={10}
+              radius={10}
+              stroke={'black'}
+              strokeWidth={2}
+              fill={color}
+              shadowBlur={0}
+              onClick={this.handleClick}
+            />
+            <Text
+              x={1}
+              y={20}
+              fontSize={9}
+              text={this.props.node.caption}
+            />            
+          </Group>
+        );
+      }
+      case MyConsts.NODE_TYPE_SECTIONCONNECTOR:
+      case MyConsts.NODE_TYPE_SEC2SECCONNECTOR: {
+        return (
+          <Group
+            x={x}
+            y={y}
+            draggable
+            onDragend={this.handleDragEnd}
+          >
+            <Text
+              x={1}
+              y={0}
+              fontSize={9}
+              text={this.props.node.name}
+            />
             <Rect
               x={0}
-              y={MyConsts.NODE_PS_RADIUS*2}
+              y={0}
               width={MyConsts.NODE_PS_RADIUS*2}
               height={MyConsts.NODE_PS_RADIUS*2}
               stroke={'black'}
@@ -142,7 +186,7 @@ export default class MyRect extends React.Component {
             />            
           </Group>
         );
-      }      
+      }
 
       case MyConsts.NODE_TYPE_PS:{
         return (
@@ -213,6 +257,12 @@ export default class MyRect extends React.Component {
               shadowBlur={0}
               onClick={this.handleClick}
             />
+            <Text
+              x={21}
+              y={0}
+              fontSize={9}
+              text={this.props.node.caption} 
+              />           
           </Group>
         );
       }

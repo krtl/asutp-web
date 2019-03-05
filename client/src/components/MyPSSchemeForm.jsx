@@ -31,16 +31,20 @@ export default class MyPSScheme extends React.Component {
 
   getCenterX(node) {
     switch (node.nodeType) {
-      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_WIDTH / 2;
-      case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
+      case MyConsts.NODE_TYPE_SEC2SECCONNECTOR: return MyConsts.NODE_PS_RADIUS;
+      case MyConsts.NODE_TYPE_SECTION: return MyConsts.NODE_LEP_WIDTH / 2;
+      case MyConsts.NODE_TYPE_SECTIONCONNECTOR: return MyConsts.NODE_PS_RADIUS;
+      case MyConsts.NODE_TYPE_TRANSFORMER: return MyConsts.NODE_PS_RADIUS;
       default: return 0;
     }
   }
 
   getCenterY(node) {
     switch (node.nodeType) {
-      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_Y_OFFSET + MyConsts.NODE_LEP_HEIGHT / 2;
-      case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
+      case MyConsts.NODE_TYPE_SEC2SECCONNECTOR: return MyConsts.NODE_PS_RADIUS;
+      case MyConsts.NODE_TYPE_SECTION: return MyConsts.NODE_LEP_Y_OFFSET + MyConsts.NODE_LEP_HEIGHT / 2;
+      case MyConsts.NODE_TYPE_SECTIONCONNECTOR: return MyConsts.NODE_PS_RADIUS;
+      case MyConsts.NODE_TYPE_TRANSFORMER: return MyConsts.NODE_PS_RADIUS;
       default: return 0;
     }
   }

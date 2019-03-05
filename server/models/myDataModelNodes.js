@@ -1280,7 +1280,7 @@ const getPSSchema1 = (psName, callback) => {
 
   const ps = PSs.get(psName);
 
-  ps.psparts.sort((p1, p2) => (p2.voltage - p1.voltage));
+  // ps.psparts.sort((p1, p2) => (p2.voltage - p1.voltage));
 
   const getNewNodeForScheme = (node) => {
     const locNode = new MyNode(node.name, node.caption, node.description, node.nodeType);
@@ -1307,45 +1307,167 @@ const getPSSchema1 = (psName, callback) => {
     return false;
   };
 
-  const getOffsetY = (psPartNumb) => {
-    if (psPartNumb >= (ps.psparts.length / 2)) {
-      return 6;
+  const getConnectorsCount = (line) => {
+    let result = 0;
+    for (let i = 0; i < line.length; i += 1) {
+      const section = line[i];
+      result += section.connectors.length;
     }
-    return 2;
+    return result;
   };
 
-  const getSec2secX = (pspart, sec2secConnector) => {
-    const i1 = pspart.sections.indexOf(sec2secConnector.fromSection);
-    const i2 = pspart.sections.indexOf(sec2secConnector.toSection);
-    if (i1 > i2) {
-      return i1 - 1;
+  const getSectionXY = (section, sectionsLine1, sectionsLine2, sectionsLine3) => {
+    let maxLine = sectionsLine1;
+    if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine2)) maxLine = sectionsLine2;
+    if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine3)) maxLine = sectionsLine3;
+
+    let y = 2;
+    let x = 0;
+    let index = maxLine.indexOf(section);
+    if (index > -1) {
+      y = 6;
+      x = section.connectors.length / 2;
+      for (let i = 0; i < index; i += 1) {
+        const sec = maxLine[i];
+        x += sec.connectors.length + 2;
+      }
     }
-    return i2 - 1;
+
+    if (y === 2) {
+      let elseLine = [];
+      if (maxLine !== sectionsLine1) {
+        elseLine = elseLine.concat(sectionsLine1);
+      }
+      if (maxLine !== sectionsLine2) {
+        elseLine = elseLine.concat(sectionsLine2);
+      }
+      if (maxLine !== sectionsLine3) {
+        elseLine = elseLine.concat(sectionsLine3);
+      }
+
+      index = elseLine.indexOf(section);
+
+      if (index < maxLine.length) {
+        for (let i = 0; i < index; i += 1) {
+          const sec = maxLine[i];
+          x += sec.connectors.length + 2;
+        }
+        const sec = maxLine[index];
+        x += sec.connectors.length / 2;
+      } else {
+        for (let i = 0; i < maxLine.length; i += 1) {
+          const sec = maxLine[i];
+          x += sec.connectors.length + 2;
+        }
+
+        for (let i = maxLine.length; i < index; i += 1) {
+          const sec = elseLine[i];
+          x += sec.connectors.length + 2;
+        }
+
+        x += section.connectors.length / 2;
+      }
+    }
+
+    return { x, y };
   };
 
+  const getNodeByName = (name, nodes) => {
+    for (let i = 0; i < nodes.length; i += 1) {
+      const node = nodes[i];
+      if (node.name === name) {
+        return node;
+      }
+    }
+    return null;
+  };
+
+  const getSec2secXY = (nodes, sec2secConnector) => {
+    const section1 = getNodeByName(sec2secConnector.fromSection.name, nodes);
+    const section2 = getNodeByName(sec2secConnector.toSection.name, nodes);
+    if (section1.x > section2.x) {
+      return { x: (section2.x + ((section1.x - section2.x) / 2)), y: (section1.y) };
+    }
+    return { x: (section1.x + ((section2.x - section1.x) / 2)), y: (section1.y) };
+  };
 
   const nodes = [];
+  const sectionsLine1 = [];
+  const sectionsLine2 = [];
+  const sectionsLine3 = [];
     // const paramNames = [];
+
+  for (let i = 0; i < ps.transformers.length; i += 1) {
+    const transformer = ps.transformers[i];
+    transformer.connectors.sort((c1, c2) => (c2.toConnector.parentNode.parentNode.voltage - c1.toConnector.parentNode.parentNode.voltage));
+    let prevConnector = null;
+    let prevLine = sectionsLine1;
+    for (let j = 0; j < transformer.connectors.length; j += 1) {
+      const transConnector = transformer.connectors[j];
+      if (prevConnector === null) {
+        prevConnector = transConnector.toConnector;
+        prevLine.push(prevConnector.parentNode);
+      } else if (prevConnector.parentNode.parentNode.voltage === transConnector.toConnector.parentNode.parentNode.voltage) {
+        prevConnector = transConnector.toConnector;
+        prevLine.push(prevConnector.parentNode);
+      } else {
+        prevConnector = transConnector.toConnector;
+        if (prevLine === sectionsLine1) {
+          prevLine = sectionsLine2;
+        } else {
+          prevLine = sectionsLine3;
+        }
+        prevLine.push(prevConnector.parentNode);
+      }
+    }
+  }
+
+  // add missed sections
+  for (let i = 0; i < ps.psparts.length; i += 1) {
+    const pspart = ps.psparts[i];
+    for (let j = 0; j < pspart.sections.length; j += 1) {
+      const section = pspart.sections[j];
+      if ((sectionsLine1.indexOf(section) < 0) && (sectionsLine2.indexOf(section) < 0) && (sectionsLine3.indexOf(section) < 0)) {
+        if ((sectionsLine1.count > 0) && (sectionsLine1[0].parentNode.voltage === section.parentNode.voltage)) {
+          sectionsLine1.push(section);
+        } else if ((sectionsLine2.count > 0) && (sectionsLine2[0].parentNode.voltage === section.parentNode.voltage)) {
+          sectionsLine2.push(section);
+        } else {
+          sectionsLine3.push(section);
+        }
+      }
+    }
+  }
+
+  // console.log(sectionsLine1);
+
   for (let i = 0; i < ps.psparts.length; i += 1) {
     const pspart = ps.psparts[i];
       // locNodes.push(pspart);
-    let offsetX = 0;
-    const offsetY = getOffsetY(i);
     for (let j = 0; j < pspart.sections.length; j += 1) {
       const section = pspart.sections[j];
       const section1 = getNewNodeForScheme(section);
-      section1.x = offsetX;
-      section1.y = offsetY;
+      const xy = getSectionXY(section, sectionsLine1, sectionsLine2, sectionsLine3);
+      section1.x = xy.x;
+      section1.y = xy.y;
       nodes.push(section1);
 
+      const offsetX = section1.x - (section.connectors.length / 2);
+      let conOffset = 0;
       for (let k = 0; k < section.connectors.length; k += 1) {
         const connector = section.connectors[k];
         const connector1 = getNewNodeForScheme(connector);
-        connector1.x = offsetX + k;
-        if (offsetY === 2) {
-          connector1.y = isInTransformerConnecor(connector) ? section1.y + 1 : section1.y - 1;
+
+        const itIsTransformerConnector = isInTransformerConnecor(connector);
+
+        connector1.x = itIsTransformerConnector ? section1.x : offsetX + conOffset;
+        if (section1.y === 2) {
+          connector1.y = itIsTransformerConnector ? section1.y + 1 : section1.y - 1;
         } else {
-          connector1.y = isInTransformerConnecor(connector) ? section1.y - 1 : section1.y + 1;
+          connector1.y = itIsTransformerConnector ? section1.y - 1 : section1.y + 1;
+        }
+        if (!itIsTransformerConnector) {
+          conOffset += 1;
         }
         nodes.push(connector1);
 
@@ -1377,26 +1499,24 @@ const getPSSchema1 = (psName, callback) => {
           //   }
           // }
       }
-
-      offsetX += section.connectors.length + 2;
     }
 
     for (let l = 0; l < pspart.connectors.length; l += 1) {
-      const connector = pspart.connectors[l];
-      const connector1 = getNewNodeForScheme(connector);
-      connector1.x = getSec2secX(pspart, connector);
-      connector1.y = offsetY;
+      const sec2secConnector = pspart.connectors[l];
+      const sec2SecConnector1 = getNewNodeForScheme(sec2secConnector);
+      const xy = getSec2secXY(nodes, sec2secConnector);
+      sec2SecConnector1.x = xy.x;
+      sec2SecConnector1.y = xy.y;
+      nodes.push(sec2SecConnector1);
 
-      nodes.push(connector1);
-
-      const wire = new MySchemeWire(connector.name, '', '', -1);
-      wire.nodeFrom = connector.fromSection.name;
-      wire.nodeTo = connector.name;
+      const wire = new MySchemeWire(`${sec2secConnector.name}1`, '', '', -1);
+      wire.nodeFrom = sec2secConnector.fromSection.name;
+      wire.nodeTo = sec2secConnector.name;
       wires.push(wire);
 
-      const wire1 = new MySchemeWire(connector.name, '', '', -1);
-      wire1.nodeFrom = connector.name;
-      wire1.nodeTo = connector.toSection.name;
+      const wire1 = new MySchemeWire(`${sec2secConnector.name}2`, '', '', -1);
+      wire1.nodeFrom = sec2secConnector.name;
+      wire1.nodeTo = sec2secConnector.toSection.name;
       wires.push(wire1);
 
         // if (MyNodePropNameParamRole.POWER in connector) {
@@ -1427,17 +1547,21 @@ const getPSSchema1 = (psName, callback) => {
   for (let i = 0; i < ps.transformers.length; i += 1) {
     const transformer = ps.transformers[i];
     const transformer1 = getNewNodeForScheme(transformer);
-    transformer1.x = i;
+    transformer1.x = 0;
     transformer1.y = 4;
-
     nodes.push(transformer1);
 
     for (let j = 0; j < transformer.connectors.length; j += 1) {
-      const connector = transformer.connectors[j];
+      const transConnector = transformer.connectors[j];
 
-      const wire = new MySchemeWire(connector.name, '', '', -1);
+      if (transformer1.x === 0) {
+        const connector1 = getNodeByName(transConnector.toConnector.name, nodes);
+        transformer1.x = connector1.x;
+      }
+
+      const wire = new MySchemeWire(transConnector.name, '', '', -1);
       wire.nodeFrom = transformer.name;
-      wire.nodeTo = connector.toConnector.name;
+      wire.nodeTo = transConnector.toConnector.name;
       wires.push(wire);
     }
   }
