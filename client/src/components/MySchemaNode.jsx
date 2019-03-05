@@ -74,7 +74,6 @@ export default class MyRect extends React.Component {
     }
 
     switch (this.props.node.nodeType) {
-      case MyConsts.NODE_TYPE_SECTION:
       case MyConsts.NODE_TYPE_LEP: {
         return (
           <Group
@@ -124,7 +123,7 @@ export default class MyRect extends React.Component {
               text={this.props.node.name}
             />
             <Circle
-              x={10}
+              x={5}
               y={10}
               radius={10}
               stroke={'black'}
@@ -134,11 +133,45 @@ export default class MyRect extends React.Component {
               onClick={this.handleClick}
             />
             <Circle
-              x={20}
+              x={15}
               y={10}
               radius={10}
               stroke={'black'}
               strokeWidth={2}
+              fill={color}
+              shadowBlur={0}
+              onClick={this.handleClick}
+            />
+            <Text
+              x={1}
+              y={20}
+              fontSize={9}
+              text={this.props.node.caption}
+            />            
+          </Group>
+        );
+      }
+      case MyConsts.NODE_TYPE_SECTION:{
+        return (
+          <Group
+            x={x}
+            y={y}
+            draggable
+            onDragend={this.handleDragEnd}
+          >
+            <Text
+              x={1}
+              y={0}
+              fontSize={9}
+              text={this.props.node.name}
+            />
+            <Rect
+              x={0 - MyConsts.NODE_PS_RADIUS*4}
+              y={MyConsts.NODE_LEP_Y_OFFSET}
+              width={MyConsts.NODE_PS_RADIUS*10}
+              height={MyConsts.NODE_LEP_HEIGHT}
+              stroke={'black'}
+              strokeWidth={1}
               fill={color}
               shadowBlur={0}
               onClick={this.handleClick}

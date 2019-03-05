@@ -1329,7 +1329,7 @@ const getPSSchema1 = (psName, callback) => {
       x = section.connectors.length / 2;
       for (let i = 0; i < index; i += 1) {
         const sec = maxLine[i];
-        x += sec.connectors.length + 2;
+        x += sec.connectors.length + 1;
       }
     }
 
@@ -1350,19 +1350,19 @@ const getPSSchema1 = (psName, callback) => {
       if (index < maxLine.length) {
         for (let i = 0; i < index; i += 1) {
           const sec = maxLine[i];
-          x += sec.connectors.length + 2;
+          x += sec.connectors.length + 1;
         }
         const sec = maxLine[index];
         x += sec.connectors.length / 2;
       } else {
         for (let i = 0; i < maxLine.length; i += 1) {
           const sec = maxLine[i];
-          x += sec.connectors.length + 2;
+          x += sec.connectors.length + 1;
         }
 
         for (let i = maxLine.length; i < index; i += 1) {
           const sec = elseLine[i];
-          x += sec.connectors.length + 2;
+          x += sec.connectors.length + 1;
         }
 
         x += section.connectors.length / 2;
@@ -1459,16 +1459,14 @@ const getPSSchema1 = (psName, callback) => {
         const connector1 = getNewNodeForScheme(connector);
 
         const itIsTransformerConnector = isInTransformerConnecor(connector);
-
+        if (!itIsTransformerConnector) conOffset += 1;
         connector1.x = itIsTransformerConnector ? section1.x : offsetX + conOffset;
         if (section1.y === 2) {
           connector1.y = itIsTransformerConnector ? section1.y + 1 : section1.y - 1;
         } else {
           connector1.y = itIsTransformerConnector ? section1.y - 1 : section1.y + 1;
         }
-        if (!itIsTransformerConnector) {
-          conOffset += 1;
-        }
+
         nodes.push(connector1);
 
 
