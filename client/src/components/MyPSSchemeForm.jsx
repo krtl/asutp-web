@@ -153,6 +153,15 @@ export default class MyPSScheme extends React.Component {
         <Stage width={locW} height={locH}>
 
           <Layer>
+          {locLines.map(line => (
+              <Line
+                key={line.name}
+                points={line.points}
+                stroke="black"
+                strokeWidth={1}
+              />
+            ))
+            }
             {locNodes.map(rec => (
               <MySchemaNode
                 key={rec.name}
@@ -162,15 +171,7 @@ export default class MyPSScheme extends React.Component {
               />
             ))
           }
-            {locLines.map(line => (
-              <Line
-                key={line.name}
-                points={line.points}
-                stroke="black"
-                strokeWidth={1}
-              />
-            ))
-            }
+
           </Layer>
         </Stage>
       </div>
