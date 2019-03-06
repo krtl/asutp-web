@@ -1,6 +1,7 @@
 export const MyConsts = {
     NODE_PRPNAME_PARAM_ROLE_STATE: 'paramState',
     NODE_PRPNAME_PARAM_ROLE_POWER: 'paramP',
+    NODE_PRPNAME_PARAM_ROLE_VOLTAGE: 'paramU',
     NODE_STATE_ON: 1,
     NODE_STATE_OFF: 0,
     NODE_STATE_UNKNOWN: -1,    

@@ -8,13 +8,13 @@ class MyNodeTransformer extends MyNode {
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.TRANSFORMER);
     this.power = null;
-    this.connectors = [];
+    this.transConnectors = [];
   }
 
   recalculateState() {
     let isConnected = false;
-    for (let i = 0; i < this.connectors.length; i += 1) {
-      const connector = this.connectors[i].toConnector;
+    for (let i = 0; i < this.transConnectors.length; i += 1) {
+      const connector = this.transConnectors[i].toConnector;
       if (connector) {
       // connector.recalculateState();  // connector should be allready recalculated
         if (connector.nodeState === myNodeState.NODE_STATE_ON) {

@@ -42,32 +42,30 @@ const initializeParamValuesProcessor = () => {
     });
 
   timerId = setInterval(() => {
-    const recalcPSs = [];
+    const recalcPSNames = [];
     const lastChanged = lastValues.getLastChanged();
     for (let i = 0; i < lastChanged.length; i += 1) {
       const paramName = lastChanged[i];
       const value = lastValues.getLastValue(paramName);
       const param = MyDataModelNodes.GetParam(paramName);
       if ((param) && (value)) {
-        for (let i = 0; i < param.schemaNames.length; i += 1) {
-          const schemaName = param.schemaNames[i];
-          MyStompServer.sendParamValue(schemaName, value);
+        for (let j = 0; j < param.schemaNames.length; j += 1) {
+          const psSchemaName = param.schemaNames[j];
+          MyStompServer.sendParamValue(psSchemaName, value);
 
-          if (param.stateVarOf) {
-            if (recalcPSs.indexOf(param.stateVarOf) < 0) {
-              recalcPSs.push(param.stateVarOf);
-            }
+          if (recalcPSNames.indexOf(psSchemaName) < 0) {
+            recalcPSNames.push(psSchemaName);
           }
         }
       }
     }
 
-    for (let i = 0; i < recalcPSs.length; i += 1) {
-      const ps = MyDataModelNodes.GetNode(recalcPSs[i]);
+    for (let i = 0; i < recalcPSNames.length; i += 1) {
+      const ps = MyDataModelNodes.GetNode(recalcPSNames[i]);
       if (ps) {
         ps.recalculateState();
       } else {
-        logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSs[i]}"`);
+        logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSNames[i]}"`);
       }
     }
 

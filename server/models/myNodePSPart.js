@@ -9,7 +9,7 @@ class MyNodePSPart extends MyNode {
     super(name, caption, description, myNodeType.PSPART);
     this.voltage = null;
     this.sections = [];
-    this.connectors = [];
+    this.sec2secConnectors = [];
   }
 
   recalculateState() {

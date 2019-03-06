@@ -73,6 +73,14 @@ export default class MyPSAsutpLinkageForm extends React.Component {
         let pspart = this.props.PS.psparts[i];
         for(let j=0; j<pspart.sections.length; j++) {
           let section = pspart.sections[j];
+          if(('Modified' in section)) {
+            linkages.push({
+               nodeName: section.name,
+               paramPropName: MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE,
+               paramPropValue: section[MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE]
+              });
+            delete section['Modified'];
+          }
           for(let k=0; k<section.connectors.length; k++) {
             let connector = section.connectors[k];
             if(('Modified' in connector)) {
@@ -112,6 +120,9 @@ export default class MyPSAsutpLinkageForm extends React.Component {
     } else if (param.name.endsWith(MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE)) {
       role = MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE
       nodeName = param.name.replace('.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE, '');
+    } else if (param.name.endsWith(MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE)) {
+      role = MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE
+      nodeName = param.name.replace('.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE, '');
     }
 
     if (role !== '') {
@@ -178,6 +189,11 @@ export default class MyPSAsutpLinkageForm extends React.Component {
              nodeType: section.nodeType,
              sapCode: section.sapCode
             })
+            rows.push({name: section.name + '.' + MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE, 
+            caption: section[MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE],
+            nodeType: ('Modified' in section) ? 'Modified' : '',
+            sapCode: ''
+           })   
             section.connectors.forEach(connector => {
                 rows.push({name: connector.name,
                  caption: connector.caption,

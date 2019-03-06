@@ -262,10 +262,10 @@ function getPSForJson(ps) {
     const locTransformer = new MyNodeTransformer(transformer.name, transformer.caption, transformer.description);
     locPS.transformers.push(locTransformer);
     locTransformer.sapCode = transformer.sapCode;
-    transformer.connectors.forEach((transConnector) => {
+    transformer.transConnectors.forEach((transConnector) => {
       const locTransConnector = new MyNodeTransformerConnector(transConnector.name, transConnector.caption, transConnector.description);
       locTransConnector.toConnector = transConnector.toConnector.name;
-      locTransformer.connectors.push(locTransConnector);
+      locTransformer.transConnectors.push(locTransConnector);
     });
   });
   ps.psparts.forEach((pspart) => {
@@ -277,6 +277,7 @@ function getPSForJson(ps) {
       const locSection = new MyNodeSection(section.name, section.caption, section.description);
       locPSPart.sections.push(locSection);
       locSection.sapCode = section.sapCode;
+      locSection[MyNodePropNameParamRole.VOLTAGE] = section[MyNodePropNameParamRole.VOLTAGE];
       section.connectors.forEach((connection) => {
         const locConnector = new MyNodeSectionConnector(connection.name, connection.caption, connection.description);
         locSection.connectors.push(locConnector);
@@ -293,9 +294,9 @@ function getPSForJson(ps) {
       });
     });
 
-    pspart.connectors.forEach((connection) => {
+    pspart.sec2secConnectors.forEach((connection) => {
       const locConnector = new MyNodeSec2SecConnector(connection.name, connection.caption, connection.description);
-      locPSPart.connectors.push(locConnector);
+      locPSPart.sec2secConnectors.push(locConnector);
       locConnector.fromSection = connection.fromSection.name;
       locConnector.toSection = connection.toSection.name;
       locConnector.cellNumber = connection.cellNumber;
@@ -457,7 +458,7 @@ function linkPSPartToPS(node) {
 function linkSec2SecConnectorToPSPart(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.PSPART) {
-      node.parentNode.connectors.push(node);
+      node.parentNode.sec2secConnectors.push(node);
     } else {
       setError(`Failed to link Sec2SecConnector. There is no parent PSPart for ${node.name}`);
     }
@@ -477,7 +478,7 @@ function linkSectionConnectorToSection(node) {
 function linkTransformerConnectorToTransformer(node) {
   if (node.parentNode) {
     if (node.parentNode.nodeType === myNodeType.TRANSFORMER) {
-      node.parentNode.connectors.push(node);
+      node.parentNode.transConnectors.push(node);
     } else {
       setError(`Failed to link TransformerConnector. There is no parent Transformer for ${node.name}`);
     }
@@ -564,8 +565,8 @@ function checkIntegrity(cb) {
         }
         case 1: break;
         case 2: {
-          if (locPSPart.connectors.length === 1) {
-            const sec2secCon = locPSPart.connectors[0];
+          if (locPSPart.sec2secConnectors.length === 1) {
+            const sec2secCon = locPSPart.sec2secConnectors[0];
             if (!(((sec2secCon.fromSection === locPSPart.sections[0]) && (sec2secCon.toSection === locPSPart.sections[1])) ||
             ((sec2secCon.fromSection === locPSPart.sections[1]) && (sec2secCon.toSection === locPSPart.sections[0])))) {
               setError(`Integrity checking error: No section to section connector found for "${locPSPart.sections[0].name}" and "${locPSPart.sections[1].name}" on PS "${locPS.name}"..`);
@@ -585,12 +586,12 @@ function checkIntegrity(cb) {
     }
 
     locPS.transformers.forEach((locTransformer) => {
-      if (locTransformer.connectors.length === 0) {
+      if (locTransformer.transConnectors.length === 0) {
         setError(`Integrity checking error: Transformer "${locTransformer.name}" has no connectors!.`);
-      } else if (locTransformer.connectors.length < 2) {
+      } else if (locTransformer.transConnectors.length < 2) {
         setError(`Integrity checking error: Transformer "${locTransformer.name}" should have at least 2 connectors!.`);
       } else {
-        locTransformer.connectors.forEach((locTransConnector) => {
+        locTransformer.transConnectors.forEach((locTransConnector) => {
           if (locTransConnector.toConnector === undefined) {
             setError(`Integrity checking error: Failed to link Transformer "${locTransformer.name}" to connector "${locTransConnector.toConnector}". No such connector. TransConnector: "${locTransConnector.name}"`);
           } else {
@@ -614,7 +615,7 @@ function checkIntegrity(cb) {
 
 
     locPS.transformers.forEach((locTransformer) => {
-      locTransformer.connectors.forEach((locTransConnector) => {
+      locTransformer.transConnectors.forEach((locTransConnector) => {
         if (locTransConnector.toConnector.parentNode.nodeType === myNodeType.SECTION) {
           const locToSection = locTransConnector.toConnector.parentNode;
           locToSection.tag = 1;
@@ -692,12 +693,12 @@ const SetStateChangedHandler = (stateHandler) => {
         }
       }
 
-      for (let l = 0; l < pspart.connectors.length; l += 1) {
-        const connector = pspart.connectors[l];
-        connector.stateChangeHandler = stateHandler;
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const sec2secConnector = pspart.sec2secConnectors[l];
+        sec2secConnector.stateChangeHandler = stateHandler;
 
-        for (let m = 0; m < connector.equipments.length; m += 1) {
-          const equipment = connector.equipments[m];
+        for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
+          const equipment = sec2secConnector.equipments[m];
           equipment.stateChangeHandler = stateHandler;
         }
       }
@@ -1297,8 +1298,8 @@ const getPSSchema1 = (psName, callback) => {
   const isInTransformerConnecor = (con) => {
     for (let i = 0; i < ps.transformers.length; i += 1) {
       const transformer = ps.transformers[i];
-      for (let j = 0; j < transformer.connectors.length; j += 1) {
-        const connector = transformer.connectors[j];
+      for (let j = 0; j < transformer.transConnectors.length; j += 1) {
+        const connector = transformer.transConnectors[j];
         if (connector.toConnector === con) {
           return true;
         }
@@ -1399,11 +1400,11 @@ const getPSSchema1 = (psName, callback) => {
 
   for (let i = 0; i < ps.transformers.length; i += 1) {
     const transformer = ps.transformers[i];
-    transformer.connectors.sort((c1, c2) => (c2.toConnector.parentNode.parentNode.voltage - c1.toConnector.parentNode.parentNode.voltage));
+    transformer.transConnectors.sort((c1, c2) => (c2.toConnector.parentNode.parentNode.voltage - c1.toConnector.parentNode.parentNode.voltage));
     let prevConnector = null;
     let prevLine = sectionsLine1;
-    for (let j = 0; j < transformer.connectors.length; j += 1) {
-      const transConnector = transformer.connectors[j];
+    for (let j = 0; j < transformer.transConnectors.length; j += 1) {
+      const transConnector = transformer.transConnectors[j];
       if (prevConnector === null) {
         prevConnector = transConnector.toConnector;
         prevLine.push(prevConnector.parentNode);
@@ -1452,6 +1453,11 @@ const getPSSchema1 = (psName, callback) => {
       section1.y = xy.y;
       nodes.push(section1);
 
+      // if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+      //   pushIfNotPushed(paramNames, section[MyNodePropNameParamRole.VOLTAGE]);
+      // }
+
+
       const offsetX = section1.x - (section.connectors.length / 2);
       let conOffset = 0;
       for (let k = 0; k < section.connectors.length; k += 1) {
@@ -1486,21 +1492,14 @@ const getPSSchema1 = (psName, callback) => {
           //   if (MyNodePropNameParamRole.STATE in equipment) {
           //     if (equipment[MyNodePropNameParamRole.STATE] !== '') {
           //       pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-
-          //       if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
-          //         const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
-          //         param.stateVarOf = ps.name;
-          //       } else {
-          //         logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
-          //       }
           //     }
           //   }
           // }
       }
     }
 
-    for (let l = 0; l < pspart.connectors.length; l += 1) {
-      const sec2secConnector = pspart.connectors[l];
+    for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+      const sec2secConnector = pspart.sec2secConnectors[l];
       const sec2SecConnector1 = getNewNodeForScheme(sec2secConnector);
       const xy = getSec2secXY(nodes, sec2secConnector);
       sec2SecConnector1.x = xy.x;
@@ -1529,13 +1528,6 @@ const getPSSchema1 = (psName, callback) => {
         //   if (MyNodePropNameParamRole.STATE in equipment) {
         //     if (equipment[MyNodePropNameParamRole.STATE] !== '') {
         //       pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-
-        //       if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
-        //         const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
-        //         param.stateVarOf = ps.name;
-        //       } else {
-        //         logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
-        //       }
         //     }
         //   }
         // }
@@ -1549,8 +1541,8 @@ const getPSSchema1 = (psName, callback) => {
     transformer1.y = 4;
     nodes.push(transformer1);
 
-    for (let j = 0; j < transformer.connectors.length; j += 1) {
-      const transConnector = transformer.connectors[j];
+    for (let j = 0; j < transformer.transConnectors.length; j += 1) {
+      const transConnector = transformer.transConnectors[j];
 
       if (transformer1.x === 0) {
         const connector1 = getNodeByName(transConnector.toConnector.name, nodes);
@@ -1770,6 +1762,10 @@ function createNodeSchemasForPSs(cb) {
       for (let k = 0; k < pspart.sections.length; k += 1) {
         const section = pspart.sections[k];
         locNodes.push(section);
+        if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+          pushIfNotPushed(paramNames, section[MyNodePropNameParamRole.VOLTAGE]);
+        }
+
         for (let l = 0; l < section.connectors.length; l += 1) {
           const connector = section.connectors[l];
           locNodes.push(connector);
@@ -1784,21 +1780,14 @@ function createNodeSchemasForPSs(cb) {
             if (MyNodePropNameParamRole.STATE in equipment) {
               if (equipment[MyNodePropNameParamRole.STATE] !== '') {
                 pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-
-                if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
-                  const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
-                  param.stateVarOf = ps.name;
-                } else {
-                  logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
-                }
               }
             }
           }
         }
       }
 
-      for (let l = 0; l < pspart.connectors.length; l += 1) {
-        const connector = pspart.connectors[l];
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const connector = pspart.sec2secConnectors[l];
         locNodes.push(connector);
         if (MyNodePropNameParamRole.POWER in connector) {
           if (connector[MyNodePropNameParamRole.POWER] !== '') {
@@ -1812,13 +1801,6 @@ function createNodeSchemasForPSs(cb) {
           if (MyNodePropNameParamRole.STATE in equipment) {
             if (equipment[MyNodePropNameParamRole.STATE] !== '') {
               pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-
-              if (params.has(equipment[MyNodePropNameParamRole.STATE])) {
-                const param = params.get(equipment[MyNodePropNameParamRole.STATE]);
-                param.stateVarOf = ps.name;
-              } else {
-                logger.warn(`[ModelNodes][createNodeSchemasForPSs] cant find param: ${equipment[MyNodePropNameParamRole.STATE]} in state of: ${ps.name}`);
-              }
             }
           }
         }
@@ -1857,20 +1839,20 @@ function makeSchemaNamesForEachNode(cb) {
 
 function makeSchemaNamesForEachParam(cb) {
   const locParams = Array.from(params.values());
-  const locSchemas = Array.from(nodeSchemas.values());
+  const locPSSchemas = Array.from(psSchemas.values());
 
   for (let i = 0; i < locParams.length; i += 1) {
     const param = locParams[i];
-    const locSchemaNames = [];
-    for (let j = 0; j < locSchemas.length; j += 1) {
-      const schema = locSchemas[j];
+    const locPSSchemaNames = [];
+    for (let j = 0; j < locPSSchemas.length; j += 1) {
+      const schema = locPSSchemas[j];
       if (schema.paramNames.indexOf(param.name) > -1) {
-        if (locSchemaNames.indexOf(schema.name) < 0) {
-          locSchemaNames.push(schema.name);
+        if (locPSSchemaNames.indexOf(schema.name) < 0) {
+          locPSSchemaNames.push(schema.name);
         }
       }
     }
-    param.setSchemaNames(locSchemaNames);
+    param.setSchemaNames(locPSSchemaNames);
   }
   return cb();
 }

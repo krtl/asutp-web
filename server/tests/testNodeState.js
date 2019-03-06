@@ -70,7 +70,7 @@ describe('nodeState', () => {
                 });
               });
 
-              pspart.connectors.forEach((connector) => {
+              pspart.sec2secConnectors.forEach((connector) => {
                 if (connector.stateChangeHandler === undefined) {
                   throw new Error(`There is no stateChangeHandler for ${connector.name}!`);
                 }

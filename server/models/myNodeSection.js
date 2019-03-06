@@ -50,12 +50,12 @@ class MyNodeSection extends MyNode {
       }
 
       // Sec2Sec connectors
-      for (let i = 0; i < this.parentNode.connectors.length; i += 1) {
-        const connector = this.parentNode.connectors[i];
-        connector.recalculateState();
-        if (connector.nodeState === myNodeState.NODE_STATE_ON) {
-          if (connector.kTrust > this.kTrust) {
-            this.kTrust = connector.kTrust;
+      for (let i = 0; i < this.parentNode.sec2secConnectors.length; i += 1) {
+        const sec2secConnector = this.parentNode.sec2secConnectors[i];
+        sec2secConnector.recalculateState();
+        if (sec2secConnector.nodeState === myNodeState.NODE_STATE_ON) {
+          if (sec2secConnector.kTrust > this.kTrust) {
+            this.kTrust = sec2secConnector.kTrust;
           }
           isConnected = true;
         }

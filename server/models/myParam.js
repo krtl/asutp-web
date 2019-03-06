@@ -2,12 +2,10 @@ function MyParam(name, caption, description) {
   this.name = name;
   this.caption = caption;
   this.description = description;
-  this.schemaNames = [];
+  this.schemaNames = [];    // currently only PS schemas
 
   this.trackAllChanges = true; // temporary
   this.trackAveragePerHour = true; // temporary
-
-  this.stateVarOf = undefined;
 
   this.setSchemaNames = (schemaNames) => {
     this.schemaNames = schemaNames;
@@ -15,7 +13,6 @@ function MyParam(name, caption, description) {
 }
 
 function myParamStringifyReplacer(key, value) {
-  if (key === 'stateVarOf') return undefined;
   if (key === 'schemaNames') return undefined;
   if (key === 'trackAllChanges') return undefined;
   if (key === 'trackAveragePerHour') return undefined;
