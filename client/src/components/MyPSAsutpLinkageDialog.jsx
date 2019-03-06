@@ -30,12 +30,15 @@ export default class MyPSAsutpLinkageDialog extends React.Component {
   componentDidUpdate(prevProps){
     if (this.props.open !== prevProps.open) {
       this.setState({open: this.props.open});
+      if (this.props.open) {
+        this.setState({newParamName: this.props.initialParamName}); 
+      }
     }
   }
 
   handleClose () {
     this.setState({open: false});
-    this.props.onClose('');
+    this.props.onClose('dismiss');
   }   
   
   handleOk () {

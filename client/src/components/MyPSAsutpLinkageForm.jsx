@@ -162,13 +162,15 @@ export default class MyPSAsutpLinkageForm extends React.Component {
   handleDialogClose (newParamName) {
     this.setState({ open: false });
 
-    const node = this.getNodeByName(this.state.editedNodeName)
-    if (node) {
-      if (this.state.paramRole in node){
-        if (node[this.state.paramRole] !== newParamName) {
-          node[this.state.paramRole] = newParamName;
-          node['Modified'] = true;
-          }
+    if (newParamName !== 'dismiss') {
+      const node = this.getNodeByName(this.state.editedNodeName)
+      if (node) {
+        if (this.state.paramRole in node){
+          if (node[this.state.paramRole] !== newParamName) {
+            node[this.state.paramRole] = newParamName;
+            node['Modified'] = true;
+            }
+        }
       }
     }
   };
