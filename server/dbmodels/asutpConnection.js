@@ -11,6 +11,7 @@ const AsutpConnectionSchema = new mongoose.Schema({
   connectionNumber: String,
   VVParamName: String,
   PParamName: String,
+  UlParamName: String,
 });
 
 AsutpConnectionSchema.index({ psSapCode: 1 });

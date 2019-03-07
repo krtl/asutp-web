@@ -4,6 +4,9 @@ const fs = require('fs');
 const moment = require('moment');
 const async = require('async');
 const events = require('events');
+const logger = require('../logger');
+const config = require('../../config');
+const MyNodeJsonSerialize = require('./myNode').MyNodeJsonSerialize;
 
 const myNodeType = require('./myNodeType');
 
@@ -28,10 +31,6 @@ const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
 const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
 const DbNodeSchema = require('../dbmodels/nodeSchema');
 
-
-const logger = require('../logger');
-const config = require('../../config');
-const MyNodeJsonSerialize = require('./myNode').MyNodeJsonSerialize;
 
 const MyParam = require('./myParam');
 const MyNode = require('./myNode');
@@ -84,6 +83,8 @@ let errs = 0;
 function setError(text) {
   errs += 1;
   logger.error(`[ModelNodes] ${text}`);
+  // eslint-disable-next-line no-console
+  console.error(text);
 }
 
 function setWarning(text) {

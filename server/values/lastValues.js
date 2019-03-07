@@ -1,6 +1,8 @@
 const async = require('async');
 const logger = require('../logger');
 const moment = require('moment');
+const fs = require('fs');
+const config = require('../../config');
 
 const dbValuesTracker = require('./amqpInsertValueSender');
 const myDataModelNodes = require('../models/myDataModelNodes');
@@ -13,9 +15,10 @@ const MyParamValue = require('../models/myParamValue');
 
 const lastValues = new Map();
 let lastChanged = [];
+const blockedParams = [];
 let useDbValueTracker = false;
 
-const setLastValue = (newValue) => {
+const setValue = (newValue) => {
   // removing duplicates
   const lastValue = lastValues.get(newValue.paramName);
   if ((!lastValue) || (lastValue.value !== newValue.value) || (lastValue.dt !== newValue.dt)) {
@@ -27,6 +30,35 @@ const setLastValue = (newValue) => {
     if (lastChanged.indexOf(newValue.paramName) < 0) {
       lastChanged.push(newValue.paramName);
     }
+  }
+};
+
+const setRawValue = (newValue) => {
+  if (blockedParams.indexOf(newValue.paramName) < 0) {
+    setValue(newValue);
+  }
+};
+
+const setManualValue = (newValue) => {
+  // if (blockedParams.indexOf(newValue.paramName) > 0) {
+  //   newValue.qd = 'B,S'
+  // } else {
+  //   newValue.qd = 'S'
+  // }
+
+  setValue(newValue);
+};
+
+const blockRawValues = (paramName) => {
+  if (blockedParams.indexOf(paramName) < 0) {
+    blockedParams.push(paramName);
+  }
+};
+
+const unblockRawValues = (paramName) => {
+  const index = blockedParams.indexOf(paramName);
+  if (index > -1) {
+    blockedParams.splice(index, 1);
   }
 };
 
@@ -101,8 +133,66 @@ function restoreLastParamValues(callback) {
 }
 
 
+function StoreBlockedParams() {
+  const start = moment();
+  const data = JSON.stringify(blockedParams);
+  const duration1 = moment().diff(start);
+  try {
+    fs.writeFileSync(`${config.storePath}blockedParams.json`, data);
+  } catch (err) {
+    logger.error(`[] saving blockedParams error: ${err}`);
+    return;
+  }
+  const duration2 = moment().diff(start);
+  logger.debug(`[] blockedParams prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
+}
+
+function RestoreBlockedParams(callback) {
+  const start = moment();
+  let count = 0;
+  blockedParams.clear();
+  const fileName = `${config.storePath}blockedParams.json`;
+
+  if (!fs.exists(fileName, (exists) => {
+    if (!exists) {
+      const err = `file "${fileName}" does not exists`;
+      logger.warn(`[][blockedParams] failed. File "${fileName}" is not found.`);
+      callback(err);
+      return;
+    }
+    fs.readFile(fileName, (err, data) => {
+      if (err) {
+        callback(err);
+        return;
+      }
+      const paramNames = JSON.parse(data);
+      const duration1 = moment().diff(start);
+
+      for (let i = 0; i < paramNames.length; i += 1) {
+        const paramName = paramNames[i];
+
+        if (Params.has(paramName)) {
+          blockedParams.push(paramName);
+          count += 1;
+        } else {
+          logger.warn(`[][RestoreBlockedParams] failed to find param: ${paramName}`);
+        }
+      }
+
+      const duration2 = moment().diff(start);
+      logger.debug(`[] ${count} BlockedParams loaded in ${moment(duration2).format('mm:ss.SSS')} (file loaded and parsed in ${moment(duration1).format('mm:ss.SSS')})`);
+      callback();
+    });
+  }));
+}
+
+
+
 module.exports.init = init;
-module.exports.setLastValue = setLastValue;
+module.exports.setRawValue = setRawValue;
+module.exports.setManualValue = setManualValue;
+module.exports.blockRawValues = blockRawValues;
+module.exports.unblockRawValues = unblockRawValues;
 module.exports.getLastValue = getLastValue;
 module.exports.getLastChanged = getLastChanged;
 module.exports.getLastValuesCount = getLastValuesCount;

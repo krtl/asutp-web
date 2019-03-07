@@ -17,7 +17,7 @@ const Start = () => {
       const float = parseFloat(s[1].replace(',', '.'));
       const obj = new MyParamValue(s[0], float, dt, s[2]);
 
-      lastValues.setLastValue(obj);
+      lastValues.setRawValue(obj);
     } else {
       logger.error(`[RawValuesReceiver][MyParamValue] Failed to parse:  ${received}`);
     }

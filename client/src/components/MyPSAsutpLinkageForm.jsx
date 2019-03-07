@@ -141,6 +141,9 @@ export default class MyPSAsutpLinkageForm extends React.Component {
         let pspart = this.props.PS.psparts[i];
         for(let j=0; j<pspart.sections.length; j++) {
           let section = pspart.sections[j];
+          if(section.name === nodeName) {
+            return section;
+          }
           for(let k=0; k<section.connectors.length; k++) {
             let connector = section.connectors[k];
             if(connector.name === nodeName) {

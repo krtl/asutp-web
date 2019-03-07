@@ -185,6 +185,7 @@ function importAsutpConnections(callback) {
           (asutpConnection.voltage !== newConnection.voltage) ||
           (asutpConnection.connectionNumber !== newConnection.connectionNumber) ||
           (asutpConnection.VVParamName !== newConnection.VVParamName) ||
+          (asutpConnection.UlParamName !== newConnection.UlParamName) ||
           (asutpConnection.PParamName !== newConnection.PParamName)) {
           mongoose.models.AsutpConnection.update({ _id: asutpConnection.id },
             { $set: { caption: newConnection.caption,
@@ -193,6 +194,7 @@ function importAsutpConnections(callback) {
               connectionNumber: newConnection.connectionNumber,
               VVParamName: newConnection.VVParamName,
               PParamName: newConnection.PParamName,
+              UlParamName: newConnection.UlParamName,
             } }, (error) => {
               if (error) throw callback(error);
               console.log(`asutpConnection "${newConnection.name}" updated`);

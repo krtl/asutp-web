@@ -127,7 +127,7 @@ describe('nodeState', () => {
       const param = myDataModelNodes.GetParam(paramName);
       if (param) {
         const pv = new MyParamValue(param.name, myNodeState.NODE_STATE_OFF, new Date(), '');
-        lastValues.setLastValue(pv);
+        lastValues.setRawValue(pv);
 
         ps.recalculateState();
 

@@ -85,7 +85,7 @@ export default class MyPSAsutpLinkageDialog extends React.Component {
           break;
         }
         case MyConsts.NODE_PRPNAME_PARAM_ROLE_VOLTAGE: {
-          // locParamName = element.UParamName;
+          locParamName = element.UlParamName;
           break;
         }
         case MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE: {
