@@ -12,6 +12,7 @@ const myNodeType = {
   TRANSFORMER: 10,
   TRANSFORMERCONNECTOR: 11,
   EQUIPMENT: 12,
+  PARAM: 13,    // only for GUI
 };
 
 const requireParent = [

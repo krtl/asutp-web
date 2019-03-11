@@ -108,6 +108,40 @@ export default class MyRect extends React.Component {
           </Group>
         );
       }
+      case MyConsts.NODE_TYPE_PS:{
+        return (
+          <Group
+            x={x}
+            y={y}
+            draggable
+            onDragend={this.handleDragEnd}
+          >
+            <Text
+              x={25}
+              y={0}
+              fontSize={9}
+              text={this.props.node.name}
+            />
+            <Circle
+              x={10}
+              y={10}
+              radius={MyConsts.NODE_PS_RADIUS}
+              stroke={'black'}
+              strokeWidth={2}
+              fill={color}
+              shadowBlur={0}
+              onClick={this.handleClick}
+            />
+            <Text
+              x={0}
+              y={22}
+              fontSize={9}
+              text={this.props.node.caption}
+            />            
+
+          </Group>
+        );
+      }
       case MyConsts.NODE_TYPE_TRANSFORMER: {
         return (
           <Group
@@ -221,7 +255,7 @@ export default class MyRect extends React.Component {
         );
       }
 
-      case MyConsts.NODE_TYPE_PS:{
+      case MyConsts.NODE_TYPE_PARAM:{
         return (
           <Group
             x={x}
@@ -230,27 +264,34 @@ export default class MyRect extends React.Component {
             onDragend={this.handleDragEnd}
           >
             <Text
-              x={25}
+              x={0}
               y={0}
               fontSize={9}
               text={this.props.node.name}
             />
-            <Circle
-              x={10}
+            <Rect
+              x={0}
               y={10}
-              radius={MyConsts.NODE_PS_RADIUS}
+              width={MyConsts.NODE_PS_RADIUS*4}
+              height={MyConsts.NODE_PS_RADIUS}
               stroke={'black'}
-              strokeWidth={2}
-              fill={color}
+              strokeWidth={1}
+              fill={'white'}
               shadowBlur={0}
               onClick={this.handleClick}
             />
             <Text
-              x={0}
-              y={22}
+              x={1}
+              y={11}
               fontSize={9}
               text={this.props.node.caption}
-            />            
+            />        
+            <Text
+              x={1}
+              y={21}
+              fontSize={9}
+              text={this.props.node.paramName}
+            />        
 
           </Group>
         );

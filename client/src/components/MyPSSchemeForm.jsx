@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import { Layer, Stage, Line } from 'react-konva';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardText } from 'material-ui/Card';
 import MySchemaNode from './MySchemaNode';
 import {MyConsts} from '../modules/MyConsts';
+import MyParams from './MyParams';
 
 
 
@@ -139,6 +141,22 @@ export default class MyPSScheme extends React.Component {
     const locW = 3000;
     const locH = 5000;
 
+    const locParams = this.props.params;
+
+    for(let i=0; i<locNodes.length; i+=1) {
+      const locNode = locNodes[i];
+      if (locNode.nodeType === MyConsts.NODE_TYPE_PARAM) {
+        for(let j=0; j<locParams.length; j+=1) {
+          const locParam = locParams[j];
+          if (locParam.name === locNode.paramName) {
+            locNode.caption = locParam.value; 
+            break;
+          }
+        }    
+      }
+    }
+    
+
     return (
       <div>
         <Card className='container'>
@@ -149,9 +167,9 @@ export default class MyPSScheme extends React.Component {
             <RaisedButton onClick={this.handleSaveStatesClick}>Save States</RaisedButton>
           </div>
         </Card>
-
-        <Stage width={locW} height={locH}>
-
+        <Tabs>
+          <Tab label='Schema' >
+          <Stage width={locW} height={locH}>
           <Layer>
           {locLines.map(line => (
               <Line
@@ -174,6 +192,14 @@ export default class MyPSScheme extends React.Component {
 
           </Layer>
         </Stage>
+          </Tab>
+          <Tab label='Params' >
+          <MyParams
+            params={this.props.params}
+           />
+        </Tab>
+        </Tabs>
+
       </div>
     );
   }
@@ -183,6 +209,7 @@ export default class MyPSScheme extends React.Component {
   psName: PropTypes.string,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
+  params: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
   onSaveManualStates: PropTypes.func,

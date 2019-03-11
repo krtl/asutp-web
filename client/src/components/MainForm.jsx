@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import MyParams from './MyParams';
 import MyPSs from './MyPSs';
 import MyNodeStateHistory from '../containers/MyNodeStateHistory';
 import MyRegionSchemaContainer from '../containers/MyRegionSchemaContainer';
@@ -19,13 +18,6 @@ class MainForm extends React.Component {
   render() {
     return (
       <Tabs>
-        <Tab label='Params' >
-          <MyParams
-            schemas={this.props.schemas}
-            params={this.props.params}
-            onLoadParams={this.props.onLoadParams}
-           />
-        </Tab>
         <Tab label='PSs' >
           <MyPSs
           schemas={this.props.schemas}
@@ -52,7 +44,6 @@ class MainForm extends React.Component {
 }
 
 MainForm.propTypes = {
-  params: PropTypes.array.isRequired,
   schemas: PropTypes.array.isRequired,
   PSs: PropTypes.array.isRequired,
   ps: PropTypes.string.isRequired,

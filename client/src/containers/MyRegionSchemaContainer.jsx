@@ -29,7 +29,6 @@ export default class MyStageContainer extends React.Component {
     this.onSaveScheme = this.onSaveScheme.bind(this);
     this.onSaveManualStates = this.onSaveManualStates.bind(this);
 
-    // MyStompClient.connect(this.doOnWebsocketConnected);
   }
 
   componentDidMount() {

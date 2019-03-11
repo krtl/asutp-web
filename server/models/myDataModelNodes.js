@@ -1286,7 +1286,7 @@ const getPSSchema1 = (psName, callback) => {
 
   const getNewNodeForScheme = (node) => {
     const locNode = new MyNode(node.name, node.caption, node.description, node.nodeType);
-    locNode.parentNode = node.parentNode.name;
+    // locNode.parentNode = node.parentNode.name;
     locNode.sapCode = node.sapCode;
     locNode.nodeState = node.nodeState;
     locNode.parentNode = undefined;
@@ -1454,9 +1454,23 @@ const getPSSchema1 = (psName, callback) => {
       section1.y = xy.y;
       nodes.push(section1);
 
-      // if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-      //   pushIfNotPushed(paramNames, section[MyNodePropNameParamRole.VOLTAGE]);
-      // }
+      if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+        if (params.has(section[MyNodePropNameParamRole.VOLTAGE])) {
+          const param = params.get(section[MyNodePropNameParamRole.VOLTAGE]);
+          const locNode = new MyNode(`${section.name}.${MyNodePropNameParamRole.VOLTAGE}`, param.caption, param.description, myNodeType.PARAM);
+          locNode.parentNode = section.name;
+          locNode.sapCode = undefined;
+          locNode.nodeState = undefined; // !
+          locNode.parentNode = undefined;
+          locNode.description = undefined;
+          locNode.kTrust = undefined;
+          locNode.schemaNames = undefined;
+          locNode.x = section1.x + 1;
+          locNode.y = section1.y;
+          locNode.paramName = param.name;
+          nodes.push(locNode);
+        }
+      }
 
 
       const offsetX = section1.x - (section.connectors.length / 2);
@@ -1482,11 +1496,41 @@ const getPSSchema1 = (psName, callback) => {
         wire.nodeTo = connector.name;
         wires.push(wire);
 
-          // if (MyNodePropNameParamRole.POWER in connector) {
-          //   if (connector[MyNodePropNameParamRole.POWER] !== '') {
-          //     pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
-          //   }
-          // }
+        if (MyNodePropNameParamRole.POWER in connector) {
+          if (connector[MyNodePropNameParamRole.POWER] !== '') {
+            if (params.has(connector[MyNodePropNameParamRole.POWER])) {
+              const param = params.get(connector[MyNodePropNameParamRole.POWER]);
+              const locNode = new MyNode(`${connector.name}.${MyNodePropNameParamRole.POWER}`, param.caption, param.description, myNodeType.PARAM);
+              locNode.parentNode = connector.name;
+              locNode.sapCode = undefined;
+              locNode.nodeState = undefined; // !
+              locNode.parentNode = undefined;
+              locNode.description = undefined;
+              locNode.kTrust = undefined;
+              locNode.schemaNames = undefined;
+              locNode.x = connector1.x;
+              locNode.y = connector1.y;
+              if (section1.y === 2) {
+                if (itIsTransformerConnector) {
+                  locNode.x = connector1.x + 1;
+                  locNode.y = connector1.y;
+                } else {
+                  locNode.x = connector1.x;
+                  locNode.y = connector1.y - 1;
+                }
+              } else if (itIsTransformerConnector) {
+                locNode.x = connector1.x + 1;
+                locNode.y = connector1.y;
+              } else {
+                locNode.x = connector1.x;
+                locNode.y = connector1.y + 1;
+              }
+              locNode.paramName = param.name;
+              nodes.push(locNode);
+            }
+          }
+        }
+
           // for (let m = 0; m < connector.equipments.length; m += 1) {
           //   const equipment = connector.equipments[m];
           //   locNodes.push(equipment);
@@ -1893,6 +1937,16 @@ const GetSchemaParamNames = (schemaName) => {
   return [];
 };
 
+const GetPSSchemaParamNames = (schemaName) => {
+  if (psSchemas.has(schemaName)) {
+    const locSchema = psSchemas.get(schemaName);
+    if (locSchema !== undefined) {
+      return locSchema.paramNames;
+    }
+  }
+  return [];
+};
+
 const GetParam = paramName => params.get(paramName);
 const GetAllParamsAsArray = () => Array.from(params.values());
 
@@ -1927,6 +1981,7 @@ module.exports.GetPSSchema = GetPSSchema;
 module.exports.StoreLastStateValues = StoreLastStateValues;
 module.exports.GetAvailableSchemas = GetAvailableSchemas;
 module.exports.GetSchemaParamNames = GetSchemaParamNames;
+module.exports.GetPSSchemaParamNames = GetPSSchemaParamNames;
 module.exports.GetParam = GetParam;
 module.exports.GetAllParamsAsArray = GetAllParamsAsArray;
 module.exports.RecalculateWholeShema = RecalculateWholeShema;

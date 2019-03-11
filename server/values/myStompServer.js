@@ -89,7 +89,7 @@ const initializeStompServer = (httpserver) => {
 
     if (ev.topic.startsWith(TOPIC_VALUES)) {
       const schemaName = ev.topic.replace(TOPIC_VALUES, '');
-      const paramNames = MyDataModelNodes.GetSchemaParamNames(schemaName);
+      const paramNames = MyDataModelNodes.GetPSSchemaParamNames(schemaName);
       for (let i = 0; i < paramNames.length; i += 1) {
         const paramName = paramNames[i];
         const paramValue = lastValues.getLastValue(paramName);

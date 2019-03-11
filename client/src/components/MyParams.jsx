@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import PropTypes from "prop-types";
 // import { styled } from '@material-ui/styles';
-import SelectField from 'material-ui/SelectField';
 import {
   Table,
   TableBody,
@@ -11,7 +10,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import MenuItem from 'material-ui/MenuItem';
 import Moment from 'react-moment';
 
 /* global localStorage */
@@ -81,64 +79,17 @@ export default class MyParams extends React.Component {
     super(props);
 
     this.state = {
-      selectedSchema: '',
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleLoadParamsClick = this.handleLoadParamsClick.bind(this);
   }
 
   componentDidMount() {
 
-      const selectedSchemaName = localStorage.getItem('selectedSchema');
-
-      if (selectedSchemaName) {
-        for (let i = 0; i < this.props.schemas.length; i += 1) {
-          if (this.props.schemas[i].name === selectedSchemaName) {
-            this.setState({
-              selectedSchema: this.props.schemas[i],
-            });
-            this.handleLoadParamsClick();
-            break;
-          }
-        }
-      }
-    // });
-  }
-  
-  handleLoadParamsClick(selectedListItem) {
-    if (selectedListItem === undefined) {
-      selectedListItem = this.state.selectedSchema;
-    }
-
-    if (selectedListItem) {
-      this.props.onLoadParams(selectedListItem.name);
-      }
-  }
-
-  handleChange(event, index, value) {
-    this.setState({ selectedSchema: value });
-
-    this.handleLoadParamsClick(value);
   }
 
   render() {
 
     return (
       <div>
-        <div>
-          <SelectField
-            floatingLabelText='Schema:'
-            value={this.state.selectedSchema}
-            onChange={this.handleChange}
-            style={styles.customWidth}
-          >
-            {this.props.schemas.map(schema => (
-              <MenuItem key={schema.name} value={schema} primaryText={schema.caption} secondaryText={schema.name} />
-            ))
-            }
-          </SelectField>
-        </div>
         <Table height='1000px'>
           <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
             <TableRow>
@@ -171,8 +122,6 @@ export default class MyParams extends React.Component {
 }
 
 MyParams.propTypes = {
-  schemas: PropTypes.array.isRequired,
   params: PropTypes.array.isRequired,
-  onLoadParams: PropTypes.func,
 };
 

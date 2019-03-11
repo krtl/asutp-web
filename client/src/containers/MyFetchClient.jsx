@@ -21,6 +21,7 @@ class MyFetchClient extends React.Component {
         this.checkStatus = this.checkStatus.bind(this);
         this.parseJSON = this.parseJSON.bind(this);
         this.setError = this.setError.bind(this);
+
       }
 
       

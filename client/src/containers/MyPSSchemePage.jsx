@@ -6,6 +6,9 @@ import MyStompClient from '../modules/MyStompClient';
 // import {MyConsts} from '../modules/MyConsts';
 
 
+const MATCHING_ITEM_LIMIT = 2500;
+
+let updateCount = 0;
 let valuesUpdated = 0;
 let timerId;
 
@@ -20,6 +23,7 @@ export default class PSSchemePage extends React.Component {
       psName: '',
       nodes: [],
       wires: [],
+      params: [],
       update: false,      
     };
 
@@ -65,6 +69,17 @@ export default class PSSchemePage extends React.Component {
 
     const cmds = [
       {
+        fetchUrl: `getPSParams?name=${psName}`,
+        fetchMethod: 'get',
+        fetchData: '',
+        fetchCallback: (params) => {
+          this.setState({
+            params: params.slice(0, MATCHING_ITEM_LIMIT),
+          });
+        }
+      },
+
+      {
         fetchUrl: `getPSSchema?name=${psName}`,
         fetchMethod: 'get',
         fetchData: '',
@@ -75,8 +90,8 @@ export default class PSSchemePage extends React.Component {
           });
 
           MyStompClient.subscribeToValues(psName, (value) => {
+            let b = false;
             if('nodeName' in value) {
-              let b = false;
               for (let i = 0; i < this.state.nodes.length; i += 1) {
                 const locNode = this.state.nodes[i];
                 if (locNode.name === value.nodeName) {
@@ -86,13 +101,26 @@ export default class PSSchemePage extends React.Component {
                   break;
                 }
               }
-              if (b) {
-                valuesUpdated = 1;
+            }
+            if('paramName' in value) {
+              for (let i = 0; i < this.state.params.length; i += 1) {
+                const locParam = this.state.params[i];
+                if (locParam.name === value.paramName) {
+                  locParam.value = value.value;
+                  locParam.dt = value.dt;
+                  locParam.qd = value.qd;
+                  b = true;
+                  break;
+                }
               }
             }
-          });           
+            if (b) {
+              valuesUpdated = 1;
+            }
+          });
         }
       },
+
     ]
 
     this.setState({
@@ -141,12 +169,15 @@ export default class PSSchemePage extends React.Component {
 
 
   render() {
-    return (
-      <div>      
+    updateCount += 1;
+    const c = updateCount;
+    return (      
+      <div>{c}     
       <MyPSSchemeForm 
         psName={this.state.psName}
         nodes={this.state.nodes}
         wires={this.state.wires}
+        params={this.state.params}
         onLoadScheme={this.onLoadScheme} 
         onSaveScheme={this.onSaveScheme}
         onSaveManualStates={this.onSaveManualStates}         

@@ -1,7 +1,7 @@
 import React from 'react';
 import MainForm from '../components/MainForm';
 import MyFetchClient from './MyFetchClient';
-import MyStompClient from '../modules/MyStompClient';
+// import MyStompClient from '../modules/MyStompClient';
 import makeUid from '../modules/MyFuncs';
 
 const MATCHING_ITEM_LIMIT = 2500;
@@ -28,8 +28,6 @@ export default class MainPage extends React.Component {
     this.onLoadParams = this.onLoadParams.bind(this);
     this.onLoadPSs = this.onLoadPSs.bind(this);
     this.onLoadPS = this.onLoadPS.bind(this);
-
-    MyStompClient.connect(this.doOnWebsocketConnected);
 
   }
 
@@ -76,7 +74,7 @@ export default class MainPage extends React.Component {
   }
 
   componentWillUnmount() {
-    MyStompClient.unsubscribeFromValues();
+    // MyStompClient.unsubscribeFromValues();
     clearInterval(timerId);
   }
 
@@ -91,24 +89,24 @@ export default class MainPage extends React.Component {
             params: params.slice(0, MATCHING_ITEM_LIMIT),
           });
 
-          MyStompClient.subscribeToValues(schemaName, (value) => {
-            if('paramName' in value) {
-              let b = false;
-              for (let i = 0; i < this.state.params.length; i += 1) {
-                const locParam = this.state.params[i];
-                if (locParam.name === value.paramName) {
-                  locParam.value = value.value;
-                  locParam.dt = value.dt;
-                  locParam.qd = value.qd;
-                  b = true;
-                  break;
-                }
-              }
-              if (b) {
-                valuesUpdated = 1;
-              }
-            }
-          });          
+          // MyStompClient.subscribeToValues(schemaName, (value) => {
+          //   if('paramName' in value) {
+          //     let b = false;
+          //     for (let i = 0; i < this.state.params.length; i += 1) {
+          //       const locParam = this.state.params[i];
+          //       if (locParam.name === value.paramName) {
+          //         locParam.value = value.value;
+          //         locParam.dt = value.dt;
+          //         locParam.qd = value.qd;
+          //         b = true;
+          //         break;
+          //       }
+          //     }
+          //     if (b) {
+          //       valuesUpdated = 1;
+          //     }
+          //   }
+          // });          
         }
       },
     ]
