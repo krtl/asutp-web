@@ -15,7 +15,7 @@ const MyParamValue = require('../models/myParamValue');
 
 const lastValues = new Map();
 let lastChanged = [];
-const blockedParams = [];
+let blockedParams = [];
 let useDbValueTracker = false;
 
 const setValue = (newValue) => {
@@ -80,8 +80,10 @@ function init(obj, callback) {
   }
 
   restoreLastParamValues(() => {
-    dbValuesTracker.Start();
-    callback();
+    restoreBlockedParams(() => {
+      dbValuesTracker.Start();
+      callback();
+    });
   });
 }
 
@@ -147,10 +149,10 @@ function StoreBlockedParams() {
   logger.debug(`[] blockedParams prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
 }
 
-function RestoreBlockedParams(callback) {
+function restoreBlockedParams(callback) {
   const start = moment();
   let count = 0;
-  blockedParams.clear();
+  blockedParams = [];
   const fileName = `${config.storePath}blockedParams.json`;
 
   if (!fs.exists(fileName, (exists) => {
@@ -171,7 +173,7 @@ function RestoreBlockedParams(callback) {
       for (let i = 0; i < paramNames.length; i += 1) {
         const paramName = paramNames[i];
 
-        if (Params.has(paramName)) {
+        if (myDataModelNodes.GetParam(paramName)) {
           blockedParams.push(paramName);
           count += 1;
         } else {
@@ -187,7 +189,6 @@ function RestoreBlockedParams(callback) {
 }
 
 
-
 module.exports.init = init;
 module.exports.setRawValue = setRawValue;
 module.exports.setManualValue = setManualValue;
@@ -197,3 +198,4 @@ module.exports.getLastValue = getLastValue;
 module.exports.getLastChanged = getLastChanged;
 module.exports.getLastValuesCount = getLastValuesCount;
 module.exports.clearLastValues = clearLastValues;
+module.exports.StoreBlockedParams = StoreBlockedParams;

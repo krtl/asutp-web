@@ -7,8 +7,9 @@ const MyParamValue = require('../models/myParamValue');
 describe('lastValues', () => {
   before((done) => {
     lastValues.init(
-      { useDbValueTracker: false });
-    done();
+      { useDbValueTracker: false }, () => {
+        done();
+      });
   });
 
   it('getLastValuesCount() should return 0 if no values are passed in', () => {

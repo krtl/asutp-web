@@ -88,6 +88,7 @@ const initializeParamValuesProcessor = () => {
 const finalizeParamValuesProcessor = () => {
   clearInterval(timerId);
   MyDataModelNodes.StoreLastStateValues();
+  lastValues.StoreBlockedParams();
 };
 
 
