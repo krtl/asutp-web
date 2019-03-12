@@ -7,6 +7,7 @@ import { Card, CardText } from 'material-ui/Card';
 import MySchemaNode from './MySchemaNode';
 import {MyConsts} from '../modules/MyConsts';
 import MyParams from './MyParams';
+import MyParamDialog from './MyParamDialog'
 
 
 
@@ -17,13 +18,20 @@ export default class MyPSScheme extends React.Component {
     this.state = {
       edited: false,
       stateChanged: false,
+
+      open: false,
+      initialParamValue: 0,
+      initialBlockRawValues: '',
+      editedNodeName: '',
+      editedParamName: ''
     };    
 
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
-    this.handleSaveStatesClick = this.handleSaveStatesClick.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
-    this.handleStateChanged = this.handleStateChanged.bind(this);
+    this.handleDoubleClick = this.handleDoubleClick.bind(this);
+
+    this.handleDialogClose = this.handleDialogClose.bind(this);
 
   }
 
@@ -71,6 +79,27 @@ export default class MyPSScheme extends React.Component {
     return result;
   }
 
+  getNodeByName(nodeName) {
+    for(let i=0; i<this.props.nodes.length; i++) {
+      let node = this.props.nodes[i];
+      if(node.name === nodeName) {
+        return node;
+      }
+    }
+    return null;    
+  }
+
+  getParamByName(nodeName) {
+    for(let i=0; i<this.props.params.length; i++) {
+      let param = this.props.params[i];
+      if(param.name === nodeName) {
+        return param;
+      }
+    }
+    return null;    
+  }
+
+
   handleLoadSchemeClick() {
     this.props.onLoadScheme(this.props.psName, true);
   } 
@@ -91,22 +120,6 @@ export default class MyPSScheme extends React.Component {
     }
   }
 
-  handleSaveStatesClick() {
-    if (this.state.stateChanged) {
-      let manualStates = [];
-      this.props.nodes.forEach((node) => {
-        if (node.stateChanged !== undefined) {
-          manualStates.push({ nodeName: node.name, newState: node.nodeState });
-        }
-      });
-      
-      if (manualStates.length > 0) {
-        const s = JSON.stringify(manualStates);
-        this.props.onSaveManualStates(s);
-      }
-    }
-  }
-
   handleDragEnd(nodeObj) {
     const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
     if (locNode !== undefined) {
@@ -120,16 +133,45 @@ export default class MyPSScheme extends React.Component {
     }
   }
 
-  handleStateChanged(nodeObj) {
-    const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
+  handleDoubleClick(nodeObj) {
+    //const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
+    const locNode = nodeObj;
     if (locNode !== undefined) {
-      locNode.nodeState = nodeObj.state;
-      locNode.stateChanged = true;
-      this.setState({
-        stateChanged: true
-       });
+      if (locNode.nodeType === MyConsts.NODE_TYPE_PARAM) {
+
+        const param = this.getParamByName(locNode.paramName);
+        if (param) {
+
+          let s = '';
+          if (param.qd) {
+            s = (param.qd.indexOf('Z') > -1) ? 'blocked' : 'unblocked'
+          }
+         
+          this.setState({ 
+            open: true,
+            initialParamValue: param.value,
+            initialBlockRawValues: s,            
+            editedNodeName: locNode.name,
+            editedParamName: locNode.paramName,
+           });
+          }
+      }
     }
   }  
+
+
+  handleDialogClose (newValue) {
+    this.setState({ open: false });
+
+    if (newValue !== 'dismiss') {
+
+      const s = JSON.stringify( { paramName: this.state.editedParamName,
+         cmd:  (newValue.newBlockRawValues === 'unblocked') ? 'unblock':'block',
+         manualValue: newValue.newManualValue });
+      this.props.onSaveManualValue(s);
+    }
+      
+  };  
   
 
   render() {
@@ -150,6 +192,7 @@ export default class MyPSScheme extends React.Component {
           const locParam = locParams[j];
           if (locParam.name === locNode.paramName) {
             locNode.caption = locParam.value; 
+            locNode.paramQD = locParam.qd;
             break;
           }
         }    
@@ -164,7 +207,6 @@ export default class MyPSScheme extends React.Component {
             <CardText>{this.props.psName}</CardText>
             <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
             <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
-            <RaisedButton onClick={this.handleSaveStatesClick}>Save States</RaisedButton>
           </div>
         </Card>
         <Tabs>
@@ -185,7 +227,7 @@ export default class MyPSScheme extends React.Component {
                 key={rec.name}
                 node={rec}
                 onDragEnd={this.handleDragEnd}
-                onStateChanged={this.handleStateChanged}
+                onDoubleClick={this.handleDoubleClick}
               />
             ))
           }
@@ -200,6 +242,15 @@ export default class MyPSScheme extends React.Component {
         </Tab>
         </Tabs>
 
+
+        <MyParamDialog
+        open={this.state.open}
+        onClose={this.handleDialogClose}
+        initialParamValue={this.state.initialParamValue}
+        initialBlockRawValues={this.state.initialBlockRawValues}
+        editedNodeName={this.state.editedNodeName}
+        editedParamName={this.state.editedParamName}
+        />
       </div>
     );
   }
@@ -212,7 +263,7 @@ export default class MyPSScheme extends React.Component {
   params: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
-  onSaveManualStates: PropTypes.func,
+  onSaveManualValue: PropTypes.func,
 };
 
 

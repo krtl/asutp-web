@@ -21,7 +21,7 @@ let useDbValueTracker = false;
 const setValue = (newValue) => {
   // removing duplicates
   const lastValue = lastValues.get(newValue.paramName);
-  if ((!lastValue) || (lastValue.value !== newValue.value) || (lastValue.dt !== newValue.dt)) {
+  if ((!lastValue) || (lastValue.value !== newValue.value) || (lastValue.dt !== newValue.dt) || (lastValue.qd !== newValue.qd)) {
     if (useDbValueTracker) {
       dbValuesTracker.TrackDbParamValue(newValue);
     }
@@ -39,23 +39,13 @@ const setRawValue = (newValue) => {
   }
 };
 
-const setManualValue = (newValue) => {
-  // if (blockedParams.indexOf(newValue.paramName) > 0) {
-  //   newValue.qd = 'B,S'
-  // } else {
-  //   newValue.qd = 'S'
-  // }
-
-  setValue(newValue);
-};
-
-const blockRawValues = (paramName) => {
+const BlockRawValues = (paramName) => {
   if (blockedParams.indexOf(paramName) < 0) {
     blockedParams.push(paramName);
   }
 };
 
-const unblockRawValues = (paramName) => {
+const UnblockRawValues = (paramName) => {
   const index = blockedParams.indexOf(paramName);
   if (index > -1) {
     blockedParams.splice(index, 1);
@@ -72,7 +62,7 @@ const getLastValue = paramName => lastValues.get(paramName);
 
 const getLastValuesCount = () => lastValues.size;
 
-const clearLastValues = () => lastValues.clear();
+const ClearLastValues = () => lastValues.clear();
 
 function init(obj, callback) {
   if (obj.useDbValueTracker) {
@@ -142,11 +132,11 @@ function StoreBlockedParams() {
   try {
     fs.writeFileSync(`${config.storePath}blockedParams.json`, data);
   } catch (err) {
-    logger.error(`[] saving blockedParams error: ${err}`);
+    logger.error(`[lastValues] saving blockedParams error: ${err}`);
     return;
   }
   const duration2 = moment().diff(start);
-  logger.debug(`[] blockedParams prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
+  logger.debug(`[lastValues] blockedParams prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
 }
 
 function restoreBlockedParams(callback) {
@@ -158,7 +148,7 @@ function restoreBlockedParams(callback) {
   if (!fs.exists(fileName, (exists) => {
     if (!exists) {
       const err = `file "${fileName}" does not exists`;
-      logger.warn(`[][blockedParams] failed. File "${fileName}" is not found.`);
+      logger.warn(`[lastValues][blockedParams] failed. File "${fileName}" is not found.`);
       callback(err);
       return;
     }
@@ -189,13 +179,46 @@ function restoreBlockedParams(callback) {
 }
 
 
+const SetManualValue = (manualValue) => {
+  let err = '';
+
+  // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+
+  if (myDataModelNodes.GetParam(manualValue.paramName)) {
+    if (manualValue.cmd === 'block') {
+      BlockRawValues(manualValue.paramName);
+    } else if (manualValue.cmd === 'unblock') {
+      UnblockRawValues(manualValue.paramName);
+    }
+
+    if (manualValue.manualValue !== undefined) {
+      const momentDT = moment();
+      const dt = new Date(momentDT);
+      // const float = parseFloat(manualValue.manualValue.replace(',', '.'));
+      const float = manualValue.manualValue;
+      let qd = 'Z';
+      if (blockedParams.indexOf(manualValue.paramName) > 0) {
+        qd += ',B';
+      }
+      const obj = new MyParamValue(manualValue.paramName, float, dt, qd);
+      setValue(obj);
+    }
+  } else {
+    logger.error(`[lastValues][SetParamManualValue] Can't find param "${manualValue.paramName}".`);
+    err += `[lastValues][SetParamManualValue] Can't find param "${manualValue.paramName}".`;
+  }
+
+  return err;
+};
+
+
 module.exports.init = init;
 module.exports.setRawValue = setRawValue;
-module.exports.setManualValue = setManualValue;
-module.exports.blockRawValues = blockRawValues;
-module.exports.unblockRawValues = unblockRawValues;
+module.exports.SetManualValue = SetManualValue;
+module.exports.BlockRawValues = BlockRawValues;
+module.exports.UnblockRawValues = UnblockRawValues;
 module.exports.getLastValue = getLastValue;
 module.exports.getLastChanged = getLastChanged;
 module.exports.getLastValuesCount = getLastValuesCount;
-module.exports.clearLastValues = clearLastValues;
+module.exports.ClearLastValues = ClearLastValues;
 module.exports.StoreBlockedParams = StoreBlockedParams;

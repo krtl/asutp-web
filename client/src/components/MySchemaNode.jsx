@@ -13,26 +13,11 @@ export default class MyRect extends React.Component {
       // y: props.node.y,
     };
     this.handleDragEnd = this.handleDragEnd.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleDblClick = this.handleDblClick.bind(this);
   }
 
-  handleClick() {
-    let newState = MyConsts.NODE_STATE_UNKNOWN;
-    switch (this.props.node.nodeState) {
-      case MyConsts.NODE_STATE_ON: {
-        newState = MyConsts.NODE_STATE_OFF
-        break;
-        }
-      case MyConsts.NODE_STATE_OFF: {
-        newState = MyConsts.NODE_STATE_ON
-        break;
-        }
-      default: {
-        newState = MyConsts.NODE_STATE_OFF
-        break;
-        }
-    }
-    this.props.onStateChanged({ name: this.props.node.name, state: newState });
+  handleDblClick() {
+    this.props.onDoubleClick(this.props.node);
 
   // window.Konva is a global variable for Konva framework namespace
     // this.setState({
@@ -73,6 +58,21 @@ export default class MyRect extends React.Component {
         }
     }
 
+    let paramValueColor;
+    if (this.props.node.paramQD) {
+      if (this.props.node.paramQD.indexOf('B') > -1) {
+        paramValueColor = 'green'
+      } else if (this.props.node.paramQD.indexOf('Z') > -1) {
+        paramValueColor = 'aquamarine'
+      } else if (this.props.node.paramQD.indexOf('NA') > -1) {
+        paramValueColor = 'grey'
+      } else {
+        paramValueColor = 'white'
+      }
+
+    }
+
+
     switch (this.props.node.nodeType) {
       case MyConsts.NODE_TYPE_LEP: {
         return (
@@ -97,7 +97,7 @@ export default class MyRect extends React.Component {
               strokeWidth={1}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={1}
@@ -130,7 +130,7 @@ export default class MyRect extends React.Component {
               strokeWidth={2}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={0}
@@ -164,7 +164,7 @@ export default class MyRect extends React.Component {
               strokeWidth={2}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Circle
               x={15}
@@ -174,7 +174,7 @@ export default class MyRect extends React.Component {
               strokeWidth={2}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={1}
@@ -208,7 +208,7 @@ export default class MyRect extends React.Component {
               strokeWidth={1}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={1}
@@ -230,7 +230,7 @@ export default class MyRect extends React.Component {
           >
             <Text
               x={1}
-              y={0}
+              y={-10}
               fontSize={9}
               text={this.props.node.name}
             />
@@ -243,7 +243,7 @@ export default class MyRect extends React.Component {
               strokeWidth={1}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={1}
@@ -276,15 +276,16 @@ export default class MyRect extends React.Component {
               height={MyConsts.NODE_PS_RADIUS}
               stroke={'black'}
               strokeWidth={1}
-              fill={'white'}
+              fill={paramValueColor}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={1}
               y={11}
               fontSize={9}
               text={this.props.node.caption}
+              onDblClick={this.handleDblClick}
             />        
             <Text
               x={1}
@@ -313,7 +314,7 @@ export default class MyRect extends React.Component {
               strokeWidth={2}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={30}
@@ -329,7 +330,7 @@ export default class MyRect extends React.Component {
               strokeWidth={1}
               fill={color}
               shadowBlur={0}
-              onClick={this.handleClick}
+              onDblClick={this.handleDblClick}
             />
             <Text
               x={21}
@@ -354,5 +355,5 @@ MyRect.propTypes = {
     nodeState: PropTypes.number,
   }).isRequired,
   onDragEnd: PropTypes.func.isRequired,
-  onStateChanged: PropTypes.func.isRequired,
+  onDoubleClick: PropTypes.func.isRequired,
 };

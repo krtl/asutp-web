@@ -30,15 +30,15 @@ describe('lastValues', () => {
   });
 
   it('getLastValue() should return correct paramValue after issuing setManualValue()', () => {
-    const pv1 = new MyParamValue('testParam1', 567, new Date(), '');
-    lastValues.setManualValue(pv1);
+    // const pv1 = new MyParamValue('testParam1', 567, new Date(), '');
+    lastValues.SetManualValue({ paramName: 'testParam1', manualValue: 567 });
     const pv2 = lastValues.getLastValue('testParam1');
     expect(pv2.value).to.equal(567);
   });
 
   it('getLastValue() after blocking should return manual paramValue after issuing setRawValue()', () => {
     const pv1 = new MyParamValue('testParam1', 890, new Date(), '');
-    lastValues.blockRawValues('testParam1');
+    lastValues.BlockRawValues('testParam1');
     lastValues.setRawValue(pv1);
     const pv2 = lastValues.getLastValue('testParam1');
     expect(pv2.value).to.equal(567);
@@ -46,14 +46,14 @@ describe('lastValues', () => {
 
   it('getLastValue() after unblocking should return raw paramValue after issuing setRawValue()', () => {
     const pv1 = new MyParamValue('testParam1', 890, new Date(), '');
-    lastValues.unblockRawValues('testParam1');
+    lastValues.UnblockRawValues('testParam1');
     lastValues.setRawValue(pv1);
     const pv2 = lastValues.getLastValue('testParam1');
     expect(pv2.value).to.equal(890);
   });
 
   it('clearLastValues() should return 0', () => {
-    lastValues.clearLastValues();
+    lastValues.ClearLastValues();
     expect(lastValues.getLastValuesCount()).to.equal(0);
   });
 });

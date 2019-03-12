@@ -29,7 +29,7 @@ export default class PSSchemePage extends React.Component {
 
     this.onLoadScheme = this.onLoadScheme.bind(this);    
     this.onSaveScheme = this.onSaveScheme.bind(this);
-    this.onSaveManualStates = this.onSaveManualStates.bind(this);
+    this.onSaveManualValue = this.onSaveManualValue.bind(this);
 
   }
 
@@ -148,10 +148,10 @@ export default class PSSchemePage extends React.Component {
       });
   }
 
-  onSaveManualStates(s) {
+  onSaveManualValue(s) {
     const cmds = [
       {
-        fetchUrl: 'api/saveManualNodeStates',
+        fetchUrl: 'api/saveParamManualValue',
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: () => {
@@ -180,7 +180,7 @@ export default class PSSchemePage extends React.Component {
         params={this.state.params}
         onLoadScheme={this.onLoadScheme} 
         onSaveScheme={this.onSaveScheme}
-        onSaveManualStates={this.onSaveManualStates}         
+        onSaveManualValue={this.onSaveManualValue}         
       />
       <MyFetchClient 
         cmdUid={this.state.cmdUid}

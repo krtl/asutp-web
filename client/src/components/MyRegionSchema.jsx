@@ -24,7 +24,6 @@ export default class MyStage extends React.Component {
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
-    this.handleSaveStatesClick = this.handleSaveStatesClick.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleStateChanged = this.handleStateChanged.bind(this);
@@ -102,21 +101,6 @@ export default class MyStage extends React.Component {
     }
   }
 
-  handleSaveStatesClick() {
-    if (this.state.stateChanged) {
-      let manualStates = [];
-      this.props.nodes.forEach((node) => {
-        if (node.stateChanged !== undefined) {
-          manualStates.push({ nodeName: node.name, newState: node.nodeState });
-        }
-      });
-      
-      if (manualStates.length > 0) {
-        const s = JSON.stringify(manualStates);
-        this.props.onSaveManualStates(s);
-      }
-    }
-  }
 
   handleDragEnd(nodeObj) {
     const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
@@ -167,7 +151,6 @@ export default class MyStage extends React.Component {
           </SelectField>
           <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
           <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
-          <RaisedButton onClick={this.handleSaveStatesClick}>Save States</RaisedButton>
         </div>
 
         <Stage width={locW} height={locH}>
@@ -204,6 +187,6 @@ export default class MyStage extends React.Component {
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
-  onSaveManualStates: PropTypes.func,
+  onSaveManualValue: PropTypes.func,
 };
 

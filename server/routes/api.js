@@ -11,7 +11,8 @@ const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
 const DbNodeSchema = require('../dbmodels/nodeSchema');
 
-const myDataModelNodes = require('../models/myDataModelNodes');
+// const myDataModelNodes = require('../models/myDataModelNodes');
+const lastValues = require('../values/lastValues');
 
 
 const router = new express.Router();
@@ -304,20 +305,20 @@ router.post('/saveNodeCoordinates', (req, res, next) => {
   });
 });
 
-router.post('/saveManualNodeStates', (req, res, next) => {
-  const manualtates = req.body;
-  const err = myDataModelNodes.SetManualStates(manualtates);
+router.post('/saveParamManualValue', (req, res, next) => {
+  const manualvalue = req.body;
+  const err = lastValues.SetManualValue(manualvalue);
 
   if (err) {
-    logger.info(`[saveManualNodeStates] Failed: ${err}`);
+    logger.info(`[saveParamManualValue] Failed: ${err}`);
     next(err);
     // res.status(500).json({
     //   message: err.message,
     // });
   } else {
-    logger.debug('[saveManualNodeStates] All saved successfully');
+    logger.debug('[saveParamManualValue] Manual value saved');
     res.status(200).json({
-      message: "'All saved successfully'",
+      message: "'Manual value saved'",
     });
   }
 });
