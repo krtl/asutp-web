@@ -19,7 +19,7 @@ const initializeParamValuesProcessor = () => {
     { useDbValueTracker: true }, () => {
       MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
         logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
-        console.log(`State changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}.`);
+        console.log(`State changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`);
 
         const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);

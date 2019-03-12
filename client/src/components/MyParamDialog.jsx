@@ -55,7 +55,6 @@ export default class MyParamDialog extends React.Component {
   handleRadioGroupChange(event, newValue) {
     this.setState({newBlockRawValues: newValue});
   }
-
   
   render() {
     const actions = [

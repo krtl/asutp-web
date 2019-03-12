@@ -1843,7 +1843,8 @@ function createNodeSchemasForPSs(cb) {
 
 function makeSchemaNamesForEachNode(cb) {
   const locNodes = Array.from(nodes.values());
-  const locSchemas = Array.from(nodeSchemas.values());
+  const locSchemas1 = Array.from(nodeSchemas.values());
+  const locSchemas = locSchemas1.concat(Array.from(psSchemas.values()));
 
   for (let i = 0; i < locNodes.length; i += 1) {
     const node = locNodes[i];
