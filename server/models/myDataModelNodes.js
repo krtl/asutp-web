@@ -118,6 +118,7 @@ const LoadFromDB = (cb) => {
     loadNodes,
     replaceNamesWithObjects,
     linkNodes,
+    preparePSs,
     checkIntegrity,
     linkParamNamesToNodes,
     restoreLastStateValues,
@@ -520,6 +521,47 @@ function linkNodes(cb) {
     }
   }
 
+  return cb();
+}
+
+function preparePSs(cb) {
+  const locPSs = Array.from(PSs.values());
+
+  const isInTransformerConnector = (ps, con) => {
+    for (let i = 0; i < ps.transformers.length; i += 1) {
+      const transformer = ps.transformers[i];
+      for (let j = 0; j < transformer.transConnectors.length; j += 1) {
+        const connector = transformer.transConnectors[j];
+        if (connector.toConnector === con) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const ps = locPSs[i];
+    if (ps.psparts.length > 0) {
+      let inputPsPart = ps.psparts[0];
+      for (let j = 0; j < ps.psparts.length; j += 1) {
+        const pspart = ps.psparts[j];
+        if (inputPsPart.voltage < pspart.voltage) {
+          inputPsPart = pspart;
+        }
+        for (let k = 0; k < pspart.sections.length; k += 1) {
+          const section = pspart.sections[k];
+          for (let l = 0; l < section.connectors.length; l += 1) {
+            const connector = section.connectors[l];
+            connector.transformerConnector = isInTransformerConnector(ps, connector);
+          }
+        }
+      }
+      inputPsPart.inputNotOutput = true;
+    }
+  }
+
+  // ..
   return cb();
 }
 
@@ -1275,19 +1317,6 @@ const getPSSchema1 = (psName, callback) => {
     return locNode;
   };
 
-  const isInTransformerConnecor = (con) => {
-    for (let i = 0; i < ps.transformers.length; i += 1) {
-      const transformer = ps.transformers[i];
-      for (let j = 0; j < transformer.transConnectors.length; j += 1) {
-        const connector = transformer.transConnectors[j];
-        if (connector.toConnector === con) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
   const getConnectorsCount = (line) => {
     let result = 0;
     for (let i = 0; i < line.length; i += 1) {
@@ -1458,13 +1487,13 @@ const getPSSchema1 = (psName, callback) => {
         const connector = section.connectors[k];
         const connector1 = getNewNodeForScheme(connector);
 
-        const itIsTransformerConnector = isInTransformerConnecor(connector);
-        if (!itIsTransformerConnector) conOffset += 1;
-        connector1.x = itIsTransformerConnector ? section1.x : offsetX + conOffset;
+
+        if (!connector.transformerConnector) conOffset += 1;
+        connector1.x = connector.transformerConnector ? section1.x : offsetX + conOffset;
         if (section1.y === 2) {
-          connector1.y = itIsTransformerConnector ? section1.y + 1 : section1.y - 1;
+          connector1.y = connector.transformerConnector ? section1.y + 1 : section1.y - 1;
         } else {
-          connector1.y = itIsTransformerConnector ? section1.y - 1 : section1.y + 1;
+          connector1.y = connector.transformerConnector ? section1.y - 1 : section1.y + 1;
         }
 
         nodes.push(connector1);
@@ -1490,14 +1519,14 @@ const getPSSchema1 = (psName, callback) => {
               locNode.x = connector1.x;
               locNode.y = connector1.y;
               if (section1.y === 2) {
-                if (itIsTransformerConnector) {
+                if (connector.transformerConnector) {
                   locNode.x = connector1.x + 1;
                   locNode.y = connector1.y;
                 } else {
                   locNode.x = connector1.x;
                   locNode.y = connector1.y - 1;
                 }
-              } else if (itIsTransformerConnector) {
+              } else if (connector.transformerConnector) {
                 locNode.x = connector1.x + 1;
                 locNode.y = connector1.y;
               } else {

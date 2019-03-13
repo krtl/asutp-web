@@ -17,6 +17,7 @@ class MyNodeSectionConnector extends MyNode {
     this.equipments = [];
     this.connectors = [];
     this.lep2PsConnector = null;
+    this.transformerConnector = false;
   }
 
   recalculateState() {

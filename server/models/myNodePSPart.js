@@ -8,6 +8,7 @@ class MyNodePSPart extends MyNode {
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.PSPART);
     this.voltage = null;
+    this.inputNotOutput = false;
     this.sections = [];
     this.sec2secConnectors = [];
   }
