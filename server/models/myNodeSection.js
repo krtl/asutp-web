@@ -13,26 +13,26 @@ class MyNodeSection extends MyNode {
     this.connectors = [];
   }
 
-  recalculateState() {
-    let newState = myNodeState.NODE_STATE_UNKNOWN;
+  recalculatePoweredState() {
+    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
 
     if (this[MyNodePropNameParamRole.VOLTAGE] !== '') {
       const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.VOLTAGE]);
       if (paramValue) {
         if (paramValue.value > 0) {
-          newState = myNodeState.NODE_STATE_ON;
+          newPowered = myNodeState.NODE_STATE_ON;
         } else {
-          newState = myNodeState.NODE_STATE_OFF;
+          newPowered = myNodeState.NODE_STATE_OFF;
         }
         this.kTrust = 1;
 
-        if (this.nodeState !== newState) {
-          this.doOnStateChanged(newState);
+        if (this.powered !== newPowered) {
+          this.doOnPoweredStateChanged(newPowered);
         }
 
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
-          connector.recalculateState();
+          connector.recalculatePoweredState();
         }
       }
     } else {
@@ -44,8 +44,8 @@ class MyNodeSection extends MyNode {
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
           if (!connector.transformerConnector) {
-            connector.recalculateState();
-            if (connector.nodeState === myNodeState.NODE_STATE_ON) {
+            connector.recalculatePoweredState();
+            if (connector.powered === myNodeState.NODE_STATE_ON) {
               if (connector.kTrust > this.kTrust) {
                 this.kTrust = connector.kTrust;
               }
@@ -55,19 +55,19 @@ class MyNodeSection extends MyNode {
         }
 
         if (isConnected) {
-          newState = myNodeState.NODE_STATE_ON;
+          newPowered = myNodeState.NODE_STATE_ON;
         } else {
-          newState = myNodeState.NODE_STATE_OFF;
+          newPowered = myNodeState.NODE_STATE_OFF;
         }
 
-        if (this.nodeState !== newState) {
-          this.doOnStateChanged(newState);
+        if (this.powered !== newPowered) {
+          this.doOnPoweredStateChanged(newPowered);
         }
 
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
           if (connector.transformerConnector) {
-            connector.recalculateState();
+            connector.recalculatePoweredState();
           }
         }
       } else {
@@ -75,8 +75,8 @@ class MyNodeSection extends MyNode {
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
           if (connector.transformerConnector) {
-            connector.recalculateState();
-            if (connector.connected) {
+            connector.recalculatePoweredState();
+            if (connector.switchedOn) {
               // const isInTransformerConnector = (ps, con) => {
               //   for (let i = 0; i < ps.transformers.length; i += 1) {
               //     const transformer = ps.transformers[i];
@@ -108,9 +108,9 @@ class MyNodeSection extends MyNode {
 
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
-          connector.recalculateState();
+          connector.recalculatePoweredState();
           this.kTrust = -1;
-          if (connector.nodeState === myNodeState.NODE_STATE_ON) {
+          if (connector.powered === myNodeState.NODE_STATE_ON) {
             if (connector.kTrust > this.kTrust) {
               this.kTrust = connector.kTrust;
             }
@@ -121,8 +121,8 @@ class MyNodeSection extends MyNode {
       // Sec2Sec connectors
         for (let i = 0; i < this.parentNode.sec2secConnectors.length; i += 1) {
           const sec2secConnector = this.parentNode.sec2secConnectors[i];
-          sec2secConnector.recalculateState();
-          if (sec2secConnector.nodeState === myNodeState.NODE_STATE_ON) {
+          sec2secConnector.recalculatePoweredState();
+          if (sec2secConnector.powered === myNodeState.NODE_STATE_ON) {
             if (sec2secConnector.kTrust > this.kTrust) {
               this.kTrust = sec2secConnector.kTrust;
             }
@@ -131,13 +131,13 @@ class MyNodeSection extends MyNode {
         }
 
         if (isConnected) {
-          newState = myNodeState.NODE_STATE_ON;
+          newPowered = myNodeState.NODE_STATE_ON;
         } else {
-          newState = myNodeState.NODE_STATE_OFF;
+          newPowered = myNodeState.NODE_STATE_OFF;
         }
 
-        if (this.nodeState !== newState) {
-          this.doOnStateChanged(newState);
+        if (this.powered !== newPowered) {
+          this.doOnPoweredStateChanged(newPowered);
         }
       }
     }

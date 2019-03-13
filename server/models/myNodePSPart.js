@@ -13,25 +13,25 @@ class MyNodePSPart extends MyNode {
     this.sec2secConnectors = [];
   }
 
-  recalculateState() {
+  recalculatePoweredState() {
     let isConnected = false;
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
-      section.recalculateState();
-      if (section.nodeState === myNodeState.NODE_STATE_ON) {
+      section.recalculatePoweredState();
+      if (section.powered === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }
     }
 
-    let newState = myNodeState.UNKNOWN;
+    let newPowered = myNodeState.UNKNOWN;
     if (isConnected) {
-      newState = myNodeState.NODE_STATE_ON;
+      newPowered = myNodeState.NODE_STATE_ON;
     } else {
-      newState = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.NODE_STATE_OFF;
     }
 
-    if (this.nodeState !== newState) {
-      this.doOnStateChanged(newState);
+    if (this.powered !== newPowered) {
+      this.doOnPoweredStateChanged(newPowered);
     }
   }
 }

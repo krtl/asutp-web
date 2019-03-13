@@ -715,34 +715,34 @@ const RelinkParamNamesToNodes = (cb) => {
   linkParamNamesToNodes(cb);
 };
 
-const SetStateChangedHandler = (stateHandler) => {
+const SetPoweredStateChangedHandler = (stateHandler) => {
   const locPSs = Array.from(PSs.values());
   for (let i = 0; i < locPSs.length; i += 1) {
     const ps = locPSs[i];
-    ps.stateChangeHandler = stateHandler;
+    ps.poweredStateChangeHandler = stateHandler;
     for (let j = 0; j < ps.psparts.length; j += 1) {
       const pspart = ps.psparts[j];
-      pspart.stateChangeHandler = stateHandler;
+      pspart.poweredStateChangeHandler = stateHandler;
       for (let k = 0; k < pspart.sections.length; k += 1) {
         const section = pspart.sections[k];
-        section.stateChangeHandler = stateHandler;
+        section.poweredStateChangeHandler = stateHandler;
         for (let l = 0; l < section.connectors.length; l += 1) {
           const connector = section.connectors[l];
-          connector.stateChangeHandler = stateHandler;
+          connector.poweredStateChangeHandler = stateHandler;
           for (let m = 0; m < connector.equipments.length; m += 1) {
             const equipment = connector.equipments[m];
-            equipment.stateChangeHandler = stateHandler;
+            equipment.poweredStateChangeHandler = stateHandler;
           }
         }
       }
 
       for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
         const sec2secConnector = pspart.sec2secConnectors[l];
-        sec2secConnector.stateChangeHandler = stateHandler;
+        sec2secConnector.poweredStateChangeHandler = stateHandler;
 
         for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
           const equipment = sec2secConnector.equipments[m];
-          equipment.stateChangeHandler = stateHandler;
+          equipment.poweredStateChangeHandler = stateHandler;
         }
       }
     }
@@ -756,8 +756,8 @@ function StoreLastStateValues() {
   const locNodes = Array.from(nodes.values());
   for (let i = 0; i < locNodes.length; i += 1) {
     const locNode = locNodes[i];
-    if (locNode.nodeState !== myNodeState.NODE_STATE_UNKNOWN) {
-      states.push({ n: locNode.name, v: locNode.nodeState });
+    if (locNode.powered !== myNodeState.NODE_STATE_UNKNOWN) {
+      states.push({ n: locNode.name, v: locNode.powered });
     }
   }
   const data = JSON.stringify(states);
@@ -796,7 +796,7 @@ function restoreLastStateValues(callback) {
         const state = states[i];
         if (nodes.has(state.n)) {
           const node = nodes.get(state.n);
-          node.nodeState = state.v;
+          node.powered = state.v;
           count += 1;
         } else {
           logger.warn(`[ModelNodes][restoreLastStateValues] failed to find node: ${state.n}`);
@@ -839,7 +839,7 @@ const getNodeForScheme = (nodes) => {
     const locNode = new MyNode(node.name, node.caption, node.description, node.nodeType);
     locNode.parentNode = node.parentNode.name;
     locNode.sapCode = node.sapCode;
-    locNode.nodeState = node.nodeState;
+    locNode.powered = node.powered;
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
@@ -1309,7 +1309,7 @@ const getPSSchema1 = (psName, callback) => {
     const locNode = new MyNode(node.name, node.caption, node.description, node.nodeType);
     // locNode.parentNode = node.parentNode.name;
     locNode.sapCode = node.sapCode;
-    locNode.nodeState = node.nodeState;
+    locNode.powered = node.powered;
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
@@ -1468,7 +1468,7 @@ const getPSSchema1 = (psName, callback) => {
           const locNode = new MyNode(`${section.name}.${MyNodePropNameParamRole.VOLTAGE}`, param.caption, param.description, myNodeType.PARAM);
           locNode.parentNode = section.name;
           locNode.sapCode = undefined;
-          locNode.nodeState = undefined; // !
+          locNode.powered = undefined; // !
           locNode.parentNode = undefined;
           locNode.description = undefined;
           locNode.kTrust = undefined;
@@ -1511,7 +1511,7 @@ const getPSSchema1 = (psName, callback) => {
               const locNode = new MyNode(`${connector.name}.${MyNodePropNameParamRole.POWER}`, param.caption, param.description, myNodeType.PARAM);
               locNode.parentNode = connector.name;
               locNode.sapCode = undefined;
-              locNode.nodeState = undefined; // !
+              locNode.powered = undefined; // !
               locNode.parentNode = undefined;
               locNode.description = undefined;
               locNode.kTrust = undefined;
@@ -1965,19 +1965,19 @@ function RecalculateWholeShema() {
 
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
-    ps.recalculateState();
+    ps.recalculatePoweredState();
   }
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
-    lep.recalculateState();
+    lep.recalculatePoweredState();
   }
 }
 
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
-module.exports.SetStateChangedHandler = SetStateChangedHandler;
+module.exports.SetPoweredStateChangedHandler = SetPoweredStateChangedHandler;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetNodeSchemas = GetNodeSchemas;

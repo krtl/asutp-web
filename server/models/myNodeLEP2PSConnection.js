@@ -10,27 +10,27 @@ class MyNodeLEP2PSConnection extends MyNode {
     this.toNodeConnector = null;
   }
 
-  recalculateState() {
+  recalculatePoweredState() {
     let isConnected = false;
     if (this.toNodeConnector) {
-      this.toNodeConnector.recalculateState();
-      if (this.toNodeConnector.nodeState === myNodeState.NODE_STATE_ON) {
+      this.toNodeConnector.recalculatePoweredState();
+      if (this.toNodeConnector.powered === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }
-      if (this.parentNode.nodeState === myNodeState.NODE_STATE_ON) {
+      if (this.parentNode.powered === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }
     }
 
-    let newState = myNodeState.NODE_STATE_UNKNOWN;
+    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
     if (isConnected) {
-      newState = myNodeState.NODE_STATE_ON;
+      newPowered = myNodeState.NODE_STATE_ON;
     } else {
-      newState = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.NODE_STATE_OFF;
     }
 
-    if (this.nodeState !== newState) {
-      this.doOnStateChanged(newState);
+    if (this.powered !== newPowered) {
+      this.doOnPoweredStateChanged(newPowered);
     }
   }
 

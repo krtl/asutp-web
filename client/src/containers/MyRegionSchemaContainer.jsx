@@ -77,7 +77,7 @@ export default class MyStageContainer extends React.Component {
               for (let i = 0; i < this.state.nodes.length; i += 1) {
                 const locNode = this.state.nodes[i];
                 if (locNode.name === value.nodeName) {
-                  locNode.nodeState = value.newState;
+                  locNode.powered = value.newState;
                   locNode.qd = value.qd;
                   b = true;
                   break;

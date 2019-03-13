@@ -26,7 +26,6 @@ export default class MyStage extends React.Component {
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
-    this.handleStateChanged = this.handleStateChanged.bind(this);
   }
 
   getCenterX(node) {
@@ -115,18 +114,6 @@ export default class MyStage extends React.Component {
     }
   }
 
-  handleStateChanged(nodeObj) {
-    const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
-    if (locNode !== undefined) {
-      locNode.nodeState = nodeObj.state;
-      locNode.stateChanged = true;
-      this.setState({
-        stateChanged: true
-       });
-    }
-  }
-
-
   render() {
     const locNodes = this.props.nodes;
     const locLines = this.getLines();
@@ -161,7 +148,6 @@ export default class MyStage extends React.Component {
                 key={rec.name}
                 node={rec}
                 onDragEnd={this.handleDragEnd}
-                onStateChanged={this.handleStateChanged}
               />
             ))
           }

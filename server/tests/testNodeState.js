@@ -34,7 +34,7 @@ describe('nodeState', () => {
       console.info(`We are connected to ${config.dbUri}`);
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
-        myDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
+        myDataModelNodes.SetPoweredStateChangedHandler((node, oldState, newState) => {
           console.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
           changedStates.push({ node, oldState, newState });
         });
@@ -44,47 +44,47 @@ describe('nodeState', () => {
           const PSs = myDataModelNodes.GetSchemaPSs(nodeSchema.name);
           for (let j = 0; j < PSs.length; j += 1) {
             const ps = PSs[j];
-            if (ps.stateChangeHandler === undefined) {
-              throw new Error(`There is no stateChangeHandler for ${ps.name}!`);
+            if (ps.poweredStateChangeHandler === undefined) {
+              throw new Error(`There is no poweredStateChangeHandler for ${ps.name}!`);
             }
 
             ps.psparts.forEach((pspart) => {
-              if (pspart.stateChangeHandler === undefined) {
-                throw new Error(`There is no stateChangeHandler for ${pspart.name}!`);
+              if (pspart.poweredStateChangeHandler === undefined) {
+                throw new Error(`There is no poweredStateChangeHandler for ${pspart.name}!`);
               }
 
               pspart.sections.forEach((section) => {
-                if (section.stateChangeHandler === undefined) {
-                  throw new Error(`There is no stateChangeHandler for ${section.name}!`);
+                if (section.poweredStateChangeHandler === undefined) {
+                  throw new Error(`There is no poweredStateChangeHandler for ${section.name}!`);
                 }
                 section.connectors.forEach((connector) => {
-                  if (connector.stateChangeHandler === undefined) {
-                    throw new Error(`There is no stateChangeHandler for ${connector.name}!`);
+                  if (connector.poweredStateChangeHandler === undefined) {
+                    throw new Error(`There is no poweredStateChangeHandler for ${connector.name}!`);
                   }
 
                   connector.equipments.forEach((equipment) => {
-                    if (equipment.stateChangeHandler === undefined) {
-                      throw new Error(`There is no stateChangeHandler for ${equipment.name}!`);
+                    if (equipment.poweredStateChangeHandler === undefined) {
+                      throw new Error(`There is no poweredStateChangeHandler for ${equipment.name}!`);
                     }
                   });
                 });
               });
 
               pspart.sec2secConnectors.forEach((connector) => {
-                if (connector.stateChangeHandler === undefined) {
-                  throw new Error(`There is no stateChangeHandler for ${connector.name}!`);
+                if (connector.poweredStateChangeHandler === undefined) {
+                  throw new Error(`There is no poweredStateChangeHandler for ${connector.name}!`);
                 }
 
                 connector.equipments.forEach((equipment) => {
-                  if (equipment.stateChangeHandler === undefined) {
-                    throw new Error(`There is no stateChangeHandler for ${equipment.name}!`);
+                  if (equipment.poweredStateChangeHandler === undefined) {
+                    throw new Error(`There is no poweredStateChangeHandler for ${equipment.name}!`);
                   }
                 });
               });
             });
             ps.transformers.forEach((transformer) => {
-              if (transformer.stateChangeHandler === undefined) {
-                throw new Error(`There is no stateChangeHandler for ${transformer.name}!`);
+              if (transformer.poweredStateChangeHandler === undefined) {
+                throw new Error(`There is no poweredStateChangeHandler for ${transformer.name}!`);
               }
             });
           }
@@ -129,7 +129,7 @@ describe('nodeState', () => {
         const pv = new MyParamValue(param.name, myNodeState.NODE_STATE_OFF, new Date(), '');
         lastValues.setRawValue(pv);
 
-        ps.recalculateState();
+        ps.recalculatePoweredState();
 
         if (changedStates.length === 0) {
           throw new Error('no states has been changed!');

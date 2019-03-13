@@ -8,9 +8,6 @@ export default class MyRect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // nodeState: props.node.nodeState,
-      // x: props.node.x,
-      // y: props.node.y,
     };
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDblClick = this.handleDblClick.bind(this);
@@ -43,7 +40,7 @@ export default class MyRect extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
     let color;
-    switch (this.props.node.nodeState) {
+    switch (this.props.node.powered) {
       case MyConsts.NODE_STATE_ON: {
         color = 'red'
         break;
@@ -352,7 +349,7 @@ MyRect.propTypes = {
     name: PropTypes.string,
     x: PropTypes.number,
     y: PropTypes.number,
-    nodeState: PropTypes.number,
+    powered: PropTypes.number,
   }).isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,

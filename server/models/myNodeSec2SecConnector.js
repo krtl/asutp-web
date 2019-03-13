@@ -12,38 +12,39 @@ class MyNodeSec2SecConnector extends MyNode {
     this.fromSection = null;
     this.toSection = null;
     this.equipments = [];
+    this.switchedOn = false;
   }
 
-  recalculateState() {
+  recalculatePoweredState() {
     let isConnected = false;
     let isSwitchedOn = false;
     for (let i = 0; i < this.equipments.length; i += 1) {
       const equipment = this.equipments[i];
-      equipment.recalculateState();
-      if (equipment.nodeState === myNodeState.NODE_STATE_ON) {
+      equipment.recalculatePoweredState();
+      if (equipment.powered === myNodeState.NODE_STATE_ON) {
         isSwitchedOn = true;
       }
     }
 
     if (isSwitchedOn) {
       if (this.fromSection.kTrust >= this.toSection.kTrust) {
-        if (this.fromSection.nodeState === myNodeState.NODE_STATE_ON) {
+        if (this.fromSection.nodeStpoweredate === myNodeState.NODE_STATE_ON) {
           isConnected = true;
         }
-      } else if (this.toSection.nodeState === myNodeState.NODE_STATE_ON) {
+      } else if (this.toSection.powered === myNodeState.NODE_STATE_ON) {
         isConnected = true;
       }
     }
 
-    let newState = myNodeState.NODE_STATE_UNKNOWN;
+    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
     if (isConnected) {
-      newState = myNodeState.NODE_STATE_ON;
+      newPowered = myNodeState.NODE_STATE_ON;
     } else {
-      newState = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.NODE_STATE_OFF;
     }
 
-    if (this.nodeState !== newState) {
-      this.doOnStateChanged(newState);
+    if (this.powered !== newPowered) {
+      this.doOnPoweredStateChanged(newPowered);
     }
   }
 }

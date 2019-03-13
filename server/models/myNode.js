@@ -9,12 +9,12 @@ function MyNode(name, caption, description, nodeType) {
   this.sapCode = '';
 
   this.kTrust = 0;  // confidence coefficient
-  this.nodeState = myNodeState.NODE_STATE_UNKNOWN;
-  this.doOnStateChanged = (newState) => {
-    if (this.stateChangeHandler) {
-      this.stateChangeHandler(this, this.nodeState, newState);
+  this.powered = myNodeState.NODE_STATE_UNKNOWN;
+  this.doOnPoweredStateChanged = (newPowered) => {
+    if (this.poweredStateChangeHandler) {
+      this.poweredStateChangeHandler(this, this.powered, newPowered);
     }
-    this.nodeState = newState;
+    this.powered = newPowered;
   };
 
   this.schemaNames = [];
@@ -23,9 +23,9 @@ function MyNode(name, caption, description, nodeType) {
   };
 }
 
-MyNode.prototype.recalculateState = () => {
+MyNode.prototype.recalculatePoweredState = () => {
 
-  // this.nodeState
+  // this.powered
 
 };
 

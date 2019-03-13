@@ -13,22 +13,22 @@ class MyNodeEquiment extends MyNode {
     this[MyNodePropNameParamRole.STATE] = '';
   }
 
-  recalculateState() {
-    let newState = myNodeState.NODE_STATE_UNKNOWN;
+  recalculatePoweredState() {
+    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
 
     if (this[MyNodePropNameParamRole.STATE] !== '') {
       const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.STATE]);
       if (paramValue) {
         if (paramValue.value === 0) {
-          newState = myNodeState.NODE_STATE_OFF;
+          newPowered = myNodeState.NODE_STATE_OFF;
         } else {
-          newState = myNodeState.NODE_STATE_ON;
+          newPowered = myNodeState.NODE_STATE_ON;
         }
       }
     }
 
-    if (this.nodeState !== newState) {
-      this.doOnStateChanged(newState);
+    if (this.powered !== newPowered) {
+      this.doOnPoweredStateChanged(newPowered);
     }
   }
 }

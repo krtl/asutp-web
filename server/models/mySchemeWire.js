@@ -6,7 +6,7 @@ function MySchemeWire(name, caption, description, nodeType) {
   this.description = description;
   this.nodeType = nodeType;
 
-  this.nodeState = myNodeState.NODE_STATE_UNKNOWN;
+  this.powered = myNodeState.NODE_STATE_UNKNOWN;
   this.parentNode = undefined;
   // this.description = undefined;
 }

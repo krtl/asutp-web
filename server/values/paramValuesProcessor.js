@@ -17,7 +17,7 @@ let recalculateSchema = false;
 const initializeParamValuesProcessor = () => {
   lastValues.init(
     { useDbValueTracker: true }, () => {
-      MyDataModelNodes.SetStateChangedHandler((node, oldState, newState) => {
+      MyDataModelNodes.SetPoweredStateChangedHandler((node, oldState, newState) => {
         logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
         console.log(`State changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`);
 
@@ -63,7 +63,7 @@ const initializeParamValuesProcessor = () => {
     for (let i = 0; i < recalcPSNames.length; i += 1) {
       const ps = MyDataModelNodes.GetNode(recalcPSNames[i]);
       if (ps) {
-        ps.recalculateState();
+        ps.recalculatePoweredState();
       } else {
         logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSNames[i]}"`);
       }
