@@ -17,17 +17,17 @@ class MyNodeTransformer extends MyNode {
       const connector = this.transConnectors[i].toConnector;
       if (connector) {
       // connector.recalculatePoweredState();  // connector should be allready recalculated
-        if (connector.powered === myNodeState.NODE_STATE_ON) {
+        if (connector.powered === myNodeState.POWERED_ON) {
           isConnected = true;
         }
       }
     }
 
-    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
+    let newPowered = myNodeState.POWERED_UNKNOWN;
     if (isConnected) {
-      newPowered = myNodeState.NODE_STATE_ON;
+      newPowered = myNodeState.POWERED_ON;
     } else {
-      newPowered = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.POWERED_OFF;
     }
 
     if (this.powered !== newPowered) {

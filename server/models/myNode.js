@@ -9,7 +9,7 @@ function MyNode(name, caption, description, nodeType) {
   this.sapCode = '';
 
   this.kTrust = 0;  // confidence coefficient
-  this.powered = myNodeState.NODE_STATE_UNKNOWN;
+  this.powered = myNodeState.POWERED_UNKNOWN;
   this.doOnPoweredStateChanged = (newPowered) => {
     if (this.poweredStateChangeHandler) {
       this.poweredStateChangeHandler(this, this.powered, newPowered);

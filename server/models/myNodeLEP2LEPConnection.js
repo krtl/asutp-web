@@ -14,19 +14,19 @@ class MyNodeLEP2LEPConnection extends MyNode {
     let isConnected = false;
     if (this.toNode) {
       // this.toNode.recalculatePoweredState();
-      if (this.toNode.powered === myNodeState.NODE_STATE_ON) {
+      if (this.toNode.powered === myNodeState.POWERED_ON) {
         isConnected = true;
       }
-      if (this.parentNode.powered === myNodeState.NODE_STATE_ON) {
+      if (this.parentNode.powered === myNodeState.POWERED_ON) {
         isConnected = true;
       }
     }
 
-    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
+    let newPowered = myNodeState.POWERED_UNKNOWN;
     if (isConnected) {
-      newPowered = myNodeState.NODE_STATE_ON;
+      newPowered = myNodeState.POWERED_ON;
     } else {
-      newPowered = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.POWERED_OFF;
     }
 
     if (this.powered !== newPowered) {

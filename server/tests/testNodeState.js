@@ -126,7 +126,7 @@ describe('nodeState', () => {
 
       const param = myDataModelNodes.GetParam(paramName);
       if (param) {
-        const pv = new MyParamValue(param.name, myNodeState.NODE_STATE_OFF, new Date(), '');
+        const pv = new MyParamValue(param.name, myNodeState.POWERED_OFF, new Date(), '');
         lastValues.setRawValue(pv);
 
         ps.recalculatePoweredState();
@@ -138,7 +138,7 @@ describe('nodeState', () => {
         for (let i = 0; i < changedStates.length; i += 1) {
           const node = changedStates[i].node;
           if (node.name === nodeName) {
-            if (changedStates[i].newState === myNodeState.NODE_STATE_OFF) {
+            if (changedStates[i].newState === myNodeState.POWERED_OFF) {
               b = true;
               break;
             }

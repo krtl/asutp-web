@@ -16,31 +16,28 @@ class MyNodeSec2SecConnector extends MyNode {
   }
 
   recalculatePoweredState() {
-    let isConnected = false;
+    let isPowered = false;
     let isSwitchedOn = false;
     for (let i = 0; i < this.equipments.length; i += 1) {
       const equipment = this.equipments[i];
-      equipment.recalculatePoweredState();
-      if (equipment.powered === myNodeState.NODE_STATE_ON) {
+      if (equipment.isSwitchedOn()) {
         isSwitchedOn = true;
       }
     }
 
     if (isSwitchedOn) {
-      if (this.fromSection.kTrust >= this.toSection.kTrust) {
-        if (this.fromSection.nodeStpoweredate === myNodeState.NODE_STATE_ON) {
-          isConnected = true;
-        }
-      } else if (this.toSection.powered === myNodeState.NODE_STATE_ON) {
-        isConnected = true;
+      if (this.fromSection.powered === myNodeState.POWERED_ON) {
+        isPowered = true;
+      } else if (this.toSection.powered === myNodeState.POWERED_ON) {
+        isPowered = true;
       }
     }
 
-    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
-    if (isConnected) {
-      newPowered = myNodeState.NODE_STATE_ON;
+    let newPowered = myNodeState.POWERED_UNKNOWN;
+    if (isPowered) {
+      newPowered = myNodeState.POWERED_ON;
     } else {
-      newPowered = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.POWERED_OFF;
     }
 
     if (this.powered !== newPowered) {

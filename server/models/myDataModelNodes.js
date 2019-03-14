@@ -756,7 +756,7 @@ function StoreLastStateValues() {
   const locNodes = Array.from(nodes.values());
   for (let i = 0; i < locNodes.length; i += 1) {
     const locNode = locNodes[i];
-    if (locNode.powered !== myNodeState.NODE_STATE_UNKNOWN) {
+    if (locNode.powered !== myNodeState.POWERED_UNKNOWN) {
       states.push({ n: locNode.name, v: locNode.powered });
     }
   }
@@ -789,7 +789,16 @@ function restoreLastStateValues(callback) {
         callback(err);
         return;
       }
-      const states = JSON.parse(data);
+
+      let states;
+      try {
+        states = JSON.parse(data);
+      } catch (e) {
+        logger.error(`[ModelNodes][restoreLastStateValues] failed. Error: ${e.message}`);
+        callback(e.message);
+        return;
+      }
+
       const duration1 = moment().diff(start);
 
       for (let i = 0; i < states.length; i += 1) {

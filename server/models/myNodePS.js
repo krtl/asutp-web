@@ -17,7 +17,7 @@ class MyNodePS extends MyNode {
     for (let i = 0; i < this.psparts.length; i += 1) {
       const pspart = this.psparts[i];
       pspart.recalculatePoweredState();
-      if (pspart.powered === myNodeState.NODE_STATE_ON) {
+      if (pspart.powered === myNodeState.POWERED_ON) {
         isConnected = true;
       }
     }
@@ -25,16 +25,16 @@ class MyNodePS extends MyNode {
     // for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
     //   const connector = this.lep2psConnectors[i];
     //   connector.recalculatePoweredState();
-    //   if (connector.powered === myNodeState.NODE_STATE_ON) {
+    //   if (connector.powered === myNodeState.POWERED_ON) {
     //     isConnected = true;
     //   }
     // }
 
-    let newPowered = myNodeState.NODE_STATE_UNKNOWN;
+    let newPowered = myNodeState.POWERED_UNKNOWN;
     if (isConnected) {
-      newPowered = myNodeState.NODE_STATE_ON;
+      newPowered = myNodeState.POWERED_ON;
     } else {
-      newPowered = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.POWERED_OFF;
     }
 
     if (this.powered !== newPowered) {

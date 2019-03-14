@@ -41,11 +41,11 @@ export default class MyRect extends React.Component {
     const y = this.props.node.y;
     let color;
     switch (this.props.node.powered) {
-      case MyConsts.NODE_STATE_ON: {
+      case MyConsts.POWERED_ON: {
         color = 'red'
         break;
         }
-      case MyConsts.NODE_STATE_OFF: {
+      case MyConsts.POWERED_OFF: {
         color = 'green'
         break;
         }

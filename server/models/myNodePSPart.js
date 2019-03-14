@@ -14,20 +14,44 @@ class MyNodePSPart extends MyNode {
   }
 
   recalculatePoweredState() {
-    let isConnected = false;
+    let isPowered = false;
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
-      section.recalculatePoweredState();
-      if (section.powered === myNodeState.NODE_STATE_ON) {
-        isConnected = true;
+      section.recalculatePoweredState();    // w/o sec2sec connectors
+    }
+
+      // Sec2Sec connectors
+    for (let i = 0; i < this.sec2secConnectors.length; i += 1) {
+      const sec2secConnector = this.sec2secConnectors[i];
+      sec2secConnector.recalculatePoweredState();
+      if (sec2secConnector.powered === myNodeState.POWERED_ON) {
+        if (sec2secConnector.kTrust > this.kTrust) {
+          this.kTrust = sec2secConnector.kTrust;
+
+          // connect sections throught ses2sec connector
+          for (let j = 0; j < this.sections.length; j += 1) {
+            const section = this.sections[j];
+            if (section.powered === myNodeState.POWERED_OFF) {
+              if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
+                section.doOnPoweredStateChanged(myNodeState.POWERED_ON);
+              }
+            }
+          }
+        }
       }
     }
 
+    for (let i = 0; i < this.sections.length; i += 1) {
+      const section = this.sections[i];
+      if (section.powered === myNodeState.POWERED_ON) {
+        isPowered = true;
+      }
+    }
     let newPowered = myNodeState.UNKNOWN;
-    if (isConnected) {
-      newPowered = myNodeState.NODE_STATE_ON;
+    if (isPowered) {
+      newPowered = myNodeState.POWERED_ON;
     } else {
-      newPowered = myNodeState.NODE_STATE_OFF;
+      newPowered = myNodeState.POWERED_OFF;
     }
 
     if (this.powered !== newPowered) {
