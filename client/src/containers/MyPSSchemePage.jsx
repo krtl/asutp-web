@@ -29,6 +29,7 @@ export default class PSSchemePage extends React.Component {
 
     this.onLoadScheme = this.onLoadScheme.bind(this);    
     this.onSaveScheme = this.onSaveScheme.bind(this);
+    this.onResetSchema = this.onResetSchema.bind(this);
     this.onSaveManualValue = this.onSaveManualValue.bind(this);
 
   }
@@ -148,6 +149,26 @@ export default class PSSchemePage extends React.Component {
       });
   }
 
+  onResetSchema() {
+    const cmds = [
+      {
+        fetchUrl: `api/resetNodeCoordinates?schemaName=${this.state.psName}`,
+        fetchMethod: 'post',
+        fetchData: '',
+        fetchCallback: () => {
+          // this.setState({
+          // });
+        }
+      },
+    ]
+
+    this.setState({
+        cmdUid: makeUid(5),
+        fetchRequests: cmds,
+      });
+  }  
+
+
   onSaveManualValue(s) {
     const cmds = [
       {
@@ -180,6 +201,7 @@ export default class PSSchemePage extends React.Component {
         params={this.state.params}
         onLoadScheme={this.onLoadScheme} 
         onSaveScheme={this.onSaveScheme}
+        onResetSchema={this.onResetSchema}
         onSaveManualValue={this.onSaveManualValue}         
       />
       <MyFetchClient 

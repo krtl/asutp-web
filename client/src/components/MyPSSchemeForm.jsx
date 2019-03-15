@@ -8,6 +8,7 @@ import MySchemaNode from './MySchemaNode';
 import {MyConsts} from '../modules/MyConsts';
 import MyParams from './MyParams';
 import MyParamDialog from './MyParamDialog'
+import MyNodeConnectorDialog from './MyNodeConnectorDialog'
 
 
 
@@ -19,19 +20,23 @@ export default class MyPSScheme extends React.Component {
       edited: false,
       stateChanged: false,
 
-      open: false,
+      openConnectionDialog: false,   
+
+      openParamDialog: false,
       initialParamValue: 0,
       initialBlockRawValues: '',
       editedNodeName: '',
       editedParamName: ''
+
     };    
 
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
+    this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
 
-    this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleParamDialogClose = this.handleParamDialogClose.bind(this);
 
   }
 
@@ -120,6 +125,10 @@ export default class MyPSScheme extends React.Component {
     }
   }
 
+  handleResetSchemaClick() {
+    this.props.onResetSchema();
+  }
+
   handleDragEnd(nodeObj) {
     const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
     if (locNode !== undefined) {
@@ -137,7 +146,8 @@ export default class MyPSScheme extends React.Component {
     //const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
     const locNode = nodeObj;
     if (locNode !== undefined) {
-      if (locNode.nodeType === MyConsts.NODE_TYPE_PARAM) {
+      switch(locNode.nodeType) {
+      case MyConsts.NODE_TYPE_PARAM: {
 
         const param = this.getParamByName(locNode.paramName);
         if (param) {
@@ -148,20 +158,48 @@ export default class MyPSScheme extends React.Component {
           }
          
           this.setState({ 
-            open: true,
+            openParamDialog: true,
             initialParamValue: param.value,
             initialBlockRawValues: s,            
             editedNodeName: locNode.name,
             editedParamName: locNode.paramName,
            });
           }
+          break;
       }
+      case MyConsts.NODE_TYPE_SECTIONCONNECTOR:
+      case MyConsts.NODE_TYPE_SEC2SECCONNECTOR:
+      {
+
+        const param = this.getParamByName(locNode.paramName);
+        if (param) {
+
+          let s = '';
+          if (param.qd) {
+            s = (param.qd.indexOf('Z') > -1) ? 'blocked' : 'unblocked'
+          }
+         
+          this.setState({ 
+            openParamDialog: true,
+            initialParamValue: param.value,
+            initialBlockRawValues: s,            
+            editedNodeName: locNode.name,
+            editedParamName: locNode.paramName,
+           });
+          }
+          break;
+      }
+      default: {
+
+      }
+      }     
+  
     }
   }  
 
 
-  handleDialogClose (newValue) {
-    this.setState({ open: false });
+  handleParamDialogClose (newValue) {
+    this.setState({ openParamDialog: false });
 
     if (newValue !== 'dismiss') {
 
@@ -207,6 +245,7 @@ export default class MyPSScheme extends React.Component {
             <CardText>{this.props.psName}</CardText>
             <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
             <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
+            <RaisedButton onClick={this.handleResetSchemaClick}>Reset</RaisedButton>
           </div>
         </Card>
         <Tabs>
@@ -244,13 +283,22 @@ export default class MyPSScheme extends React.Component {
 
 
         <MyParamDialog
-        open={this.state.open}
-        onClose={this.handleDialogClose}
+        open={this.state.openParamDialog}
+        onClose={this.handleParamDialogClose}
         initialParamValue={this.state.initialParamValue}
         initialBlockRawValues={this.state.initialBlockRawValues}
         editedNodeName={this.state.editedNodeName}
         editedParamName={this.state.editedParamName}
         />
+
+        <MyNodeConnectorDialog
+        open={this.state.openConnectionDialog}
+        onClose={this.handleConnectionDialogClose}
+        initialParamValue={this.state.initialParamValue}
+        initialBlockRawValues={this.state.initialBlockRawValues}
+        editedNodeName={this.state.editedNodeName}
+        editedParamName={this.state.editedParamName}
+        />        
       </div>
     );
   }
@@ -263,6 +311,7 @@ export default class MyPSScheme extends React.Component {
   params: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
+  onResetSchema: PropTypes.func,
   onSaveManualValue: PropTypes.func,
 };
 

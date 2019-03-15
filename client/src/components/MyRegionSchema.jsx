@@ -24,6 +24,7 @@ export default class MyStage extends React.Component {
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
+    this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
   }
@@ -100,6 +101,9 @@ export default class MyStage extends React.Component {
     }
   }
 
+  handleResetSchemaClick() {
+    this.props.onResetSchema();
+  }
 
   handleDragEnd(nodeObj) {
     const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
@@ -138,6 +142,7 @@ export default class MyStage extends React.Component {
           </SelectField>
           <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
           <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
+          <RaisedButton onClick={this.handleResetSchemaClick}>Reset</RaisedButton>
         </div>
 
         <Stage width={locW} height={locH}>
@@ -173,6 +178,7 @@ export default class MyStage extends React.Component {
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
+  onResetSchema: PropTypes.func,
   onSaveManualValue: PropTypes.func,
 };
 

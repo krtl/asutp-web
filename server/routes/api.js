@@ -236,6 +236,30 @@ router.get('/getNodeCoordinates', (req, res, next) => {
     });
 });
 
+router.post('/resetNodeCoordinates', (req, res, next) => {
+  const schemaName = req.query.schemaName;
+
+  if ((!schemaName) || (schemaName === '')) {
+    res.json({
+      error: 'Missing required parameter `schemaName`!',
+    });
+    return;
+  }
+
+  DbNodeCoordinates.deleteMany({ schemaName }, (err, count) => {
+    if (err) {
+      logger.warn(`[!] ${err}`);
+      next(err);
+    } else {
+      const s = `${count} nodes were deleted from DbNodeCoordinates.`;
+      logger.debug(s);
+      res.status(200).json({
+        message: s,
+      });
+    }
+  });
+});
+
 router.post('/saveNodeCoordinates', (req, res, next) => {
   const schemaName = req.query.schemaName;
 

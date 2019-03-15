@@ -29,7 +29,7 @@ class MainForm extends React.Component {
           <MyNodeStateHistory
           />
         </Tab>
-        <Tab label='Scheme' >
+        <Tab label='Schema' >
           <div className='container'>
 
 
