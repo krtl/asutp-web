@@ -87,7 +87,7 @@ module.exports = (app) => {
   });
 
   app.post('/savePSLinkage', (req, res, next) => {
-    // const ps = myDataModelNodes.GetNode(req.query.name);
+    const psName = req.query.name;
 
     const linkages = req.body;
 
@@ -97,7 +97,7 @@ module.exports = (app) => {
         paramPropName: locLinkage.paramPropName,
       }, (err, linkage) => {
         if (err) {
-          logger.warn('Something wrong when DbNodeParamLinkage findOne!');
+          logger.warn(`[savePSLinkage] Something wrong when DbNodeParamLinkage findOne for "${psName}"!`);
           return callback(err);
         }
 
@@ -110,11 +110,11 @@ module.exports = (app) => {
                 paramPropValue: locLinkage.paramPropValue,
               } }, (err) => {
                 if (err) {
-                  logger.warn('Something wrong when DbNodeParamLinkage update!');
+                  logger.warn(`[savePSLinkage] Something wrong when DbNodeParamLinkage update  for "${psName}"!`);
                   return callback(err);
                 }
 
-                logger.debug(`updated nodeLinkage "${linkage.nodeName}.${linkage.paramPropName}"`);
+                logger.debug(`[savePSLinkage] updated nodeLinkage "${linkage.nodeName}.${linkage.paramPropName}"`);
 
                 return callback(null);
               });
@@ -126,10 +126,10 @@ module.exports = (app) => {
 
           newNodeParamLinkage.save((err) => {
             if (err) {
-              logger.warn('Something wrong when DbNodeParamLinkage save!');
+              logger.warn(`[savePSLinkage] Something wrong when DbNodeParamLinkage save  for "${psName}"!`);
               return callback(err);
             }
-            logger.debug(`nodeLinkage "${locLinkage.nodeName}.${locLinkage.paramPropName}" inserted`);
+            logger.debug(`[savePSLinkage] nodeLinkage "${locLinkage.nodeName}.${locLinkage.paramPropName}" inserted`);
 
             return callback(null);
           });
@@ -144,18 +144,26 @@ module.exports = (app) => {
         //   message: err.message,
         // });
       } else {
-        logger.info('All nodeLinkages are saved successfully');
+        logger.info(`[savePSLinkage] All nodeLinkages are saved successfully for "${psName}"`);
 
         myDataModelNodes.RelinkParamNamesToNodes((err) => {
           if (err) {
-            logger.warn('Something wrong on RelinkParamsToNodes!');
+            logger.warn(`[savePSLinkage] Something wrong on RelinkParamsToNodes for "${psName}"!`);
           } else {
-            logger.info('Nodes are successfully relinked to Params.');
+            logger.info(`[savePSLinkage] Nodes are successfully relinked to Params for "${psName}"`);
+          }
+        });
+
+        myDataModelNodes.ReloadPSSchemaParams(psName, (err) => {
+          if (err) {
+            logger.warn(`[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"!`);
+          } else {
+            logger.info(`[savePSLinkage] PSSchema params "${psName}" successfully reloaded.`);
           }
         });
 
         res.status(200).json({
-          message: "'All nodeLinkages are saved successfully'",
+          message: `All nodeLinkages are saved successfully for "${psName}"`,
         });
       }
     });

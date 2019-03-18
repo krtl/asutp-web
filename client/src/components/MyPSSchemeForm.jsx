@@ -37,6 +37,7 @@ export default class MyPSScheme extends React.Component {
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
 
     this.handleParamDialogClose = this.handleParamDialogClose.bind(this);
+    this.handleConnectionDialogClose = this.handleConnectionDialogClose.bind(this);
 
   }
 
@@ -154,7 +155,7 @@ export default class MyPSScheme extends React.Component {
 
           let s = '';
           if (param.qd) {
-            s = (param.qd.indexOf('Z') > -1) ? 'blocked' : 'unblocked'
+            s = (param.qd.indexOf('B') > -1) ? 'blocked' : 'unblocked'
           }
          
           this.setState({ 
@@ -176,11 +177,11 @@ export default class MyPSScheme extends React.Component {
 
           let s = '';
           if (param.qd) {
-            s = (param.qd.indexOf('Z') > -1) ? 'blocked' : 'unblocked'
+            s = (param.qd.indexOf('B') > -1) ? 'blocked' : 'unblocked'
           }
          
           this.setState({ 
-            openParamDialog: true,
+            openConnectionDialog: true,
             initialParamValue: param.value,
             initialBlockRawValues: s,            
             editedNodeName: locNode.name,
@@ -200,6 +201,20 @@ export default class MyPSScheme extends React.Component {
 
   handleParamDialogClose (newValue) {
     this.setState({ openParamDialog: false });
+
+    if (newValue !== 'dismiss') {
+
+      const s = JSON.stringify( { paramName: this.state.editedParamName,
+         cmd:  (newValue.newBlockRawValues === 'unblocked') ? 'unblock':'block',
+         manualValue: newValue.newManualValue });
+      this.props.onSaveManualValue(s);
+    }
+      
+  };  
+
+
+  handleConnectionDialogClose (newValue) {
+    this.setState({ openConnectionDialog: false });
 
     if (newValue !== 'dismiss') {
 

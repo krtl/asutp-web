@@ -115,7 +115,7 @@ export default class MyParamDialog extends React.Component {
           />
 
           <RadioButtonGroup 
-            name="shipSpeed"
+            name="blocking"
             defaultSelected={this.props.initialBlockRawValues}
             onChange={this.handleRadioGroupChange}
             >

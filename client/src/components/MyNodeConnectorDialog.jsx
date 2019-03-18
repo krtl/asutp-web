@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 
@@ -71,9 +70,9 @@ export default class MyNodeConectorDialog extends React.Component {
             />,
           ];          
       
-          const radios = [];
+          const radiosBlocking = [];
 
-          radios.push(
+          radiosBlocking.push(
             <RadioButton
               key={0}
               value={'unblocked'}
@@ -81,14 +80,33 @@ export default class MyNodeConectorDialog extends React.Component {
               style={styles.radioButton}
             />
           )          
-          radios.push(
+          radiosBlocking.push(
             <RadioButton
               key={1}
               value={'blocked'}
               label={'blocked'}
               style={styles.radioButton}
             />
+          )     
+          
+          const radiosValue = [];
+
+          radiosValue.push(
+            <RadioButton
+              key={0}
+              value={0}
+              label={'off'}
+              style={styles.radioButton}
+            />
           )          
+          radiosValue.push(
+            <RadioButton
+              key={1}
+              value={1}
+              label={'on'}
+              style={styles.radioButton}
+            />
+          )           
 
 
     return (
@@ -101,25 +119,21 @@ export default class MyNodeConectorDialog extends React.Component {
           autoScrollBodyContent={true}
         >
         {/* <DialogContent> */}
-        <TextField
-            floatingLabelText="Manual Value:"
-            name="ManualValue"        
-            type="number"            
-            // autoFocus
-            // margin="dense"
-            // id="manualValue"
-            // label="manualValue"
-            // fullWidth
-            onChange={this.handleManualValueChange}
-            value={this.state.newManualValue}            
-          />
 
           <RadioButtonGroup 
-            name="shipSpeed"
+            name="value"
+            defaultSelected={this.props.initialParamValue}
+            onChange={this.handleManualValueChange}
+            >
+            {radiosValue}
+          </RadioButtonGroup>          
+
+          <RadioButtonGroup 
+            name="blocking"
             defaultSelected={this.props.initialBlockRawValues}
             onChange={this.handleRadioGroupChange}
             >
-            {radios}
+            {radiosBlocking}
           </RadioButtonGroup>
         </Dialog>
         );

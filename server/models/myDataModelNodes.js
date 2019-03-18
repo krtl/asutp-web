@@ -1548,15 +1548,14 @@ const getPSSchema1 = (psName, callback) => {
           }
         }
 
-          // for (let m = 0; m < connector.equipments.length; m += 1) {
-          //   const equipment = connector.equipments[m];
-          //   locNodes.push(equipment);
-          //   if (MyNodePropNameParamRole.STATE in equipment) {
-          //     if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-          //       pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-          //     }
-          //   }
-          // }
+        for (let m = 0; m < connector.equipments.length; m += 1) {
+          const equipment = connector.equipments[m];
+          if (MyNodePropNameParamRole.STATE in equipment) {
+            if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+              connector1.paramName = equipment[MyNodePropNameParamRole.STATE];
+            }
+          }
+        }
       }
     }
 
@@ -1584,15 +1583,14 @@ const getPSSchema1 = (psName, callback) => {
         //   }
         // }
 
-        // for (let m = 0; m < connector.equipments.length; m += 1) {
-        //   const equipment = connector.equipments[m];
-        //   locNodes.push(equipment);
-        //   if (MyNodePropNameParamRole.STATE in equipment) {
-        //     if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-        //       pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-        //     }
-        //   }
-        // }
+      for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
+        const equipment = sec2secConnector.equipments[m];
+        if (MyNodePropNameParamRole.STATE in equipment) {
+          if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+            sec2SecConnector1.paramName = equipment[MyNodePropNameParamRole.STATE];
+          }
+        }
+      }
     }
   }
 
@@ -1812,51 +1810,27 @@ function createNodeSchemasForRegions(cb) {
   return cb();
 }
 
-function createNodeSchemasForPSs(cb) {
-  const locPSs = Array.from(PSs.values());
-  for (let i = 0; i < locPSs.length; i += 1) {
-    const ps = locPSs[i];
-    const locNodes = [];
-    const paramNames = [];
-    for (let j = 0; j < ps.psparts.length; j += 1) {
-      const pspart = ps.psparts[j];
-      locNodes.push(pspart);
-      for (let k = 0; k < pspart.sections.length; k += 1) {
-        const section = pspart.sections[k];
-        locNodes.push(section);
-        if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-          pushIfNotPushed(paramNames, section[MyNodePropNameParamRole.VOLTAGE]);
-        }
-
-        for (let l = 0; l < section.connectors.length; l += 1) {
-          const connector = section.connectors[l];
-          locNodes.push(connector);
-          if (MyNodePropNameParamRole.POWER in connector) {
-            if (connector[MyNodePropNameParamRole.POWER] !== '') {
-              pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
-            }
-          }
-          for (let m = 0; m < connector.equipments.length; m += 1) {
-            const equipment = connector.equipments[m];
-            locNodes.push(equipment);
-            if (MyNodePropNameParamRole.STATE in equipment) {
-              if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-                pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
-              }
-            }
-          }
-        }
+function createPSSchema(ps) {
+  const locNodes = [];
+  const paramNames = [];
+  for (let j = 0; j < ps.psparts.length; j += 1) {
+    const pspart = ps.psparts[j];
+    locNodes.push(pspart);
+    for (let k = 0; k < pspart.sections.length; k += 1) {
+      const section = pspart.sections[k];
+      locNodes.push(section);
+      if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+        pushIfNotPushed(paramNames, section[MyNodePropNameParamRole.VOLTAGE]);
       }
 
-      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
-        const connector = pspart.sec2secConnectors[l];
+      for (let l = 0; l < section.connectors.length; l += 1) {
+        const connector = section.connectors[l];
         locNodes.push(connector);
         if (MyNodePropNameParamRole.POWER in connector) {
           if (connector[MyNodePropNameParamRole.POWER] !== '') {
             pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
           }
         }
-
         for (let m = 0; m < connector.equipments.length; m += 1) {
           const equipment = connector.equipments[m];
           locNodes.push(equipment);
@@ -1869,14 +1843,60 @@ function createNodeSchemasForPSs(cb) {
       }
     }
 
-    const nl = new MyNodeSchema(ps.name,
-      ps.caption,
-      ps.description,
-      locNodes,
-      paramNames);
-    psSchemas.set(nl.name, nl);
+    for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+      const connector = pspart.sec2secConnectors[l];
+      locNodes.push(connector);
+      if (MyNodePropNameParamRole.POWER in connector) {
+        if (connector[MyNodePropNameParamRole.POWER] !== '') {
+          pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+        }
+      }
+
+      for (let m = 0; m < connector.equipments.length; m += 1) {
+        const equipment = connector.equipments[m];
+        locNodes.push(equipment);
+        if (MyNodePropNameParamRole.STATE in equipment) {
+          if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+            pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
+          }
+        }
+      }
+    }
+  }
+
+  const schema = new MyNodeSchema(ps.name,
+    ps.caption,
+    ps.description,
+    locNodes,
+    paramNames);
+
+  return schema;
+}
+
+function createNodeSchemasForPSs(cb) {
+  const locPSs = Array.from(PSs.values());
+  for (let i = 0; i < locPSs.length; i += 1) {
+    const ps = locPSs[i];
+    const schema = createPSSchema(ps);
+    psSchemas.set(schema.name, schema);
   }
   return cb();
+}
+
+function ReloadPSSchemaParams(schemaName, cb) {
+  if (psSchemas.has(schemaName)) {
+    if (PSs.has(schemaName)) { // schemaName = psName
+      const ps = PSs.get(schemaName);
+      const schema = createPSSchema(ps);
+      psSchemas.delete(schemaName);
+      psSchemas.set(schema.name, schema);
+      cb();
+    } else {
+      cb(`PS with name ${schemaName} did not found.`);
+    }
+  } else {
+    cb(`PS Schema with name ${schemaName} did not found.`);
+  }
 }
 
 function makeSchemaNamesForEachNode(cb) {
@@ -1986,6 +2006,7 @@ function RecalculateWholeShema() {
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
+module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams;
 module.exports.SetPoweredStateChangedHandler = SetPoweredStateChangedHandler;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
