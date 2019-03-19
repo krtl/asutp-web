@@ -1335,16 +1335,20 @@ const getPSSchema1 = (psName, callback) => {
     return result;
   };
 
+  const TOP_SECTION_Y = 3;
+  const TRANSFORMER_Y = 5;
+  const BOTTOM_SECTION_Y = 7;
+
   const getSectionXY = (section, sectionsLine1, sectionsLine2, sectionsLine3) => {
     let maxLine = sectionsLine1;
     if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine2)) maxLine = sectionsLine2;
     if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine3)) maxLine = sectionsLine3;
 
-    let y = 2;
+    let y = TOP_SECTION_Y;
     let x = 0;
     let index = maxLine.indexOf(section);
     if (index > -1) {
-      y = 6;
+      y = BOTTOM_SECTION_Y;
       x = section.connectors.length / 2;
       for (let i = 0; i < index; i += 1) {
         const sec = maxLine[i];
@@ -1352,7 +1356,7 @@ const getPSSchema1 = (psName, callback) => {
       }
     }
 
-    if (y === 2) {
+    if (y === TOP_SECTION_Y) {
       let elseLine = [];
       if (maxLine !== sectionsLine1) {
         elseLine = elseLine.concat(sectionsLine1);
@@ -1499,7 +1503,7 @@ const getPSSchema1 = (psName, callback) => {
 
         if (!connector.transformerConnector) conOffset += 1;
         connector1.x = connector.transformerConnector ? section1.x : offsetX + conOffset;
-        if (section1.y === 2) {
+        if (section1.y === TOP_SECTION_Y) {
           connector1.y = connector.transformerConnector ? section1.y + 1 : section1.y - 1;
         } else {
           connector1.y = connector.transformerConnector ? section1.y - 1 : section1.y + 1;
@@ -1527,7 +1531,7 @@ const getPSSchema1 = (psName, callback) => {
               locNode.schemaNames = undefined;
               locNode.x = connector1.x;
               locNode.y = connector1.y;
-              if (section1.y === 2) {
+              if (section1.y === TOP_SECTION_Y) {
                 if (connector.transformerConnector) {
                   locNode.x = connector1.x + 1;
                   locNode.y = connector1.y;
@@ -1555,6 +1559,44 @@ const getPSSchema1 = (psName, callback) => {
               connector1.paramName = equipment[MyNodePropNameParamRole.STATE];
             }
           }
+        }
+
+        if (connector.lep2PsConnector) {
+          const lep = connector.lep2PsConnector.parentNode;
+          const locNode = new MyNode(lep.name, lep.caption, lep.description, myNodeType.LEP);
+          locNode.parentNode = connector.name;
+          locNode.sapCode = undefined; // lep.sapCode;
+          locNode.powered = lep.powered; // !
+          locNode.parentNode = undefined;
+          locNode.description = undefined;
+          locNode.kTrust = undefined;
+          locNode.schemaNames = undefined;
+          locNode.x = connector1.x;
+          locNode.y = connector1.y;
+          if (section1.y === TOP_SECTION_Y) {
+            if (connector.transformerConnector) {
+              // error: transformer connector could not be connected to a lep!
+              // locNode.x = connector1.x + 2;
+              // locNode.y = connector1.y;
+            } else {
+              locNode.x = connector1.x;
+              locNode.y = connector1.y - 2;
+            }
+          } else if (connector.transformerConnector) {
+            // error: transformer connector could not be connected to a lep!
+            // locNode.x = connector1.x + 2;
+            // locNode.y = connector1.y;
+          } else {
+            locNode.x = connector1.x;
+            locNode.y = connector1.y + 2;
+          }
+          locNode.paramName = undefined;
+          nodes.push(locNode);
+
+          const wire = new MySchemeWire(lep.name, '', '', -1);
+          wire.nodeFrom = connector.name;
+          wire.nodeTo = lep.name;
+          wires.push(wire);
         }
       }
     }
@@ -1598,7 +1640,7 @@ const getPSSchema1 = (psName, callback) => {
     const transformer = ps.transformers[i];
     const transformer1 = getNewNodeForScheme(transformer);
     transformer1.x = 0;
-    transformer1.y = 4;
+    transformer1.y = TRANSFORMER_Y;
     nodes.push(transformer1);
 
     for (let j = 0; j < transformer.transConnectors.length; j += 1) {
@@ -1838,6 +1880,13 @@ function createPSSchema(ps) {
             if (equipment[MyNodePropNameParamRole.STATE] !== '') {
               pushIfNotPushed(paramNames, equipment[MyNodePropNameParamRole.STATE]);
             }
+          }
+        }
+
+        if (connector.lep2PsConnector) {
+          const lep = connector.lep2PsConnector.parentNode;
+          if (locNodes.indexOf(lep) < 0) {
+            locNodes.push(lep);
           }
         }
       }

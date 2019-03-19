@@ -31,7 +31,7 @@ export default class MyStage extends React.Component {
 
   getCenterX(node) {
     switch (node.nodeType) {
-      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_WIDTH / 2;
+      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_X_OFFSET + MyConsts.NODE_LEP_WIDTH / 2;
       case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
       default: return 0;
     }

@@ -151,14 +151,14 @@ module.exports = (app) => {
             logger.warn(`[savePSLinkage] Something wrong on RelinkParamsToNodes for "${psName}"!`);
           } else {
             logger.info(`[savePSLinkage] Nodes are successfully relinked to Params for "${psName}"`);
-          }
-        });
 
-        myDataModelNodes.ReloadPSSchemaParams(psName, (err) => {
-          if (err) {
-            logger.warn(`[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"!`);
-          } else {
-            logger.info(`[savePSLinkage] PSSchema params "${psName}" successfully reloaded.`);
+            myDataModelNodes.ReloadPSSchemaParams(psName, (err) => {
+              if (err) {
+                logger.warn(`[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"!`);
+              } else {
+                logger.info(`[savePSLinkage] PSSchema params "${psName}" successfully reloaded.`);
+              }
+            });
           }
         });
 

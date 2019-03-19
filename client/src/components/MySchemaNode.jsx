@@ -80,13 +80,13 @@ export default class MyRect extends React.Component {
             onDragend={this.handleDragEnd}
           >
             <Text
-              x={1}
+              x={20}
               y={0}
               fontSize={9}
               text={this.props.node.name}
             />
             <Rect
-              x={0}
+              x={MyConsts.NODE_LEP_X_OFFSET}
               y={MyConsts.NODE_LEP_Y_OFFSET}
               width={MyConsts.NODE_LEP_WIDTH}
               height={MyConsts.NODE_LEP_HEIGHT}
@@ -97,7 +97,7 @@ export default class MyRect extends React.Component {
               onDblClick={this.handleDblClick}
             />
             <Text
-              x={1}
+              x={20}
               y={20}
               fontSize={9}
               text={this.props.node.caption}
@@ -192,15 +192,15 @@ export default class MyRect extends React.Component {
           >
             <Text
               x={1}
-              y={0}
+              y={-10}
               fontSize={9}
               text={this.props.node.name}
             />
             <Rect
               x={0 - MyConsts.NODE_PS_RADIUS*4}
-              y={MyConsts.NODE_LEP_Y_OFFSET}
+              y={0}
               width={MyConsts.NODE_PS_RADIUS*10}
-              height={MyConsts.NODE_LEP_HEIGHT}
+              height={MyConsts.NODE_SECTION_HEIGHT}
               stroke={'black'}
               strokeWidth={1}
               fill={color}
@@ -209,7 +209,7 @@ export default class MyRect extends React.Component {
             />
             <Text
               x={1}
-              y={20}
+              y={10}
               fontSize={9}
               text={this.props.node.caption}
             />            
@@ -255,7 +255,7 @@ export default class MyRect extends React.Component {
       case MyConsts.NODE_TYPE_PARAM:{
         return (
           <Group
-            x={x}
+            x={x-MyConsts.NODE_PS_RADIUS}
             y={y}
             draggable
             onDragend={this.handleDragEnd}
