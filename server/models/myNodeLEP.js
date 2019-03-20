@@ -23,7 +23,7 @@ class MyNodeLEP extends MyNode {
     }
     for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
       const connector = this.lep2psConnectors[i];
-      connector.recalculatePoweredState();
+      connector.setPoweredFromPsConnector();
       if (connector.powered === myNodeState.POWERED_ON) {
         isConnected = true;
       }

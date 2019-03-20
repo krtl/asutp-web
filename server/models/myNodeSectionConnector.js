@@ -49,6 +49,10 @@ class MyNodeSectionConnector extends MyNode {
       if (isSwitchedOn) {
         newPowered = this.parentNode.powered;
         this.kTrust = this.parentNode.kTrust;
+
+        if (this.lep2PsConnector) {
+          this.lep2PsConnector.setPoweredFromPsConnector();
+        }
       } else {
         newPowered = myNodeState.POWERED_OFF;
         this.kTrust = 1;
@@ -56,7 +60,7 @@ class MyNodeSectionConnector extends MyNode {
     }
 
     if (this.powered !== newPowered) {
-      console.log('setPoweredStateFromSection');
+      console.log('[SectionConnector] setPoweredStateFromSection');
       this.doOnPoweredStateChanged(newPowered);
     }
   }
@@ -133,7 +137,7 @@ class MyNodeSectionConnector extends MyNode {
     }
 
     if (this.powered !== newPowered) {
-      console.log('getPoweredState');
+      console.log('[SectionConnector] getPoweredState');
       this.doOnPoweredStateChanged(newPowered);
     }
   }

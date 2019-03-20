@@ -33,6 +33,7 @@ const requireSchemaRecalculation = [
   myNodeType.LEP2PSCONNECTION,
   myNodeType.LEP2LEPCONNECTION,
   myNodeType.PS,
+  myNodeType.SECTIONCONNECTOR,
 ];
 
 function getNodesThatShouldHaveAParent() {

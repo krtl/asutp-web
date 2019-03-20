@@ -1,6 +1,6 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
-const myNodeState = require('./myNodeState');
+// const myNodeState = require('./myNodeState');
 
 
 class MyNodeLEP2PSConnection extends MyNode {
@@ -10,27 +10,21 @@ class MyNodeLEP2PSConnection extends MyNode {
     this.toNodeConnector = null;
   }
 
-  recalculatePoweredState() {
-    let isConnected = false;
-    if (this.toNodeConnector) {
-      this.toNodeConnector.recalculatePoweredState();
-      if (this.toNodeConnector.powered === myNodeState.POWERED_ON) {
-        isConnected = true;
-      }
-      if (this.parentNode.powered === myNodeState.POWERED_ON) {
-        isConnected = true;
+  setPoweredFromPsConnector() {
+    if (this.toNodeConnector.kTrust >= this.kTrust) {
+      this.kTrust = this.toNodeConnector.kTrust;
+      if (this.powered !== this.toNodeConnector.powered) {
+        this.doOnPoweredStateChanged(this.toNodeConnector.powered);
       }
     }
+  }
 
-    let newPowered = myNodeState.POWERED_UNKNOWN;
-    if (isConnected) {
-      newPowered = myNodeState.POWERED_ON;
-    } else {
-      newPowered = myNodeState.POWERED_OFF;
-    }
-
-    if (this.powered !== newPowered) {
-      this.doOnPoweredStateChanged(newPowered);
+  setPoweredFromLEP() {
+    if (this.parentNode.kTrust >= this.kTrust) {
+      this.kTrust = this.parentNode.kTrust;
+      if (this.powered !== this.parentNode.powered) {
+        this.doOnPoweredStateChanged(this.parentNode.powered);
+      }
     }
   }
 
