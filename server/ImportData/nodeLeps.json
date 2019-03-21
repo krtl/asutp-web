@@ -1,9 +1,17 @@
 [
-  { "name": "lep1", "caption": "lep1211", "description": "dummyLep1", "sapCode": "41" },
-  { "name": "lep2", "caption": "lep2", "description": "dummyLEP22", "sapCode": "42" },
-  { "name": "lep3", "caption": "lep3", "description": "dummyLEP22", "sapCode": "43" },
-  { "name": "lep4", "caption": "lep4", "description": "dummyLEP22", "sapCode": "44" },
-  { "name": "lep5", "caption": "lep5", "description": "dummyLEP22", "sapCode": "45" },
-  { "name": "lep6", "caption": "lep6", "description": "dummyLEP22", "sapCode": "46" },
-  { "name": "lep7", "caption": "lep7", "description": "dummyLEP44", "sapCode": "47" }
+  { "name": "lep110_1", "parentNode": "res1", "caption": "lep", "description": "dummyLep1", "sapCode": "141" },
+  { "name": "lep110_2", "parentNode": "res1", "caption": "lep", "description": "dummyLEP2", "sapCode": "142" },
+  { "name": "lep110_3", "parentNode": "res1", "caption": "lep", "description": "dummyLEP2", "sapCode": "143" },
+  { "name": "lep110_4", "parentNode": "res1", "caption": "lep", "description": "dummyLEP2", "sapCode": "144" },
+  { "name": "lep110_5", "parentNode": "res1", "caption": "lep", "description": "dummyLEP2", "sapCode": "145" },
+  { "name": "lep35_1", "parentNode": "res1", "caption": "lep", "description": "dummyLEP3", "sapCode": "146" },
+  { "name": "lep35_2", "parentNode": "res1", "caption": "lep", "description": "dummyLEP4", "sapCode": "147" },
+  { "name": "lep35_3", "parentNode": "res1", "caption": "lep", "description": "dummyLEP4", "sapCode": "148" },
+  { "name": "lep6_1", "parentNode": "res1", "caption": "lep", "description": "dummyLEP5", "sapCode": "149" },
+  { "name": "lep6_2", "parentNode": "res1", "caption": "lep", "description": "dummyLEP6", "sapCode": "150" },
+  { "name": "lep6_3", "parentNode": "res1", "caption": "lep", "description": "dummyLEP6", "sapCode": "151" },
+  { "name": "lep6_4", "parentNode": "res1", "caption": "lep", "description": "dummyLEP6", "sapCode": "152" },
+  { "name": "lep6_5", "parentNode": "res1", "caption": "lep", "description": "dummyLEP6", "sapCode": "153" },
+  { "name": "lep6_6", "parentNode": "res1", "caption": "lep", "description": "dummyLEP6", "sapCode": "154" },
+  { "name": "lep6_7", "parentNode": "res1", "caption": "lep", "description": "dummyLEP7", "sapCode": "155" }
 ]

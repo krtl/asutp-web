@@ -1,7 +1,6 @@
 [
-    {    "name": "lep1lep2Con1", "caption": "lepConnection1",
-      "description": "dummylepConnection1", "parentNode": "lep1", "toNode": "lep2", "sapCode": "21"},
-    {   "name": "lep2lep4", "caption": "lepConnection2",
-        "description": "dummylepConnection2", "parentNode": "lep3", "toNodeConnector": "lep4", "sapCode": "22"}
+    { "name": "lep110_1lep110_2", "caption": "lepConnection1", "description": "dummylepConnection1", "parentNode": "lep110_1", "toNode": "lep110_2", "sapCode": "21"},
+    { "name": "lep35_1lep35_2", "caption": "lepConnection2", "description": "dummylepConnection2", "parentNode": "lep35_1", "toNode": "lep35_2", "sapCode": "22"},
+    { "name": "lep6_1lep6_2", "caption": "lepConnection3", "description": "dummylepConnection3", "parentNode": "lep6_1", "toNode": "lep6_2", "sapCode": "23"}
         
 ]

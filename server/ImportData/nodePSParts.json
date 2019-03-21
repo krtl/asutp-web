@@ -1,9 +1,11 @@
 [
 
-  {    "name": "ps1part1", "caption": "ps2Part1", "description": "dummyPartPS1", "parentNode": "ps1", "sapCode": "sapTestCode1d1"},
-  {    "name": "ps1part2", "caption": "ps2Part2", "description": "dummyPartPS2", "parentNode": "ps1", "sapCode": "sapTestCode1d2"},
-  {    "name": "ps2part1", "caption": "ps2Part1", "description": "dummyPartPS2", "parentNode": "ps2", "sapCode": "sapTestCode2d3"},
-  {    "name": "ps3part1", "caption": "ps3Part1", "description": "dummyPartPS2", "parentNode": "ps3", "sapCode": "sapTestCode3d4"},
-  {    "name": "ps3part2", "caption": "ps3Part2", "description": "dummyPartPS2", "parentNode": "ps3", "sapCode": "sapTestCode3d52"}
+  {    "name": "ps1part110", "caption": "", "description": "", "parentNode": "ps1", "sapCode": "sapTestCode1d1", "voltage":"110"},
+  {    "name": "ps1part35", "caption": "", "description": "", "parentNode": "ps1", "sapCode": "sapTestCode1d2", "voltage":"35"},
+  {    "name": "ps2part35", "caption": "", "description": "", "parentNode": "ps2", "sapCode": "sapTestCode2d1", "voltage":"35"},
+  {    "name": "ps2part6", "caption": "", "description": "", "parentNode": "ps2", "sapCode": "sapTestCode2d2", "voltage":"6"},
+  {    "name": "ps3part110", "caption": "", "description": "", "parentNode": "ps3", "sapCode": "sapTestCode3d1", "voltage":"110"},
+  {    "name": "ps3part35", "caption": "", "description": "", "parentNode": "ps3", "sapCode": "sapTestCode3d2", "voltage":"35"},
+  {    "name": "ps3part6", "caption": "", "description": "", "parentNode": "ps3", "sapCode": "sapTestCode3d3", "voltage":"6"}
     
 ]

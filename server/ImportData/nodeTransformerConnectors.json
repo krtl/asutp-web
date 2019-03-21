@@ -1,10 +1,13 @@
 [
 
-    {    "name": "ps1tc1",  "caption": "ps1tc1", "description": "test", "parentNode": "ps1trans1", "toConnector": "ps1part1sec1c1", "sapCode": "b1"},
-    {    "name": "ps1tc2", "caption": "ps1tc2", "description": "test", "parentNode": "ps1trans1", "toConnector": "ps1part1sec2c1", "sapCode": "b2"},
-    {    "name": "ps1tc3", "caption": "ps1c3", "description": "test", "parentNode": "ps1trans2", "toConnector": "ps1part2sec3c1", "sapCode": "b3"},
-    {    "name": "ps1tc4", "caption": "ps1tc4", "description": "test", "parentNode": "ps1trans2", "toConnector": "ps1part2sec4c1", "sapCode": "b4"},
-    {    "name": "ps2tc1", "caption": "ps2tc1", "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2part1sec1c1", "sapCode": "b5"},
-    {    "name": "ps2tc2", "caption": "ps2tc2","description": "test", "parentNode": "ps2trans1", "toConnector": "ps2part1sec2c1", "sapCode": "b6"},
-    {    "name": "ps2tc3", "caption": "ps2tc3", "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2part1sec3c1", "sapCode": "b7"}
+    {    "name": "ps1transc1",  "caption": "ps1tc1", "description": "test", "parentNode": "ps1trans1", "toConnector": "ps1part110sec1c1", "sapCode": "b1"},
+    {    "name": "ps1transc2", "caption": "ps1tc2", "description": "test", "parentNode": "ps1trans1", "toConnector": "ps1part35sec3c1", "sapCode": "b2"},
+    {    "name": "ps1transc3", "caption": "ps1c3", "description": "test", "parentNode": "ps1trans2", "toConnector": "ps1part110sec2c1", "sapCode": "b3"},
+    {    "name": "ps1transc4", "caption": "ps1tc4", "description": "test", "parentNode": "ps1trans2", "toConnector": "ps1part35sec4c1", "sapCode": "b4"},
+    {    "name": "ps2transc1", "caption": "ps2tc1", "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2part35sec1c1", "sapCode": "b5"},
+    {    "name": "ps2transc2", "caption": "ps2tc2", "description": "test", "parentNode": "ps2trans1", "toConnector": "ps2part6sec2c1", "sapCode": "b6"},
+    {    "name": "ps2transc3", "caption": "ps2tc3","description": "test", "parentNode": "ps2trans1", "toConnector": "ps2part6sec3c1", "sapCode": "b7"},
+    {    "name": "ps3transc1", "caption": "ps3tc1","description": "test", "parentNode": "ps3trans1", "toConnector": "ps3part110sec1c1", "sapCode": "b8"},
+    {    "name": "ps3transc2", "caption": "ps3tc2","description": "test", "parentNode": "ps3trans1", "toConnector": "ps3part35sec2c1", "sapCode": "b9"},
+    {    "name": "ps3transc3", "caption": "ps3tc3", "description": "test", "parentNode": "ps3trans1", "toConnector": "ps3part6sec3c1", "sapCode": "b10"}
     ]

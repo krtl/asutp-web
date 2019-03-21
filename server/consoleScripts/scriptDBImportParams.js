@@ -7,8 +7,6 @@ const config = require('../../config');
 const FileNames = [
   'asutpParams.json',
   'asutpParamLists.json',
-  // 'testParams.json',
-  // 'testParamLists.json',
   'asutpConnections.json',
 ];
 

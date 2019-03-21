@@ -2,5 +2,6 @@
 
   {    "name": "ps1trans1", "parentNode": "ps1", "caption": "t1",  "description": "test", "power": "100", "sapCode": "c1"},
   {    "name": "ps1trans2", "parentNode": "ps1", "caption": "t2",  "description": "", "power": "13450", "sapCode": "c2"},
-  {    "name": "ps2trans1", "parentNode": "ps2", "caption": "ps2trans1", "description": "ZZZzzz", "power": "2300", "sapCode": "c3"}
+  {    "name": "ps2trans1", "parentNode": "ps2", "caption": "ps2trans1", "description": "ZZZzzz", "power": "2300", "sapCode": "c3"},
+  {    "name": "ps3trans1", "parentNode": "ps3", "caption": "ps3trans1", "description": "ZZZzzz", "power": "2300", "sapCode": "c4"}
 ]

@@ -10,6 +10,11 @@
   { "name": "param3_VV", "caption": "param3_VV", "description": "","type": ""},
   { "name": "param4_VV", "caption": "param4_VV", "description": "","type": ""},
   { "name": "param5_VV", "caption": "param5_VV", "description": "","type": ""},
+  { "name": "param1_Ul", "caption": "param1_Ul", "description": "","type": ""},
+  { "name": "param2_Ul", "caption": "param2_Ul", "description": "","type": ""},
+  { "name": "param3_Ul", "caption": "param3_Ul", "description": "","type": ""},
+  { "name": "param4_Ul", "caption": "param4_Ul", "description": "","type": ""},
+  { "name": "param5_Ul", "caption": "param5_Ul", "description": "","type": ""},
 
 
   { "name": "param0", "caption": "param0", "description": "","type": ""},
