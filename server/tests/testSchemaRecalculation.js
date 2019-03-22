@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const expect = chai.expect;
 const myDataModelNodes = require('../models/myDataModelNodes');
+const paramValuesProcessor = require('../values/paramValuesProcessor');
 
 
 const config = require('../../config');
@@ -31,10 +32,18 @@ describe('myDataModelNodes', () => {
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
 
+        paramValuesProcessor.initializeParamValuesProcessor();
+
         done();
       });
     });
   });
+
+
+
+
+
+
 
   // After all tests are finished drop database and close connection
   after((done) => {
