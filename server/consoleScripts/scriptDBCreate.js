@@ -56,6 +56,8 @@ function requireModels(callback) {
   require('mongoose').model('NodeSec2SecConnector');  // eslint-disable-line global-require
   require('mongoose').model('NodeEquipment');  // eslint-disable-line global-require
 
+  require('mongoose').model('NodeParamLinkage');  // eslint-disable-line global-require
+
   require('mongoose').model('NodeSchema');  // eslint-disable-line global-require
   require('mongoose').model('NodeStateValue');  // eslint-disable-line global-require
   require('mongoose').model('NodeCoordinates');  // eslint-disable-line global-require

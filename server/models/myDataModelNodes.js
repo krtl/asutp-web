@@ -762,10 +762,19 @@ function StoreLastStateValues() {
   }
   const data = JSON.stringify(states);
   const duration1 = moment().diff(start);
+  const fileName = `${config.storePath}lastStates.json`;
+  // if (fs.existsSync(fileName)) {
+  //   try {
+  //     fs.unlinkSync(fileName);
+  //   } catch (err) {
+  //     logger.error(`[ModelNodes] saving LastStateValues error: ${err.message}`);
+  //   }
+  // }
+
   try {
-    fs.writeFileSync(`${config.storePath}lastStates.json`, data);
+    fs.writeFileSync(fileName, data);
   } catch (err) {
-    logger.error(`[ModelNodes] saving LastStateValues error: ${err}`);
+    logger.error(`[ModelNodes] saving LastStateValues error: ${err.message}`);
     return;
   }
   const duration2 = moment().diff(start);
@@ -777,16 +786,17 @@ function restoreLastStateValues(callback) {
   let count = 0;
   const fileName = `${config.storePath}lastStates.json`;
 
-  if (!fs.exists(fileName, (exists) => {
+  fs.exists(fileName, (exists) => {
     if (!exists) {
       const err = `file "${fileName}" does not exists`;
-      logger.warn(`[ModelNodes][restoreLastStateValues] failed. File "${fileName}" is not found.`);
-      callback(err);
+      logger.warn(`[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`);
+      callback();
       return;
     }
     fs.readFile(fileName, (err, data) => {
       if (err) {
-        callback(err);
+        setError(`[ModelNodes][restoreLastStateValues] failed. Error: "${err}". File "${fileName}" `);
+        callback();
         return;
       }
 
@@ -794,8 +804,8 @@ function restoreLastStateValues(callback) {
       try {
         states = JSON.parse(data);
       } catch (e) {
-        logger.error(`[ModelNodes][restoreLastStateValues] failed. Error: ${e.message}`);
-        callback(e.message);
+        setError(`[ModelNodes][restoreLastStateValues] failed. Error: "${e.message}". File "${fileName}" `);
+        callback();
         return;
       }
 
@@ -816,7 +826,7 @@ function restoreLastStateValues(callback) {
       logger.debug(`[ModelNodes] ${count} LastStateValues loaded in ${moment(duration2).format('mm:ss.SSS')} (file loaded and parsed in ${moment(duration1).format('mm:ss.SSS')})`);
       callback();
     });
-  }));
+  });
 }
 
 
