@@ -63,6 +63,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Test Schemas",
+            "program": "${workspaceFolder}/server/consoleScripts/scriptSchemaRecalculationTestings.js"
+        },
+                
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Run test stomp client",
             "program": "${workspaceFolder}/testclient/myTestStompClient.js"
         }    ]

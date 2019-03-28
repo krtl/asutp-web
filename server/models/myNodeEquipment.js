@@ -20,6 +20,8 @@ class MyNodeEquiment extends MyNode {
           return true;
         }
       }
+    } else {
+      console.log('state did not assigned!');
     }
 
     return false;

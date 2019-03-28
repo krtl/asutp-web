@@ -14,7 +14,7 @@ const logger = require('../logger');
 let timerId;
 let recalculateSchema = false;
 
-const initializeParamValuesProcessor = () => {
+const initializeParamValuesProcessor = (useStompServer) => {
   lastValues.init(
     { useDbValueTracker: true }, () => {
       MyDataModelNodes.SetPoweredStateChangedHandler((node, oldState, newState) => {
@@ -24,11 +24,11 @@ const initializeParamValuesProcessor = () => {
         const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
 
-        // console.log(node.schemaNames);
-        for (let i = 0; i < node.schemaNames.length; i += 1) {
-          const schemaName = node.schemaNames[i];
-          MyStompServer.sendNodeStateValue(schemaName, nodeStateValue);
-          // console.log(nodeStateValue);
+        if (useStompServer) {
+          for (let i = 0; i < node.schemaNames.length; i += 1) {
+            const schemaName = node.schemaNames[i];
+            MyStompServer.sendNodeStateValue(schemaName, nodeStateValue);
+          }
         }
 
         if (myNodeType.isSchemaRecalculationRequiredFor(node.nodeType)) {
@@ -51,7 +51,10 @@ const initializeParamValuesProcessor = () => {
       if ((param) && (value)) {
         for (let j = 0; j < param.schemaNames.length; j += 1) {
           const psSchemaName = param.schemaNames[j];
-          MyStompServer.sendParamValue(psSchemaName, value);
+
+          if (useStompServer) {
+            MyStompServer.sendParamValue(psSchemaName, value);
+          }
 
           if (recalcPSNames.indexOf(psSchemaName) < 0) {
             recalcPSNames.push(psSchemaName);

@@ -18,10 +18,15 @@ class MyNodeSec2SecConnector extends MyNode {
   recalculatePoweredState() {
     let isPowered = false;
     let isSwitchedOn = false;
-    for (let i = 0; i < this.equipments.length; i += 1) {
-      const equipment = this.equipments[i];
-      if (equipment.isSwitchedOn()) {
-        isSwitchedOn = true;
+
+    if (this.equipments.length === 0) {
+      isSwitchedOn = true;  // by default we considering that connector is switched ON
+    } else {
+      for (let i = 0; i < this.equipments.length; i += 1) {
+        const equipment = this.equipments[i];
+        if (equipment.isSwitchedOn()) {
+          isSwitchedOn = true;
+        }
       }
     }
 

@@ -2046,6 +2046,7 @@ const GetPSSchemaParamNames = (schemaName) => {
 
 const GetParam = paramName => params.get(paramName);
 const GetAllParamsAsArray = () => Array.from(params.values());
+const GetAllPSsAsArray = () => Array.from(PSs.values());
 
 function RecalculateWholeShema() {
   const leps = Array.from(LEPs.values());
@@ -2081,4 +2082,5 @@ module.exports.GetSchemaParamNames = GetSchemaParamNames;
 module.exports.GetPSSchemaParamNames = GetPSSchemaParamNames;
 module.exports.GetParam = GetParam;
 module.exports.GetAllParamsAsArray = GetAllParamsAsArray;
+module.exports.GetAllPSsAsArray = GetAllPSsAsArray;
 module.exports.RecalculateWholeShema = RecalculateWholeShema;
