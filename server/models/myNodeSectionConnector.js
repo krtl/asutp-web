@@ -1,43 +1,27 @@
 
 const myNodeType = require('./myNodeType');
-const MyNode = require('./myNode');
+const MyNodeConnector = require('./myNodeConnector');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 // const lastValues = require('../values/lastValues');
 const myNodeState = require('./myNodeState');
 
 
-class MyNodeSectionConnector extends MyNode {
+class MyNodeSectionConnector extends MyNodeConnector {
 
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.SECTIONCONNECTOR);
-    this.cellNumber = '';
     this.connectionType = null;
 
     this[MyNodePropNameParamRole.POWER] = '';
-    this.equipments = [];
     this.connectors = [];
     this.lep2PsConnector = null;
     this.transformerConnector = false;
-    this.switchedOn = false;
   }
 
   setPoweredStateFromSection() {
     let newPowered = myNodeState.POWERED_UNKNOWN;
 
-    let isSwitchedOn = false;
-
-    if (this.equipments.length === 0) {
-      isSwitchedOn = true;  // by default we considering that connector is switched ON
-    } else {
-      for (let i = 0; i < this.equipments.length; i += 1) {
-        const equipment = this.equipments[i];
-        if (equipment.isSwitchedOn()) {
-          isSwitchedOn = true;
-        }
-      }
-    }
-
-    if (isSwitchedOn) {
+    if (this.IsSwitchedOn()) {
       newPowered = this.parentNode.powered;
       this.kTrust = this.parentNode.kTrust;
 
@@ -57,23 +41,9 @@ class MyNodeSectionConnector extends MyNode {
 
   getPoweredState() {
     let newPowered = myNodeState.POWERED_UNKNOWN;
-
     let isPowered = false;
-    let isSwitchedOn = false;
 
-    if (this.equipments.length === 0) {
-      isSwitchedOn = true;  // by default we considering that connector is switched ON
-    } else {
-      for (let i = 0; i < this.equipments.length; i += 1) {
-        const equipment = this.equipments[i];
-        if (equipment.isSwitchedOn()) {
-          isSwitchedOn = true;
-        }
-      }
-    }
-
-
-    if (isSwitchedOn) {
+    if (this.IsSwitchedOn()) {
       if (this.transformerConnector) {
         const section = this.parentNode;
         const pspart = section.parentNode;

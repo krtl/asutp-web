@@ -187,7 +187,6 @@ export default class MyPSScheme extends React.Component {
             initialParamValue: param.value,
             initialBlockRawValues: s,            
             editedNodeName: locNode.name,
-            editedParamName: locNode.paramName,
            });
           }
           break;
@@ -220,7 +219,7 @@ export default class MyPSScheme extends React.Component {
 
     if (newValue !== 'dismiss') {
 
-      const s = JSON.stringify( { paramName: this.state.editedParamName,
+      const s = JSON.stringify( { connectorName: this.state.editedNodeName,
          cmd:  (newValue.newBlockRawValues === 'unblocked') ? 'unblock':'block',
          manualValue: newValue.newManualValue });
       this.props.onSaveManualValue(s);
@@ -314,7 +313,6 @@ export default class MyPSScheme extends React.Component {
         initialParamValue={this.state.initialParamValue}
         initialBlockRawValues={this.state.initialBlockRawValues}
         editedNodeName={this.state.editedNodeName}
-        editedParamName={this.state.editedParamName}
         />        
       </div>
     );

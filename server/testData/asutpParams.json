@@ -75,6 +75,11 @@
 { "name": "param_ps3part6sec1c3_P"},
 { "name": "param_ps3part6sec1c4_P"},
 
+
+{ "name": "testParam", "description": "required for test manual values" },
+{ "name": "testParam1", "description": "required for test manual values" },
+{ "name": "testParam2", "description": "required for test manual values" },
+
   {
     "name": "param30",
     "caption": "prm30",

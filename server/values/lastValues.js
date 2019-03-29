@@ -6,6 +6,7 @@ const config = require('../../config');
 
 const dbValuesTracker = require('./amqpInsertValueSender');
 const myDataModelNodes = require('../models/myDataModelNodes');
+const MyNodeConnector = require('../models/myNodeConnector');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const DbParamValue = require('../dbmodels/paramValue');
 const MyParamValue = require('../models/myParamValue');
@@ -183,29 +184,46 @@ const SetManualValue = (manualValue) => {
   let err = '';
 
   // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+  // { connectorName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
-  if (myDataModelNodes.GetParam(manualValue.paramName)) {
-    if (manualValue.cmd === 'block') {
-      BlockRawValues(manualValue.paramName);
-    } else if (manualValue.cmd === 'unblock') {
-      UnblockRawValues(manualValue.paramName);
+  if ('connectorName' in manualValue) {
+    const connector = myDataModelNodes.GetNode(manualValue.connectorName);
+    if (connector instanceof MyNodeConnector) {
+      connector.SetManualValue(manualValue);
+    } else {
+      const s = `[lastValues][SetManualValue] "${manualValue.connectorName}" is not connector.`;
+      logger.error(s);
+      err += s;
     }
-
-    if (manualValue.manualValue !== undefined) {
-      const momentDT = moment();
-      const dt = new Date(momentDT);
-      // const float = parseFloat(manualValue.manualValue.replace(',', '.'));
-      const float = manualValue.manualValue;
-      let qd = 'Z';
-      if (blockedParams.indexOf(manualValue.paramName) > 0) {
-        qd += ',B';
+  } else if ('paramName' in manualValue) {
+    if (myDataModelNodes.GetParam(manualValue.paramName)) {
+      if (manualValue.cmd === 'block') {
+        BlockRawValues(manualValue.paramName);
+      } else if (manualValue.cmd === 'unblock') {
+        UnblockRawValues(manualValue.paramName);
       }
-      const obj = new MyParamValue(manualValue.paramName, float, dt, qd);
-      setValue(obj);
+
+      if (manualValue.manualValue !== undefined) {
+        const momentDT = moment();
+        const dt = new Date(momentDT);
+        // const float = parseFloat(manualValue.manualValue.replace(',', '.'));
+        const float = manualValue.manualValue;
+        let qd = 'Z';
+        if (blockedParams.indexOf(manualValue.paramName) > 0) {
+          qd += ',B';
+        }
+        const obj = new MyParamValue(manualValue.paramName, float, dt, qd);
+        setValue(obj);
+      }
+    } else {
+      const s = `[lastValues][SetManualValue] Can't find param "${manualValue.paramName}".`;
+      logger.error(s);
+      err += s;
     }
   } else {
-    logger.error(`[lastValues][SetParamManualValue] Can't find param "${manualValue.paramName}".`);
-    err += `[lastValues][SetParamManualValue] Can't find param "${manualValue.paramName}".`;
+    const s = `[lastValues][SetManualValue] Unknown command: "${manualValue}".`;
+    logger.error(s);
+    err += s;
   }
 
   return err;

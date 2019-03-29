@@ -145,6 +145,5 @@ MyNodeConectorDialog.propTypes = {
   initialParamValue: PropTypes.number,
   initialBlockRawValues: PropTypes.string,
   editedNodeName: PropTypes.string,
-  editedParamName: PropTypes.string,
 };
       

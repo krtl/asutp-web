@@ -48,32 +48,14 @@ const init = ((done) => {
 
 function testSwitchConnectorOn(connector) {
   expect(connector).to.be.an('object');
-
-  for (let m = 0; m < connector.equipments.length; m += 1) {
-    const equipment = connector.equipments[m];
-    if (MyNodePropNameParamRole.STATE in equipment) {
-      if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-        const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
-        lastValues.setRawValue(new MyParamValue(param.name, 1, new Date(), ''));
-        expect(equipment.isSwitchedOn()).to.equal(true);
-      }
-    }
-  }
+  connector.SetManualValue({ connectorName: connector.name, cmd: 'unblock', manualValue: 1 });
+  expect(connector.IsSwitchedOn()).to.equal(true);
 }
 
 function testSwitchConnectorOff(connector) {
   expect(connector).to.be.an('object');
-
-  for (let m = 0; m < connector.equipments.length; m += 1) {
-    const equipment = connector.equipments[m];
-    if (MyNodePropNameParamRole.STATE in equipment) {
-      if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-        const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
-        lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-        expect(equipment.isSwitchedOn()).to.equal(false);
-      }
-    }
-  }
+  connector.SetManualValue({ connectorName: connector.name, cmd: 'unblock', manualValue: 0 });
+  expect(connector.IsSwitchedOn()).to.equal(false);
 }
 
 function testSwitchSectionConnectorsOn(section) {
@@ -140,11 +122,7 @@ function testSection(section) {
     expect(section.powered).to.equal(myNodeState.POWERED_ON);
     for (let l = 0; l < section.connectors.length; l += 1) {
       const connector = section.connectors[l];
-      if (connector.equipments.length === 0) {
-        expect(connector.powered).to.equal(myNodeState.POWERED_ON);
-      } else {
-        expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-      }
+      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
     }
 
     testSwitchSectionConnectorsOn(section);
@@ -194,6 +172,7 @@ function testPS(ps) {
 
 
 init(() => {
+
   const pss = myDataModelNodes.GetAllPSsAsArray();
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];

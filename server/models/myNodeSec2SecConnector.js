@@ -1,18 +1,15 @@
 
 const myNodeType = require('./myNodeType');
-const MyNode = require('./myNode');
+const MyNodeConnector = require('./myNodeConnector');
 const myNodeState = require('./myNodeState');
 
 
-class MyNodeSec2SecConnector extends MyNode {
+class MyNodeSec2SecConnector extends MyNodeConnector {
 
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.SEC2SECCONNECTOR);
-    this.cellNumber = '';
     this.fromSection = null;
     this.toSection = null;
-    this.equipments = [];
-    this.switchedOn = false;
   }
 
   recalculatePoweredState() {
