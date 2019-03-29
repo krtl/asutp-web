@@ -5,10 +5,10 @@ const moment = require('moment');
 const expect = chai.expect;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
-const lastValues = require('../values/lastValues');
-const MyParamValue = require('../models/myParamValue');
+// const lastValues = require('../values/lastValues');
+// const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
-const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
+// const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
 
 
 const config = require('../../config');
@@ -48,13 +48,13 @@ const init = ((done) => {
 
 function testSwitchConnectorOn(connector) {
   expect(connector).to.be.an('object');
-  connector.SetManualValue({ connectorName: connector.name, cmd: 'unblock', manualValue: 1 });
+  connector.SetManualValue({ nodeName: connector.name, cmd: 'unblock', manualValue: 1 });
   expect(connector.IsSwitchedOn()).to.equal(true);
 }
 
 function testSwitchConnectorOff(connector) {
   expect(connector).to.be.an('object');
-  connector.SetManualValue({ connectorName: connector.name, cmd: 'unblock', manualValue: 0 });
+  connector.SetManualValue({ nodeName: connector.name, cmd: 'unblock', manualValue: 0 });
   expect(connector.IsSwitchedOn()).to.equal(false);
 }
 
@@ -83,16 +83,13 @@ function testSection(section) {
   expect(section).to.be.an('object');
   expect(section.powered).to.equal(myNodeState.POWERED_UNKNOWN);
 
-  if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    const param = myDataModelNodes.GetParam(section[MyNodePropNameParamRole.VOLTAGE]);
-    lastValues.setRawValue(new MyParamValue(param.name, 110, new Date(), ''));
-    section.recalculatePoweredState();
-    expect(section.powered).to.equal(myNodeState.POWERED_ON);
+  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 1 });
+  section.recalculatePoweredState();
+  expect(section.powered).to.equal(myNodeState.POWERED_ON);
 
-    lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-    section.recalculatePoweredState();
-    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-  }
+  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
+  section.recalculatePoweredState();
+  expect(section.powered).to.equal(myNodeState.POWERED_OFF);
 
   for (let l = 0; l < section.connectors.length; l += 1) {
     const connector = section.connectors[l];
@@ -101,38 +98,35 @@ function testSection(section) {
 
 
     // testing powered state of connectors
+  testSwitchSectionConnectorsOn(section);
+  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 1 });
+  section.recalculatePoweredState();
+  expect(section.powered).to.equal(myNodeState.POWERED_ON);
 
-  if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    const param = myDataModelNodes.GetParam(section[MyNodePropNameParamRole.VOLTAGE]);
-    testSwitchSectionConnectorsOn(section);
-    lastValues.setRawValue(new MyParamValue(param.name, 110, new Date(), ''));
-    section.recalculatePoweredState();
-    expect(section.powered).to.equal(myNodeState.POWERED_ON);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      try {
-        expect(connector.powered).to.equal(myNodeState.POWERED_ON);
-      } catch (e) {
-        setError(e.message);
-      }
+  for (let l = 0; l < section.connectors.length; l += 1) {
+    const connector = section.connectors[l];
+    try {
+      expect(connector.powered).to.equal(myNodeState.POWERED_ON);
+    } catch (e) {
+      setError(e.message);
     }
+  }
 
-    testSwitchSectionConnectorsOff(section);
-    section.recalculatePoweredState();
-    expect(section.powered).to.equal(myNodeState.POWERED_ON);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
+  testSwitchSectionConnectorsOff(section);
+  section.recalculatePoweredState();
+  expect(section.powered).to.equal(myNodeState.POWERED_ON);
+  for (let l = 0; l < section.connectors.length; l += 1) {
+    const connector = section.connectors[l];
+    expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+  }
 
-    testSwitchSectionConnectorsOn(section);
-    lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-    section.recalculatePoweredState();
-    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
+  testSwitchSectionConnectorsOn(section);
+  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
+  section.recalculatePoweredState();
+  expect(section.powered).to.equal(myNodeState.POWERED_OFF);
+  for (let l = 0; l < section.connectors.length; l += 1) {
+    const connector = section.connectors[l];
+    expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
   }
 
       // if (connector.lep2PsConnector) {
@@ -146,9 +140,56 @@ function testSection(section) {
 
 
 function testSec2SecConnector(connector) {
+  const ps = connector.parentNode.parentNode;
+
   testConnector(connector);
 
-    // ..
+  expect(connector.fromSection).to.be.an('object');
+  expect(connector.toSection).to.be.an('object');
+
+  connector.fromSection.SetManualValue({ nodeName: connector.fromSection.name, cmd: 'unblock', manualValue: 0 });
+  connector.toSection.SetManualValue({ nodeName: connector.toSection.name, cmd: 'unblock', manualValue: 0 });
+  testSwitchConnectorOff(connector);
+  ps.recalculatePoweredState();
+  expect(connector.fromSection.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(connector.toSection.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+  testSwitchConnectorOn(connector);
+  ps.recalculatePoweredState();
+  expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+
+  connector.fromSection.SetManualValue({ nodeName: connector.fromSection.name, cmd: 'unblock', manualValue: 1 });
+  connector.toSection.SetManualValue({ nodeName: connector.toSection.name, cmd: 'unblock', manualValue: 0 });
+  testSwitchConnectorOn(connector);
+  ps.recalculatePoweredState();
+  expect(connector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
+  expect(connector.toSection.powered).to.equal(myNodeState.POWERED_ON);
+  expect(connector.powered).to.equal(myNodeState.POWERED_ON);
+
+  connector.fromSection.SetManualValue({ nodeName: connector.fromSection.name, cmd: 'unblock', manualValue: 0 });
+  connector.toSection.SetManualValue({ nodeName: connector.toSection.name, cmd: 'unblock', manualValue: 1 });
+  testSwitchConnectorOn(connector);
+  ps.recalculatePoweredState();
+  expect(connector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
+  expect(connector.toSection.powered).to.equal(myNodeState.POWERED_ON);
+  expect(connector.powered).to.equal(myNodeState.POWERED_ON);
+
+
+  connector.fromSection.SetManualValue({ nodeName: connector.fromSection.name, cmd: 'unblock', manualValue: 0 });
+  connector.toSection.SetManualValue({ nodeName: connector.toSection.name, cmd: 'unblock', manualValue: 1 });
+  testSwitchConnectorOff(connector);
+  ps.recalculatePoweredState();
+  expect(connector.fromSection.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(connector.toSection.powered).to.equal(myNodeState.POWERED_ON);
+  expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+
+  connector.fromSection.SetManualValue({ nodeName: connector.fromSection.name, cmd: 'unblock', manualValue: 1 });
+  connector.toSection.SetManualValue({ nodeName: connector.toSection.name, cmd: 'unblock', manualValue: 0 });
+  testSwitchConnectorOff(connector);
+  ps.recalculatePoweredState();
+  expect(connector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
+  expect(connector.toSection.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
 }
 
 function testPSPart(pspart) {
@@ -172,7 +213,6 @@ function testPS(ps) {
 
 
 init(() => {
-
   const pss = myDataModelNodes.GetAllPSsAsArray();
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];

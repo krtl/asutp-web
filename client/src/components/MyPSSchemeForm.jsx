@@ -219,7 +219,7 @@ export default class MyPSScheme extends React.Component {
 
     if (newValue !== 'dismiss') {
 
-      const s = JSON.stringify( { connectorName: this.state.editedNodeName,
+      const s = JSON.stringify( { nodeName: this.state.editedNodeName,
          cmd:  (newValue.newBlockRawValues === 'unblocked') ? 'unblock':'block',
          manualValue: newValue.newManualValue });
       this.props.onSaveManualValue(s);

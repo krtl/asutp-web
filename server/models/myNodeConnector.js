@@ -15,7 +15,7 @@ class MyNodeConnector extends MyNode {
   }
 
   SetManualValue(manualValue) {
-  // { connectorName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+  // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
     if (this.equipments.length === 0) {
       const float = manualValue.manualValue;

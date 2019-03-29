@@ -7,6 +7,7 @@ const config = require('../../config');
 const dbValuesTracker = require('./amqpInsertValueSender');
 const myDataModelNodes = require('../models/myDataModelNodes');
 const MyNodeConnector = require('../models/myNodeConnector');
+const MyNodeSection = require('../models/myNodeSection');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
 const DbParamValue = require('../dbmodels/paramValue');
 const MyParamValue = require('../models/myParamValue');
@@ -184,14 +185,14 @@ const SetManualValue = (manualValue) => {
   let err = '';
 
   // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
-  // { connectorName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+  // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
-  if ('connectorName' in manualValue) {
-    const connector = myDataModelNodes.GetNode(manualValue.connectorName);
-    if (connector instanceof MyNodeConnector) {
-      connector.SetManualValue(manualValue);
+  if ('nodeName' in manualValue) {
+    const node = myDataModelNodes.GetNode(manualValue.nodeName);
+    if ((node instanceof MyNodeConnector) || (node instanceof MyNodeSection)) {
+      node.SetManualValue(manualValue);
     } else {
-      const s = `[lastValues][SetManualValue] "${manualValue.connectorName}" is not connector.`;
+      const s = `[lastValues][SetManualValue] "${manualValue.nodeName}" is not available node.`;
       logger.error(s);
       err += s;
     }

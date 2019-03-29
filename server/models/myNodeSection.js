@@ -13,6 +13,21 @@ class MyNodeSection extends MyNode {
     this.connectors = [];
   }
 
+  SetManualValue(manualValue) {
+    // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+
+    if (this[MyNodePropNameParamRole.VOLTAGE] === '') {
+      const float = manualValue.manualValue;
+      this.powered = (float !== 0);
+    } else {
+      lastValues.SetManualValue({
+        paramName: this[MyNodePropNameParamRole.VOLTAGE],
+        cmd: manualValue.cmd,
+        manualValue: manualValue.manualValue,
+      });
+    }
+  }
+
   recalculatePoweredState() {
     let newPowered = myNodeState.POWERED_UNKNOWN;
 

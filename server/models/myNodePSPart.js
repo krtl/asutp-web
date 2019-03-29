@@ -25,7 +25,7 @@ class MyNodePSPart extends MyNode {
       const sec2secConnector = this.sec2secConnectors[i];
       sec2secConnector.recalculatePoweredState();
       if (sec2secConnector.powered === myNodeState.POWERED_ON) {
-        if (sec2secConnector.kTrust > this.kTrust) {
+        if (sec2secConnector.kTrust >= this.kTrust) {
           this.kTrust = sec2secConnector.kTrust;
 
           // connect sections throught ses2sec connector
