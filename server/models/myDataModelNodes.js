@@ -1336,13 +1336,21 @@ const getPSSchema1 = (psName, callback) => {
     return locNode;
   };
 
-  const getConnectorsCount = (line) => {
-    let result = 0;
-    for (let i = 0; i < line.length; i += 1) {
-      const section = line[i];
-      result += section.connectors.length;
+  // const getConnectorsCount = (line) => {
+  //   let result = 0;
+  //   for (let i = 0; i < line.length; i += 1) {
+  //     const section = line[i];
+  //     result += section.connectors.length;
+  //   }
+  //   return result;
+  // };
+
+  const getPSPartVoltage = (line) => {
+    if (line.length > 0) {
+      const section = line[0];
+      return section.parentNode.voltage;
     }
-    return result;
+    return 999999;
   };
 
   const TOP_SECTION_Y = 3;
@@ -1351,8 +1359,13 @@ const getPSSchema1 = (psName, callback) => {
 
   const getSectionXY = (section, sectionsLine1, sectionsLine2, sectionsLine3) => {
     let maxLine = sectionsLine1;
-    if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine2)) maxLine = sectionsLine2;
-    if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine3)) maxLine = sectionsLine3;
+    // if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine2)) maxLine = sectionsLine2;
+    // if (getConnectorsCount(maxLine) < getConnectorsCount(sectionsLine3)) maxLine = sectionsLine3;
+
+    // all imputs should be at the top, all outputs should be located at the bottom.
+
+    if (getPSPartVoltage(maxLine) > getPSPartVoltage(sectionsLine2)) maxLine = sectionsLine2;
+    if (getPSPartVoltage(maxLine) > getPSPartVoltage(sectionsLine3)) maxLine = sectionsLine3;
 
     let y = TOP_SECTION_Y;
     let x = 0;
