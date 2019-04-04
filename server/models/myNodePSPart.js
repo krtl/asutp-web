@@ -18,6 +18,7 @@ class MyNodePSPart extends MyNode {
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
       section.recalculatePoweredState();    // w/o sec2sec connectors
+      section.setPoweredStateForConnectors();
     }
 
       // Sec2Sec connectors

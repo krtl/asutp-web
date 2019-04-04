@@ -1,6 +1,6 @@
 [
-  {    "name": "ps1", "caption": "ps1", "description": "dummyPS1", "parentNode": "res1", "sapCode": "sapTestCode1"},
-  {    "name": "ps2",  "caption": "ps2", "description": "dummyPS1", "parentNode": "res1", "sapCode": "sapTestCode2"},
-  {    "name": "ps3",  "caption": "ps3", "description": "dummyPS2", "parentNode": "res1", "sapCode": "sapTestCode3"},
-  {    "name": "ps4",  "caption": "ps4", "description": "dummyPS2", "parentNode": "res1", "sapCode": "sapTestCode4"}
+  {    "name": "ps1", "caption": "ps1", "description": "testPS1", "parentNode": "res1", "sapCode": "sapTestCode1"},
+  {    "name": "ps2", "caption": "ps2", "description": "testPS2", "parentNode": "res1", "sapCode": "sapTestCode2"},
+  {    "name": "ps3", "caption": "ps3", "description": "testPS3", "parentNode": "res1", "sapCode": "sapTestCode3"},
+  {    "name": "ps4", "caption": "ps4", "description": "non linked to asutp", "parentNode": "res1", "sapCode": "sapTestCode4"}
 ]

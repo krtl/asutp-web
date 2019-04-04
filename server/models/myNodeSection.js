@@ -17,8 +17,11 @@ class MyNodeSection extends MyNode {
     // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
     if (this[MyNodePropNameParamRole.VOLTAGE] === '') {
-      const float = manualValue.manualValue;
-      this.powered = (float !== 0);
+      if (manualValue.manualValue > 0) {
+        this.powered = myNodeState.POWERED_ON;
+      } else {
+        this.powered = myNodeState.POWERED_OFF;
+      }
     } else {
       lastValues.SetManualValue({
         paramName: this[MyNodePropNameParamRole.VOLTAGE],
@@ -43,11 +46,6 @@ class MyNodeSection extends MyNode {
 
         if (this.powered !== newPowered) {
           this.doOnPoweredStateChanged(newPowered);
-        }
-
-        for (let i = 0; i < this.connectors.length; i += 1) {
-          const connector = this.connectors[i];
-          connector.setPoweredStateFromSection();
         }
       }
     } else {
@@ -78,11 +76,6 @@ class MyNodeSection extends MyNode {
         if (this.powered !== newPowered) {
           this.doOnPoweredStateChanged(newPowered);
         }
-
-        for (let i = 0; i < this.connectors.length; i += 1) {
-          const connector = this.connectors[i];
-          connector.setPoweredStateFromSection();
-        }
       } else {
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
@@ -104,12 +97,14 @@ class MyNodeSection extends MyNode {
         if (this.powered !== newPowered) {
           this.doOnPoweredStateChanged(newPowered);
         }
-
-        for (let i = 0; i < this.connectors.length; i += 1) {
-          const connector = this.connectors[i];
-          connector.setPoweredStateFromSection();
-        }
       }
+    }
+  }
+
+  setPoweredStateForConnectors() {
+    for (let i = 0; i < this.connectors.length; i += 1) {
+      const connector = this.connectors[i];
+      connector.setPoweredStateFromSection();
     }
   }
 }

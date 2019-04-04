@@ -23,7 +23,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
           if (callback) callback(err);
           return;
         }
-        paramValuesProcessor.initializeParamValuesProcessor(true);
+        paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: true, useDbValueTracker: true });
       });
     }
   });

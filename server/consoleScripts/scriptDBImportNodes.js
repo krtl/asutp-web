@@ -356,6 +356,12 @@ function processNode(processNodeCallback) {
       }
     } else {
         // does not exist
+
+      // for importing test model.
+      if ((newNode.sapCode === '') || (newNode.sapCode === undefined)) {
+        newNode.sapCode = newNode.name;
+      }
+
       newNode.save((err) => {
         if (err) {
           processNodeCallback(err);

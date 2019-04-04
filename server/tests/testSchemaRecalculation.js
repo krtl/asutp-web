@@ -30,7 +30,7 @@ describe('mySchemaRecalculation', () => {
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
 
-        paramValuesProcessor.initializeParamValuesProcessor(false);
+        paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: false, useDbValueTracker: false });
         done();
       });
     });

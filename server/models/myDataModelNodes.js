@@ -527,6 +527,7 @@ function linkNodes(cb) {
 function preparePSs(cb) {
   const locPSs = Array.from(PSs.values());
 
+
   const isInTransformerConnector = (ps, con) => {
     for (let i = 0; i < ps.transformers.length; i += 1) {
       const transformer = ps.transformers[i];
@@ -558,6 +559,12 @@ function preparePSs(cb) {
         }
       }
       inputPsPart.inputNotOutput = true;
+
+      // input psparts should be at the top
+      if (inputPsPart !== ps.psparts[0]) {
+        ps.psparts.splice(ps.psparts.indexOf(inputPsPart), 1);
+        ps.psparts.unshift(inputPsPart);
+      }
     }
   }
 

@@ -11,21 +11,21 @@ class MyNodeLEP2PSConnection extends MyNode {
   }
 
   setPoweredFromPsConnector() {
-    if (this.toNodeConnector.kTrust >= this.kTrust) {
-      this.kTrust = this.toNodeConnector.kTrust;
-      if (this.powered !== this.toNodeConnector.powered) {
-        this.doOnPoweredStateChanged(this.toNodeConnector.powered);
-      }
+    // if (this.toNodeConnector.kTrust >= this.kTrust) {
+    this.kTrust = this.toNodeConnector.kTrust;
+    if (this.powered !== this.toNodeConnector.powered) {
+      this.doOnPoweredStateChanged(this.toNodeConnector.powered);
     }
+    // }
   }
 
   setPoweredFromLEP() {
-    if (this.parentNode.kTrust >= this.kTrust) {
-      this.kTrust = this.parentNode.kTrust;
-      if (this.powered !== this.parentNode.powered) {
-        this.doOnPoweredStateChanged(this.parentNode.powered);
-      }
+    // if (this.parentNode.kTrust >= this.kTrust) {
+    this.kTrust = this.parentNode.kTrust;
+    if (this.powered !== this.parentNode.powered) {
+      this.doOnPoweredStateChanged(this.parentNode.powered);
     }
+    // }
   }
 
 }
