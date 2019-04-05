@@ -289,7 +289,11 @@ function testSec2SecConnector(sec2secConnector) {
   switchConnectorOn(sec2secConnector);
   ps.recalculatePoweredState();
   expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
-  expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_ON);
+  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
+    expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_OFF);
+  } else {
+    expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_ON);
+  }
   expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_ON);
 
 
@@ -306,8 +310,11 @@ function testSec2SecConnector(sec2secConnector) {
 
   switchConnectorOn(sec2secConnector);
   ps.recalculatePoweredState();
-  expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
-  expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_ON);
+  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
+    expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_OFF);
+  } else {
+    expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
+  }
   expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_ON);
 
 
@@ -444,6 +451,23 @@ function testPS(ps) {
   }
 }
 
+function testLEP(lep) {
+
+  for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
+    const connector = lep.lep2lepConnectors[i];
+    connector.powered = myNodeState.POWERED_OFF;
+  }
+  for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
+    const connector = lep.lep2psConnectors[i];
+    connector.powered = myNodeState.POWERED_OFF;
+  }
+
+  lep.recalculatePoweredState();
+  expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
+
+
+}
+
 init(() => {
   const ps = myDataModelNodes.GetNode('ps4');
   unpowerExternalLeps(ps);
@@ -453,6 +477,12 @@ init(() => {
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
     testPS(ps);
+  }
+
+  const leps = myDataModelNodes.GetAllLEPsAsArray();
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    testLEP(lep);
   }
 
 
