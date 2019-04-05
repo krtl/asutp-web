@@ -1,6 +1,7 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 const myNodeState = require('./myNodeState');
+const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 
 
 class MyNodePSPart extends MyNode {
@@ -34,7 +35,9 @@ class MyNodePSPart extends MyNode {
             const section = this.sections[j];
             if (section.powered === myNodeState.POWERED_OFF) {
               if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
-                section.doOnPoweredStateChanged(myNodeState.POWERED_ON);
+                if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
+                  section.doOnPoweredStateChanged(myNodeState.POWERED_ON);
+                }
               }
             }
           }

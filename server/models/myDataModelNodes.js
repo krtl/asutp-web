@@ -1453,24 +1453,19 @@ const getPSSchema1 = (psName, callback) => {
   for (let i = 0; i < ps.transformers.length; i += 1) {
     const transformer = ps.transformers[i];
     transformer.transConnectors.sort((c1, c2) => (c2.toConnector.parentNode.parentNode.voltage - c1.toConnector.parentNode.parentNode.voltage));
-    let prevConnector = null;
-    let prevLine = sectionsLine1;
     for (let j = 0; j < transformer.transConnectors.length; j += 1) {
       const transConnector = transformer.transConnectors[j];
-      if (prevConnector === null) {
-        prevConnector = transConnector.toConnector;
-        prevLine.push(prevConnector.parentNode);
-      } else if (prevConnector.parentNode.parentNode.voltage === transConnector.toConnector.parentNode.parentNode.voltage) {
-        prevConnector = transConnector.toConnector;
-        prevLine.push(prevConnector.parentNode);
+      const section = transConnector.toConnector.parentNode;
+      if (sectionsLine1.length === 0) {
+        sectionsLine1.push(section);
+      } else if ((sectionsLine1.length > 0) && (sectionsLine1[0].parentNode.voltage === section.parentNode.voltage)) {
+        sectionsLine1.push(section);
+      } else if (sectionsLine2.length === 0) {
+        sectionsLine2.push(section);
+      } else if ((sectionsLine2.length > 0) && (sectionsLine2[0].parentNode.voltage === section.parentNode.voltage)) {
+        sectionsLine2.push(section);
       } else {
-        prevConnector = transConnector.toConnector;
-        if (prevLine === sectionsLine1) {
-          prevLine = sectionsLine2;
-        } else {
-          prevLine = sectionsLine3;
-        }
-        prevLine.push(prevConnector.parentNode);
+        sectionsLine3.push(section);
       }
     }
   }
@@ -1481,9 +1476,9 @@ const getPSSchema1 = (psName, callback) => {
     for (let j = 0; j < pspart.sections.length; j += 1) {
       const section = pspart.sections[j];
       if ((sectionsLine1.indexOf(section) < 0) && (sectionsLine2.indexOf(section) < 0) && (sectionsLine3.indexOf(section) < 0)) {
-        if ((sectionsLine1.count > 0) && (sectionsLine1[0].parentNode.voltage === section.parentNode.voltage)) {
+        if ((sectionsLine1.length > 0) && (sectionsLine1[0].parentNode.voltage === section.parentNode.voltage)) {
           sectionsLine1.push(section);
-        } else if ((sectionsLine2.count > 0) && (sectionsLine2[0].parentNode.voltage === section.parentNode.voltage)) {
+        } else if ((sectionsLine2.length > 0) && (sectionsLine2[0].parentNode.voltage === section.parentNode.voltage)) {
           sectionsLine2.push(section);
         } else {
           sectionsLine3.push(section);
@@ -1638,6 +1633,15 @@ const getPSSchema1 = (psName, callback) => {
       sec2SecConnector1.x = xy.x;
       sec2SecConnector1.y = xy.y;
       nodes.push(sec2SecConnector1);
+
+      for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
+        const equipment = sec2secConnector.equipments[m];
+        if (MyNodePropNameParamRole.STATE in equipment) {
+          if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+            sec2SecConnector1.paramName = equipment[MyNodePropNameParamRole.STATE];
+          }
+        }
+      }
 
       const wire = new MySchemeWire(`${sec2secConnector.name}1`, '', '', -1);
       wire.nodeFrom = sec2secConnector.fromSection.name;

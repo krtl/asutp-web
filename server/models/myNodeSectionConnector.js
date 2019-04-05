@@ -81,6 +81,9 @@ class MyNodeSectionConnector extends MyNodeConnector {
           this.kTrust = this.lep2PsConnector.kTrust;
         }
       }
+    } else {
+      newPowered = myNodeState.POWERED_OFF;
+      this.kTrust = 1;
     }
 
     if (this.powered !== newPowered) {

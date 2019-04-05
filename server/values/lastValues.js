@@ -150,7 +150,7 @@ function restoreBlockedParams(callback) {
   if (!fs.exists(fileName, (exists) => {
     if (!exists) {
       const err = `file "${fileName}" does not exists`;
-      logger.warn(`[lastValues][blockedParams] failed. File "${fileName}" is not found.`);
+      logger.warn(`[lastValues][restore blockedParams] failed. File "${fileName}" is not found.`);
       callback(err);
       return;
     }
@@ -159,7 +159,15 @@ function restoreBlockedParams(callback) {
         callback(err);
         return;
       }
-      const paramNames = JSON.parse(data);
+
+      let paramNames;
+      try {
+        paramNames = JSON.parse(data);
+      } catch (e) {
+        logger.error(`[lastValues][restore blockedParams] failed. Error: "${e.message}". File "${fileName}" `);
+        callback(err);
+        return;
+      }
       const duration1 = moment().diff(start);
 
       for (let i = 0; i < paramNames.length; i += 1) {

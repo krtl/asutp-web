@@ -1,6 +1,6 @@
 [
-  { "name": "ps1cc1",  "caption": "ps1cc3","parentNode": "ps1part110", "description": "zzz2", "fromSection": "ps1part110sec1", "toSection": "ps1part110sec2" },
-  { "name": "ps1cc2",  "caption": "ps1cc2","parentNode": "ps1part35", "description": "zz1111z2", "fromSection": "ps1part35sec1", "toSection": "ps1part35sec2" },
+  { "name": "ps1part110cc1",  "caption": "ps1cc1","parentNode": "ps1part110", "description": "zzz2", "fromSection": "ps1part110sec1", "toSection": "ps1part110sec2" },
+  { "name": "ps1part35cc1",  "caption": "ps1cc2","parentNode": "ps1part35", "description": "zz1111z2", "fromSection": "ps1part35sec1", "toSection": "ps1part35sec2" },
   { "name": "ps4part110cc1",  "caption": "ps4part110cc1","parentNode": "ps4part110", "description": "zz", "fromSection": "ps4part110sec1", "toSection": "ps4part110sec2" },
   { "name": "ps4part10cc2",  "caption": "ps4part10cc2","parentNode": "ps4part10", "description": "zzz", "fromSection": "ps4part10sec1", "toSection": "ps4part10sec2" }
     
