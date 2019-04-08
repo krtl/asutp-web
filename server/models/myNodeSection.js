@@ -42,11 +42,14 @@ class MyNodeSection extends MyNode {
         } else {
           newPowered = myNodeState.POWERED_OFF;
         }
-        this.kTrust = 1;
+      } else {
+        newPowered = myNodeState.POWERED_UNKNOWN;
+      }
 
-        if (this.powered !== newPowered) {
-          this.doOnPoweredStateChanged(newPowered);
-        }
+      this.kTrust = 1;
+
+      if (this.powered !== newPowered) {
+        this.doOnPoweredStateChanged(newPowered);
       }
     } else {
       let isPowered = false;

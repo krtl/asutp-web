@@ -119,6 +119,7 @@ const LoadFromDB = (cb) => {
     replaceNamesWithObjects,
     linkNodes,
     preparePSs,
+    prepareLEPs,
     checkIntegrity,
     linkParamNamesToNodes,
     restoreLastStateValues,
@@ -572,6 +573,34 @@ function preparePSs(cb) {
   return cb();
 }
 
+function prepareLEPs(cb) {
+  const locLEPs = Array.from(LEPs.values());
+  for (let i = 0; i < locLEPs.length; i += 1) {
+    const lep = locLEPs[i];
+    for (let j = 0; j < lep.lep2lepConnectors.length; j += 1) {
+      const connector = lep.lep2lepConnectors[j];
+
+      const peerLep = connector.toNode;
+      let exists = false;
+      for (let k = 0; k < peerLep.lep2lepConnectors.length; k += 1) {
+        const peerConnector = peerLep.lep2lepConnectors[k];
+        if (peerConnector.toNode === lep) {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists) {
+        const newConnector = new MyNodeLEP2LEPConnection(`${connector.name}_peer`, connector.caption, connector.description);
+        newConnector.parentNode = peerLep;
+        newConnector.toNode = lep;
+        peerLep.lep2lepConnectors.push(newConnector);
+      }
+    }
+  }
+  return cb();
+}
+
+
 function checkIntegrity(cb) {
   const locLEPs = Array.from(LEPs.values());
   for (let i = 0; i < locLEPs.length; i += 1) {
@@ -926,7 +955,7 @@ const getSchema1 = (schemaName, callback) => {
     for (let j = 0; j < lep.lep2lepConnectors.length; j += 1) {
       const lep2lep = lep.lep2lepConnectors[j];
       if ((lep2lep.parentNode) && (lep2lep.toNode)) {
-        if ((leps.indexOf(lep2lep.parentNode) > 0) && (leps.indexOf(lep2lep.toNode.name) > 0)) {
+        if ((leps.indexOf(lep2lep.parentNode) > 0) && (leps.indexOf(lep2lep.toNode) > 0)) {
           const wire = new MySchemeWire(lep2lep.name, lep2lep.caption, lep2lep.description, lep2lep.nodeType);
           wire.nodeFrom = lep2lep.parentNode.name;
           wire.nodeTo = lep2lep.toNode.name;
@@ -2084,7 +2113,12 @@ function RecalculateWholeShema() {
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
-    lep.recalculatePoweredState();
+    lep.recalculatePoweredStateFromPSs();
+  }
+
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    lep.recalculatePoweredStateFromLEPs();
   }
 }
 

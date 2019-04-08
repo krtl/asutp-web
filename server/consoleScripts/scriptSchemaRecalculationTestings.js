@@ -460,17 +460,115 @@ function testLEP(lep) {
   for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
     const connector = lep.lep2psConnectors[i];
     connector.powered = myNodeState.POWERED_OFF;
+    connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
   }
 
-  lep.recalculatePoweredState();
-  expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
+  lep.recalculatePoweredStateFromPSs();
+  try {
+    expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
+  } catch {
+    setError('');
+  }
 
+  for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
+    const connector = lep.lep2psConnectors[i];
+    // connector.powered = myNodeState.POWERED_OFF;
+    if (i===0) {
+      connector.toNodeConnector.powered = myNodeState.POWERED_ON;
+    } else {
+      connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
+    }
+  }
+
+  lep.recalculatePoweredStateFromPSs();
+  try {
+    if (lep.lep2psConnectors.length > 0) {
+      expect(lep.powered).to.equal(myNodeState.POWERED_ON);
+    } else {
+      expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
+    }    
+  } catch {
+    setError('');
+  }
+
+}
+
+function resetSchema() {
+  const pss = myDataModelNodes.GetAllPSsAsArray();
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          switchConnectorOff(connector);          
+        }
+      }
+    
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const connector = pspart.sec2secConnectors[l];
+        switchConnectorOff(connector);          
+      }
+    }
+  }
+
+  const leps = myDataModelNodes.GetAllLEPsAsArray();
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
+      const connector = lep.lep2lepConnectors[i];
+      connector.powered = myNodeState.POWERED_OFF;
+    }
+    for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
+      const connector = lep.lep2psConnectors[i];
+      connector.powered = myNodeState.POWERED_OFF;
+      connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
+    }
+  }
+
+}
+
+function schemaTest1() {
+
+  resetSchema();
+
+  myDataModelNodes.RecalculateWholeShema();
+
+
+  const pss = myDataModelNodes.GetAllPSsAsArray();
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+    expect(ps.powered).to.equal(myNodeState.POWERED_OFF);
+  }
+
+  const leps = myDataModelNodes.GetAllLEPsAsArray();
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
+  }
+
+  
+  const connector = myDataModelNodes.GetNode('ps1part110sec1c2')
+  const section = myDataModelNodes.GetNode('ps1part110sec1');
+  
+  connector.SetManualValue({ nodeName: 'ps1part110sec1c2', cmd: 'unblock', manualValue: 1 });
+  section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 1 });
+
+  myDataModelNodes.RecalculateWholeShema();
+
+  const lep1 = myDataModelNodes.GetNode('lep110_1');
+  expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
+  const lep2 = myDataModelNodes.GetNode('lep110_2');
+  expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
 
 }
 
 init(() => {
-  const ps = myDataModelNodes.GetNode('ps4');
-  unpowerExternalLeps(ps);
+//  const ps = myDataModelNodes.GetNode('ps4');
+//  unpowerExternalLeps(ps);
 //  testPS(ps);
 
   const pss = myDataModelNodes.GetAllPSsAsArray();
@@ -482,8 +580,16 @@ init(() => {
   const leps = myDataModelNodes.GetAllLEPsAsArray();
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
+    lep.powered = myNodeState.POWERED_OFF;
+  }
+  
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
     testLEP(lep);
   }
+
+
+  schemaTest1();
 
 
   mongoose.connection.close(() => {

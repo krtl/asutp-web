@@ -17,6 +17,8 @@ let recalculateSchema = false;
 const initializeParamValuesProcessor = (setts) => {
   lastValues.init(
     { useDbValueTracker: setts.useDbValueTracker }, () => {
+      recalculateSchema = true;
+
       MyDataModelNodes.SetPoweredStateChangedHandler((node, oldState, newState) => {
         logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
         console.log(`State changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`);

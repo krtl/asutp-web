@@ -31,24 +31,13 @@ class MyNodeLEP2LEPConnection extends MyNode {
         if (this.powered !== this.toNode.powered) {
           this.doOnPoweredStateChanged(this.toNode.powered);
         }
-      } else {
-        let isConnected = false;
-        if (this.toNode.powered === myNodeState.POWERED_ON) {
-          isConnected = true;
+      } else if ((this.toNode.powered === myNodeState.POWERED_ON) || (this.parentNode.powered === myNodeState.POWERED_ON)) {
+        if (this.powered !== myNodeState.POWERED_ON) {
+          this.doOnPoweredStateChanged(myNodeState.POWERED_ON);
         }
-        if (this.parentNode.powered === myNodeState.POWERED_ON) {
-          isConnected = true;
-        }
-
-        let newPowered = myNodeState.POWERED_UNKNOWN;
-        if (isConnected) {
-          newPowered = myNodeState.POWERED_ON;
-        } else {
-          newPowered = myNodeState.POWERED_OFF;
-        }
-
-        if (this.powered !== newPowered) {
-          this.doOnPoweredStateChanged(newPowered);
+      } else if ((this.toNode.powered === myNodeState.POWERED_OFF) || (this.parentNode.powered === myNodeState.POWERED_OFF)) {
+        if (this.powered !== myNodeState.POWERED_OFF) {
+          this.doOnPoweredStateChanged(myNodeState.POWERED_OFF);
         }
       }
     }

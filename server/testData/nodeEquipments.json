@@ -1,7 +1,7 @@
 [
 { "name": "ps1part110sec1c1eq1", "parentNode": "ps1part110sec1c1", "sapCode": "eq1" },
-{ "name": "ps1part110sec1c2eq1", "parentNode": "ps1part110sec1c1", "sapCode": "eq2" },
-{ "name": "ps1part110sec1c3eq1", "parentNode": "ps1part110sec1c1", "sapCode": "eq3" },
+{ "name": "ps1part110sec1c2eq1", "parentNode": "ps1part110sec1c2", "sapCode": "eq2" },
+{ "name": "ps1part110sec1c3eq1", "parentNode": "ps1part110sec1c3", "sapCode": "eq3" },
 { "name": "ps1part110sec2c1eq1", "parentNode": "ps1part110sec2c1", "sapCode": "eq4" },
 { "name": "ps1part110sec2c2eq1", "parentNode": "ps1part110sec2c2", "sapCode": "eq5" },
 { "name": "ps1part110sec2c3eq1", "parentNode": "ps1part110sec2c3", "sapCode": "eq6" },

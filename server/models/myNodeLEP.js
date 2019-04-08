@@ -12,18 +12,35 @@ class MyNodeLEP extends MyNode {
     this.lep2psConnectors = [];
   }
 
-  recalculatePoweredState() {
+  recalculatePoweredStateFromPSs() {
     let isConnected = false;
-    for (let i = 0; i < this.lep2lepConnectors.length; i += 1) {
-      const connector = this.lep2lepConnectors[i];
-      connector.recalculatePoweredState();
+
+    for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
+      const connector = this.lep2psConnectors[i];
+      connector.setPoweredFromPsConnector();
       if (connector.powered === myNodeState.POWERED_ON) {
         isConnected = true;
       }
     }
-    for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
-      const connector = this.lep2psConnectors[i];
-      connector.setPoweredFromPsConnector();
+
+    let newPowered = myNodeState.POWERED_UNKNOWN;
+    if (isConnected) {
+      newPowered = myNodeState.POWERED_ON;
+    } else {
+      newPowered = myNodeState.POWERED_OFF;
+    }
+
+    if (this.powered !== newPowered) {
+      this.doOnPoweredStateChanged(newPowered);
+    }
+  }
+
+  recalculatePoweredStateFromLEPs() {
+    let isConnected = false;
+
+    for (let i = 0; i < this.lep2lepConnectors.length; i += 1) {
+      const connector = this.lep2lepConnectors[i];
+      connector.recalculatePoweredState();
       if (connector.powered === myNodeState.POWERED_ON) {
         isConnected = true;
       }
