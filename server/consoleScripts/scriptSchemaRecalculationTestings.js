@@ -456,6 +456,7 @@ function testLEP(lep) {
   for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
     const connector = lep.lep2lepConnectors[i];
     connector.powered = myNodeState.POWERED_OFF;
+    connector.toNode.powered = myNodeState.POWERED_OFF;
   }
   for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
     const connector = lep.lep2psConnectors[i];
@@ -463,7 +464,7 @@ function testLEP(lep) {
     connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
   }
 
-  lep.recalculatePoweredStateFromPSs();
+  lep.recalculatePoweredState();
   try {
     expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
   } catch {
@@ -480,7 +481,7 @@ function testLEP(lep) {
     }
   }
 
-  lep.recalculatePoweredStateFromPSs();
+  lep.recalculatePoweredState();
   try {
     if (lep.lep2psConnectors.length > 0) {
       expect(lep.powered).to.equal(myNodeState.POWERED_ON);
@@ -491,7 +492,21 @@ function testLEP(lep) {
     setError('');
   }
 
+
+//.. other tests here  
+
+// switch off lep2lep connection to not affect of other leps
+
+  resetSchema();
+
+  lep.recalculatePoweredState();
+  try {
+    expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
+  } catch {
+    setError('');
+  }
 }
+
 
 function resetSchema() {
   const pss = myDataModelNodes.GetAllPSsAsArray();
@@ -521,6 +536,7 @@ function resetSchema() {
     for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
       const connector = lep.lep2lepConnectors[i];
       connector.powered = myNodeState.POWERED_OFF;
+      connector.toNode.powered = myNodeState.POWERED_OFF;
     }
     for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
       const connector = lep.lep2psConnectors[i];
@@ -564,6 +580,14 @@ function schemaTest1() {
   const lep2 = myDataModelNodes.GetNode('lep110_2');
   expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
 
+  const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
+  switchSectionConnectorsOn(sec1);
+  
+  myDataModelNodes.RecalculateWholeShema();
+
+  expect(sec1.powered).to.equal(myNodeState.POWERED_ON);
+
+
 }
 
 init(() => {
@@ -576,6 +600,8 @@ init(() => {
     const ps = pss[i];
     testPS(ps);
   }
+
+
 
   const leps = myDataModelNodes.GetAllLEPsAsArray();
   for (let i = 0; i < leps.length; i += 1) {
@@ -590,6 +616,7 @@ init(() => {
 
 
   schemaTest1();
+
 
 
   mongoose.connection.close(() => {
@@ -610,4 +637,3 @@ init(() => {
     process.exit(0);
   });
 });
-

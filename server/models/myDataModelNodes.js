@@ -765,6 +765,9 @@ const SetPoweredStateChangedHandler = (stateHandler) => {
         for (let l = 0; l < section.connectors.length; l += 1) {
           const connector = section.connectors[l];
           connector.poweredStateChangeHandler = stateHandler;
+          if (connector.lep2PsConnector) {
+            connector.lep2PsConnector.parentNode.poweredStateChangeHandler = stateHandler;
+          }
           for (let m = 0; m < connector.equipments.length; m += 1) {
             const equipment = connector.equipments[m];
             equipment.poweredStateChangeHandler = stateHandler;
@@ -1936,6 +1939,9 @@ function createPSSchema(ps) {
             pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
           }
         }
+        if (connector.lep2PsConnector) {
+          locNodes.push(connector.lep2PsConnector.parentNode);
+        }
         for (let m = 0; m < connector.equipments.length; m += 1) {
           const equipment = connector.equipments[m];
           locNodes.push(equipment);
@@ -2113,12 +2119,7 @@ function RecalculateWholeShema() {
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
-    lep.recalculatePoweredStateFromPSs();
-  }
-
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    lep.recalculatePoweredStateFromLEPs();
+    lep.recalculatePoweredState();
   }
 }
 
