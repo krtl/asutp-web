@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Rect, Circle, Group } from 'react-konva';
+import { Text, Rect, Circle, Group, Line } from 'react-konva';
 import {MyConsts} from '../modules/MyConsts';
 
 
@@ -242,6 +242,32 @@ export default class MyRect extends React.Component {
               shadowBlur={0}
               onDblClick={this.handleDblClick}
             />
+
+        {this.props.node.switchedOn ? (
+            <Line
+            points={[MyConsts.NODE_PS_RADIUS, MyConsts.NODE_PS_RADIUS*2-2, MyConsts.NODE_PS_RADIUS, 2]}
+            stroke={'black'}
+            strokeWidth={1}
+            lineJoin={'round'}
+            /> ) : (
+              <Group
+              x={0}
+              y={0}
+            >  
+            <Line
+            points={[MyConsts.NODE_PS_RADIUS, MyConsts.NODE_PS_RADIUS*2-2, MyConsts.NODE_PS_RADIUS, MyConsts.NODE_PS_RADIUS+3, MyConsts.NODE_PS_RADIUS+6, MyConsts.NODE_PS_RADIUS-3]}
+            stroke={'black'}
+            strokeWidth={1}
+            lineJoin={'round'}
+            />
+            <Line
+            points={[MyConsts.NODE_PS_RADIUS, MyConsts.NODE_PS_RADIUS-3, MyConsts.NODE_PS_RADIUS, 2]}
+            stroke={'black'}
+            strokeWidth={1}
+            lineJoin={'round'}
+            />            
+          </Group>
+          )}            
             <Text
               x={1}
               y={20}
@@ -249,7 +275,7 @@ export default class MyRect extends React.Component {
               text={this.props.node.caption}
             />            
           </Group>
-        );
+        )
       }
 
       case MyConsts.NODE_TYPE_PARAM:{

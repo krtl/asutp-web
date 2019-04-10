@@ -12,6 +12,10 @@ class MyNodeEquiment extends MyNode {
     this[MyNodePropNameParamRole.STATE] = '';
   }
 
+  isConnectionSwitch() {
+    return true; // currently all connectors are connection switches
+  }
+
   isSwitchedOn() {
     if (this[MyNodePropNameParamRole.STATE] !== '') {
       const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.STATE]);
@@ -21,7 +25,7 @@ class MyNodeEquiment extends MyNode {
         }
       }
     } else {
-      console.log('state did not assigned!');
+      console.log('state param did not assigned to the eqiuipment!');
     }
 
     return false;

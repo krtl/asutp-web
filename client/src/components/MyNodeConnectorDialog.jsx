@@ -111,7 +111,7 @@ export default class MyNodeConectorDialog extends React.Component {
 
     return (
         <Dialog
-          title={`Manual value for param: '${this.props.editedNodeName}'`}
+          title={`Manual value for connector: '${this.props.editedNodeName}'`}
           actions={actions}
           modal={false}
           open={this.state.open}

@@ -751,37 +751,38 @@ const RelinkParamNamesToNodes = (cb) => {
   linkParamNamesToNodes(cb);
 };
 
-const SetPoweredStateChangedHandler = (stateHandler) => {
+const SetStateChangedHandlers = (poweredStateHandler, switchedOnStateHandler) => {
   const locPSs = Array.from(PSs.values());
   for (let i = 0; i < locPSs.length; i += 1) {
     const ps = locPSs[i];
-    ps.poweredStateChangeHandler = stateHandler;
+    ps.poweredStateChangeHandler = poweredStateHandler;
     for (let j = 0; j < ps.psparts.length; j += 1) {
       const pspart = ps.psparts[j];
-      pspart.poweredStateChangeHandler = stateHandler;
+      pspart.poweredStateChangeHandler = poweredStateHandler;
       for (let k = 0; k < pspart.sections.length; k += 1) {
         const section = pspart.sections[k];
-        section.poweredStateChangeHandler = stateHandler;
+        section.poweredStateChangeHandler = poweredStateHandler;
         for (let l = 0; l < section.connectors.length; l += 1) {
           const connector = section.connectors[l];
-          connector.poweredStateChangeHandler = stateHandler;
+          connector.poweredStateChangeHandler = poweredStateHandler;
+          connector.switchedOnStateChangeHandler = switchedOnStateHandler;
           if (connector.lep2PsConnector) {
-            connector.lep2PsConnector.parentNode.poweredStateChangeHandler = stateHandler;
+            connector.lep2PsConnector.parentNode.poweredStateChangeHandler = poweredStateHandler;
           }
           for (let m = 0; m < connector.equipments.length; m += 1) {
             const equipment = connector.equipments[m];
-            equipment.poweredStateChangeHandler = stateHandler;
+            equipment.poweredStateChangeHandler = poweredStateHandler;
           }
         }
       }
 
       for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
         const sec2secConnector = pspart.sec2secConnectors[l];
-        sec2secConnector.poweredStateChangeHandler = stateHandler;
-
+        sec2secConnector.poweredStateChangeHandler = poweredStateHandler;
+        sec2secConnector.switchedOnStateChangeHandler = switchedOnStateHandler;
         for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
           const equipment = sec2secConnector.equipments[m];
-          equipment.poweredStateChangeHandler = stateHandler;
+          equipment.poweredStateChangeHandler = poweredStateHandler;
         }
       }
     }
@@ -1556,7 +1557,7 @@ const getPSSchema1 = (psName, callback) => {
       for (let k = 0; k < section.connectors.length; k += 1) {
         const connector = section.connectors[k];
         const connector1 = getNewNodeForScheme(connector);
-
+        connector1.switchedOn = connector.switchedOn;
 
         if (!connector.transformerConnector) conOffset += 1;
         connector1.x = connector.transformerConnector ? section1.x : offsetX + conOffset;
@@ -1660,17 +1661,19 @@ const getPSSchema1 = (psName, callback) => {
 
     for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
       const sec2secConnector = pspart.sec2secConnectors[l];
-      const sec2SecConnector1 = getNewNodeForScheme(sec2secConnector);
+      const sec2secConnector1 = getNewNodeForScheme(sec2secConnector);
+      sec2secConnector1.switchedOn = sec2secConnector.switchedOn;
+
       const xy = getSec2secXY(nodes, sec2secConnector);
-      sec2SecConnector1.x = xy.x;
-      sec2SecConnector1.y = xy.y;
-      nodes.push(sec2SecConnector1);
+      sec2secConnector1.x = xy.x;
+      sec2secConnector1.y = xy.y;
+      nodes.push(sec2secConnector1);
 
       for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
         const equipment = sec2secConnector.equipments[m];
         if (MyNodePropNameParamRole.STATE in equipment) {
           if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-            sec2SecConnector1.paramName = equipment[MyNodePropNameParamRole.STATE];
+            sec2secConnector1.paramName = equipment[MyNodePropNameParamRole.STATE];
           }
         }
       }
@@ -1695,7 +1698,7 @@ const getPSSchema1 = (psName, callback) => {
         const equipment = sec2secConnector.equipments[m];
         if (MyNodePropNameParamRole.STATE in equipment) {
           if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-            sec2SecConnector1.paramName = equipment[MyNodePropNameParamRole.STATE];
+            sec2secConnector1.paramName = equipment[MyNodePropNameParamRole.STATE];
           }
         }
       }
@@ -2127,7 +2130,7 @@ function RecalculateWholeShema() {
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams;
-module.exports.SetPoweredStateChangedHandler = SetPoweredStateChangedHandler;
+module.exports.SetStateChangedHandlers = SetStateChangedHandlers;
 module.exports.GetNode = GetNode;
 module.exports.ExportPSs = ExportPSs;
 module.exports.GetNodeSchemas = GetNodeSchemas;

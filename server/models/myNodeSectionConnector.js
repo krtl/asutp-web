@@ -21,7 +21,7 @@ class MyNodeSectionConnector extends MyNodeConnector {
   setPoweredStateFromSection() {
     let newPowered = myNodeState.POWERED_UNKNOWN;
 
-    if (this.IsSwitchedOn()) {
+    if (this.getSwitchedOn()) {
       newPowered = this.parentNode.powered;
       this.kTrust = this.parentNode.kTrust;
     } else {
@@ -42,7 +42,7 @@ class MyNodeSectionConnector extends MyNodeConnector {
   getPoweredState() {
     let newPowered = myNodeState.POWERED_UNKNOWN;
 
-    if (this.IsSwitchedOn()) {
+    if (this.getSwitchedOn()) {
       if (this.transformerConnector) {
         const section = this.parentNode;
         const pspart = section.parentNode;

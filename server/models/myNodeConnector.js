@@ -12,14 +12,25 @@ class MyNodeConnector extends MyNode {
     this.cellNumber = '';
     this.equipments = [];
     this.switchedOn = false;
+
+    this.doOnSwitchedOnStateChanged = (newSwitchedOn) => {
+      if (this.switchedOnStateChangeHandler) {
+        this.switchedOnStateChangeHandler(this, this.switchedOn, newSwitchedOn);
+      }
+      this.switchedOn = newSwitchedOn;
+    };
   }
+
 
   SetManualValue(manualValue) {
   // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
     if (this.equipments.length === 0) {
       const float = manualValue.manualValue;
-      this.switchedOn = (float !== 0);
+      const newSwitchedOn = (float !== 0);
+      if (this.switchedOn !== newSwitchedOn) {
+        this.doOnSwitchedOnStateChanged(newSwitchedOn);
+      }
     } else {
       for (let i = 0; i < this.equipments.length; i += 1) {
         const equipment = this.equipments[i];
@@ -37,18 +48,24 @@ class MyNodeConnector extends MyNode {
     }
   }
 
-  IsSwitchedOn() {
-    if (this.equipments.length === 0) {
-      return this.switchedOn;
-    }
+  getSwitchedOn() {
+    if (this.equipments.length > 0) {
+      let newSwitchedOn = this.switchedOn;
 
-    for (let i = 0; i < this.equipments.length; i += 1) {
-      const equipment = this.equipments[i];
-      if (equipment.isSwitchedOn()) {
-        return true;
+      for (let i = 0; i < this.equipments.length; i += 1) {
+        const equipment = this.equipments[i];
+        if (equipment.isConnectionSwitch()) {
+          newSwitchedOn = equipment.isSwitchedOn();
+          break;
+        }
+      }
+
+      if (this.switchedOn !== newSwitchedOn) {
+        this.doOnSwitchedOnStateChanged(newSwitchedOn);
       }
     }
-    return false;
+
+    return this.switchedOn;
   }
 }
 

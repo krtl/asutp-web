@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 const config = require('../../config');
 const MyDataModelParams = require('./myDataModelParams');
 const MyParamValue = require('../models/myParamValue');
-const MyNodeStateValue = require('../models/myNodeStateValue');
+const MyNodePoweredStateValue = require('../models/myNodePoweredStateValue');
 const amqpValuesReceiver = require('../amqp/amqp_receive');
 const amqpNodeStateReceiver = require('../amqp/amqp_receive1');
 const DbValuesTracker = require('./dbValuesTracker');
@@ -67,11 +67,11 @@ db.on('connected', () => {
               const newState = parseInt(s[2], 10);
               const momentDT = moment(s[3]);
               const dt = new Date(momentDT);
-              const obj = new MyNodeStateValue(s[0], oldState, newState, dt);
+              const obj = new MyNodePoweredStateValue(s[0], oldState, newState, dt);
 
               DbValuesTracker.trackDbNodeStateValue(obj);
             } else {
-              logger.error(`[NodeStateReceiver][MyNodeStateValue] Failed to parse: ${received}`);
+              logger.error(`[NodeStateReceiver][MyNodePoweredStateValue] Failed to parse: ${received}`);
             }
           });
         }

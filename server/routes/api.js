@@ -10,6 +10,7 @@ const DbParamHalfHourValues = require('../dbmodels/paramHalfHourValue');
 const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
 const DbNodeSchema = require('../dbmodels/nodeSchema');
+// const myDataModelNodes = require('../models/myDataModelNodes');
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
 const lastValues = require('../values/lastValues');
@@ -347,5 +348,22 @@ router.post('/saveParamManualValue', (req, res, next) => {
   }
 });
 
+router.post('/saveConnectionManualValue', (req, res, next) => {
+  const manualvalue = req.body;
+  const err = lastValues.SetManualValue(manualvalue);
+
+  if (err) {
+    logger.info(`[saveConnectionManualValue] Failed: ${err}`);
+    next(err);
+    // res.status(500).json({
+    //   message: err.message,
+    // });
+  } else {
+    logger.debug('[saveConnectionManualValue] Manual value saved');
+    res.status(200).json({
+      message: "'Manual value saved'",
+    });
+  }
+});
 
 module.exports = router;

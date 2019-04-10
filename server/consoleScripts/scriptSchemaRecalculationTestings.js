@@ -49,13 +49,13 @@ const init = ((done) => {
 function switchConnectorOn(connector) {
   expect(connector).to.be.an('object');
   connector.SetManualValue({ nodeName: connector.name, cmd: 'unblock', manualValue: 1 });
-  expect(connector.IsSwitchedOn()).to.equal(true);
+  expect(connector.getSwitchedOn()).to.equal(true);
 }
 
 function switchConnectorOff(connector) {
   expect(connector).to.be.an('object');
   connector.SetManualValue({ nodeName: connector.name, cmd: 'unblock', manualValue: 0 });
-  expect(connector.IsSwitchedOn()).to.equal(false);
+  expect(connector.getSwitchedOn()).to.equal(false);
 }
 
 function switchSectionConnectorsOn(section) {

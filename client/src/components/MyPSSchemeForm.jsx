@@ -174,22 +174,21 @@ export default class MyPSScheme extends React.Component {
       case MyConsts.NODE_TYPE_SEC2SECCONNECTOR:
       {
 
+        let s = 'blocked';
         const param = this.getParamByName(locNode.paramName);
         if (param) {
-
-          let s = '';
           if (param.qd) {
             s = (param.qd.indexOf('B') > -1) ? 'blocked' : 'unblocked'
           }
+        }
          
-          this.setState({ 
+        this.setState({ 
             openConnectionDialog: true,
-            initialParamValue: param.value,
+            initialParamValue: locNode.switchedOn,
             initialBlockRawValues: s,            
             editedNodeName: locNode.name,
            });
-          }
-          break;
+        break;
       }
       default: {
 
@@ -204,11 +203,10 @@ export default class MyPSScheme extends React.Component {
     this.setState({ openParamDialog: false });
 
     if (newValue !== 'dismiss') {
-
       const s = JSON.stringify( { paramName: this.state.editedParamName,
          cmd:  (newValue.newBlockRawValues === 'unblocked') ? 'unblock':'block',
          manualValue: newValue.newManualValue });
-      this.props.onSaveManualValue(s);
+      this.props.onSaveParamManualValue(s);
     }
       
   };  
@@ -218,11 +216,10 @@ export default class MyPSScheme extends React.Component {
     this.setState({ openConnectionDialog: false });
 
     if (newValue !== 'dismiss') {
-
       const s = JSON.stringify( { nodeName: this.state.editedNodeName,
          cmd:  (newValue.newBlockRawValues === 'unblocked') ? 'unblock':'block',
          manualValue: newValue.newManualValue });
-      this.props.onSaveManualValue(s);
+      this.props.onSaveConnectionManualValue(s);
     }
       
   };  
@@ -327,7 +324,8 @@ export default class MyPSScheme extends React.Component {
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
   onResetSchema: PropTypes.func,
-  onSaveManualValue: PropTypes.func,
+  onSaveParamManualValue: PropTypes.func,
+  onSaveConnectionManualValue: PropTypes.func,
 };
 
 

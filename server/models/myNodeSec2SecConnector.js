@@ -15,7 +15,7 @@ class MyNodeSec2SecConnector extends MyNodeConnector {
   recalculatePoweredState() {
     let isPowered = false;
 
-    if (this.IsSwitchedOn()) {
+    if (this.getSwitchedOn()) {
       if (this.fromSection.powered === myNodeState.POWERED_ON) {
         isPowered = true;
       } else if (this.toSection.powered === myNodeState.POWERED_ON) {

@@ -30,7 +30,8 @@ export default class PSSchemePage extends React.Component {
     this.onLoadScheme = this.onLoadScheme.bind(this);    
     this.onSaveScheme = this.onSaveScheme.bind(this);
     this.onResetSchema = this.onResetSchema.bind(this);
-    this.onSaveManualValue = this.onSaveManualValue.bind(this);
+    this.onSaveParamManualValue = this.onSaveParamManualValue.bind(this);
+    this.onSaveConnectionManualValue = this.onSaveConnectionManualValue.bind(this);
 
   }
 
@@ -103,6 +104,17 @@ export default class PSSchemePage extends React.Component {
                 }
               }
             }
+            if('connectorName' in value) {
+              for (let i = 0; i < this.state.nodes.length; i += 1) {
+                const locNode = this.state.nodes[i];
+                if (locNode.name === value.connectorName) {
+                  locNode.switchedOn = value.newState;
+                  locNode.qd = value.qd;
+                  b = true;
+                  break;
+                }
+              }
+            }            
             if('paramName' in value) {
               for (let i = 0; i < this.state.params.length; i += 1) {
                 const locParam = this.state.params[i];
@@ -169,10 +181,29 @@ export default class PSSchemePage extends React.Component {
   }  
 
 
-  onSaveManualValue(s) {
+  onSaveParamManualValue(s) {
     const cmds = [
       {
         fetchUrl: 'api/saveParamManualValue',
+        fetchMethod: 'post',
+        fetchData: s,
+        fetchCallback: () => {
+          // this.setState({
+          // });
+        }
+      },
+    ]
+
+    this.setState({
+        cmdUid: makeUid(5),
+        fetchRequests: cmds,
+      });
+  }
+
+  onSaveConnectionManualValue(s) {
+    const cmds = [
+      {
+        fetchUrl: 'api/saveConnectionManualValue',
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: () => {
@@ -202,7 +233,8 @@ export default class PSSchemePage extends React.Component {
         onLoadScheme={this.onLoadScheme} 
         onSaveScheme={this.onSaveScheme}
         onResetSchema={this.onResetSchema}
-        onSaveManualValue={this.onSaveManualValue}         
+        onSaveParamManualValue={this.onSaveParamManualValue}
+        onSaveConnectionManualValue={this.onSaveConnectionManualValue}
       />
       <MyFetchClient 
         cmdUid={this.state.cmdUid}

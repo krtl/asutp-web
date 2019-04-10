@@ -6,7 +6,8 @@ const myNodeType = require('../models/myNodeType');
 const MyDataModelNodes = require('../models/myDataModelNodes');
 const lastValues = require('./lastValues');
 const MyStompServer = require('./myStompServer');
-const MyNodeStateValue = require('../models/myNodeStateValue');
+const MyNodePoweredStateValue = require('../models/myNodePoweredStateValue');
+const MyNodeSwitchedOnStateValue = require('../models/myNodeSwitchedOnStateValue');
 const ampqRawValuesReceiver = require('./amqpRawValuesReceiver');
 const dbNodeStateValuesTracker = require('./amqpInsertNodeStateValueSender');
 const logger = require('../logger');
@@ -19,11 +20,28 @@ const initializeParamValuesProcessor = (setts) => {
     { useDbValueTracker: setts.useDbValueTracker }, () => {
       recalculateSchema = true;
 
-      MyDataModelNodes.SetPoweredStateChangedHandler((node, oldState, newState) => {
-        logger.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
-        console.log(`State changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`);
+      MyDataModelNodes.SetStateChangedHandlers((node, oldState, newState) => {
+        logger.info(`[debug] Powered state changed for Node: ${node.name} from ${oldState} to ${newState}.`);
+        console.log(`Powered state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`);
 
-        const nodeStateValue = new MyNodeStateValue(node.name, oldState, newState, new Date());
+        const nodeStateValue = new MyNodePoweredStateValue(node.name, oldState, newState, new Date());
+        dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
+
+        if (setts.useStompServer) {
+          for (let i = 0; i < node.schemaNames.length; i += 1) {
+            const schemaName = node.schemaNames[i];
+            MyStompServer.sendNodeStateValue(schemaName, nodeStateValue);
+          }
+        }
+
+        if (myNodeType.isSchemaRecalculationRequiredFor(node.nodeType)) {
+          recalculateSchema = true;
+        }
+      }, (node, oldState, newState) => {
+        logger.info(`[debug] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}.`);
+        console.log(`SwitchedOn state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`);
+
+        const nodeStateValue = new MyNodeSwitchedOnStateValue(node.name, oldState, newState, new Date());
         dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
 
         if (setts.useStompServer) {
