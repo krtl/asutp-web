@@ -26,17 +26,18 @@ class MyNodePSPart extends MyNode {
     for (let i = 0; i < this.sec2secConnectors.length; i += 1) {
       const sec2secConnector = this.sec2secConnectors[i];
       sec2secConnector.recalculatePoweredState();
-      if (sec2secConnector.powered === myNodeState.POWERED_ON) {
-        if (sec2secConnector.kTrust >= this.kTrust) {
-          this.kTrust = sec2secConnector.kTrust;
-
+      if (sec2secConnector.switchedOn) {
           // connect sections throught ses2sec connector
-          for (let j = 0; j < this.sections.length; j += 1) {
-            const section = this.sections[j];
-            if (section.powered === myNodeState.POWERED_OFF) {
-              if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
-                if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
-                  section.doOnPoweredStateChanged(myNodeState.POWERED_ON);
+        for (let j = 0; j < this.sections.length; j += 1) {
+          const section = this.sections[j];
+          if (section.powered !== sec2secConnector.powered) {
+            if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
+              if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
+                if (sec2secConnector.powered !== section.powered) {
+                  if (section.kTrust <= sec2secConnector.kTrust) {
+                    section.kTrust = sec2secConnector.kTrust - 1;
+                    section.doOnPoweredStateChanged(sec2secConnector.powered);
+                  }
                 }
               }
             }
@@ -44,6 +45,7 @@ class MyNodePSPart extends MyNode {
         }
       }
     }
+
 
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];

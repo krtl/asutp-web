@@ -23,10 +23,10 @@ class MyNodeSectionConnector extends MyNodeConnector {
 
     if (this.getSwitchedOn()) {
       newPowered = this.parentNode.powered;
-      this.kTrust = this.parentNode.kTrust;
+      this.kTrust = this.parentNode.kTrust - 1;
     } else {
       newPowered = myNodeState.POWERED_OFF;
-      this.kTrust = 1;
+      this.kTrust = -100;
     }
 
     if (this.powered !== newPowered) {
@@ -59,9 +59,9 @@ class MyNodeSectionConnector extends MyNodeConnector {
                   const section1 = transConnector1.toConnector.parentNode;
                   const pspart1 = section1.parentNode;
                   if (pspart1.inputNotOutput) {
-                    if (transConnector1.toConnector.powered === myNodeState.POWERED_ON) {
-                      newPowered = myNodeState.POWERED_ON;
-                      // this.kTrust = this.lep2PsConnector.kTrust;
+                    if (transConnector1.toConnector.switchedOn) {
+                      newPowered = transConnector1.toConnector.powered;
+                      this.kTrust = section1.kTrust - 1;
                     }
                     break;
                   }
@@ -74,16 +74,19 @@ class MyNodeSectionConnector extends MyNodeConnector {
         const section = this.parentNode;
         if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
           newPowered = section.powered;
-          this.kTrust = section.kTrust;
+          this.kTrust = section.kTrust - 1;
         } else if (this.lep2PsConnector) {
           this.lep2PsConnector.setPoweredFromLEP();
           newPowered = this.lep2PsConnector.powered;
-          this.kTrust = this.lep2PsConnector.kTrust;
+          this.kTrust = this.lep2PsConnector.kTrust - 1;
         }
       }
     } else {
       newPowered = myNodeState.POWERED_OFF;
-      this.kTrust = 1;
+      this.kTrust = -100;
+      if (this.lep2PsConnector) {
+        this.lep2PsConnector.kTrust = -100;
+      }
     }
 
     if (this.powered !== newPowered) {

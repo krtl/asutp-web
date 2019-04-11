@@ -8,7 +8,7 @@ function MyNode(name, caption, description, nodeType) {
   this.parentNode = null;
   this.sapCode = '';
 
-  this.kTrust = 0;  // confidence coefficient
+  this.kTrust = -100;  // confidence coefficient
   this.powered = myNodeState.POWERED_UNKNOWN;
   this.doOnPoweredStateChanged = (newPowered) => {
     if (this.poweredStateChangeHandler) {

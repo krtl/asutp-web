@@ -902,6 +902,7 @@ const getNodeForScheme = (nodes) => {
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
+    locNode.caption = node.kTrust;  // temporary for debugging
     locNode.schemaNames = undefined;
     resultNodes.push(locNode);
   }
@@ -1372,6 +1373,7 @@ const getPSSchema1 = (psName, callback) => {
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
+    locNode.caption = node.kTrust;  // temporary for debugging
     locNode.schemaNames = undefined;
     return locNode;
   };
@@ -1628,6 +1630,7 @@ const getPSSchema1 = (psName, callback) => {
           locNode.parentNode = undefined;
           locNode.description = undefined;
           locNode.kTrust = undefined;
+          locNode.caption = lep.kTrust;  // temporary for debugging
           locNode.schemaNames = undefined;
           locNode.x = connector1.x;
           locNode.y = connector1.y;
@@ -2122,7 +2125,12 @@ function RecalculateWholeShema() {
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
-    lep.recalculatePoweredState();
+    lep.recalculatePoweredState(false);
+  }
+
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    lep.recalculatePoweredState(true);
   }
 }
 

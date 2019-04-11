@@ -53,7 +53,7 @@ class MyNodeSection extends MyNode {
       }
     } else {
       let isPowered = false;
-      this.kTrust = -1;
+      this.kTrust = -100;
 
       const pspart = this.parentNode;
       if (pspart.inputNotOutput) {
@@ -63,7 +63,7 @@ class MyNodeSection extends MyNode {
             connector.getPoweredState();
             if (connector.powered === myNodeState.POWERED_ON) {
               if (connector.kTrust > this.kTrust) {
-                this.kTrust = connector.kTrust;
+                this.kTrust = connector.kTrust - 1;
               }
               isPowered = true;
             }
@@ -85,7 +85,7 @@ class MyNodeSection extends MyNode {
           connector.getPoweredState();
           if (connector.powered === myNodeState.POWERED_ON) {
             if (connector.kTrust > this.kTrust) {
-              this.kTrust = connector.kTrust;
+              this.kTrust = connector.kTrust - 1;
             }
             isPowered = true;
           }
