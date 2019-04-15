@@ -36,6 +36,10 @@ class MyNodeSectionConnector extends MyNodeConnector {
       if (this.lep2PsConnector) {
         this.lep2PsConnector.setPoweredFromPsConnector();
       }
+    } else if (this.lep2PsConnector) {
+      if (this.lep2PsConnector.kTrust >= this.kTrust) {
+        this.lep2PsConnector.kTrust = this.kTrust - 1;
+      }
     }
   }
 
@@ -86,6 +90,7 @@ class MyNodeSectionConnector extends MyNodeConnector {
       this.kTrust = -100;
       if (this.lep2PsConnector) {
         this.lep2PsConnector.kTrust = -100;
+        this.lep2PsConnector.doOnPoweredStateChanged(newPowered);
       }
     }
 

@@ -23,12 +23,12 @@ class MyNodeLEP extends MyNode {
       // connector.setPoweredFromPsConnector();
       if (connector.powered === myNodeState.POWERED_ON) {
         isConnected = true;
-        if (kTrustOfPoweredOn < connector.kTrust) { kTrustOfPoweredOn = connector.toNodeConnector.kTrust; }
+        if (kTrustOfPoweredOn < connector.kTrust) { kTrustOfPoweredOn = connector.kTrust; }
       }
       if (connector.powered === myNodeState.POWERED_OFF) {
         if (connector.toNodeConnector.switchedOn) {
           isDisconnected = true;
-          if (kTrustOfPoweredOff < connector.kTrust) { kTrustOfPoweredOff = connector.toNodeConnector.kTrust; }
+          if (kTrustOfPoweredOff < connector.kTrust) { kTrustOfPoweredOff = connector.kTrust; }
         }
       }
     }
@@ -54,7 +54,7 @@ class MyNodeLEP extends MyNode {
       this.kTrust = kTrustOfPoweredOn - 1;
     } else if (isDisconnected) {
       newPowered = myNodeState.POWERED_OFF;
-      this.kTrust = kTrustOfPoweredOn - 1;
+      this.kTrust = kTrustOfPoweredOff - 1;
     } else if (useLep2LepConnections) {
       newPowered = myNodeState.POWERED_UNKNOWN;
       this.kTrust = -100;

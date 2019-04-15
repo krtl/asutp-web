@@ -16,7 +16,7 @@ class MyNodeSec2SecConnector extends MyNodeConnector {
     let isPowered = false;
 
     if (this.getSwitchedOn()) {
-      this.kTrust = (this.fromSection.kTrust > this.toSection.kTrust) ? this.fromSection.kTrust - 1 : this.toSection.kTrust - 1;
+      this.kTrust = (this.fromSection.kTrust > this.toSection.kTrust) ? this.fromSection.kTrust : this.toSection.kTrust;
 
       if (this.fromSection.powered === myNodeState.POWERED_ON) {
         isPowered = true;

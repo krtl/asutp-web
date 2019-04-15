@@ -672,13 +672,18 @@ function schemaTestPoweringThroughTransformer() {
   expect(sec3.powered).to.equal(myNodeState.POWERED_ON);
 
   section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 0 });
+
+  switchSectionTransofrmerConnectorsOff(sec3);
+  switchSectionConnectorsOff(sec3);
+
   myDataModelNodes.RecalculateWholeShema();
   myDataModelNodes.RecalculateWholeShema();
+ 
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep2.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep3.powered).to.equal(myNodeState.POWERED_OFF);
-  expect(lep4.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(lep4.powered).to.equal(myNodeState.POWERED_UNKNOWN);
 
   expect(sec1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);

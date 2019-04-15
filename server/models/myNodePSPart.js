@@ -30,14 +30,13 @@ class MyNodePSPart extends MyNode {
           // connect sections throught ses2sec connector
         for (let j = 0; j < this.sections.length; j += 1) {
           const section = this.sections[j];
-          if (section.powered !== sec2secConnector.powered) {
-            if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
-              if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
+          if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
+            if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
+              if (section.kTrust <= sec2secConnector.kTrust) {
+                section.kTrust = sec2secConnector.kTrust - 1;
                 if (sec2secConnector.powered !== section.powered) {
-                  if (section.kTrust <= sec2secConnector.kTrust) {
-                    section.kTrust = sec2secConnector.kTrust - 1;
-                    section.doOnPoweredStateChanged(sec2secConnector.powered);
-                  }
+                  section.doOnPoweredStateChanged(sec2secConnector.powered);
+                  section.setPoweredStateForConnectors();
                 }
               }
             }

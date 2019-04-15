@@ -52,8 +52,10 @@ class MyNodeSection extends MyNode {
         this.doOnPoweredStateChanged(newPowered);
       }
     } else {
-      let isPowered = false;
-      this.kTrust = -100;
+      let isPoweredOn = false;
+      let isPoweredOff = false;
+      let kTrustPoweredOn = -100;
+      let kTrustPoweredOff = -100;
 
       const pspart = this.parentNode;
       if (pspart.inputNotOutput) {
@@ -62,44 +64,49 @@ class MyNodeSection extends MyNode {
           if (!connector.transformerConnector) {
             connector.getPoweredState();
             if (connector.powered === myNodeState.POWERED_ON) {
-              if (connector.kTrust > this.kTrust) {
-                this.kTrust = connector.kTrust - 1;
+              if (connector.kTrust > kTrustPoweredOn) {
+                kTrustPoweredOn = connector.kTrust;
               }
-              isPowered = true;
+              isPoweredOn = true;
+            } else {
+              if (connector.kTrust > kTrustPoweredOff) {
+                kTrustPoweredOff = connector.kTrust;
+              }
+              isPoweredOff = true;
             }
           }
-        }
-
-        if (isPowered) {
-          newPowered = myNodeState.POWERED_ON;
-        } else {
-          newPowered = myNodeState.POWERED_OFF;
-        }
-
-        if (this.powered !== newPowered) {
-          this.doOnPoweredStateChanged(newPowered);
         }
       } else {
         for (let i = 0; i < this.connectors.length; i += 1) {
           const connector = this.connectors[i];
           connector.getPoweredState();
           if (connector.powered === myNodeState.POWERED_ON) {
-            if (connector.kTrust > this.kTrust) {
-              this.kTrust = connector.kTrust - 1;
+            if (connector.kTrust > kTrustPoweredOn) {
+              kTrustPoweredOn = connector.kTrust;
             }
-            isPowered = true;
+            isPoweredOn = true;
+          } else {
+            if (connector.kTrust > kTrustPoweredOff) {
+              kTrustPoweredOff = connector.kTrust;
+            }
+            isPoweredOff = true;
           }
         }
+      }
 
-        if (isPowered) {
-          newPowered = myNodeState.POWERED_ON;
-        } else {
-          newPowered = myNodeState.POWERED_OFF;
-        }
+      if ((isPoweredOn) && (kTrustPoweredOn >= kTrustPoweredOff)) {
+        newPowered = myNodeState.POWERED_ON;
+        this.kTrust = kTrustPoweredOn - 1;
+      } else if (isPoweredOff) {
+        newPowered = myNodeState.POWERED_OFF;
+        this.kTrust = kTrustPoweredOff - 1;
+      } else {
+        newPowered = myNodeState.POWERED_UNKNOWN;
+        this.kTrust = -100;
+      }
 
-        if (this.powered !== newPowered) {
-          this.doOnPoweredStateChanged(newPowered);
-        }
+      if (this.powered !== newPowered) {
+        this.doOnPoweredStateChanged(newPowered);
       }
     }
   }
