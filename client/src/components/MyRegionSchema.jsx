@@ -27,6 +27,7 @@ export default class MyStage extends React.Component {
     this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleDoubleClick = this.handleDoubleClick.bind(this);
   }
 
   getCenterX(node) {
@@ -118,6 +119,10 @@ export default class MyStage extends React.Component {
     }
   }
 
+  handleDoubleClick(nodeObj) {
+   console.log(`[MyStage] DoubleClick for ${nodeObj.name}`);
+   }
+
   render() {
     const locNodes = this.props.nodes;
     const locLines = this.getLines();
@@ -153,6 +158,7 @@ export default class MyStage extends React.Component {
                 key={rec.name}
                 node={rec}
                 onDragEnd={this.handleDragEnd}
+                onDoubleClick={this.handleDoubleClick}
               />
             ))
           }

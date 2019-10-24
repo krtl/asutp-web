@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
@@ -25,7 +26,7 @@ class MyNodeEquiment extends MyNode {
         }
       }
     } else {
-      console.log('state param did not assigned to the eqiuipment!');
+     // console.log('state param did not assigned to the eqiuipment!');
     }
 
     return false;

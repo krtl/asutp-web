@@ -17,7 +17,7 @@ function Start(cb) {
     // open,
     requireModels,
     importParams,
-    importParamLists,
+    // importParamLists, // obsolete!!
     importAsutpConnections,
   ], (err) => {
 //  console.log(arguments);
@@ -105,56 +105,56 @@ function importParams(callback) {
   });
 }
 
-function importParamLists(callback) {
-  console.log('importing paramLists..');
+// function importParamLists(callback) {
+//   console.log('importing paramLists..');
 
-  const fileName = `${config.importPath}${FileNames[1]}`;
+//   const fileName = `${config.importPath}${FileNames[1]}`;
 
-  if (!fs.existsSync(fileName)) {
-    const err = `file "${fileName}" does not exists`;
-    console.log(err);
-    callback(err);
-  }
+//   if (!fs.existsSync(fileName)) {
+//     const err = `file "${fileName}" does not exists`;
+//     console.log(err);
+//     callback(err);
+//   }
 
-  const rawdata = fs.readFileSync(fileName);
-  const paramLists = JSON.parse(rawdata);
+//   const rawdata = fs.readFileSync(fileName);
+//   const paramLists = JSON.parse(rawdata);
 
-  async.each(paramLists, (paramData, callback) => {
-    const newNodeSchema = new mongoose.models.NodeSchema(paramData);
+//   async.each(paramLists, (paramData, callback) => {
+//     const newNodeSchema = new mongoose.models.NodeSchema(paramData);
 
-    newNodeSchema.description = paramData.sapCode;
+//     newNodeSchema.description = paramData.sapCode;
 
-    mongoose.models.NodeSchema.findOne({
-      name: newNodeSchema.name }, (err, schema) => {
-      if (err) callback(err);
-      if (schema) {
-        if ((schema.caption !== newNodeSchema.caption) || (schema.description !== newNodeSchema.description) || (schema.paramNames !== newNodeSchema.paramNames)) {
-          mongoose.models.NodeSchema.update({ _id: schema.id },
-             { $set: { caption: newNodeSchema.caption, description: newNodeSchema.description, paramNames: newNodeSchema.paramNames } }, (error) => {
-               if (error) throw callback(error);
-               console.log(`NodeSchema "${newNodeSchema.name}" updated`);
-               callback(null);
-             });
-        } else {
-          callback(null);
-        }
-      } else {
-        newNodeSchema.save((err) => {
-          if (err) callback(err);
-          console.log(`NodeSchema "${newNodeSchema.name}" inserted`);
-          callback(null);
-        });
-      }
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err}`);
-    } else {
-      console.log('Success.');
-    }
-    callback(err);
-  });
-}
+//     mongoose.models.NodeSchema.findOne({
+//       name: newNodeSchema.name }, (err, schema) => {
+//       if (err) callback(err);
+//       if (schema) {
+//         if ((schema.caption !== newNodeSchema.caption) || (schema.description !== newNodeSchema.description) || (schema.paramNames !== newNodeSchema.paramNames)) {
+//           mongoose.models.NodeSchema.update({ _id: schema.id },
+//              { $set: { caption: newNodeSchema.caption, description: newNodeSchema.description, paramNames: newNodeSchema.paramNames } }, (error) => {
+//                if (error) throw callback(error);
+//                console.log(`NodeSchema "${newNodeSchema.name}" updated`);
+//                callback(null);
+//              });
+//         } else {
+//           callback(null);
+//         }
+//       } else {
+//         newNodeSchema.save((err) => {
+//           if (err) callback(err);
+//           console.log(`NodeSchema "${newNodeSchema.name}" inserted`);
+//           callback(null);
+//         });
+//       }
+//     });
+//   }, (err) => {
+//     if (err) {
+//       console.error(`Failed: ${err}`);
+//     } else {
+//       console.log('Success.');
+//     }
+//     callback(err);
+//   });
+// }
 
 function importAsutpConnections(callback) {
   console.log('importing ASUTP Connections..');
