@@ -11,6 +11,7 @@ class MyNodeSection extends MyNode {
     super(name, caption, description, myNodeType.SECTION);
     this[MyNodePropNameParamRole.VOLTAGE] = '';
     this.connectors = [];
+    this.chain = null;
   }
 
   SetManualValue(manualValue) {
@@ -51,63 +52,6 @@ class MyNodeSection extends MyNode {
       if (this.powered !== newPowered) {
         this.doOnPoweredStateChanged(newPowered);
       }
-    } else {
-      let isPoweredOn = false;
-      let isPoweredOff = false;
-      let kTrustPoweredOn = -100;
-      let kTrustPoweredOff = -100;
-
-      const pspart = this.parentNode;
-      if (pspart.inputNotOutput) {
-        for (let i = 0; i < this.connectors.length; i += 1) {
-          const connector = this.connectors[i];
-          if (!connector.transformerConnector) {
-            connector.getPoweredState();
-            if (connector.powered === myNodeState.POWERED_ON) {
-              if (connector.kTrust > kTrustPoweredOn) {
-                kTrustPoweredOn = connector.kTrust;
-              }
-              isPoweredOn = true;
-            } else {
-              if (connector.kTrust > kTrustPoweredOff) {
-                kTrustPoweredOff = connector.kTrust;
-              }
-              isPoweredOff = true;
-            }
-          }
-        }
-      } else {
-        for (let i = 0; i < this.connectors.length; i += 1) {
-          const connector = this.connectors[i];
-          connector.getPoweredState();
-          if (connector.powered === myNodeState.POWERED_ON) {
-            if (connector.kTrust > kTrustPoweredOn) {
-              kTrustPoweredOn = connector.kTrust;
-            }
-            isPoweredOn = true;
-          } else {
-            if (connector.kTrust > kTrustPoweredOff) {
-              kTrustPoweredOff = connector.kTrust;
-            }
-            isPoweredOff = true;
-          }
-        }
-      }
-
-      if ((isPoweredOn) && (kTrustPoweredOn >= kTrustPoweredOff)) {
-        newPowered = myNodeState.POWERED_ON;
-        this.kTrust = kTrustPoweredOn - 1;
-      } else if (isPoweredOff) {
-        newPowered = myNodeState.POWERED_OFF;
-        this.kTrust = kTrustPoweredOff - 1;
-      } else {
-        newPowered = myNodeState.POWERED_UNKNOWN;
-        this.kTrust = -100;
-      }
-
-      if (this.powered !== newPowered) {
-        this.doOnPoweredStateChanged(newPowered);
-      }
     }
   }
 
@@ -115,6 +59,16 @@ class MyNodeSection extends MyNode {
     for (let i = 0; i < this.connectors.length; i += 1) {
       const connector = this.connectors[i];
       connector.setPoweredStateFromSection();
+    }
+  }
+
+  makeAChain() {
+    this.chain = new MyChain();
+    for (let i = 0; i < this.connectors.length; i += 1) {
+      const connector = this.connectors[i];
+      if (connector.getSwitchedOn()) {
+        chain.elements.push(connector);
+      }
     }
   }
 }

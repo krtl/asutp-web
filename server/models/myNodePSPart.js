@@ -63,6 +63,28 @@ class MyNodePSPart extends MyNode {
       this.doOnPoweredStateChanged(newPowered);
     }
   }
+
+  makeChains() {
+    const chains = [];
+
+    for (let i = 0; i < this.sections.length; i += 1) {
+      const section = this.sections[i];
+      section.makeAChan();
+    }
+
+      // Sec2Sec connectors
+    for (let i = 0; i < this.sec2secConnectors.length; i += 1) {
+      const sec2secConnector = this.sec2secConnectors[i];
+      if (sec2secConnector.switchedOn) {
+          if ((sec2secConnector.fromSection !== null) && (sec2secConnector.toSection !== null)) {
+            sec2secConnector.fromSection.chain.append(sec2secConnector.toSection.chain);
+            sec2secConnector.toSection.chain = sec2secConnector.fromSection.chain;
+            sec2secConnector.fromSection.chain.elements.push(sec2secConnector);
+          }
+        }        
+      }
+      return chains;
+  }
 }
 
 

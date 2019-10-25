@@ -25,6 +25,10 @@ require('http-shutdown').extend();
 
 // process.env.NODE_ENV = 'production';
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 // connect to the database and load models
 dbModels.connect(config.dbUri, true, (err) => {
   if (err) {

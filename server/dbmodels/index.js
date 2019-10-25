@@ -7,7 +7,7 @@ const paramValuesProcessor = require('../values/paramValuesProcessor');
 module.exports.connect = (uri, useDataModel, callback) => {
   // mongoose.connect(uri);
   mongoose.connect(uri, {
-    useMongoClient: true,
+    // useMongoClient: true,
     autoIndex: process.env.NODE_ENV !== 'production',
   });
 

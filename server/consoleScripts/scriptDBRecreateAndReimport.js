@@ -27,6 +27,12 @@ async.series([
 
 function open(callback) {
   console.log('open');
+  
+  mongoose.set('useNewUrlParser', true);
+  mongoose.set('useFindAndModify', false);
+  mongoose.set('useCreateIndex', true);
+  mongoose.set('useUnifiedTopology', true);
+
   // connect to the database and load dbmodels
   require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
 

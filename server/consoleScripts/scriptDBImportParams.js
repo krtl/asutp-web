@@ -49,7 +49,7 @@ function requireModels(callback) {
   require('mongoose').model('AsutpConnection');  // eslint-disable-line global-require
 
   async.each(Object.keys(mongoose.models), (modelName, callback) => {
-    mongoose.models[modelName].ensureIndexes(callback);
+    mongoose.models[modelName].createIndexes(callback);
   }, callback);
 }
 
