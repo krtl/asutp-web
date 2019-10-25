@@ -4,7 +4,6 @@ const myNodeState = require('./myNodeState');
 
 
 class MyNodePS extends MyNode {
-
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.PS);
     this.transformers = [];
@@ -61,7 +60,7 @@ class MyNodePS extends MyNode {
       }
 
       if (connectedSections.length > 1) {
-        const chain = connectedSections[0].chain;
+        const {chain} = connectedSections[0];
         for (let k = 1; k < connectedSections.length; k += 1) {
           const section = connectedSections[k];
           chain.append(section.chain);

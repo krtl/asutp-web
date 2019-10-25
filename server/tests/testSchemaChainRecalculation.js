@@ -1,7 +1,7 @@
 const chai = require('chai');
 const mongoose = require('mongoose');
 
-const expect = chai.expect;
+const {expect} = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 const lastValues = require('../values/lastValues');
@@ -13,7 +13,7 @@ const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
 const config = require('../../config');
 
 
-describe('mySchemaRecalculation', () => {
+describe('mySchemaChainRecalculation', () => {
   before((done) => {
     // plug in the promise library:
     mongoose.Promise = global.Promise;
@@ -39,31 +39,41 @@ describe('mySchemaRecalculation', () => {
   function testSwitchConnectorOn(connector) {
     expect(connector).to.be.an('object');
 
-    for (let m = 0; m < connector.equipments.length; m += 1) {
-      const equipment = connector.equipments[m];
-      if (MyNodePropNameParamRole.STATE in equipment) {
-        if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-          const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
-          lastValues.setRawValue(new MyParamValue(param.name, 1, new Date(), ''));
-          expect(equipment.isSwitchedOn()).to.equal(true);
-        }
-      }
-    }
+    // eslint-disable-next-line no-param-reassign
+    connector.switchedOn = true;
+
+    // for (let m = 0; m < connector.equipments.length; m += 1) {
+    //   const equipment = connector.equipments[m];
+    //   if (MyNodePropNameParamRole.STATE in equipment) {
+    //     if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+    //       const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
+    //       lastValues.setRawValue(new MyParamValue(param.name, 1, new Date(), ''));
+    //       expect(equipment.isSwitchedOn()).to.equal(true);
+    //     }
+    //   }
+    // }
   }
 
   function testSwitchConnectorOff(connector) {
     expect(connector).to.be.an('object');
 
-    for (let m = 0; m < connector.equipments.length; m += 1) {
-      const equipment = connector.equipments[m];
-      if (MyNodePropNameParamRole.STATE in equipment) {
-        if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-          const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
-          lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-          expect(equipment.isSwitchedOn()).to.equal(false);
-        }
-      }
-    }
+    // eslint-disable-next-line no-param-reassign
+    connector.switchedOn = false;
+
+    // if (connector.equipments.length === 0) {
+    //   connector.switchedOn = false;
+    // } else {
+    //   for (let m = 0; m < connector.equipments.length; m += 1) {
+    //     const equipment = connector.equipments[m];
+    //     if (MyNodePropNameParamRole.STATE in equipment) {
+    //       if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+    //         const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
+    //         lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
+    //         expect(equipment.isSwitchedOn()).to.equal(false);
+    //       }
+    //     }
+    //   }  
+    // }
   }
 
   function testSwitchSectionConnectorsOn(section) {
@@ -87,7 +97,27 @@ describe('mySchemaRecalculation', () => {
     testSwitchConnectorOff(connector);
   }
 
-  function testSection(section) {
+  function testSectionChaining(section) {
+    expect(section).to.be.an('object');
+
+    testSwitchSectionConnectorsOff(section);
+    section.makeAChain();
+    expect(section.chain.sections.length).to.equal(1);
+    expect(section.chain.elements.length).to.equal(0);
+
+    testSwitchSectionConnectorsOn(section);
+    section.makeAChain();
+    expect(section.chain.sections.length).to.equal(1);
+    expect(section.chain.elements.length).to.equal(section.connectors.length);
+
+    for (let l = 0; l < section.connectors.length; l += 1) {
+      const connector = section.connectors[l];
+      testConnector(connector);
+    }
+  }
+
+
+  function testSectionPowering(section) {
     expect(section).to.be.an('object');
     expect(section.powered).to.equal(myNodeState.POWERED_UNKNOWN);
 
@@ -96,7 +126,6 @@ describe('mySchemaRecalculation', () => {
       lastValues.setRawValue(new MyParamValue(param.name, 110, new Date(), ''));
       section.recalculatePoweredState();
       expect(section.powered).to.equal(myNodeState.POWERED_ON);
-
       lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
       section.recalculatePoweredState();
       expect(section.powered).to.equal(myNodeState.POWERED_OFF);
@@ -139,12 +168,12 @@ describe('mySchemaRecalculation', () => {
       }
     }
 
-      // if (connector.lep2PsConnector) {
-      //   const lep = connector.lep2PsConnector.parentNode;
-      //   if (locNodes.indexOf(lep) < 0) {
-      //     locNodes.push(lep);
-      //   }
-      // }
+    // if (connector.lep2PsConnector) {
+    //   const lep = connector.lep2PsConnector.parentNode;
+    //   if (locNodes.indexOf(lep) < 0) {
+    //     locNodes.push(lep);
+    //   }
+    // }
     // }
   }
 
@@ -158,7 +187,9 @@ describe('mySchemaRecalculation', () => {
   function testPSPart(pspart) {
     for (let k = 0; k < pspart.sections.length; k += 1) {
       const section = pspart.sections[k];
-      testSection(section);
+      testSectionChaining(section);
+
+      // testSectionPowering(section);
     }
 
     for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {

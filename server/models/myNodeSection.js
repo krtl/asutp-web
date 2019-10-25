@@ -3,6 +3,7 @@ const MyNode = require('./myNode');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 const lastValues = require('../values/lastValues');
 const myNodeState = require('./myNodeState');
+const MyChain = require('./myChain');
 
 
 class MyNodeSection extends MyNode {
@@ -64,10 +65,11 @@ class MyNodeSection extends MyNode {
 
   makeAChain() {
     this.chain = new MyChain();
+    this.chain.sections.push(this);
     for (let i = 0; i < this.connectors.length; i += 1) {
       const connector = this.connectors[i];
       if (connector.getSwitchedOn()) {
-        chain.elements.push(connector);
+        this.chain.elements.push(connector);
       }
     }
   }

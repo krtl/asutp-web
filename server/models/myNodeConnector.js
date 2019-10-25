@@ -25,25 +25,27 @@ class MyNodeConnector extends MyNode {
   SetManualValue(manualValue) {
   // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
-    if (this.equipments.length === 0) {
+    let b = false;
+    for (let i = 0; i < this.equipments.length; i += 1) {
+      const equipment = this.equipments[i];
+      if (MyNodePropNameParamRole.STATE in equipment) {
+        if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+          lastValues.SetManualValue({
+            paramName: equipment[MyNodePropNameParamRole.STATE],
+            cmd: manualValue.cmd,
+            manualValue: manualValue.manualValue,
+          });
+          b = true;
+          break;
+        }
+      }
+    }
+
+    if (!b) { // no equipment or no switch or switch does not assigned to param
       const float = manualValue.manualValue;
       const newSwitchedOn = (float !== 0);
       if (this.switchedOn !== newSwitchedOn) {
         this.doOnSwitchedOnStateChanged(newSwitchedOn);
-      }
-    } else {
-      for (let i = 0; i < this.equipments.length; i += 1) {
-        const equipment = this.equipments[i];
-        if (MyNodePropNameParamRole.STATE in equipment) {
-          if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-            lastValues.SetManualValue({
-              paramName: equipment[MyNodePropNameParamRole.STATE],
-              cmd: manualValue.cmd,
-              manualValue: manualValue.manualValue,
-            });
-            break;
-          }
-        }
       }
     }
   }
