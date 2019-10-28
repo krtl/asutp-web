@@ -1,7 +1,7 @@
 const chai = require('chai');
 const mongoose = require('mongoose');
 
-const expect = chai.expect;
+const expect = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 const lastValues = require('../values/lastValues');
@@ -139,12 +139,12 @@ describe('mySchemaRecalculation', () => {
       }
     }
 
-      // if (connector.lep2PsConnector) {
-      //   const lep = connector.lep2PsConnector.parentNode;
-      //   if (locNodes.indexOf(lep) < 0) {
-      //     locNodes.push(lep);
-      //   }
-      // }
+    // if (connector.lep2PsConnector) {
+    //   const lep = connector.lep2PsConnector.parentNode;
+    //   if (locNodes.indexOf(lep) < 0) {
+    //     locNodes.push(lep);
+    //   }
+    // }
     // }
   }
 

@@ -7,7 +7,6 @@ const MyChain = require('./myChain');
 
 
 class MyNodeSection extends MyNode {
-
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.SECTION);
     this[MyNodePropNameParamRole.VOLTAGE] = '';
@@ -69,7 +68,9 @@ class MyNodeSection extends MyNode {
     for (let i = 0; i < this.connectors.length; i += 1) {
       const connector = this.connectors[i];
       if (connector.getSwitchedOn()) {
-        this.chain.elements.push(connector);
+        this.chain.connectedElements.push(connector);
+      } else {
+        this.chain.disconnectedElements.push(connector);
       }
     }
   }

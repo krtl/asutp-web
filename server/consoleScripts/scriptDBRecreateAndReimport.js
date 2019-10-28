@@ -16,7 +16,7 @@ async.series([
   paramsImporter.Start,
   nodeParamLinker.Start,
 ], (err) => {
-    // console.log(arguments);
+  // console.log(arguments);
   mongoose.disconnect();
 
   const duration = moment().diff(start);
@@ -27,14 +27,14 @@ async.series([
 
 function open(callback) {
   console.log('open');
-  
+
   mongoose.set('useNewUrlParser', true);
   mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
   mongoose.set('useUnifiedTopology', true);
 
   // connect to the database and load dbmodels
-  require('../dbmodels').connect(config.dbUri, false);  // eslint-disable-line global-require
+  require('../dbmodels').connect(config.dbUri, false); // eslint-disable-line global-require
 
   mongoose.connection.on('open', callback);
 }
@@ -46,4 +46,3 @@ function recreate(callback) {
     callback();
   }
 }
-

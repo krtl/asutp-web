@@ -1,16 +1,22 @@
+process.env.NOWTESTING = 'test_recalculation';
+
 const chai = require('chai');
 const mongoose = require('mongoose');
 
-const {expect} = chai;
+const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 const lastValues = require('../values/lastValues');
 const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
 const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
+const MyChains = require('../models/myChains');
 
 
 const config = require('../../config');
+
+let pss = [];
+let leps = [];
 
 
 describe('mySchemaChainRecalculation', () => {
@@ -18,8 +24,12 @@ describe('mySchemaChainRecalculation', () => {
     // plug in the promise library:
     mongoose.Promise = global.Promise;
 
+    mongoose.set('useNewUrlParser', true);
+    mongoose.set('useFindAndModify', false);
+    mongoose.set('useCreateIndex', true);
+    mongoose.set('useUnifiedTopology', true);
     mongoose.connect(config.dbUri, {
-      useMongoClient: true,
+      // useMongoClient: true,
       autoIndex: process.env.NODE_ENV !== 'production',
     });
 
@@ -31,6 +41,10 @@ describe('mySchemaChainRecalculation', () => {
         expect(err).to.equal(null);
 
         paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: false, useDbValueTracker: false });
+
+        pss = myDataModelNodes.GetAllPSsAsArray();
+        leps = myDataModelNodes.GetAllLEPsAsArray();
+
         done();
       });
     });
@@ -42,16 +56,16 @@ describe('mySchemaChainRecalculation', () => {
     // eslint-disable-next-line no-param-reassign
     connector.switchedOn = true;
 
-    // for (let m = 0; m < connector.equipments.length; m += 1) {
-    //   const equipment = connector.equipments[m];
-    //   if (MyNodePropNameParamRole.STATE in equipment) {
-    //     if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-    //       const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
-    //       lastValues.setRawValue(new MyParamValue(param.name, 1, new Date(), ''));
-    //       expect(equipment.isSwitchedOn()).to.equal(true);
-    //     }
-    //   }
-    // }
+    for (let m = 0; m < connector.equipments.length; m += 1) {
+      const equipment = connector.equipments[m];
+      if (MyNodePropNameParamRole.STATE in equipment) {
+        if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+          const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
+          lastValues.setRawValue(new MyParamValue(param.name, 1, new Date(), ''));
+          expect(equipment.isSwitchedOn()).to.equal(true);
+        }
+      }
+    }
   }
 
   function testSwitchConnectorOff(connector) {
@@ -63,17 +77,24 @@ describe('mySchemaChainRecalculation', () => {
     // if (connector.equipments.length === 0) {
     //   connector.switchedOn = false;
     // } else {
-    //   for (let m = 0; m < connector.equipments.length; m += 1) {
-    //     const equipment = connector.equipments[m];
-    //     if (MyNodePropNameParamRole.STATE in equipment) {
-    //       if (equipment[MyNodePropNameParamRole.STATE] !== '') {
-    //         const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
-    //         lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-    //         expect(equipment.isSwitchedOn()).to.equal(false);
-    //       }
-    //     }
-    //   }  
+    for (let m = 0; m < connector.equipments.length; m += 1) {
+      const equipment = connector.equipments[m];
+      if (MyNodePropNameParamRole.STATE in equipment) {
+        if (equipment[MyNodePropNameParamRole.STATE] !== '') {
+          const param = myDataModelNodes.GetParam(equipment[MyNodePropNameParamRole.STATE]);
+          lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
+          expect(equipment.isSwitchedOn()).to.equal(false);
+        }
+      }
+    }
     // }
+  }
+
+  function testConnector(connector) {
+    expect(connector).to.be.an('object');
+
+    testSwitchConnectorOn(connector);
+    testSwitchConnectorOff(connector);
   }
 
   function testSwitchSectionConnectorsOn(section) {
@@ -90,25 +111,20 @@ describe('mySchemaChainRecalculation', () => {
     }
   }
 
-  function testConnector(connector) {
-    expect(connector).to.be.an('object');
-
-    testSwitchConnectorOn(connector);
-    testSwitchConnectorOff(connector);
-  }
-
   function testSectionChaining(section) {
     expect(section).to.be.an('object');
 
     testSwitchSectionConnectorsOff(section);
     section.makeAChain();
     expect(section.chain.sections.length).to.equal(1);
-    expect(section.chain.elements.length).to.equal(0);
+    expect(section.chain.connectedElements.length).to.equal(0);
+    expect(section.chain.disconnectedElements.length).to.equal(section.connectors.length);
 
     testSwitchSectionConnectorsOn(section);
     section.makeAChain();
     expect(section.chain.sections.length).to.equal(1);
-    expect(section.chain.elements.length).to.equal(section.connectors.length);
+    expect(section.chain.connectedElements.length).to.equal(section.connectors.length);
+    expect(section.chain.disconnectedElements.length).to.equal(0);
 
     for (let l = 0; l < section.connectors.length; l += 1) {
       const connector = section.connectors[l];
@@ -116,67 +132,41 @@ describe('mySchemaChainRecalculation', () => {
     }
   }
 
+  function testSectionPoweredON(section) {
+    expect(section).to.be.an('object');
+
+    if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+      const param = myDataModelNodes.GetParam(section[MyNodePropNameParamRole.VOLTAGE]);
+      lastValues.setRawValue(new MyParamValue(param.name, 110, new Date(), ''));
+      section.recalculatePoweredState();
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      section.powered = myNodeState.POWERED_ON;
+    }
+    expect(section.powered).to.equal(myNodeState.POWERED_ON);
+  }
+
+  function testSectionPoweredOFF(section) {
+    expect(section).to.be.an('object');
+
+    if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+      const param = myDataModelNodes.GetParam(section[MyNodePropNameParamRole.VOLTAGE]);
+      lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
+      section.recalculatePoweredState();
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      section.powered = myNodeState.POWERED_OFF;
+    }
+    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
+  }
 
   function testSectionPowering(section) {
     expect(section).to.be.an('object');
-    expect(section.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+    // expect(section.powered).to.equal(myNodeState.POWERED_UNKNOWN);
 
-    if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-      const param = myDataModelNodes.GetParam(section[MyNodePropNameParamRole.VOLTAGE]);
-      lastValues.setRawValue(new MyParamValue(param.name, 110, new Date(), ''));
-      section.recalculatePoweredState();
-      expect(section.powered).to.equal(myNodeState.POWERED_ON);
-      lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-      section.recalculatePoweredState();
-      expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-    }
-
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      testConnector(connector);
-    }
-
-
-    // testing powered state of connectors
-
-    if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-      const param = myDataModelNodes.GetParam(section[MyNodePropNameParamRole.VOLTAGE]);
-      testSwitchSectionConnectorsOn(section);
-      lastValues.setRawValue(new MyParamValue(param.name, 110, new Date(), ''));
-      section.recalculatePoweredState();
-      expect(section.powered).to.equal(myNodeState.POWERED_ON);
-      for (let l = 0; l < section.connectors.length; l += 1) {
-        const connector = section.connectors[l];
-        expect(connector.powered).to.equal(myNodeState.POWERED_ON);
-      }
-
-      testSwitchSectionConnectorsOff(section);
-      section.recalculatePoweredState();
-      expect(section.powered).to.equal(myNodeState.POWERED_ON);
-      for (let l = 0; l < section.connectors.length; l += 1) {
-        const connector = section.connectors[l];
-        expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-      }
-
-      testSwitchSectionConnectorsOn(section);
-      lastValues.setRawValue(new MyParamValue(param.name, 0, new Date(), ''));
-      section.recalculatePoweredState();
-      expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-      for (let l = 0; l < section.connectors.length; l += 1) {
-        const connector = section.connectors[l];
-        expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-      }
-    }
-
-    // if (connector.lep2PsConnector) {
-    //   const lep = connector.lep2PsConnector.parentNode;
-    //   if (locNodes.indexOf(lep) < 0) {
-    //     locNodes.push(lep);
-    //   }
-    // }
-    // }
+    testSectionPoweredON(section);
+    testSectionPoweredOFF(section);
   }
-
 
   function testSec2SecConnector(connector) {
     testConnector(connector);
@@ -188,8 +178,7 @@ describe('mySchemaChainRecalculation', () => {
     for (let k = 0; k < pspart.sections.length; k += 1) {
       const section = pspart.sections[k];
       testSectionChaining(section);
-
-      // testSectionPowering(section);
+      testSectionPowering(section);
     }
 
     for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
@@ -205,9 +194,92 @@ describe('mySchemaChainRecalculation', () => {
     }
   }
 
-  describe('TestAllPSs', () => {
-    it('Should change section state', (done) => {
-      const pss = myDataModelNodes.GetAllPSsAsArray();
+  function SwitchOffAllConnectors(ps) {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        testSwitchSectionConnectorsOff(section);
+      }
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const connector = pspart.sec2secConnectors[l];
+        testSwitchConnectorOff(connector);
+      }
+    }
+  }
+
+  function SwitchOnAllConnectors(ps) {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        testSwitchSectionConnectorsOn(section);
+      }
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const connector = pspart.sec2secConnectors[l];
+        testSwitchConnectorOn(connector);
+      }
+    }
+  }
+
+  function UnpowerAllSections(ps) {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        testSectionPoweredOFF(section);
+      }
+    }
+  }
+
+  function PowerAllSections(ps) {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        testSectionPoweredON(section);
+      }
+    }
+  }
+
+  function CheckIfAllConnectorsAreUnpowered(ps) {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+        }
+      }
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const connector = pspart.sec2secConnectors[l];
+        expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+      }
+    }
+  }
+
+  function CheckIfAllConnectorsArePowered(ps) {
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          expect(connector.powered).to.equal(myNodeState.POWERED_ON);
+        }
+      }
+      for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
+        const connector = pspart.sec2secConnectors[l];
+        expect(connector.powered).to.equal(myNodeState.POWERED_ON);
+      }
+    }
+  }
+
+
+  describe('TestChainsForAllPSs', () => {
+
+    it('test all Sections', (done) => {
       for (let i = 0; i < pss.length; i += 1) {
         const ps = pss[i];
         testPS(ps);
@@ -215,9 +287,74 @@ describe('mySchemaChainRecalculation', () => {
 
       done();
     });
+
+    it('Unpower and disconnect all PSs', (done) => {
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        SwitchOffAllConnectors(ps);
+        UnpowerAllSections(ps);
+      }
+      MyChains.Recalculate();
+
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        CheckIfAllConnectorsAreUnpowered(ps);
+      }
+
+      done();
+    });
+
+    it('Unpower and connect all PSs', (done) => {
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        SwitchOnAllConnectors(ps);
+        UnpowerAllSections(ps);
+      }
+      MyChains.Recalculate();
+
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        CheckIfAllConnectorsAreUnpowered(ps);
+      }
+
+      done();
+    });
+
+    it('Power and disconnect all PSs', (done) => {
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        SwitchOffAllConnectors(ps);
+        UnpowerAllSections(ps);
+      }
+      MyChains.Recalculate();
+
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        CheckIfAllConnectorsAreUnpowered(ps);
+      }
+
+      done();
+    });
+
+    it('Power and connect all PSs', (done) => {
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        SwitchOnAllConnectors(ps);
+        PowerAllSections(ps);
+      }
+      MyChains.Recalculate();
+
+      for (let i = 0; i < pss.length; i += 1) {
+        const ps = pss[i];
+        CheckIfAllConnectorsArePowered(ps);
+      }
+
+      done();
+    });
   });
 
   after((done) => {
+    paramValuesProcessor.finalizeParamValuesProcessor();
     mongoose.connection.close(done);
   });
 });

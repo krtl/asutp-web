@@ -8,7 +8,7 @@ function MyNode(name, caption, description, nodeType) {
   this.parentNode = null;
   this.sapCode = '';
 
-  this.kTrust = -100;  // confidence coefficient
+  this.kTrust = -100; // confidence coefficient
   this.powered = myNodeState.POWERED_UNKNOWN;
   this.doOnPoweredStateChanged = (newPowered) => {
     if (this.poweredStateChangeHandler) {
@@ -37,8 +37,7 @@ function myNodeStringifyReplacer(key, value) {
   return value;
 }
 
-const MyNodeJsonSerialize = node => JSON.stringify(node, myNodeStringifyReplacer, 2);
+const MyNodeJsonSerialize = (node) => JSON.stringify(node, myNodeStringifyReplacer, 2);
 
 module.exports = MyNode;
 module.exports.MyNodeJsonSerialize = MyNodeJsonSerialize;
-

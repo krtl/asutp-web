@@ -4,7 +4,6 @@ const myNodeState = require('./myNodeState');
 
 
 class MyNodeLEP extends MyNode {
-
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.LEP);
     this.voltage = null;
@@ -92,11 +91,12 @@ class MyNodeLEP extends MyNode {
         this.chain.append(section.chain);
         section.chain = this.chain;
       }
-      this.chain.elements.push(this);
+      this.chain.connectedElements.push(this);
+    } else {
+      this.chain.disconnectedElements.push(this);
     }
 
     // lep2lep connectors should be processed externaly
-
   }
 }
 

@@ -5,7 +5,6 @@ const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 
 
 class MyNodePSPart extends MyNode {
-
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.PSPART);
     this.voltage = null;
@@ -18,16 +17,16 @@ class MyNodePSPart extends MyNode {
     let isPowered = false;
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
-      section.recalculatePoweredState();    // w/o sec2sec connectors
+      section.recalculatePoweredState(); // w/o sec2sec connectors
       section.setPoweredStateForConnectors();
     }
 
-      // Sec2Sec connectors
+    // Sec2Sec connectors
     for (let i = 0; i < this.sec2secConnectors.length; i += 1) {
       const sec2secConnector = this.sec2secConnectors[i];
       sec2secConnector.recalculatePoweredState();
       if (sec2secConnector.switchedOn) {
-          // connect sections throught ses2sec connector
+        // connect sections throught ses2sec connector
         for (let j = 0; j < this.sections.length; j += 1) {
           const section = this.sections[j];
           if ((sec2secConnector.fromSection === section) || (sec2secConnector.toSection === section)) {
@@ -69,21 +68,23 @@ class MyNodePSPart extends MyNode {
 
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
-      section.makeAChan();
+      section.makeAChain();
     }
 
-      // Sec2Sec connectors
+    // Sec2Sec connectors
     for (let i = 0; i < this.sec2secConnectors.length; i += 1) {
       const sec2secConnector = this.sec2secConnectors[i];
-      if (sec2secConnector.switchedOn) {
-          if ((sec2secConnector.fromSection !== null) && (sec2secConnector.toSection !== null)) {
-            sec2secConnector.fromSection.chain.append(sec2secConnector.toSection.chain);
-            sec2secConnector.toSection.chain = sec2secConnector.fromSection.chain;
-            sec2secConnector.fromSection.chain.elements.push(sec2secConnector);
-          }
-        }        
+      if ((sec2secConnector.fromSection !== null) && (sec2secConnector.toSection !== null)) {
+        if (sec2secConnector.switchedOn) {
+          sec2secConnector.fromSection.chain.append(sec2secConnector.toSection.chain);
+          sec2secConnector.toSection.chain = sec2secConnector.fromSection.chain;
+          sec2secConnector.fromSection.chain.connectedElements.push(sec2secConnector);
+        } else {
+          sec2secConnector.fromSection.chain.disconnectedElements.push(sec2secConnector);
+        }
       }
-      return chains;
+    }
+    return chains;
   }
 }
 

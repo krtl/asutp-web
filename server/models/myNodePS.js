@@ -60,13 +60,15 @@ class MyNodePS extends MyNode {
       }
 
       if (connectedSections.length > 1) {
-        const {chain} = connectedSections[0];
+        const { chain } = connectedSections[0];
         for (let k = 1; k < connectedSections.length; k += 1) {
           const section = connectedSections[k];
           chain.append(section.chain);
           section.chain = chain;
         }
-        chain.elements.push(transformer);
+        chain.connectedElements.push(transformer);
+      } else {
+        chain.disconnectedElements.push(transformer);
       }
     }
   }

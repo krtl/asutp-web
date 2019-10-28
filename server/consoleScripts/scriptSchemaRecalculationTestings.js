@@ -2,7 +2,7 @@ const chai = require('chai');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const expect = chai.expect;
+const { expect } = chai.expect;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 // const lastValues = require('../values/lastValues');
@@ -17,7 +17,7 @@ const config = require('../../config');
 let errs = 0;
 function setError(text) {
   errs += 1;
-//   logger.error(`[testSchemas] ${text}`);
+  //   logger.error(`[testSchemas] ${text}`);
   // eslint-disable-next-line no-console
   console.error(text);
 }
@@ -25,7 +25,7 @@ const start = moment();
 
 
 const init = ((done) => {
-    // plug in the promise library:
+  // plug in the promise library:
   mongoose.Promise = global.Promise;
 
   mongoose.connect(config.dbUri, {
@@ -452,9 +452,8 @@ function testPS(ps) {
 }
 
 function testLEP(lep) {
-
   // let b = ((lep.lep2lepConnectors.length + lep.lep2psConnectors.length) > 0);
-  let b = (lep.lep2psConnectors.length > 0);
+  const b = (lep.lep2psConnectors.length > 0);
   for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
     const connector = lep.lep2lepConnectors[i];
     connector.powered = myNodeState.POWERED_OFF;
@@ -473,7 +472,7 @@ function testLEP(lep) {
       expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
     } else {
       expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-    }    
+    }
   } catch {
     setError('');
   }
@@ -498,15 +497,15 @@ function testLEP(lep) {
       expect(lep.powered).to.equal(myNodeState.POWERED_ON);
     } else {
       expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-    }    
+    }
   } catch {
     setError('');
   }
 
 
-//.. other tests here  
+  // .. other tests here
 
-// switch off lep2lep connection to not affect of other leps
+  // switch off lep2lep connection to not affect of other leps
 
   resetSchema();
 
@@ -530,13 +529,13 @@ function resetSchema() {
         section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
         for (let l = 0; l < section.connectors.length; l += 1) {
           const connector = section.connectors[l];
-          switchConnectorOff(connector);          
+          switchConnectorOff(connector);
         }
       }
-    
+
       for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
         const connector = pspart.sec2secConnectors[l];
-        switchConnectorOff(connector);          
+        switchConnectorOff(connector);
       }
     }
   }
@@ -555,11 +554,9 @@ function resetSchema() {
       connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
     }
   }
-
 }
 
 function schemaTestPoweringThroughLep() {
-
   resetSchema();
 
   myDataModelNodes.RecalculateWholeShema();
@@ -576,10 +573,10 @@ function schemaTestPoweringThroughLep() {
     const lep = leps[i];
     expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
   }
-  
-  const connector = myDataModelNodes.GetNode('ps1part110sec1c2')
+
+  const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
   const section = myDataModelNodes.GetNode('ps1part110sec1');
-  
+
   connector.SetManualValue({ nodeName: 'ps1part110sec1c2', cmd: 'unblock', manualValue: 1 });
   section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 1 });
 
@@ -593,17 +590,14 @@ function schemaTestPoweringThroughLep() {
 
   const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
   switchSectionConnectorsOn(sec1);
-  
+
   myDataModelNodes.RecalculateWholeShema();
 
   expect(sec1.powered).to.equal(myNodeState.POWERED_ON);
-
-
 }
 
 
 function schemaTestPoweringThroughTransformer() {
-
   resetSchema();
 
   myDataModelNodes.RecalculateWholeShema();
@@ -621,10 +615,10 @@ function schemaTestPoweringThroughTransformer() {
     expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
   }
 
-  
-  const connector = myDataModelNodes.GetNode('ps1part110sec1c2')
+
+  const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
   const section = myDataModelNodes.GetNode('ps1part110sec1');
-  
+
   connector.SetManualValue({ nodeName: 'ps1part110sec1c2', cmd: 'unblock', manualValue: 1 });
   section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 0 });
 
@@ -660,7 +654,7 @@ function schemaTestPoweringThroughTransformer() {
 
   myDataModelNodes.RecalculateWholeShema();
   myDataModelNodes.RecalculateWholeShema();
-  
+
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
   expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
@@ -678,7 +672,7 @@ function schemaTestPoweringThroughTransformer() {
 
   myDataModelNodes.RecalculateWholeShema();
   myDataModelNodes.RecalculateWholeShema();
- 
+
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep2.powered).to.equal(myNodeState.POWERED_OFF);
@@ -688,8 +682,6 @@ function schemaTestPoweringThroughTransformer() {
   expect(sec1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec3.powered).to.equal(myNodeState.POWERED_OFF);
-
-
 }
 
 
@@ -705,13 +697,12 @@ init(() => {
   }
 
 
-
   const leps = myDataModelNodes.GetAllLEPsAsArray();
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
     lep.powered = myNodeState.POWERED_OFF;
   }
-  
+
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
     testLEP(lep);
@@ -730,7 +721,7 @@ init(() => {
     if (errs === 0) {
     // logger.info(`[testSchemas] done in ${moment(duration).format('mm:ss.SSS')}`);
 
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.debug(`[testSchemas] done in ${moment(duration).format('mm:ss.SSS')}`);
     } else {
     // res = `loading nodes failed with ${errs} errors!`;

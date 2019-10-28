@@ -6,12 +6,12 @@ const async = require('async');
 const events = require('events');
 const logger = require('../logger');
 const config = require('../../config');
-const MyNodeJsonSerialize = require('./myNode').MyNodeJsonSerialize;
+const { MyNodeJsonSerialize } = require('./myNode');
 
 const myNodeType = require('./myNodeType');
 
-const DbUser = require('../dbmodels/authUser');  // eslint-disable-line global-require
-const DbParam = require('../dbmodels/param');  // eslint-disable-line global-require
+const DbUser = require('../dbmodels/authUser'); // eslint-disable-line global-require
+const DbParam = require('../dbmodels/param'); // eslint-disable-line global-require
 
 const DbNode = require('../dbmodels/node');
 const DbNodeRegion = require('../dbmodels/nodeRegion');
@@ -61,7 +61,7 @@ const Regions = new Map();
 const LEPs = new Map();
 const PSs = new Map();
 const nodeSchemas = new Map();
-const psSchemas = new Map();  // temporary
+const psSchemas = new Map(); // temporary
 
 const Shema = [
   [ DbNodeRegion, MyNodeRegion ],
@@ -173,8 +173,8 @@ function loadParams(cb) {
     if (err) return cb(err);
     prms.forEach((prm) => {
       const p = new MyParam(prm.name,
-         prm.caption,
-         prm.description);
+        prm.caption,
+        prm.description);
       params.set(prm.name, p);
     });
     return cb();
@@ -217,7 +217,8 @@ function loadNodesFromDB(schemeElement, cb) {
           const p = new MyNodeObj(
             locNode.name,
             locNode.caption,
-            locNode.description);
+            locNode.description,
+          );
           p.parentNode = locParentNode;
           p.nodeType = DbNodeObj.nodeType;
           p.sapCode = locNode.sapCode;
@@ -337,7 +338,7 @@ function ExportPSs(callback) {
 }
 
 function replaceNamesWithObjects(callback) {
-    // linking names to objects
+  // linking names to objects
   async.each(Shema, (schemeElement, callback) => {
     const DbNodeObj = schemeElement[0];
     let err = null;
@@ -352,7 +353,7 @@ function replaceNamesWithObjects(callback) {
             const hasProperty = pName in locNode;
             if (hasProperty) {
               if (nodes.has(locNode[pName])) {
-                const nodeItem = locNode;  // unwarn eslint
+                const nodeItem = locNode; // unwarn eslint
                 nodeItem[pName] = nodes.get(locNode[pName]);
               } else {
                 err = `Cannot convert Name to Object on "${locNode.name}". Node Ojbect "${locNode[pName]}" does not exists in loaded nodes!`;
@@ -371,7 +372,7 @@ function replaceNamesWithObjects(callback) {
     if (err) {
       // setError(`replacing failed: ${err}`);
     } else {
-        //
+      //
     }
     callback(err);
   }, (err) => {
@@ -646,8 +647,8 @@ function checkIntegrity(cb) {
         case 2: {
           if (locPSPart.sec2secConnectors.length === 1) {
             const sec2secCon = locPSPart.sec2secConnectors[0];
-            if (!(((sec2secCon.fromSection === locPSPart.sections[0]) && (sec2secCon.toSection === locPSPart.sections[1])) ||
-            ((sec2secCon.fromSection === locPSPart.sections[1]) && (sec2secCon.toSection === locPSPart.sections[0])))) {
+            if (!(((sec2secCon.fromSection === locPSPart.sections[0]) && (sec2secCon.toSection === locPSPart.sections[1]))
+            || ((sec2secCon.fromSection === locPSPart.sections[1]) && (sec2secCon.toSection === locPSPart.sections[0])))) {
               setError(`Integrity checking error: No section to section connector found for "${locPSPart.sections[0].name}" and "${locPSPart.sections[1].name}" on PS "${locPS.name}"..`);
             }
           }
@@ -738,7 +739,7 @@ function linkParamNamesToNodes(cb) {
           setError(`Node "${locNode.name}" has no property "${dbNodeLinkage.paramPropName}"!`);
         }
       } else {
-          // node does not exist
+        // node does not exist
         const s = `create myNode Error: DbNode "${dbNodeLinkage.nodeName}" does not exists!`;
         setWarning(s);
       }
@@ -870,7 +871,7 @@ function restoreLastStateValues(callback) {
 }
 
 
-const GetNode = nodeName => nodes.get(nodeName);
+const GetNode = (nodeName) => nodes.get(nodeName);
 
 const GetNodeSchemas = () => Array.from(nodeSchemas.values());
 const GetRegions = () => Array.from(Regions.values());
@@ -902,7 +903,7 @@ const getNodeForScheme = (nodes) => {
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
-    locNode.caption = node.kTrust;  // temporary for debugging
+    locNode.caption = node.kTrust; // temporary for debugging
     locNode.schemaNames = undefined;
     resultNodes.push(locNode);
   }
@@ -984,13 +985,13 @@ const getSchema1 = (schemaName, callback) => {
     for (let j = 0; j < wires.length; j += 1) {
       const wire = wires[j];
       if (wire.nodeFrom === node.name) {
-        const locNode = nodes.find(nde => (nde.name === wire.nodeTo));
+        const locNode = nodes.find((nde) => (nde.name === wire.nodeTo));
         if (locNode) {
           node.peers.push(locNode);
         }
       }
       if (wire.nodeTo === node.name) {
-        const locNode = nodes.find(nde => (nde.name === wire.nodeFrom));
+        const locNode = nodes.find((nde) => (nde.name === wire.nodeFrom));
         if (locNode) {
           node.peers.push(locNode);
         }
@@ -1373,7 +1374,7 @@ const getPSSchema1 = (psName, callback) => {
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
-    locNode.caption = node.kTrust;  // temporary for debugging
+    locNode.caption = node.kTrust; // temporary for debugging
     locNode.schemaNames = undefined;
     return locNode;
   };
@@ -1483,7 +1484,7 @@ const getPSSchema1 = (psName, callback) => {
   const sectionsLine1 = [];
   const sectionsLine2 = [];
   const sectionsLine3 = [];
-    // const paramNames = [];
+  // const paramNames = [];
 
   for (let i = 0; i < ps.transformers.length; i += 1) {
     const transformer = ps.transformers[i];
@@ -1526,7 +1527,7 @@ const getPSSchema1 = (psName, callback) => {
 
   for (let i = 0; i < ps.psparts.length; i += 1) {
     const pspart = ps.psparts[i];
-      // locNodes.push(pspart);
+    // locNodes.push(pspart);
     for (let j = 0; j < pspart.sections.length; j += 1) {
       const section = pspart.sections[j];
       const section1 = getNewNodeForScheme(section);
@@ -1630,7 +1631,7 @@ const getPSSchema1 = (psName, callback) => {
           locNode.parentNode = undefined;
           locNode.description = undefined;
           locNode.kTrust = undefined;
-          locNode.caption = lep.kTrust;  // temporary for debugging
+          locNode.caption = lep.kTrust; // temporary for debugging
           locNode.schemaNames = undefined;
           locNode.x = connector1.x;
           locNode.y = connector1.y;
@@ -1691,11 +1692,11 @@ const getPSSchema1 = (psName, callback) => {
       wire1.nodeTo = sec2secConnector.toSection.name;
       wires.push(wire1);
 
-        // if (MyNodePropNameParamRole.POWER in connector) {
-        //   if (connector[MyNodePropNameParamRole.POWER] !== '') {
-        //     pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
-        //   }
-        // }
+      // if (MyNodePropNameParamRole.POWER in connector) {
+      //   if (connector[MyNodePropNameParamRole.POWER] !== '') {
+      //     pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
+      //   }
+      // }
 
       for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
         const equipment = sec2secConnector.equipments[m];
@@ -1753,7 +1754,9 @@ const getPSSchema = (psName, callback) => {
 const getNodeSchemeCoordinates = (schemaName, callback) => {
   DbNodeCoordinates
     .find({ schemaName })
-    .select({ nodeName: 1, x: 1, y: 1, _id: 0 })
+    .select({
+      nodeName: 1, x: 1, y: 1, _id: 0,
+    })
     .limit(10000)
     .exec((err, schemaNodes) => {
       callback(err, schemaNodes);
@@ -1788,7 +1791,7 @@ const GetSchema = (schemaName, callback) => {
     }
 
 
-//    console.log(result.schema, result.coordinates);
+    //    console.log(result.schema, result.coordinates);
 
     callback(null, result.schema);
   });
@@ -1822,7 +1825,7 @@ const GetPSSchema = (psName, callback) => {
     }
 
 
-//    console.log(result.schema, result.coordinates);
+    //    console.log(result.schema, result.coordinates);
 
     callback(null, result.schema);
   });
@@ -2070,9 +2073,11 @@ const GetAvailableSchemas = (userName) => {
   if (userName === '') { // temporary!
     for (let j = 0; j < locSchemas.length; j += 1) {
       const value = locSchemas[j];
-      result.push({ name: value.name,
+      result.push({
+        name: value.name,
         caption: value.caption,
-        description: value.description });
+        description: value.description,
+      });
     }
   } else if (users.has(userName)) {
     const locMight = users.get(userName);
@@ -2109,7 +2114,7 @@ const GetPSSchemaParamNames = (schemaName) => {
   return [];
 };
 
-const GetParam = paramName => params.get(paramName);
+const GetParam = (paramName) => params.get(paramName);
 const GetAllParamsAsArray = () => Array.from(params.values());
 const GetAllPSsAsArray = () => Array.from(PSs.values());
 const GetAllLEPsAsArray = () => Array.from(LEPs.values());
