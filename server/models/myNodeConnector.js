@@ -6,7 +6,6 @@ const lastValues = require('../values/lastValues');
 
 
 class MyNodeConnector extends MyNode {
-
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.SEC2SECCONNECTOR);
     this.cellNumber = '';

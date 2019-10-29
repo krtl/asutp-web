@@ -8,7 +8,7 @@ const paramValuesProcessor = require('../values/paramValuesProcessor');
 // const lastValues = require('../values/lastValues');
 // const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
-const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
+// const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
 const MyChains = require('../models/myChains');
 
 

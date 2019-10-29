@@ -1,17 +1,16 @@
 const myNodeType = require('./myNodeType');
-const MyNode = require('./myNode');
+const MyNodeChainHolder = require('./myNodeChainHolder');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
 const lastValues = require('../values/lastValues');
 const myNodeState = require('./myNodeState');
 const MyChain = require('./myChain');
 
 
-class MyNodeSection extends MyNode {
+class MyNodeSection extends MyNodeChainHolder {
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.SECTION);
     this[MyNodePropNameParamRole.VOLTAGE] = '';
     this.connectors = [];
-    this.chain = null;
   }
 
   SetManualValue(manualValue) {
@@ -57,7 +56,7 @@ class MyNodeSection extends MyNode {
 
   makeAChain() {
     this.chain = new MyChain();
-    this.chain.sections.push(this);
+    this.chain.holders.push(this);
     for (let i = 0; i < this.connectors.length; i += 1) {
       const connector = this.connectors[i];
       if (connector.getSwitchedOn()) {

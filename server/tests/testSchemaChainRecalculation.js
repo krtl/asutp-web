@@ -6,17 +6,14 @@ const mongoose = require('mongoose');
 const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
-const lastValues = require('../values/lastValues');
-const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
-const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
 const MyChains = require('../models/myChains');
 
 
 const config = require('../../config');
 
 let pss = [];
-let leps = [];
+// let leps = [];
 
 
 describe('mySchemaChainRecalculation', () => {
@@ -43,7 +40,7 @@ describe('mySchemaChainRecalculation', () => {
         paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: false, useDbValueTracker: false });
 
         pss = myDataModelNodes.GetAllPSsAsArray();
-        leps = myDataModelNodes.GetAllLEPsAsArray();
+        // leps = myDataModelNodes.GetAllLEPsAsArray();
 
         done();
       });
@@ -88,13 +85,13 @@ describe('mySchemaChainRecalculation', () => {
 
     testSwitchSectionConnectorsOff(section);
     section.makeAChain();
-    expect(section.chain.sections.length).to.equal(1);
+    expect(section.chain.holders.length).to.equal(1);
     expect(section.chain.connectedElements.length).to.equal(0);
     expect(section.chain.disconnectedElements.length).to.equal(section.connectors.length);
 
     testSwitchSectionConnectorsOn(section);
     section.makeAChain();
-    expect(section.chain.sections.length).to.equal(1);
+    expect(section.chain.holders.length).to.equal(1);
     expect(section.chain.connectedElements.length).to.equal(section.connectors.length);
     expect(section.chain.disconnectedElements.length).to.equal(0);
 

@@ -1,15 +1,14 @@
 const myNodeType = require('./myNodeType');
-const MyNode = require('./myNode');
+const MyNodeChainHolder = require('./myNodeChainHolder');
 const MyChain = require('./myChain');
 
 
-class MyNodeLEP extends MyNode {
+class MyNodeLEP extends MyNodeChainHolder {
   constructor(name, caption, description) {
     super(name, caption, description, myNodeType.LEP);
     this.voltage = null;
     this.lep2lepConnectors = [];
     this.lep2psConnectors = [];
-    this.chain = null;
   }
 
   makeChains() {
@@ -26,13 +25,14 @@ class MyNodeLEP extends MyNode {
 
     if (connectedSections.length > 0) {
       this.chain = connectedSections[0].chain;
-      this.chain.connectedElements.push(this);
+      if (this.chain.holders.indexOf(this) < 0) {
+        this.chain.holders.push(this);
+      }
 
       if (connectedSections.length > 1) {
         for (let k = 1; k < connectedSections.length; k += 1) {
           const section = connectedSections[k];
-          this.chain.append(section.chain);
-          section.chain = this.chain;
+          this.chain.join(section.chain);
         }
       }
     }
@@ -40,7 +40,7 @@ class MyNodeLEP extends MyNode {
     // this is for setting powering to unknown.
     if (this.chain === null) {
       this.chain = new MyChain();
-      this.chain.connectedElements.push(this);
+      this.chain.holders.push(this);
     }
 
 

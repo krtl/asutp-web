@@ -23,9 +23,8 @@ class MyNodePSPart extends MyNode {
       const sec2secConnector = this.sec2secConnectors[i];
       if ((sec2secConnector.fromSection !== null) && (sec2secConnector.toSection !== null)) {
         if (sec2secConnector.switchedOn) {
-          sec2secConnector.fromSection.chain.append(sec2secConnector.toSection.chain);
-          sec2secConnector.toSection.chain = sec2secConnector.fromSection.chain;
           sec2secConnector.fromSection.chain.connectedElements.push(sec2secConnector);
+          sec2secConnector.fromSection.chain.join(sec2secConnector.toSection.chain);
         } else {
           sec2secConnector.fromSection.chain.disconnectedElements.push(sec2secConnector);
         }

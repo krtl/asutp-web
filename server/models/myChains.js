@@ -2,6 +2,7 @@ const logger = require('../logger');
 const myDataModelNodes = require('../models/myDataModelNodes');
 const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
 const myNodeState = require('../models/myNodeState');
+const MyNodeSection = require('../models/myNodeSection');
 
 let chains = [];
 
@@ -12,7 +13,6 @@ function setError(text) {
   // eslint-disable-next-line no-console
   console.error(text);
 }
-
 
 function Recalculate() {
   // making
@@ -37,8 +37,7 @@ function Recalculate() {
       if (connector.toNode) {
         const lep2 = connector.toNode;
         // if (connector.switchedOn) {
-        lep2.chain.append(lep1.chain);
-        lep1.chain.connectedElements.push(connector);
+        lep1.chain.join(lep2.chain);
       }
     }
   }
@@ -72,20 +71,22 @@ function Recalculate() {
     errs = 0;
 
     const trustedSections = [];
-    for (let j = 0; j < chain.sections.length; j += 1) {
-      const section = chain.sections[j];
-      section.updatePoweredState();
+    for (let j = 0; j < chain.holders.length; j += 1) {
+      const holder = chain.holders[j];
       let trusted = false;
-      if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-        if (section.powered !== myNodeState.POWERED_UNKNOWN) {
-          trustedSections.push(section);
-          trusted = true;
+      if (holder instanceof MyNodeSection) {
+        const section = holder;
+        section.updatePoweredState();
+        if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
+          if (section.powered !== myNodeState.POWERED_UNKNOWN) {
+            trustedSections.push(section);
+            trusted = true;
+          }
         }
       }
-
       if (!trusted) {
-        section.kTrust = 0;
-        chain.connectedElements.push(section);
+        holder.kTrust = 0;
+        chain.connectedElements.push(holder);
       }
     }
     if (trustedSections.length > 0) {
@@ -99,9 +100,9 @@ function Recalculate() {
       }
     } else {
       chain.powered = myNodeState.POWERED_UNKNOWN;
-      for (let j = 0; j < chain.sections.length; j += 1) {
-        const section = chain.sections[j];
-        section.powered = myNodeState.POWERED_UNKNOWN;
+      for (let j = 0; j < chain.holders.length; j += 1) {
+        const holder = chain.holders[j];
+        holder.powered = myNodeState.POWERED_UNKNOWN;
       }
     }
 

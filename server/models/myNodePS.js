@@ -37,9 +37,7 @@ class MyNodePS extends MyNode {
         const { chain } = section1;
         for (let k = 1; k < connectedSections.length; k += 1) {
           const section2 = connectedSections[k];
-          chain.append(section2.chain);
-          section2.chain = chain;
-          section1.chain = chain;
+          chain.join(section2.chain);
         }
         chain.connectedElements.push(transformer);
       } else if (connectedSections.length === 1) {

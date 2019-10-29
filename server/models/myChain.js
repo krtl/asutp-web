@@ -1,4 +1,5 @@
 const myNodeState = require('./myNodeState');
+// const MyChains = require('../models/myChains');
 // const MyNode = require('./myNode');
 
 function concatNonExisted(array1, array2) {
@@ -11,15 +12,21 @@ function concatNonExisted(array1, array2) {
 }
 
 function MyChain() {
-  this.sections = [];
+  this.holders = [];
   this.connectedElements = [];
   this.disconnectedElements = [];
   this.powered = myNodeState.POWERED_UNKNOWN;
 
-  this.append = (chain) => {
-    concatNonExisted(this.sections, chain.sections);
+  this.join = (chain) => {
+    concatNonExisted(this.holders, chain.holders);
     concatNonExisted(this.connectedElements, chain.connectedElements);
     concatNonExisted(this.disconnectedElements, chain.disconnectedElements);
+
+    // relinking holders
+    for (let i = 0; i < this.holders.length; i += 1) {
+      const holder = this.holders[i];
+      holder.chain = this;
+    }
   };
 }
 
