@@ -2,13 +2,14 @@ const chai = require('chai');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-const { expect } = chai.expect;
+const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
 // const lastValues = require('../values/lastValues');
 // const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
 const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
+const MyChains = require('../models/myChains');
 
 
 const config = require('../../config');
@@ -28,8 +29,12 @@ const init = ((done) => {
   // plug in the promise library:
   mongoose.Promise = global.Promise;
 
+  mongoose.set('useNewUrlParser', true);
+  mongoose.set('useFindAndModify', false);
+  mongoose.set('useCreateIndex', true);
+  mongoose.set('useUnifiedTopology', true);
+
   mongoose.connect(config.dbUri, {
-    useMongoClient: true,
     autoIndex: process.env.NODE_ENV !== 'production',
   });
 
@@ -94,43 +99,6 @@ function switchSectionTransofrmerConnectorsOff(section) {
   }
 }
 
-function unpowerExternalLepsForSection(section) {
-  for (let l = 0; l < section.connectors.length; l += 1) {
-    const connector = section.connectors[l];
-    if (connector.lep2PsConnector) {
-      const lep = connector.lep2PsConnector.parentNode;
-      lep.powered = myNodeState.POWERED_OFF;
-    }
-  }
-}
-
-function powerExternalLepsForSection(section) {
-  for (let l = 0; l < section.connectors.length; l += 1) {
-    const connector = section.connectors[l];
-    if (connector.lep2PsConnector) {
-      const lep = connector.lep2PsConnector.parentNode;
-      lep.powered = myNodeState.POWERED_ON;
-    }
-  }
-}
-
-function unpowerExternalLeps(ps) {
-  for (let i = 0; i < ps.psparts.length; i += 1) {
-    const pspart = ps.psparts[i];
-    for (let k = 0; k < pspart.sections.length; k += 1) {
-      const section = pspart.sections[k];
-      for (let l = 0; l < section.connectors.length; l += 1) {
-        const connector = section.connectors[l];
-        if (connector.lep2PsConnector) {
-          const lep = connector.lep2PsConnector.parentNode;
-          lep.powered = myNodeState.POWERED_OFF;
-        }
-      }
-    }
-  }
-}
-
-
 function testConnector(connector) {
   expect(connector).to.be.an('object');
 
@@ -138,93 +106,52 @@ function testConnector(connector) {
   switchConnectorOff(connector);
 }
 
+function PowerSection(section) {
+  expect(section).to.be.an('object');
+  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 110 });
+  section.updatePoweredState();
+  expect(section.powered, section.name).to.equal(myNodeState.POWERED_ON);
+}
+
+function UnpowerSection(section) {
+  expect(section).to.be.an('object');
+  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
+  section.updatePoweredState();
+  expect(section.powered).to.equal(myNodeState.POWERED_OFF);
+}
+
 function testSection(section) {
   expect(section).to.be.an('object');
+  PowerSection(section);
+  UnpowerSection(section);
+}
 
-  for (let l = 0; l < section.connectors.length; l += 1) {
-    const connector = section.connectors[l];
-    testConnector(connector);
-  }
-
-  if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    switchSectionConnectorsOn(section);
-    switchSectionTransofrmerConnectorsOn(section);
-    section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 1 });
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_ON);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_ON);
-    }
-    section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
-    switchSectionConnectorsOff(section);
-    switchSectionTransofrmerConnectorsOff(section);
-    section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 1 });
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_ON);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
-  } else {
-    powerExternalLepsForSection(section);
-    switchSectionTransofrmerConnectorsOff(section);
-    switchSectionConnectorsOn(section);
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_ON);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      if (!connector.transformerConnector) {
-        expect(connector.powered).to.equal(myNodeState.POWERED_ON);
+function CheckIfPsIsPowered(ps, poweredState) {
+  let thereIsAtrustedSection = false;
+  for (let j = 0; j < ps.psparts.length; j += 1) {
+    const pspart = ps.psparts[j];
+    for (let k = 0; k < pspart.sections.length; k += 1) {
+      const section = pspart.sections[k];
+      if (section.powered === myNodeState.POWERED_UNKNOWN) {
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          expect(connector.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+        }
       } else {
-        expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
+        for (let l = 0; l < section.connectors.length; l += 1) {
+          const connector = section.connectors[l];
+          expect(connector.powered).to.equal(poweredState);
+          thereIsAtrustedSection = true;
+        }
       }
     }
-    switchSectionConnectorsOff(section);
-    switchSectionTransofrmerConnectorsOff(section);
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
-
-    unpowerExternalLepsForSection(section);
-    switchSectionConnectorsOn(section);
-    switchSectionTransofrmerConnectorsOn(section);
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
-
-    switchSectionConnectorsOff(section);
-    switchSectionTransofrmerConnectorsOff(section);
-    section.recalculatePoweredState();
-    section.setPoweredStateForConnectors();
-    expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-    for (let l = 0; l < section.connectors.length; l += 1) {
-      const connector = section.connectors[l];
-      expect(connector.powered).to.equal(myNodeState.POWERED_OFF);
-    }
   }
-  // } else {
-  //   section.recalculatePoweredState();
-  //   expect(section.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-  // }
+
+  if (thereIsAtrustedSection) {
+    expect(ps.powered, ps.name).to.equal(poweredState);
+  } else {
+    expect(ps.powered, ps.name).to.equal(myNodeState.POWERED_UNKNOWN);
+  }
 }
 
 function getsectionLep(section) {
@@ -244,187 +171,13 @@ function testSec2SecConnector(sec2secConnector) {
 
   testConnector(sec2secConnector);
 
-  expect(sec2secConnector.fromSection).to.be.an('object');
-  expect(sec2secConnector.toSection).to.be.an('object');
-
-  const lep1 = getsectionLep(sec2secConnector.fromSection);
-  const lep2 = getsectionLep(sec2secConnector.toSection);
-  expect(lep1).to.be.an('object');
-  expect(lep2).to.be.an('object');
-
-  switchSectionConnectorsOn(sec2secConnector.fromSection);
-  switchSectionConnectorsOn(sec2secConnector.toSection);
-
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.fromSection.SetManualValue({ nodeName: sec2secConnector.fromSection.name, cmd: 'unblock', manualValue: 0 });
-  } else {
-    lep1.powered = myNodeState.POWERED_OFF;
-  }
-  if (sec2secConnector.toSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.toSection.SetManualValue({ nodeName: sec2secConnector.toSection.name, cmd: 'unblock', manualValue: 0 });
-  } else {
-    lep2.powered = myNodeState.POWERED_OFF;
-  }
-
-  switchConnectorOff(sec2secConnector);
-  ps.recalculatePoweredState();
-  expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_OFF);
-  expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_OFF);
-  expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_OFF);
-  switchConnectorOn(sec2secConnector);
-  ps.recalculatePoweredState();
-  expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_OFF);
-
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.fromSection.SetManualValue({ nodeName: sec2secConnector.fromSection.name, cmd: 'unblock', manualValue: 1 });
-  } else {
-    lep1.powered = myNodeState.POWERED_ON;
-  }
-  if (sec2secConnector.toSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.toSection.SetManualValue({ nodeName: sec2secConnector.toSection.name, cmd: 'unblock', manualValue: 0 });
-  } else {
-    lep2.powered = myNodeState.POWERED_OFF;
-  }
-
-  switchConnectorOn(sec2secConnector);
-  ps.recalculatePoweredState();
-  expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_OFF);
-  } else {
-    expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_ON);
-  }
-  expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_ON);
-
-
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.fromSection.SetManualValue({ nodeName: sec2secConnector.fromSection.name, cmd: 'unblock', manualValue: 0 });
-  } else {
-    lep1.powered = myNodeState.POWERED_OFF;
-  }
-  if (sec2secConnector.toSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.toSection.SetManualValue({ nodeName: sec2secConnector.toSection.name, cmd: 'unblock', manualValue: 1 });
-  } else {
-    lep2.powered = myNodeState.POWERED_ON;
-  }
-
-  switchConnectorOn(sec2secConnector);
-  ps.recalculatePoweredState();
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_OFF);
-  } else {
-    expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
-  }
-  expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_ON);
-
-
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.fromSection.SetManualValue({ nodeName: sec2secConnector.fromSection.name, cmd: 'unblock', manualValue: 0 });
-  } else {
-    lep1.powered = myNodeState.POWERED_OFF;
-  }
-  if (sec2secConnector.toSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.toSection.SetManualValue({ nodeName: sec2secConnector.toSection.name, cmd: 'unblock', manualValue: 1 });
-  } else {
-    lep2.powered = myNodeState.POWERED_ON;
-  }
-
-  switchConnectorOff(sec2secConnector);
-  ps.recalculatePoweredState();
-  expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_OFF);
-  expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_ON);
-  expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_OFF);
-
-  if (sec2secConnector.fromSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.fromSection.SetManualValue({ nodeName: sec2secConnector.fromSection.name, cmd: 'unblock', manualValue: 1 });
-  } else {
-    lep1.powered = myNodeState.POWERED_ON;
-  }
-  if (sec2secConnector.toSection[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    sec2secConnector.toSection.SetManualValue({ nodeName: sec2secConnector.toSection.name, cmd: 'unblock', manualValue: 0 });
-  } else {
-    lep2.powered = myNodeState.POWERED_OFF;
-  }
-
-  switchConnectorOff(sec2secConnector);
-  ps.recalculatePoweredState();
-  expect(sec2secConnector.fromSection.powered).to.equal(myNodeState.POWERED_ON);
-  expect(sec2secConnector.toSection.powered).to.equal(myNodeState.POWERED_OFF);
-  expect(sec2secConnector.powered).to.equal(myNodeState.POWERED_OFF);
+  //
 }
 
 function testTransformer(transformer) {
   const ps = transformer.parentNode;
 
-  for (let i = 0; i < ps.psparts.length; i += 1) {
-    const pspart = ps.psparts[i];
-    for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
-      const sec2secConnector = pspart.sec2secConnectors[l];
-      switchConnectorOff(sec2secConnector);
-    }
-  }
-
-  for (let i = 0; i < transformer.transConnectors.length; i += 1) {
-    const transConnector = transformer.transConnectors[i];
-    const section = transConnector.toConnector.parentNode;
-    const pspart = section.parentNode;
-    switchSectionTransofrmerConnectorsOn(section);
-    if (pspart.inputNotOutput) {
-      switchConnectorOn(transConnector.toConnector);
-      if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-        section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 1 });
-      } else {
-        powerExternalLepsForSection(section);
-        switchSectionConnectorsOn(section);
-      }
-    } else {
-      switchSectionConnectorsOff(section);
-    }
-  }
-
-  ps.recalculatePoweredState();
-
-  for (let i = 0; i < transformer.transConnectors.length; i += 1) {
-    const transConnector = transformer.transConnectors[i];
-    const section = transConnector.toConnector.parentNode;
-    const pspart = section.parentNode;
-    if (!pspart.inputNotOutput) {
-      if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
-        expect(section.powered).to.equal(myNodeState.POWERED_ON);
-      }
-    }
-  }
-
-  for (let i = 0; i < transformer.transConnectors.length; i += 1) {
-    const transConnector = transformer.transConnectors[i];
-    const section = transConnector.toConnector.parentNode;
-    const pspart = section.parentNode;
-    switchSectionTransofrmerConnectorsOff(section);
-    if (pspart.inputNotOutput) {
-      switchConnectorOn(transConnector.toConnector);
-      if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-        section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 1 });
-      } else {
-        powerExternalLepsForSection(section);
-        switchSectionConnectorsOn(section);
-      }
-    } else {
-      switchSectionConnectorsOff(section);
-    }
-  }
-
-  ps.recalculatePoweredState();
-
-  for (let i = 0; i < transformer.transConnectors.length; i += 1) {
-    const transConnector = transformer.transConnectors[i];
-    const section = transConnector.toConnector.parentNode;
-    const pspart = section.parentNode;
-    if (!pspart.inputNotOutput) {
-      if (section[MyNodePropNameParamRole.VOLTAGE] === '') {
-        expect(section.powered).to.equal(myNodeState.POWERED_OFF);
-      }
-    }
-  }
+  //
 }
 
 function testPSPart(pspart) {
@@ -452,69 +205,7 @@ function testPS(ps) {
 }
 
 function testLEP(lep) {
-  // let b = ((lep.lep2lepConnectors.length + lep.lep2psConnectors.length) > 0);
-  const b = (lep.lep2psConnectors.length > 0);
-  for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
-    const connector = lep.lep2lepConnectors[i];
-    connector.powered = myNodeState.POWERED_OFF;
-    connector.toNode.powered = myNodeState.POWERED_OFF;
-  }
-  for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
-    const connector = lep.lep2psConnectors[i];
-    connector.powered = myNodeState.POWERED_OFF;
-    connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
-    connector.toNodeConnector.switchedOn = true;
-  }
-
-  lep.recalculatePoweredState(false);
-  try {
-    if (b) {
-      expect(lep.powered).to.equal(myNodeState.POWERED_OFF);
-    } else {
-      expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-    }
-  } catch {
-    setError('');
-  }
-
-  for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
-    const connector = lep.lep2psConnectors[i];
-    connector.powered = myNodeState.POWERED_ON;
-
-    // const section = connector.toNodeConnector.parentNode;
-    // if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-    //   connector.toNodeConnector.powered = myNodeState.POWERED_ON;
-    //   b = true;
-    // } else {
-    //   connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
-    // }
-  }
-
-  lep.recalculatePoweredState(false);
-
-  try {
-    if (b) {
-      expect(lep.powered).to.equal(myNodeState.POWERED_ON);
-    } else {
-      expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-    }
-  } catch {
-    setError('');
-  }
-
-
-  // .. other tests here
-
-  // switch off lep2lep connection to not affect of other leps
-
-  resetSchema();
-
-  lep.recalculatePoweredState(false);
-  try {
-    expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-  } catch {
-    setError('');
-  }
+  //
 }
 
 
@@ -540,87 +231,53 @@ function resetSchema() {
     }
   }
 
+  MyChains.Recalculate();
+
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+    CheckIfPsIsPowered(ps, myNodeState.POWERED_OFF);
+  }
+
   const leps = myDataModelNodes.GetAllLEPsAsArray();
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
-    for (let i = 0; i < lep.lep2lepConnectors.length; i += 1) {
-      const connector = lep.lep2lepConnectors[i];
-      connector.powered = myNodeState.POWERED_OFF;
-      connector.toNode.powered = myNodeState.POWERED_OFF;
-    }
-    for (let i = 0; i < lep.lep2psConnectors.length; i += 1) {
-      const connector = lep.lep2psConnectors[i];
-      connector.powered = myNodeState.POWERED_OFF;
-      connector.toNodeConnector.powered = myNodeState.POWERED_OFF;
-    }
+    expect(lep.powered, lep.name).to.equal(myNodeState.POWERED_UNKNOWN);
   }
 }
 
 function schemaTestPoweringThroughLep() {
   resetSchema();
 
-  myDataModelNodes.RecalculateWholeShema();
-
-
-  const pss = myDataModelNodes.GetAllPSsAsArray();
-  for (let i = 0; i < pss.length; i += 1) {
-    const ps = pss[i];
-    expect(ps.powered).to.equal(myNodeState.POWERED_OFF);
-  }
-
-  const leps = myDataModelNodes.GetAllLEPsAsArray();
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-  }
-
   const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
   const section = myDataModelNodes.GetNode('ps1part110sec1');
 
-  connector.SetManualValue({ nodeName: 'ps1part110sec1c2', cmd: 'unblock', manualValue: 1 });
-  section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 1 });
+  switchConnectorOn(connector);
+  PowerSection(section);
 
-  myDataModelNodes.RecalculateWholeShema();
-  myDataModelNodes.RecalculateWholeShema();
+  MyChains.Recalculate();
 
   const lep1 = myDataModelNodes.GetNode('lep110_1');
-  expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep1.powered, lep1.name).to.equal(myNodeState.POWERED_ON);
   const lep2 = myDataModelNodes.GetNode('lep110_2');
-  expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep2.powered, lep2.name).to.equal(myNodeState.POWERED_ON);
 
   const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
   switchSectionConnectorsOn(sec1);
 
-  myDataModelNodes.RecalculateWholeShema();
+  MyChains.Recalculate();
 
-  expect(sec1.powered).to.equal(myNodeState.POWERED_ON);
+  expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_ON);
 }
 
 
 function schemaTestPoweringThroughTransformer() {
   resetSchema();
 
-  myDataModelNodes.RecalculateWholeShema();
-
-
-  const pss = myDataModelNodes.GetAllPSsAsArray();
-  for (let i = 0; i < pss.length; i += 1) {
-    const ps = pss[i];
-    expect(ps.powered).to.equal(myNodeState.POWERED_OFF);
-  }
-
-  const leps = myDataModelNodes.GetAllLEPsAsArray();
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    expect(lep.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-  }
-
-
   const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
   const section = myDataModelNodes.GetNode('ps1part110sec1');
 
-  connector.SetManualValue({ nodeName: 'ps1part110sec1c2', cmd: 'unblock', manualValue: 1 });
-  section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 0 });
+  switchConnectorOn(connector);
+  UnpowerSection(section);
 
   const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
   const sec2 = myDataModelNodes.GetNode('ps4part35sec1');
@@ -638,7 +295,7 @@ function schemaTestPoweringThroughTransformer() {
   switchSectionConnectorsOn(sec3);
   switchSectionTransofrmerConnectorsOn(sec3);
 
-  myDataModelNodes.RecalculateWholeShema();
+  MyChains.Recalculate();
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep2.powered).to.equal(myNodeState.POWERED_OFF);
@@ -650,11 +307,9 @@ function schemaTestPoweringThroughTransformer() {
   expect(sec3.powered).to.equal(myNodeState.POWERED_OFF);
 
 
-  section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 1 });
+  PowerSection(section);
 
-  myDataModelNodes.RecalculateWholeShema();
-  myDataModelNodes.RecalculateWholeShema();
-
+  MyChains.Recalculate();
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
   expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
@@ -665,14 +320,12 @@ function schemaTestPoweringThroughTransformer() {
   expect(sec2.powered).to.equal(myNodeState.POWERED_ON);
   expect(sec3.powered).to.equal(myNodeState.POWERED_ON);
 
-  section.SetManualValue({ nodeName: 'ps1part110sec1', cmd: 'unblock', manualValue: 0 });
+  UnpowerSection(section);
 
   switchSectionTransofrmerConnectorsOff(sec3);
   switchSectionConnectorsOff(sec3);
 
-  myDataModelNodes.RecalculateWholeShema();
-  myDataModelNodes.RecalculateWholeShema();
-
+  MyChains.Recalculate();
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep2.powered).to.equal(myNodeState.POWERED_OFF);
@@ -681,15 +334,95 @@ function schemaTestPoweringThroughTransformer() {
 
   expect(sec1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(sec3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+}
+
+function schemaTestPoweringThroughSec2SecConnector() {
+  resetSchema();
+
+  const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
+  const section = myDataModelNodes.GetNode('ps1part110sec1');
+
+  switchConnectorOn(connector);
+  UnpowerSection(section);
+
+  const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
+  const sec2 = myDataModelNodes.GetNode('ps4part110sec2');
+  const sec3 = myDataModelNodes.GetNode('ps4part10sec2');
+  const sec4 = myDataModelNodes.GetNode('ps4part10sec1');
+
+  const lep1 = myDataModelNodes.GetNode('lep110_1');
+  const lep2 = myDataModelNodes.GetNode('lep110_2');
+  const lep3 = myDataModelNodes.GetNode('lep35_1');
+  const lep4 = myDataModelNodes.GetNode('lep10_1');
+  const lep5 = myDataModelNodes.GetNode('lep10_5');
+
+  switchSectionConnectorsOn(sec1);
+  switchSectionTransofrmerConnectorsOff(sec1);
+
+  switchSectionConnectorsOff(sec2);
+  switchSectionTransofrmerConnectorsOn(sec2);
+
+  switchSectionConnectorsOn(sec3);
+  switchSectionTransofrmerConnectorsOn(sec3);
+
+  switchSectionConnectorsOn(sec4);
+  switchSectionTransofrmerConnectorsOff(sec4);
+
+  const s2sConnector1 = myDataModelNodes.GetNode('ps4part110cc1');
+  const s2sConnector2 = myDataModelNodes.GetNode('ps4part10cc2');
+  switchConnectorOn(s2sConnector1);
+  switchConnectorOn(s2sConnector2);
+
+  MyChains.Recalculate();
+
+
+  expect(sec1.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec3.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(sec4.powered).to.equal(myNodeState.POWERED_OFF);
+  
+  expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(lep2.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(lep3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(lep4.powered).to.equal(myNodeState.POWERED_OFF);
+  expect(lep5.powered).to.equal(myNodeState.POWERED_OFF);
+
+  PowerSection(section);
+
+  MyChains.Recalculate();
+
+  expect(sec1.powered).to.equal(myNodeState.POWERED_ON);
+  expect(sec2.powered).to.equal(myNodeState.POWERED_ON);
+  expect(sec3.powered).to.equal(myNodeState.POWERED_ON);
+  expect(sec4.powered).to.equal(myNodeState.POWERED_ON);
+
+  expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(lep4.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep5.powered).to.equal(myNodeState.POWERED_ON);
+
+  UnpowerSection(section);
+
+  // switchSectionTransofrmerConnectorsOff(sec3);
+  switchSectionConnectorsOff(sec1);
+
+  MyChains.Recalculate();
+
+  expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
+  expect(lep3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(lep4.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(lep5.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+
+  expect(sec1.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(sec2.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(sec3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
 }
 
 
 init(() => {
-//  const ps = myDataModelNodes.GetNode('ps4');
-//  unpowerExternalLeps(ps);
-//  testPS(ps);
-
   const pss = myDataModelNodes.GetAllPSsAsArray();
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
@@ -700,11 +433,6 @@ init(() => {
   const leps = myDataModelNodes.GetAllLEPsAsArray();
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
-    lep.powered = myNodeState.POWERED_OFF;
-  }
-
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
     testLEP(lep);
   }
 
@@ -712,6 +440,8 @@ init(() => {
   schemaTestPoweringThroughLep();
 
   schemaTestPoweringThroughTransformer();
+
+  schemaTestPoweringThroughSec2SecConnector();
 
 
   mongoose.connection.close(() => {

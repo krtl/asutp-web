@@ -23,11 +23,11 @@ function MyNode(name, caption, description, nodeType) {
   };
 }
 
-MyNode.prototype.recalculatePoweredState = () => {
+// MyNode.prototype.recalculatePoweredState = () => {
 
-  // this.powered
+//   // this.powered
 
-};
+// };
 
 function myNodeStringifyReplacer(key, value) {
   if (key === 'kTrust') return undefined;

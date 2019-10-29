@@ -1,7 +1,7 @@
 const chai = require('chai');
 const mongoose = require('mongoose');
 
-const expect = chai.expect;
+const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const lastValues = require('../values/lastValues');
 const MyParamValue = require('../models/myParamValue');
@@ -129,14 +129,15 @@ describe('nodeState', () => {
         const pv = new MyParamValue(param.name, myNodeState.POWERED_OFF, new Date(), '');
         lastValues.setRawValue(pv);
 
-        ps.recalculatePoweredState();
+        // this is outdated code
+        // ps.recalculatePoweredState();
 
         if (changedStates.length === 0) {
           throw new Error('no states has been changed!');
         }
         let b = false;
         for (let i = 0; i < changedStates.length; i += 1) {
-          const node = changedStates[i].node;
+          const { node } = changedStates[i];
           if (node.name === nodeName) {
             if (changedStates[i].newState === myNodeState.POWERED_OFF) {
               b = true;
@@ -156,8 +157,6 @@ describe('nodeState', () => {
 
   // After all tests are finished drop database and close connection
   after((done) => {
-//    mongoose.connection.db.dropDatabase(() => {
     mongoose.connection.close(done);
-//    });
   });
 });

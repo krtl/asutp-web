@@ -2119,26 +2119,6 @@ const GetAllParamsAsArray = () => Array.from(params.values());
 const GetAllPSsAsArray = () => Array.from(PSs.values());
 const GetAllLEPsAsArray = () => Array.from(LEPs.values());
 
-function RecalculateWholeShema() {
-  const leps = Array.from(LEPs.values());
-  const pss = Array.from(PSs.values());
-
-  for (let i = 0; i < pss.length; i += 1) {
-    const ps = pss[i];
-    ps.recalculatePoweredState();
-  }
-
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    lep.recalculatePoweredState(false);
-  }
-
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    lep.recalculatePoweredState(true);
-  }
-}
-
 
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
@@ -2160,4 +2140,3 @@ module.exports.GetParam = GetParam;
 module.exports.GetAllParamsAsArray = GetAllParamsAsArray;
 module.exports.GetAllPSsAsArray = GetAllPSsAsArray;
 module.exports.GetAllLEPsAsArray = GetAllLEPsAsArray;
-module.exports.RecalculateWholeShema = RecalculateWholeShema;

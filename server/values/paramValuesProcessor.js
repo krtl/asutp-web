@@ -11,6 +11,7 @@ const MyNodeSwitchedOnStateValue = require('../models/myNodeSwitchedOnStateValue
 const ampqRawValuesReceiver = require('./amqpRawValuesReceiver');
 const dbNodeStateValuesTracker = require('./amqpInsertNodeStateValueSender');
 const logger = require('../logger');
+const MyChains = require('../models/myChains');
 
 let timerId;
 let recalculateSchema = false;
@@ -85,13 +86,17 @@ const initializeParamValuesProcessor = (setts) => {
         }
       }
 
-      for (let i = 0; i < recalcPSNames.length; i += 1) {
-        const ps = MyDataModelNodes.GetNode(recalcPSNames[i]);
-        if (ps) {
-          ps.recalculatePoweredState();
-        } else {
-          logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSNames[i]}"`);
-        }
+      // this is obsolete code
+      // for (let i = 0; i < recalcPSNames.length; i += 1) {
+      //   const ps = MyDataModelNodes.GetNode(recalcPSNames[i]);
+      //   if (ps) {
+      //     ps.recalculatePoweredState();
+      //   } else {
+      //     logger.warn(`[!] Can't recalculate PS state. Unknown PS: "${recalcPSNames[i]}"`);
+      //   }
+      // }
+      if (recalcPSNames.length > 0) {
+        recalculateSchema = true;
       }
 
       if (recalculateSchema) {
@@ -99,11 +104,12 @@ const initializeParamValuesProcessor = (setts) => {
 
         const start = moment();
 
-        MyDataModelNodes.RecalculateWholeShema();
+        MyChains.Recalculate();
+
 
         const duration = moment().diff(start);
+        // eslint-disable-next-line no-console
         console.debug(`Schema recalculated in ${moment(duration).format('mm:ss.SSS')}`);
-
 
         // ..;
       }

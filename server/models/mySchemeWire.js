@@ -18,7 +18,7 @@ function myWireStringifyReplacer(key, value) {
   return value;
 }
 
-const MyWireJsonSerialize = node => JSON.stringify(node, myWireStringifyReplacer, 2);
+const MyWireJsonSerialize = (node) => JSON.stringify(node, myWireStringifyReplacer, 2);
 
 module.exports = MySchemeWire;
 module.exports.MyWireJsonSerialize = MyWireJsonSerialize;

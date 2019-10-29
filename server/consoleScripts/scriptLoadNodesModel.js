@@ -21,7 +21,6 @@ myDataModelNodes.LoadFromDB((err) => {
   } else {
     console.info('LoadFromDB Done!');
 
-    // myDataModelNodes.RecalculateWholeShema();
 
     // myDataModelNodes.ExportPSs((err) => {
     //   if (err) {
@@ -40,4 +39,3 @@ myDataModelNodes.LoadFromDB((err) => {
     // });
   }
 });
-

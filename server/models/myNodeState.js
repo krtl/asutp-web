@@ -1,4 +1,4 @@
-  // node supplied with power
+// node supplied with power
 const NODE_POWERED_UNKNOWN = -1;
 const NODE_POWERED_OFF = 0;
 const NODE_POWERED_ON = 1;
@@ -9,4 +9,3 @@ module.exports = {
   POWERED_ON: NODE_POWERED_ON,
   POWERED_OFF: NODE_POWERED_OFF,
 };
-

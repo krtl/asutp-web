@@ -1,7 +1,7 @@
 const async = require('async');
-const logger = require('../logger');
 const moment = require('moment');
 const fs = require('fs');
+const logger = require('../logger');
 const config = require('../../config');
 
 const dbValuesTracker = require('./amqpInsertValueSender');
@@ -60,7 +60,7 @@ const getLastChanged = () => {
   return result;
 };
 
-const getLastValue = paramName => lastValues.get(paramName);
+const getLastValue = (paramName) => lastValues.get(paramName);
 
 const getLastValuesCount = () => lastValues.size;
 

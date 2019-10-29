@@ -32,7 +32,7 @@ class MyNodeSection extends MyNode {
     }
   }
 
-  recalculatePoweredState() {
+  updatePoweredState() {
     let newPowered = myNodeState.POWERED_UNKNOWN;
 
     if (this[MyNodePropNameParamRole.VOLTAGE] !== '') {
@@ -52,13 +52,6 @@ class MyNodeSection extends MyNode {
       if (this.powered !== newPowered) {
         this.doOnPoweredStateChanged(newPowered);
       }
-    }
-  }
-
-  setPoweredStateForConnectors() {
-    for (let i = 0; i < this.connectors.length; i += 1) {
-      const connector = this.connectors[i];
-      connector.setPoweredStateFromSection();
     }
   }
 

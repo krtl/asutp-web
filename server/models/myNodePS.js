@@ -1,6 +1,5 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
-const myNodeState = require('./myNodeState');
 
 
 class MyNodePS extends MyNode {
@@ -9,36 +8,6 @@ class MyNodePS extends MyNode {
     this.transformers = [];
     this.psparts = [];
     this.lep2psConnectors = [];
-  }
-
-  recalculatePoweredState() {
-    let isConnected = false;
-    for (let i = 0; i < this.psparts.length; i += 1) {
-      const pspart = this.psparts[i];
-      pspart.recalculatePoweredState();
-      if (pspart.powered === myNodeState.POWERED_ON) {
-        isConnected = true;
-      }
-    }
-
-    // for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
-    //   const connector = this.lep2psConnectors[i];
-    //   connector.recalculatePoweredState();
-    //   if (connector.powered === myNodeState.POWERED_ON) {
-    //     isConnected = true;
-    //   }
-    // }
-
-    let newPowered = myNodeState.POWERED_UNKNOWN;
-    if (isConnected) {
-      newPowered = myNodeState.POWERED_ON;
-    } else {
-      newPowered = myNodeState.POWERED_OFF;
-    }
-
-    if (this.powered !== newPowered) {
-      this.doOnPoweredStateChanged(newPowered);
-    }
   }
 
   makeChains() {
@@ -50,24 +19,34 @@ class MyNodePS extends MyNode {
     for (let i = 0; i < this.transformers.length; i += 1) {
       const transformer = this.transformers[i];
       const connectedSections = [];
+      const disconnectedSections = [];
 
       for (let j = 0; j < transformer.transConnectors.length; j += 1) {
         const transConnector = transformer.transConnectors[j];
         if (transConnector.toConnector.switchedOn) {
           const section = transConnector.toConnector.parentNode;
           connectedSections.push(section);
+        } else {
+          const section = transConnector.toConnector.parentNode;
+          disconnectedSections.push(section);
         }
       }
 
       if (connectedSections.length > 1) {
-        const { chain } = connectedSections[0];
+        const section1 = connectedSections[0];
+        const { chain } = section1;
         for (let k = 1; k < connectedSections.length; k += 1) {
-          const section = connectedSections[k];
-          chain.append(section.chain);
-          section.chain = chain;
+          const section2 = connectedSections[k];
+          chain.append(section2.chain);
+          section2.chain = chain;
+          section1.chain = chain;
         }
         chain.connectedElements.push(transformer);
-      } else {
+      } else if (connectedSections.length === 1) {
+        const { chain } = connectedSections[0];
+        chain.disconnectedElements.push(transformer);
+      } else if (disconnectedSections.length > 0) {
+        const { chain } = disconnectedSections[0];
         chain.disconnectedElements.push(transformer);
       }
     }

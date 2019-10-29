@@ -20,9 +20,7 @@ class MyNodeEquiment extends MyNode {
     if (this[MyNodePropNameParamRole.STATE] !== '') {
       const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.STATE]);
       if (paramValue) {
-        if (paramValue.value !== 0) {
-          return true;
-        }
+        return (paramValue.value !== 0);
       }
     } else {
       // console.log('state param does not assigned to the eqiuipment!');

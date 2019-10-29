@@ -6,11 +6,10 @@ function MyNodeSwitchedOnStateValue(nodeName, oldState, newState, dt) {
 }
 
 function myNodeStateStringifyReplacer(key, value) {
-      // if (key === 'listNames') return undefined; // for future use
+  // if (key === 'listNames') return undefined; // for future use
   return value;
 }
-const MyNodeSwitchedOnStateValueJsonSerialize = paramValue => JSON.stringify(paramValue, myNodeStateStringifyReplacer);
+const MyNodeSwitchedOnStateValueJsonSerialize = (paramValue) => JSON.stringify(paramValue, myNodeStateStringifyReplacer);
 
 module.exports = MyNodeSwitchedOnStateValue;
 module.exports.MyNodeSwitchedOnStateValueJsonSerialize = MyNodeSwitchedOnStateValueJsonSerialize;
-

@@ -6,10 +6,10 @@ function MyNodePoweredStateValue(nodeName, oldState, newState, dt) {
 }
 
 function myNodeStateStringifyReplacer(key, value) {
-    // if (key === 'listNames') return undefined; // for future use
+  // if (key === 'listNames') return undefined; // for future use
   return value;
 }
-const MyNodePoweredStateValueJsonSerialize = paramValue => JSON.stringify(paramValue, myNodeStateStringifyReplacer);
+const MyNodePoweredStateValueJsonSerialize = (paramValue) => JSON.stringify(paramValue, myNodeStateStringifyReplacer);
 
 module.exports = MyNodePoweredStateValue;
 module.exports.MyNodePoweredStateValueJsonSerialize = MyNodePoweredStateValueJsonSerialize;

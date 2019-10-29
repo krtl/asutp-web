@@ -1,15 +1,15 @@
+const moment = require('moment');
 const MyParamValue = require('../models/myParamValue');
 const config = require('../../config');
 const amqpRawValuesReceiver = require('../amqp/amqp_receive');
 const lastValues = require('../values/lastValues');
 const logger = require('../logger');
-const moment = require('moment');
 
 const Start = () => {
   amqpRawValuesReceiver.start(config.amqpUri, config.amqpRawValuesQueueName, (received) => {
     logger.verbose(`[RawValuesReceiver] Got msg ${received}`);
 
-      // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
+    // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
     const s = received.split('<>');
     if (s.length === 4) {
       const momentDT = moment(s[3]);

@@ -2,9 +2,6 @@
 const myNodeType = require('./myNodeType');
 const MyNodeConnector = require('./myNodeConnector');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
-// const lastValues = require('../values/lastValues');
-const myNodeState = require('./myNodeState');
-
 
 class MyNodeSectionConnector extends MyNodeConnector {
 
@@ -17,89 +14,6 @@ class MyNodeSectionConnector extends MyNodeConnector {
     this.lep2PsConnector = null;
     this.transformerConnector = false;
   }
-
-  setPoweredStateFromSection() {
-    let newPowered = myNodeState.POWERED_UNKNOWN;
-
-    if (this.getSwitchedOn()) {
-      newPowered = this.parentNode.powered;
-      this.kTrust = this.parentNode.kTrust - 1;
-    } else {
-      newPowered = myNodeState.POWERED_OFF;
-      this.kTrust = -100;
-    }
-
-    if (this.powered !== newPowered) {
-      // console.log('[SectionConnector] setPoweredStateFromSection');
-      this.doOnPoweredStateChanged(newPowered);
-
-      if (this.lep2PsConnector) {
-        this.lep2PsConnector.setPoweredFromPsConnector();
-      }
-    } else if (this.lep2PsConnector) {
-      if (this.lep2PsConnector.kTrust >= this.kTrust) {
-        this.lep2PsConnector.kTrust = this.kTrust - 1;
-      }
-    }
-  }
-
-  getPoweredState() {
-    let newPowered = myNodeState.POWERED_UNKNOWN;
-
-    if (this.getSwitchedOn()) {
-      if (this.transformerConnector) {
-        const section = this.parentNode;
-        const pspart = section.parentNode;
-        const ps = pspart.parentNode;
-
-        for (let i = 0; i < ps.transformers.length; i += 1) {
-          const transformer = ps.transformers[i];
-          for (let j = 0; j < transformer.transConnectors.length; j += 1) {
-            const transConnector = transformer.transConnectors[j];
-            if (transConnector.toConnector === this) {
-              for (let k = 0; k < transformer.transConnectors.length; k += 1) {
-                if (k !== j) {
-                  const transConnector1 = transformer.transConnectors[k];
-                  const section1 = transConnector1.toConnector.parentNode;
-                  const pspart1 = section1.parentNode;
-                  if (pspart1.inputNotOutput) {
-                    if (transConnector1.toConnector.switchedOn) {
-                      newPowered = transConnector1.toConnector.powered;
-                      this.kTrust = section1.kTrust - 1;
-                    }
-                    break;
-                  }
-                }
-              }
-            }
-          }
-        }
-      } else {
-        const section = this.parentNode;
-        if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-          newPowered = section.powered;
-          this.kTrust = section.kTrust - 1;
-        } else if (this.lep2PsConnector) {
-          this.lep2PsConnector.setPoweredFromLEP();
-          newPowered = this.lep2PsConnector.powered;
-          this.kTrust = this.lep2PsConnector.kTrust - 1;
-        }
-      }
-    } else {
-      newPowered = myNodeState.POWERED_OFF;
-      this.kTrust = -100;
-      if (this.lep2PsConnector) {
-        this.lep2PsConnector.kTrust = -100;
-        this.lep2PsConnector.doOnPoweredStateChanged(newPowered);
-      }
-    }
-
-    if (this.powered !== newPowered) {
-      // console.log('[SectionConnector] getPoweredState');
-      this.doOnPoweredStateChanged(newPowered);
-    }
-  }
 }
 
 module.exports = MyNodeSectionConnector;
-

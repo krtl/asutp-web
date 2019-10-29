@@ -37,18 +37,14 @@ function Recalculate() {
       if (connector.toNode) {
         const lep2 = connector.toNode;
         // if (connector.switchedOn) {
-        if (lep2.chain !== null) {
-          lep2.chain.append(lep1.chain);
-          lep1.chain.connectedElements.push(connector);
-        } else {
-          lep1.chain.disconnectedElements.push(connector);
-        }
+        lep2.chain.append(lep1.chain);
+        lep1.chain.connectedElements.push(connector);
       }
     }
   }
 
-  // collecting
 
+  // collecting
   chains = [];
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
@@ -62,6 +58,12 @@ function Recalculate() {
       }
     }
   }
+  for (let i = 0; i < leps.length; i += 1) {
+    const lep = leps[i];
+    if (chains.indexOf(lep.chain) < 0) {
+      chains.push(lep.chain);
+    }
+  }
 
 
   // powering
@@ -72,9 +74,18 @@ function Recalculate() {
     const trustedSections = [];
     for (let j = 0; j < chain.sections.length; j += 1) {
       const section = chain.sections[j];
-      section.recalculatePoweredState();
+      section.updatePoweredState();
+      let trusted = false;
       if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
-        trustedSections.push(section);
+        if (section.powered !== myNodeState.POWERED_UNKNOWN) {
+          trustedSections.push(section);
+          trusted = true;
+        }
+      }
+
+      if (!trusted) {
+        section.kTrust = 0;
+        chain.connectedElements.push(section);
       }
     }
     if (trustedSections.length > 0) {
@@ -88,6 +99,10 @@ function Recalculate() {
       }
     } else {
       chain.powered = myNodeState.POWERED_UNKNOWN;
+      for (let j = 0; j < chain.sections.length; j += 1) {
+        const section = chain.sections[j];
+        section.powered = myNodeState.POWERED_UNKNOWN;
+      }
     }
 
     if (errs === 0) {
@@ -107,6 +122,27 @@ function Recalculate() {
           element.doOnPoweredStateChanged(disconnectedPowered);
         }
       }
+    }
+  }
+
+  // powering for PS
+  for (let i = 0; i < pss.length; i += 1) {
+    const ps = pss[i];
+    let newPowered = myNodeState.POWERED_UNKNOWN;
+    for (let j = 0; j < ps.psparts.length; j += 1) {
+      const pspart = ps.psparts[j];
+      for (let k = 0; k < pspart.sections.length; k += 1) {
+        const section = pspart.sections[k];
+        if (section.powered === myNodeState.POWERED_ON) {
+          newPowered = myNodeState.POWERED_ON;
+          break;
+        } else if (section.powered === myNodeState.POWERED_OFF) {
+          newPowered = myNodeState.POWERED_OFF;
+        }
+      }
+    }
+    if (ps.powered !== newPowered) {
+      ps.doOnPoweredStateChanged(newPowered);
     }
   }
 }
