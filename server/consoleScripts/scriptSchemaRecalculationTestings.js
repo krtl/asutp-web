@@ -154,28 +154,14 @@ function CheckIfPsIsPowered(ps, poweredState) {
   }
 }
 
-function getsectionLep(section) {
-  for (let i = 0; i < section.connectors.length; i += 1) {
-    const connector = section.connectors[i];
-    if (!connector.transformerConnector) {
-      if (connector.lep2PsConnector) {
-        return connector.lep2PsConnector.parentNode;
-      }
-    }
-  }
-  return undefined;
-}
-
 function testSec2SecConnector(sec2secConnector) {
-  const ps = sec2secConnector.parentNode.parentNode;
-
   testConnector(sec2secConnector);
 
   //
 }
 
 function testTransformer(transformer) {
-  const ps = transformer.parentNode;
+  // const ps = transformer.parentNode;
 
   //
 }
@@ -403,7 +389,7 @@ function schemaTestPoweringThroughSec2SecConnector() {
   expect(lep4.powered).to.equal(myNodeState.POWERED_ON);
   expect(lep5.powered).to.equal(myNodeState.POWERED_ON);
 
-  UnpowerSection(section);
+  // UnpowerSection(section);
 
   // switchSectionTransofrmerConnectorsOff(sec3);
   switchSectionConnectorsOff(sec1);
