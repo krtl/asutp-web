@@ -15,13 +15,14 @@ const MyChains = require('../models/myChains');
 const config = require('../../config');
 
 
-let errs = 0;
-function setError(text) {
-  errs += 1;
-  //   logger.error(`[testSchemas] ${text}`);
-  // eslint-disable-next-line no-console
-  console.error(text);
-}
+const errs = 0;
+// let errs = 0;
+// function setError(text) {
+//   errs += 1;
+//   //   logger.error(`[testSchemas] ${text}`);
+//   // eslint-disable-next-line no-console
+//   console.error(text);
+// }
 const start = moment();
 
 
@@ -160,12 +161,6 @@ function testSec2SecConnector(sec2secConnector) {
   //
 }
 
-function testTransformer(transformer) {
-  // const ps = transformer.parentNode;
-
-  //
-}
-
 function testPSPart(pspart) {
   for (let k = 0; k < pspart.sections.length; k += 1) {
     const section = pspart.sections[k];
@@ -184,14 +179,10 @@ function testPS(ps) {
     testPSPart(pspart);
   }
 
-  for (let i = 0; i < ps.transformers.length; i += 1) {
-    const tramsformer = ps.transformers[i];
-    testTransformer(tramsformer);
-  }
-}
-
-function testLEP(lep) {
-  //
+  // for (let i = 0; i < ps.transformers.length; i += 1) {
+  //   const tramsformer = ps.transformers[i];
+  //   testTransformer(tramsformer);
+  // }
 }
 
 
@@ -536,11 +527,11 @@ init(() => {
   }
 
 
-  const leps = myDataModelNodes.GetAllLEPsAsArray();
-  for (let i = 0; i < leps.length; i += 1) {
-    const lep = leps[i];
-    testLEP(lep);
-  }
+  // const leps = myDataModelNodes.GetAllLEPsAsArray();
+  // for (let i = 0; i < leps.length; i += 1) {
+  //   const lep = leps[i];
+  //   testLEP(lep);
+  // }
 
 
   schemaTestPoweringThroughLep();
