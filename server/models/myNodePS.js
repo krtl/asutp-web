@@ -1,5 +1,6 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
+const MyChains = require('../models/myChains');
 
 
 class MyNodePS extends MyNode {
@@ -18,8 +19,8 @@ class MyNodePS extends MyNode {
 
     for (let i = 0; i < this.transformers.length; i += 1) {
       const transformer = this.transformers[i];
-      const connectedSections = [];
-      const disconnectedSections = [];
+      let connectedSections = [];
+      let disconnectedSections = [];
 
       for (let j = 0; j < transformer.transConnectors.length; j += 1) {
         const transConnector = transformer.transConnectors[j];
@@ -30,6 +31,23 @@ class MyNodePS extends MyNode {
           const section = transConnector.toConnector.parentNode;
           disconnectedSections.push(section);
         }
+      }
+
+      let collisionExists = false;
+      if (connectedSections.length > 1) {
+        const section1 = connectedSections[0];
+        for (let k = 1; k < connectedSections.length; k += 1) {
+          const section2 = connectedSections[k];
+          if ((!MyChains.HoldersCouldBeConnected(section1.chain.holders.concat(section2.chain.holders)))) {
+            collisionExists = true;
+            break;
+          }
+        }
+      }
+
+      if (collisionExists) {
+        disconnectedSections = disconnectedSections.concat(connectedSections);
+        connectedSections = [];
       }
 
       if (connectedSections.length > 1) {

@@ -5,7 +5,7 @@ const moment = require('moment');
 const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
 const paramValuesProcessor = require('../values/paramValuesProcessor');
-// const lastValues = require('../values/lastValues');
+const lastValues = require('../values/lastValues');
 // const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
 // const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
@@ -253,8 +253,14 @@ function schemaTestPoweringThroughLep() {
   MyChains.Recalculate();
 
   expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_ON);
-}
 
+  const sec2 = myDataModelNodes.GetNode('ps1part110sec2');
+  const s2sConnector1 = myDataModelNodes.GetNode('ps1part110cc1');
+  switchConnectorOn(s2sConnector1);
+
+  MyChains.Recalculate();
+  expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_OFF);
+}
 
 function schemaTestPoweringThroughTransformer() {
   resetSchema();
@@ -367,7 +373,7 @@ function schemaTestPoweringThroughSec2SecConnector() {
   expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec3.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec4.powered).to.equal(myNodeState.POWERED_OFF);
-  
+
   expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep2.powered).to.equal(myNodeState.POWERED_OFF);
   expect(lep3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
@@ -396,15 +402,129 @@ function schemaTestPoweringThroughSec2SecConnector() {
 
   MyChains.Recalculate();
 
+  expect(sec1.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(sec2.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(sec3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+  expect(sec4.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+
   expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
   expect(lep2.powered).to.equal(myNodeState.POWERED_ON);
   expect(lep3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
   expect(lep4.powered).to.equal(myNodeState.POWERED_UNKNOWN);
   expect(lep5.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+}
 
-  expect(sec1.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-  expect(sec2.powered).to.equal(myNodeState.POWERED_UNKNOWN);
-  expect(sec3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+function schemaTestPoweringCollisions() {
+  resetSchema();
+
+  // const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
+
+  const sec1 = myDataModelNodes.GetNode('ps1part110sec1');
+  const sec2 = myDataModelNodes.GetNode('ps1part110sec2');
+  const sec3 = myDataModelNodes.GetNode('ps1part35sec1');
+  const sec4 = myDataModelNodes.GetNode('ps1part35sec2');
+
+  const sec5 = myDataModelNodes.GetNode('ps3part110sec1');
+  const sec6 = myDataModelNodes.GetNode('ps3part6sec1');
+  const sec7 = myDataModelNodes.GetNode('ps3part35sec1');
+
+  const sec8 = myDataModelNodes.GetNode('ps4part35sec1');
+  const sec9 = myDataModelNodes.GetNode('ps4part10sec1');
+
+  const lep1 = myDataModelNodes.GetNode('lep110_1');
+
+
+  expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec3.powered, sec3.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec4.powered, sec4.name).to.equal(myNodeState.POWERED_OFF);
+
+  // simulation of the first init
+  lastValues.ClearLastValues();
+  sec1.powered = myNodeState.POWERED_UNKNOWN;
+  sec2.powered = myNodeState.POWERED_UNKNOWN;
+  sec3.powered = myNodeState.POWERED_UNKNOWN;
+  sec4.powered = myNodeState.POWERED_UNKNOWN;
+  sec5.powered = myNodeState.POWERED_UNKNOWN;
+  sec6.powered = myNodeState.POWERED_UNKNOWN;
+  sec7.powered = myNodeState.POWERED_UNKNOWN;
+  sec8.powered = myNodeState.POWERED_UNKNOWN;
+  sec9.powered = myNodeState.POWERED_UNKNOWN;
+
+
+  const s2sConnector1 = myDataModelNodes.GetNode('ps1part110cc1');
+  const s2sConnector2 = myDataModelNodes.GetNode('ps1part35cc1');
+
+  switchSectionTransofrmerConnectorsOn(sec1);
+  switchSectionTransofrmerConnectorsOn(sec2);
+  switchSectionTransofrmerConnectorsOn(sec3);
+  switchSectionTransofrmerConnectorsOn(sec4);
+  switchConnectorOn(s2sConnector1);
+  switchConnectorOn(s2sConnector2);
+
+  PowerSection(sec1);
+  MyChains.Recalculate();
+
+  expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec3.powered, sec3.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec4.powered, sec4.name).to.equal(myNodeState.POWERED_ON);
+
+  UnpowerSection(sec2);
+  MyChains.Recalculate();
+
+  expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec3.powered, sec3.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec4.powered, sec4.name).to.equal(myNodeState.POWERED_ON);
+
+  UnpowerSection(sec4);
+  MyChains.Recalculate();
+
+  expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec3.powered, sec3.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec4.powered, sec4.name).to.equal(myNodeState.POWERED_OFF);
+
+
+  switchSectionConnectorsOn(sec1);
+  switchSectionConnectorsOn(sec5);
+  switchSectionTransofrmerConnectorsOn(sec5);
+  // switchSectionConnectorsOn(sec6);
+  switchSectionTransofrmerConnectorsOn(sec6);
+
+  MyChains.Recalculate();
+
+  expect(lep1.powered, lep1.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec5.powered, sec5.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec6.powered, sec6.name).to.equal(myNodeState.POWERED_ON);
+
+  UnpowerSection(sec6);
+  MyChains.Recalculate();
+
+  expect(lep1.powered, lep1.name).to.equal(myNodeState.POWERED_ON);
+  expect(sec5.powered, sec5.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec6.powered, sec6.name).to.equal(myNodeState.POWERED_OFF);
+
+  // ---------------
+
+  switchSectionTransofrmerConnectorsOn(sec5);
+
+  switchSectionConnectorsOn(sec7);
+  switchSectionTransofrmerConnectorsOn(sec7);
+
+  MyChains.Recalculate();
+
+  switchSectionConnectorsOn(sec8);
+  switchSectionTransofrmerConnectorsOn(sec8);
+  switchSectionConnectorsOn(sec9);
+  switchSectionTransofrmerConnectorsOn(sec9);
+
+  MyChains.Recalculate();
+
+
+  expect(sec5.powered, sec5.name).to.equal(myNodeState.POWERED_OFF);
+  expect(sec6.powered, sec6.name).to.equal(myNodeState.POWERED_OFF);
 }
 
 
@@ -428,6 +548,8 @@ init(() => {
   schemaTestPoweringThroughTransformer();
 
   schemaTestPoweringThroughSec2SecConnector();
+
+  schemaTestPoweringCollisions();
 
 
   mongoose.connection.close(() => {

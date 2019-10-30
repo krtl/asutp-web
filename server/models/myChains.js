@@ -14,6 +14,35 @@ function setError(text) {
   console.error(text);
 }
 
+function HoldersCouldBeConnected(holders) { // means there are no collisions.
+  const sections = [];
+  for (let i = 0; i < holders.length; i += 1) {
+    const holder = holders[i];
+    if (holder instanceof MyNodeSection) {
+      const section = holder;
+      if (sections.indexOf(section) < 0) {
+        sections.push(section);
+      }
+    }
+  }
+  if (sections.length > 1) {
+    const section1 = sections[0];
+    for (let k = 1; k < sections.length; k += 1) {
+      const section2 = sections[k];
+      if ((section1[MyNodePropNameParamRole.VOLTAGE] !== '') && (section2[MyNodePropNameParamRole.VOLTAGE] !== '')) {
+        if ((section1.powered !== myNodeState.POWERED_UNKNOWN) && (section2.powered !== myNodeState.POWERED_UNKNOWN)) {
+          if (section1.powered !== section2.powered) {
+            // eslint-disable-next-line max-len
+            setError(`[Chains][Recalculation] Warning! Collision with different Powered state on trusted sections within the one chain. Holders: "${section1.name}" = "${section1.powered}" and "${section2.name}" = "${section2.powered}"`);
+            return false;
+          }
+        }
+      }
+    }
+  }
+  return true;
+}
+
 function Recalculate() {
   // making
 
@@ -37,7 +66,9 @@ function Recalculate() {
       if (connector.toNode) {
         const lep2 = connector.toNode;
         // if (connector.switchedOn) {
-        lep1.chain.join(lep2.chain);
+        if (HoldersCouldBeConnected(lep1.chain.holders.concat(lep2.chain.holders))) {
+          lep1.chain.join(lep2.chain);
+        }
       }
     }
   }
@@ -76,7 +107,7 @@ function Recalculate() {
       let trusted = false;
       if (holder instanceof MyNodeSection) {
         const section = holder;
-        section.updatePoweredState();
+        // section.updatePoweredState();
         if (section[MyNodePropNameParamRole.VOLTAGE] !== '') {
           if (section.powered !== myNodeState.POWERED_UNKNOWN) {
             trustedSections.push(section);
@@ -95,14 +126,16 @@ function Recalculate() {
         const section = trustedSections[j];
         if (section.powered !== chain.powered) {
           // eslint-disable-next-line max-len
-          setError(`[Chains][Recalculation] Different Powered state on trusted sections within the one chain: "${section.name}" = "${section.powered}" while "${trustedSections[0].name}" = "${trustedSections[0].powered}"`);
+          setError(`[Chains][Recalculation] Error! Different Powered state on trusted sections within the one chain: "${section.name}" = "${section.powered}" while "${trustedSections[0].name}" = "${trustedSections[0].powered}"`);
         }
       }
     } else {
       chain.powered = myNodeState.POWERED_UNKNOWN;
       for (let j = 0; j < chain.holders.length; j += 1) {
         const holder = chain.holders[j];
-        holder.powered = myNodeState.POWERED_UNKNOWN;
+        if (holder.powered !== myNodeState.POWERED_UNKNOWN) {
+          holder.doOnPoweredStateChanged(myNodeState.POWERED_UNKNOWN);
+        }
       }
     }
 
@@ -150,3 +183,4 @@ function Recalculate() {
 
 
 module.exports.Recalculate = Recalculate;
+module.exports.HoldersCouldBeConnected = HoldersCouldBeConnected;

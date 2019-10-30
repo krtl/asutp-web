@@ -1,6 +1,7 @@
 const myNodeType = require('./myNodeType');
 const MyNodeChainHolder = require('./myNodeChainHolder');
 const MyChain = require('./myChain');
+const MyChains = require('../models/myChains');
 
 
 class MyNodeLEP extends MyNodeChainHolder {
@@ -13,7 +14,7 @@ class MyNodeLEP extends MyNodeChainHolder {
 
   makeChains() {
     this.chain = null;
-    const connectedSections = [];
+    let connectedSections = [];
 
     for (let i = 0; i < this.lep2psConnectors.length; i += 1) {
       const connector = this.lep2psConnectors[i];
@@ -21,6 +22,22 @@ class MyNodeLEP extends MyNodeChainHolder {
         const section = connector.toNodeConnector.parentNode;
         connectedSections.push(section);
       }
+    }
+
+    let collisionExists = false;
+    if (connectedSections.length > 1) {
+      const section1 = connectedSections[0];
+      for (let k = 1; k < connectedSections.length; k += 1) {
+        const section2 = connectedSections[k];
+        if ((!MyChains.HoldersCouldBeConnected(section1.chain.holders.concat(section2.chain.holders)))) {
+          collisionExists = true;
+          break;
+        }
+      }
+    }
+
+    if (collisionExists) {
+      connectedSections = [];
     }
 
     if (connectedSections.length > 0) {
