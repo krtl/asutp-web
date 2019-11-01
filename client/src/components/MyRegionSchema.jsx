@@ -1,26 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Layer, Stage, Line } from 'react-konva';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
-import MySchemaNode from './MySchemaNode';
-import {MyConsts} from '../modules/MyConsts';
-
+import React from "react";
+import PropTypes from "prop-types";
+import Konva from "konva";
+import { Layer, Stage, Line, Star } from "react-konva";
+import Portal from "../ContextMenu/Portal";
+// import Portal from "react-portal";
+import ContextMenu from "../ContextMenu/ContextMenu";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import RaisedButton from "material-ui/RaisedButton";
+import MySchemaNode from "./MySchemaNode";
+import { MyConsts } from "../modules/MyConsts";
 
 const styles = {
   customWidth: {
-    width: 350,
-  },
-}
+    width: 350
+  }
+};
 
 export default class MyStage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedRegion: '',
+      selectedRegion: "",
       edited: false,
       stateChanged: false,
+      selectedContextMenu: null
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
@@ -28,46 +32,102 @@ export default class MyStage extends React.Component {
     this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
+
+    this.handleMenuDragStart = this.handleMenuDragStart.bind(this);
+    this.handleMenuDragEnd = this.handleMenuDragEnd.bind(this);
+    this.handleContextMenu = this.handleContextMenu.bind(this);
+    this.handleMenuOptionSelected = this.handleMenuOptionSelected.bind(this);
+  }
+
+  handleMenuOptionSelected(option) {
+    console.log(option);
+    this.setState({ selectedContextMenu: null });
+  }
+
+  handleContextMenu(e) {
+    e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
+    const mousePosition = e.target.getStage().getPointerPosition();
+
+    this.setState({
+      selectedContextMenu: {
+        type: "START",
+        position: mousePosition
+      }
+    });
+  }
+
+  handleMenuDragStart(e) {
+    e.target.setAttrs({
+      shadowOffset: {
+        x: 15,
+        y: 15
+      },
+      scaleX: 1.1,
+      scaleY: 1.1
+    });
+  }
+
+  handleMenuDragEnd(e) {
+    e.target.to({
+      duration: 0.5,
+      easing: Konva.Easings.ElasticEaseOut,
+      scaleX: 1,
+      scaleY: 1,
+      shadowOffsetX: 5,
+      shadowOffsetY: 5
+    });
   }
 
   getCenterX(node) {
     switch (node.nodeType) {
-      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_X_OFFSET + MyConsts.NODE_LEP_WIDTH / 2;
-      case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
-      default: return 0;
+      case MyConsts.NODE_TYPE_LEP:
+        return MyConsts.NODE_LEP_X_OFFSET + MyConsts.NODE_LEP_WIDTH / 2;
+      case MyConsts.NODE_TYPE_PS:
+        return MyConsts.NODE_PS_RADIUS;
+      default:
+        return 0;
     }
   }
 
   getCenterY(node) {
     switch (node.nodeType) {
-      case MyConsts.NODE_TYPE_LEP: return MyConsts.NODE_LEP_Y_OFFSET + MyConsts.NODE_LEP_HEIGHT / 2;
-      case MyConsts.NODE_TYPE_PS: return MyConsts.NODE_PS_RADIUS;
-      default: return 0;
+      case MyConsts.NODE_TYPE_LEP:
+        return MyConsts.NODE_LEP_Y_OFFSET + MyConsts.NODE_LEP_HEIGHT / 2;
+      case MyConsts.NODE_TYPE_PS:
+        return MyConsts.NODE_PS_RADIUS;
+      default:
+        return 0;
     }
   }
 
   getLines() {
     const result = [];
     if (this.props.wires) {
-        for (let i = 0; i < this.props.wires.length; i += 1) {
-          const locWire = this.props.wires[i];
-          const locNode1 = this.props.nodes.find(node => node.name === locWire.nodeFrom);
-          const locNode2 = this.props.nodes.find(node => node.name === locWire.nodeTo);
-          if ((locNode1 !== undefined) && (locNode2 !== undefined)) {
-            result.push(
-              {
-                name: this.props.wires[i].name,
-                points: [ locNode1.x + this.getCenterX(locNode1), locNode1.y + this.getCenterY(locNode1),
-                   locNode2.x + this.getCenterX(locNode2), locNode2.y + this.getCenterY(locNode2) ],
-              });
-          }
+      for (let i = 0; i < this.props.wires.length; i += 1) {
+        const locWire = this.props.wires[i];
+        const locNode1 = this.props.nodes.find(
+          node => node.name === locWire.nodeFrom
+        );
+        const locNode2 = this.props.nodes.find(
+          node => node.name === locWire.nodeTo
+        );
+        if (locNode1 !== undefined && locNode2 !== undefined) {
+          result.push({
+            name: this.props.wires[i].name,
+            points: [
+              locNode1.x + this.getCenterX(locNode1),
+              locNode1.y + this.getCenterY(locNode1),
+              locNode2.x + this.getCenterX(locNode2),
+              locNode2.y + this.getCenterY(locNode2)
+            ]
+          });
         }
       }
+    }
     return result;
   }
 
   doLoadScheme(selectedRegion) {
-
     if (selectedRegion === undefined) {
       selectedRegion = this.state.selectedRegion;
     }
@@ -84,17 +144,17 @@ export default class MyStage extends React.Component {
   handleRegionChange(event, index, value) {
     this.setState({ selectedRegion: value });
     this.doLoadScheme(value);
-  }  
+  }
 
   handleSaveSchemeClick() {
     if (this.state.edited) {
       let nodes = [];
-      this.props.nodes.forEach((node) => {
+      this.props.nodes.forEach(node => {
         // if (node.changed !== undefined) { //currently we save all scheme due to automatic redistribution on server side.
-          nodes.push({ nodeName: node.name, x: node.x, y: node.y });
+        nodes.push({ nodeName: node.name, x: node.x, y: node.y });
         // }
       });
-      
+
       if (nodes.length > 0) {
         const s = JSON.stringify(nodes);
         this.props.onSaveScheme(s);
@@ -115,13 +175,14 @@ export default class MyStage extends React.Component {
       locNode.y = nodeObj.y;
       // locNode.changed = true;
       this.setState({
-        edited: true });
+        edited: true
+      });
     }
   }
 
   handleDoubleClick(nodeObj) {
-   console.log(`[MyStage] DoubleClick for ${nodeObj.name}`);
-   }
+    console.log(`[MyStage] DoubleClick for ${nodeObj.name}`);
+  }
 
   render() {
     const locNodes = this.props.nodes;
@@ -131,28 +192,70 @@ export default class MyStage extends React.Component {
     const locW = 3000;
     const locH = 5000;
 
+    const { selectedContextMenu } = this.state;
+
     return (
       <div>
         <div>
           <SelectField
-            floatingLabelText='Schemas:'
+            floatingLabelText="Schemas:"
             value={this.state.selectedRegion}
             onChange={this.handleRegionChange}
             style={styles.customWidth}
           >
             {this.props.schemas.map(schema => (
-              <MenuItem key={schema.name} value={schema} primaryText={schema.caption} secondaryText={schema.name} />
-            ))
-            }
+              <MenuItem
+                key={schema.name}
+                value={schema}
+                primaryText={schema.caption}
+                secondaryText={schema.name}
+              />
+            ))}
           </SelectField>
           <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
           <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
-          <RaisedButton onClick={this.handleResetSchemaClick}>Reset</RaisedButton>
+          <RaisedButton onClick={this.handleResetSchemaClick}>
+            Reset
+          </RaisedButton>
         </div>
 
         <Stage width={locW} height={locH}>
-
           <Layer>
+            <Portal>
+              <input
+                style={{ position: "absolute", top: 0, left: 0 }}
+                placeholder="DOM input from Konva nodes"
+              />
+            </Portal>
+
+            <Star
+              key="123"
+              x={100}
+              y={100}
+              numPoints={5}
+              innerRadius={20}
+              outerRadius={40}
+              fill="#89b717"
+              opacity={0.8}
+              draggable
+              shadowColor="black"
+              shadowBlur={10}
+              shadowOpacity={0.6}
+              onDragStart={this.handleMenuDragStart}
+              onDragEnd={this.handleMenuDragEnd}
+              onclick={this.handleClick}
+              onContextMenu={this.handleContextMenu}
+            />
+            {selectedContextMenu && (
+              <div>
+                <Portal>
+                  <ContextMenu
+                    {...selectedContextMenu}
+                    onOptionSelected={this.handleMenuOptionSelected}
+                  />
+                </Portal>
+              </div>
+            )}
             {locNodes.map(rec => (
               <MySchemaNode
                 key={rec.name}
@@ -160,8 +263,7 @@ export default class MyStage extends React.Component {
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}
               />
-            ))
-          }
+            ))}
             {locLines.map(line => (
               <Line
                 key={line.name}
@@ -169,8 +271,7 @@ export default class MyStage extends React.Component {
                 stroke="black"
                 strokeWidth={1}
               />
-            ))
-            }
+            ))}
           </Layer>
         </Stage>
       </div>
@@ -178,13 +279,12 @@ export default class MyStage extends React.Component {
   }
 }
 
- MyStage.propTypes = {
+MyStage.propTypes = {
   schemas: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
   onResetSchema: PropTypes.func,
-  onSaveManualValue: PropTypes.func,
+  onSaveManualValue: PropTypes.func
 };
-
