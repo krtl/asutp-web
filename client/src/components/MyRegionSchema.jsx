@@ -1,15 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Konva from "konva";
-import { Layer, Stage, Line, Star } from "react-konva";
-import Portal from "../ContextMenu/Portal";
-// import Portal from "react-portal";
-import ContextMenu from "../ContextMenu/ContextMenu";
+import { Layer, Stage, Line, Circle } from "react-konva";
+import Portal from "./ContextMenu/Portal";
+import ContextMenu from "./ContextMenu/ContextMenu";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import RaisedButton from "material-ui/RaisedButton";
-import MySchemaNode from "./MySchemaNode";
+import MySchemaNode from "./SchemaElements/MySchemaNode";
 import { MyConsts } from "../modules/MyConsts";
+
+const optionShemaLoad = "Load";
+const optionShemaSave = "Save";
+const optionShemaReset = "Reset";
+const optionShemaClose = "Close";
 
 const styles = {
   customWidth: {
@@ -40,13 +44,35 @@ export default class MyStage extends React.Component {
   }
 
   handleMenuOptionSelected(option) {
-    console.log(option);
+    // console.log(option);
     this.setState({ selectedContextMenu: null });
+
+    switch (option) {
+      case optionShemaLoad: {
+        this.handleLoadSchemeClick();
+        break;
+      }
+      case optionShemaSave: {
+        this.handleSaveSchemeClick();
+        break;
+      }
+      case optionShemaReset: {
+        this.handleResetSchemaClick();
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
   handleContextMenu(e) {
     e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
-    const mousePosition = e.target.getStage().getPointerPosition();
+    // const mousePosition = e.target.getStage().getPointerPosition();
+    const mousePosition = {
+      x: e.evt.clientX,
+      y: e.evt.clientY
+    };
 
     this.setState({
       selectedContextMenu: {
@@ -221,20 +247,12 @@ export default class MyStage extends React.Component {
 
         <Stage width={locW} height={locH}>
           <Layer>
-            <Portal>
-              <input
-                style={{ position: "absolute", top: 0, left: 0 }}
-                placeholder="DOM input from Konva nodes"
-              />
-            </Portal>
-
-            <Star
+            <Circle
               key="123"
+              text="Settings"
               x={100}
               y={100}
-              numPoints={5}
-              innerRadius={20}
-              outerRadius={40}
+              Radius={10}
               fill="#89b717"
               opacity={0.8}
               draggable
@@ -247,14 +265,18 @@ export default class MyStage extends React.Component {
               onContextMenu={this.handleContextMenu}
             />
             {selectedContextMenu && (
-              <div>
-                <Portal>
-                  <ContextMenu
-                    {...selectedContextMenu}
-                    onOptionSelected={this.handleMenuOptionSelected}
-                  />
-                </Portal>
-              </div>
+              <Portal>
+                <ContextMenu
+                  {...selectedContextMenu}
+                  items={[
+                    optionShemaLoad,
+                    optionShemaSave,
+                    optionShemaReset,
+                    optionShemaClose
+                  ]}
+                  onOptionSelected={this.handleMenuOptionSelected}
+                />
+              </Portal>
             )}
             {locNodes.map(rec => (
               <MySchemaNode

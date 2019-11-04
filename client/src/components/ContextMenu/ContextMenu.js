@@ -1,7 +1,7 @@
 import React from "react";
 import "./ContextMenu.css";
 
-const ContextMenu = ({ position, onOptionSelected }) => {
+const ContextMenu = ({ position, items, onOptionSelected }) => {
   const handleOptionSelected = option => () => onOptionSelected(option);
 
   return (
@@ -14,8 +14,11 @@ const ContextMenu = ({ position, onOptionSelected }) => {
       }}
     >
       <ul>
-        <li onClick={handleOptionSelected("option1")}>Option1</li>
-        <li onClick={handleOptionSelected("option2")}>Option2</li>
+        {items.map(item => (
+          <li key={item} onClick={handleOptionSelected(item)}>
+            {item}
+          </li>
+        ))}
       </ul>
     </div>
   );

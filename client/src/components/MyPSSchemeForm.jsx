@@ -4,7 +4,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import { Layer, Stage, Line } from 'react-konva';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardText } from 'material-ui/Card';
-import MySchemaNode from './MySchemaNode';
+import MySchemaNode from './SchemaElements/MySchemaNode';
 import {MyConsts} from '../modules/MyConsts';
 import MyParams from './MyParams';
 import MyParamDialog from './MyParamDialog'

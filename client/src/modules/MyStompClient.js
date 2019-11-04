@@ -81,6 +81,7 @@ const CreateMySocketClient = function () {
     }  
 
     // ws = new WebSocket(`ws://${location.host}`);
+    // eslint-disable-next-line no-restricted-globals
     stompClient = webstomp.client(`ws://${location.host}/stomp`);
     stompClient.heartbeat.outgoing = 2000;
     stompClient.heartbeat.incoming = 2000;

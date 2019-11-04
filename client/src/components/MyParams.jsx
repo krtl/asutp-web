@@ -12,8 +12,6 @@ import {
 } from 'material-ui/Table';
 import Moment from 'react-moment';
 
-/* global localStorage */
-
 // const MyTableRow = styled(TableRow)({
 //   height: 10,
 // });
