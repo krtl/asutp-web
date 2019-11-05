@@ -27,7 +27,6 @@ export default class MyPSScheme extends React.Component {
       initialBlockRawValues: '',
       editedNodeName: '',
       editedParamName: ''
-
     };    
 
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);

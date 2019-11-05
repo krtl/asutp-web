@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, IndexLink } from 'react-router';
+import { Link, NavLink } from 'react-router-dom';
 import Auth from '../modules/Auth';
 import MainStatus from './MainStatus';
 
@@ -8,7 +8,7 @@ const Base = ({ children }) => (
   <div>      
     <div className='top-bar'>
       <div className='top-bar-left'>
-        <IndexLink to='/'>ASUTP</IndexLink>
+        <NavLink to='/'>ASUTP</NavLink>
         <MainStatus />
       </div>
 

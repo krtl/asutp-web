@@ -1,21 +1,19 @@
 import React from "react";
 import ReactDom from "react-dom";
-import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { syncHistoryWithStore } from "react-router-redux";
+import { Provider } from "react-redux";
+// import { syncHistoryWithStore } from "react-router-redux";
+// import createHistory from "history/createBrowserHistory";
+// import history from "./history";
 
 import { loadState } from "./modules/localStorage";
 
-// import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Router, hashHistory } from "react-router";
-// import { browserHistory, Router } from 'react-router';
-import routes from "./routes";
+import { BrowserRouter as Router } from "react-router-dom";
+// import routes from "./routes";
 import reducer from "./reducers";
-
-// remove tap delay, essential for MaterialUI to work properly
-// injectTapEventPlugin();
+import App from "./app";
 
 const persistedState = loadState();
 const store = createStore(
@@ -24,12 +22,16 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-const history = syncHistoryWithStore(hashHistory, store);
+// const history1 = syncHistoryWithStore(history, store);
+
+// const history = createHistory();
 
 ReactDom.render(
   <Provider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme()}>
-      <Router history={history} routes={routes} />
+      <Router>
+        <App />
+      </Router>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")
