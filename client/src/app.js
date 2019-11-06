@@ -9,6 +9,7 @@ import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
+import LogoutPage from "./containers/LogoutPage.jsx";
 import Auth from "./modules/Auth";
 
 // A wrapper for <Route> that redirects to the login
@@ -49,19 +50,9 @@ export default function App() {
           <PSAsutpLinkagePage />
         </PrivateRoute>
 
-        <Route path="/login">
-          <LoginPage />
-        </Route>
-
-        <Route path="/signup">
-          <SignUpPage />
-        </Route>
-
-        <PrivateRoute path="/logout">
-          {/* do logout here */}
-          {Auth.deauthenticateUser()}
-          <MainPage />
-        </PrivateRoute>
+        <Route path="/login" render={props => <LoginPage {...props} />} />
+        <Route path="/signup" render={props => <SignUpPage {...props} />} />
+        <Route path="/logout" render={props => <LogoutPage {...props} />} />
 
         <PrivateRoute path="/">
           <MainPage />

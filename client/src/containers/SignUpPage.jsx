@@ -1,35 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SignUpForm from '../components/SignUpForm';
-
+import React from "react";
+import PropTypes from "prop-types";
+import SignUpForm from "../components/SignUpForm";
 
 class SignUpPage extends React.Component {
-
-  /**
-   * Class constructor.
-   */
   constructor(props, context) {
     super(props, context);
 
-    // set the initial component state
     this.state = {
       errors: {},
       user: {
-        email: '',
-        name: '',
-        password: '',
-      },
+        email: "",
+        name: "",
+        password: ""
+      }
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
 
-  /**
-   * Process the form.
-   *
-   * @param {object} event - the JavaScript event object
-   */
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
@@ -42,23 +31,23 @@ class SignUpPage extends React.Component {
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/signup');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
+    xhr.open("post", "/auth/signup");
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.responseType = "json";
+    xhr.addEventListener("load", () => {
       if (xhr.status === 200) {
         // success
 
         // change the component-container state
         this.setState({
-          errors: {},
+          errors: {}
         });
 
         // set a message
-        localStorage.setItem('successMessage', xhr.response.message);
+        localStorage.setItem("successMessage", xhr.response.message);
 
         // make a redirect
-        this.context.router.replace('/login');
+        this.props.history.push("/login");
       } else {
         // failure
 
@@ -66,31 +55,23 @@ class SignUpPage extends React.Component {
         errors.summary = xhr.response.message;
 
         this.setState({
-          errors,
+          errors
         });
       }
     });
     xhr.send(formData);
   }
 
-  /**
-   * Change the user object.
-   *
-   * @param {object} event - the JavaScript event object
-   */
   changeUser(event) {
     const field = event.target.name;
     const user = this.state.user;
     user[field] = event.target.value;
 
     this.setState({
-      user,
+      user
     });
   }
 
-  /**
-   * Render the component.
-   */
   render() {
     return (
       <SignUpForm
@@ -101,11 +82,12 @@ class SignUpPage extends React.Component {
       />
     );
   }
-
 }
 
 SignUpPage.contextTypes = {
-  router: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    history: PropTypes.object.isRequired
+  })
 };
 
 export default SignUpPage;

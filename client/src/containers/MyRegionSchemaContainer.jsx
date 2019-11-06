@@ -63,7 +63,7 @@ export default class MyStageContainer extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: `getSchema?name=${schemaName}`,
+        fetchUrl: `/getSchema?name=${schemaName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (schema) => {
@@ -102,7 +102,7 @@ export default class MyStageContainer extends React.Component {
   onSaveScheme(s) {
     const cmds = [
       {
-        fetchUrl: `api/saveNodeCoordinates?schemaName=${this.state.regionName}`,
+        fetchUrl: `/api/saveNodeCoordinates?schemaName=${this.state.regionName}`,
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: () => {
@@ -121,7 +121,7 @@ export default class MyStageContainer extends React.Component {
   onResetSchema() {
     const cmds = [
       {
-        fetchUrl: `api/resetNodeCoordinates?schemaName=${this.state.regionName}`,
+        fetchUrl: `/api/resetNodeCoordinates?schemaName=${this.state.regionName}`,
         fetchMethod: 'post',
         fetchData: '',
         fetchCallback: () => {
@@ -140,7 +140,7 @@ export default class MyStageContainer extends React.Component {
   onSaveManualValue(s) {
     const cmds = [
       {
-        fetchUrl: 'api/saveParamManualValue',
+        fetchUrl: '/api/saveParamManualValue',
         fetchMethod: 'post',
         fetchData: s,
         fetchCallback: () => {

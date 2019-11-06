@@ -26,7 +26,7 @@ export default class MyNodeStateHistoryContainer extends React.Component {
     
     const cmds = [
       {
-        fetchUrl: `api/nodeStateValues?nodeName=${nodeName}`,
+        fetchUrl: `/api/nodeStateValues?nodeName=${nodeName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (values) => {

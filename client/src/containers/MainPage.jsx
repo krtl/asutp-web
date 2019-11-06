@@ -35,7 +35,7 @@ export default class MainPage extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: 'getSchemas',
+        fetchUrl: '/getSchemas',
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (schemas) => {
@@ -81,7 +81,7 @@ export default class MainPage extends React.Component {
   onLoadParams(schemaName) {
     const cmds = [
       {
-        fetchUrl: `api/params?schemaName=${schemaName}`,
+        fetchUrl: `/api/params?schemaName=${schemaName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (params) => {
@@ -120,7 +120,7 @@ export default class MainPage extends React.Component {
   onLoadPSs(schemaName) {
     const cmds = [
       {
-        fetchUrl: `getSchemaPSs?name=${schemaName}`,
+        fetchUrl: `/getSchemaPSs?name=${schemaName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (pss) => {
@@ -152,7 +152,7 @@ export default class MainPage extends React.Component {
   onLoadPS(psName) {
     const cmds = [
       {
-        fetchUrl: `getJsonPS?name=${psName}`,
+        fetchUrl: `/getJsonPS?name=${psName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (ps) => {

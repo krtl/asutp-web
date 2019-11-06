@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Auth from '../modules/Auth';
-import LoginForm from '../components/LoginForm.jsx';
+import React from "react";
+import PropTypes from "prop-types";
 
+import Auth from "../modules/Auth";
+import LoginForm from "../components/LoginForm.jsx";
 
 class LoginPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    const storedMessage = localStorage.getItem('successMessage');
-    let successMessage = '';
+    const storedMessage = localStorage.getItem("successMessage");
+    let successMessage = "";
 
     if (storedMessage) {
       successMessage = storedMessage;
-      localStorage.removeItem('successMessage');
+      localStorage.removeItem("successMessage");
     }
 
     // set the initial component state
@@ -21,16 +21,16 @@ class LoginPage extends React.Component {
       errors: {},
       successMessage,
       user: {
-        email: '',
-        password: '',
-      },
+        email: "",
+        password: ""
+      }
     };
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
   }
 
-  processForm(event) {
+  processForm(event, context) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
@@ -41,24 +41,24 @@ class LoginPage extends React.Component {
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/login');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
+    xhr.open("post", "/auth/login");
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.responseType = "json";
+    xhr.addEventListener("load", () => {
       if (xhr.status === 200) {
         // success
 
         // change the component-container state
         this.setState({
-          errors: {},
+          errors: {}
         });
 
         // save the token and data
         Auth.authenticateUser(xhr.response.token, xhr.response.user.name);
 
-
         // change the current URL to /
-        this.context.router.replace('/');
+        this.props.history.push("/");
+        // context.router.history.replace("/");
       } else {
         // failure
 
@@ -67,7 +67,7 @@ class LoginPage extends React.Component {
         errors.summary = xhr.response.message;
 
         this.setState({
-          errors,
+          errors
         });
       }
     });
@@ -80,7 +80,7 @@ class LoginPage extends React.Component {
     user[field] = event.target.value;
 
     this.setState({
-      user,
+      user
     });
   }
 
@@ -95,11 +95,13 @@ class LoginPage extends React.Component {
       />
     );
   }
-
 }
 
 LoginPage.contextTypes = {
-  router: PropTypes.object.isRequired,
+  // router: PropTypes.object.isRequired
+  router: PropTypes.shape({
+    history: PropTypes.object.isRequired
+  })
 };
 
 export default LoginPage;

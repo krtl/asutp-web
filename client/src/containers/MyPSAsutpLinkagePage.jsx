@@ -29,7 +29,7 @@ export default class PSAsutpLinkagePage extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: `getJsonPS?name=${psName}`,
+        fetchUrl: `/getJsonPS?name=${psName}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (value) => {
@@ -52,7 +52,7 @@ export default class PSAsutpLinkagePage extends React.Component {
   savePSLinkage(psName, linkage) {
     const cmds = [
       {
-        fetchUrl: `savePSLinkage?name=${psName}`,
+        fetchUrl: `/savePSLinkage?name=${psName}`,
         fetchMethod: 'post',
         fetchData: linkage,
         fetchCallback: () => {
@@ -71,7 +71,7 @@ export default class PSAsutpLinkagePage extends React.Component {
   reloadAsutpConnections(psSapCode) {
     const cmds = [
       {
-        fetchUrl: `getAsutpConnectionsFor?psSapCode=${psSapCode}`,
+        fetchUrl: `/getAsutpConnectionsFor?psSapCode=${psSapCode}`,
         fetchMethod: 'get',
         fetchData: '',
         fetchCallback: (connections) => {
