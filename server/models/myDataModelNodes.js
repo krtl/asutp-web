@@ -787,6 +787,11 @@ const SetStateChangedHandlers = (poweredStateHandler, switchedOnStateHandler) =>
         }
       }
     }
+
+    for (let j = 0; j < ps.transformers.length; j += 1) {
+      const transformer = ps.transformers[j];
+      transformer.poweredStateChangeHandler = poweredStateHandler;
+    }
   }
 };
 

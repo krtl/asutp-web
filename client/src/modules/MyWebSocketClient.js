@@ -6,6 +6,7 @@ function connect(doOnReceived) {
     ws.close();
   }
 
+  // eslint-disable-next-line no-restricted-globals
   ws = new WebSocket(`ws://${location.host}`);
 
   ws.onerror = err => {

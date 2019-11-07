@@ -80,12 +80,15 @@ const CreateMySocketClient = function() {
     }
 
     // ws = new WebSocket(`ws://${location.host}`);
+
     // eslint-disable-next-line no-restricted-globals
-    stompClient = webstomp.client(`ws://${location.host}/stomp`);
+    stompClient = webstomp.client(
+      `ws://${window.location.hostname}:3001/stomp`
+    );
+    // stompClient = webstomp.client(`ws://${location.host}/stomp`);
     stompClient.heartbeat.outgoing = 2000;
     stompClient.heartbeat.incoming = 2000;
     // eslint-disable-next-line no-restricted-globals
-    stompClient.url = `ws://${location.host}/stomp`;
 
     stompClient.debug = function(str) {
       console.log(str);
