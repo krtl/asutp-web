@@ -1,12 +1,14 @@
-var EventEmitter = require("events");
-var util = require("util");
+var http            = require('http');
+var WebSocketServer = require('ws').Server;
+var EventEmitter    = require('events');
+var util            = require('util');
 
-var stomp = require("./lib/stomp");
-var stompUtils = require("./lib/stomp-utils");
-var BYTES = require("./lib/bytes");
+var Stomp           = require('./lib/stomp');
+var StompUtils      = require('./lib/stomp-utils');
+var Bytes           = require('./lib/bytes');
 
-var protocolAdapter = require("./lib/adapter");
-var buildConfig = require("./lib/config");
+const VERSION = require('./package.json').version;
+
 
 /**
  * STOMP Server configuration
@@ -20,38 +22,46 @@ var buildConfig = require("./lib/config");
  * @param {function} [debug=function(args) {}] Debug function
  */
 
-/**
- * @typedef MsgFrame Message frame object
- * @property {string|Buffer} body Message body, string or Buffer
- * @property {object} headers Message headers
- */
 
 /**
  * @class
  * @augments EventEmitter
- *
+ * 
  * Create Stomp server with config
- *
+ * 
  * @param {ServerConfig} config Configuration for STOMP server
  */
-var StompServer = function(config) {
+var StompServer = function (config) {
   EventEmitter.call(this);
 
   if (config === undefined) {
     config = {};
   }
-
-  this.conf = buildConfig(config);
+  
+  this.conf = {
+    server: config.server,
+    serverName: config.serverName || 'STOMP-JS/' + VERSION,
+    path: config.path || '/stomp',
+    heartbeat: config.heartbeat || [10000, 10000],
+    heartbeatErrorMargin: config.heartbeatErrorMargin || 1000,
+    debug: config.debug || function (args) {
+      // console.log(arguments);
+    }
+  };
+  
+  if (this.conf.server === undefined) {
+    throw 'Server is required';
+  }
 
   this.subscribes = [];
-  this.middleware = {};
-  this.frameHandler = new stomp.FrameHandler(this);
-
-  this.socket = new protocolAdapter[this.conf.protocol]({
+  this.frameHandler = new Stomp.FrameHandler(this);
+  
+  this.socket = new WebSocketServer({
     server: this.conf.server,
     path: this.conf.path,
     perMessageDeflate: false
   });
+
   /**
    * Client connecting event, emitted after socket is opened.
    *
@@ -59,80 +69,22 @@ var StompServer = function(config) {
    * @type {object}
    * @property {string} sessionId
    */
-  this.socket.on(
-    "connection",
-    function(ws) {
-      ws.sessionId = stompUtils.genId();
+  this.socket.on('connection', function (ws) {
+    ws.sessionId = StompUtils.genId();
 
-      this.emit("connecting", ws.sessionId);
-      this.conf.debug("Connect", ws.sessionId);
+    this.emit('connecting', ws.sessionId);
+    this.conf.debug('Connect', ws.sessionId);
 
-      ws.on("message", this.parseRequest.bind(this, ws));
-      ws.on("close", this.onDisconnect.bind(this, ws));
-      ws.on(
-        "error",
-        function(err) {
-          this.conf.debug(err);
-          this.emit("error", err);
-        }.bind(this)
-      );
-    }.bind(this)
-  );
+    ws.on('message', this.parseRequest.bind(this, ws));
+    ws.on('close', this.onDisconnect.bind(this, ws));
+    ws.on('error', function (err) {
+      this.conf.debug(err);
+      this.emit('error', err);
+    }.bind(this));
+  }.bind(this));
+
 
   //<editor-fold defaultstate="collapsed" desc="Events">
-
-  /**
-   *  Add middle-ware for specific command
-   *  @param {('connect'|'disconnect'|'send'|'subscribe'|'unsubscribe')} command Command to hook
-   *  @param {function} handler function to add in middle-ware
-   * */
-  this.addMiddleware = function(command, handler) {
-    command = command.toLowerCase();
-    if (!this.middleware[command]) {
-      this.middleware[command] = [];
-    }
-    this.middleware[command].push(handler);
-  };
-
-  /**
-   *  Clear and set middle-ware for specific command
-   *  @param {('connect'|'disconnect'|'send'|'subscribe'|'unsubscribe')} command Command to hook
-   *  @param {function} handler function to add in middle-ware
-   * */
-  this.setMiddleware = function(command, handler) {
-    command = command.toLowerCase();
-    this.middleware[command] = [handler];
-  };
-
-  /**
-   *  Remove middle-ware specific for command
-   *  @param {('connect'|'disconnect'|'send'|'subscribe'|'unsubscribe')} command Command with hook
-   *  @param {function} handler function to remove from middle-ware
-   * */
-  this.removeMiddleware = function(command, handler) {
-    var handlers = this.middleware[command.toLowerCase()];
-    var idx = handlers.indexOf(handler);
-    if (idx >= 0) {
-      handlers.splice(idx, 1);
-    }
-  };
-
-  function withMiddleware(command, finalHandler) {
-    return function(socket, args) {
-      var handlers = this.middleware[command.toLowerCase()] || [];
-      var iter = handlers[Symbol.iterator]();
-      var self = this;
-
-      function callNext() {
-        var iteration = iter.next();
-        if (iteration.done) {
-          return finalHandler.call(self, socket, args);
-        }
-        return iteration.value(socket, args, callNext);
-      }
-      return callNext();
-    };
-  }
 
   /**
    * Client connected event, emitted after connection established and negotiated
@@ -142,20 +94,16 @@ var StompServer = function(config) {
    * @property {string} sessionId
    * @property {object} headers
    */
-  this.onClientConnected = withMiddleware("connect", function(socket, args) {
+  this.onClientConnected = function (socket, args) {
     socket.clientHeartbeat = {
       client: args.heartbeat[0],
       server: args.heartbeat[1]
     };
-    this.conf.debug(
-      "CONNECT",
-      socket.sessionId,
-      socket.clientHeartbeat,
-      args.headers
-    );
-    this.emit("connected", socket.sessionId, args.headers);
+    this.conf.debug('CONNECT', socket.sessionId, socket.clientHeartbeat, args.headers);
+    this.emit('connected', socket.sessionId, args.headers);
     return true;
-  });
+  };
+
 
   /**
    * Client disconnected event
@@ -163,16 +111,15 @@ var StompServer = function(config) {
    * @event StompServer#disconnected
    * @type {object}
    * @property {string} sessionId
-   * */
-  this.onDisconnect = withMiddleware("disconnect", function(
-    socket /*, receiptId*/
-  ) {
-    // TODO: Do we need to do anything with receiptId on disconnect?
+   */
+  this.onDisconnect = function (socket, receiptId) {
     this.afterConnectionClose(socket);
-    this.conf.debug("DISCONNECT", socket.sessionId);
-    this.emit("disconnected", socket.sessionId);
+    this.conf.debug('DISCONNECT', socket.sessionId);
+    this.emit('disconnected', socket.sessionId);
+    this.conf.debug('DISCONNECT', socket.sessionId, receiptId);
     return true;
-  });
+  };
+
 
   /**
    * Event emitted when broker send message to subscribers
@@ -182,20 +129,20 @@ var StompServer = function(config) {
    * @property {string} dest Destination
    * @property {string} frame Message frame
    */
-  this.onSend = withMiddleware("send", function(socket, args, callback) {
+  this.onSend = function (socket, args, callback) {
     var bodyObj = args.frame.body;
     var frame = this.frameSerializer(args.frame);
     var headers = {
       //default headers
-      "message-id": stompUtils.genId("msg"),
-      "content-type": "text/plain"
+      'message-id': StompUtils.genId('msg'),
+      'content-type': 'text/plain'
     };
 
     if (frame.body !== undefined) {
-      if (typeof frame.body !== "string" && !Buffer.isBuffer(frame.body)) {
-        throw "Message body is not string";
+      if (typeof frame.body !== 'string' && !(typeof frame.body === 'object' && frame.body instanceof Buffer)) {
+        throw 'Message body is not string';
       }
-      frame.headers["content-length"] = frame.body.length;
+      frame.headers['content-length'] = frame.body.length;
     }
 
     if (frame.headers) {
@@ -205,7 +152,7 @@ var StompServer = function(config) {
     }
 
     args.frame = frame;
-    this.emit("send", {
+    this.emit('send', {
       frame: {
         headers: frame.headers,
         body: bodyObj
@@ -219,8 +166,8 @@ var StompServer = function(config) {
     if (callback) {
       callback(true);
     }
-    return true;
-  });
+  };
+
 
   /**
    * Client subscribe event, emitted when client subscribe topic
@@ -233,19 +180,20 @@ var StompServer = function(config) {
    * @property {string[]} tokens Tokenized topic
    * @property {object} socket Connected socket
    */
-  this.onSubscribe = withMiddleware("subscribe", function(socket, args) {
+  this.onSubscribe = function (socket, args) {
     var sub = {
       id: args.id,
       sessionId: socket.sessionId,
       topic: args.dest,
-      tokens: stompUtils.tokenizeDestination(args.dest),
+      tokens: StompUtils.tokenizeDestination(args.dest),
       socket: socket
     };
     this.subscribes.push(sub);
-    this.emit("subscribe", sub);
-    this.conf.debug("Server subscribe", args.id, args.dest);
+    this.emit('subscribe', sub);
+    this.conf.debug('Server subscribe', args.id, args.dest);
     return true;
-  });
+  };
+
 
   /**
    * Client subscribe event, emitted when client unsubscribe topic
@@ -259,25 +207,27 @@ var StompServer = function(config) {
    * @property {object} socket Connected socket
    * @return {boolean}
    */
-  this.onUnsubscribe = withMiddleware("unsubscribe", function(socket, subId) {
+  this.onUnsubscribe = function (socket, subId) {
     for (var t in this.subscribes) {
       var sub = this.subscribes[t];
       if (sub.id === subId && sub.sessionId === socket.sessionId) {
         delete this.subscribes[t];
-        this.emit("unsubscribe", sub);
+        this.emit('unsubscribe', sub);
         return true;
       }
     }
     return false;
-  });
+  };
 
   //</editor-fold>
+
 
   //<editor-fold defaultstate="collapsed" desc="Subscribe & Unsubscribe">
 
   var selfSocket = {
-    sessionId: "self_1234"
+    sessionId: 'self_1234'
   };
+
 
   /**
    * Subscription callback method
@@ -292,6 +242,7 @@ var StompServer = function(config) {
    * @param {string} headers.content-length Content length
    */
 
+
   /**
    * Subscribe topic
    *
@@ -305,38 +256,40 @@ var StompServer = function(config) {
    * var subs_id = stompServer.subscribe('/test.data');
    * stompServer.on(subs_id, function(msg, headers) {});
    */
-  this.subscribe = function(topic, callback, headers) {
+  this.subscribe = function (topic, callback, headers) {
     var id;
     if (!headers || !headers.id) {
-      id = "self_" + Math.floor(Math.random() * 99999999999);
+      id = 'self_' + Math.floor(Math.random() * 99999999999);
     } else {
       id = headers.id;
     }
     var sub = {
       topic: topic,
-      tokens: stompUtils.tokenizeDestination(topic),
+      tokens: StompUtils.tokenizeDestination(topic),
       id: id,
-      sessionId: "self_1234"
+      sessionId: 'self_1234'
     };
     this.subscribes.push(sub);
-    this.emit("subscribe", sub);
+    this.emit('subscribe', sub);
     if (callback) {
       this.on(id, callback);
     }
     return id;
   };
 
+
   /** Unsubscribe topic with subscription id
    *
    * @param {string} id Subscription id
    * @return {boolean} Subscription is deleted
    */
-  this.unsubscribe = function(id) {
+  this.unsubscribe = function (id) {
     this.removeAllListeners(id);
     return this.onUnsubscribe(selfSocket, id);
   };
 
   //</editor-fold>
+
 
   //<editor-fold defaultstate="collapsed" desc="Send">
 
@@ -347,7 +300,7 @@ var StompServer = function(config) {
    * @param {string} args onSend args
    * @private
    */
-  this._sendToSubscriptions = function(socket, args) {
+  this._sendToSubscriptions = function (socket, args) {
     for (var i in this.subscribes) {
       var sub = this.subscribes[i];
       if (socket.sessionId === sub.sessionId) {
@@ -356,10 +309,10 @@ var StompServer = function(config) {
       var match = this._checkSubMatchDest(sub, args);
       if (match) {
         args.frame.headers.subscription = sub.id;
-        args.frame.command = "MESSAGE";
+        args.frame.command = 'MESSAGE';
         var sock = sub.socket;
         if (sock !== undefined) {
-          stompUtils.sendFrame(sock, args.frame);
+          StompUtils.sendFrame(sock, args.frame);
         } else {
           this.emit(sub.id, args.frame.body, args.frame.headers);
         }
@@ -367,13 +320,14 @@ var StompServer = function(config) {
     }
   };
 
+
   /** Send message to topic
    *
    * @param {string} topic Destination for message
-   * @param {Object.<string, string>} headers Message headers
+   * @param {object} headers Message headers
    * @param {string} body Message body
    */
-  this.send = function(topic, headers, body) {
+  this.send = function (topic, headers, body) {
     var _headers = {};
     if (headers) {
       for (var key in headers) {
@@ -389,13 +343,14 @@ var StompServer = function(config) {
       frame: this.frameParser(frame)
     };
     this.onSend(selfSocket, args);
-  }.bind(this);
+  };
+
 
   /** SendIndividual message to specific client
    * @param {socket} client
    * @param {object} headers Message headers
    * @param {string} body Message body */
-  this.sendIndividual = function(socket, topic, headers, body) {
+  this.sendIndividual = function (socket, topic, headers, body) {
     var _headers = {};
     if (headers) {
       for (var key in headers) {
@@ -413,13 +368,13 @@ var StompServer = function(config) {
 
     var bodyObj = args.frame.body;
     var frame = this.frameSerializer(args.frame);
-    var headers = {
-      //default headers
-      "message-id": stomp.genId("msg"),
-      "content-type": "text/plain"
+    var headers = { //default headers
+      'message-id': Stomp.genId("msg"),
+      'content-type': 'text/plain'
     };
     if (frame.body !== undefined) {
-      if (typeof frame.body !== "string") throw "Message body is not string";
+      if (typeof frame.body !== 'string')
+        throw "Message body is not string";
       frame.headers["content-length"] = frame.body.length;
     }
     if (frame.headers) {
@@ -438,13 +393,14 @@ var StompServer = function(config) {
         args.frame.headers.subscription = sub.id;
         frame.command = "MESSAGE";
         if (socket !== undefined) {
-          stompUtils.sendFrame(socket, frame);
+          StompUtils.sendFrame(socket, frame);
         }
       }
     }
   };
 
   //</editor-fold>
+
 
   //<editor-fold defaultstate="collapsed" desc="Frames">
 
@@ -454,16 +410,13 @@ var StompServer = function(config) {
    * @param {MsgFrame} frame Message frame
    * @return {MsgFrame} modified frame
    * */
-  this.frameSerializer = function(frame) {
-    if (
-      frame.body !== undefined &&
-      frame.headers["content-type"] === "application/json" &&
-      !Buffer.isBuffer(frame.body)
-    ) {
+  this.frameSerializer = function (frame) {
+    if (frame.body !== undefined && frame.headers['content-type'] === 'application/json') {
       frame.body = JSON.stringify(frame.body);
     }
     return frame;
   };
+
 
   /**
    * Parse frame to object for reading
@@ -471,17 +424,15 @@ var StompServer = function(config) {
    * @param {MsgFrame} frame Message frame
    * @return {MsgFrame} modified frame
    * */
-  this.frameParser = function(frame) {
-    if (
-      frame.body !== undefined &&
-      frame.headers["content-type"] === "application/json"
-    ) {
+  this.frameParser = function (frame) {
+    if (frame.body !== undefined && frame.headers['content-type'] === 'application/json') {
       frame.body = JSON.parse(frame.body);
     }
     return frame;
   };
 
   //</editor-fold>
+
 
   //<editor-fold defaultstate="collapsed" desc="Heartbeat">
 
@@ -492,18 +443,19 @@ var StompServer = function(config) {
    * @param {number} interval Heart-beat interval
    * @param {boolean} serverSide If true then server is responsible for sending pings
    * */
-  this.heartbeatOn = function(socket, interval, serverSide) {
+  this.heartbeatOn = function (socket, interval, serverSide) {
     var self = this;
 
     if (serverSide) {
       // Server takes responsibility for sending pings
       // Client should close connection on timeout
       socket.heartbeatClock = setInterval(function() {
-        if (socket.readyState === 1) {
-          self.conf.debug("PING");
-          socket.send(BYTES.LF);
+        if(socket.readyState == 1) {
+          self.conf.debug('PING');
+          socket.send(Bytes.LF);
         }
       }, interval);
+
     } else {
       // Client takes responsibility for sending pings
       // Server should close connection on timeout
@@ -511,29 +463,31 @@ var StompServer = function(config) {
       socket.heartbeatClock = setInterval(function() {
         var diff = Date.now() - socket.heartbeatTime;
         if (diff > interval + self.conf.heartbeatErrorMargin) {
-          self.conf.debug("HEALTH CHECK failed! Closing", diff, interval);
+          self.conf.debug('HEALTH CHECK failed! Closing', diff, interval);
           socket.close();
         } else {
-          self.conf.debug("HEALTH CHECK ok!", diff, interval);
+          self.conf.debug('HEALTH CHECK ok!', diff, interval);
           socket.heartbeatTime -= diff;
         }
       }, interval);
     }
   };
 
+
   /**
    * Heart-beat: Turn Off for given socket
    *
    * @param {WebSocket} socket Destination WebSocket
    * */
-  this.heartbeatOff = function(socket) {
-    if (socket.heartbeatClock !== undefined) {
+  this.heartbeatOff = function (socket) {
+    if(socket.heartbeatClock !== undefined) {
       clearInterval(socket.heartbeatClock);
       delete socket.heartbeatClock;
     }
   };
 
   //</editor-fold>
+
 
   /**
    * Test if the input subscriber has subscribed to the target destination.
@@ -543,32 +497,28 @@ var StompServer = function(config) {
    * @returns {boolean} true if the input subscription matches destination
    * @private
    */
-  this._checkSubMatchDest = function(sub, args) {
+  this._checkSubMatchDest = function (sub, args) {
     var match = true;
-    var tokens = stompUtils.tokenizeDestination(args.dest);
+    var tokens = StompUtils.tokenizeDestination(args.dest);
     for (var t in tokens) {
       var token = tokens[t];
-      if (
-        sub.tokens[t] === undefined ||
-        (sub.tokens[t] !== token &&
-          sub.tokens[t] !== "*" &&
-          sub.tokens[t] !== "**")
-      ) {
+      if (sub.tokens[t] === undefined || (sub.tokens[t] !== token && sub.tokens[t] !== '*' && sub.tokens[t] !== '**')) {
         match = false;
         break;
-      } else if (sub.tokens[t] === "**") {
+      } else if (sub.tokens[t] === '**') {
         break;
       }
     }
     return match;
   };
 
+
   /**
    * After connection close
    *
    * @param socket WebSocket connection that has been closed and is dying
    */
-  this.afterConnectionClose = function(socket) {
+  this.afterConnectionClose = function (socket) {
     // remove from subscribes
     for (var t in this.subscribes) {
       var sub = this.subscribes[t];
@@ -581,6 +531,7 @@ var StompServer = function(config) {
     this.heartbeatOff(socket);
   };
 
+
   this.parseRequest = function(socket, data) {
     // check if it's incoming heartbeat
     if (socket.heartbeatClock !== undefined) {
@@ -588,22 +539,23 @@ var StompServer = function(config) {
       socket.heartbeatTime = Date.now();
 
       // if it's ping then ignore
-      if (data === BYTES.LF) {
-        this.conf.debug("PONG");
+      if(data === Bytes.LF) {
+        this.conf.debug('PONG');
         return;
       }
     }
 
     // normal data
-    var frame = stompUtils.parseFrame(data);
+    var frame = StompUtils.parseFrame(data);
     var cmdFunc = this.frameHandler[frame.command];
     if (cmdFunc) {
       frame = this.frameParser(frame);
       return cmdFunc(socket, frame);
     }
 
-    return "Command not found";
+    return 'Command not found';
   };
+
 };
 
 util.inherits(StompServer, EventEmitter);

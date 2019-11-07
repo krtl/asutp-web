@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import Auth from '../modules/Auth';
 import MainStatus from './MainStatus';
 
-const Base = ({ children }) => (
+const Base = ({ children}) => (
   <div>      
     <div className='top-bar'>
       <div className='top-bar-left'>

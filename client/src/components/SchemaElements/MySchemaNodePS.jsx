@@ -15,6 +15,7 @@ export default class MySchemaNodePS extends React.Component {
     this.state = {
       selectedContextMenu: null
     };
+
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDblClick = this.handleDblClick.bind(this);
 
@@ -29,7 +30,9 @@ export default class MySchemaNodePS extends React.Component {
     this.setState({ selectedContextMenu: null });
 
     if (option === optionOpenInNewTab) {
-      window.open(`/#/psScheme/${this.props.node.name}`, "_blank");
+      window.open(`/psScheme/${this.props.node.name}`, "_blank");
+    } else if (option === optionOpenInThisTab) {
+      this.props.history.push(`/psScheme/${this.props.node.name}`);
     }
   }
 
@@ -141,5 +144,6 @@ MySchemaNodePS.propTypes = {
     powered: PropTypes.number
   }).isRequired,
   onDragEnd: PropTypes.func.isRequired,
-  onDoubleClick: PropTypes.func.isRequired
+  onDoubleClick: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };

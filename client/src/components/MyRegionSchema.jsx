@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-export default class MyStage extends React.Component {
+export default class MyRegionSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -284,6 +284,7 @@ export default class MyStage extends React.Component {
                 node={rec}
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}
+                history={this.props.history}
               />
             ))}
             {locLines.map(line => (
@@ -301,12 +302,13 @@ export default class MyStage extends React.Component {
   }
 }
 
-MyStage.propTypes = {
+MyRegionSchema.propTypes = {
   schemas: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func,
   onSaveScheme: PropTypes.func,
   onResetSchema: PropTypes.func,
-  onSaveManualValue: PropTypes.func
+  onSaveManualValue: PropTypes.func,
+  history: PropTypes.object.isRequired
 };

@@ -19,7 +19,10 @@ class MainForm extends React.Component {
       <Tabs>
         <Tab label="Schema">
           <div className="container">
-            <MyRegionSchemaContainer schemas={this.props.schemas} />
+            <MyRegionSchemaContainer
+              schemas={this.props.schemas}
+              history={this.props.history}
+            />
           </div>
         </Tab>
         <Tab label="PSs">
@@ -43,7 +46,8 @@ MainForm.propTypes = {
   ps: PropTypes.string.isRequired,
   onLoadParams: PropTypes.func.isRequired,
   onLoadPSs: PropTypes.func.isRequired,
-  onLoadPS: PropTypes.func.isRequired
+  onLoadPS: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default MainForm;
