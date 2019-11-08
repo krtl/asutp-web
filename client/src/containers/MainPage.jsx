@@ -4,10 +4,8 @@ import MainForm from "../components/MainForm";
 import MyFetchClient from "./MyFetchClient";
 // import MyStompClient from '../modules/MyStompClient';
 import makeUid from "../modules/MyFuncs";
-
 const MATCHING_ITEM_LIMIT = 2500;
 
-let updateCount = 0;
 let valuesUpdated = 0;
 let timerId;
 
@@ -65,6 +63,7 @@ export default class MainPage extends React.Component {
         this.setState({
           update: true
         });
+        this.props.onIncCountOfUpdates();
       }
     }, 1000);
   }
@@ -164,11 +163,8 @@ export default class MainPage extends React.Component {
   }
 
   render() {
-    updateCount += 1;
-    const c = updateCount;
     return (
-      <div>
-        {c}
+      <>
         <MainForm
           schemas={this.state.schemas}
           params={this.state.params}
@@ -184,7 +180,7 @@ export default class MainPage extends React.Component {
           fetchRequests={this.state.fetchRequests}
           history={this.props.history}
         />
-      </div>
+      </>
     );
   }
 }
@@ -192,5 +188,6 @@ export default class MainPage extends React.Component {
 MainPage.propTypes = {
   router: PropTypes.shape({
     history: PropTypes.object.isRequired
-  })
+  }),
 };
+

@@ -17,3 +17,11 @@ export function fetchingEnd(data, error) {
   }
 }
 
+export const INC_COUNT_OF_UPDATES = 'INC_COUNT_OF_UPDATES'
+export function incCountOfUpdates() {
+  return {
+    type: INC_COUNT_OF_UPDATES,
+  }
+}
+
+

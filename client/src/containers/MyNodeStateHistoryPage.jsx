@@ -6,7 +6,7 @@ import makeUid from "../modules/MyFuncs";
 
 const MATCHING_ITEM_LIMIT = 2500;
 
-export default class MyNodeStateHistoryContainer extends React.Component {
+export default class NodeStateHistoryPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -49,6 +49,7 @@ export default class MyNodeStateHistoryContainer extends React.Component {
           nodeName={this.state.nodeName}
           stateValues={this.state.stateValues}
           reloadStateHistory={this.reloadStateHistory}
+          history={this.props.history}
         />
         <MyFetchClient
           cmdUid={this.state.cmdUid}
@@ -60,6 +61,6 @@ export default class MyNodeStateHistoryContainer extends React.Component {
   }
 }
 
-MyNodeStateHistoryContainer.propTypes = {
+NodeStateHistoryPage.propTypes = {
   history: PropTypes.object.isRequired
 };

@@ -79,5 +79,6 @@ MyNodeStateHistoryForm.propTypes = {
      dt: PropTypes.string,
    })),
    reloadStateHistory: PropTypes.func,
+   history: PropTypes.object.isRequired
 };
 

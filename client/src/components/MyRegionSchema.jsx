@@ -10,6 +10,7 @@ import { MyConsts } from "../modules/MyConsts";
 const optionShemaLoad = "Load";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
+const optionShemaHistory = "History";
 
 const styles = {
   customWidth: {
@@ -50,6 +51,10 @@ export default class MyRegionSchema extends React.Component {
       }
       case optionShemaReset: {
         this.handleResetSchemaClick();
+        break;
+      }
+      case optionShemaHistory: {
+        window.open(`/nodeStateHistory/${this.state.selectedRegion}`, "_blank");
         break;
       }
       default: {
@@ -161,7 +166,7 @@ export default class MyRegionSchema extends React.Component {
   }
 
   handleDoubleClick(nodeObj) {
-    console.log(`[MyStage] DoubleClick for ${nodeObj.name}`);
+    // console.log(`[MyStage] DoubleClick for ${nodeObj.name}`);
   }
 
   handleStageClick() {
@@ -206,7 +211,7 @@ export default class MyRegionSchema extends React.Component {
               <MyMenu
                 x={10}
                 y={10}
-                items={[optionShemaLoad, optionShemaSave, optionShemaReset]}
+                items={[optionShemaLoad, optionShemaSave, optionShemaReset,optionShemaHistory]}
                 parentStageClicked={this.state.stageClicked}
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}

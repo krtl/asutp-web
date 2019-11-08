@@ -4,6 +4,9 @@ import MyRegionSchema from "../components/MyRegionSchema";
 import MyFetchClient from "./MyFetchClient";
 import makeUid from "../modules/MyFuncs";
 import MyStompClient from "../modules/MyStompClient";
+import { connect } from "react-redux";
+import { incCountOfUpdates } from "../reducers/actions";
+
 // import {MyConsts} from '../modules/MyConsts';
 
 // const MATCHING_ITEM_LIMIT = 10000;
@@ -11,7 +14,7 @@ import MyStompClient from "../modules/MyStompClient";
 let valuesUpdated = 0;
 let timerId;
 
-export default class MyStageContainer extends React.Component {
+class MyRegionSchemaContainer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -159,6 +162,7 @@ export default class MyStageContainer extends React.Component {
   // }
 
   render() {
+    this.props.onIncCountOfUpdates();
     return (
       <div>
         <MyRegionSchema
@@ -181,7 +185,17 @@ export default class MyStageContainer extends React.Component {
   }
 }
 
-MyStageContainer.propTypes = {
+MyRegionSchemaContainer.propTypes = {
   schemas: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  onIncCountOfUpdates: PropTypes.func.isRequired
 };
+
+export default connect(
+  null,
+  dispatch => ({
+    onIncCountOfUpdates: payload => {
+      dispatch(incCountOfUpdates(payload));
+    }
+  })
+)(MyRegionSchemaContainer);

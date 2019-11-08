@@ -4,15 +4,16 @@ import MyPSSchemeForm from "../components/MyPSSchemeForm";
 import MyFetchClient from "./MyFetchClient";
 import makeUid from "../modules/MyFuncs";
 import MyStompClient from "../modules/MyStompClient";
+import { connect } from "react-redux";
+import { incCountOfUpdates } from "../reducers/actions";
 // import {MyConsts} from '../modules/MyConsts';
 
 const MATCHING_ITEM_LIMIT = 2500;
 
-let updateCount = 0;
 let valuesUpdated = 0;
 let timerId;
 
-export default class PSSchemePage extends React.Component {
+class PSSchemePage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -218,11 +219,10 @@ export default class PSSchemePage extends React.Component {
   }
 
   render() {
-    updateCount += 1;
-    const c = updateCount;
+    this.props.onIncCountOfUpdates();
+
     return (
       <div>
-        {c}
         <MyPSSchemeForm
           psName={this.state.psName}
           nodes={this.state.nodes}
@@ -248,5 +248,15 @@ export default class PSSchemePage extends React.Component {
 PSSchemePage.propTypes = {
   router: PropTypes.shape({
     history: PropTypes.object.isRequired
-  })
+  }),
+  onIncCountOfUpdates: PropTypes.func.isRequired
 };
+
+export default connect(
+  null,
+  dispatch => ({
+    onIncCountOfUpdates: payload => {
+      dispatch(incCountOfUpdates(payload));
+    }
+  })
+)(PSSchemePage);

@@ -14,6 +14,7 @@ const optionShemaLoad = "Load";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
 const optionShemaLinkage = "Linkage";
+const optionShemaHistory = "History";
 
 export default class MyPSSchemeForm extends React.Component {
   constructor(props) {
@@ -64,6 +65,10 @@ export default class MyPSSchemeForm extends React.Component {
       }
       case optionShemaLinkage: {
         window.open(`/psAsutpLinkage/${this.props.psName}`, "_blank");
+        break;
+      }
+      case optionShemaHistory: {
+        window.open(`/nodeStateHistory/${this.props.psName}`, "_blank");
         break;
       }
       default: {
@@ -319,7 +324,8 @@ export default class MyPSSchemeForm extends React.Component {
                     optionShemaLoad,
                     optionShemaSave,
                     optionShemaReset,
-                    optionShemaLinkage
+                    optionShemaLinkage,
+                    optionShemaHistory
                   ]}
                   parentStageClicked={this.state.stageClicked}
                   onDragEnd={this.handleDragEnd}
