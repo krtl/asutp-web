@@ -233,6 +233,7 @@ export default class PSSchemePage extends React.Component {
           onResetSchema={this.onResetSchema}
           onSaveParamManualValue={this.onSaveParamManualValue}
           onSaveConnectionManualValue={this.onSaveConnectionManualValue}
+          history={this.props.history}
         />
         <MyFetchClient
           cmdUid={this.state.cmdUid}

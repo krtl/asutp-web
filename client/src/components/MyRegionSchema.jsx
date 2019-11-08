@@ -10,7 +10,6 @@ import { MyConsts } from "../modules/MyConsts";
 const optionShemaLoad = "Load";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
-const optionShemaClose = "Close";
 
 const styles = {
   customWidth: {
@@ -24,7 +23,8 @@ export default class MyRegionSchema extends React.Component {
     this.state = {
       selectedRegion: "",
       edited: false,
-      stateChanged: false
+      stateChanged: false,
+      stageClicked: false
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
@@ -34,6 +34,7 @@ export default class MyRegionSchema extends React.Component {
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
 
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
+    this.handleStageClick = this.handleStageClick.bind(this);
   }
 
   handleMenuItemSelected(option) {
@@ -163,6 +164,15 @@ export default class MyRegionSchema extends React.Component {
     console.log(`[MyStage] DoubleClick for ${nodeObj.name}`);
   }
 
+  handleStageClick() {
+    this.setState({
+      stageClicked: true
+    });
+    this.setState({
+      stageClicked: false
+    });
+  }
+
   render() {
     const locNodes = this.props.nodes;
     const locLines = this.getLines();
@@ -191,17 +201,13 @@ export default class MyRegionSchema extends React.Component {
           </SelectField>
         </div>
         <div>
-          <Stage width={locW} height={locH}>
+          <Stage width={locW} height={locH} onClick={this.handleStageClick}>
             <Layer>
               <MyMenu
                 x={10}
                 y={10}
-                items={[
-                  optionShemaLoad,
-                  optionShemaSave,
-                  optionShemaReset,
-                  optionShemaClose
-                ]}
+                items={[optionShemaLoad, optionShemaSave, optionShemaReset]}
+                parentStageClicked={this.state.stageClicked}
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}
                 onMenuItemSelected={this.handleMenuItemSelected}
@@ -211,6 +217,7 @@ export default class MyRegionSchema extends React.Component {
                 <MySchemaNode
                   key={rec.name}
                   node={rec}
+                  parentStageClicked={this.state.stageClicked}
                   onDragEnd={this.handleDragEnd}
                   onDoubleClick={this.handleDoubleClick}
                   history={this.props.history}

@@ -40,8 +40,10 @@ export default class MySchemaNodePS extends React.Component {
     e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
     // const mousePosition = e.target.getStage().getPointerPosition();
     const mousePosition = {
-      x: e.evt.clientX,
-      y: e.evt.clientY
+      // x: e.evt.clientX,
+      // y: e.evt.clientY
+      x: e.evt.pageX,
+      y: e.evt.pageY
     };
 
     this.setState({
@@ -80,6 +82,14 @@ export default class MySchemaNodePS extends React.Component {
 
   handleDragEnd(args) {
     this.props.onDragEnd(args);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.parentStageClicked !== prevProps.parentStageClicked) {
+      if (this.state.selectedContextMenu) {
+        this.setState({ selectedContextMenu: null });
+      }
+    }
   }
 
   render() {
@@ -145,5 +155,6 @@ MySchemaNodePS.propTypes = {
   }).isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
+  parentStageClicked: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired
 };

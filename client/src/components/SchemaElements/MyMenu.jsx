@@ -68,6 +68,14 @@ export default class MyMenu extends React.Component {
     this.props.onDoubleClick(this.props.node);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.parentStageClicked !== prevProps.parentStageClicked) {
+      if (this.state.selectedContextMenu) {
+        this.setState({ selectedContextMenu: null });
+      }
+    }
+  }
+
   render() {
     const { selectedContextMenu } = this.state;
 
@@ -137,6 +145,7 @@ MyMenu.propTypes = {
   x: PropTypes.number,
   y: PropTypes.number,
   items: PropTypes.array.isRequired,
+  parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   onMenuItemSelected: PropTypes.func.isRequired

@@ -14,15 +14,15 @@ const optionShemaLoad = "Load";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
 const optionShemaLinkage = "Linkage";
-const optionShemaClose = "Close";
 
-export default class MyPSScheme extends React.Component {
+export default class MyPSSchemeForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       edited: false,
       stateChanged: false,
+      stageClicked: false,
 
       openConnectionDialog: false,
 
@@ -44,6 +44,7 @@ export default class MyPSScheme extends React.Component {
       this
     );
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
+    this.handleStageClick = this.handleStageClick.bind(this);
   }
 
   handleMenuItemSelected(option) {
@@ -267,6 +268,15 @@ export default class MyPSScheme extends React.Component {
     }
   }
 
+  handleStageClick() {
+    this.setState({
+      stageClicked: true
+    });
+    this.setState({
+      stageClicked: false
+    });
+  }
+
   render() {
     const locNodes = this.props.nodes;
     const locLines = this.getLines();
@@ -295,12 +305,12 @@ export default class MyPSScheme extends React.Component {
       <div>
         <Card className="container">
           <div>
-            <CardText>{this.props.psName}</CardText>            
+            <CardText>{this.props.psName}</CardText>
           </div>
         </Card>
         <Tabs>
           <Tab label="Schema">
-            <Stage width={locW} height={locH}>
+            <Stage width={locW} height={locH} onClick={this.handleStageClick}>
               <Layer>
                 <MyMenu
                   x={10}
@@ -309,12 +319,13 @@ export default class MyPSScheme extends React.Component {
                     optionShemaLoad,
                     optionShemaSave,
                     optionShemaReset,
-                    optionShemaLinkage,
-                    optionShemaClose
+                    optionShemaLinkage
                   ]}
+                  parentStageClicked={this.state.stageClicked}
                   onDragEnd={this.handleDragEnd}
                   onDoubleClick={this.handleDoubleClick}
                   onMenuItemSelected={this.handleMenuItemSelected}
+                  history={this.props.history}
                 />
 
                 {locLines.map(line => (
@@ -329,8 +340,10 @@ export default class MyPSScheme extends React.Component {
                   <MySchemaNode
                     key={rec.name}
                     node={rec}
+                    parentStageClicked={this.state.stageClicked}
                     onDragEnd={this.handleDragEnd}
                     onDoubleClick={this.handleDoubleClick}
+                    history={this.props.history}
                   />
                 ))}
               </Layer>
@@ -362,7 +375,7 @@ export default class MyPSScheme extends React.Component {
   }
 }
 
-MyPSScheme.propTypes = {
+MyPSSchemeForm.propTypes = {
   psName: PropTypes.string,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
@@ -371,5 +384,6 @@ MyPSScheme.propTypes = {
   onSaveScheme: PropTypes.func,
   onResetSchema: PropTypes.func,
   onSaveParamManualValue: PropTypes.func,
-  onSaveConnectionManualValue: PropTypes.func
+  onSaveConnectionManualValue: PropTypes.func,
+  history: PropTypes.object.isRequired
 };

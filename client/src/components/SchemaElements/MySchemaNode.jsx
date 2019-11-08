@@ -91,10 +91,11 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodePS
             node={this.props.node}
+            parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
             onDoubleClick={this.handleDblClick}
             history={this.props.history}
-            />
+          />
         );
       }
       case MyConsts.NODE_TYPE_TRANSFORMER: {
@@ -278,6 +279,7 @@ MySchemaNode.propTypes = {
     y: PropTypes.number,
     powered: PropTypes.number
   }).isRequired,
+  parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
