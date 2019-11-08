@@ -100,11 +100,16 @@ class MyFetchClient extends React.Component {
             this.props.fetchRequests.forEach(request => {
                 if (request.fetchUrl) {
                   if (request.fetchCallback) {
-                    if (request.fetchMethod === 'post') {
-                      this.doPost(request);
-                    }
-                    else {
-                      this.doGet(request);
+                    if (Auth.isUserAuthenticated()) {
+                      if (request.fetchMethod === 'post') {
+                        this.doPost(request);
+                      }
+                      else {
+                        this.doGet(request);
+                      }
+                    } else {
+                      // redirect to login page
+                      this.props.history.push("/");
                     }
                   }
                 }
@@ -128,6 +133,7 @@ class MyFetchClient extends React.Component {
     })).isRequired,
     onLoadingStart: PropTypes.func.isRequired,
     onLoadingEnd: PropTypes.func.isRequired,   
+    history: PropTypes.object.isRequired
    };
 
 export default connect(null,

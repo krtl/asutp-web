@@ -1,9 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import MainForm from "../components/MainForm";
 import MyFetchClient from "./MyFetchClient";
 // import MyStompClient from '../modules/MyStompClient';
 import makeUid from "../modules/MyFuncs";
-import PropTypes from "prop-types";
 
 const MATCHING_ITEM_LIMIT = 2500;
 
@@ -182,6 +182,7 @@ export default class MainPage extends React.Component {
         <MyFetchClient
           cmdUid={this.state.cmdUid}
           fetchRequests={this.state.fetchRequests}
+          history={this.props.history}
         />
       </div>
     );

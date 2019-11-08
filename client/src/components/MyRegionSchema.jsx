@@ -1,13 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Konva from "konva";
-import { Layer, Stage, Line, Circle } from "react-konva";
-import Portal from "./ContextMenu/Portal";
-import ContextMenu from "./ContextMenu/ContextMenu";
+import { Layer, Stage, Line } from "react-konva";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import RaisedButton from "material-ui/RaisedButton";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
+import MyMenu from "./SchemaElements/MyMenu";
 import { MyConsts } from "../modules/MyConsts";
 
 const optionShemaLoad = "Load";
@@ -27,8 +24,7 @@ export default class MyRegionSchema extends React.Component {
     this.state = {
       selectedRegion: "",
       edited: false,
-      stateChanged: false,
-      selectedContextMenu: null
+      stateChanged: false
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
@@ -37,16 +33,11 @@ export default class MyRegionSchema extends React.Component {
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
 
-    this.handleMenuDragStart = this.handleMenuDragStart.bind(this);
-    this.handleMenuDragEnd = this.handleMenuDragEnd.bind(this);
-    this.handleContextMenu = this.handleContextMenu.bind(this);
-    this.handleMenuOptionSelected = this.handleMenuOptionSelected.bind(this);
+    this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
   }
 
-  handleMenuOptionSelected(option) {
+  handleMenuItemSelected(option) {
     // console.log(option);
-    this.setState({ selectedContextMenu: null });
-
     switch (option) {
       case optionShemaLoad: {
         this.handleLoadSchemeClick();
@@ -64,44 +55,6 @@ export default class MyRegionSchema extends React.Component {
         break;
       }
     }
-  }
-
-  handleContextMenu(e) {
-    e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
-    // const mousePosition = e.target.getStage().getPointerPosition();
-    const mousePosition = {
-      x: e.evt.clientX,
-      y: e.evt.clientY
-    };
-
-    this.setState({
-      selectedContextMenu: {
-        type: "START",
-        position: mousePosition
-      }
-    });
-  }
-
-  handleMenuDragStart(e) {
-    e.target.setAttrs({
-      shadowOffset: {
-        x: 15,
-        y: 15
-      },
-      scaleX: 1.1,
-      scaleY: 1.1
-    });
-  }
-
-  handleMenuDragEnd(e) {
-    e.target.to({
-      duration: 0.5,
-      easing: Konva.Easings.ElasticEaseOut,
-      scaleX: 1,
-      scaleY: 1,
-      shadowOffsetX: 5,
-      shadowOffsetY: 5
-    });
   }
 
   getCenterX(node) {
@@ -218,8 +171,6 @@ export default class MyRegionSchema extends React.Component {
     const locW = 3000;
     const locH = 5000;
 
-    const { selectedContextMenu } = this.state;
-
     return (
       <div>
         <div>
@@ -238,65 +189,44 @@ export default class MyRegionSchema extends React.Component {
               />
             ))}
           </SelectField>
-          <RaisedButton onClick={this.handleLoadSchemeClick}>Load</RaisedButton>
-          <RaisedButton onClick={this.handleSaveSchemeClick}>Save</RaisedButton>
-          <RaisedButton onClick={this.handleResetSchemaClick}>
-            Reset
-          </RaisedButton>
         </div>
-
-        <Stage width={locW} height={locH}>
-          <Layer>
-            <Circle
-              key="123"
-              text="Settings"
-              x={100}
-              y={100}
-              Radius={10}
-              fill="#89b717"
-              opacity={0.8}
-              draggable
-              shadowColor="black"
-              shadowBlur={10}
-              shadowOpacity={0.6}
-              onDragStart={this.handleMenuDragStart}
-              onDragEnd={this.handleMenuDragEnd}
-              onclick={this.handleClick}
-              onContextMenu={this.handleContextMenu}
-            />
-            {selectedContextMenu && (
-              <Portal>
-                <ContextMenu
-                  {...selectedContextMenu}
-                  items={[
-                    optionShemaLoad,
-                    optionShemaSave,
-                    optionShemaReset,
-                    optionShemaClose
-                  ]}
-                  onOptionSelected={this.handleMenuOptionSelected}
-                />
-              </Portal>
-            )}
-            {locNodes.map(rec => (
-              <MySchemaNode
-                key={rec.name}
-                node={rec}
+        <div>
+          <Stage width={locW} height={locH}>
+            <Layer>
+              <MyMenu
+                x={10}
+                y={10}
+                items={[
+                  optionShemaLoad,
+                  optionShemaSave,
+                  optionShemaReset,
+                  optionShemaClose
+                ]}
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}
-                history={this.props.history}
+                onMenuItemSelected={this.handleMenuItemSelected}
               />
-            ))}
-            {locLines.map(line => (
-              <Line
-                key={line.name}
-                points={line.points}
-                stroke="black"
-                strokeWidth={1}
-              />
-            ))}
-          </Layer>
-        </Stage>
+
+              {locNodes.map(rec => (
+                <MySchemaNode
+                  key={rec.name}
+                  node={rec}
+                  onDragEnd={this.handleDragEnd}
+                  onDoubleClick={this.handleDoubleClick}
+                  history={this.props.history}
+                />
+              ))}
+              {locLines.map(line => (
+                <Line
+                  key={line.name}
+                  points={line.points}
+                  stroke="black"
+                  strokeWidth={1}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </div>
       </div>
     );
   }

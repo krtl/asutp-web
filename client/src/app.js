@@ -12,13 +12,10 @@ import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";
 import Auth from "./modules/Auth";
 
-
 function AddExtraProps(Component, extraProps) {
   return <Component.type {...Component.props} {...extraProps} />;
 }
 
-// A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
 function PrivateRoute({ children, ...rest }) {
   return (
     <Route
@@ -58,8 +55,6 @@ export default function App() {
         <Route path="/login" render={props => <LoginPage {...props} />} />
         <Route path="/signup" render={props => <SignUpPage {...props} />} />
         <Route path="/logout" render={props => <LogoutPage {...props} />} />
-
-        {/* <Route path="/" render={props => <MainPage {...props} />} /> */}
 
         <PrivateRoute path="/">
           <MainPage />

@@ -1,14 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "material-ui/Tabs";
-import MyPSs from "./MyPSs";
 import MyNodeStateHistory from "../containers/MyNodeStateHistory";
 import MyRegionSchemaContainer from "../containers/MyRegionSchemaContainer";
 
 class MainForm extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  // }
 
   componentDidMount() {
     console.log("MainForm did mount");
@@ -25,15 +21,8 @@ class MainForm extends React.Component {
             />
           </div>
         </Tab>
-        <Tab label="PSs">
-          <MyPSs
-            schemas={this.props.schemas}
-            PSs={this.props.PSs}
-            onLoadPSs={this.props.onLoadPSs}
-          />
-        </Tab>
         <Tab label="Shutdowns">
-          <MyNodeStateHistory />
+          <MyNodeStateHistory history={this.props.history} />
         </Tab>
       </Tabs>
     );

@@ -174,6 +174,7 @@ export default class MyStageContainer extends React.Component {
         <MyFetchClient
           cmdUid={this.state.cmdUid}
           fetchRequests={this.state.fetchRequests}
+          history={this.props.history}
         />
       </div>
     );

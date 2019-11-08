@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import MyPSSchemeForm from "../components/MyPSSchemeForm";
 import MyFetchClient from "./MyFetchClient";
 import makeUid from "../modules/MyFuncs";
@@ -236,10 +237,15 @@ export default class PSSchemePage extends React.Component {
         <MyFetchClient
           cmdUid={this.state.cmdUid}
           fetchRequests={this.state.fetchRequests}
+          history={this.props.history}
         />
       </div>
     );
   }
 }
 
-PSSchemePage.propTypes = {};
+PSSchemePage.propTypes = {
+  router: PropTypes.shape({
+    history: PropTypes.object.isRequired
+  })
+};

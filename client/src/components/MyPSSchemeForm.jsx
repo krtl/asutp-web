@@ -2,13 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "material-ui/Tabs";
 import { Layer, Stage, Line } from "react-konva";
-import RaisedButton from "material-ui/RaisedButton";
 import { Card, CardText } from "material-ui/Card";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
+import MyMenu from "./SchemaElements/MyMenu";
 import { MyConsts } from "../modules/MyConsts";
 import MyParams from "./MyParams";
 import MyParamDialog from "./MyParamDialog";
 import MyNodeConnectorDialog from "./MyNodeConnectorDialog";
+
+const optionShemaLoad = "Load";
+const optionShemaSave = "Save";
+const optionShemaReset = "Reset";
+const optionShemaLinkage = "Linkage";
+const optionShemaClose = "Close";
 
 export default class MyPSScheme extends React.Component {
   constructor(props) {
@@ -37,6 +43,32 @@ export default class MyPSScheme extends React.Component {
     this.handleConnectionDialogClose = this.handleConnectionDialogClose.bind(
       this
     );
+    this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
+  }
+
+  handleMenuItemSelected(option) {
+    // console.log(option);
+    switch (option) {
+      case optionShemaLoad: {
+        this.handleLoadSchemeClick();
+        break;
+      }
+      case optionShemaSave: {
+        this.handleSaveSchemeClick();
+        break;
+      }
+      case optionShemaReset: {
+        this.handleResetSchemaClick();
+        break;
+      }
+      case optionShemaLinkage: {
+        window.open(`/psAsutpLinkage/${this.props.psName}`, "_blank");
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
   componentDidMount() {
@@ -263,22 +295,28 @@ export default class MyPSScheme extends React.Component {
       <div>
         <Card className="container">
           <div>
-            <CardText>{this.props.psName}</CardText>
-            <RaisedButton onClick={this.handleLoadSchemeClick}>
-              Load
-            </RaisedButton>
-            <RaisedButton onClick={this.handleSaveSchemeClick}>
-              Save
-            </RaisedButton>
-            <RaisedButton onClick={this.handleResetSchemaClick}>
-              Reset
-            </RaisedButton>
+            <CardText>{this.props.psName}</CardText>            
           </div>
         </Card>
         <Tabs>
           <Tab label="Schema">
             <Stage width={locW} height={locH}>
               <Layer>
+                <MyMenu
+                  x={10}
+                  y={10}
+                  items={[
+                    optionShemaLoad,
+                    optionShemaSave,
+                    optionShemaReset,
+                    optionShemaLinkage,
+                    optionShemaClose
+                  ]}
+                  onDragEnd={this.handleDragEnd}
+                  onDoubleClick={this.handleDoubleClick}
+                  onMenuItemSelected={this.handleMenuItemSelected}
+                />
+
                 {locLines.map(line => (
                   <Line
                     key={line.name}

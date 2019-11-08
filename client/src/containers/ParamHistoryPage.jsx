@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import MyParamHistoryForm from "../components/MyParamHistoryForm";
 import MyFetchClient from "./MyFetchClient";
 import makeUid from "../modules/MyFuncs";
@@ -63,10 +64,15 @@ export default class ParamHistoryPage extends React.Component {
         <MyFetchClient
           cmdUid={this.state.cmdUid}
           fetchRequests={this.state.fetchRequests}
+          history={this.props.history}
         />
       </div>
     );
   }
 }
 
-ParamHistoryPage.propTypes = {};
+ParamHistoryPage.propTypes = {
+  router: PropTypes.shape({
+    history: PropTypes.object.isRequired
+  })
+};
