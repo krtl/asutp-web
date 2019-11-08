@@ -2,7 +2,7 @@
   "name": "asutp-client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001/",
+  "proxy": "http://0.0.0.0:3001/",
   "dependencies": {
     "konva": "^4.0.16",
     "react": "^16.11.0",
