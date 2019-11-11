@@ -908,7 +908,7 @@ const getNodeForScheme = (nodes) => {
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
-    locNode.caption = node.kTrust; // temporary for debugging
+    locNode.caption = node.caption;
     locNode.schemaNames = undefined;
     resultNodes.push(locNode);
   }
@@ -1379,7 +1379,7 @@ const getPSSchema1 = (psName, callback) => {
     locNode.parentNode = undefined;
     locNode.description = undefined;
     locNode.kTrust = undefined;
-    locNode.caption = node.kTrust; // temporary for debugging
+    // locNode.caption = node.caption;
     locNode.schemaNames = undefined;
     return locNode;
   };
@@ -1636,7 +1636,7 @@ const getPSSchema1 = (psName, callback) => {
           locNode.parentNode = undefined;
           locNode.description = undefined;
           locNode.kTrust = undefined;
-          locNode.caption = lep.kTrust; // temporary for debugging
+          locNode.caption = connector.caption;
           locNode.schemaNames = undefined;
           locNode.x = connector1.x;
           locNode.y = connector1.y;
@@ -1935,6 +1935,12 @@ function createNodeSchemasForRegions(cb) {
 function createPSSchema(ps) {
   const locNodes = [];
   const paramNames = [];
+
+  for (let j = 0; j < ps.transformers.length; j += 1) {
+    const transformer = ps.transformers[j];
+    locNodes.push(transformer);
+  }
+  
   for (let j = 0; j < ps.psparts.length; j += 1) {
     const pspart = ps.psparts[j];
     locNodes.push(pspart);

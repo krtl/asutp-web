@@ -19,7 +19,6 @@ export default class MainPage extends React.Component {
       schemas: [],
       params: [],
       PSs: [],
-      ps: "",
       update: false
     };
 
@@ -169,7 +168,6 @@ export default class MainPage extends React.Component {
           schemas={this.state.schemas}
           params={this.state.params}
           PSs={this.state.PSs}
-          ps={this.state.ps}
           onLoadParams={this.onLoadParams}
           onLoadPSs={this.onLoadPSs}
           onLoadPS={this.onLoadPS}
@@ -188,6 +186,5 @@ export default class MainPage extends React.Component {
 MainPage.propTypes = {
   router: PropTypes.shape({
     history: PropTypes.object.isRequired
-  }),
+  })
 };
-

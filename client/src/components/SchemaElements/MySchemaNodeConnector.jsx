@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, Circle, Group } from "react-konva";
+import { Text, Rect, Line, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
 import MyMenuBase from "./MyMenuBase";
 
-const optionOpenInNewTab = "Open in new tab";
-const optionOpenInThisTab = "Open";
 const optionHistory = "History";
 
-export default class MySchemaNodePS extends React.Component {
+export default class MySchemaNodeConnector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -23,14 +21,6 @@ export default class MySchemaNodePS extends React.Component {
     console.log(option);
 
     switch (option) {
-      case optionOpenInNewTab: {
-        window.open(`/psScheme/${this.props.node.name}`, "_blank");
-        break;
-      }
-      case optionOpenInThisTab: {
-        this.props.history.push(`/psScheme/${this.props.node.name}`);
-        break;
-      }
       case optionHistory: {
         window.open(`/nodeStateHistory/${this.props.node.name}`, "_blank");
         break;
@@ -46,6 +36,7 @@ export default class MySchemaNodePS extends React.Component {
   }
 
   handleDblClick() {
+    // console.log(`connector doubleclick for ${this.props.node}`);
     this.props.onDoubleClick(this.props.node);
   }
 
@@ -55,26 +46,68 @@ export default class MySchemaNodePS extends React.Component {
 
     return (
       <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-        <Text x={25} y={0} fontSize={9} text={this.props.node.name} />
-        <Circle
-          x={10}
-          y={10}
-          radius={MyConsts.NODE_PS_RADIUS}
+        <Text x={1} y={-10} fontSize={9} text={this.props.node.name} />
+        <Rect
+          x={0}
+          y={0}
+          width={MyConsts.NODE_PS_RADIUS * 2}
+          height={MyConsts.NODE_PS_RADIUS * 2}
           stroke={"black"}
-          strokeWidth={2}
+          strokeWidth={1}
           fill={this.props.color}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
         />
-        <Text x={0} y={22} fontSize={9} text={this.props.node.caption} />
+
+        {this.props.node.switchedOn ? (
+          <Line
+            points={[
+              MyConsts.NODE_PS_RADIUS,
+              MyConsts.NODE_PS_RADIUS * 2 - 2,
+              MyConsts.NODE_PS_RADIUS,
+              2
+            ]}
+            stroke={"black"}
+            strokeWidth={1}
+            lineJoin={"round"}
+          />
+        ) : (
+          <Group x={0} y={0}>
+            <Line
+              points={[
+                MyConsts.NODE_PS_RADIUS,
+                MyConsts.NODE_PS_RADIUS * 2 - 2,
+                MyConsts.NODE_PS_RADIUS,
+                MyConsts.NODE_PS_RADIUS + 3,
+                MyConsts.NODE_PS_RADIUS + 6,
+                MyConsts.NODE_PS_RADIUS - 3
+              ]}
+              stroke={"black"}
+              strokeWidth={1}
+              lineJoin={"round"}
+            />
+            <Line
+              points={[
+                MyConsts.NODE_PS_RADIUS,
+                MyConsts.NODE_PS_RADIUS - 3,
+                MyConsts.NODE_PS_RADIUS,
+                2
+              ]}
+              stroke={"black"}
+              strokeWidth={1}
+              lineJoin={"round"}
+            />
+          </Group>
+        )}
+        <Text x={1} y={20} fontSize={9} text={this.props.node.caption} />
         <MyMenuBase
           x={0}
           y={0}
           width={2 * MyConsts.NODE_PS_RADIUS}
           height={2 * MyConsts.NODE_PS_RADIUS}
           onDblClick={this.handleDblClick}
+          items={[optionHistory]}
           onContextMenu={this.handleContextMenu}
-          items={[optionOpenInNewTab, optionOpenInThisTab, optionHistory]}
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
@@ -83,7 +116,7 @@ export default class MySchemaNodePS extends React.Component {
   }
 }
 
-MySchemaNodePS.propTypes = {
+MySchemaNodeConnector.propTypes = {
   node: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

@@ -22,7 +22,7 @@ function myFormatter(options) {
 }
 
 const init = () => {
-  logger = new winston.Logger({
+  logger = winston.createLogger({
     level: process.env.LOGGER_LEVEL,
   // format: winston.format.json(),
     json: false,

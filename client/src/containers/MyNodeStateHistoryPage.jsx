@@ -13,7 +13,10 @@ export default class NodeStateHistoryPage extends React.Component {
     this.state = {
       cmdUid: "",
       fetchRequests: [],
-      nodeName: "",
+      nodeName: this.props.history.location.pathname.replace(
+        "/nodeStateHistory/",
+        ""
+      ),
       stateValues: []
     };
 
@@ -62,5 +65,7 @@ export default class NodeStateHistoryPage extends React.Component {
 }
 
 NodeStateHistoryPage.propTypes = {
-  history: PropTypes.object.isRequired
+  router: PropTypes.shape({
+    history: PropTypes.object.isRequired
+  })
 };

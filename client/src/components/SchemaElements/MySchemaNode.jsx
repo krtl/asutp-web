@@ -1,8 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, Rect, Circle, Group, Line } from "react-konva";
+import { Text, Rect, Circle, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
+import MySchemaNodeLEP from "./MySchemaNodeLEP"
 import MySchemaNodePS from "./MySchemaNodePS";
+import MySchemaNodeTransformer from "./MySchemaNodeTransformer"
+import MySchemaNodeSection from "./MySchemaNodeSection"
+import MySchemaNodeConnector from "./MySchemaNodeConnector";
+import MySchemaNodeParam from "./MySchemaNodeParam";
 
 export default class MySchemaNode extends React.Component {
   constructor(props) {
@@ -14,19 +19,9 @@ export default class MySchemaNode extends React.Component {
 
   handleDblClick() {
     this.props.onDoubleClick(this.props.node);
-
-    // window.Konva is a global variable for Konva framework namespace
-    // this.setState({
-    //   color: window.Konva.Util.getRandomColor(),
-    // });
   }
 
   handleDragEnd(args) {
-    //const abspos = args.target.getAbsolutePosition();
-    //const pos = args.target.position();
-    //console.log(`Abs position of red is (${abspos.x}, ${abspos.y}) but its co-ords are (${pos.x}, ${pos.y})`);
-    //console.log(`[MyRect] Drag ends for ${this.props.node.name}`);
-
     this.props.onDragEnd({
       id: this.props.node.id,
       name: this.props.node.name,
@@ -54,43 +49,24 @@ export default class MySchemaNode extends React.Component {
       }
     }
 
-    let paramValueColor;
-    if (this.props.node.paramQD) {
-      if (this.props.node.paramQD.indexOf("B") > -1) {
-        paramValueColor = "green";
-      } else if (this.props.node.paramQD.indexOf("Z") > -1) {
-        paramValueColor = "aquamarine";
-      } else if (this.props.node.paramQD.indexOf("NA") > -1) {
-        paramValueColor = "grey";
-      } else {
-        paramValueColor = "white";
-      }
-    }
-
     switch (this.props.node.nodeType) {
       case MyConsts.NODE_TYPE_LEP: {
         return (
-          <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-            <Text x={20} y={0} fontSize={9} text={this.props.node.name} />
-            <Rect
-              x={MyConsts.NODE_LEP_X_OFFSET}
-              y={MyConsts.NODE_LEP_Y_OFFSET}
-              width={MyConsts.NODE_LEP_WIDTH}
-              height={MyConsts.NODE_LEP_HEIGHT}
-              stroke={"black"}
-              strokeWidth={1}
-              fill={color}
-              shadowBlur={0}
-              onDblClick={this.handleDblClick}
-            />
-            <Text x={20} y={20} fontSize={9} text={this.props.node.caption} />
-          </Group>
+          <MySchemaNodeLEP
+            node={this.props.node}
+            color={color}
+            parentStageClicked={this.props.parentStageClicked}
+            onDragEnd={this.handleDragEnd}
+            onDoubleClick={this.handleDblClick}
+            history={this.props.history}
+          />
         );
       }
       case MyConsts.NODE_TYPE_PS: {
         return (
           <MySchemaNodePS
             node={this.props.node}
+            color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
             onDoubleClick={this.handleDblClick}
@@ -100,142 +76,52 @@ export default class MySchemaNode extends React.Component {
       }
       case MyConsts.NODE_TYPE_TRANSFORMER: {
         return (
-          <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-            <Text x={1} y={0} fontSize={9} text={this.props.node.name} />
-            <Circle
-              x={5}
-              y={10}
-              radius={10}
-              stroke={"black"}
-              strokeWidth={2}
-              fill={color}
-              shadowBlur={0}
-              onDblClick={this.handleDblClick}
-            />
-            <Circle
-              x={15}
-              y={10}
-              radius={10}
-              stroke={"black"}
-              strokeWidth={2}
-              fill={color}
-              shadowBlur={0}
-              onDblClick={this.handleDblClick}
-            />
-            <Text x={1} y={20} fontSize={9} text={this.props.node.caption} />
-          </Group>
+          <MySchemaNodeTransformer
+            node={this.props.node}
+            color={color}
+            parentStageClicked={this.props.parentStageClicked}
+            onDragEnd={this.handleDragEnd}
+            onDoubleClick={this.handleDblClick}
+            history={this.props.history}
+          />
         );
       }
       case MyConsts.NODE_TYPE_SECTION: {
         return (
-          <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-            <Text x={1} y={-10} fontSize={9} text={this.props.node.name} />
-            <Rect
-              x={0 - MyConsts.NODE_PS_RADIUS * 4}
-              y={0}
-              width={MyConsts.NODE_PS_RADIUS * 10}
-              height={MyConsts.NODE_SECTION_HEIGHT}
-              stroke={"black"}
-              strokeWidth={1}
-              fill={color}
-              shadowBlur={0}
-              onDblClick={this.handleDblClick}
-            />
-            <Text x={1} y={10} fontSize={9} text={this.props.node.caption} />
-          </Group>
+          <MySchemaNodeSection
+            node={this.props.node}
+            color={color}
+            parentStageClicked={this.props.parentStageClicked}
+            onDragEnd={this.handleDragEnd}
+            onDoubleClick={this.handleDblClick}
+            history={this.props.history}
+          />
         );
       }
       case MyConsts.NODE_TYPE_SECTIONCONNECTOR:
       case MyConsts.NODE_TYPE_SEC2SECCONNECTOR: {
         return (
-          <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-            <Text x={1} y={-10} fontSize={9} text={this.props.node.name} />
-            <Rect
-              x={0}
-              y={0}
-              width={MyConsts.NODE_PS_RADIUS * 2}
-              height={MyConsts.NODE_PS_RADIUS * 2}
-              stroke={"black"}
-              strokeWidth={1}
-              fill={color}
-              shadowBlur={0}
-              onDblClick={this.handleDblClick}
-            />
-
-            {this.props.node.switchedOn ? (
-              <Line
-                points={[
-                  MyConsts.NODE_PS_RADIUS,
-                  MyConsts.NODE_PS_RADIUS * 2 - 2,
-                  MyConsts.NODE_PS_RADIUS,
-                  2
-                ]}
-                stroke={"black"}
-                strokeWidth={1}
-                lineJoin={"round"}
-              />
-            ) : (
-              <Group x={0} y={0}>
-                <Line
-                  points={[
-                    MyConsts.NODE_PS_RADIUS,
-                    MyConsts.NODE_PS_RADIUS * 2 - 2,
-                    MyConsts.NODE_PS_RADIUS,
-                    MyConsts.NODE_PS_RADIUS + 3,
-                    MyConsts.NODE_PS_RADIUS + 6,
-                    MyConsts.NODE_PS_RADIUS - 3
-                  ]}
-                  stroke={"black"}
-                  strokeWidth={1}
-                  lineJoin={"round"}
-                />
-                <Line
-                  points={[
-                    MyConsts.NODE_PS_RADIUS,
-                    MyConsts.NODE_PS_RADIUS - 3,
-                    MyConsts.NODE_PS_RADIUS,
-                    2
-                  ]}
-                  stroke={"black"}
-                  strokeWidth={1}
-                  lineJoin={"round"}
-                />
-              </Group>
-            )}
-            <Text x={1} y={20} fontSize={9} text={this.props.node.caption} />
-          </Group>
+          <MySchemaNodeConnector
+            node={this.props.node}
+            color={color}
+            parentStageClicked={this.props.parentStageClicked}
+            onDragEnd={this.handleDragEnd}
+            onDoubleClick={this.handleDblClick}
+            history={this.props.history}
+          />
         );
       }
 
       case MyConsts.NODE_TYPE_PARAM: {
         return (
-          <Group
-            x={x - MyConsts.NODE_PS_RADIUS}
-            y={y}
-            draggable
-            onDragend={this.handleDragEnd}
-          >
-            <Text x={0} y={0} fontSize={9} text={this.props.node.name} />
-            <Rect
-              x={0}
-              y={10}
-              width={MyConsts.NODE_PS_RADIUS * 4}
-              height={MyConsts.NODE_PS_RADIUS}
-              stroke={"black"}
-              strokeWidth={1}
-              fill={paramValueColor}
-              shadowBlur={0}
-              onDblClick={this.handleDblClick}
-            />
-            <Text
-              x={1}
-              y={11}
-              fontSize={9}
-              text={this.props.node.caption}
-              onDblClick={this.handleDblClick}
-            />
-            <Text x={1} y={21} fontSize={9} text={this.props.node.paramName} />
-          </Group>
+          <MySchemaNodeParam
+            node={this.props.node}
+            color={color}
+            parentStageClicked={this.props.parentStageClicked}
+            onDragEnd={this.handleDragEnd}
+            onDoubleClick={this.handleDblClick}
+            history={this.props.history}
+          />
         );
       }
       default: {

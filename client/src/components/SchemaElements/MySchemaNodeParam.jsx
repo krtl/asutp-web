@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, Circle, Group } from "react-konva";
+import { Text, Rect, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
 import MyMenuBase from "./MyMenuBase";
 
-const optionOpenInNewTab = "Open in new tab";
-const optionOpenInThisTab = "Open";
 const optionHistory = "History";
 
-export default class MySchemaNodePS extends React.Component {
+export default class MySchemaNodeParam extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -23,14 +21,6 @@ export default class MySchemaNodePS extends React.Component {
     console.log(option);
 
     switch (option) {
-      case optionOpenInNewTab: {
-        window.open(`/psScheme/${this.props.node.name}`, "_blank");
-        break;
-      }
-      case optionOpenInThisTab: {
-        this.props.history.push(`/psScheme/${this.props.node.name}`);
-        break;
-      }
       case optionHistory: {
         window.open(`/nodeStateHistory/${this.props.node.name}`, "_blank");
         break;
@@ -53,20 +43,47 @@ export default class MySchemaNodePS extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
+    let paramValueColor;
+    if (this.props.node.paramQD) {
+      if (this.props.node.paramQD.indexOf("B") > -1) {
+        paramValueColor = "green";
+      } else if (this.props.node.paramQD.indexOf("Z") > -1) {
+        paramValueColor = "aquamarine";
+      } else if (this.props.node.paramQD.indexOf("NA") > -1) {
+        paramValueColor = "grey";
+      } else {
+        paramValueColor = "white";
+      }
+    }
+
     return (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-        <Text x={25} y={0} fontSize={9} text={this.props.node.name} />
-        <Circle
-          x={10}
+      <Group
+        x={x - MyConsts.NODE_PS_RADIUS}
+        y={y}
+        draggable
+        onDragend={this.handleDragEnd}
+      >
+        <Text x={0} y={0} fontSize={9} text={this.props.node.name} />
+        <Rect
+          x={0}
           y={10}
-          radius={MyConsts.NODE_PS_RADIUS}
+          width={MyConsts.NODE_PS_RADIUS * 4}
+          height={MyConsts.NODE_PS_RADIUS}
           stroke={"black"}
-          strokeWidth={2}
-          fill={this.props.color}
+          strokeWidth={1}
+          fill={paramValueColor}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
         />
-        <Text x={0} y={22} fontSize={9} text={this.props.node.caption} />
+        <Text
+          x={1}
+          y={11}
+          fontSize={9}
+          text={this.props.node.caption}
+          onDblClick={this.handleDblClick}
+        />
+        <Text x={1} y={21} fontSize={9} text={this.props.node.paramName} />
+
         <MyMenuBase
           x={0}
           y={0}
@@ -74,7 +91,7 @@ export default class MySchemaNodePS extends React.Component {
           height={2 * MyConsts.NODE_PS_RADIUS}
           onDblClick={this.handleDblClick}
           onContextMenu={this.handleContextMenu}
-          items={[optionOpenInNewTab, optionOpenInThisTab, optionHistory]}
+          items={[optionHistory]}
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
@@ -83,7 +100,7 @@ export default class MySchemaNodePS extends React.Component {
   }
 }
 
-MySchemaNodePS.propTypes = {
+MySchemaNodeParam.propTypes = {
   node: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

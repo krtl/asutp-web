@@ -4,7 +4,7 @@ import { Tabs, Tab } from "material-ui/Tabs";
 import { Layer, Stage, Line } from "react-konva";
 import { Card, CardText } from "material-ui/Card";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
-import MyMenu from "./SchemaElements/MyMenu";
+import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
 import { MyConsts } from "../modules/MyConsts";
 import MyParams from "./MyParams";
 import MyParamDialog from "./MyParamDialog";
@@ -201,6 +201,7 @@ export default class MyPSSchemeForm extends React.Component {
   }
 
   handleDoubleClick(nodeObj) {
+    // console.log(`doubleclick for ${nodeObj}`)
     //const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
     const locNode = nodeObj;
     if (locNode !== undefined) {
@@ -317,7 +318,7 @@ export default class MyPSSchemeForm extends React.Component {
           <Tab label="Schema">
             <Stage width={locW} height={locH} onClick={this.handleStageClick}>
               <Layer>
-                <MyMenu
+                <MySchemaNodeMenu
                   x={10}
                   y={10}
                   items={[

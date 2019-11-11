@@ -34,7 +34,7 @@ const CreateMySocketClient = function() {
         subsciptionValues = stompClient.subscribe(
           TOPIC_VALUES + paramsListName,
           message => {
-            console.log(`[stompClient] received values: ${message}`);
+            // console.log(`[stompClient] received values: ${message}`);
             message.ack();
 
             if (cbOnValueReceived) {
@@ -91,7 +91,7 @@ const CreateMySocketClient = function() {
     // eslint-disable-next-line no-restricted-globals
 
     stompClient.debug = function(str) {
-      console.log(str);
+      // console.log(str);
     };
 
     stompClient.ws.onerror = err => {
@@ -129,7 +129,7 @@ const CreateMySocketClient = function() {
       subsciptionValues = stompClient.subscribe(
         TOPIC_VALUES + aParamsListName,
         message => {
-          console.log(`[stompClient] received values: ${message}`);
+          // console.log(`[stompClient] received values: ${message}`);
           message.ack();
           if (cbOnValueReceived) {
             cbOnValueReceived(JSON.parse(message.body));

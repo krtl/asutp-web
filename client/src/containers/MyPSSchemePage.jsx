@@ -94,6 +94,9 @@ class PSSchemePage extends React.Component {
 
           MyStompClient.subscribeToValues(psName, value => {
             let b = false;
+
+            console.log(value);
+
             if ("nodeName" in value) {
               for (let i = 0; i < this.state.nodes.length; i += 1) {
                 const locNode = this.state.nodes[i];

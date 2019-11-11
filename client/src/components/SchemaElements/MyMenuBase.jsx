@@ -1,23 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Circle, Group, Rect } from "react-konva";
+import { Rect } from "react-konva";
 import Konva from "konva";
 import Portal from "../ContextMenu/Portal";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
-export default class MyMenu extends React.Component {
+export default class MyMenuBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedContextMenu: null
     };
-
     this.handleDblClick = this.handleDblClick.bind(this);
 
     this.handleMenuDragStart = this.handleMenuDragStart.bind(this);
     this.handleMenuDragEnd = this.handleMenuDragEnd.bind(this);
     this.handleContextMenu = this.handleContextMenu.bind(this);
     this.handleMenuOptionSelected = this.handleMenuOptionSelected.bind(this);
+  }
+
+  handleDblClick() {
+    this.props.onDblClick();
   }
 
   handleMenuOptionSelected(option) {
@@ -29,8 +32,8 @@ export default class MyMenu extends React.Component {
     e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
     // const mousePosition = e.target.getStage().getPointerPosition();
     const mousePosition = {
-      x: e.evt.clientX,
-      y: e.evt.clientY
+      x: e.evt.pageX,
+      y: e.evt.pageY
     };
 
     this.setState({
@@ -64,10 +67,6 @@ export default class MyMenu extends React.Component {
     this.props.onDragEnd(e);
   }
 
-  handleDblClick() {
-    this.props.onDoubleClick(this.props.node);
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.parentStageClicked !== prevProps.parentStageClicked) {
       if (this.state.selectedContextMenu) {
@@ -80,52 +79,20 @@ export default class MyMenu extends React.Component {
     const { selectedContextMenu } = this.state;
 
     return (
-      <Group
-        x={10}
-        y={10}
-        draggable
-        onDblClick={this.handleDblClick}
-        onDragStart={this.handleMenuDragStart}
-        onDragEnd={this.handleMenuDragEnd}
-        onclick={this.handleClick}
-        onContextMenu={this.handleContextMenu}
-      >
-        {/* <Text x={25} y={0} fontSize={9} text={"Menu"} /> */}
+      <>
         <Rect
-          x={0}
-          y={0}
-          width={20}
-          height={15}
+          x={this.props.x}
+          y={this.props.y}
+          width={this.props.width}
+          height={this.props.height}
           stroke={"black"}
           strokeWidth={0}
-          shadowBlur={0}
-        />
-        <Circle
-          x={5}
-          y={10}
-          radius={2}
-          stroke={"black"}
-          strokeWidth={1}
-          fill={"grey"}
-          shadowBlur={0}
-        />
-        <Circle
-          x={10}
-          y={10}
-          radius={2}
-          stroke={"black"}
-          strokeWidth={1}
-          fill={"grey"}
-          shadowBlur={0}
-        />
-        <Circle
-          x={15}
-          y={10}
-          radius={2}
-          stroke={"black"}
-          strokeWidth={1}
-          fill={"grey"}
-          shadowBlur={0}
+          closed={true}
+          onDblClick={this.handleDblClick}
+          onDragStart={this.handleMenuDragStart}
+          onDragEnd={this.handleMenuDragEnd}
+          onclick={this.handleClick}
+          onContextMenu={this.handleContextMenu}
         />
         {selectedContextMenu && (
           <Portal>
@@ -136,17 +103,18 @@ export default class MyMenu extends React.Component {
             />
           </Portal>
         )}
-      </Group>
+      </>
     );
   }
 }
 
-MyMenu.propTypes = {
-  x: PropTypes.number,
-  y: PropTypes.number,
+MyMenuBase.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   items: PropTypes.array.isRequired,
-  parentStageClicked: PropTypes.bool.isRequired,
-  onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
-  onMenuItemSelected: PropTypes.func.isRequired
+  onMenuItemSelected: PropTypes.func.isRequired,
+  parentStageClicked: PropTypes.bool.isRequired
 };

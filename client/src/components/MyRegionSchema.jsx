@@ -4,7 +4,7 @@ import { Layer, Stage, Line } from "react-konva";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
-import MyMenu from "./SchemaElements/MyMenu";
+import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
 import { MyConsts } from "../modules/MyConsts";
 
 const optionShemaLoad = "Load";
@@ -208,7 +208,7 @@ export default class MyRegionSchema extends React.Component {
         <div>
           <Stage width={locW} height={locH} onClick={this.handleStageClick}>
             <Layer>
-              <MyMenu
+              <MySchemaNodeMenu
                 x={10}
                 y={10}
                 items={[optionShemaLoad, optionShemaSave, optionShemaReset,optionShemaHistory]}

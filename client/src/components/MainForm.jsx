@@ -4,7 +4,7 @@ import MyRegionSchemaContainer from "../containers/MyRegionSchemaContainer";
 
 class MainForm extends React.Component {
   componentDidMount() {
-    console.log("MainForm did mount");
+    // console.log("MainForm did mount");
   }
 
   render() {
@@ -20,7 +20,6 @@ class MainForm extends React.Component {
 MainForm.propTypes = {
   schemas: PropTypes.array.isRequired,
   PSs: PropTypes.array.isRequired,
-  ps: PropTypes.string.isRequired,
   onLoadParams: PropTypes.func.isRequired,
   onLoadPSs: PropTypes.func.isRequired,
   onLoadPS: PropTypes.func.isRequired,

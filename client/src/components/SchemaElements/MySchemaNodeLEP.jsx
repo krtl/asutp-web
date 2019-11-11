@@ -1,14 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, Circle, Group } from "react-konva";
+import { Text, Rect, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
 import MyMenuBase from "./MyMenuBase";
 
-const optionOpenInNewTab = "Open in new tab";
-const optionOpenInThisTab = "Open";
 const optionHistory = "History";
 
-export default class MySchemaNodePS extends React.Component {
+export default class MySchemaNodeLEP extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -23,14 +21,6 @@ export default class MySchemaNodePS extends React.Component {
     console.log(option);
 
     switch (option) {
-      case optionOpenInNewTab: {
-        window.open(`/psScheme/${this.props.node.name}`, "_blank");
-        break;
-      }
-      case optionOpenInThisTab: {
-        this.props.history.push(`/psScheme/${this.props.node.name}`);
-        break;
-      }
       case optionHistory: {
         window.open(`/nodeStateHistory/${this.props.node.name}`, "_blank");
         break;
@@ -55,18 +45,19 @@ export default class MySchemaNodePS extends React.Component {
 
     return (
       <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-        <Text x={25} y={0} fontSize={9} text={this.props.node.name} />
-        <Circle
-          x={10}
-          y={10}
-          radius={MyConsts.NODE_PS_RADIUS}
+        <Text x={20} y={0} fontSize={9} text={this.props.node.name} />
+        <Rect
+          x={MyConsts.NODE_LEP_X_OFFSET}
+          y={MyConsts.NODE_LEP_Y_OFFSET}
+          width={MyConsts.NODE_LEP_WIDTH}
+          height={MyConsts.NODE_LEP_HEIGHT}
           stroke={"black"}
-          strokeWidth={2}
+          strokeWidth={1}
           fill={this.props.color}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
         />
-        <Text x={0} y={22} fontSize={9} text={this.props.node.caption} />
+        <Text x={20} y={20} fontSize={9} text={this.props.node.caption} />
         <MyMenuBase
           x={0}
           y={0}
@@ -74,7 +65,7 @@ export default class MySchemaNodePS extends React.Component {
           height={2 * MyConsts.NODE_PS_RADIUS}
           onDblClick={this.handleDblClick}
           onContextMenu={this.handleContextMenu}
-          items={[optionOpenInNewTab, optionOpenInThisTab, optionHistory]}
+          items={[optionHistory]}
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
@@ -83,7 +74,7 @@ export default class MySchemaNodePS extends React.Component {
   }
 }
 
-MySchemaNodePS.propTypes = {
+MySchemaNodeLEP.propTypes = {
   node: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

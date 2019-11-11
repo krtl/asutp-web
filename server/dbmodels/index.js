@@ -6,6 +6,11 @@ const paramValuesProcessor = require('../values/paramValuesProcessor');
 
 module.exports.connect = (uri, useDataModel, callback) => {
   // mongoose.connect(uri);
+  mongoose.set('useNewUrlParser', true);
+  mongoose.set('useFindAndModify', false);
+  mongoose.set('useCreateIndex', true);
+  mongoose.set('useUnifiedTopology', true);
+
   mongoose.connect(uri, {
     // useMongoClient: true,
     autoIndex: process.env.NODE_ENV !== 'production',
