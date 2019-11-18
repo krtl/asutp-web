@@ -1,29 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Layer, Stage, Line } from "react-konva";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
 import { MyConsts } from "../modules/MyConsts";
 
-const optionShemaNew = "New";
+const optionShemaAddNode = "AddNode";
 const optionShemaLoad = "Reload";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
-const optionShemaHistory = "History";
 
-const styles = {
-  customWidth: {
-    width: 350
-  }
-};
-
-export default class MyRegionSchema extends React.Component {
+export default class CustomSchemaEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedRegion: "",
       edited: false,
       stateChanged: false,
       stageClicked: false
@@ -42,7 +32,7 @@ export default class MyRegionSchema extends React.Component {
   handleMenuItemSelected(option) {
     // console.log(option);
     switch (option) {
-      case optionShemaNew: {
+      case optionShemaAddNode: {
         window.open(`/customSchemaEditor/newCustomSchema/`, "_blank");
         break;
       }
@@ -56,10 +46,6 @@ export default class MyRegionSchema extends React.Component {
       }
       case optionShemaReset: {
         this.handleResetSchemaClick();
-        break;
-      }
-      case optionShemaHistory: {
-        window.open(`/nodeStateHistory/${this.state.selectedRegion}`, "_blank");
         break;
       }
       default: {
@@ -193,23 +179,7 @@ export default class MyRegionSchema extends React.Component {
 
     return (
       <div>
-        <div>
-          <SelectField
-            floatingLabelText="Schemas:"
-            value={this.state.selectedRegion}
-            onChange={this.handleRegionChange}
-            style={styles.customWidth}
-          >
-            {this.props.schemas.map(schema => (
-              <MenuItem
-                key={schema.name}
-                value={schema}
-                primaryText={schema.caption}
-                secondaryText={schema.name}
-              />
-            ))}
-          </SelectField>
-        </div>
+        <div></div>
         <div>
           <Stage width={locW} height={locH} onClick={this.handleStageClick}>
             <Layer>
@@ -217,11 +187,10 @@ export default class MyRegionSchema extends React.Component {
                 x={10}
                 y={10}
                 items={[
-                  optionShemaNew,
+                  optionShemaAddNode,
                   optionShemaLoad,
                   optionShemaSave,
-                  optionShemaReset,
-                  optionShemaHistory
+                  optionShemaReset
                 ]}
                 parentStageClicked={this.state.stageClicked}
                 onDragEnd={this.handleDragEnd}
@@ -255,13 +224,20 @@ export default class MyRegionSchema extends React.Component {
   }
 }
 
-MyRegionSchema.propTypes = {
-  schemas: PropTypes.array.isRequired,
+CustomSchemaEditor.propTypes = {
+  schemaName: PropTypes.string,
+  schema: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    caption: PropTypes.string,
+    description: PropTypes.string
+  }),
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
-  onLoadScheme: PropTypes.func,
-  onSaveScheme: PropTypes.func,
-  onResetSchema: PropTypes.func,
-  onSaveManualValue: PropTypes.func,
+  onLoadScheme: PropTypes.func.isRequired,
+  onSaveScheme: PropTypes.func.isRequired,
+  onResetSchema: PropTypes.func.isRequired,
+  onAddNode: PropTypes.func.isRequired,
+  onDeleteNode: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+// obsolete. Currently not used.
+
 const NetNodeSchema = new mongoose.Schema({
   name: {
     type: String,

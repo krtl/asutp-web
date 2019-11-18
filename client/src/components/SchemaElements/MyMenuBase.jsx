@@ -20,7 +20,7 @@ export default class MyMenuBase extends React.Component {
   }
 
   handleDblClick() {
-    this.props.onDblClick();
+    this.props.onDoubleClick();
   }
 
   handleMenuOptionSelected(option) {

@@ -7,7 +7,8 @@ import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
-import  NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage";
+import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage";
+import CustomSchemaEditorPage from "./containers/CustomSchemaEditorPage";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";
@@ -55,7 +56,11 @@ export default function App() {
 
         <PrivateRoute path="/nodeStateHistory/:nodeName">
           <NodeStateHistoryPage />
-        </PrivateRoute>        
+        </PrivateRoute>
+
+        <PrivateRoute path="/customSchemaEditor/:schemaName">
+          <CustomSchemaEditorPage />
+        </PrivateRoute>
 
         <Route path="/login" render={props => <LoginPage {...props} />} />
         <Route path="/signup" render={props => <SignUpPage {...props} />} />

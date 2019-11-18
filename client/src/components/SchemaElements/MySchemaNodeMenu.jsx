@@ -88,7 +88,8 @@ export default class MySchemaNodeMenu extends React.Component {
           items={this.props.items}
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
-        />
+          onDoubleClick={this.handleDblClick}
+          />
       </Group>
     );
   }
