@@ -26,6 +26,62 @@ module.exports = app => {
     return true;
   });
 
+  app.get("/getRegionsNodesForSchemaEdit", (req, res) => {
+    const regions = [];
+
+    const locPSs = myDataModelNodes.GetAllPSsAsArray();
+    const locRegions = myDataModelNodes.GetRegions();
+
+    for (let i = 0; i < locRegions.length; i += 1) {
+      const region = locRegions[i];
+      const locNodes = [];
+
+      for (let j = 0; j < locPSs.length; j += 1) {
+        const ps = locPSs[j];
+        if (ps.parentNode) {
+          if (ps.parentNode.name === region.name) {
+            if (locNodes.indexOf(ps) < 0) {
+              const obj = {
+                name: ps.name,
+                caption: ps.caption
+                // sapCode: ps.sapCode
+              };
+              locNodes.push(obj);
+            }
+
+            for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
+              const lep2ps = ps.lep2psConnectors[k];
+
+              if (lep2ps.parentNode) {
+                const lep = lep2ps.parentNode;
+
+                if (locNodes.indexOf(lep) < 0) {
+                  const obj = {
+                    name: lep.name,
+                    caption: lep.caption
+                    // sapCode: lep.sapCode
+                  };
+                  locNodes.push(obj);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      const obj = {
+        name: region.name,
+        caption: region.caption,
+        // sapCode: region.sapCode,
+        nodes: locNodes
+      };
+      regions.push(obj);
+    }
+
+    res.json(regions);
+    return true;
+  });
+
   app.get("/getSchemaPSs", (req, res) => {
     const names = [];
     const pss = myDataModelNodes.GetSchemaPSs(req.query.name);

@@ -6,7 +6,7 @@ import makeUid from "../modules/MyFuncs";
 
 // import {MyConsts} from '../modules/MyConsts';
 
-// const MATCHING_ITEM_LIMIT = 10000;
+const MATCHING_ITEM_LIMIT = 100000;
 
 export default class CustomSchemaEditorPage extends React.Component {
   constructor(props) {
@@ -19,6 +19,8 @@ export default class CustomSchemaEditorPage extends React.Component {
         "/customSchemaEditor/",
         ""
       ),
+      schema: undefined,
+      regions: [],
       nodes: [],
       wires: [],
       update: false
@@ -32,11 +34,37 @@ export default class CustomSchemaEditorPage extends React.Component {
   }
 
   componentDidMount() {
-    //
+    const cmds = [
+      {
+        fetchUrl: "/getRegionsNodesForSchemaEdit",
+        fetchMethod: "get",
+        fetchData: "",
+        fetchCallback: regs => {
+          let locRegion = regs.slice(0, MATCHING_ITEM_LIMIT);
+          locRegion.sort((r1, r2) => {
+            if (r1.caption > r2.caption) {
+              return 1;
+            }
+            if (r1.caption < r2.caption) {
+              return -1;
+            }
+            return 0;
+          });
+          this.setState({
+            regions: locRegion
+          });
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
   }
 
   componentWillUnmount() {
-    this.setState({ nodes: [], wires: [] });
+    this.setState({ regions: [], nodes: [], wires: [] });
   }
 
   onLoadScheme(schemaName) {
@@ -146,8 +174,9 @@ export default class CustomSchemaEditorPage extends React.Component {
     return (
       <div>
         <CustomSchemaEditor
-          schemaName={this.props.schemaName}
-          schema={this.props.schema}
+          schemaName={this.state.schemaName}
+          schema={this.state.schema}
+          regions={this.state.regions}
           nodes={this.state.nodes}
           wires={this.state.wires}
           onLoadScheme={this.onLoadScheme}

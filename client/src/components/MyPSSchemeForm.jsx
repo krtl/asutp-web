@@ -7,8 +7,8 @@ import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
 import { MyConsts } from "../modules/MyConsts";
 import MyParams from "./MyParams";
-import MyParamDialog from "./MyParamDialog";
-import MyNodeConnectorDialog from "./MyNodeConnectorDialog";
+import MyParamDialog from "./Dialogs/MyParamDialog";
+import MyNodeConnectorDialog from "./Dialogs/MyNodeConnectorDialog";
 
 const optionShemaLoad = "Load";
 const optionShemaSave = "Save";

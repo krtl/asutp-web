@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
-import {MyConsts} from '../modules/MyConsts';
+import {MyConsts} from '../../modules/MyConsts';
 
 
 

@@ -89,7 +89,7 @@ export default class MySchemaNodeParam extends React.Component {
           y={0}
           width={2 * MyConsts.NODE_PS_RADIUS}
           height={2 * MyConsts.NODE_PS_RADIUS}
-          onDblClick={this.handleDblClick}
+          onDoubleClick={this.handleDblClick}
           onContextMenu={this.handleContextMenu}
           items={[optionHistory]}
           onMenuItemSelected={this.handleMenuOptionSelected}

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Layer, Stage, Line } from "react-konva";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
+import DialogAddNode from "./Dialogs/DialogAddNode";
 import { MyConsts } from "../modules/MyConsts";
 
 const optionShemaAddNode = "AddNode";
@@ -16,7 +17,12 @@ export default class CustomSchemaEditor extends React.Component {
     this.state = {
       edited: false,
       stateChanged: false,
-      stageClicked: false
+      stageClicked: false,
+
+      open: false,
+      editedSchemaName: "",
+      regions: [],
+      nodes: []
     };
     this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
@@ -27,13 +33,19 @@ export default class CustomSchemaEditor extends React.Component {
 
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
     this.handleStageClick = this.handleStageClick.bind(this);
+
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
 
   handleMenuItemSelected(option) {
     // console.log(option);
     switch (option) {
       case optionShemaAddNode: {
-        window.open(`/customSchemaEditor/newCustomSchema/`, "_blank");
+        this.setState({
+          open: true,
+          editedSchemaName: "schema_Name!"
+        });
+
         break;
       }
       case optionShemaLoad: {
@@ -50,6 +62,27 @@ export default class CustomSchemaEditor extends React.Component {
       }
       default: {
         break;
+      }
+    }
+  }
+
+  getNodeByName(nodeName) {
+    for (let i = 0; i < this.props.nodes.length; i++) {
+      let node = this.props.nodes[i];
+      if (node.name === nodeName) {
+        return node;
+      }
+    }
+    return undefined;
+  }
+
+  handleDialogClose(newParamName) {
+    this.setState({ open: false });
+
+    if (newParamName !== "dismiss") {
+      const node = this.getNodeByName(this.state.editedNodeName);
+      if (node === undefined) {
+        this.state.nodes.push(this.state.editedNodeName);
       }
     }
   }
@@ -181,6 +214,12 @@ export default class CustomSchemaEditor extends React.Component {
       <div>
         <div></div>
         <div>
+          <DialogAddNode
+            open={this.state.open}
+            onClose={this.handleDialogClose}
+            regions={this.props.regions}
+            editedSchemaName={this.state.editedSchemaName}
+          />
           <Stage width={locW} height={locH} onClick={this.handleStageClick}>
             <Layer>
               <MySchemaNodeMenu
@@ -232,6 +271,13 @@ CustomSchemaEditor.propTypes = {
     caption: PropTypes.string,
     description: PropTypes.string
   }),
+  regions: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      caption: PropTypes.string.isRequired,
+      nodes: PropTypes.array.isRequired
+    })
+  ).isRequired,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   onLoadScheme: PropTypes.func.isRequired,

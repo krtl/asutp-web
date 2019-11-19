@@ -10,7 +10,7 @@ import {
     TableRow,
     TableRowColumn,
   } from 'material-ui/Table';
-import MyPSAsutpLinkageDialog from './MyPSAsutpLinkageDialog'
+import MyPSAsutpLinkageDialog from './Dialogs/MyPSAsutpLinkageDialog'
 import {MyConsts} from '../modules/MyConsts';
 
 

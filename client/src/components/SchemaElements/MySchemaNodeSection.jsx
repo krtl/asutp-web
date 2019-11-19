@@ -63,7 +63,7 @@ export default class MySchemaNodeSection extends React.Component {
           y={0}
           width={MyConsts.NODE_PS_RADIUS * 10}
           height={MyConsts.NODE_SECTION_HEIGHT}
-          onDblClick={this.handleDblClick}
+          onDoubleClick={this.handleDblClick}
           onContextMenu={this.handleContextMenu}
           items={[optionHistory]}
           onMenuItemSelected={this.handleMenuOptionSelected}
