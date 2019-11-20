@@ -34,19 +34,21 @@ module.exports = app => {
 
     for (let i = 0; i < locRegions.length; i += 1) {
       const region = locRegions[i];
+      const nodeNames = [];
       const locNodes = [];
 
       for (let j = 0; j < locPSs.length; j += 1) {
         const ps = locPSs[j];
         if (ps.parentNode) {
           if (ps.parentNode.name === region.name) {
-            if (locNodes.indexOf(ps) < 0) {
+            if (nodeNames.indexOf(ps.name) < 0) {
               const obj = {
                 name: ps.name,
                 caption: ps.caption
                 // sapCode: ps.sapCode
               };
               locNodes.push(obj);
+              nodeNames.push(ps.name);
             }
 
             for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
@@ -55,13 +57,14 @@ module.exports = app => {
               if (lep2ps.parentNode) {
                 const lep = lep2ps.parentNode;
 
-                if (locNodes.indexOf(lep) < 0) {
+                if (nodeNames.indexOf(lep.name) < 0) {
                   const obj = {
                     name: lep.name,
                     caption: lep.caption
                     // sapCode: lep.sapCode
                   };
                   locNodes.push(obj);
+                  nodeNames.push(lep.name);
                 }
               }
             }

@@ -77,6 +77,7 @@ export default class CustomSchemaEditor extends React.Component {
   }
 
   handleDialogClose(newParamName) {
+    console.log(newParamName);
     this.setState({ open: false });
 
     if (newParamName !== "dismiss") {

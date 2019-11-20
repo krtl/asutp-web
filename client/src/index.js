@@ -4,8 +4,8 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { loadState } from "./modules/localStorage";
 
-// import getMuiTheme from "material-ui/styles/getMuiTheme";
-// import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme from "material-ui/styles/getMuiTheme";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { BrowserRouter as Router } from "react-router-dom";
 import reducer from "./reducers";
 import App from "./app";
@@ -19,11 +19,11 @@ const store = createStore(
 
 ReactDom.render(
   <Provider store={store}>
-    {/* <MuiThemeProvider muiTheme={getMuiTheme()}> */}
+    <MuiThemeProvider muiTheme={getMuiTheme()}>
     <Router>
       <App />
     </Router>
-    {/* </MuiThemeProvider> */}
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

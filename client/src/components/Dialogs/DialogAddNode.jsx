@@ -1,168 +1,142 @@
 import React from "react";
-import PropTypes from "prop-types";
-import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
-const styles = {
-  radioButton: {
-    marginTop: 6
+const useStyles = makeStyles(theme => ({
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    margin: "auto",
+    width: "fit-content"
   },
   formControl: {
-    margin: 1,
-    minWidth: 120,
-    maxWidth: 300
+    marginTop: theme.spacing(2),
+    minWidth: 220
+  },
+  formControlLabel: {
+    marginTop: theme.spacing(1)
   }
-};
+}));
 
-export default class DialogAddNode extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: props.open,
-      currentRegionName: "",
-      currentRegion: undefined,
-      currentNodes: [],
-      newNodeName: ""
-    };
+export default function MaxWidthDialog(props) {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [currentRegion, setCurrentRegion] = React.useState();
+  const [currentNodes, setCurrentNodes] = React.useState([]);
+  const [newNode, setNewNode] = React.useState();
 
-    this.handleOk = this.handleOk.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleRegionChange = this.handleRegionChange.bind(this);
-    this.handleNodeChange = this.handleNodeChange.bind(this);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.open !== prevProps.open) {
-      this.setState({ open: this.props.open });
-      if (this.props.open) {
-        this.setState({ newNodeName: "" });
-      }
+  const handleRegionChange = event => {
+    setCurrentRegion(event.target.value);
+    if (event.target.value) {
+      setCurrentNodes(event.target.value.nodes);
+    } else {
+      setCurrentNodes([]);
     }
-  }
-
-  handleClose() {
-    this.setState({ open: false });
-    this.props.onClose("dismiss");
-  }
-
-  handleOk() {
-    this.setState({ open: false });
-    this.props.onClose(this.state.newNodeName);
-  }
-
-  handleRadioGroupChange(event, newValue) {
-    this.setState({ newParamName: newValue });
-  }
-
-  handleRegionChange = event => {
-    console.log("region change");
-    this.setState({
-      currentRegion: event.target.value.name,
-      currentNodes: event.target.value.nodes,
-      newNodeName: ""
-    });
+    setNewNode();
   };
 
-  handleNodeChange = event => {
-    console.log("node change");
-    this.setState({
-      newNodeName: event.target.value
-    });
+  const handleNodeChange = event => {
+    setNewNode(event.target.value);
   };
 
-  render() {
-    console.log("render");
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-    const regionItems = [];
-    const nodeItems = [];
+  const handleClose = () => {
+    // setOpen(false);    
+    props.onClose("dismiss");
+  };
 
+  const handleOk = () => {
+    // setOpen(false);
+    props.onClose(newNode.name);
+  };
+
+  if (props.open !== open) {
+    setOpen(props.open);
+  }
+
+  const regionItems = [];
+  const nodeItems = [];
+
+  regionItems.push(
+    <MenuItem key={0} value={undefined}>
+      {"none"}
+    </MenuItem>
+  );
+
+  props.regions.forEach(region => {
     regionItems.push(
-      <MenuItem key={0} value={undefined} style={styles.radioButton}>
-        {"none"}
+      <MenuItem key={region.name} value={region}>
+        {region.name}
       </MenuItem>
     );
+  });
 
-    this.props.regions.forEach(region => {
-      regionItems.push(
-        <MenuItem key={region.name} value={region}>
-          {region.name}
-        </MenuItem>
-      );
-    });
+  nodeItems.push(
+    <MenuItem key={0} value={undefined}>
+      {"none"}
+    </MenuItem>
+  );
 
+  currentNodes.forEach(node => {
     nodeItems.push(
-      <MenuItem key={0} value={undefined} style={styles.radioButton}>
-        {"none"}
+      <MenuItem key={node.name} value={node}>
+        {node.name}
       </MenuItem>
     );
+  });
 
-    this.state.currentNodes.forEach(node => {
-      regionItems.push(
-        <MenuItem key={node.name} value={node}>
-          {node.name}
-        </MenuItem>
-      );
-    });
-
-    const actions = [
-      <FlatButton label="Cancel" primary={true} onClick={this.handleClose} />,
-      <FlatButton
-        label="Ok"
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.handleOk}
-      />
-    ];
-
-    return (
+  return (
+    <React.Fragment>
+      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        test
+      </Button> */}
       <Dialog
-        title={`Add node for '${this.props.editedSchemaName}'`}
-        actions={actions}
-        modal={false}
-        open={this.state.open}
-        onRequestClose={this.handleClose}
-        autoScrollBodyContent={true}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="max-width-dialog-title"
       >
-        <FormControl>
-          <Select
-            value={this.state.currentRegionName}
-            onChange={this.handleRegionChange}
-            // displayEmpty
-          >
-            {regionItems}
-          </Select>
-        </FormControl>
+        <DialogTitle id="max-width-dialog-title">{`Add node for '${props.editedSchemaName}'`}</DialogTitle>
+        <DialogContent>
+          <form className={classes.form} noValidate>
+            <FormControl className={classes.formControl}>
+              <DialogContentText>Region:</DialogContentText>
+              <Select
+                autoFocus
+                value={currentRegion}
+                onChange={handleRegionChange}
+              >
+                {regionItems}
+              </Select>
+            </FormControl>
 
-        <FormControl>
-          <Select
-            value={this.state.newNodeName}
-            onChange={this.handleNodeChange}
-            displayEmpty
-          >
-            {nodeItems}
-          </Select>
-        </FormControl>
+            <FormControl className={classes.formControl}>
+              <DialogContentText>Node:</DialogContentText>
+              <Select autoFocus value={newNode} onChange={handleNodeChange}>
+                {nodeItems}
+              </Select>
+            </FormControl>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={handleOk}>
+            Ok
+          </Button>
+          <Button color="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+        </DialogActions>
       </Dialog>
-    );
-  }
+    </React.Fragment>
+  );
 }
-
-DialogAddNode.propTypes = {
-  regions: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      caption: PropTypes.string.isRequired,
-      nodes: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          caption: PropTypes.string.isRequired
-        }).isRequired
-      )
-    })
-  ).isRequired,
-  onClose: PropTypes.func,
-  editedSchemaName: PropTypes.string
-};
