@@ -32,6 +32,7 @@ class MyRegionSchemaContainer extends React.Component {
     this.onSaveScheme = this.onSaveScheme.bind(this);
     this.onResetSchema = this.onResetSchema.bind(this);
     this.onSaveManualValue = this.onSaveManualValue.bind(this);
+    this.onAddNewCustomSchema = this.onAddNewCustomSchema.bind(this);
   }
 
   componentDidMount() {
@@ -157,6 +158,25 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
+  onAddNewCustomSchema(s) {
+    const cmds = [
+      {
+        fetchUrl: "/api/addNewCustomSchema",
+        fetchMethod: "post",
+        fetchData: s,
+        fetchCallback: () => {
+          // this.setState({
+          // });
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
+  }
+
   // shouldComponentUpdate(nextProps, nextState) {
   //   return !(nextState.doNotRender);
   // }
@@ -173,6 +193,7 @@ class MyRegionSchemaContainer extends React.Component {
           onSaveScheme={this.onSaveScheme}
           onResetSchema={this.onResetSchema}
           onSaveManualValue={this.onSaveManualValue}
+          onAddNewCustomSchema={this.onAddNewCustomSchema}
           history={this.props.history}
         />
         <MyFetchClient
@@ -191,11 +212,8 @@ MyRegionSchemaContainer.propTypes = {
   onIncCountOfUpdates: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  dispatch => ({
-    onIncCountOfUpdates: payload => {
-      dispatch(incCountOfUpdates(payload));
-    }
-  })
-)(MyRegionSchemaContainer);
+export default connect(null, dispatch => ({
+  onIncCountOfUpdates: payload => {
+    dispatch(incCountOfUpdates(payload));
+  }
+}))(MyRegionSchemaContainer);

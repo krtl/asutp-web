@@ -366,4 +366,22 @@ router.post('/saveConnectionManualValue', (req, res, next) => {
   }
 });
 
+router.post('/addNewCustomSchema', (req, res, next) => {
+  const schemaInfo = req.body;
+  const err = lastValues.SetManualValue(manualvalue);
+
+  if (err) {
+    logger.info(`[addNewCustomSchema] Failed: ${err}`);
+    next(err);
+    // res.status(500).json({
+    //   message: err.message,
+    // });
+  } else {
+    logger.debug(`[addNewCustomSchema] New custom schema ${schemaInfo} has added`);
+    res.status(200).json({
+      message: "'New custom schema added'",
+    });
+  }
+});
+
 module.exports = router;

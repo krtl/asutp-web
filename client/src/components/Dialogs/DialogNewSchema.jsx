@@ -4,11 +4,9 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -29,22 +27,20 @@ const useStyles = makeStyles(theme => ({
 export default function MaxWidthDialog(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [currentRegion, setCurrentRegion] = React.useState();
-  const [currentNodes, setCurrentNodes] = React.useState([]);
-  const [newNode, setNewNode] = React.useState();
+  const [name, setName] = React.useState("");
+  const [caption, setCaption] = React.useState("");
+  const [description, setDescription] = React.useState("");
 
-  const handleRegionChange = event => {
-    setCurrentRegion(event.target.value);
-    if (event.target.value) {
-      setCurrentNodes(event.target.value.nodes);
-    } else {
-      setCurrentNodes([]);
-    }
-    setNewNode();
+  const handleNameChange = event => {
+    setName(event.target.value);
   };
 
-  const handleNodeChange = event => {
-    setNewNode(event.target.value);
+  const handleCaptionChange = event => {
+    setCaption(event.target.value);
+  };
+
+  const handleDescriptionChange = event => {
+    setDescription(event.target.value);
   };
 
   // const handleClickOpen = () => {
@@ -57,46 +53,15 @@ export default function MaxWidthDialog(props) {
   };
 
   const handleOk = () => {
-    if (newNode) {
+    if (name !== "" && caption !== "") {
       // setOpen(false);
-      props.onClose(newNode.name);
+      props.onClose({ name, caption, description });
     }
   };
 
   if (props.open !== open) {
     setOpen(props.open);
   }
-
-  const regionItems = [];
-  const nodeItems = [];
-
-  regionItems.push(
-    <MenuItem key={0} value={undefined}>
-      {"none"}
-    </MenuItem>
-  );
-
-  props.regions.forEach(region => {
-    regionItems.push(
-      <MenuItem key={region.name} value={region}>
-        {region.name}
-      </MenuItem>
-    );
-  });
-
-  nodeItems.push(
-    <MenuItem key={0} value={undefined}>
-      {"none"}
-    </MenuItem>
-  );
-
-  currentNodes.forEach(node => {
-    nodeItems.push(
-      <MenuItem key={node.name} value={node}>
-        {node.name}
-      </MenuItem>
-    );
-  });
 
   return (
     <React.Fragment>
@@ -108,20 +73,34 @@ export default function MaxWidthDialog(props) {
         onClose={handleClose}
         aria-labelledby="max-width-dialog-title"
       >
-        <DialogTitle id="max-width-dialog-title">{`Add node for '${props.editedSchemaName}'`}</DialogTitle>
+        <DialogTitle id="max-width-dialog-title">New schema</DialogTitle>
         <DialogContent>
           <form className={classes.form} noValidate>
             <FormControl className={classes.formControl}>
-              <DialogContentText>Region:</DialogContentText>
-              <Select value={currentRegion} onChange={handleRegionChange}>
-                {regionItems}
-              </Select>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <DialogContentText>Node:</DialogContentText>
-              <Select value={newNode} onChange={handleNodeChange}>
-                {nodeItems}
-              </Select>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Name"
+                fullWidth
+                onChange={handleNameChange}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="caption"
+                label="Caption"
+                fullWidth
+                onChange={handleCaptionChange}
+              />
+              <TextField
+                autoFocus
+                margin="dense"
+                id="description"
+                label="Description"
+                fullWidth
+                onChange={handleDescriptionChange}
+              />
             </FormControl>
           </form>
         </DialogContent>

@@ -5,9 +5,11 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
+import DialogNewSchema from "./Dialogs/DialogNewSchema";
 import { MyConsts } from "../modules/MyConsts";
 
 const optionShemaNew = "New";
+const optionShemaEdit = "Edit";
 const optionShemaLoad = "Reload";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
@@ -23,6 +25,7 @@ export default class MyRegionSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      openDialogNewSchema: false,
       selectedRegion: "",
       edited: false,
       stateChanged: false,
@@ -37,13 +40,25 @@ export default class MyRegionSchema extends React.Component {
 
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
     this.handleStageClick = this.handleStageClick.bind(this);
+
+    this.handleDialogClose = this.handleDialogClose.bind(this);
   }
 
   handleMenuItemSelected(option) {
     // console.log(option);
     switch (option) {
       case optionShemaNew: {
-        window.open(`/customSchemaEditor/newCustomSchema/`, "_blank");
+        this.setState({
+          openDialogNewSchema: true,
+          editedSchemaName: "schema_Name!"
+        });
+        break;
+      }
+      case optionShemaEdit: {
+        window.open(
+          `/customSchemaEditor/${this.state.selectedRegion}`,
+          "_blank"
+        );
         break;
       }
       case optionShemaLoad: {
@@ -65,6 +80,15 @@ export default class MyRegionSchema extends React.Component {
       default: {
         break;
       }
+    }
+  }
+
+  handleDialogClose(data) {
+    console.log(data);
+    this.setState({ openDialogNewSchema: false });
+
+    if (data !== "dismiss") {
+      this.props.onAddNewCustomSchema(data);
     }
   }
 
@@ -193,6 +217,11 @@ export default class MyRegionSchema extends React.Component {
 
     return (
       <div>
+        <DialogNewSchema
+          open={this.state.openDialogNewSchema}
+          onClose={this.handleDialogClose}
+          editedSchemaName={this.state.editedSchemaName}
+        />
         <div>
           <SelectField
             floatingLabelText="Schemas:"
@@ -218,6 +247,7 @@ export default class MyRegionSchema extends React.Component {
                 y={10}
                 items={[
                   optionShemaNew,
+                  optionShemaEdit,
                   optionShemaLoad,
                   optionShemaSave,
                   optionShemaReset,
@@ -263,5 +293,6 @@ MyRegionSchema.propTypes = {
   onSaveScheme: PropTypes.func,
   onResetSchema: PropTypes.func,
   onSaveManualValue: PropTypes.func,
+  onAddNewCustomSchema: PropTypes.func,
   history: PropTypes.object.isRequired
 };

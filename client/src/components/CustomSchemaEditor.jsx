@@ -19,7 +19,7 @@ export default class CustomSchemaEditor extends React.Component {
       stateChanged: false,
       stageClicked: false,
 
-      open: false,
+      openDialogAddNode: false,
       editedSchemaName: "",
       regions: [],
       nodes: []
@@ -42,7 +42,7 @@ export default class CustomSchemaEditor extends React.Component {
     switch (option) {
       case optionShemaAddNode: {
         this.setState({
-          open: true,
+          openDialogAddNode: true,
           editedSchemaName: "schema_Name!"
         });
 
@@ -78,7 +78,7 @@ export default class CustomSchemaEditor extends React.Component {
 
   handleDialogClose(newParamName) {
     console.log(newParamName);
-    this.setState({ open: false });
+    this.setState({ openDialogAddNode: false });
 
     if (newParamName !== "dismiss") {
       const node = this.getNodeByName(this.state.editedNodeName);
@@ -213,10 +213,9 @@ export default class CustomSchemaEditor extends React.Component {
 
     return (
       <div>
-        <div></div>
         <div>
           <DialogAddNode
-            open={this.state.open}
+            open={this.state.openDialogAddNode}
             onClose={this.handleDialogClose}
             regions={this.props.regions}
             editedSchemaName={this.state.editedSchemaName}
