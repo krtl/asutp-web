@@ -1,80 +1,83 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Layer, Stage, Line } from "react-konva";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
-import DialogNewSchema from "./Dialogs/DialogNewSchema";
+import DialogAddNode from "./Dialogs/DialogAddNode";
 import { MyConsts } from "../modules/MyConsts";
 
-const optionShemaNew = "New";
-const optionShemaEdit = "Edit";
+const optionShemaToEditMode = "EditMode";
+const optionShemaToDisplayMode = "DisplayMode";
 const optionShemaLoad = "Reload";
 const optionShemaSave = "Save";
+const optionShemaAddNode = "AddNode";
 const optionShemaReset = "Reset";
 const optionShemaHistory = "History";
-
-const styles = {
-  customWidth: {
-    width: 350
-  }
-};
 
 export default class MyRegionSchema extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      openDialogNewSchema: false,
-      selectedRegion: "",
       edited: false,
       stateChanged: false,
-      stageClicked: false
+      stageClicked: false,
+
+      editMode: false,
+      openDialogAddNode: false
     };
-    this.handleLoadSchemeClick = this.handleLoadSchemeClick.bind(this);
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
     this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
-    this.handleRegionChange = this.handleRegionChange.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
 
     this.handleMenuItemSelected = this.handleMenuItemSelected.bind(this);
     this.handleStageClick = this.handleStageClick.bind(this);
 
-    this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleDialogAddNodeClose = this.handleDialogAddNodeClose.bind(this);
   }
 
   handleMenuItemSelected(option) {
     // console.log(option);
     switch (option) {
-      case optionShemaNew: {
-        this.setState({
-          openDialogNewSchema: true,
-          editedSchemaName: "schema_Name!"
+      case optionShemaToEditMode: {
+        this.props.onLoadRegionsForSchemaEdit(() => {
+          this.setState({
+            editMode: true
+          });
         });
         break;
       }
-      case optionShemaEdit: {
-        window.open(
-          `/customSchemaEditor/${this.state.selectedRegion}`,
-          "_blank"
-        );
+      case optionShemaToDisplayMode: {
+        this.setState({
+          editMode: false
+        });
         break;
       }
       case optionShemaLoad: {
-        this.handleLoadSchemeClick();
+        this.props.onLoadScheme(this.props.schema.name);
         break;
       }
       case optionShemaSave: {
         this.handleSaveSchemeClick();
         break;
       }
+
+      case optionShemaAddNode: {
+        this.setState({
+          openDialogAddNode: true,
+          editedSchemaName: `${this.props.schema.name}(${this.props.schema.caption})`
+        });
+        break;
+      }
+
       case optionShemaReset: {
         this.handleResetSchemaClick();
         break;
       }
       case optionShemaHistory: {
-        window.open(`/nodeStateHistory/${this.state.selectedRegion}`, "_blank");
+        if (this.props.schema) {
+          window.open(`/nodeStateHistory/${this.props.schema.name}`, "_blank");
+        }
         break;
       }
       default: {
@@ -83,12 +86,27 @@ export default class MyRegionSchema extends React.Component {
     }
   }
 
-  handleDialogClose(data) {
-    console.log(data);
-    this.setState({ openDialogNewSchema: false });
+  getNodeByName(nodeName) {
+    for (let i = 0; i < this.props.nodes.length; i++) {
+      let node = this.props.nodes[i];
+      if (node.name === nodeName) {
+        return node;
+      }
+    }
+    return undefined;
+  }
 
-    if (data !== "dismiss") {
-      this.props.onAddNewCustomSchema(data);
+  handleDialogAddNodeClose(newParamName) {
+    if (this.state.editMode) {
+      console.log(newParamName);
+      this.setState({ openDialogAddNode: false });
+
+      if (newParamName !== "dismiss") {
+        const node = this.getNodeByName(this.state.editedNodeName);
+        if (node === undefined) {
+          this.state.nodes.push(this.state.editedNodeName);
+        }
+      }
     }
   }
 
@@ -141,37 +159,20 @@ export default class MyRegionSchema extends React.Component {
     return result;
   }
 
-  doLoadScheme(selectedRegion) {
-    if (selectedRegion === undefined) {
-      selectedRegion = this.state.selectedRegion;
-    }
-
-    if (selectedRegion) {
-      this.props.onLoadScheme(selectedRegion.name);
-    }
-  }
-
-  handleLoadSchemeClick(selectedListItem) {
-    this.doLoadScheme(this.state.selectedRegion);
-  }
-
-  handleRegionChange(event, index, value) {
-    this.setState({ selectedRegion: value });
-    this.doLoadScheme(value);
-  }
-
   handleSaveSchemeClick() {
-    if (this.state.edited) {
-      let nodes = [];
-      this.props.nodes.forEach(node => {
-        // if (node.changed !== undefined) { //currently we save all scheme due to automatic redistribution on server side.
-        nodes.push({ nodeName: node.name, x: node.x, y: node.y });
-        // }
-      });
+    if (this.state.editMode) {
+      if (this.state.edited) {
+        let nodes = [];
+        this.props.nodes.forEach(node => {
+          // if (node.changed !== undefined) { //currently we save all scheme due to automatic redistribution on server side.
+          nodes.push({ nodeName: node.name, x: node.x, y: node.y });
+          // }
+        });
 
-      if (nodes.length > 0) {
-        const s = JSON.stringify(nodes);
-        this.props.onSaveScheme(s);
+        if (nodes.length > 0) {
+          const s = JSON.stringify(nodes);
+          this.props.onSaveScheme(s);
+        }
       }
     }
   }
@@ -181,16 +182,18 @@ export default class MyRegionSchema extends React.Component {
   }
 
   handleDragEnd(nodeObj) {
-    const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
-    if (locNode !== undefined) {
-      // console.log(`[MyStage] Drag ends for ${locNode.name}`);
+    if (this.state.editMode) {
+      const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
+      if (locNode !== undefined) {
+        // console.log(`[MyStage] Drag ends for ${locNode.name}`);
 
-      locNode.x = nodeObj.x;
-      locNode.y = nodeObj.y;
-      // locNode.changed = true;
-      this.setState({
-        edited: true
-      });
+        locNode.x = nodeObj.x;
+        locNode.y = nodeObj.y;
+        // locNode.changed = true;
+        this.setState({
+          edited: true
+        });
+      }
     }
   }
 
@@ -215,44 +218,32 @@ export default class MyRegionSchema extends React.Component {
     const locW = 3000;
     const locH = 5000;
 
+    const menuItems = this.state.editMode
+      ? [
+          optionShemaToDisplayMode,
+          optionShemaLoad,
+          optionShemaSave,
+          optionShemaAddNode,
+          optionShemaReset,
+          optionShemaHistory
+        ]
+      : [optionShemaToEditMode, optionShemaLoad, optionShemaHistory];
+
     return (
       <div>
-        <DialogNewSchema
-          open={this.state.openDialogNewSchema}
-          onClose={this.handleDialogClose}
-          editedSchemaName={this.state.editedSchemaName}
-        />
         <div>
-          <SelectField
-            floatingLabelText="Schemas:"
-            value={this.state.selectedRegion}
-            onChange={this.handleRegionChange}
-            style={styles.customWidth}
-          >
-            {this.props.schemas.map(schema => (
-              <MenuItem
-                key={schema.name}
-                value={schema}
-                primaryText={schema.caption}
-                secondaryText={schema.name}
-              />
-            ))}
-          </SelectField>
-        </div>
-        <div>
+          <DialogAddNode
+            open={this.state.openDialogAddNode}
+            onClose={this.handleDialogAddNodeClose}
+            regions={this.props.regions}
+            editedSchemaName={this.state.editedSchemaName}
+          />
           <Stage width={locW} height={locH} onClick={this.handleStageClick}>
             <Layer>
               <MySchemaNodeMenu
                 x={10}
                 y={10}
-                items={[
-                  optionShemaNew,
-                  optionShemaEdit,
-                  optionShemaLoad,
-                  optionShemaSave,
-                  optionShemaReset,
-                  optionShemaHistory
-                ]}
+                items={menuItems}
                 parentStageClicked={this.state.stageClicked}
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}
@@ -263,6 +254,7 @@ export default class MyRegionSchema extends React.Component {
                 <MySchemaNode
                   key={rec.name}
                   node={rec}
+                  editMode={this.state.editMode}
                   parentStageClicked={this.state.stageClicked}
                   onDragEnd={this.handleDragEnd}
                   onDoubleClick={this.handleDoubleClick}
@@ -286,13 +278,17 @@ export default class MyRegionSchema extends React.Component {
 }
 
 MyRegionSchema.propTypes = {
-  schemas: PropTypes.array.isRequired,
+  schema: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    caption: PropTypes.string.isRequired
+  }),
+  regions: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
-  onLoadScheme: PropTypes.func,
-  onSaveScheme: PropTypes.func,
-  onResetSchema: PropTypes.func,
-  onSaveManualValue: PropTypes.func,
-  onAddNewCustomSchema: PropTypes.func,
+  onLoadScheme: PropTypes.func.isRequired,
+  onLoadRegionsForSchemaEdit: PropTypes.func.isRequired,
+  onSaveScheme: PropTypes.func.isRequired,
+  onResetSchema: PropTypes.func.isRequired,
+  onSaveManualValue: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };

@@ -9,7 +9,7 @@ import { incCountOfUpdates } from "../reducers/actions";
 
 // import {MyConsts} from '../modules/MyConsts';
 
-// const MATCHING_ITEM_LIMIT = 10000;
+const MATCHING_REGIONS_ITEM_LIMIT = 100000;
 
 let valuesUpdated = 0;
 let timerId;
@@ -21,18 +21,18 @@ class MyRegionSchemaContainer extends React.Component {
     this.state = {
       cmdUid: "",
       fetchRequests: [],
-      regionName: "",
       // doNotRender: false,
+      regions: [],
       nodes: [],
       wires: [],
       update: false
     };
 
-    this.onLoadScheme = this.onLoadScheme.bind(this);
+    this.loadScheme = this.loadScheme.bind(this);
+    this.loadRegionsForSchemaEdit = this.loadRegionsForSchemaEdit.bind(this);
     this.onSaveScheme = this.onSaveScheme.bind(this);
     this.onResetSchema = this.onResetSchema.bind(this);
     this.onSaveManualValue = this.onSaveManualValue.bind(this);
-    this.onAddNewCustomSchema = this.onAddNewCustomSchema.bind(this);
   }
 
   componentDidMount() {
@@ -56,9 +56,14 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
-  onLoadScheme(schemaName) {
+  componentDidUpdate(prevProps) {
+    if (this.props.schema !== prevProps.schema) {
+      this.loadScheme(this.props.schema.name);
+    }
+  }
+
+  loadScheme(schemaName) {
     this.setState({
-      regionName: schemaName,
       nodes: [],
       wires: []
     });
@@ -101,10 +106,41 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
+  loadRegionsForSchemaEdit(callback) {
+    const cmds = [
+      {
+        fetchUrl: "/getRegionsNodesForSchemaEdit",
+        fetchMethod: "get",
+        fetchData: "",
+        fetchCallback: regs => {
+          let locRegion = regs.slice(0, MATCHING_REGIONS_ITEM_LIMIT);
+          locRegion.sort((r1, r2) => {
+            if (r1.caption > r2.caption) {
+              return 1;
+            }
+            if (r1.caption < r2.caption) {
+              return -1;
+            }
+            return 0;
+          });
+          this.setState({
+            regions: locRegion
+          });
+          callback();
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
+  }
+
   onSaveScheme(s) {
     const cmds = [
       {
-        fetchUrl: `/api/saveNodeCoordinates?schemaName=${this.state.regionName}`,
+        fetchUrl: `/api/saveNodeCoordinates?schemaName=${this.props.schema.name}`,
         fetchMethod: "post",
         fetchData: s,
         fetchCallback: () => {
@@ -123,7 +159,7 @@ class MyRegionSchemaContainer extends React.Component {
   onResetSchema() {
     const cmds = [
       {
-        fetchUrl: `/api/resetNodeCoordinates?schemaName=${this.state.regionName}`,
+        fetchUrl: `/api/resetNodeCoordinates?schemaName=${this.props.schema.name}`,
         fetchMethod: "post",
         fetchData: "",
         fetchCallback: () => {
@@ -158,25 +194,6 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
-  onAddNewCustomSchema(s) {
-    const cmds = [
-      {
-        fetchUrl: "/api/addNewCustomSchema",
-        fetchMethod: "post",
-        fetchData: s,
-        fetchCallback: () => {
-          // this.setState({
-          // });
-        }
-      }
-    ];
-
-    this.setState({
-      cmdUid: makeUid(5),
-      fetchRequests: cmds
-    });
-  }
-
   // shouldComponentUpdate(nextProps, nextState) {
   //   return !(nextState.doNotRender);
   // }
@@ -186,10 +203,12 @@ class MyRegionSchemaContainer extends React.Component {
     return (
       <div>
         <MyRegionSchema
-          schemas={this.props.schemas}
+          schema={this.props.schema}
+          regions={this.state.regions}
           nodes={this.state.nodes}
           wires={this.state.wires}
-          onLoadScheme={this.onLoadScheme}
+          onLoadScheme={this.loadScheme}
+          onLoadRegionsForSchemaEdit={this.loadRegionsForSchemaEdit}
           onSaveScheme={this.onSaveScheme}
           onResetSchema={this.onResetSchema}
           onSaveManualValue={this.onSaveManualValue}
@@ -207,7 +226,10 @@ class MyRegionSchemaContainer extends React.Component {
 }
 
 MyRegionSchemaContainer.propTypes = {
-  schemas: PropTypes.array.isRequired,
+  schema: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    caption: PropTypes.string.isRequired
+  }),
   history: PropTypes.object.isRequired,
   onIncCountOfUpdates: PropTypes.func.isRequired
 };

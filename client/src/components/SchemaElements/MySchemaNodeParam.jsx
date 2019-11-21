@@ -40,7 +40,7 @@ export default class MySchemaNodeParam extends React.Component {
   }
 
   render() {
-    const x = this.props.node.x;
+    const x = this.props.node.x - MyConsts.NODE_PS_RADIUS;
     const y = this.props.node.y;
 
     let paramValueColor;
@@ -56,13 +56,7 @@ export default class MySchemaNodeParam extends React.Component {
       }
     }
 
-    return (
-      <Group
-        x={x - MyConsts.NODE_PS_RADIUS}
-        y={y}
-        draggable
-        onDragend={this.handleDragEnd}
-      >
+    const body = <>
         <Text x={0} y={0} fontSize={9} text={this.props.node.name} />
         <Rect
           x={0}
@@ -95,6 +89,15 @@ export default class MySchemaNodeParam extends React.Component {
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
+    </>;
+    
+    return this.props.editMode ? (
+      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+        {body}
+      </Group>
+    ) : (
+      <Group x={x} y={y}>
+        {body}
       </Group>
     );
   }
@@ -108,6 +111,7 @@ MySchemaNodeParam.propTypes = {
     y: PropTypes.number,
     powered: PropTypes.number
   }).isRequired,
+  editMode: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,

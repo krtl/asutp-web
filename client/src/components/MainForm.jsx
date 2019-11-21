@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MyRegionSchemaContainer from "../containers/MyRegionSchemaContainer";
+import SchemaManagerContainer from "../containers/SchemaManagerContainer";
 
 class MainForm extends React.Component {
   componentDidMount() {
@@ -8,17 +8,11 @@ class MainForm extends React.Component {
   }
 
   render() {
-    return (
-      <MyRegionSchemaContainer
-        schemas={this.props.schemas}
-        history={this.props.history}
-      />
-    );
+    return <SchemaManagerContainer history={this.props.history} />;
   }
 }
 
 MainForm.propTypes = {
-  schemas: PropTypes.array.isRequired,
   history: PropTypes.object.isRequired
 };
 

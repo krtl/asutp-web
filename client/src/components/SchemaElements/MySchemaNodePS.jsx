@@ -53,8 +53,8 @@ export default class MySchemaNodePS extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
-    return (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+    const body = (
+      <>
         <Text x={25} y={0} fontSize={9} text={this.props.node.name} />
         <Circle
           x={10}
@@ -78,6 +78,16 @@ export default class MySchemaNodePS extends React.Component {
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
+      </>
+    );
+
+    return this.props.editMode ? (
+      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+        {body}
+      </Group>
+    ) : (
+      <Group x={x} y={y}>
+        {body}
       </Group>
     );
   }
@@ -91,6 +101,7 @@ MySchemaNodePS.propTypes = {
     y: PropTypes.number,
     powered: PropTypes.number
   }).isRequired,
+  editMode: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,

@@ -43,8 +43,8 @@ export default class MySchemaNodeLEP extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
-    return (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+    const body = (
+      <>
         <Text x={20} y={0} fontSize={9} text={this.props.node.name} />
         <Rect
           x={MyConsts.NODE_LEP_X_OFFSET}
@@ -69,6 +69,16 @@ export default class MySchemaNodeLEP extends React.Component {
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
+      </>
+    );
+
+    return this.props.editMode ? (
+      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+        {body}
+      </Group>
+    ) : (
+      <Group x={x} y={y}>
+        {body}
       </Group>
     );
   }
@@ -82,6 +92,7 @@ MySchemaNodeLEP.propTypes = {
     y: PropTypes.number,
     powered: PropTypes.number
   }).isRequired,
+  editMode: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,

@@ -54,6 +54,7 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodeLEP
             node={this.props.node}
+            editMode={this.props.editMode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -66,6 +67,7 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodePS
             node={this.props.node}
+            editMode={this.props.editMode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -78,6 +80,7 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodeTransformer
             node={this.props.node}
+            editMode={this.props.editMode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -90,6 +93,7 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodeSection
             node={this.props.node}
+            editMode={this.props.editMode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -103,6 +107,7 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodeConnector
             node={this.props.node}
+            editMode={this.props.editMode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -116,6 +121,7 @@ export default class MySchemaNode extends React.Component {
         return (
           <MySchemaNodeParam
             node={this.props.node}
+            editMode={this.props.editMode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -165,6 +171,7 @@ MySchemaNode.propTypes = {
     y: PropTypes.number,
     powered: PropTypes.number
   }).isRequired,
+  editMode: PropTypes.bool.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
