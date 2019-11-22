@@ -55,6 +55,7 @@ export default class MySchemaNode extends React.Component {
           <MySchemaNodeLEP
             node={this.props.node}
             editMode={this.props.editMode}
+            doOnDeleteNode={this.props.doOnDeleteNode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -68,6 +69,7 @@ export default class MySchemaNode extends React.Component {
           <MySchemaNodePS
             node={this.props.node}
             editMode={this.props.editMode}
+            doOnDeleteNode={this.props.doOnDeleteNode}
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
@@ -175,5 +177,6 @@ MySchemaNode.propTypes = {
   parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
+  doOnDeleteNode: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };

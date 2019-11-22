@@ -453,4 +453,54 @@ router.post("/deleteCustomSchema", (req, res, next) => {
   });
 });
 
+router.post("/customSchemaAddNode", (req, res, next) => {
+  const requestInfo = req.body;
+  myDataModelNodes.CustomSchemaAddNode(
+    requestInfo.schemaName,
+    requestInfo.nodeName,
+    err => {
+      if (err) {
+        logger.info(`[CustomSchemaAddNode] Failed: ${err}`);
+        next(err);
+        res.status(500).json({
+          message: err.message
+        });
+      }
+
+      logger.debug(
+        `[CustomSchemaAddNode] node ${requestInfo.nodeName} has added to custom schema ${requestInfo.schemaName}`
+      );
+
+      res.status(200).json({
+        message: "Custom schema edited"
+      });
+    }
+  );
+});
+
+router.post("/customSchemaDeleteNode", (req, res, next) => {
+  const requestInfo = req.body;
+  myDataModelNodes.CustomSchemaDeleteNode(
+    requestInfo.schemaName,
+    requestInfo.nodeName,
+    err => {
+      if (err) {
+        logger.info(`[CustomSchemaDeleteNode] Failed: ${err}`);
+        next(err);
+        res.status(500).json({
+          message: err.message
+        });
+      }
+
+      logger.debug(
+        `[CustomSchemaDeleteNode] node ${requestInfo.nodeName} has deleted from custom schema ${requestInfo.schemaName}`
+      );
+
+      res.status(200).json({
+        message: "Custom schema edited"
+      });
+    }
+  );
+});
+
 module.exports = router;

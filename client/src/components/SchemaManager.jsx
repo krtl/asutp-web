@@ -11,10 +11,10 @@ const itemShemaDelete = "Delete";
 const itemReloadSchemas = "ReloadSchemas";
 const itemLoadSchema = "LoadSchema";
 const actionMenuItems = [
-  itemShemaNew,
-  itemShemaDelete,
+  itemLoadSchema,
   itemReloadSchemas,
-  itemLoadSchema
+  itemShemaNew,
+  itemShemaDelete
 ];
 
 const styles = {
@@ -35,7 +35,9 @@ export default class SchemaManager extends React.Component {
       selectedSchema: undefined,
       loadedSchema: undefined
     };
-    this.handleSchemaChange = this.handleSchemaChange.bind(this);
+    this.handleSelectedSchemaChange = this.handleSelectedSchemaChange.bind(
+      this
+    );
     this.handleActionChange = this.handleActionChange.bind(this);
     this.handleDialogNewSchemaClose = this.handleDialogNewSchemaClose.bind(
       this
@@ -45,12 +47,23 @@ export default class SchemaManager extends React.Component {
     );
   }
 
-  handleSchemaChange(event, index, value) {
+  handleSelectedSchemaChange(event, index, value) {
     this.setState({ selectedSchema: value });
+    this.setState({ loadedSchema: value });
   }
 
   handleActionChange(event, index, value) {
     switch (value) {
+      case itemLoadSchema: {
+        if (this.state.selectedSchema) {
+          this.setState({ loadedSchema: this.state.selectedSchema });
+        }
+        break;
+      }
+      case itemReloadSchemas: {
+        this.props.onReloadSchemas();
+        break;
+      }
       case itemShemaNew: {
         this.setState({
           openDialogNewSchema: true
@@ -62,16 +75,6 @@ export default class SchemaManager extends React.Component {
           this.setState({
             openDialogAreYouSure: true
           });
-        }
-        break;
-      }
-      case itemReloadSchemas: {
-        this.props.onReloadSchemas();
-        break;
-      }
-      case itemLoadSchema: {
-        if (this.state.selectedSchema) {
-          this.setState({ loadedSchema: this.state.selectedSchema });
         }
         break;
       }
@@ -117,7 +120,7 @@ export default class SchemaManager extends React.Component {
           <SelectField
             floatingLabelText="Schemas:"
             value={this.state.selectedSchema}
-            onChange={this.handleSchemaChange}
+            onChange={this.handleSelectedSchemaChange}
             style={styles.schemaComboWidth}
           >
             {this.props.schemas.map(schema => (

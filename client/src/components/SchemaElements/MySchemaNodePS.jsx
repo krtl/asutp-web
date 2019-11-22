@@ -7,6 +7,7 @@ import MyMenuBase from "./MyMenuBase";
 const optionOpenInNewTab = "Open in new tab";
 const optionOpenInThisTab = "Open";
 const optionHistory = "History";
+const optionDeleteNode = "Delete";
 
 export default class MySchemaNodePS extends React.Component {
   constructor(props) {
@@ -35,6 +36,10 @@ export default class MySchemaNodePS extends React.Component {
         window.open(`/nodeStateHistory/${this.props.node.name}`, "_blank");
         break;
       }
+      case optionDeleteNode: {
+        this.props.doOnDeleteNode(this.props.node);
+        break;
+      }
       default: {
         break;
       }
@@ -52,6 +57,15 @@ export default class MySchemaNodePS extends React.Component {
   render() {
     const x = this.props.node.x;
     const y = this.props.node.y;
+
+    const menuItems = this.props.editMode
+      ? [
+          optionDeleteNode,
+          optionOpenInNewTab,
+          optionOpenInThisTab,
+          optionHistory
+        ]
+      : [optionOpenInNewTab, optionOpenInThisTab, optionHistory];
 
     const body = (
       <>
@@ -74,7 +88,7 @@ export default class MySchemaNodePS extends React.Component {
           height={2 * MyConsts.NODE_PS_RADIUS}
           onDoubleClick={this.handleDblClick}
           onContextMenu={this.handleContextMenu}
-          items={[optionOpenInNewTab, optionOpenInThisTab, optionHistory]}
+          items={menuItems}
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
@@ -106,5 +120,6 @@ MySchemaNodePS.propTypes = {
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
+  doOnDeleteNode: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };

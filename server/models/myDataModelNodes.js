@@ -2157,11 +2157,49 @@ function DeleteCustomSchema(schemaName, cb) {
   } else {
     DbNodeSchema.findOneAndRemove({ name: schemaName }, (err, schema) => {
       if (err) return cb(err);
-  
+
       if (nodeSchemas.has(schemaName)) {
         nodeSchemas.delete(schemaName);
-      }  
+      }
       return cb();
+    });
+  }
+}
+
+function customSchemaAddNode(schemaName, nodeName, cb) {
+  if (schemaName.startsWith("nodes_of_")) {
+    return cb(`Schema "${schemaName}" cannot be edited.`);
+  } else {
+    DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
+      if (err) return cb(err);
+
+      if (nodeSchemas.has(schemaName)) {
+        const locSchema = nodeSchemas.get(schemaName);
+        const locNode = nodes.get(nodeName);
+        if (locNode) {
+          return cb();
+        }
+      }
+      return cb("internal error!");
+    });
+  }
+}
+
+function customSchemaDeleteNode(schemaName, nodeName, cb) {
+  if (schemaName.startsWith("nodes_of_")) {
+    return cb(`Schema "${schemaName}" cannot be edited.`);
+  } else {
+    DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
+      if (err) return cb(err);
+
+      if (nodeSchemas.has(schemaName)) {
+        const locSchema = nodeSchemas.get(schemaName);
+        const locNode = nodes.get(nodeName);
+        if (locNode) {
+          return cb();
+        }
+      }
+      return cb("internal error!");
     });
   }
 }
@@ -2482,3 +2520,5 @@ module.exports.GetAllPSsAsArray = GetAllPSsAsArray;
 module.exports.GetAllLEPsAsArray = GetAllLEPsAsArray;
 module.exports.ReloadCustomSchema = ReloadCustomSchema;
 module.exports.DeleteCustomSchema = DeleteCustomSchema;
+module.exports.customSchemaAddNode = customSchemaAddNode;
+module.exports.customSchemaDeleteNode = customSchemaDeleteNode;

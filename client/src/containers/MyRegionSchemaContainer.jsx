@@ -28,11 +28,12 @@ class MyRegionSchemaContainer extends React.Component {
       update: false
     };
 
-    this.loadScheme = this.loadScheme.bind(this);
+    this.loadSchema = this.loadSchema.bind(this);
     this.loadRegionsForSchemaEdit = this.loadRegionsForSchemaEdit.bind(this);
     this.onSaveScheme = this.onSaveScheme.bind(this);
     this.onResetSchema = this.onResetSchema.bind(this);
-    this.onSaveManualValue = this.onSaveManualValue.bind(this);
+    this.addNode = this.addNode.bind(this);
+    this.deleteNode = this.deleteNode.bind(this);
   }
 
   componentDidMount() {
@@ -58,11 +59,11 @@ class MyRegionSchemaContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.schema !== prevProps.schema) {
-      this.loadScheme(this.props.schema.name);
+      this.loadSchema(this.props.schema.name);
     }
   }
 
-  loadScheme(schemaName) {
+  loadSchema(schemaName) {
     this.setState({
       nodes: [],
       wires: []
@@ -175,15 +176,32 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
-  onSaveManualValue(s) {
+  addNode(data) {
     const cmds = [
       {
-        fetchUrl: "/api/saveParamManualValue",
+        fetchUrl: `/api/customSchemaAddNode`,
         fetchMethod: "post",
-        fetchData: s,
+        fetchData: data,
         fetchCallback: () => {
-          // this.setState({
-          // });
+          this.loadSchema();
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
+  }
+
+  deleteNode(data) {
+    const cmds = [
+      {
+        fetchUrl: `/api/customSchemaDeleteNode`,
+        fetchMethod: "post",
+        fetchData: data,
+        fetchCallback: () => {
+          this.loadSchema();
         }
       }
     ];
@@ -207,12 +225,12 @@ class MyRegionSchemaContainer extends React.Component {
           regions={this.state.regions}
           nodes={this.state.nodes}
           wires={this.state.wires}
-          onLoadScheme={this.loadScheme}
+          onLoadScheme={this.loadSchema}
           onLoadRegionsForSchemaEdit={this.loadRegionsForSchemaEdit}
           onSaveScheme={this.onSaveScheme}
           onResetSchema={this.onResetSchema}
-          onSaveManualValue={this.onSaveManualValue}
-          onAddNewCustomSchema={this.onAddNewCustomSchema}
+          onAddNode={this.addNode}
+          onDeleteNode={this.deleteNode}
           history={this.props.history}
         />
         <MyFetchClient

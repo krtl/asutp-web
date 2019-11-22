@@ -4,6 +4,7 @@ import { Layer, Stage, Line } from "react-konva";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
 import DialogAddNode from "./Dialogs/DialogAddNode";
+import DialogAreYouSure from "./Dialogs/DialogAreYouSure";
 import { MyConsts } from "../modules/MyConsts";
 
 const optionShemaToEditMode = "EditMode";
@@ -12,7 +13,6 @@ const optionShemaLoad = "Reload";
 const optionShemaSave = "Save";
 const optionShemaAddNode = "AddNode";
 const optionShemaReset = "Reset";
-const optionShemaHistory = "History";
 
 export default class MyRegionSchema extends React.Component {
   constructor(props) {
@@ -23,7 +23,8 @@ export default class MyRegionSchema extends React.Component {
       stageClicked: false,
 
       editMode: false,
-      openDialogAddNode: false
+      openDialogAddNode: false,
+      openDialogAreYouSure: false
     };
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
     this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
@@ -34,6 +35,10 @@ export default class MyRegionSchema extends React.Component {
     this.handleStageClick = this.handleStageClick.bind(this);
 
     this.handleDialogAddNodeClose = this.handleDialogAddNodeClose.bind(this);
+    this.handleDialogAreYouSureClose = this.handleDialogAreYouSureClose.bind(
+      this
+    );
+    this.handleDeleteNode = this.handleDeleteNode.bind(this);
   }
 
   handleMenuItemSelected(option) {
@@ -42,7 +47,8 @@ export default class MyRegionSchema extends React.Component {
       case optionShemaToEditMode: {
         this.props.onLoadRegionsForSchemaEdit(() => {
           this.setState({
-            editMode: true
+            editMode: true,
+            selectedNode: undefined
           });
         });
         break;
@@ -74,12 +80,7 @@ export default class MyRegionSchema extends React.Component {
         this.handleResetSchemaClick();
         break;
       }
-      case optionShemaHistory: {
-        if (this.props.schema) {
-          window.open(`/nodeStateHistory/${this.props.schema.name}`, "_blank");
-        }
-        break;
-      }
+
       default: {
         break;
       }
@@ -96,17 +97,43 @@ export default class MyRegionSchema extends React.Component {
     return undefined;
   }
 
-  handleDialogAddNodeClose(newParamName) {
+  handleDialogAddNodeClose(newNodeName) {
     if (this.state.editMode) {
-      console.log(newParamName);
       this.setState({ openDialogAddNode: false });
 
-      if (newParamName !== "dismiss") {
-        const node = this.getNodeByName(this.state.editedNodeName);
+      if (newNodeName !== "dismiss") {
+        const node = this.getNodeByName(newNodeName);
         if (node === undefined) {
-          this.state.nodes.push(this.state.editedNodeName);
+          const data = JSON.stringify({
+            schemaName: this.props.schema.name,
+            nodeName: newNodeName
+          });
+          this.props.onAddNode(data);
         }
       }
+    }
+  }
+
+  handleDialogAreYouSureClose(data) {
+    this.setState({ openDialogAreYouSure: false });
+    if (data !== "dismiss" && this.state.selectedNode) {
+      const node = this.getNodeByName(this.state.selectedNode.name);
+      if (node !== undefined) {
+        const data = JSON.stringify({
+          schemaName: this.props.schema.name,
+          nodeName: this.state.selectedNode.name
+        });
+        this.props.onDeleteNode(data);
+      }
+    }
+  }
+
+  handleDeleteNode(node) {
+    if (this.state.editMode) {
+      this.setState({
+        openDialogAreYouSure: true,
+        selectedNode: node
+      });
     }
   }
 
@@ -224,10 +251,13 @@ export default class MyRegionSchema extends React.Component {
           optionShemaLoad,
           optionShemaSave,
           optionShemaAddNode,
-          optionShemaReset,
-          optionShemaHistory
+          optionShemaReset
         ]
-      : [optionShemaToEditMode, optionShemaLoad, optionShemaHistory];
+      : [optionShemaToEditMode, optionShemaLoad];
+
+    let selectedNodeName = this.state.selectedNode
+      ? this.state.selectedNode.name
+      : "";
 
     return (
       <div>
@@ -237,6 +267,11 @@ export default class MyRegionSchema extends React.Component {
             onClose={this.handleDialogAddNodeClose}
             regions={this.props.regions}
             editedSchemaName={this.state.editedSchemaName}
+          />
+          <DialogAreYouSure
+            open={this.state.openDialogAreYouSure}
+            text={`want to delete node "${selectedNodeName}" ?`}
+            onClose={this.handleDialogAreYouSureClose}
           />
           <Stage width={locW} height={locH} onClick={this.handleStageClick}>
             <Layer>
@@ -255,6 +290,7 @@ export default class MyRegionSchema extends React.Component {
                   key={rec.name}
                   node={rec}
                   editMode={this.state.editMode}
+                  doOnDeleteNode={this.handleDeleteNode}
                   parentStageClicked={this.state.stageClicked}
                   onDragEnd={this.handleDragEnd}
                   onDoubleClick={this.handleDoubleClick}
@@ -289,6 +325,7 @@ MyRegionSchema.propTypes = {
   onLoadRegionsForSchemaEdit: PropTypes.func.isRequired,
   onSaveScheme: PropTypes.func.isRequired,
   onResetSchema: PropTypes.func.isRequired,
-  onSaveManualValue: PropTypes.func.isRequired,
+  onAddNode: PropTypes.func.isRequired,
+  onDeleteNode: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };
