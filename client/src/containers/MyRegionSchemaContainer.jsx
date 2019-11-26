@@ -176,14 +176,19 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
-  addNode(data) {
+  addNode(schemaName, nodeName) {
+    const data = JSON.stringify({
+      schemaName: schemaName,
+      nodeName: nodeName
+    });
+
     const cmds = [
       {
         fetchUrl: `/api/customSchemaAddNode`,
         fetchMethod: "post",
         fetchData: data,
         fetchCallback: () => {
-          this.loadSchema();
+          this.loadSchema(schemaName);
         }
       }
     ];
@@ -194,14 +199,19 @@ class MyRegionSchemaContainer extends React.Component {
     });
   }
 
-  deleteNode(data) {
+  deleteNode(schemaName, nodeName) {
+    const data = JSON.stringify({
+      schemaName: schemaName,
+      nodeName: nodeName
+    });
+
     const cmds = [
       {
         fetchUrl: `/api/customSchemaDeleteNode`,
         fetchMethod: "post",
         fetchData: data,
         fetchCallback: () => {
-          this.loadSchema();
+          this.loadSchema(schemaName);
         }
       }
     ];

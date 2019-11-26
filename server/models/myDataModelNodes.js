@@ -2153,7 +2153,7 @@ function ReloadCustomSchema(schemaName, cb) {
 
 function DeleteCustomSchema(schemaName, cb) {
   if (schemaName.startsWith("nodes_of_")) {
-    return cb(`Schema "${schemaName}" cannot be removed.`);
+    return cb(Error(`Schema "${schemaName}" cannot be removed.`));
   } else {
     DbNodeSchema.findOneAndRemove({ name: schemaName }, (err, schema) => {
       if (err) return cb(err);
@@ -2166,40 +2166,88 @@ function DeleteCustomSchema(schemaName, cb) {
   }
 }
 
-function customSchemaAddNode(schemaName, nodeName, cb) {
+function CustomSchemaAddNode(schemaName, nodeName, cb) {
   if (schemaName.startsWith("nodes_of_")) {
-    return cb(`Schema "${schemaName}" cannot be edited.`);
+    return cb(Error(`Schema "${schemaName}" cannot be edited.`));
   } else {
     DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
       if (err) return cb(err);
 
-      if (nodeSchemas.has(schemaName)) {
+      if (nodeSchemas.has(schemaName) && dbSchema) {
         const locSchema = nodeSchemas.get(schemaName);
         const locNode = nodes.get(nodeName);
         if (locNode) {
-          return cb();
-        }
-      }
-      return cb("internal error!");
+          if (locSchema.nodes.indexOf(locNode) < 0) {
+            locSchema.nodes.push(locNode);
+            let locNodeNames = [];
+            if (dbSchema.nodeNames !== undefined) {
+              locNodeNames = dbSchema.nodeNames.split(",");
+            }
+            if (locNodeNames.indexOf(locNode.name) < 0) {
+              locNodeNames.push(locNode.name);
+              DbNodeSchema.updateOne(
+                { _id: dbSchema.id },
+                {
+                  $set: {
+                    nodeNames: locNodeNames.join(",")
+                  }
+                },
+                err => {
+                  if (err) return cb(err);
+
+                  logger.info(`updated schema ${schemaName}`);
+
+                  return cb();
+                }
+              );
+            } else return cb();
+          } else return cb();
+        } else return cb(Error(`Node "${nodeName}" does not exists.`));
+      } else return cb(Error(`Schema "${schemaName}" does not exists.`));
     });
   }
 }
 
-function customSchemaDeleteNode(schemaName, nodeName, cb) {
+function CustomSchemaDeleteNode(schemaName, nodeName, cb) {
   if (schemaName.startsWith("nodes_of_")) {
-    return cb(`Schema "${schemaName}" cannot be edited.`);
+    return cb(Error(`Schema "${schemaName}" cannot be edited.`));
   } else {
     DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
       if (err) return cb(err);
 
-      if (nodeSchemas.has(schemaName)) {
+      if (nodeSchemas.has(schemaName) && dbSchema) {
         const locSchema = nodeSchemas.get(schemaName);
         const locNode = nodes.get(nodeName);
         if (locNode) {
-          return cb();
-        }
-      }
-      return cb("internal error!");
+          const i1 = locSchema.nodes.indexOf(locNode);
+          if (i1 > -1) {
+            locSchema.nodes.splice(i1, 1);
+            let locNodeNames = [];
+            if (dbSchema.nodeNames !== undefined) {
+              locNodeNames = dbSchema.nodeNames.split(",");
+            }
+            const i2 = locNodeNames.indexOf(locNode.name);
+            if (i2 > -1) {
+              locNodeNames.splice(i2, 1);
+              DbNodeSchema.updateOne(
+                { _id: dbSchema.id },
+                {
+                  $set: {
+                    nodeNames: locNodeNames.join(",")
+                  }
+                },
+                err => {
+                  if (err) return cb(err);
+
+                  logger.info(`updated schema ${schemaName}`);
+
+                  return cb();
+                }
+              );
+            } else return cb();
+          } else return cb();
+        } else return cb(Error(`Node "${nodeName}" does not exists.`));
+      } else return cb(Error(`Schema "${schemaName}" does not exists.`));
     });
   }
 }
@@ -2209,15 +2257,16 @@ function createMyNodeSchemaObj(dbSchema) {
   if (dbSchema.nodeNames) {
     nodeNames = dbSchema.nodeNames.split(",");
   }
-
-  const nodes = [];
+  locNodes = [];
   nodeNames.forEach(nodeName => {
-    if (!nodes.has(nodeName)) {
-      setError(
-        `[ModelNodes][loadNodeSchemas] Cannot find node "${nodeName}" in "${dbSchema.name}"`
-      );
-    } else {
-      nodes.push(nodes.get(nodeName));
+    if (nodeName != "") {
+      if (!nodes.has(nodeName)) {
+        setError(
+          `[ModelNodes][loadNodeSchemas] Cannot find node "${nodeName}" in "${dbSchema.name}"`
+        );
+      } else {
+        locNodes.push(nodes.get(nodeName));
+      }
     }
   });
 
@@ -2237,7 +2286,7 @@ function createMyNodeSchemaObj(dbSchema) {
     dbSchema.name,
     dbSchema.caption,
     dbSchema.description,
-    nodes,
+    locNodes,
     prmNames
   );
 
@@ -2520,5 +2569,5 @@ module.exports.GetAllPSsAsArray = GetAllPSsAsArray;
 module.exports.GetAllLEPsAsArray = GetAllLEPsAsArray;
 module.exports.ReloadCustomSchema = ReloadCustomSchema;
 module.exports.DeleteCustomSchema = DeleteCustomSchema;
-module.exports.customSchemaAddNode = customSchemaAddNode;
-module.exports.customSchemaDeleteNode = customSchemaDeleteNode;
+module.exports.CustomSchemaAddNode = CustomSchemaAddNode;
+module.exports.CustomSchemaDeleteNode = CustomSchemaDeleteNode;

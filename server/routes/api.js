@@ -77,7 +77,7 @@ router.post("/save_node", (req, res, next) => {
           if (netNode) {
             // node exists
             if (locNode.x !== netNode.x || locNode.y !== netNode.y) {
-              NetNode.update(
+              NetNode.updateOne(
                 { _id: netNode.id },
                 {
                   $set: {
@@ -304,7 +304,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
 
           if (netNode) {
             if (locNode.x !== netNode.x || locNode.y !== netNode.y) {
-              DbNodeCoordinates.update(
+              DbNodeCoordinates.updateOne(
                 { _id: netNode.id },
                 {
                   $set: {
@@ -350,10 +350,10 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
     err => {
       if (err) {
         logger.info(`[saveNodeCoordinates] Failed: ${err}`);
-        next(err);
-        // res.status(500).json({
-        //   message: err.message,
-        // });
+        // next(err);
+        res.status(500).json({
+          message: err.message
+        });
       } else {
         logger.debug("[saveNodeCoordinates] All saved successfully");
         res.status(200).json({
@@ -370,10 +370,10 @@ router.post("/saveParamManualValue", (req, res, next) => {
 
   if (err) {
     logger.info(`[saveParamManualValue] Failed: ${err}`);
-    next(err);
-    // res.status(500).json({
-    //   message: err.message,
-    // });
+    // next(err);
+    res.status(500).json({
+      message: err.message
+    });
   } else {
     logger.debug("[saveParamManualValue] Manual value saved");
     res.status(200).json({
@@ -388,10 +388,10 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
 
   if (err) {
     logger.info(`[saveConnectionManualValue] Failed: ${err}`);
-    next(err);
-    // res.status(500).json({
-    //   message: err.message,
-    // });
+    // next(err);
+    res.status(500).json({
+      message: err.message
+    });
   } else {
     logger.debug("[saveConnectionManualValue] Manual value saved");
     res.status(200).json({
@@ -415,7 +415,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
       myDataModelNodes.ReloadCustomSchema(dbSchema.name, err => {
         if (err) {
           logger.info(`[ReloadCustomSchema] Failed: ${err}`);
-          next(err);
+          // next(err);
           res.status(500).json({
             message: err.message
           });
@@ -437,7 +437,7 @@ router.post("/deleteCustomSchema", (req, res, next) => {
   myDataModelNodes.DeleteCustomSchema(schemaName, err => {
     if (err) {
       logger.info(`[DeleteCustomSchema] Failed: ${err}`);
-      next(err);
+      // next(err);
       res.status(500).json({
         message: err.message
       });
@@ -461,19 +461,19 @@ router.post("/customSchemaAddNode", (req, res, next) => {
     err => {
       if (err) {
         logger.info(`[CustomSchemaAddNode] Failed: ${err}`);
-        next(err);
+        // next(err);
         res.status(500).json({
           message: err.message
         });
+      } else {
+        logger.debug(
+          `[CustomSchemaAddNode] node ${requestInfo.nodeName} has added to custom schema ${requestInfo.schemaName}`
+        );
+
+        res.status(200).json({
+          message: "Custom schema edited"
+        });
       }
-
-      logger.debug(
-        `[CustomSchemaAddNode] node ${requestInfo.nodeName} has added to custom schema ${requestInfo.schemaName}`
-      );
-
-      res.status(200).json({
-        message: "Custom schema edited"
-      });
     }
   );
 });
@@ -486,19 +486,19 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
     err => {
       if (err) {
         logger.info(`[CustomSchemaDeleteNode] Failed: ${err}`);
-        next(err);
+        // next(err);
         res.status(500).json({
           message: err.message
         });
+      } else {
+        logger.debug(
+          `[CustomSchemaDeleteNode] node ${requestInfo.nodeName} has deleted from custom schema ${requestInfo.schemaName}`
+        );
+
+        res.status(200).json({
+          message: "Custom schema edited"
+        });
       }
-
-      logger.debug(
-        `[CustomSchemaDeleteNode] node ${requestInfo.nodeName} has deleted from custom schema ${requestInfo.schemaName}`
-      );
-
-      res.status(200).json({
-        message: "Custom schema edited"
-      });
     }
   );
 });

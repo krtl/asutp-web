@@ -89,7 +89,7 @@ function importParamLists(callback) {
         // paramList exists
 
         if (!compareParamList(paramList, newParamList)) {
-          mongoose.models.ParamList.update(
+          mongoose.models.ParamList.updateOne(
             { _id: paramList.id },
             { $set: { caption: newParamList.caption, description: newParamList.description, params: newParamList.params } }, (error) => {
               if (error) throw callback(error);

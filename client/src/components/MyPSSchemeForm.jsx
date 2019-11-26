@@ -10,6 +10,8 @@ import MyParams from "./MyParams";
 import MyParamDialog from "./Dialogs/MyParamDialog";
 import MyNodeConnectorDialog from "./Dialogs/MyNodeConnectorDialog";
 
+const optionShemaToEditMode = "EditMode";
+const optionShemaToDisplayMode = "DisplayMode";
 const optionShemaLoad = "Load";
 const optionShemaSave = "Save";
 const optionShemaReset = "Reset";
@@ -25,6 +27,7 @@ export default class MyPSSchemeForm extends React.Component {
       stateChanged: false,
       stageClicked: false,
 
+      editMode: false,
       openConnectionDialog: false,
 
       openParamDialog: false,
@@ -51,6 +54,18 @@ export default class MyPSSchemeForm extends React.Component {
   handleMenuItemSelected(option) {
     // console.log(option);
     switch (option) {
+      case optionShemaToEditMode: {
+        this.setState({
+          editMode: true,
+        });
+        break;
+      }
+      case optionShemaToDisplayMode: {
+        this.setState({
+          editMode: false
+        });
+        break;
+      }
       case optionShemaLoad: {
         this.handleLoadSchemeClick();
         break;
@@ -167,17 +182,19 @@ export default class MyPSSchemeForm extends React.Component {
   }
 
   handleSaveSchemeClick() {
-    if (this.state.edited) {
-      let nodes = [];
-      this.props.nodes.forEach(node => {
-        // if (node.changed !== undefined) { //currently we save all scheme due to automatic redistribution on server side.
-        nodes.push({ nodeName: node.name, x: node.x, y: node.y });
-        // }
-      });
+    if (this.state.editMode) {
+      if (this.state.edited) {
+        let nodes = [];
+        this.props.nodes.forEach(node => {
+          // if (node.changed !== undefined) { //currently we save all scheme due to automatic redistribution on server side.
+          nodes.push({ nodeName: node.name, x: node.x, y: node.y });
+          // }
+        });
 
-      if (nodes.length > 0) {
-        const s = JSON.stringify(nodes);
-        this.props.onSaveScheme(s);
+        if (nodes.length > 0) {
+          const s = JSON.stringify(nodes);
+          this.props.onSaveScheme(s);
+        }
       }
     }
   }
@@ -307,6 +324,17 @@ export default class MyPSSchemeForm extends React.Component {
       }
     }
 
+    const menuItems = this.state.editMode
+      ? [
+          optionShemaToDisplayMode,
+          optionShemaLoad,
+          optionShemaSave,
+          optionShemaReset,
+          optionShemaLinkage,
+          optionShemaHistory
+        ]
+      : [optionShemaToEditMode, optionShemaLoad];
+
     return (
       <div>
         <Card className="container">
@@ -321,13 +349,8 @@ export default class MyPSSchemeForm extends React.Component {
                 <MySchemaNodeMenu
                   x={10}
                   y={10}
-                  items={[
-                    optionShemaLoad,
-                    optionShemaSave,
-                    optionShemaReset,
-                    optionShemaLinkage,
-                    optionShemaHistory
-                  ]}
+                  editMode={this.state.editMode}
+                  items={menuItems}
                   parentStageClicked={this.state.stageClicked}
                   onDragEnd={this.handleDragEnd}
                   onDoubleClick={this.handleDoubleClick}
@@ -347,6 +370,7 @@ export default class MyPSSchemeForm extends React.Component {
                   <MySchemaNode
                     key={rec.name}
                     node={rec}
+                    editMode={this.state.editMode}
                     parentStageClicked={this.state.stageClicked}
                     onDragEnd={this.handleDragEnd}
                     onDoubleClick={this.handleDoubleClick}

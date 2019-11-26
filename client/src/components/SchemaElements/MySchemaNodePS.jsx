@@ -37,7 +37,9 @@ export default class MySchemaNodePS extends React.Component {
         break;
       }
       case optionDeleteNode: {
-        this.props.doOnDeleteNode(this.props.node);
+        if (this.props.doOnDeleteNode) {
+          this.props.doOnDeleteNode(this.props.node);
+        }
         break;
       }
       default: {

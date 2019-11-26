@@ -170,7 +170,7 @@ module.exports = app => {
 
             if (linkage) {
               if (locLinkage.paramPropValue !== linkage.paramPropValue) {
-                DbNodeParamLinkage.update(
+                DbNodeParamLinkage.updateOne(
                   { _id: linkage.id },
                   {
                     $set: {

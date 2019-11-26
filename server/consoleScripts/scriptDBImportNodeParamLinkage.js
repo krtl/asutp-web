@@ -88,7 +88,7 @@ function importLinkages(callback) {
         if (err) callback(err);
         if (linkage) {
           if (linkageRawData.paramPropValue !== linkage.paramPropValue) {
-            DbNodeParamLinkage.update({ _id: linkage.id },
+            DbNodeParamLinkage.updateOne({ _id: linkage.id },
               { $set: {
                 paramPropValue: linkageRawData.paramPropValue,
               } }, (error) => {

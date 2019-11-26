@@ -52,7 +52,7 @@ const UpdateAverageHalfHourParamValue = (lastValue, callback) => {
     } else if (paramValue) {
       let newValue = (paramValue.value + lastValue.value) / 2;
       newValue = Math.round(newValue * 1000) / 1000;
-      dbParamHalfHourValue.update({ _id: paramValue.id }, { $set: { value: newValue } }, (err) => {
+      dbParamHalfHourValue.updateOne({ _id: paramValue.id }, { $set: { value: newValue } }, (err) => {
         if (err) {
           logger.error(`[dbParamValues] Failed to update half hour value. Error: ${err}`);
         }

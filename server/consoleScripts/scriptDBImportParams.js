@@ -78,7 +78,7 @@ function importParams(callback) {
           // param exists
 
         if ((param.caption !== newParam.caption) || (param.description !== newParam.description)) {
-          mongoose.models.Param.update({ _id: param.id }, { $set: { caption: newParam.caption, description: newParam.description } }, (error) => {
+          mongoose.models.Param.updateOne({ _id: param.id }, { $set: { caption: newParam.caption, description: newParam.description } }, (error) => {
             if (error) throw callback(error);
             console.log(`Param "${newParam.name}" updated`);
             callback(null);
@@ -185,7 +185,7 @@ function importAsutpConnections(callback) {
           (asutpConnection.VVParamName !== newConnection.VVParamName) ||
           (asutpConnection.UlParamName !== newConnection.UlParamName) ||
           (asutpConnection.PParamName !== newConnection.PParamName)) {
-          mongoose.models.AsutpConnection.update({ _id: asutpConnection.id },
+          mongoose.models.AsutpConnection.updateOne({ _id: asutpConnection.id },
             { $set: { caption: newConnection.caption,
               sapCode: newConnection.sapCode,
               voltage: newConnection.voltage,

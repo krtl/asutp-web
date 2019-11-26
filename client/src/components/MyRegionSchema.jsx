@@ -104,11 +104,7 @@ export default class MyRegionSchema extends React.Component {
       if (newNodeName !== "dismiss") {
         const node = this.getNodeByName(newNodeName);
         if (node === undefined) {
-          const data = JSON.stringify({
-            schemaName: this.props.schema.name,
-            nodeName: newNodeName
-          });
-          this.props.onAddNode(data);
+          this.props.onAddNode(this.props.schema.name, newNodeName);
         }
       }
     }
@@ -119,11 +115,7 @@ export default class MyRegionSchema extends React.Component {
     if (data !== "dismiss" && this.state.selectedNode) {
       const node = this.getNodeByName(this.state.selectedNode.name);
       if (node !== undefined) {
-        const data = JSON.stringify({
-          schemaName: this.props.schema.name,
-          nodeName: this.state.selectedNode.name
-        });
-        this.props.onDeleteNode(data);
+        this.props.onDeleteNode(this.props.schema.name, this.state.selectedNode.name);
       }
     }
   }
@@ -279,6 +271,7 @@ export default class MyRegionSchema extends React.Component {
                 x={10}
                 y={10}
                 items={menuItems}
+                editMode={this.state.editMode}
                 parentStageClicked={this.state.stageClicked}
                 onDragEnd={this.handleDragEnd}
                 onDoubleClick={this.handleDoubleClick}

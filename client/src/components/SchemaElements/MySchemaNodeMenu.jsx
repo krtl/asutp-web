@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Circle, Group, Rect } from "react-konva";
+import { Circle, Group, Rect, Text } from "react-konva";
 import MyMenuBase from "./MyMenuBase";
 
 export default class MySchemaNodeMenu extends React.Component {
@@ -43,6 +43,11 @@ export default class MySchemaNodeMenu extends React.Component {
         onDragEnd={this.handleDragEnd}
       >
         {/* <Text x={25} y={0} fontSize={9} text={"Menu"} /> */}
+        {this.props.editMode ? (
+          <Text x={3} y={0} fontSize={8} text="Edit" />
+        ) : (
+          <Text x={0} y={0} fontSize={7} text="Display" />
+        )}
         <Rect
           x={0}
           y={0}
@@ -89,7 +94,7 @@ export default class MySchemaNodeMenu extends React.Component {
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
           onDoubleClick={this.handleDblClick}
-          />
+        />
       </Group>
     );
   }
@@ -98,6 +103,7 @@ export default class MySchemaNodeMenu extends React.Component {
 MySchemaNodeMenu.propTypes = {
   x: PropTypes.number,
   y: PropTypes.number,
+  editMode: PropTypes.bool.isRequired,
   items: PropTypes.array.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,

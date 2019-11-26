@@ -157,7 +157,7 @@ function updateNode(originNode, newNode, callback) {
     }
   }
 
-  DbNode.update({ _id: originNode.id },
+  DbNode.updateOne({ _id: originNode.id },
     { $set: obj }, callback);
 }
 
@@ -185,7 +185,7 @@ function updateNodeObj(DbNodeObj, originNode, newNode, callback) {
     }
   }
 
-  DbNodeObj.update({ _id: originNode.id },
+  DbNodeObj.updateOne({ _id: originNode.id },
     { $set: obj }, callback);
 }
 

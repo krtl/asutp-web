@@ -235,7 +235,7 @@ const SetManualValue = (manualValue) => {
     err += s;
   }
 
-  return err;
+  return Error(err);
 };
 
 
