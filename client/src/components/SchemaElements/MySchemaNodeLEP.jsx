@@ -108,6 +108,6 @@ MySchemaNodeLEP.propTypes = {
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
-  doOnDeleteNode: PropTypes.func.isRequired,
+  doOnDeleteNode: PropTypes.func,
   history: PropTypes.object.isRequired
 };

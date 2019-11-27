@@ -21,6 +21,7 @@ class PSSchemePage extends React.Component {
       cmdUid: "",
       fetchRequests: [],
       psName: "",
+      psInfo: undefined,
       nodes: [],
       wires: [],
       params: [],
@@ -71,6 +72,17 @@ class PSSchemePage extends React.Component {
     });
 
     const cmds = [
+      {
+        fetchUrl: `/getPSInfo?name=${psName}`,
+        fetchMethod: "get",
+        fetchData: "",
+        fetchCallback: data => {
+          this.setState({
+            psInfo: data
+          });
+        }
+      },
+            
       {
         fetchUrl: `/getPSParams?name=${psName}`,
         fetchMethod: "get",
@@ -227,7 +239,7 @@ class PSSchemePage extends React.Component {
     return (
       <div>
         <MyPSSchemeForm
-          psName={this.state.psName}
+          psInfo={this.state.psInfo}
           nodes={this.state.nodes}
           wires={this.state.wires}
           params={this.state.params}

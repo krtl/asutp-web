@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Text, Rect, Circle, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
-import MySchemaNodeLEP from "./MySchemaNodeLEP"
+import MySchemaNodeLEP from "./MySchemaNodeLEP";
 import MySchemaNodePS from "./MySchemaNodePS";
-import MySchemaNodeTransformer from "./MySchemaNodeTransformer"
-import MySchemaNodeSection from "./MySchemaNodeSection"
+import MySchemaNodeTransformer from "./MySchemaNodeTransformer";
+import MySchemaNodeSection from "./MySchemaNodeSection";
 import MySchemaNodeConnector from "./MySchemaNodeConnector";
 import MySchemaNodeParam from "./MySchemaNodeParam";
 
@@ -177,6 +177,6 @@ MySchemaNode.propTypes = {
   parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
-  doOnDeleteNode: PropTypes.func.isRequired,
+  doOnDeleteNode: PropTypes.func,
   history: PropTypes.object.isRequired
 };

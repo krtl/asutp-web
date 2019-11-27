@@ -56,7 +56,7 @@ export default class MyPSSchemeForm extends React.Component {
     switch (option) {
       case optionShemaToEditMode: {
         this.setState({
-          editMode: true,
+          editMode: true
         });
         break;
       }
@@ -79,11 +79,11 @@ export default class MyPSSchemeForm extends React.Component {
         break;
       }
       case optionShemaLinkage: {
-        window.open(`/psAsutpLinkage/${this.props.psName}`, "_blank");
+        window.open(`/psAsutpLinkage/${this.props.psInfo.name}`, "_blank");
         break;
       }
       case optionShemaHistory: {
-        window.open(`/nodeStateHistory/${this.props.psName}`, "_blank");
+        window.open(`/nodeStateHistory/${this.props.psInfo.name}`, "_blank");
         break;
       }
       default: {
@@ -93,7 +93,7 @@ export default class MyPSSchemeForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoadScheme(this.props.psName, true);
+    this.props.onLoadScheme("", true);
   }
 
   getCenterX(node) {
@@ -178,7 +178,7 @@ export default class MyPSSchemeForm extends React.Component {
   }
 
   handleLoadSchemeClick() {
-    this.props.onLoadScheme(this.props.psName, true);
+    this.props.onLoadScheme(this.props.psInfo.name, true);
   }
 
   handleSaveSchemeClick() {
@@ -335,11 +335,15 @@ export default class MyPSSchemeForm extends React.Component {
         ]
       : [optionShemaToEditMode, optionShemaLoad];
 
+    const psCaptionInfo = this.props.psInfo
+      ? `${this.props.psInfo.name}(${this.props.psInfo.caption})`
+      : "";
+
     return (
       <div>
         <Card className="container">
           <div>
-            <CardText>{this.props.psName}</CardText>
+            <CardText>{psCaptionInfo}</CardText>
           </div>
         </Card>
         <Tabs>
@@ -407,7 +411,10 @@ export default class MyPSSchemeForm extends React.Component {
 }
 
 MyPSSchemeForm.propTypes = {
-  psName: PropTypes.string,
+  psInfo: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    caption: PropTypes.string.isRequired
+  }),
   nodes: PropTypes.array.isRequired,
   wires: PropTypes.array.isRequired,
   params: PropTypes.array.isRequired,

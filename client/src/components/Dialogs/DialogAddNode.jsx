@@ -79,7 +79,7 @@ export default function MaxWidthDialog(props) {
   props.regions.forEach(region => {
     regionItems.push(
       <MenuItem key={region.name} value={region}>
-        {region.name}
+        {`${region.name}(${region.caption})`}
       </MenuItem>
     );
   });
@@ -93,7 +93,7 @@ export default function MaxWidthDialog(props) {
   currentNodes.forEach(node => {
     nodeItems.push(
       <MenuItem key={node.name} value={node}>
-        {node.name}
+        {`${node.name}(${node.caption})`}
       </MenuItem>
     );
   });

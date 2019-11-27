@@ -1,17 +1,16 @@
-const async = require('async');
-const moment = require('moment');
-const fs = require('fs');
-const logger = require('../logger');
-const config = require('../../config');
+const async = require("async");
+const moment = require("moment");
+const fs = require("fs");
+const logger = require("../logger");
+const config = require("../../config");
 
-const dbValuesTracker = require('./amqpInsertValueSender');
-const myDataModelNodes = require('../models/myDataModelNodes');
-const MyNodeConnector = require('../models/myNodeConnector');
-const MyNodeSection = require('../models/myNodeSection');
-const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
-const DbParamValue = require('../dbmodels/paramValue');
-const MyParamValue = require('../models/myParamValue');
-
+const dbValuesTracker = require("./amqpInsertValueSender");
+const myDataModelNodes = require("../models/myDataModelNodes");
+const MyNodeConnector = require("../models/myNodeConnector");
+const MyNodeSection = require("../models/myNodeSection");
+const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
+const DbParamValue = require("../dbmodels/paramValue");
+const MyParamValue = require("../models/myParamValue");
 
 // const logger = require('../logger');
 
@@ -20,10 +19,15 @@ let lastChanged = [];
 let blockedParams = [];
 let useDbValueTracker = false;
 
-const setValue = (newValue) => {
+const setValue = newValue => {
   // removing duplicates
   const lastValue = lastValues.get(newValue.paramName);
-  if ((!lastValue) || (lastValue.value !== newValue.value) || (lastValue.dt !== newValue.dt) || (lastValue.qd !== newValue.qd)) {
+  if (
+    !lastValue ||
+    lastValue.value !== newValue.value ||
+    lastValue.dt !== newValue.dt ||
+    lastValue.qd !== newValue.qd
+  ) {
     if (useDbValueTracker) {
       dbValuesTracker.TrackDbParamValue(newValue);
     }
@@ -35,19 +39,19 @@ const setValue = (newValue) => {
   }
 };
 
-const setRawValue = (newValue) => {
+const setRawValue = newValue => {
   if (blockedParams.indexOf(newValue.paramName) < 0) {
     setValue(newValue);
   }
 };
 
-const BlockRawValues = (paramName) => {
+const BlockRawValues = paramName => {
   if (blockedParams.indexOf(paramName) < 0) {
     blockedParams.push(paramName);
   }
 };
 
-const UnblockRawValues = (paramName) => {
+const UnblockRawValues = paramName => {
   const index = blockedParams.indexOf(paramName);
   if (index > -1) {
     blockedParams.splice(index, 1);
@@ -60,7 +64,7 @@ const getLastChanged = () => {
   return result;
 };
 
-const getLastValue = (paramName) => lastValues.get(paramName);
+const getLastValue = paramName => lastValues.get(paramName);
 
 const getLastValuesCount = () => lastValues.size;
 
@@ -87,45 +91,78 @@ function restoreLastParamValues(callback) {
   const params = myDataModelNodes.GetAllParamsAsArray();
 
   // events.EventEmitter.defaultMaxListeners = 125;
-  async.each(params, (param, callback) => {
-    DbParamValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
-      if (err) {
-        logger.error(`[LastParamValues] Failed to get last value: "${err}".`);
-        callback(err);
-      } else if (paramValue) {
-        const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
-        lastValues.set(param.name, lastValue);
-        callback(err);
-      } else {
-        DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
+  async.each(
+    params,
+    (param, callback) => {
+      DbParamValue.findOne(
+        { paramName: param.name },
+        null,
+        { sort: { dt: "desc" } },
+        (err, paramValue) => {
           if (err) {
-            logger.error(`[LastParamValues] Failed to get last halfhour value: "${err}".`);
+            logger.error(
+              `[LastParamValues] Failed to get last value: "${err}".`
+            );
             callback(err);
           } else if (paramValue) {
-            const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
+            const lastValue = new MyParamValue(
+              paramValue.paramName,
+              paramValue.value,
+              paramValue.dt,
+              paramValue.qd
+            );
             lastValues.set(param.name, lastValue);
             callback(err);
           } else {
-            // none
-            callback(err);
+            DbParamHalfHourValue.findOne(
+              { paramName: param.name },
+              null,
+              { sort: { dt: "desc" } },
+              (err, paramValue) => {
+                if (err) {
+                  logger.error(
+                    `[LastParamValues] Failed to get last halfhour value: "${err}".`
+                  );
+                  callback(err);
+                } else if (paramValue) {
+                  const lastValue = new MyParamValue(
+                    paramValue.paramName,
+                    paramValue.value,
+                    paramValue.dt,
+                    paramValue.qd
+                  );
+                  lastValues.set(param.name, lastValue);
+                  callback(err);
+                } else {
+                  // none
+                  callback(err);
+                }
+              }
+            );
           }
-        });
+        }
+      );
+    },
+    err => {
+      if (err) {
+        // setError(`Importing failed: ${err}`);
+        logger.error(
+          `[LastParamValues] ${lastValues.size} LastParamValues loaded with error: "${err}".`
+        );
+      } else {
+        // console.info('Importing successed.');
+        const duration = moment().diff(start);
+        logger.info(
+          `[LastParamValues] ${
+            lastValues.size
+          } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
+        );
       }
-    });
-  }, (err) => {
-    if (err) {
-      // setError(`Importing failed: ${err}`);
-      logger.error(`[LastParamValues] ${lastValues.size} LastParamValues loaded with error: "${err}".`);
-    } else {
-      // console.info('Importing successed.');
-      const duration = moment().diff(start);
-      logger.info(`[LastParamValues] ${lastValues.size} LastParamValues loaded in ${moment(duration).format('mm:ss.SSS')}`);
+
+      callback(err);
     }
-
-    callback(err);
-  });
+  );
 }
-
 
 function StoreBlockedParams() {
   const start = moment();
@@ -138,7 +175,11 @@ function StoreBlockedParams() {
     return;
   }
   const duration2 = moment().diff(start);
-  logger.debug(`[lastValues] blockedParams prepared in ${moment(duration1).format('mm:ss.SSS')} and saved in  ${moment(duration2).format('mm:ss.SSS')}`);
+  logger.debug(
+    `[lastValues] blockedParams prepared in ${moment(duration1).format(
+      "mm:ss.SSS"
+    )} and saved in  ${moment(duration2).format("mm:ss.SSS")}`
+  );
 }
 
 function restoreBlockedParams(callback) {
@@ -147,68 +188,81 @@ function restoreBlockedParams(callback) {
   blockedParams = [];
   const fileName = `${config.storePath}blockedParams.json`;
 
-  if (!fs.exists(fileName, (exists) => {
-    if (!exists) {
-      const err = `file "${fileName}" does not exists`;
-      logger.warn(`[lastValues][restore blockedParams] failed. File "${fileName}" is not found.`);
-      callback(err);
-      return;
-    }
-    fs.readFile(fileName, (err, data) => {
-      if (err) {
+  if (
+    !fs.exists(fileName, exists => {
+      if (!exists) {
+        const err = `file "${fileName}" does not exists`;
+        logger.warn(
+          `[lastValues][restore blockedParams] failed. File "${fileName}" is not found.`
+        );
         callback(err);
         return;
       }
-
-      let paramNames;
-      try {
-        paramNames = JSON.parse(data);
-      } catch (e) {
-        logger.error(`[lastValues][restore blockedParams] failed. Error: "${e.message}". File "${fileName}" `);
-        callback(err);
-        return;
-      }
-      const duration1 = moment().diff(start);
-
-      for (let i = 0; i < paramNames.length; i += 1) {
-        const paramName = paramNames[i];
-
-        if (myDataModelNodes.GetParam(paramName)) {
-          blockedParams.push(paramName);
-          count += 1;
-        } else {
-          logger.warn(`[][RestoreBlockedParams] failed to find param: ${paramName}`);
+      fs.readFile(fileName, (err, data) => {
+        if (err) {
+          callback(err);
+          return;
         }
-      }
 
-      const duration2 = moment().diff(start);
-      logger.debug(`[] ${count} BlockedParams loaded in ${moment(duration2).format('mm:ss.SSS')} (file loaded and parsed in ${moment(duration1).format('mm:ss.SSS')})`);
-      callback();
-    });
-  }));
+        let paramNames;
+        try {
+          paramNames = JSON.parse(data);
+        } catch (e) {
+          logger.error(
+            `[lastValues][restore blockedParams] failed. Error: "${e.message}". File "${fileName}" `
+          );
+          callback(err);
+          return;
+        }
+        const duration1 = moment().diff(start);
+
+        for (let i = 0; i < paramNames.length; i += 1) {
+          const paramName = paramNames[i];
+
+          if (myDataModelNodes.GetParam(paramName)) {
+            blockedParams.push(paramName);
+            count += 1;
+          } else {
+            logger.warn(
+              `[][RestoreBlockedParams] failed to find param: ${paramName}`
+            );
+          }
+        }
+
+        const duration2 = moment().diff(start);
+        logger.debug(
+          `[] ${count} BlockedParams loaded in ${moment(duration2).format(
+            "mm:ss.SSS"
+          )} (file loaded and parsed in ${moment(duration1).format(
+            "mm:ss.SSS"
+          )})`
+        );
+        callback();
+      });
+    })
+  );
 }
 
-
-const SetManualValue = (manualValue) => {
-  let err = '';
+const SetManualValue = manualValue => {
+  let err = "";
 
   // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
   // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
 
-  if ('nodeName' in manualValue) {
+  if ("nodeName" in manualValue) {
     const node = myDataModelNodes.GetNode(manualValue.nodeName);
-    if ((node instanceof MyNodeConnector) || (node instanceof MyNodeSection)) {
+    if (node instanceof MyNodeConnector || node instanceof MyNodeSection) {
       node.SetManualValue(manualValue);
     } else {
       const s = `[lastValues][SetManualValue] "${manualValue.nodeName}" is not available node.`;
       logger.error(s);
       err += s;
     }
-  } else if ('paramName' in manualValue) {
+  } else if ("paramName" in manualValue) {
     if (myDataModelNodes.GetParam(manualValue.paramName)) {
-      if (manualValue.cmd === 'block') {
+      if (manualValue.cmd === "block") {
         BlockRawValues(manualValue.paramName);
-      } else if (manualValue.cmd === 'unblock') {
+      } else if (manualValue.cmd === "unblock") {
         UnblockRawValues(manualValue.paramName);
       }
 
@@ -217,9 +271,9 @@ const SetManualValue = (manualValue) => {
         const dt = new Date(momentDT);
         // const float = parseFloat(manualValue.manualValue.replace(',', '.'));
         const float = manualValue.manualValue;
-        let qd = 'Z';
+        let qd = "Z";
         if (blockedParams.indexOf(manualValue.paramName) > 0) {
-          qd += ',B';
+          qd += ",B";
         }
         const obj = new MyParamValue(manualValue.paramName, float, dt, qd);
         setValue(obj);
@@ -235,9 +289,12 @@ const SetManualValue = (manualValue) => {
     err += s;
   }
 
-  return Error(err);
+  if (err === "") {
+    return;
+  } else {
+    return Error(err);
+  }
 };
-
 
 module.exports.init = init;
 module.exports.setRawValue = setRawValue;

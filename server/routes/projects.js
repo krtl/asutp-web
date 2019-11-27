@@ -51,26 +51,36 @@ module.exports = app => {
               nodeNames.push(ps.name);
             }
 
-            for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
-              const lep2ps = ps.lep2psConnectors[k];
+            //   for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
+            //     const lep2ps = ps.lep2psConnectors[k];
 
-              if (lep2ps.parentNode) {
-                const lep = lep2ps.parentNode;
+            //     if (lep2ps.parentNode) {
+            //       const lep = lep2ps.parentNode;
 
-                if (nodeNames.indexOf(lep.name) < 0) {
-                  const obj = {
-                    name: lep.name,
-                    caption: lep.caption
-                    // sapCode: lep.sapCode
-                  };
-                  locNodes.push(obj);
-                  nodeNames.push(lep.name);
-                }
-              }
-            }
+            //       if (nodeNames.indexOf(lep.name) < 0) {
+            //         const obj = {
+            //           name: lep.name,
+            //           caption: lep.caption
+            //           // sapCode: lep.sapCode
+            //         };
+            //         locNodes.push(obj);
+            //         nodeNames.push(lep.name);
+            //       }
+            //     }
+            //   }
           }
         }
       }
+
+      locNodes.sort((node1, node2) => {
+        if (node1.name > node2.name) {
+          return 1;
+        }
+        if (node1.name < node2.name) {
+          return -1;
+        }
+        return 0;
+      });
 
       const obj = {
         name: region.name,
@@ -80,6 +90,16 @@ module.exports = app => {
       };
       regions.push(obj);
     }
+
+    regions.sort((reg1, reg2) => {
+      if (reg1.name > reg2.name) {
+        return 1;
+      }
+      if (reg1.name < reg2.name) {
+        return -1;
+      }
+      return 0;
+    });
 
     res.json(regions);
     return true;
@@ -116,6 +136,17 @@ module.exports = app => {
       res.send(json);
       return true;
     });
+  });
+
+  app.get("/getPSInfo", (req, res) => {
+    const ps = myDataModelNodes.GetNode(req.query.name);
+    const obj = { name: "unknown", caption: "unknown" };
+    if (ps) {
+      obj.name = ps.name;
+      obj.caption = ps.caption;
+    }
+    res.json(obj);
+    return true;
   });
 
   app.get("/getPSParams", (req, res) => {
