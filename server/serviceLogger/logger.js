@@ -11,7 +11,7 @@ function myFormatter(options) {
 }
 
 const Start = (sets) => {
-  const logger = new winston.Logger({
+  const logger = winston.createLogger({
     level: sets.level,
   // format: winston.format.json(),
     json: false,
