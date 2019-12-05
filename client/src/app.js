@@ -7,7 +7,7 @@ import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
-import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage";
+import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";

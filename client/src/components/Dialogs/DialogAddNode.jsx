@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MaxWidthDialog(props) {
+export default function DialogAddNode(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [currentRegion, setCurrentRegion] = React.useState();
