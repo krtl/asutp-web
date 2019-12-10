@@ -1,6 +1,7 @@
 
 process.env.LOGGER_NAME = 'server';
 process.env.LOGGER_LEVEL = 'debug';
+// process.env.NODE_ENV = 'production';
 
 const logger = require('./server/logger');
 const amqpLogSender = require('./server/amqp/amqp_send');
@@ -13,6 +14,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const http = require('http');
 const bodyParser = require('body-parser');
+const path = require('path');
 const passport = require('passport');
 const config = require('./config');
 const routeUsers = require('./server/routes/users');
@@ -22,8 +24,6 @@ const dbModels = require('./server/dbmodels');
 const paramValuesProcessor = require('./server/values/paramValuesProcessor');
 
 require('http-shutdown').extend();
-
-// process.env.NODE_ENV = 'production';
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -47,8 +47,9 @@ const httpserver = http.createServer(app).withShutdown();
 
 
 // tell the app to look for static files in these directories
-app.use(express.static('./httpserver/static/'));
-app.use(express.static('./client/dist/'));
+// app.use(express.static('./static/bla-bla/'));
+
+
 // tell the app to parse HTTP body messages
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -83,6 +84,10 @@ app.set('port', process.env.PORT || 3001);
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
 }
 
 const httpErrorMiddleware = require('./server/middleware/sendHttpError');
