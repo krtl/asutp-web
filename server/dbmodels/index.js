@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const logger = require('../logger');
 const myDataModelNodes = require('../models/myDataModelNodes');
-const paramValuesProcessor = require('../values/paramValuesProcessor');
+let paramValuesProcessor = undefined;
+if (process.env.RECALCULATION) {
+  paramValuesProcessor = require('../coreBackground/paramValuesProcessor');
+}
 
 
 module.exports.connect = (uri, useDataModel, callback) => {
@@ -28,7 +31,9 @@ module.exports.connect = (uri, useDataModel, callback) => {
           if (callback) callback(err);
           return;
         }
-        paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: true, useDbValueTracker: true });
+        if (process.env.RECALCULATION) {
+          paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: true, useDbValueTracker: true });
+        }
       });
     }
   });

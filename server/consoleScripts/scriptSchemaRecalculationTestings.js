@@ -1,11 +1,13 @@
+process.env.RECALCULATION = 'test_recalculation';
+
 const chai = require('chai');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
 const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
-const paramValuesProcessor = require('../values/paramValuesProcessor');
-const lastValues = require('../values/lastValues');
+const paramValuesProcessor = require('../coreBackground/paramValuesProcessor');
+const lastValues = require('../coreBackground/lastValues');
 // const MyParamValue = require('../models/myParamValue');
 const myNodeState = require('../models/myNodeState');
 // const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');

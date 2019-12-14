@@ -1,9 +1,12 @@
 const myNodeType = require('./myNodeType');
 const MyNodeChainHolder = require('./myNodeChainHolder');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
-const lastValues = require('../values/lastValues');
 const myNodeState = require('./myNodeState');
 const MyChain = require('./myChain');
+let lastValues = undefined;
+if (process.env.RECALCULATION) {
+  lastValues = require('../coreBackground/lastValues');
+}
 
 
 class MyNodeSection extends MyNodeChainHolder {
@@ -15,6 +18,8 @@ class MyNodeSection extends MyNodeChainHolder {
 
   SetManualValue(manualValue) {
     // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+    if (process.env.RECALCULATION) {
+
 
     if (this[MyNodePropNameParamRole.VOLTAGE] === '') {
       if (manualValue.manualValue > 0) {
@@ -30,8 +35,11 @@ class MyNodeSection extends MyNodeChainHolder {
       });
     }
   }
+  }
 
   updatePoweredState() {
+    if (process.env.RECALCULATION) {
+
     let newPowered = myNodeState.POWERED_UNKNOWN;
 
     if (this[MyNodePropNameParamRole.VOLTAGE] !== '') {
@@ -52,6 +60,7 @@ class MyNodeSection extends MyNodeChainHolder {
         this.doOnPoweredStateChanged(newPowered);
       }
     }
+      }
   }
 
   makeAChain() {

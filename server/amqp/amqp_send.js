@@ -6,6 +6,7 @@ const logger = require('../logger');
 // process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
 let locAmpqURI = '';
+let timerId;
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
@@ -19,7 +20,7 @@ function start(ampqURI) {
       logger.error(`[AMQPSENDER] ${err.message}`);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
-        setTimeout(start, 7000);
+        timerId = setTimeout(start, 7000);
       }
       return;
     }
@@ -31,7 +32,7 @@ function start(ampqURI) {
     conn.on('close', () => {
       if (!reconnectionStarted) {
         reconnectionStarted = true;
-        setTimeout(start, 7000);
+        timerId = setTimeout(start, 7000);
         logger.error('[AMQPSENDER] reconnecting');
       }
     });
@@ -106,6 +107,11 @@ const send = (amqpValuesQueueName, message) => {
   publish('', amqpValuesQueueName, Buffer.from(message));
 };
 
+const stop = () => {
+  clearTimeout(timerId)
+};
 
 module.exports.start = start;
 module.exports.send = send;
+module.exports.stop = stop;
+

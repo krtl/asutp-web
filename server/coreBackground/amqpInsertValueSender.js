@@ -20,6 +20,11 @@ const TrackDbParamValue = (newParamValue) => {
   }
 };
 
+const Stop = () => {
+  amqpSender.stop();
+};
+
+
 module.exports.TrackDbParamValue = TrackDbParamValue;
 module.exports.Start = Start;
-
+module.exports.Stop = Stop;

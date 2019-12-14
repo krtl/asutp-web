@@ -13,7 +13,8 @@ const DbNodeSchema = require("../dbmodels/nodeSchema");
 const myDataModelNodes = require("../models/myDataModelNodes");
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
-const lastValues = require("../values/lastValues");
+const commandsServer = require('../coreServer/commandsServer');
+
 
 const router = new express.Router();
 
@@ -366,7 +367,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
 
 router.post("/saveParamManualValue", (req, res, next) => {
   const manualvalue = req.body;
-  const err = lastValues.SetManualValue(manualvalue);
+  const err = commandsServer.SetManualValue(manualvalue);
 
   if (err) {
     logger.info(`[saveParamManualValue] Failed: ${err}`);
@@ -384,7 +385,7 @@ router.post("/saveParamManualValue", (req, res, next) => {
 
 router.post("/saveConnectionManualValue", (req, res, next) => {
   const manualvalue = req.body;
-  const err = lastValues.SetManualValue(manualvalue);
+  const err = commandsServer.SetManualValue(manualvalue);
 
   if (err) {
     logger.info(`[saveConnectionManualValue] Failed: ${err}`);

@@ -2,7 +2,10 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
-const lastValues = require('../values/lastValues');
+let lastValues = undefined;
+if (process.env.RECALCULATION) {
+  lastValues = require('../coreBackground/lastValues');
+}
 
 
 class MyNodeConnector extends MyNode {
@@ -23,6 +26,7 @@ class MyNodeConnector extends MyNode {
 
   SetManualValue(manualValue) {
   // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+  if (process.env.RECALCULATION) {
 
     let b = false;
     for (let i = 0; i < this.equipments.length; i += 1) {
@@ -48,9 +52,12 @@ class MyNodeConnector extends MyNode {
       }
     }
   }
+  }
 
   getSwitchedOn() {
-    if (this.equipments.length > 0) {
+   
+    if (process.env.RECALCULATION) {
+      if (this.equipments.length > 0) {
       let newSwitchedOn = this.switchedOn;
 
       for (let i = 0; i < this.equipments.length; i += 1) {
@@ -68,6 +75,7 @@ class MyNodeConnector extends MyNode {
 
     return this.switchedOn;
   }
+}
 }
 
 module.exports = MyNodeConnector;

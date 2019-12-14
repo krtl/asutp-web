@@ -20,6 +20,10 @@ const TrackDbNodeStateValue = (newNodeStateValue) => {
   }
 };
 
+const Stop = () => {
+  amqpSender.stop();
+};
+
 module.exports.TrackDbNodeStateValue = TrackDbNodeStateValue;
 module.exports.Start = Start;
-
+module.exports.Stop = Stop;

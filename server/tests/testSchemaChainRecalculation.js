@@ -1,3 +1,4 @@
+process.env.RECALCULATION = 'test_recalculation';
 process.env.NOWTESTING = 'test_recalculation';
 
 const chai = require('chai');
@@ -5,7 +6,7 @@ const mongoose = require('mongoose');
 
 const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
-const paramValuesProcessor = require('../values/paramValuesProcessor');
+const paramValuesProcessor = require('../server/coreBackground/paramValuesProcessor');
 const myNodeState = require('../models/myNodeState');
 const MyChains = require('../models/myChains');
 

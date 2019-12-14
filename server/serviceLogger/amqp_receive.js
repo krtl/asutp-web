@@ -9,6 +9,7 @@ const logger = require('../logger_to_file');
 let locAmpqURI = '';
 let locAmqpValuesQueueName = '';
 let locOnReceiveCallbackFunc = null;
+let timerId;
 
 
 // if the connection is closed or fails to be established at all, we will reconnect
@@ -24,7 +25,7 @@ function start(ampqURI, amqpQueueName, onReceiveCallback) {
       logger.error(`[AMQP] ${err.message}`);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
-        setTimeout(start, 7000);
+        timerId = setTimeout(start, 7000);
       }
       return;
     }
@@ -36,7 +37,7 @@ function start(ampqURI, amqpQueueName, onReceiveCallback) {
     conn.on('close', () => {
       if (!reconnectionStarted) {
         reconnectionStarted = true;
-        setTimeout(start, 7000);
+        timerId = setTimeout(start, 7000);
         logger.error('[AMQP] reconnecting');
       }
     });
@@ -101,5 +102,10 @@ function closeOnErr(err) {
   return true;
 }
 
+const stop = () => {
+  clearTimeout(timerId)
+};
+
 module.exports.start = start;
+module.exports.stop = stop;
 

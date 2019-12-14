@@ -3,7 +3,7 @@ const myDataModelNodes = require("../models/myDataModelNodes");
 const MyNodePropNameParamRole = require("../models/MyNodePropNameParamRole");
 const myNodeState = require("../models/myNodeState");
 const MyNodeSection = require("../models/myNodeSection");
-const moment = require("moment");
+// const moment = require("moment");
 
 let chains = [];
 
@@ -56,27 +56,27 @@ function HoldersCouldBeConnected(holders) {
 function Recalculate() {
   // making
 
-  let start = moment();
+  // let start = moment();
 
   const pss = myDataModelNodes.GetAllPSsAsArray();
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `GetAllPSsAsArray done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `GetAllPSsAsArray done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   const leps = myDataModelNodes.GetAllLEPsAsArray();
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `GetAllLEPsAsArray done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `GetAllLEPsAsArray done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
@@ -84,12 +84,12 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `MakeChanisForPSs done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `MakeChanisForPSs done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
@@ -97,12 +97,12 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `MakeChanisForLEPs done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `MakeChanisForLEPs done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep1 = leps[i];
@@ -121,12 +121,12 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `JoiningLEPSIntoChais done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `JoiningLEPSIntoChais done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   // collecting
   chains = [];
@@ -144,12 +144,12 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `Collecting chains on PSs done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `Collecting chains on PSs done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   for (let i = 0; i < leps.length; i += 1) {
     const lep = leps[i];
@@ -159,12 +159,12 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `Collecting chains on LEPs done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `Collecting chains on LEPs done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   // powering
   for (let i = 0; i < chains.length; i += 1) {
@@ -232,12 +232,12 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `Powering chains done in ${moment(moment().diff(start)).format(
-      "mm:ss.SSS"
-    )}`
-  );
-  start = moment();
+  // console.debug(
+  //   `Powering chains done in ${moment(moment().diff(start)).format(
+  //     "mm:ss.SSS"
+  //   )}`
+  // );
+  // start = moment();
 
   // powering for PS
   for (let i = 0; i < pss.length; i += 1) {
@@ -261,9 +261,10 @@ function Recalculate() {
   }
 
   // eslint-disable-next-line no-console
-  console.debug(
-    `Powering PSs done in ${moment(moment().diff(start)).format("mm:ss.SSS")}`
-  );
+  // console.debug(
+  //   `Powering PSs done in ${moment(moment().diff(start)).format("mm:ss.SSS")}`
+  // );
+
 }
 
 module.exports.Recalculate = Recalculate;

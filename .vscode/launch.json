@@ -63,6 +63,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Run backgroundworker",
+            "program": "${workspaceFolder}/backgroundworker.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Test Schemas",
             "program": "${workspaceFolder}/server/consoleScripts/scriptSchemaRecalculationTestings.js"
         },

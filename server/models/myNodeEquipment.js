@@ -2,7 +2,10 @@
 const myNodeType = require('./myNodeType');
 const MyNode = require('./myNode');
 const MyNodePropNameParamRole = require('./MyNodePropNameParamRole');
-const lastValues = require('../values/lastValues');
+let lastValues = undefined;
+if (process.env.RECALCULATION) {
+  lastValues = require('../coreBackground/lastValues');
+}
 
 
 class MyNodeEquiment extends MyNode {
@@ -17,6 +20,8 @@ class MyNodeEquiment extends MyNode {
   }
 
   isSwitchedOn() {
+    if (process.env.RECALCULATION) {
+
     if (this[MyNodePropNameParamRole.STATE] !== '') {
       const paramValue = lastValues.getLastValue(this[MyNodePropNameParamRole.STATE]);
       if (paramValue) {
@@ -25,6 +30,7 @@ class MyNodeEquiment extends MyNode {
     } else {
       // console.log('state param does not assigned to the eqiuipment!');
     }
+  }
 
     return false;
   }

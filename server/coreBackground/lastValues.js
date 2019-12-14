@@ -76,7 +76,7 @@ function init(obj, callback) {
   }
 
   restoreLastParamValues(() => {
-    restoreBlockedParams(() => {
+    restoreBlockedParamNamess(() => {
       dbValuesTracker.Start();
       callback();
     });
@@ -164,7 +164,7 @@ function restoreLastParamValues(callback) {
   );
 }
 
-function StoreBlockedParams() {
+function storeBlockedParamNames() {
   const start = moment();
   const data = JSON.stringify(blockedParams);
   const duration1 = moment().diff(start);
@@ -182,7 +182,7 @@ function StoreBlockedParams() {
   );
 }
 
-function restoreBlockedParams(callback) {
+function restoreBlockedParamNamess(callback) {
   const start = moment();
   let count = 0;
   blockedParams = [];
@@ -193,7 +193,7 @@ function restoreBlockedParams(callback) {
       if (!exists) {
         const err = `file "${fileName}" does not exists`;
         logger.warn(
-          `[lastValues][restore blockedParams] failed. File "${fileName}" is not found.`
+          `[lastValues][restoreBlockedParamNames] failed. File "${fileName}" is not found.`
         );
         callback(err);
         return;
@@ -209,7 +209,7 @@ function restoreBlockedParams(callback) {
           paramNames = JSON.parse(data);
         } catch (e) {
           logger.error(
-            `[lastValues][restore blockedParams] failed. Error: "${e.message}". File "${fileName}" `
+            `[lastValues][restoreBlockedParamNames] failed. Error: "${e.message}". File "${fileName}" `
           );
           callback(err);
           return;
@@ -224,7 +224,7 @@ function restoreBlockedParams(callback) {
             count += 1;
           } else {
             logger.warn(
-              `[][RestoreBlockedParams] failed to find param: ${paramName}`
+              `[][RestoreBlockedParamNames] failed to find param: ${paramName}`
             );
           }
         }
@@ -296,6 +296,11 @@ const SetManualValue = manualValue => {
   }
 };
 
+function finalize() {
+  storeBlockedParamNames();
+  dbValuesTracker.Stop();
+}
+
 module.exports.init = init;
 module.exports.setRawValue = setRawValue;
 module.exports.SetManualValue = SetManualValue;
@@ -305,4 +310,5 @@ module.exports.getLastValue = getLastValue;
 module.exports.getLastChanged = getLastChanged;
 module.exports.getLastValuesCount = getLastValuesCount;
 module.exports.ClearLastValues = ClearLastValues;
-module.exports.StoreBlockedParams = StoreBlockedParams;
+module.exports.finalize = finalize;
+

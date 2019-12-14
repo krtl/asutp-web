@@ -61,3 +61,6 @@ amqpServiceLoggsReceiver.start(config.amqpUri, config.amqpServiceLoggsQueueName,
   }
 });
 
+process.on("SIGINT", () => {
+  amqpServiceLoggsReceiver.stop();
+});

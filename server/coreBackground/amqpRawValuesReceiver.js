@@ -2,7 +2,7 @@ const moment = require('moment');
 const MyParamValue = require('../models/myParamValue');
 const config = require('../../config');
 const amqpRawValuesReceiver = require('../amqp/amqp_receive');
-const lastValues = require('../values/lastValues');
+const lastValues = require('./lastValues');
 const logger = require('../logger');
 
 const Start = () => {
@@ -24,4 +24,9 @@ const Start = () => {
   });
 };
 
+const Stop = () => {
+  amqpRawValuesReceiver.stop();
+};
+
 module.exports.Start = Start;
+module.exports.Stop = Stop;
