@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.6.0",
-    "@material-ui/styles": "^4.6.0",
+    "@material-ui/core": "^4.7.1",
+    "@material-ui/styles": "^4.7.1",
     "amqplib": "^0.5.5",
     "async": "^3.1.0",
     "bcrypt": "^3.0.7",
@@ -17,7 +17,7 @@
     "material-ui": "^0.20.2",
     "mocha": "^6.2.2",
     "moment": "^2.24.0",
-    "mongoose": "^5.7.11",
+    "mongoose": "^5.7.13",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
@@ -32,7 +32,7 @@
     "recharts": "^1.8.5",
     "redux": "^4.0.4",
     "stomp-broker-js": "^1.1.2",
-    "validator": "^12.0.0",
+    "validator": "^12.1.0",
     "webstomp-client": "^1.2.6",
     "winston": "^3.2.1",
     "ws": "^7.2.0"

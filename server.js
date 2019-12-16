@@ -7,7 +7,8 @@ const amqpLogSender = require("./server/amqp/amqp_send");
 
 logger.setup({ amqpSender: amqpLogSender });
 
-logger.info("[] Starting ...");
+console.log(`[] Starting in ${process.env.NODE_ENV} mode.`);
+logger.info(`[] Starting in ${process.env.NODE_ENV} mode.`);
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -123,8 +124,6 @@ forked.on("exit", function(code, signal) {
 });
 
 commandsServer.initialize(forked);
-
-//forked.send({ hello: 'world' });
 
 // process.on('beforeExit', () => {
 //   logger.info('[] OnBeforeExit ...');
