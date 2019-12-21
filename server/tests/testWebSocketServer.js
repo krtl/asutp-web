@@ -1,11 +1,10 @@
-const chai = require('chai');
+const chai = require("chai");
 
 const expect = chai.expect;
-const WebSocket = require('ws');
-const WebSocketServer = require('../values/webSocketServer');
+const WebSocket = require("ws");
+const WebSocketServer = require("../coreBackground/webSocketServer");
 
-
-describe('WebSocketServer', () => {
+describe("WebSocketServer", () => {
   let wss;
   let wsc;
 
@@ -19,42 +18,41 @@ describe('WebSocketServer', () => {
     wss.close();
   });
 
-  beforeEach((done) => {
-    wsc = new WebSocket('ws://localhost:3333');
-    wsc.on('open', () => {
-      console.info('opened...');
+  beforeEach(done => {
+    wsc = new WebSocket("ws://localhost:3333");
+    wsc.on("open", () => {
+      console.info("opened...");
       done();
     });
-    wsc.on('error', (err) => {
+    wsc.on("error", err => {
       console.warn(`error: ${err}`);
       done();
     });
-    wsc.on('close', () => {
-      console.info('closed...');
+    wsc.on("close", () => {
+      console.info("closed...");
     });
   });
 
-  afterEach((done) => {
+  afterEach(done => {
     if (wsc.readyState === WebSocket.OPEN) {
       // console.info('disconnecting...');
       wsc.close();
     } else {
-      console.info('no connection to break...');
+      console.info("no connection to break...");
     }
     done();
   });
 
-  describe('First (hopefully useful) test', () => {
-    it('Doing some things with indexOf()', (done) => {
-      expect([ 1, 2, 3 ].indexOf(5)).to.be.equal(-1);
-      expect([ 1, 2, 3 ].indexOf(0)).to.be.equal(-1);
+  describe("First (hopefully useful) test", () => {
+    it("Doing some things with indexOf()", done => {
+      expect([1, 2, 3].indexOf(5)).to.be.equal(-1);
+      expect([1, 2, 3].indexOf(0)).to.be.equal(-1);
       done();
     });
 
-
-    it('should return echo', (done) => {
-      const mess = 'I need an echo!';
-      wsc.on('message', (message) => {
+    it("should return echo", done => {
+      const mess = "I need an echo!";
+      wsc.on("message", message => {
         expect(message).to.equal(mess);
         done();
       });
@@ -63,4 +61,3 @@ describe('WebSocketServer', () => {
     });
   });
 });
-

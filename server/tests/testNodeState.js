@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const { expect } = chai;
 const myDataModelNodes = require('../models/myDataModelNodes');
-const lastValues = require('../values/lastValues');
+const lastValues = require('../coreBackground/lastValues');
 const MyParamValue = require('../models/myParamValue');
 
 const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
@@ -39,7 +39,7 @@ describe('nodeState', () => {
       console.info(`We are connected to ${config.dbUri}`);
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
-        myDataModelNodes.SetPoweredStateChangedHandler((node, oldState, newState) => {
+        myDataModelNodes.SetStateChangedHandlers((node, oldState, newState) => {
           console.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
           changedStates.push({ node, oldState, newState });
         });
@@ -110,7 +110,7 @@ describe('nodeState', () => {
         throw new Error('cannot find PS "ps1"!');
       }
 
-      const paramName = 'param1_VV';
+      const paramName = 'param_ps1Part110sec1c1_VV';
       let nodeName = null;
 
       ps.psparts.forEach((pspart) => {

@@ -75,12 +75,16 @@ function init(obj, callback) {
     useDbValueTracker = obj.useDbValueTracker;
   }
 
-  restoreLastParamValues(() => {
-    restoreBlockedParamNamess(() => {
-      dbValuesTracker.Start();
-      callback();
+  if (process.env.NOWTESTING) {
+    callback();
+  } else {
+    restoreLastParamValues(() => {
+      restoreBlockedParamNamess(() => {
+        dbValuesTracker.Start();
+        callback();
+      });
     });
-  });
+  }
 }
 
 function restoreLastParamValues(callback) {
@@ -259,7 +263,15 @@ const SetManualValue = manualValue => {
       err += s;
     }
   } else if ("paramName" in manualValue) {
-    if (myDataModelNodes.GetParam(manualValue.paramName)) {
+    if (process.env.NOWTESTING === undefined) {
+      if (!myDataModelNodes.GetParam(manualValue.paramName)) {
+        const s = `[lastValues][SetManualValue] Can't find param "${manualValue.paramName}".`;
+        logger.error(s);
+        err += s;
+      }
+    }
+
+    if (err === "") {
       if (manualValue.cmd === "block") {
         BlockRawValues(manualValue.paramName);
       } else if (manualValue.cmd === "unblock") {
@@ -278,10 +290,6 @@ const SetManualValue = manualValue => {
         const obj = new MyParamValue(manualValue.paramName, float, dt, qd);
         setValue(obj);
       }
-    } else {
-      const s = `[lastValues][SetManualValue] Can't find param "${manualValue.paramName}".`;
-      logger.error(s);
-      err += s;
     }
   } else {
     const s = `[lastValues][SetManualValue] Unknown command: "${manualValue}".`;
@@ -311,4 +319,3 @@ module.exports.getLastChanged = getLastChanged;
 module.exports.getLastValuesCount = getLastValuesCount;
 module.exports.ClearLastValues = ClearLastValues;
 module.exports.finalize = finalize;
-

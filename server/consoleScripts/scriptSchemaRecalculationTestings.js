@@ -1,21 +1,20 @@
-process.env.RECALCULATION = 'test_recalculation';
+process.env.RECALCULATION = "test_recalculation";
+process.env.NOWTESTING = "test_recalculation";
 
-const chai = require('chai');
-const mongoose = require('mongoose');
-const moment = require('moment');
+const chai = require("chai");
+const mongoose = require("mongoose");
+const moment = require("moment");
 
 const { expect } = chai;
-const myDataModelNodes = require('../models/myDataModelNodes');
-const paramValuesProcessor = require('../coreBackground/paramValuesProcessor');
-const lastValues = require('../coreBackground/lastValues');
+const myDataModelNodes = require("../models/myDataModelNodes");
+const paramValuesProcessor = require("../coreBackground/paramValuesProcessor");
+const lastValues = require("../coreBackground/lastValues");
 // const MyParamValue = require('../models/myParamValue');
-const myNodeState = require('../models/myNodeState');
+const myNodeState = require("../models/myNodeState");
 // const MyNodePropNameParamRole = require('../models/MyNodePropNameParamRole');
-const MyChains = require('../models/myChains');
+const MyChains = require("../models/myChains");
 
-
-const config = require('../../config');
-
+const config = require("../../config");
 
 const errs = 0;
 // let errs = 0;
@@ -27,42 +26,52 @@ const errs = 0;
 // }
 const start = moment();
 
-
-const init = ((done) => {
+const init = done => {
   // plug in the promise library:
   mongoose.Promise = global.Promise;
 
-  mongoose.set('useNewUrlParser', true);
-  mongoose.set('useFindAndModify', false);
-  mongoose.set('useCreateIndex', true);
-  mongoose.set('useUnifiedTopology', true);
+  mongoose.set("useNewUrlParser", true);
+  mongoose.set("useFindAndModify", false);
+  mongoose.set("useCreateIndex", true);
+  mongoose.set("useUnifiedTopology", true);
 
   mongoose.connect(config.dbUri, {
-    autoIndex: process.env.NODE_ENV !== 'production',
+    autoIndex: process.env.NODE_ENV !== "production"
   });
 
   const db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error'));
-  db.on('connected', () => {
+  db.on("error", console.error.bind(console, "connection error"));
+  db.on("connected", () => {
     console.info(`We are connected to ${config.dbUri}`);
-    myDataModelNodes.LoadFromDB((err) => {
+    myDataModelNodes.LoadFromDB(err => {
       expect(err).to.equal(null);
 
-      paramValuesProcessor.initializeParamValuesProcessor({ useStompServer: false, useDbValueTracker: false });
+      paramValuesProcessor.initializeParamValuesProcessor({
+        useStompServer: false,
+        useDbValueTracker: false
+      });
       done();
     });
   });
-});
+};
 
 function switchConnectorOn(connector) {
-  expect(connector).to.be.an('object');
-  connector.SetManualValue({ nodeName: connector.name, cmd: 'unblock', manualValue: 1 });
+  expect(connector).to.be.an("object");
+  connector.SetManualValue({
+    nodeName: connector.name,
+    cmd: "unblock",
+    manualValue: 1
+  });
   expect(connector.getSwitchedOn()).to.equal(true);
 }
 
 function switchConnectorOff(connector) {
-  expect(connector).to.be.an('object');
-  connector.SetManualValue({ nodeName: connector.name, cmd: 'unblock', manualValue: 0 });
+  expect(connector).to.be.an("object");
+  connector.SetManualValue({
+    nodeName: connector.name,
+    cmd: "unblock",
+    manualValue: 0
+  });
   expect(connector.getSwitchedOn()).to.equal(false);
 }
 
@@ -103,28 +112,36 @@ function switchSectionTransofrmerConnectorsOff(section) {
 }
 
 function testConnector(connector) {
-  expect(connector).to.be.an('object');
+  expect(connector).to.be.an("object");
 
   switchConnectorOn(connector);
   switchConnectorOff(connector);
 }
 
 function PowerSection(section) {
-  expect(section).to.be.an('object');
-  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 110 });
+  expect(section).to.be.an("object");
+  section.SetManualValue({
+    nodeName: section.name,
+    cmd: "unblock",
+    manualValue: 110
+  });
   section.updatePoweredState();
   expect(section.powered, section.name).to.equal(myNodeState.POWERED_ON);
 }
 
 function UnpowerSection(section) {
-  expect(section).to.be.an('object');
-  section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
+  expect(section).to.be.an("object");
+  section.SetManualValue({
+    nodeName: section.name,
+    cmd: "unblock",
+    manualValue: 0
+  });
   section.updatePoweredState();
   expect(section.powered).to.equal(myNodeState.POWERED_OFF);
 }
 
 function testSection(section) {
-  expect(section).to.be.an('object');
+  expect(section).to.be.an("object");
   PowerSection(section);
   UnpowerSection(section);
 }
@@ -187,7 +204,6 @@ function testPS(ps) {
   // }
 }
 
-
 function resetSchema() {
   const pss = myDataModelNodes.GetAllPSsAsArray();
   for (let i = 0; i < pss.length; i += 1) {
@@ -196,7 +212,11 @@ function resetSchema() {
       const pspart = ps.psparts[j];
       for (let k = 0; k < pspart.sections.length; k += 1) {
         const section = pspart.sections[k];
-        section.SetManualValue({ nodeName: section.name, cmd: 'unblock', manualValue: 0 });
+        section.SetManualValue({
+          nodeName: section.name,
+          cmd: "unblock",
+          manualValue: 0
+        });
         for (let l = 0; l < section.connectors.length; l += 1) {
           const connector = section.connectors[l];
           switchConnectorOff(connector);
@@ -227,28 +247,28 @@ function resetSchema() {
 function schemaTestPoweringThroughLep() {
   resetSchema();
 
-  const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
-  const section = myDataModelNodes.GetNode('ps1part110sec1');
+  const connector = myDataModelNodes.GetNode("ps1part110sec1c2");
+  const section = myDataModelNodes.GetNode("ps1part110sec1");
 
   switchConnectorOn(connector);
   PowerSection(section);
 
   MyChains.Recalculate();
 
-  const lep1 = myDataModelNodes.GetNode('lep110_1');
+  const lep1 = myDataModelNodes.GetNode("lep110_1");
   expect(lep1.powered, lep1.name).to.equal(myNodeState.POWERED_ON);
-  const lep2 = myDataModelNodes.GetNode('lep110_2');
+  const lep2 = myDataModelNodes.GetNode("lep110_2");
   expect(lep2.powered, lep2.name).to.equal(myNodeState.POWERED_ON);
 
-  const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
+  const sec1 = myDataModelNodes.GetNode("ps4part110sec1");
   switchSectionConnectorsOn(sec1);
 
   MyChains.Recalculate();
 
   expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_ON);
 
-  const sec2 = myDataModelNodes.GetNode('ps1part110sec2');
-  const s2sConnector1 = myDataModelNodes.GetNode('ps1part110cc1');
+  const sec2 = myDataModelNodes.GetNode("ps1part110sec2");
+  const s2sConnector1 = myDataModelNodes.GetNode("ps1part110cc1");
   switchConnectorOn(s2sConnector1);
 
   MyChains.Recalculate();
@@ -258,20 +278,20 @@ function schemaTestPoweringThroughLep() {
 function schemaTestPoweringThroughTransformer() {
   resetSchema();
 
-  const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
-  const section = myDataModelNodes.GetNode('ps1part110sec1');
+  const connector = myDataModelNodes.GetNode("ps1part110sec1c2");
+  const section = myDataModelNodes.GetNode("ps1part110sec1");
 
   switchConnectorOn(connector);
   UnpowerSection(section);
 
-  const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
-  const sec2 = myDataModelNodes.GetNode('ps4part35sec1');
-  const sec3 = myDataModelNodes.GetNode('ps4part10sec1');
+  const sec1 = myDataModelNodes.GetNode("ps4part110sec1");
+  const sec2 = myDataModelNodes.GetNode("ps4part35sec1");
+  const sec3 = myDataModelNodes.GetNode("ps4part10sec1");
 
-  const lep1 = myDataModelNodes.GetNode('lep110_1');
-  const lep2 = myDataModelNodes.GetNode('lep110_2');
-  const lep3 = myDataModelNodes.GetNode('lep35_1');
-  const lep4 = myDataModelNodes.GetNode('lep10_1');
+  const lep1 = myDataModelNodes.GetNode("lep110_1");
+  const lep2 = myDataModelNodes.GetNode("lep110_2");
+  const lep3 = myDataModelNodes.GetNode("lep35_1");
+  const lep4 = myDataModelNodes.GetNode("lep10_1");
 
   switchSectionConnectorsOn(sec1);
   switchSectionTransofrmerConnectorsOn(sec1);
@@ -290,7 +310,6 @@ function schemaTestPoweringThroughTransformer() {
   expect(sec1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec3.powered).to.equal(myNodeState.POWERED_OFF);
-
 
   PowerSection(section);
 
@@ -322,25 +341,65 @@ function schemaTestPoweringThroughTransformer() {
   expect(sec3.powered).to.equal(myNodeState.POWERED_UNKNOWN);
 }
 
+function schemaCustomTest() {
+  // resetSchema();
+
+  const connector1 = myDataModelNodes.GetNode("ps1part110sec1c2");
+  const connector2 = myDataModelNodes.GetNode("ps1part110cc1");
+  const connector3 = myDataModelNodes.GetNode("ps1part110sec2c1");
+  const connector4 = myDataModelNodes.GetNode("ps1part35sec2c1");
+  const connector5 = myDataModelNodes.GetNode("ps1part35cc1");
+  const connector6 = myDataModelNodes.GetNode("ps1part35sec1c2");
+
+  const section = myDataModelNodes.GetNode("ps1part110sec1");
+  const lep1 = myDataModelNodes.GetNode("lep35_1");
+
+  switchConnectorOn(connector1);
+  switchConnectorOn(connector2);
+  switchConnectorOn(connector3);
+  switchConnectorOn(connector4);
+  switchConnectorOn(connector5);
+  switchConnectorOn(connector6);
+
+  MyChains.Recalculate();
+
+  expect(lep1.powered).to.equal(myNodeState.POWERED_UNKNOWN);
+
+  PowerSection(section);
+  MyChains.Recalculate();
+  console.log("----should no state changes after this----");
+  MyChains.Recalculate();
+  console.log("----should no state changes before this----");
+
+  expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
+
+  UnpowerSection(section);  
+  MyChains.Recalculate();
+  console.log("----should no state changes after this----");
+  MyChains.Recalculate();
+  console.log("----should no state changes before this----");
+  expect(lep1.powered).to.equal(myNodeState.POWERED_OFF);
+}
+
 function schemaTestPoweringThroughSec2SecConnector() {
   resetSchema();
 
-  const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
-  const section = myDataModelNodes.GetNode('ps1part110sec1');
+  const connector = myDataModelNodes.GetNode("ps1part110sec1c2");
+  const section = myDataModelNodes.GetNode("ps1part110sec1");
 
   switchConnectorOn(connector);
   UnpowerSection(section);
 
-  const sec1 = myDataModelNodes.GetNode('ps4part110sec1');
-  const sec2 = myDataModelNodes.GetNode('ps4part110sec2');
-  const sec3 = myDataModelNodes.GetNode('ps4part10sec2');
-  const sec4 = myDataModelNodes.GetNode('ps4part10sec1');
+  const sec1 = myDataModelNodes.GetNode("ps4part110sec1");
+  const sec2 = myDataModelNodes.GetNode("ps4part110sec2");
+  const sec3 = myDataModelNodes.GetNode("ps4part10sec2");
+  const sec4 = myDataModelNodes.GetNode("ps4part10sec1");
 
-  const lep1 = myDataModelNodes.GetNode('lep110_1');
-  const lep2 = myDataModelNodes.GetNode('lep110_2');
-  const lep3 = myDataModelNodes.GetNode('lep35_1');
-  const lep4 = myDataModelNodes.GetNode('lep10_1');
-  const lep5 = myDataModelNodes.GetNode('lep10_5');
+  const lep1 = myDataModelNodes.GetNode("lep110_1");
+  const lep2 = myDataModelNodes.GetNode("lep110_2");
+  const lep3 = myDataModelNodes.GetNode("lep35_1");
+  const lep4 = myDataModelNodes.GetNode("lep10_1");
+  const lep5 = myDataModelNodes.GetNode("lep10_5");
 
   switchSectionConnectorsOn(sec1);
   switchSectionTransofrmerConnectorsOff(sec1);
@@ -354,13 +413,12 @@ function schemaTestPoweringThroughSec2SecConnector() {
   switchSectionConnectorsOn(sec4);
   switchSectionTransofrmerConnectorsOff(sec4);
 
-  const s2sConnector1 = myDataModelNodes.GetNode('ps4part110cc1');
-  const s2sConnector2 = myDataModelNodes.GetNode('ps4part10cc2');
+  const s2sConnector1 = myDataModelNodes.GetNode("ps4part110cc1");
+  const s2sConnector2 = myDataModelNodes.GetNode("ps4part10cc2");
   switchConnectorOn(s2sConnector1);
   switchConnectorOn(s2sConnector2);
 
   MyChains.Recalculate();
-
 
   expect(sec1.powered).to.equal(myNodeState.POWERED_OFF);
   expect(sec2.powered).to.equal(myNodeState.POWERED_OFF);
@@ -412,20 +470,19 @@ function schemaTestPoweringCollisions() {
 
   // const connector = myDataModelNodes.GetNode('ps1part110sec1c2');
 
-  const sec1 = myDataModelNodes.GetNode('ps1part110sec1');
-  const sec2 = myDataModelNodes.GetNode('ps1part110sec2');
-  const sec3 = myDataModelNodes.GetNode('ps1part35sec1');
-  const sec4 = myDataModelNodes.GetNode('ps1part35sec2');
+  const sec1 = myDataModelNodes.GetNode("ps1part110sec1");
+  const sec2 = myDataModelNodes.GetNode("ps1part110sec2");
+  const sec3 = myDataModelNodes.GetNode("ps1part35sec1");
+  const sec4 = myDataModelNodes.GetNode("ps1part35sec2");
 
-  const sec5 = myDataModelNodes.GetNode('ps3part110sec1');
-  const sec6 = myDataModelNodes.GetNode('ps3part6sec1');
-  const sec7 = myDataModelNodes.GetNode('ps3part35sec1');
+  const sec5 = myDataModelNodes.GetNode("ps3part110sec1");
+  const sec6 = myDataModelNodes.GetNode("ps3part6sec1");
+  const sec7 = myDataModelNodes.GetNode("ps3part35sec1");
 
-  const sec8 = myDataModelNodes.GetNode('ps4part35sec1');
-  const sec9 = myDataModelNodes.GetNode('ps4part10sec1');
+  const sec8 = myDataModelNodes.GetNode("ps4part35sec1");
+  const sec9 = myDataModelNodes.GetNode("ps4part10sec1");
 
-  const lep1 = myDataModelNodes.GetNode('lep110_1');
-
+  const lep1 = myDataModelNodes.GetNode("lep110_1");
 
   expect(sec1.powered, sec1.name).to.equal(myNodeState.POWERED_OFF);
   expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_OFF);
@@ -444,9 +501,8 @@ function schemaTestPoweringCollisions() {
   sec8.powered = myNodeState.POWERED_UNKNOWN;
   sec9.powered = myNodeState.POWERED_UNKNOWN;
 
-
-  const s2sConnector1 = myDataModelNodes.GetNode('ps1part110cc1');
-  const s2sConnector2 = myDataModelNodes.GetNode('ps1part35cc1');
+  const s2sConnector1 = myDataModelNodes.GetNode("ps1part110cc1");
+  const s2sConnector2 = myDataModelNodes.GetNode("ps1part35cc1");
 
   switchSectionTransofrmerConnectorsOn(sec1);
   switchSectionTransofrmerConnectorsOn(sec2);
@@ -478,7 +534,6 @@ function schemaTestPoweringCollisions() {
   expect(sec2.powered, sec2.name).to.equal(myNodeState.POWERED_OFF);
   expect(sec3.powered, sec3.name).to.equal(myNodeState.POWERED_OFF);
   expect(sec4.powered, sec4.name).to.equal(myNodeState.POWERED_OFF);
-
 
   switchSectionConnectorsOn(sec1);
   switchSectionConnectorsOn(sec5);
@@ -515,19 +570,18 @@ function schemaTestPoweringCollisions() {
 
   MyChains.Recalculate();
 
-
   expect(sec5.powered, sec5.name).to.equal(myNodeState.POWERED_OFF);
   expect(sec6.powered, sec6.name).to.equal(myNodeState.POWERED_OFF);
 }
 
-
 init(() => {
+  schemaCustomTest();
+
   const pss = myDataModelNodes.GetAllPSsAsArray();
   for (let i = 0; i < pss.length; i += 1) {
     const ps = pss[i];
     testPS(ps);
   }
-
 
   // const leps = myDataModelNodes.GetAllLEPsAsArray();
   // for (let i = 0; i < leps.length; i += 1) {
@@ -535,29 +589,33 @@ init(() => {
   //   testLEP(lep);
   // }
 
+  // schemaTestPoweringThroughLep();
 
-  schemaTestPoweringThroughLep();
+  // schemaTestPoweringThroughTransformer();
 
-  schemaTestPoweringThroughTransformer();
+  // schemaTestPoweringThroughSec2SecConnector();
 
-  schemaTestPoweringThroughSec2SecConnector();
-
-  schemaTestPoweringCollisions();
-
+  // schemaTestPoweringCollisions();
 
   mongoose.connection.close(() => {
     // process.exit(err ? 255 : 0);
 
     const duration = moment().diff(start);
     if (errs === 0) {
-    // logger.info(`[testSchemas] done in ${moment(duration).format('mm:ss.SSS')}`);
+      // logger.info(`[testSchemas] done in ${moment(duration).format('mm:ss.SSS')}`);
 
       // eslint-disable-next-line no-console
-      console.debug(`[testSchemas] done in ${moment(duration).format('mm:ss.SSS')}`);
+      console.debug(
+        `[testSchemas] done in ${moment(duration).format("mm:ss.SSS")}`
+      );
     } else {
-    // res = `loading nodes failed with ${errs} errors!`;
-    // logger.error(res);
-      console.debug(`[testSchemas]  failed with ${errs} errors! in ${moment(duration).format('mm:ss.SSS')}`);
+      // res = `loading nodes failed with ${errs} errors!`;
+      // logger.error(res);
+      console.debug(
+        `[testSchemas]  failed with ${errs} errors! in ${moment(
+          duration
+        ).format("mm:ss.SSS")}`
+      );
     }
 
     process.exit(0);
