@@ -1,89 +1,88 @@
-const moment = require('moment');
-const winston = require('winston');
+const winston = require("winston");
+const config = require("../../config");
 
-function myTimeStamp() {
-  return moment().format('YYYY-MM-DD HH:mm:ss.SSS');
-}
+const { createLogger, format, transports } = require("winston");
+const { combine, timestamp, label, printf } = format;
 
-function myFormatter(options) {
-  // return `${options.timestamp()} [${options.level.toUpperCase()}] ${options.message ? options.message : ''}`;
-  return `[${options.level.toUpperCase()}] ${options.message ? options.message : ''}`;
-}
+const myFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} [${level}] ${message}`;
+});
 
-const Start = (sets) => {
+const Start = sets => {
   const logger = winston.createLogger({
     level: sets.level,
-  // format: winston.format.json(),
+    // format: winston.format.json(),
     json: false,
     timestamp: sets.timestamp,
+
+    format: combine(
+      winston.format.timestamp({
+        format: "YYYY-MM-DD HH:mm:ss.SSS"
+      }),
+      myFormat
+    ),
+
     transports: [
-    //
-    // - Write to all logs with level `info` and below to `combined.log`
-    // - Write all logs error (and below) to `error.log`.
-    //
+      //
+      // - Write to all logs with level `info` and below to `combined.log`
+      // - Write all logs error (and below) to `error.log`.
+      //
       new winston.transports.File({
-        name: 'error-file',
-        filename: `logs/${sets.name}_errors.log`,
-        level: 'error',
-        // timestamp: myTimeStamp,
-        formatter: myFormatter,
+        name: "error-file",
+        filename: `${config.logsFolderName}/${sets.name}_errors.log`,
+        level: "error",
         maxsize: 50000000,
         maxFiles: 20,
-        json: false,
+        json: false
       }),
 
       new winston.transports.File({
-        name: 'combined-file',
-        filename: `logs/${sets.name}.log`,
-        // timestamp: myTimeStamp,
-        formatter: myFormatter,
+        name: "combined-file",
+        filename: `${config.logsFolderName}/${sets.name}.log`,
         maxsize: 50000000,
         maxFiles: 20,
-        json: false,
-      }),
+        json: false
+      })
 
-    //   new (winston.transports.Console)({
-    //     name: 'console',
-    //     colorize: true,
-    //     timestamp: myTimeStamp,
-    //     formatter: myFormatter,
-    //     json: false,
-    //   }),
+      //   new (winston.transports.Console)({
+      //     name: 'console',
+      //     colorize: true,
+      //     timestamp: myTimeStamp,
+      //     formatter: myFormatter,
+      //     json: false,
+      //   }),
     ],
 
     exceptionHandlers: [
       new winston.transports.File({
-        name: 'exception-file',
-        filename: `logs/${sets.name}_exceptions.log`,
-        timestamp: myTimeStamp,
+        name: "exception-file",
+        filename: `${config.logsFolderName}/${sets.name}_exceptions.log`,
         maxsize: 50000000,
         maxFiles: 20,
         json: false,
         handleExceptions: true,
-        humanReadableUnhandledException: true,
-      }),
-    ],
+        humanReadableUnhandledException: true
+      })
+    ]
   });
 
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-//
-  if (process.env.NODE_ENV !== 'production') {
-  // logger.add(
-  // ..
-  // );
+  // If we're not in production then log to the `console` with the format:
+  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+  //
+  if (process.env.NODE_ENV !== "production") {
+    // logger.add(
+    // ..
+    // );
   }
-
 
   logger.exitOnError = false;
 
-// logger.info('test message!');
+  // logger.info('test message!');
 
-// logger.error('test error!');
+  // logger.error('test error!');
 
-// throw new Error('Hello, logger!');
+  // throw new Error('Hello, logger!');
   return logger;
 };
 
 module.exports.Start = Start;
-
