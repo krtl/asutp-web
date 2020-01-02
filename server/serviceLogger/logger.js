@@ -5,7 +5,8 @@ const { createLogger, format, transports } = require("winston");
 const { combine, timestamp, label, printf } = format;
 
 const myFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}] ${message}`;
+  // return `${timestamp} [${level}] ${message}`;
+  return `${message}`;
 });
 
 const Start = sets => {
@@ -16,9 +17,9 @@ const Start = sets => {
     timestamp: sets.timestamp,
 
     format: combine(
-      winston.format.timestamp({
-        format: "YYYY-MM-DD HH:mm:ss.SSS"
-      }),
+      // winston.format.timestamp({
+      //   format: "YYYY-MM-DD HH:mm:ss.SSS"
+      // }),
       myFormat
     ),
 

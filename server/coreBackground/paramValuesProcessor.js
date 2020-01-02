@@ -22,8 +22,8 @@ const initializeParamValuesProcessor = setts => {
 
     MyDataModelNodes.SetStateChangedHandlers(
       (node, oldState, newState) => {
-        logger.info(
-          `[debug] Powered state changed for Node: ${node.name} from ${oldState} to ${newState}.`
+        logger.debug(
+          `[state] Powered state changed for Node: ${node.name} from ${oldState} to ${newState}.`
         );
         // eslint-disable-next-line no-console
         console.log(
@@ -45,8 +45,8 @@ const initializeParamValuesProcessor = setts => {
         }
       },
       (node, oldState, newState) => {
-        logger.info(
-          `[debug] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}.`
+        logger.debug(
+          `[state] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}.`
         );
         // eslint-disable-next-line no-console
         console.log(

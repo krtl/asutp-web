@@ -40,7 +40,7 @@ describe('nodeState', () => {
       myDataModelNodes.LoadFromDB((err) => {
         expect(err).to.equal(null);
         myDataModelNodes.SetStateChangedHandlers((node, oldState, newState) => {
-          console.info(`[debug] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
+          console.debug(`[] State changed for Node: ${node.name} from ${oldState} to ${newState}.`);
           changedStates.push({ node, oldState, newState });
         });
         const nodeSchemas = myDataModelNodes.GetNodeSchemas();

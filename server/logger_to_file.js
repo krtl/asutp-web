@@ -50,13 +50,13 @@ const init = () => {
         maxsize: 50000000,
         maxFiles: 20,
         json: false
-      }),
-
-      new winston.transports.Console({
-        name: "console",
-        colorize: true,
-        json: false
       })
+
+      // new winston.transports.Console({
+      //   name: "console",
+      //   colorize: true,
+      //   json: false
+      // })
     ],
 
     exceptionHandlers: [

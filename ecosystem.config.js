@@ -9,8 +9,8 @@ module.exports = {
       autorestart: true,
       watch: true,
       watch_delay: 10000,
-      ignore_watch: ["node_modules", "logs"],
-      exp_backoff_restart_delay: 1000,
+      ignore_watch: ["node_modules", "logs", "data", "client"],
+      exp_backoff_restart_delay: 10000,
       max_memory_restart: "1G",
       env: {
         NODE_ENV: "production"
@@ -29,7 +29,7 @@ module.exports = {
       autorestart: true,
       watch: true,
       watch_delay: 60000,
-      ignore_watch: ["node_modules", "logs"],
+      ignore_watch: ["node_modules", "logs", "data", "client"],
       exp_backoff_restart_delay: 10000,
       max_memory_restart: "1G",
       env: {
@@ -48,7 +48,7 @@ module.exports = {
       autorestart: true,
       watch: true,
       watch_delay: 30000,
-      ignore_watch: ["node_modules", "logs"],
+      ignore_watch: ["node_modules", "logs", "data", "client"],
       exp_backoff_restart_delay: 10000,
       max_memory_restart: "1G",
       env: {
