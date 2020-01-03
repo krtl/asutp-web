@@ -6,7 +6,7 @@ const amqpSender = require('../amqp/amqp_send');
 const moment = require('moment');
 
 const Start = () => {
-  amqpSender.start(config.amqpUri);
+  amqpSender.start(config.amqpUri, 'NodeStateSender');
 };
 
 const TrackDbNodeStateValue = (newNodeStateValue) => {

@@ -2,10 +2,12 @@ const StompServer = require("stomp-broker-js");
 // const moment = require('moment');
 const MyDataModelNodes = require("../models/myDataModelNodes");
 const lastParamValues = require("./lastParamValues");
+const MyServerStatus = require("./serverStatus");
 
 const logger = require("../logger");
 
 const TOPIC_VALUES = "/Values:";
+const TOPIC_SERVER_STATUS = "/ServerStatus";
 const TOPIC_COMMANDS = "/Commands";
 
 const CMD_TEST = "TEST";
@@ -13,6 +15,7 @@ const CMD_TEST = "TEST";
 const traceMessages = true;
 
 let stompServer;
+let clientsConnected = 0;
 // let timerId;
 
 process
@@ -38,6 +41,8 @@ const initializeStompServer = httpserver => {
     if (traceMessages) {
       logger.debug(`[stompServer] Client ${sessionId} connected`);
     }
+    clientsConnected += 1;
+    MyServerStatus.setWSocketStatus({ clientsConnected });
   });
 
   stompServer.on("connecting", sessionId => {
@@ -50,6 +55,8 @@ const initializeStompServer = httpserver => {
     if (traceMessages) {
       logger.debug(`[stompServer] Client ${sessionId} disconnected`);
     }
+    clientsConnected -= 1;
+    MyServerStatus.setWSocketStatus({ clientsConnected });
   });
 
   stompServer.on("error", err => {
@@ -87,7 +94,17 @@ const initializeStompServer = httpserver => {
       );
     }
 
-    if (ev.topic.startsWith(TOPIC_VALUES)) {
+    if (ev.topic === TOPIC_SERVER_STATUS) {
+      const serverStatus = MyServerStatus.getServerStatus();
+      if (serverStatus) {
+        stompServer.sendIndividual(
+          ev.socket,
+          TOPIC_SERVER_STATUS,
+          {},
+          JSON.stringify(serverStatus)
+        );
+      }
+    } else if (ev.topic.startsWith(TOPIC_VALUES)) {
       const schemaName = ev.topic.replace(TOPIC_VALUES, "");
       const paramNames = MyDataModelNodes.GetPSSchemaParamNames(schemaName);
       for (let i = 0; i < paramNames.length; i += 1) {
@@ -130,6 +147,12 @@ const sendNodeStateValue = (listName, stateValue) => {
   }
 };
 
+const sendServerStatus = serverStatus => {
+  if (StompServer) {
+    stompServer.send(TOPIC_SERVER_STATUS, {}, JSON.stringify(serverStatus));
+  }
+};
+
 const finalizeStompServer = () => {
   // clearInterval(timerId);
 };
@@ -138,3 +161,4 @@ module.exports.initializeStompServer = initializeStompServer;
 module.exports.finalizeStompServer = finalizeStompServer;
 module.exports.sendParamValue = sendParamValue;
 module.exports.sendNodeStateValue = sendNodeStateValue;
+module.exports.sendServerStatus = sendServerStatus;

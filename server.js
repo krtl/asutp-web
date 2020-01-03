@@ -23,6 +23,7 @@ const MyStompServer = require("./server/coreServer/myStompServer");
 const dbModels = require("./server/dbmodels");
 // const paramValuesProcessor = require('./server/values/paramValuesProcessor');
 const commandsServer = require("./server/coreServer/commandsServer");
+const MyServerStatus = require("./server/coreServer/serverStatus");
 
 require("http-shutdown").extend();
 
@@ -123,6 +124,7 @@ forked.on("exit", function(code, signal) {
   );
 });
 
+MyServerStatus.initialize();
 commandsServer.initialize(forked);
 
 // process.on('beforeExit', () => {
@@ -136,6 +138,7 @@ commandsServer.initialize(forked);
 
 process.on("SIGINT", () => {
   logger.info("[] Stopping ...");
+  MyServerStatus.finalize();
   httpserver.shutdown(() => {
     // httpserver.close((err) => {
     //   if (err) {

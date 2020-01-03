@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
+import MyServerStatusContainer from "../../containers/MyServerStatusContainer";
+
+import "./MainStatus.css";
 
 function MySpinner(props) {
   const isActive = props.isActive;
@@ -29,10 +33,20 @@ class MainStatus extends Component {
   render() {
     return (
       // <MySpinner isActive={this.props.nowLoading} />
-      <>
-        <MyDebugData countOfUpdates={this.props.countOfUpdates} />
-        <MySpinner isActive={this.props.nowLoading} />
-      </>
+      <div className="row">
+        <div className="column">
+          <NavLink to="/">ASUTP</NavLink>
+        </div>
+        <div className="column">
+          <MyDebugData countOfUpdates={this.props.countOfUpdates} />
+        </div>
+        <div className="column">
+          <MySpinner isActive={this.props.nowLoading} />
+        </div>
+        <div className="column">
+          <MyServerStatusContainer />
+        </div>
+      </div>
     );
   }
 }

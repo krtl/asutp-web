@@ -15,6 +15,10 @@ const commandsServer = require("./commandsBackground");
 
 let timerId;
 let recalculateSchema = false;
+let prevCountOfCollisions = 0;
+let prevAvgRecalcTime = 0;
+let prevMaxRecalcTime = 0;
+let maxRecalcTime = 0;
 
 const initializeParamValuesProcessor = setts => {
   lastValues.init({ useDbValueTracker: setts.useDbValueTracker }, () => {
@@ -95,13 +99,37 @@ const initializeParamValuesProcessor = setts => {
 
         const start = moment();
 
-        MyChains.Recalculate();
+        const collisions = MyChains.Recalculate();
 
         const duration = moment().diff(start);
         // eslint-disable-next-line no-console
         console.debug(
           `Schema recalculated in ${moment(duration).format("mm:ss.SSS")}`
         );
+
+        if (maxRecalcTime < duration) {
+          maxRecalcTime = duration;
+        }
+
+        const avgRecalcTime = Number(
+          ((prevAvgRecalcTime * 4 + duration) / 5).toFixed(2)
+        );
+
+        if (
+          prevCountOfCollisions !== collisions ||
+          prevAvgRecalcTime !== avgRecalcTime ||
+          prevMaxRecalcTime !== maxRecalcTime
+        ) {
+          prevCountOfCollisions = collisions;
+          prevAvgRecalcTime = avgRecalcTime;
+          prevMaxRecalcTime = maxRecalcTime;
+
+          commandsServer.SendRecalculationStatus({
+            collisions,
+            avgRecalcTime,
+            maxRecalcTime
+          });
+        }
 
         // ..;
       }
@@ -114,7 +142,7 @@ const finalizeParamValuesProcessor = () => {
     clearInterval(timerId);
     MyDataModelNodes.StoreLastStateValues();
     dbNodeStateValuesTracker.Stop();
-    ampqRawValuesReceiver.Stop();    
+    ampqRawValuesReceiver.Stop();
     lastValues.finalize();
     console.log("[] ParamValuesProcessor finalized ...");
   }

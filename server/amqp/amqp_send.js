@@ -6,18 +6,20 @@ const logger = require('../logger');
 // process.env.CLOUDAMQP_URL = 'amqp://localhost';
 
 let locAmpqURI = '';
+let locSenderName = '';
 let timerId;
 
 // if the connection is closed or fails to be established at all, we will reconnect
 let amqpConn = null;
 let reconnectionStarted = false;
-function start(ampqURI) {
+function start(ampqURI, senderName) {
   if (ampqURI !== undefined) locAmpqURI = ampqURI;
+  if (senderName !== undefined) locSenderName = senderName;
 
   reconnectionStarted = false;
   amqp.connect(`${locAmpqURI}?heartbeat=60`, (err, conn) => {
     if (err) {
-      logger.error(`[AMQPSENDER] ${err.message}`);
+      logger.error(`[AMQPSENDER][${locSenderName}] ${err.message}`);
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         timerId = setTimeout(start, 7000);
@@ -26,18 +28,18 @@ function start(ampqURI) {
     }
     conn.on('error', (err) => {
       if (err.message !== 'Connection closing') {
-        logger.error(`[AMQPSENDER] conn error ${err.message}`);
+        logger.error(`[AMQPSENDER][${locSenderName}] conn error ${err.message}`);
       }
     });
     conn.on('close', () => {
       if (!reconnectionStarted) {
         reconnectionStarted = true;
         timerId = setTimeout(start, 7000);
-        logger.error('[AMQPSENDER] reconnecting');
+        logger.error('[AMQPSENDER][${locSenderName}] reconnecting');
       }
     });
 
-    logger.info(`[AMQPSENDER] connected to ${locAmpqURI}`);
+    logger.info(`[AMQPSENDER][${locSenderName}] connected to ${locAmpqURI}`);
 
     amqpConn = conn;
 
@@ -55,10 +57,10 @@ function startPublisher() {
   amqpConn.createConfirmChannel((err, ch) => {
     if (closeOnErr(err)) return;
     ch.on('error', (err) => {
-      logger.error(`[AMQPSENDER] channel error ${err.message}`);
+      logger.error(`[AMQPSENDER][${locSenderName}] channel error ${err.message}`);
     });
     ch.on('close', () => {
-      logger.info('[AMQPSENDER] channel closed');
+      logger.info('[AMQPSENDER][${locSenderName}] channel closed');
     });
 
     pubChannel = ch;
@@ -66,7 +68,7 @@ function startPublisher() {
     while (b) {
       const m = offlinePubQueue.shift();
       if (m) {
-        logger.debug('Publishing from offline quieue');
+        logger.debug(`[AMQPSENDER][${locSenderName}] Publishing to "${locAmpqURI}" from offline quieue`);
         publish(m[0], m[1], m[2]);
       } else {
         b = false;
@@ -84,13 +86,13 @@ function publish(exchange, routingKey, content) {
       pubChannel.publish(exchange, routingKey, content, { persistent: true },
         (err) => {
           if (err) {
-            logger.error(`[AMQPSENDER] publish ${err}`);
+            logger.error(`[AMQPSENDER][${locSenderName}] publish ${err}`);
             offlinePubQueue.push([ exchange, routingKey, content ]);
             pubChannel.connection.close();
           }
         });
     } catch (e) {
-      logger.error(`[AMQPSENDER] publish ${e.message}`);
+      logger.error(`[AMQPSENDER][${locSenderName}] publish ${e.message}`);
       offlinePubQueue.push([ exchange, routingKey, content ]);
     }
   }
@@ -98,7 +100,7 @@ function publish(exchange, routingKey, content) {
 
 function closeOnErr(err) {
   if (!err) return false;
-  logger.error(`[AMQPSENDER] error ${err}`);
+  logger.error(`[AMQPSENDER][${locSenderName}] error ${err}`);
   amqpConn.close();
   return true;
 }

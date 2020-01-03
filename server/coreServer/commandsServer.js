@@ -7,32 +7,32 @@ const logger = require("../logger");
 const MyParamValue = require("../models/myParamValue");
 const myCoreCommandType = require("./coreCommands");
 const lastParamValues = require("./lastParamValues");
+const MyServerStatus = require("./serverStatus");
 
 let backgroundProcess = undefined;
 
 const initialize = peerProcess => {
-    backgroundProcess = peerProcess;
-}
+  backgroundProcess = peerProcess;
+};
 
 const sendCommand = cmd => {
-    if (backgroundProcess) {
-        backgroundProcess.send(cmd);
-    
-        // console.log("Sent command to backgound:", cmd);
-    }
-}
+  if (backgroundProcess) {
+    backgroundProcess.send(cmd);
+
+    // console.log("Sent command to backgound:", cmd);
+  }
+};
 
 const SetManualValue = manualValue => {
-    sendCommand({cmd: myCoreCommandType.MANUAL_VALUE, value: manualValue});
+  sendCommand({ cmd: myCoreCommandType.MANUAL_VALUE, value: manualValue });
 
-    return null; // for future use
-}
+  return null; // for future use
+};
 
 const processReceivedCommand = command => {
   let err = "";
 
-//   console.log("Cmd received from backgound:", command);
-
+  //   console.log("Cmd received from backgound:", command);
 
   if ("cmd" in command) {
     if (myCoreCommandType.isBackgroundCommand(command.cmd)) {
@@ -50,13 +50,15 @@ const processReceivedCommand = command => {
               // }
             }
           } else {
-            return Error(`Unknown param in command: ${command.value.paramName}`);
+            return Error(
+              `Unknown param in command: ${command.value.paramName}`
+            );
           }
           break;
         }
         case myCoreCommandType.NODE_POWERED_STATE: {
           const node = MyDataModelNodes.GetNode(command.value.nodeName);
-        //   if ((node) && (node.powered)) {
+          //   if ((node) && (node.powered)) {
           if (node) {
             node.powered = command.value.newState;
 
@@ -83,8 +85,14 @@ const processReceivedCommand = command => {
             }
             //   }
           } else {
-            return Error(`Unknown node in command: ${command.value.connectorName}`);
+            return Error(
+              `Unknown node in command: ${command.value.connectorName}`
+            );
           }
+          break;
+        }
+        case myCoreCommandType.RECALCULATION_STATE: {
+          MyServerStatus.setRecalculationStatus(command.value);
           break;
         }
         default: {

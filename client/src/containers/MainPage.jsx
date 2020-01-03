@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import MainForm from "../components/MainForm";
 import MyFetchClient from "./MyFetchClient";
-// import MyStompClient from '../modules/MyStompClient';
 
 let valuesUpdated = 0;
 let timerId;
@@ -31,7 +30,6 @@ export default class MainPage extends React.Component {
   }
 
   componentWillUnmount() {
-    // MyStompClient.unsubscribeFromValues();
     clearInterval(timerId);
   }
 

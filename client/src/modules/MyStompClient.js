@@ -1,6 +1,7 @@
 import webstomp from "webstomp-client";
 
 const TOPIC_VALUES = "/Values:";
+const TOPIC_SERVER_STATUS = "/ServerStatus";
 const TOPIC_COMMANDS = "/Commands";
 
 //const CMD_RELOAD = 'RELOAD';
@@ -11,18 +12,21 @@ let locConnectedCallback = null;
 const CreateMySocketClient = function() {
   let stompClient;
   let subsciptionValues;
+  let subsciptionServerStatus;
 
   //  let cbOnConnected = null;
   // let cbOnParamListsReceived = null;
   let paramsListName = "";
+  let subscribedToServerStatus = false;
   // let cbOnParamsReceived = null;
   let cbOnValueReceived = null;
+  let cbOnServerStatusReceived = null;
 
   const connectCallback = function() {
     console.log("[stompClient] connected");
 
     if (locConnectedCallback) {
-      locConnectedCallback(null);
+      locConnectedCallback();
     }
 
     if (cbOnValueReceived) {
@@ -39,6 +43,27 @@ const CreateMySocketClient = function() {
 
             if (cbOnValueReceived) {
               cbOnValueReceived(JSON.parse(message.body));
+            }
+          },
+          {}
+        );
+      }
+    }
+
+    if (cbOnServerStatusReceived) {
+      if (subsciptionServerStatus) {
+        subsciptionServerStatus.unsubscribe({});
+      }
+
+      if (subscribedToServerStatus) {
+        subsciptionServerStatus = stompClient.subscribe(
+          TOPIC_SERVER_STATUS,
+          message => {
+            // console.log(`[stompClient] received ServerStatus: ${message}`);
+            message.ack();
+
+            if (cbOnServerStatusReceived) {
+              cbOnServerStatusReceived(JSON.parse(message.body));
             }
           },
           {}
@@ -149,9 +174,45 @@ const CreateMySocketClient = function() {
       }
     }
   };
+
+  this.subscribeToServerStatus = function(cb) {
+    cbOnServerStatusReceived = cb;
+    if (stompClient !== undefined) {
+      if (subsciptionServerStatus) {
+        subsciptionServerStatus.unsubscribe({});
+      }
+      subscribedToServerStatus = true;
+      subsciptionServerStatus = stompClient.subscribe(
+        TOPIC_SERVER_STATUS,
+        message => {
+          // console.log(`[stompClient] received ServerStatus: ${message}`);
+          message.ack();
+          if (cbOnServerStatusReceived) {
+            cbOnServerStatusReceived(JSON.parse(message.body));
+          }
+        },
+        {}
+      );
+    }
+  };
+
+  this.unsubscribeFromServerStatus = function() {
+    cbOnServerStatusReceived = null;
+    if (stompClient !== undefined) {
+      if (subsciptionServerStatus) {
+        subsciptionServerStatus.unsubscribe({});
+      }
+    }
+  };
+
+  this.setConnectedCallback = cb => {
+    locConnectedCallback = cb;
+  };
+
 };
 
 const MyStompClient = new CreateMySocketClient();
 MyStompClient.connect();
 // const MyStompClient = { connect, disconnect, sendCmd, subscribeToValues };
 export default MyStompClient;
+

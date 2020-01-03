@@ -38,6 +38,13 @@ const SendNodeSwitchedState = nodeSwitchedState => {
   });
 };
 
+const SendRecalculationStatus = status => {
+  sendCommand({
+    cmd: myCoreCommandType.RECALCULATION_STATE,
+    value: status
+  });
+};
+
 const processReceivedCommand = command => {
   //   console.log("background received a command: ", command);
 
@@ -66,3 +73,4 @@ module.exports.sendCommand = sendCommand;
 module.exports.SendParamValue = SendParamValue;
 module.exports.SendNodePoweredState = SendNodePoweredState;
 module.exports.SendNodeSwitchedState = SendNodeSwitchedState;
+module.exports.SendRecalculationStatus = SendRecalculationStatus;
