@@ -140,7 +140,6 @@ const initializeParamValuesProcessor = setts => {
 const finalizeParamValuesProcessor = () => {
   if (process.env.NOWTESTING === undefined) {
     clearInterval(timerId);
-    MyDataModelNodes.StoreLastStateValues();
     dbNodeStateValuesTracker.Stop();
     ampqRawValuesReceiver.Stop();
     lastValues.finalize();

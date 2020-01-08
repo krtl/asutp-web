@@ -208,11 +208,9 @@ const CreateMySocketClient = function() {
   this.setConnectedCallback = cb => {
     locConnectedCallback = cb;
   };
-
 };
 
 const MyStompClient = new CreateMySocketClient();
 MyStompClient.connect();
 // const MyStompClient = { connect, disconnect, sendCmd, subscribeToValues };
 export default MyStompClient;
-

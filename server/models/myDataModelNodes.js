@@ -27,7 +27,7 @@ const DbNodeSectionConnector = require("../dbmodels/nodeSectionConnector");
 const DbNodeSec2SecConnector = require("../dbmodels/nodeSec2SecConnector");
 const DbNodeEquipment = require("../dbmodels/nodeEquipment");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
-// const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+const DbNodeStateValue = require('../dbmodels/nodeStateValue');
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 
@@ -962,101 +962,101 @@ const SetStateChangedHandlers = (
   }
 };
 
-function StoreLastStateValues() {
-  const start = moment();
-  const states = [];
-  const locNodes = Array.from(nodes.values());
-  for (let i = 0; i < locNodes.length; i += 1) {
-    const locNode = locNodes[i];
-    if (locNode.powered !== myNodeState.POWERED_UNKNOWN) {
-      states.push({ n: locNode.name, v: locNode.powered });
-    }
-  }
-  const data = JSON.stringify(states);
-  const duration1 = moment().diff(start);
-  const fileName = `${config.storePath}lastStates.json`;
-  // if (fs.existsSync(fileName)) {
-  //   try {
-  //     fs.unlinkSync(fileName);
-  //   } catch (err) {
-  //     logger.error(`[ModelNodes] saving LastStateValues error: ${err.message}`);
-  //   }
-  // }
-
-  try {
-    fs.writeFileSync(fileName, data);
-  } catch (err) {
-    logger.error(`[ModelNodes] saving LastStateValues error: ${err.message}`);
-    return;
-  }
-  const duration2 = moment().diff(start);
-  logger.debug(
-    `[ModelNodes] LastStateValues prepared in ${moment(duration1).format(
-      "mm:ss.SSS"
-    )} and saved in  ${moment(duration2).format("mm:ss.SSS")}`
-  );
-}
 
 function restoreLastStateValues(callback) {
-  const start = moment();
-  let count = 0;
-  const fileName = `${config.storePath}lastStates.json`;
+  if (process.env.RECALCULATION) {
+    const start = moment();
 
-  fs.exists(fileName, exists => {
-    if (!exists) {
-      const err = `file "${fileName}" does not exists`;
-      logger.warn(
-        `[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`
-      );
-      callback();
-      return;
-    }
-    fs.readFile(fileName, (err, data) => {
-      if (err) {
-        setError(
-          `[ModelNodes][restoreLastStateValues] failed. Error: "${err}". File "${fileName}" `
-        );
-        callback();
-        return;
-      }
+  //   try
+  // {
 
-      let states;
-      try {
-        states = JSON.parse(data);
-      } catch (e) {
-        setError(
-          `[ModelNodes][restoreLastStateValues] failed. Error: "${e.message}". File "${fileName}" `
-        );
-        callback();
-        return;
-      }
+    
+  //     const lastNodeStates = await DbNodeStateValue.aggregate([
+  //       { $match: { status: "A" } },
+  //       { $group: { _id: "$nodeName", total: { $sum: "$amount" } } }
+  //    ]
+  //    find().sort({dt: 'desc'}).lean().exec();
 
-      const duration1 = moment().diff(start);
+  //     res.send(bookmarks);
+    
 
-      for (let i = 0; i < states.length; i += 1) {
-        const state = states[i];
-        if (nodes.has(state.n)) {
-          const node = nodes.get(state.n);
-          node.powered = state.v;
-          count += 1;
-        } else {
-          logger.warn(
-            `[ModelNodes][restoreLastStateValues] failed to find node: ${state.n}`
-          );
-        }
-      }
+  // }
+  // catch (err)
+  // {
+  //   logger.warn(
+  //     `[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`
+  //   );
 
-      const duration2 = moment().diff(start);
-      logger.debug(
-        `[ModelNodes] ${count} LastStateValues loaded in ${moment(
-          duration2
-        ).format("mm:ss.SSS")} (file loaded and parsed in ${moment(
-          duration1
-        ).format("mm:ss.SSS")})`
-      );
-      callback();
-    });
-  });
+  //   return;
+  // }
+
+
+
+  //   const start = moment();
+  //   let count = 0;
+  //   const fileName = `${config.storePath}lastStates.json`;
+  
+  //   fs.exists(fileName, exists => {
+  //     if (!exists) {
+  //       const err = `file "${fileName}" does not exists`;
+  //       logger.warn(
+  //         `[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`
+  //       );
+  //       callback();
+  //       return;
+  //     }
+  //     fs.readFile(fileName, (err, data) => {
+  //       if (err) {
+  //         setError(
+  //           `[ModelNodes][restoreLastStateValues] failed. Error: "${err}". File "${fileName}" `
+  //         );
+  //         callback();
+  //         return;
+  //       }
+  
+  //       let states;
+  //       try {
+  //         states = JSON.parse(data);
+  //       } catch (e) {
+  //         setError(
+  //           `[ModelNodes][restoreLastStateValues] failed. Error: "${e.message}". File "${fileName}" `
+  //         );
+  //         callback();
+  //         return;
+  //       }
+  
+  //       const duration1 = moment().diff(start);
+  
+  //       for (let i = 0; i < states.length; i += 1) {
+  //         const state = states[i];
+  //         if (nodes.has(state.n)) {
+  //           const node = nodes.get(state.n);
+  //           node.powered = state.v;
+  //           count += 1;
+  //         } else {
+  //           logger.warn(
+  //             `[ModelNodes][restoreLastStateValues] failed to find node: ${state.n}`
+  //           );
+  //         }
+  //       }
+  
+  //       const duration2 = moment().diff(start);
+  //       logger.debug(
+  //         `[ModelNodes] ${count} LastStateValues loaded in ${moment(
+  //           duration2
+  //         ).format("mm:ss.SSS")} (file loaded and parsed in ${moment(
+  //           duration1
+  //         ).format("mm:ss.SSS")})`
+  //       );
+  //       callback();
+  //     });
+  //   });
+  callback();
+ 
+
+  } else {
+    callback();
+  }
 }
 
 const GetNode = nodeName => nodes.get(nodeName);
@@ -2559,7 +2559,6 @@ module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetPSForJson = GetPSForJson;
 module.exports.GetSchema = GetSchema;
 module.exports.GetPSSchema = GetPSSchema;
-module.exports.StoreLastStateValues = StoreLastStateValues;
 module.exports.GetAvailableSchemas = GetAvailableSchemas;
 module.exports.GetSchemaParamNames = GetSchemaParamNames;
 module.exports.GetPSSchemaParamNames = GetPSSchemaParamNames;
