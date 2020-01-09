@@ -79,10 +79,10 @@ function init(obj, callback) {
     callback();
   } else {
     restoreLastParamValues(() => {
-      restoreBlockedParamNamess(() => {
-        dbValuesTracker.Start();
-        callback();
-      });
+      // restoreBlockedParamNamess(() => {
+      dbValuesTracker.Start();
+      callback();
+      // });
     });
   }
 }
@@ -92,78 +92,64 @@ function restoreLastParamValues(callback) {
 
   const start = moment();
 
-  const params = myDataModelNodes.GetAllParamsAsArray();
+  // DbParamHalfHourValue
 
-  // events.EventEmitter.defaultMaxListeners = 125;
-  async.each(
-    params,
-    (param, callback) => {
-      DbParamValue.findOne(
-        { paramName: param.name },
-        null,
-        { sort: { dt: "desc" } },
-        (err, paramValue) => {
-          if (err) {
-            logger.error(
-              `[LastParamValues] Failed to get last value: "${err}".`
-            );
-            callback(err);
-          } else if (paramValue) {
+  DbParamValue.aggregate(
+    [
+      // { $match: { nodeName: "ps1part110cc1" } },
+      { $sort: { paramName: 1, dt: -1 } },
+      {
+        $group: {
+          _id: "$paramName",
+          dt: { $first: "$dt" },
+          qd: { $first: "$qd" },
+          value: { $first: "$value" }
+        }
+      }
+    ],
+    (err, values) => {
+      if (err) {
+        logger.error(`[LastParamValues] Failed to get last value: "${err}".`);
+        callback(err);
+      } else {
+        for (let i = 0; i < values.length; i += 1) {
+          const value = values[i];
+          const param = myDataModelNodes.GetParam(value._id);
+          if (param) {
             const lastValue = new MyParamValue(
-              paramValue.paramName,
-              paramValue.value,
-              paramValue.dt,
-              paramValue.qd
+              value._id,
+              value.value,
+              value.dt,
+              value.qd
             );
-            lastValues.set(param.name, lastValue);
-            callback(err);
+            lastValues.set(value._id, lastValue);
+            if (lastChanged.indexOf(value._id) < 0) {
+              lastChanged.push(value._id);
+            }
+            // console.debug("[]LastParamValue:", lastValue);
           } else {
-            DbParamHalfHourValue.findOne(
-              { paramName: param.name },
-              null,
-              { sort: { dt: "desc" } },
-              (err, paramValue) => {
-                if (err) {
-                  logger.error(
-                    `[LastParamValues] Failed to get last halfhour value: "${err}".`
-                  );
-                  callback(err);
-                } else if (paramValue) {
-                  const lastValue = new MyParamValue(
-                    paramValue.paramName,
-                    paramValue.value,
-                    paramValue.dt,
-                    paramValue.qd
-                  );
-                  lastValues.set(param.name, lastValue);
-                  callback(err);
-                } else {
-                  // none
-                  callback(err);
-                }
-              }
+            logger.warn(
+              `[ModelNodes][restoreLastParamValue] failed to find param: ${value._id}`
             );
           }
         }
-      );
-    },
-    err => {
-      if (err) {
-        // setError(`Importing failed: ${err}`);
-        logger.error(
-          `[LastParamValues] ${lastValues.size} LastParamValues loaded with error: "${err}".`
-        );
-      } else {
-        // console.info('Importing successed.');
+
         const duration = moment().diff(start);
         logger.info(
           `[LastParamValues] ${
             lastValues.size
           } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
         );
-      }
 
-      callback(err);
+        // eslint-disable-next-line no-console
+        console.debug(
+          `[LastParamValues] ${
+            lastValues.size
+          } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
+        );
+
+        callback();
+      }
     }
   );
 }
@@ -305,7 +291,7 @@ const SetManualValue = manualValue => {
 };
 
 function finalize() {
-  storeBlockedParamNames();
+  // storeBlockedParamNames();
   dbValuesTracker.Stop();
 }
 

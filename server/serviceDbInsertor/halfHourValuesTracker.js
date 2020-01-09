@@ -87,7 +87,8 @@ setInterval(() => {
 
   if (lastTickDT.day() !== now.day()) { // day has changed.
     DbParamValues.RemoveOldParamValues();
-    DbNodeStateValues.RemoveOldNodeStateValues();
+    DbNodeStateValues.RemoveOldNodePoweredStateValues(); //??
+    DbNodeStateValues.RemoveOldNodeSwitchedOnStateValues(); //??
   }
 
   if (!lastTickDT.isSame(now)) {

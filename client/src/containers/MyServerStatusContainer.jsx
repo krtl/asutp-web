@@ -34,7 +34,7 @@ export default class MyServerStatusContainer extends React.Component {
           socketStatus: "connected"
         });
         MyStompClient.subscribeToServerStatus(value => {
-          console.log(value);
+          // console.log(value);
           this.setState({
             serverStatus: value
           });

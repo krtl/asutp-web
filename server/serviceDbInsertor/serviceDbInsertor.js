@@ -1,5 +1,5 @@
 process.env.LOGGER_NAME = "serviceDbInsertor";
-process.env.LOGGER_LEVEL = "info";
+process.env.LOGGER_LEVEL = "debug";
 
 const logger = require("../logger");
 const amqpLogSender = require("../amqp/amqp_send");
@@ -12,6 +12,7 @@ const config = require("../../config");
 const MyDataModelParams = require("./myDataModelParams");
 const MyParamValue = require("../models/myParamValue");
 const MyNodePoweredStateValue = require("../models/myNodePoweredStateValue");
+const MyNodeSwitchedOnStateValue = require("../models/myNodeSwitchedOnStateValue");
 const amqpValuesReceiver = require("../amqp/amqp_receive");
 const amqpNodeStateReceiver = require("../amqp/amqp_receive1");
 const DbValuesTracker = require("./dbValuesTracker");
@@ -75,19 +76,36 @@ db.on("connected", () => {
 
               // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
               const s = received.split("<>");
-              if (s.length === 4) {
-                const oldState = parseInt(s[1], 10);
-                const newState = parseInt(s[2], 10);
-                const momentDT = moment(s[3]);
+              if (s.length === 5) {
+                const type = s[0];
+                const momentDT = moment(s[4]);
                 const dt = new Date(momentDT);
-                const obj = new MyNodePoweredStateValue(
-                  s[0],
-                  oldState,
-                  newState,
-                  dt
-                );
 
-                DbValuesTracker.trackDbNodeStateValue(obj);
+                if (type == "P") {
+                  const oldState = parseInt(s[2], 10);
+                  const newState = parseInt(s[3], 10);
+                  const obj = new MyNodePoweredStateValue(
+                    s[1],
+                    oldState,
+                    newState,
+                    dt
+                  );
+                  DbValuesTracker.trackDbNodePoweredStateValue(obj);
+                } else if (type == "S") {
+                  const oldState = s[2];
+                  const newState = s[3];
+                  const obj = new MyNodeSwitchedOnStateValue(
+                    s[1],
+                    oldState,
+                    newState,
+                    dt
+                  );
+                  DbValuesTracker.trackDbNodeSwitchedOnStateValue(obj);
+                } else {
+                  logger.error(
+                    `[NodeStateReceiver][MyNodePoweredStateValue] Unknown obj to track: ${received}`
+                  );
+                }
               } else {
                 logger.error(
                   `[NodeStateReceiver][MyNodePoweredStateValue] Failed to parse: ${received}`

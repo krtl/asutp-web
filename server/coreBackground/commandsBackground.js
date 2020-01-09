@@ -16,6 +16,7 @@ const initialize = peerProcess => {
 
 const sendCommand = cmd => {
   if (backgroundProcess) {
+    // console.debug("cmd: ", cmd);
     backgroundProcess.send(cmd);
   }
 };

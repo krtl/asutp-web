@@ -20,7 +20,7 @@ let prevAvgRecalcTime = 0;
 let prevMaxRecalcTime = 0;
 let maxRecalcTime = 0;
 
-const initializeParamValuesProcessor = setts => {
+const initializeParamValuesProcessor = (setts, cb) => {
   lastValues.init({ useDbValueTracker: setts.useDbValueTracker }, () => {
     recalculateSchema = true;
 
@@ -40,7 +40,7 @@ const initializeParamValuesProcessor = setts => {
           newState,
           new Date()
         );
-        dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
+        dbNodeStateValuesTracker.TrackDbNodePoweredStateValue(nodeStateValue);
 
         commandsServer.SendNodePoweredState(nodeStateValue);
 
@@ -63,7 +63,7 @@ const initializeParamValuesProcessor = setts => {
           newState,
           new Date()
         );
-        dbNodeStateValuesTracker.TrackDbNodeStateValue(nodeStateValue);
+        dbNodeStateValuesTracker.TrackDbNodeSwitchedOnStateValue(nodeStateValue);
 
         commandsServer.SendNodeSwitchedState(nodeStateValue);
 
@@ -76,6 +76,8 @@ const initializeParamValuesProcessor = setts => {
     dbNodeStateValuesTracker.Start();
 
     ampqRawValuesReceiver.Start();
+
+    cb();
   });
 
   if (process.env.NOWTESTING === undefined) {

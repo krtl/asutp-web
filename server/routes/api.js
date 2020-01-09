@@ -7,7 +7,8 @@ const NetWire = require("../dbmodels/netWire");
 const DbParam = require("../dbmodels/param");
 const DbParamValues = require("../dbmodels/paramValue");
 const DbParamHalfHourValues = require("../dbmodels/paramHalfHourValue");
-const DbNodeStateValue = require("../dbmodels/nodeStateValue");
+const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
+const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const myDataModelNodes = require("../models/myDataModelNodes");
@@ -221,8 +222,29 @@ router.get("/nodeStateValues", (req, res, next) => {
     return;
   }
 
-  DbNodeStateValue.find({ nodeName })
+  DbNodePoweredStateValue.find({ nodeName })
     .select({ nodeName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
+    .sort({ dt: "desc" })
+    .limit(500)
+    .exec((err, nodeStateValues) => {
+      if (err) return next(err);
+      res.status(200).json(nodeStateValues);
+      return 0;
+    });
+});
+
+router.get("/nodeSwitchedOnStateValues", (req, res, next) => {
+  const connectorName = req.query.connectorName;
+
+  if (!connectorName || connectorName === "") {
+    res.json({
+      error: "Missing required parameter `connectorName`!"
+    });
+    return;
+  }
+
+  DbNodeSwitchedOnStateValue.find({ nodeName: connectorName })
+    .select({ connectorName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
     .sort({ dt: "desc" })
     .limit(500)
     .exec((err, nodeStateValues) => {

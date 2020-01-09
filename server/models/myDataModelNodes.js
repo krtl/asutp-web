@@ -27,7 +27,8 @@ const DbNodeSectionConnector = require("../dbmodels/nodeSectionConnector");
 const DbNodeSec2SecConnector = require("../dbmodels/nodeSec2SecConnector");
 const DbNodeEquipment = require("../dbmodels/nodeEquipment");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
-const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
+const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 
@@ -120,7 +121,6 @@ const LoadFromDB = cb => {
       prepareLEPs,
       checkIntegrity,
       linkParamNamesToNodes,
-      restoreLastStateValues,
       createNodeSchemasForRegions,
       loadCustomSchemas,
       createNodeSchemasForPSs,
@@ -962,98 +962,129 @@ const SetStateChangedHandlers = (
   }
 };
 
-
-function restoreLastStateValues(callback) {
+function restoreLastPoweredStateValues(callback) {
   if (process.env.RECALCULATION) {
     const start = moment();
 
-  //   try
-  // {
+    DbNodePoweredStateValue.aggregate(
+      [
+        { $sort: { nodeName: 1, dt: -1 } },
+        {
+          $group: {
+            _id: "$nodeName",
+            dt: { $first: "$dt" },
+            state: { $first: "$newState" }
+          }
+        }
+      ],
+      (err, states) => {
+        if (err) {
+          callback(err);
+        } else {
+          const duration1 = moment().diff(start);
+          let count = 0;
 
-    
-  //     const lastNodeStates = await DbNodeStateValue.aggregate([
-  //       { $match: { status: "A" } },
-  //       { $group: { _id: "$nodeName", total: { $sum: "$amount" } } }
-  //    ]
-  //    find().sort({dt: 'desc'}).lean().exec();
+          for (let i = 0; i < states.length; i += 1) {
+            const state = states[i];
+            if (nodes.has(state._id)) {
+              const node = nodes.get(state._id);
+              // node.powered = state.state;
+              node.doOnPoweredStateChanged(state.state);
+              count += 1;
 
-  //     res.send(bookmarks);
-    
+              // console.debug("[]LastPoweredStateValue:", state);
+            } else {
+              logger.warn(
+                `[ModelNodes][restoreLastPoweredStateValues] failed to find node: ${state._id}`
+              );
+            }
+          }
 
-  // }
-  // catch (err)
-  // {
-  //   logger.warn(
-  //     `[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`
-  //   );
+          const duration2 = moment().diff(start);
+          logger.debug(
+            `[ModelNodes] ${count} LastPoweredStateValues loaded in ${moment(
+              duration2
+            ).format("mm:ss.SSS")} (aggregation done in ${moment(
+              duration1
+            ).format("mm:ss.SSS")})`
+          );
+          // eslint-disable-next-line no-console
+          console.debug(
+            `[ModelNodes] ${count} LastPoweredStateValues loaded in ${moment(
+              duration2
+            ).format("mm:ss.SSS")} (aggregation done in ${moment(
+              duration1
+            ).format("mm:ss.SSS")})`
+          );
 
-  //   return;
-  // }
+          callback();
+        }
+      }
+    );
+  } else {
+    callback();
+  }
+}
 
+function restoreLastSwitchedOnStateValues(callback) {
+  if (process.env.RECALCULATION) {
+    const start = moment();
 
+    DbNodeSwitchedOnStateValue.aggregate(
+      [
+        { $sort: { connectorName: 1, dt: -1 } },
+        {
+          $group: {
+            _id: "$connectorName",
+            dt: { $first: "$dt" },
+            state: { $first: "$newState" }
+          }
+        }
+      ],
+      (err, states) => {
+        if (err) {
+          callback(err);
+        } else {
+          const duration1 = moment().diff(start);
+          let count = 0;
 
-  //   const start = moment();
-  //   let count = 0;
-  //   const fileName = `${config.storePath}lastStates.json`;
-  
-  //   fs.exists(fileName, exists => {
-  //     if (!exists) {
-  //       const err = `file "${fileName}" does not exists`;
-  //       logger.warn(
-  //         `[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`
-  //       );
-  //       callback();
-  //       return;
-  //     }
-  //     fs.readFile(fileName, (err, data) => {
-  //       if (err) {
-  //         setError(
-  //           `[ModelNodes][restoreLastStateValues] failed. Error: "${err}". File "${fileName}" `
-  //         );
-  //         callback();
-  //         return;
-  //       }
-  
-  //       let states;
-  //       try {
-  //         states = JSON.parse(data);
-  //       } catch (e) {
-  //         setError(
-  //           `[ModelNodes][restoreLastStateValues] failed. Error: "${e.message}". File "${fileName}" `
-  //         );
-  //         callback();
-  //         return;
-  //       }
-  
-  //       const duration1 = moment().diff(start);
-  
-  //       for (let i = 0; i < states.length; i += 1) {
-  //         const state = states[i];
-  //         if (nodes.has(state.n)) {
-  //           const node = nodes.get(state.n);
-  //           node.powered = state.v;
-  //           count += 1;
-  //         } else {
-  //           logger.warn(
-  //             `[ModelNodes][restoreLastStateValues] failed to find node: ${state.n}`
-  //           );
-  //         }
-  //       }
-  
-  //       const duration2 = moment().diff(start);
-  //       logger.debug(
-  //         `[ModelNodes] ${count} LastStateValues loaded in ${moment(
-  //           duration2
-  //         ).format("mm:ss.SSS")} (file loaded and parsed in ${moment(
-  //           duration1
-  //         ).format("mm:ss.SSS")})`
-  //       );
-  //       callback();
-  //     });
-  //   });
-  callback();
- 
+          for (let i = 0; i < states.length; i += 1) {
+            const state = states[i];
+            if (nodes.has(state._id)) {
+              const node = nodes.get(state._id);
+              // node.switchedOn = state.state;
+              node.doOnSwitchedOnStateChanged(state.state);
+              count += 1;
 
+              // console.debug("[]LastSwitchedOnStateValue:", state);
+            } else {
+              logger.warn(
+                `[ModelNodes][restoreLastSwitchedOnStateValues] failed to find node: ${state._id}`
+              );
+            }
+          }
+
+          const duration2 = moment().diff(start);
+          logger.debug(
+            `[ModelNodes] ${count} LastSwitchedOnStateValues loaded in ${moment(
+              duration2
+            ).format("mm:ss.SSS")} (aggregation done in ${moment(
+              duration1
+            ).format("mm:ss.SSS")})`
+          );
+          // eslint-disable-next-line no-console
+          console.debug(
+            `[ModelNodes] ${count} LastSwitchedOnStateValues loaded in ${moment(
+              duration2
+            ).format("mm:ss.SSS")} (aggregation done in ${moment(
+              duration1
+            ).format("mm:ss.SSS")})`
+          );
+
+          callback();
+        }
+      }
+    );
   } else {
     callback();
   }
@@ -2547,7 +2578,17 @@ const GetAllParamsAsArray = () => Array.from(params.values());
 const GetAllPSsAsArray = () => Array.from(PSs.values());
 const GetAllLEPsAsArray = () => Array.from(LEPs.values());
 
+const RestoreLastValuesFromDB = cb => {
+  async.series(
+    [restoreLastPoweredStateValues, restoreLastSwitchedOnStateValues],
+    err => {
+      if (cb) cb(err);
+    }
+  );
+};
+
 module.exports.LoadFromDB = LoadFromDB;
+module.exports.RestoreLastValuesFromDB = RestoreLastValuesFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams;
 module.exports.SetStateChangedHandlers = SetStateChangedHandlers;

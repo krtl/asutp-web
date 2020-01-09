@@ -22,7 +22,8 @@ const DbNodeSection = require('../dbmodels/nodeSection');
 const DbNodeSectionConnector = require('../dbmodels/nodeSectionConnector');
 const DbNodeEquipment = require('../dbmodels/nodeEquipment');
 const DbNodeParamLinkage = require('../dbmodels/nodeParamLinkage');
-const DbNodeStateValue = require('../dbmodels/nodeStateValue');
+const DbNodePoweredStateValue = require('../dbmodels/nodePoweredStateValue');
+const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 const DbNodeCoordinates = require('../dbmodels/nodeCoordinates');
 const DbNodeSchema = require('../dbmodels/nodeSchema');
 
@@ -46,7 +47,8 @@ const Sheme = [
   DbNodeSectionConnector,
   DbNodeEquipment,
   DbNodeParamLinkage,
-  DbNodeStateValue,
+  DbNodePoweredStateValue,
+  DbNodeSwitchedOnStateValue,
   DbNodeCoordinates,
   DbNodeSchema,
 ];
