@@ -2,7 +2,6 @@
 // const config = require('../../config');
 const MyDataModelParams = require("./myDataModelParams");
 const dbParamValues = require("./dbParamValues");
-const dbNodeStateValues = require("./dbNodeStateValues");
 const logger = require("../logger");
 // const moment = require('moment');
 const halfHourValuesTracker = require("./halfHourValuesTracker");
@@ -42,14 +41,5 @@ const trackDbParamValue = newParamValue => {
   }
 };
 
-const trackDbNodePoweredStateValue = newNodeStateValue => {
-  dbNodeStateValues.SavePoweredNodeStateValue(newNodeStateValue);
-};
-
-const trackDbNodeSwitchedOnStateValue = newNodeStateValue => {
-  dbNodeStateValues.SaveSwitchedOnNodeStateValue(newNodeStateValue);
-};
 
 module.exports.trackDbParamValue = trackDbParamValue;
-module.exports.trackDbNodePoweredStateValue = trackDbNodePoweredStateValue;
-module.exports.trackDbNodeSwitchedOnStateValue = trackDbNodeSwitchedOnStateValue;

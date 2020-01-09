@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 // const dbParam = require('../dbmodels/param');
 const dbParamValue = require("../dbmodels/paramValue");
 const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
+const DbBlockedParam = require('../dbmodels/blockedParam');
 const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
 const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 
@@ -13,6 +14,7 @@ async.series(
     open,
     removeParamValueData,
     removeParamHalfHourValueData,
+    removeBlockedParams,
     removeNodePoweredStateValues,
     removeNodeSwitchedOnStateValues
   ],
@@ -44,6 +46,13 @@ function removeParamValueData(callback) {
 
 function removeParamHalfHourValueData(callback) {
   DbParamHalfHourValue.deleteMany({}, err => {
+    if (err) throw callback(err);
+    callback();
+  });
+}
+
+function removeBlockedParams(callback) {
+  DbBlockedParam.deleteMany({}, err => {
     if (err) throw callback(err);
     callback();
   });

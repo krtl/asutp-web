@@ -61,6 +61,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
   require("./param"); // eslint-disable-line global-require
   require("./paramValue"); // eslint-disable-line global-require
   require("./paramHalfHourValue"); // eslint-disable-line global-require
+  require("./blockedParam"); // eslint-disable-line global-require
 
   require("./asutpConnection"); // eslint-disable-line global-require
 

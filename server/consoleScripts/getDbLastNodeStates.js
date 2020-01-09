@@ -6,6 +6,7 @@ const config = require("../../config");
 const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
 const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 const DbParamValue = require("../dbmodels/paramValue");
+const DbBlockedParam = require("../dbmodels/blockedParam");
 
 const start = moment();
 
@@ -15,7 +16,8 @@ async.series(
     testLastNodePoweredStates,
     testLastNodeSwitchedOnStates,
     // test2,
-    testLastParamValues
+    testLastParamValues,
+    testBlockedParams
   ],
   err => {
     // console.info(arguments);
@@ -91,7 +93,6 @@ function testLastNodeSwitchedOnStates(callback) {
   );
 }
 
-
 function test2(callback) {
   (async () => {
     try {
@@ -118,7 +119,7 @@ function test2(callback) {
     }
 
     callback();
-  })().catch(err=>callback(err));
+  })().catch(err => callback(err));
 }
 
 function testLastParamValues(callback) {
@@ -146,4 +147,17 @@ function testLastParamValues(callback) {
       }
     }
   );
+}
+
+function testBlockedParams(callback) {
+  DbBlockedParam.find({}, null, { sort: { name: 1 } }, (err, values) => {
+    if (err) {
+      callback(err);
+    } else {
+      values.forEach(value => {
+        console.info(value);
+      });
+      callback();
+    }
+  });
 }

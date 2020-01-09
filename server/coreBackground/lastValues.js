@@ -11,6 +11,7 @@ const MyNodeSection = require("../models/myNodeSection");
 const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
 const DbParamValue = require("../dbmodels/paramValue");
 const MyParamValue = require("../models/myParamValue");
+const DbBlockedParam = require("../dbmodels/blockedParam");
 
 // const logger = require('../logger');
 
@@ -48,6 +49,7 @@ const setRawValue = newValue => {
 const BlockRawValues = paramName => {
   if (blockedParams.indexOf(paramName) < 0) {
     blockedParams.push(paramName);
+    dbValuesTracker.BlockParam(paramName);
   }
 };
 
@@ -55,6 +57,7 @@ const UnblockRawValues = paramName => {
   const index = blockedParams.indexOf(paramName);
   if (index > -1) {
     blockedParams.splice(index, 1);
+    dbValuesTracker.UnblockParam(paramName);
   }
 };
 
@@ -79,10 +82,10 @@ function init(obj, callback) {
     callback();
   } else {
     restoreLastParamValues(() => {
-      // restoreBlockedParamNamess(() => {
+      restoreBlockedParamNamess(() => {
       dbValuesTracker.Start();
       callback();
-      // });
+      });
     });
   }
 }
@@ -154,83 +157,41 @@ function restoreLastParamValues(callback) {
   );
 }
 
-function storeBlockedParamNames() {
-  const start = moment();
-  const data = JSON.stringify(blockedParams);
-  const duration1 = moment().diff(start);
-  try {
-    fs.writeFileSync(`${config.storePath}blockedParams.json`, data);
-  } catch (err) {
-    logger.error(`[lastValues] saving blockedParams error: ${err}`);
-    return;
-  }
-  const duration2 = moment().diff(start);
-  logger.debug(
-    `[lastValues] blockedParams prepared in ${moment(duration1).format(
-      "mm:ss.SSS"
-    )} and saved in  ${moment(duration2).format("mm:ss.SSS")}`
-  );
-}
-
 function restoreBlockedParamNamess(callback) {
   const start = moment();
   let count = 0;
   blockedParams = [];
-  const fileName = `${config.storePath}blockedParams.json`;
 
-  if (
-    !fs.exists(fileName, exists => {
-      if (!exists) {
-        const err = `file "${fileName}" does not exists`;
-        logger.warn(
-          `[lastValues][restoreBlockedParamNames] failed. File "${fileName}" is not found.`
-        );
-        callback(err);
-        return;
-      }
-      fs.readFile(fileName, (err, data) => {
-        if (err) {
-          callback(err);
-          return;
-        }
+  DbBlockedParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+    if (err) {
+      logger.error(
+        `[lastValues][restoreBlockedParamNames] failed. Error: "${err.message}".`
+      );
+      callback(err);
+    } else {
+      const duration1 = moment().diff(start);
 
-        let paramNames;
-        try {
-          paramNames = JSON.parse(data);
-        } catch (e) {
-          logger.error(
-            `[lastValues][restoreBlockedParamNames] failed. Error: "${e.message}". File "${fileName}" `
+      for (let i = 0; i < prms.length; i += 1) {
+        const prm = prms[i];
+
+        if (myDataModelNodes.GetParam(prm.name)) {
+          blockedParams.push(prm.name);
+          count += 1;
+        } else {
+          logger.warn(
+            `[][RestoreBlockedParamNames] failed to find param: ${prm.name}`
           );
-          callback(err);
-          return;
         }
-        const duration1 = moment().diff(start);
+      }
 
-        for (let i = 0; i < paramNames.length; i += 1) {
-          const paramName = paramNames[i];
-
-          if (myDataModelNodes.GetParam(paramName)) {
-            blockedParams.push(paramName);
-            count += 1;
-          } else {
-            logger.warn(
-              `[][RestoreBlockedParamNames] failed to find param: ${paramName}`
-            );
-          }
-        }
-
-        const duration2 = moment().diff(start);
-        logger.debug(
-          `[] ${count} BlockedParams loaded in ${moment(duration2).format(
-            "mm:ss.SSS"
-          )} (file loaded and parsed in ${moment(duration1).format(
-            "mm:ss.SSS"
-          )})`
-        );
-        callback();
-      });
-    })
-  );
+      logger.debug(
+        `[] ${count} BlockedParams loaded in ${moment(duration1).format(
+          "mm:ss.SSS"
+        )}`
+      );
+      callback();
+    }
+  });
 }
 
 const SetManualValue = manualValue => {
@@ -291,7 +252,6 @@ const SetManualValue = manualValue => {
 };
 
 function finalize() {
-  // storeBlockedParamNames();
   dbValuesTracker.Stop();
 }
 

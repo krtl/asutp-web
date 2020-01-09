@@ -55,7 +55,6 @@ function clearData(cb) {
   return cb();
 }
 
-
 function loadParams(cb) {
   DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);

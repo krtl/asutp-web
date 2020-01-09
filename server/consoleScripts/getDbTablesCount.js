@@ -7,6 +7,7 @@ const DbUser = require('../dbmodels/authUser');
 const DbParam = require('../dbmodels/param');
 const DbParamValue = require('../dbmodels/paramValue');
 const DbParamHalfHourValue = require('../dbmodels/paramHalfHourValue');
+const DbBlockedParam = require('../dbmodels/blockedParam');
 const DbAsutpConnection = require('../dbmodels/asutpConnection');
 const DbNode = require('../dbmodels/node');
 const DbNodeRegion = require('../dbmodels/nodeRegion');
@@ -32,6 +33,7 @@ const Sheme = [
   DbParam,
   DbParamValue,
   DbParamHalfHourValue,
+  DbBlockedParam,
   DbAsutpConnection,
   DbNode,
   DbNodeRegion,

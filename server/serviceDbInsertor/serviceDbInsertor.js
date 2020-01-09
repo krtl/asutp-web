@@ -16,6 +16,8 @@ const MyNodeSwitchedOnStateValue = require("../models/myNodeSwitchedOnStateValue
 const amqpValuesReceiver = require("../amqp/amqp_receive");
 const amqpNodeStateReceiver = require("../amqp/amqp_receive1");
 const DbValuesTracker = require("./dbValuesTracker");
+const DbParamValues = require("./dbParamValues");
+const DbNodeStateValues = require("./dbNodeStateValues");
 const HalfHourValuesTracker = require("./halfHourValuesTracker");
 
 mongoose.Promise = global.Promise;
@@ -51,13 +53,31 @@ db.on("connected", () => {
 
               // paramName<>55,63<>NA<>2017-11-17 10:05:44.132
               const s = received.split("<>");
-              if (s.length === 4) {
-                const momentDT = moment(s[3]);
-                const dt = new Date(momentDT);
-                const float = parseFloat(s[1].replace(",", "."));
-                const obj = new MyParamValue(s[0], float, dt, s[2]);
 
-                DbValuesTracker.trackDbParamValue(obj);
+              if (s.length > 1) {
+                const type = s[0];
+                if (type == "BP") {
+                  DbParamValues.BlockDbParamValue(s[1]);
+                } else if (type == "UBP") {
+                  DbParamValues.UnblockDbParamValue(s[1]);
+                } else if (type == "PV") {
+                  if (s.length === 5) {
+                    const momentDT = moment(s[4]);
+                    const dt = new Date(momentDT);
+                    const float = parseFloat(s[2].replace(",", "."));
+                    const obj = new MyParamValue(s[1], float, dt, s[3]);
+
+                    DbValuesTracker.trackDbParamValue(obj);
+                  } else {
+                    logger.error(
+                      `[ValuesReceiver][MyParamValue] Failed to parse: ${received}`
+                    );
+                  }
+                } else {
+                  logger.error(
+                    `[ValuesReceiver][MyParamValue] Unknown command: ${received}`
+                  );
+                }
               } else {
                 logger.error(
                   `[ValuesReceiver][MyParamValue] Failed to parse: ${received}`
@@ -90,7 +110,7 @@ db.on("connected", () => {
                     newState,
                     dt
                   );
-                  DbValuesTracker.trackDbNodePoweredStateValue(obj);
+                  DbNodeStateValues.SavePoweredNodeStateValue(obj);
                 } else if (type == "S") {
                   const oldState = s[2];
                   const newState = s[3];
@@ -100,7 +120,7 @@ db.on("connected", () => {
                     newState,
                     dt
                   );
-                  DbValuesTracker.trackDbNodeSwitchedOnStateValue(obj);
+                  DbNodeStateValues.SaveSwitchedOnNodeStateValue(obj);
                 } else {
                   logger.error(
                     `[NodeStateReceiver][MyNodePoweredStateValue] Unknown obj to track: ${received}`
