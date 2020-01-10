@@ -15,7 +15,6 @@ const CreateMySocketClient = function() {
   let subsciptionServerStatus;
 
   //  let cbOnConnected = null;
-  // let cbOnParamListsReceived = null;
   let paramsListName = "";
   let subscribedToServerStatus = false;
   // let cbOnParamsReceived = null;

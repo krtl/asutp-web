@@ -48,5 +48,85 @@
     "VVParamName": "param_ps1Part35sec2c2_VV",
     "PParamName": "param_ps1Part35sec2c1_P",
     "UlParamName": "param_ps2Part35sec2_Ul"
+  },
+  {
+    "name": "con6",
+    "caption": "Caption7",
+    "psSapCode": "sapTestCode1",
+    "voltage": "100",
+    "connectionNumber": "6",
+    "VVParamName": "param_ps1Part110cc1_VV",
+    "PParamName": "",
+    "UlParamName": ""
+  },
+  {
+    "name": "con7",
+    "caption": "Caption77",
+    "psSapCode": "sapTestCode1",
+    "voltage": "100",
+    "connectionNumber": "6",
+    "VVParamName": "param_ps1Part35cc1_VV",
+    "PParamName": "",
+    "UlParamName": ""
+  },
+  {
+    "name": "con2_1",
+    "caption": "Caption1",
+    "psSapCode": "sapTestCode2",
+    "voltage": "35",
+    "connectionNumber": "1",
+    "VVParamName": "param_ps1Part110sec1c1_VV",
+    "PParamName": "param_ps1Part110sec1c1_P",
+    "UlParamName": "param_ps1Part110sec1_Ul"
+  },
+  {
+    "name": "con2_2",
+    "caption": "Caption2",
+    "psSapCode": "sapTestCode2",
+    "voltage": "35",
+    "connectionNumber": "2",
+    "VVParamName": "param_ps2Part35sec1c1_VV",
+    "PParamName": "param_ps2Part35sec1c1_P",
+    "UlParamName": "param_ps2Part35sec1_Ul"
+  },
+  {
+    "name": "con2_3",
+    "caption": "Caption3",
+    "psSapCode": "sapTestCode2",
+    "voltage": "35",
+    "connectionNumber": "3",
+    "VVParamName": "param_ps2Part6sec1c1_VV",
+    "PParamName": "param_ps2Part6sec1c1_P",
+    "UlParamName": "param_ps2Part6sec1_Ul"
+  },
+  {
+    "name": "con2_4",
+    "caption": "Caption4",
+    "psSapCode": "sapTestCode2",
+    "voltage": "6",
+    "connectionNumber": "4",
+    "VVParamName": "param_ps2Part6sec2c1_VV",
+    "PParamName": "param_ps2Part6sec2c1_P",
+    "UlParamName": "param_ps2Part6sec2_Ul"
+  },
+  {
+    "name": "con2_5",
+    "caption": "Caption5",
+    "psSapCode": "sapTestCode2",
+    "voltage": "6",
+    "connectionNumber": "5",
+    "VVParamName": "param_ps2Part6sec2c2_VV",
+    "PParamName": "param_ps2Part6sec2c2_P",
+    "UlParamName": "param_ps2Part6sec2_Ul"
+  },
+  {
+    "name": "con2_6",
+    "caption": "Caption7",
+    "psSapCode": "sapTestCode2",
+    "voltage": "100",
+    "connectionNumber": "6",
+    "VVParamName": "param_ps2Part6sec1c2_VV",
+    "PParamName": "param_ps2Part6sec1c2_P",
+    "UlParamName": "param_ps2Part6sec1_Ul"
   }
 ]
