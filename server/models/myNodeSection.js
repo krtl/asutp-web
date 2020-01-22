@@ -54,8 +54,6 @@ class MyNodeSection extends MyNodeChainHolder {
         newPowered = myNodeState.POWERED_UNKNOWN;
       }
 
-      this.kTrust = 1;
-
       if (this.powered !== newPowered) {
         this.doOnPoweredStateChanged(newPowered);
       }

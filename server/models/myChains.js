@@ -190,7 +190,6 @@ function Recalculate() {
         }
       }
       if (!trusted) {
-        holder.kTrust = 0;
         chain.connectedElements.push(holder);
       }
     }

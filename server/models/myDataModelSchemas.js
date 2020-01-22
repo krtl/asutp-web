@@ -249,7 +249,6 @@ const getNodeForScheme = nodes => {
     locNode.powered = node.powered;
     locNode.parentNode = undefined;
     locNode.description = undefined;
-    locNode.kTrust = undefined;
     locNode.caption = node.caption;
     locNode.schemaNames = undefined;
     resultNodes.push(locNode);
@@ -744,7 +743,6 @@ const getPSSchema1 = (psName, callback) => {
     locNode.powered = node.powered;
     locNode.parentNode = undefined;
     locNode.description = undefined;
-    locNode.kTrust = undefined;
     // locNode.caption = node.caption;
     locNode.schemaNames = undefined;
     return locNode;
@@ -953,7 +951,6 @@ const getPSSchema1 = (psName, callback) => {
           locNode.powered = undefined; // !
           locNode.parentNode = undefined;
           locNode.description = undefined;
-          locNode.kTrust = undefined;
           locNode.schemaNames = undefined;
           locNode.x = section1.x + 1;
           locNode.y = section1.y;
@@ -1007,7 +1004,6 @@ const getPSSchema1 = (psName, callback) => {
               locNode.powered = undefined; // !
               locNode.parentNode = undefined;
               locNode.description = undefined;
-              locNode.kTrust = undefined;
               locNode.schemaNames = undefined;
               locNode.x = connector1.x;
               locNode.y = connector1.y;
@@ -1054,7 +1050,6 @@ const getPSSchema1 = (psName, callback) => {
           locNode.powered = lep.powered; // !
           locNode.parentNode = undefined;
           locNode.description = undefined;
-          locNode.kTrust = undefined;
           locNode.caption = connector.caption;
           locNode.schemaNames = undefined;
           locNode.x = connector1.x;
@@ -1409,7 +1404,7 @@ function createMyNodeSchemaObj(dbSchema) {
   locNodes = [];
   nodeNames.forEach(nodeName => {
     if (nodeName != "") {
-      if (!nodes.has(nodeName)) {
+      if (!myDataModelNodes.GetNode(nodeName)) {
         setError(
           `[ModelSchemas][loadNodeSchemas] Cannot find node "${nodeName}" in "${dbSchema.name}"`
         );

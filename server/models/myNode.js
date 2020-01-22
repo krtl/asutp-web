@@ -8,7 +8,6 @@ function MyNode(name, caption, description, nodeType) {
   this.parentNode = null;
   this.sapCode = '';
 
-  this.kTrust = -100; // confidence koefficient
   this.powered = myNodeState.POWERED_UNKNOWN;
   this.doOnPoweredStateChanged = (newPowered) => {
     if (this.poweredStateChangeHandler) {
@@ -30,7 +29,6 @@ function MyNode(name, caption, description, nodeType) {
 // };
 
 function myNodeStringifyReplacer(key, value) {
-  if (key === 'kTrust') return undefined;
   if (key === 'schemaNames') return undefined;
   if (key === 'parentNode') return undefined;
   if (key === 'description') return undefined;

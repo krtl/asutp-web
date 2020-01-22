@@ -12,6 +12,7 @@ const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const myDataModelNodes = require("../models/myDataModelNodes");
+const myDataModelSchemas = require("../models/myDataModelSchemas");
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
 const commandsServer = require("../coreServer/commandsServer");
@@ -428,7 +429,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
   dbSchema.save(err => {
     if (err) {
       logger.info(`[addNewCustomSchema] Failed: ${err}`);
-      next(err);
+      // next(err);
       res.status(500).json({
         message: err.message
       });
@@ -508,10 +509,10 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
     err => {
       if (err) {
         logger.info(`[CustomSchemaDeleteNode] Failed: ${err}`);
-        // next(err);
-        res.status(500).json({
-          message: err.message
-        });
+         next(err);
+        // res.status(500).json({
+        //   message: err.message
+        // });
       } else {
         logger.debug(
           `[CustomSchemaDeleteNode] node ${requestInfo.nodeName} has deleted from custom schema ${requestInfo.schemaName}`
