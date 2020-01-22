@@ -1,8 +1,12 @@
 const chai = require('chai');
 const mongoose = require('mongoose');
 
+
+// obsolete!
+
 const expect = chai.expect;
 const myDataModelNodes = require('../models/myDataModelNodes');
+const myDataModelSchemas = require('../models/myDataModelSchemas');
 const DBNodeSchema = require('../dbmodels/nodeSchema');
 const Param = require('../dbmodels/param');
 const User = require('../dbmodels/authUser');
@@ -17,7 +21,7 @@ const testParamListName = 'TestParamListName';
 
 describe('myDataModelNodes', () => {
   it('GetAvailableSchemas() should return 0 before loaded with data', () => {
-    const schemas = myDataModelNodes.GetAvailableSchemas('TestUser');
+    const schemas = myDataModelSchemas.GetAvailableSchemas('TestUser');
     expect(schemas.length).to.equal(0);
   });
 
@@ -82,7 +86,7 @@ describe('myDataModelNodes', () => {
     it('Should retrieve ParamList and Param for TestUser after Loading DataModel', (done) => {
       myDataModelNodes.LoadFromDB((err) => {
         if (err) { throw err; }
-        const schemas = myDataModelNodes.GetAvailableSchemas(testUserName);
+        const schemas = myDataModelSchemas.GetAvailableSchemas(testUserName);
         if (schemas.length !== 1) { throw new Error('No data!'); }
         done();
       });

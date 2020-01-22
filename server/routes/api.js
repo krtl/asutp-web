@@ -14,8 +14,7 @@ const DbNodeSchema = require("../dbmodels/nodeSchema");
 const myDataModelNodes = require("../models/myDataModelNodes");
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
-const commandsServer = require('../coreServer/commandsServer');
-
+const commandsServer = require("../coreServer/commandsServer");
 
 const router = new express.Router();
 
@@ -435,7 +434,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
       });
     } else {
       console.log(`Schema "${dbSchema.name}" inserted`);
-      myDataModelNodes.ReloadCustomSchema(dbSchema.name, err => {
+      myDataModelSchemas.ReloadCustomSchema(dbSchema.name, err => {
         if (err) {
           logger.info(`[ReloadCustomSchema] Failed: ${err}`);
           // next(err);
@@ -457,7 +456,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
 router.post("/deleteCustomSchema", (req, res, next) => {
   const schemaName = req.query.schemaName;
 
-  myDataModelNodes.DeleteCustomSchema(schemaName, err => {
+  myDataModelSchemas.DeleteCustomSchema(schemaName, err => {
     if (err) {
       logger.info(`[DeleteCustomSchema] Failed: ${err}`);
       // next(err);
@@ -478,7 +477,7 @@ router.post("/deleteCustomSchema", (req, res, next) => {
 
 router.post("/customSchemaAddNode", (req, res, next) => {
   const requestInfo = req.body;
-  myDataModelNodes.CustomSchemaAddNode(
+  myDataModelSchemas.CustomSchemaAddNode(
     requestInfo.schemaName,
     requestInfo.nodeName,
     err => {
@@ -503,7 +502,7 @@ router.post("/customSchemaAddNode", (req, res, next) => {
 
 router.post("/customSchemaDeleteNode", (req, res, next) => {
   const requestInfo = req.body;
-  myDataModelNodes.CustomSchemaDeleteNode(
+  myDataModelSchemas.CustomSchemaDeleteNode(
     requestInfo.schemaName,
     requestInfo.nodeName,
     err => {

@@ -57,8 +57,8 @@ function importParams(callback) {
   const fileName = `${config.importPath}${FileNames[0]}`;
 
   if (!fs.existsSync(fileName)) {
-    const err = `file "${fileName}" does not exists`;
-    console.log(err);
+    const err = Error(`file "${fileName}" does not exists`);
+    console.log(err.message);
     callback(err);
     return;
   }
@@ -109,8 +109,8 @@ function importAsutpConnections(callback) {
   const fileName = `${config.importPath}${FileNames[1]}`;
 
   if (!fs.existsSync(fileName)) {
-    const err = `file "${fileName}" does not exists`;
-    console.log(err);
+    const err = Error(`file "${fileName}" does not exists`);
+    console.log(err.message);
     callback(err);
     return;
   }

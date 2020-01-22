@@ -1,6 +1,6 @@
 const StompServer = require("stomp-broker-js");
 // const moment = require('moment');
-const MyDataModelNodes = require("../models/myDataModelNodes");
+const MyDataModelSchemas = require("../models/myDataModelSchemas");
 const lastParamValues = require("./lastParamValues");
 const MyServerStatus = require("./serverStatus");
 
@@ -106,7 +106,7 @@ const initializeStompServer = httpserver => {
       }
     } else if (ev.topic.startsWith(TOPIC_VALUES)) {
       const schemaName = ev.topic.replace(TOPIC_VALUES, "");
-      const paramNames = MyDataModelNodes.GetPSSchemaParamNames(schemaName);
+      const paramNames = MyDataModelSchemas.GetPSSchemaParamNames(schemaName);
       for (let i = 0; i < paramNames.length; i += 1) {
         const paramName = paramNames[i];
         const paramValue = lastParamValues.getLastValue(paramName);

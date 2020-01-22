@@ -15,9 +15,9 @@ module.exports = {
       env: {
         NODE_ENV: "production"
       },
-      error_file: "Logger_err.log",
-      out_file: "Logger_out.log",
-      log_file: "Logger_combined.log",
+      error_file: "../asutp-web-vs.code.logs/Logger_err.log",
+      out_file: "../asutp-web-vs.code.logs/Logger_out.log",
+      log_file: "../asutp-web-vs.code.logs/Logger_combined.log",
       time: true
     },
     {
@@ -35,9 +35,9 @@ module.exports = {
       env: {
         NODE_ENV: "production"
       },
-      error_file: "Insertor_err.log",
-      out_file: "Insertor_out.log",
-      log_file: "Insertor_combined.log",
+      error_file: "../asutp-web-vs.code.logs/Insertor_err.log",
+      out_file: "../asutp-web-vs.code.logs/Insertor_out.log",
+      log_file: "../asutp-web-vs.code.logs/Insertor_combined.log",
       time: true
     },
     {
@@ -55,9 +55,9 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 80
       },
-      error_file: "Server_err.log",
-      out_file: "Server_out.log",
-      log_file: "Server_combined.log",
+      error_file: "../asutp-web-vs.code.logs/Server_err.log",
+      out_file: "../asutp-web-vs.code.logs/Server_out.log",
+      log_file: "../asutp-web-vs.code.logs/Server_combined.log",
       time: true
     }
   ]

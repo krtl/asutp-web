@@ -1,88 +1,95 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "getLastNodeStates",
-            "program": "${workspaceFolder}/server/consoleScripts/getDBLastNodeStates.js"
-        },
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "getLastNodeStates",
+      "program": "${workspaceFolder}/server/consoleScripts/getDBLastNodeStates.js"
+    },
 
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "getDbTablesCount",
-            "program": "${workspaceFolder}/server/consoleScripts/getDbTablesCount.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "clearDbTablesData",
-            "program": "${workspaceFolder}/server/consoleScripts/removeDbData.js"
-        },
-        
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "testAmqpSendReceive",
-            "program": "${workspaceFolder}/server/consoleScripts/testAmqpSendReceive.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "DBExportNodeParamLinkage",
-            "program": "${workspaceFolder}/server/consoleScripts/scriptDBExportNodeParamLinkage.js"
-        },        
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "DBRecreateAndReimport",
-            "program": "${workspaceFolder}/server/consoleScripts/scriptDBRecreateAndReimport.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "LoadModelNodes",
-            "program": "${workspaceFolder}/server/consoleScripts/scriptLoadNodesModel.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run Logger",
-            "program": "${workspaceFolder}/server/serviceLogger/serviceLogger.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run DBInsertor",
-            "program": "${workspaceFolder}/server/serviceDbInsertor/serviceDbInsertor.js"
-        },
-       {
-            "type": "node",
-            "request": "launch",
-            "name": "Run server",
-            "program": "${workspaceFolder}/server.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run backgroundworker",
-            "program": "${workspaceFolder}/backgroundworker.js"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Test Schemas",
-            "program": "${workspaceFolder}/server/consoleScripts/scriptSchemaRecalculationTestings.js"
-        },
-                
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run test stomp client",
-            "program": "${workspaceFolder}/testclient/myTestStompClient.js"
-        }    ]
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "getDbTablesCount",
+      "program": "${workspaceFolder}/server/consoleScripts/getDbTablesCount.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "clearDbTablesData",
+      "program": "${workspaceFolder}/server/consoleScripts/removeDbData.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "testAmqpSendReceive",
+      "program": "${workspaceFolder}/server/consoleScripts/testAmqpSendReceive.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "DBExportUserData",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBExportUsersData.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "DBImportUserData",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBImportUsersData.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "DBRecreateAndReimport",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBRecreateAndReimport.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "LoadModelNodes",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptLoadNodesModel.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Logger",
+      "program": "${workspaceFolder}/server/serviceLogger/serviceLogger.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run DBInsertor",
+      "program": "${workspaceFolder}/server/serviceDbInsertor/serviceDbInsertor.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run server",
+      "program": "${workspaceFolder}/server.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run backgroundworker",
+      "program": "${workspaceFolder}/backgroundworker.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test Schemas",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptSchemaRecalculationTestings.js"
+    },
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run test stomp client",
+      "program": "${workspaceFolder}/testclient/myTestStompClient.js"
+    }
+  ]
 }

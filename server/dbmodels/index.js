@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const logger = require("../logger");
 const myDataModelNodes = require("../models/myDataModelNodes");
+const myDataModelSchemas = require("../models/myDataModelSchemas");
 let paramValuesProcessor = undefined;
 if (process.env.RECALCULATION) {
   paramValuesProcessor = require("../coreBackground/paramValuesProcessor");
@@ -37,9 +38,16 @@ module.exports.connect = (uri, useDataModel, callback) => {
               useDbValueTracker: true
             },
             () => {
-              myDataModelNodes.RestoreLastValuesFromDB();
+              myDataModelNodes.RestoreLastValuesFromDB(err => {
+                if (callback) callback(err);
+              });
             }
           );
+        } else {
+          myDataModelSchemas.LoadFromDB(err => {
+            //..
+            if (callback) callback(err);
+          });
         }
       });
     }

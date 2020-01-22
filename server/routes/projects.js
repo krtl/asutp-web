@@ -1,6 +1,7 @@
 const async = require("async");
 const logger = require("../logger");
 const myDataModelNodes = require("../models/myDataModelNodes");
+const myDataModelSchemas = require("../models/myDataModelSchemas");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
 
@@ -13,7 +14,7 @@ module.exports = app => {
 
   app.get("/getSchemas", (req, res) => {
     const names = [];
-    const schemas = myDataModelNodes.GetNodeSchemas();
+    const schemas = myDataModelSchemas.GetNodeSchemas();
     schemas.forEach(nodeSchema => {
       const obj = {
         name: nodeSchema.name,
@@ -30,7 +31,7 @@ module.exports = app => {
     const regions = [];
 
     const locPSs = myDataModelNodes.GetAllPSsAsArray();
-    const locRegions = myDataModelNodes.GetRegions();
+    const locRegions = myDataModelNodes.GetAllRegionsAsArray();
 
     for (let i = 0; i < locRegions.length; i += 1) {
       const region = locRegions[i];
@@ -107,7 +108,7 @@ module.exports = app => {
 
   app.get("/getSchemaPSs", (req, res) => {
     const names = [];
-    const pss = myDataModelNodes.GetSchemaPSs(req.query.name);
+    const pss = myDataModelSchemas.GetSchemaPSs(req.query.name);
     pss.forEach(ps => {
       const obj = { name: ps.name, caption: ps.caption };
       names.push(obj);
@@ -117,7 +118,7 @@ module.exports = app => {
   });
 
   app.get("/getSchema", (req, res) => {
-    myDataModelNodes.GetSchema(req.query.name, (err, json) => {
+    myDataModelSchemas.GetSchema(req.query.name, (err, json) => {
       if (err) {
         res.send(err); // ??
         return false;
@@ -128,7 +129,7 @@ module.exports = app => {
   });
 
   app.get("/getPSSchema", (req, res) => {
-    myDataModelNodes.GetPSSchema(req.query.name, (err, json) => {
+    myDataModelSchemas.GetPSSchema(req.query.name, (err, json) => {
       if (err) {
         res.send(err); // ??
         return false;
@@ -150,7 +151,7 @@ module.exports = app => {
   });
 
   app.get("/getPSParams", (req, res) => {
-    const paramNames = myDataModelNodes.GetPSSchemaParamNames(req.query.name);
+    const paramNames = myDataModelSchemas.GetPSSchemaParamNames(req.query.name);
     const params = [];
     paramNames.forEach(name => {
       const obj = { name, value: 0 };
@@ -271,7 +272,7 @@ module.exports = app => {
                 `[savePSLinkage] Nodes are successfully relinked to Params for "${psName}"`
               );
 
-              myDataModelNodes.ReloadPSSchemaParams(psName, err => {
+              myDataModelSchemas.ReloadPSSchemaParams(psName, err => {
                 if (err) {
                   logger.warn(
                     `[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"!`
