@@ -91,6 +91,8 @@ const initializeParamValuesProcessor = (setts, cb) => {
           if (param.schemaNames.length > 0) {
             recalculateSchema = true;
 
+            // this is not working anymore, so recalculation should be done by timer without detecting changes in params values.
+
             commandsServer.SendParamValue(value);
           }
         }

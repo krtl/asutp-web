@@ -54,9 +54,9 @@ module.exports.connect = (uri, useDataModel, callback) => {
   });
 
   mongoose.connection.on("error", err => {
-    logger.error(`Mongoose connection error: ${err}`);
+    logger.error(`Mongoose connection error: ${err.message}`);
     // eslint-disable-next-line no-console
-    console.error(`Mongoose connection error: ${err}`);
+    console.error(`Mongoose connection error: ${err.message}`);
     process.exit(1);
   });
 
@@ -65,35 +65,35 @@ module.exports.connect = (uri, useDataModel, callback) => {
   });
 
   // load models
-  require("./authUser"); // eslint-disable-line global-require
-  require("./param"); // eslint-disable-line global-require
-  require("./paramValue"); // eslint-disable-line global-require
-  require("./paramHalfHourValue"); // eslint-disable-line global-require
-  require("./blockedParam"); // eslint-disable-line global-require
+  // require("./authUser"); // eslint-disable-line global-require
+  // require("./param"); // eslint-disable-line global-require
+  // require("./paramValue"); // eslint-disable-line global-require
+  // require("./paramHalfHourValue"); // eslint-disable-line global-require
+  // require("./blockedParam"); // eslint-disable-line global-require
 
-  require("./asutpConnection"); // eslint-disable-line global-require
+  // require("./asutpConnection"); // eslint-disable-line global-require
 
-  require("./netNode"); // eslint-disable-line global-require
-  require("./netWire"); // eslint-disable-line global-require
-  require("./nodeCoordinates"); // eslint-disable-line global-require
-  require("./nodeSchema"); // eslint-disable-line global-require
+  // require("./netNode"); // eslint-disable-line global-require
+  // require("./netWire"); // eslint-disable-line global-require
+  // require("./nodeCoordinates"); // eslint-disable-line global-require
+  // require("./nodeSchema"); // eslint-disable-line global-require
 
-  require("./node"); // eslint-disable-line global-require
-  require("./nodeRegion"); // eslint-disable-line global-require
-  require("./nodeLEP"); // eslint-disable-line global-require
-  require("./nodeLEP2LEPConnection"); // eslint-disable-line global-require
-  require("./nodeLEP2PSConnection"); // eslint-disable-line global-require
-  require("./nodePS"); // eslint-disable-line global-require
-  require("./nodePSPart"); // eslint-disable-line global-require
-  require("./nodeTransformer"); // eslint-disable-line global-require
-  require("./nodeTransformerConnector"); // eslint-disable-line global-require
-  require("./nodeSection"); // eslint-disable-line global-require
-  require("./nodeSectionConnector"); // eslint-disable-line global-require
-  require("./nodeSec2SecConnector"); // eslint-disable-line global-require
-  require("./nodeEquipment"); // eslint-disable-line global-require
+  // require("./node"); // eslint-disable-line global-require
+  // require("./nodeRegion"); // eslint-disable-line global-require
+  // require("./nodeLEP"); // eslint-disable-line global-require
+  // require("./nodeLEP2LEPConnection"); // eslint-disable-line global-require
+  // require("./nodeLEP2PSConnection"); // eslint-disable-line global-require
+  // require("./nodePS"); // eslint-disable-line global-require
+  // require("./nodePSPart"); // eslint-disable-line global-require
+  // require("./nodeTransformer"); // eslint-disable-line global-require
+  // require("./nodeTransformerConnector"); // eslint-disable-line global-require
+  // require("./nodeSection"); // eslint-disable-line global-require
+  // require("./nodeSectionConnector"); // eslint-disable-line global-require
+  // require("./nodeSec2SecConnector"); // eslint-disable-line global-require
+  // require("./nodeEquipment"); // eslint-disable-line global-require
 
-  require("./nodeParamLinkage"); // eslint-disable-line global-require
+  // require("./nodeParamLinkage"); // eslint-disable-line global-require
 
-  require("./nodePoweredStateValue"); // eslint-disable-line global-require
-  require("./nodeSwitchedOnStateValue"); // eslint-disable-line global-require
+  // require("./nodePoweredStateValue"); // eslint-disable-line global-require
+  // require("./nodeSwitchedOnStateValue"); // eslint-disable-line global-require
 };

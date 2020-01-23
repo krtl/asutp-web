@@ -64,7 +64,7 @@ async.series([
 ], (err) => {
   // console.info(arguments);
   if (err) {
-    console.info(`Failed! ${err}`);
+    console.info(`Failed! ${err.message}`);
   } else {
     const duration = moment().diff(start);
     console.info(`done in ${moment(duration).format('mm:ss.SSS')}`);
@@ -88,7 +88,7 @@ function getCounts(callback) {
     getCountForTable(schemeElement, callback);
   }, (err) => {
     if (err) {
-      console.Error(`Failed: ${err}`);
+      console.Error(`Failed: ${err.message}`);
     } else {
       console.info('success.');
     }

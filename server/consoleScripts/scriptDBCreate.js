@@ -91,7 +91,7 @@ function createUsers(callback) {
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      console.error(`Failed: ${err.message}`);
     } else {
       console.log('Success.');
     }

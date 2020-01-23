@@ -30,7 +30,7 @@ Start = cb => {
     err => {
       // console.info(arguments);
       if (err) {
-        console.info(`Failed! ${err}`);
+        console.info(`Failed! ${err.message}`);
       } else {
         const duration = moment().diff(start);
         console.info(`done in ${moment(duration).format("mm:ss.SSS")}`);
@@ -71,12 +71,12 @@ exportLinkages = callback => {
 };
 
 exportNodeSchemas = callback => {
-  DbNodeSchema.find({}, (err, linkages) => {
+  DbNodeSchema.find({}, (err, schemas) => {
     if (err) {
       callback(err);
     } else {
       const fileName = `${config.exportPath}nodeSchemas${Date.now()}.json`;
-      const json = JSON.stringify(linkages);
+      const json = JSON.stringify(schemas);
       fs.writeFile(fileName, json, "utf8", err => {
         console.info(`done: ${fileName}`);
         callback(err);
@@ -93,12 +93,12 @@ exportNodeSchemas = callback => {
 };
 
 exportNodeCoordinates = callback => {
-  DbNodeCoordinates.find({}, (err, linkages) => {
+  DbNodeCoordinates.find({}, (err, coordinates) => {
     if (err) {
       callback(err);
     } else {
       const fileName = `${config.exportPath}nodeCoordinates${Date.now()}.json`;
-      const json = JSON.stringify(linkages);
+      const json = JSON.stringify(coordinates);
       fs.writeFile(fileName, json, "utf8", err => {
         console.info(`done: ${fileName}`);
         callback(err);

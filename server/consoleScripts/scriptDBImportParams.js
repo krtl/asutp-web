@@ -22,7 +22,7 @@ function Start(cb) {
     if (err) console.error('Failed!');
 
     if (err) {
-      console.error(`Importing params failed with ${err}`);
+      console.error(`Importing params failed with ${err.message}`);
     } else {
       const duration = moment().diff(start);
       console.log(`Importing params done in ${moment(duration).format('mm:ss.SSS')}`);
@@ -95,7 +95,7 @@ function importParams(callback) {
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      console.error(`Failed: ${err.message}`);
     } else {
       console.log('Success.');
     }
@@ -158,7 +158,7 @@ function importAsutpConnections(callback) {
     });
   }, (err) => {
     if (err) {
-      console.error(`Failed: ${err}`);
+      console.error(`Failed: ${err.message}`);
     } else {
       console.log('Success.');
     }

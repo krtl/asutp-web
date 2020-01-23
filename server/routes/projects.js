@@ -151,7 +151,7 @@ module.exports = app => {
   });
 
   app.get("/getPSParams", (req, res) => {
-    const paramNames = myDataModelSchemas.GetPSSchemaParamNames(req.query.name);
+    const paramNames = myDataModelSchemas.GetSchemaParamNames(req.query.name);
     const params = [];
     paramNames.forEach(name => {
       const obj = { name, value: 0 };
@@ -252,7 +252,7 @@ module.exports = app => {
       },
       err => {
         if (err) {
-          logger.info(`Failed: ${err}`);
+          logger.info(`Failed: ${err.message}`);
           next(err);
           // res.status(500).json({
           //   message: err.message,

@@ -22,21 +22,21 @@ db.on('connected', () => {
 
 myDataModelNodes.LoadFromDB((err) => {
   if (err) {
-    console.error(`Failed! Error: ${err}`);
+    console.error(`Failed! Error: ${err.message}`);
   } else {
     console.info('LoadFromDB Done!');
 
 
     // myDataModelNodes.ExportPSs((err) => {
     //   if (err) {
-    //     console.error(`Failed! ExportPSs Error: ${err}`);
+    //     console.error(`Failed! ExportPSs Error: ${err.message}`);
     //   } else {
     //     console.info('ExportPSs Done!');
     //   }
 
     mongoose.connection.close((err) => {
       if (err) {
-        console.info(`We are disconnected from db. Error: ${err}`);
+        console.info(`We are disconnected from db. Error: ${err.message}`);
       } else {
         console.info('We are disconnected from db.');
       }

@@ -86,7 +86,7 @@ function publish(exchange, routingKey, content) {
       pubChannel.publish(exchange, routingKey, content, { persistent: true },
         (err) => {
           if (err) {
-            logger.error(`[AMQPSENDER][${locSenderName}] publish ${err}`);
+            logger.error(`[AMQPSENDER][${locSenderName}] publish ${err.message}`);
             offlinePubQueue.push([ exchange, routingKey, content ]);
             pubChannel.connection.close();
           }
@@ -100,7 +100,7 @@ function publish(exchange, routingKey, content) {
 
 function closeOnErr(err) {
   if (!err) return false;
-  logger.error(`[AMQPSENDER][${locSenderName}] error ${err}`);
+  logger.error(`[AMQPSENDER][${locSenderName}] error ${err.message}`);
   amqpConn.close();
   return true;
 }

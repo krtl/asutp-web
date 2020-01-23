@@ -14,7 +14,7 @@ const SaveNodePoweredStateValue = (stateValue, callback) => {
   nodeStateValue.save(err => {
     if (err) {
       logger.error(
-        `[dbNodePoweredStateValues] Failed to save Powered State value. Error: ${err}`
+        `[dbNodePoweredStateValues] Failed to save Powered State value. Error: ${err.message}`
       );
     } else {
       logger.debug(
@@ -39,7 +39,7 @@ const SaveNodeSwitchedOnStateValue = (stateValue, callback) => {
   nodeStateValue.save(err => {
     if (err) {
       logger.error(
-        `[dbNodeSwitchedOnStateValues] Failed to save SwitchedOn State value. Error: ${err}`
+        `[dbNodeSwitchedOnStateValues] Failed to save SwitchedOn State value. Error: ${err.message}`
       );
     } else {
       logger.debug(
@@ -63,7 +63,7 @@ const RemoveOldNodePoweredStateValues = callback => {
     err => {
       if (err) {
         logger.error(
-          `[dbNodePoweredStateValues] Failed to delete state value. Error: ${err}`
+          `[dbNodePoweredStateValues] Failed to delete state value. Error: ${err.message}`
         );
       }
       if (callback) {
@@ -83,7 +83,7 @@ const RemoveOldNodeSwitchedOnStateValues = callback => {
     err => {
       if (err) {
         logger.error(
-          `[dbNodeSwitchedOnStateValues] Failed to delete state value. Error: ${err}`
+          `[dbNodeSwitchedOnStateValues] Failed to delete state value. Error: ${err.message}`
         );
       }
       if (callback) {

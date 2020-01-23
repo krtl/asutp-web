@@ -212,7 +212,7 @@ function preparingNodes(callback) {
     },
     (err, res) => {
       if (err) {
-        console.warn(`[!] ${err}`);
+        console.warn(`[!] ${err.message}`);
       } else {
         console.debug(`[debug] ${res.nModified} updated.`);
       }
@@ -232,7 +232,7 @@ function updateNodeTag(originNode, callback) {
     },
     (err, res) => {
       if (err) {
-        console.warn(`[!] ${err}`);
+        console.warn(`[!] ${err.message}`);
       } else if (res.nModified === 0) {
         console.warn("[!] did not updated.");
       } else {
@@ -256,14 +256,14 @@ function deleteNetNodeObjects(callback) {
           const DbNodeObj = schemeElement[0];
           DbNodeObj.deleteOne({ name: netNode.name }, err => {
             if (err) {
-              console.warn(`[!] Deleting DbNodeObj failed: ${err}`);
+              console.warn(`[!] Deleting DbNodeObj failed: ${err.message}`);
             }
             callback(err);
           });
         },
         err => {
           // if (err) {
-          //   setError(`Deleting DbNodeObjects failed: ${err}`);
+          //   setError(`Deleting DbNodeObjects failed: ${err.message}`);
           // }
           callback(err);
         }
@@ -271,7 +271,7 @@ function deleteNetNodeObjects(callback) {
     },
     err => {
       if (err) {
-        setError(`Deleting DbNodeObjects failed: ${err}`);
+        setError(`Deleting DbNodeObjects failed: ${err.message}`);
       }
       callback(err);
     }
@@ -281,7 +281,7 @@ function deleteNetNodeObjects(callback) {
 function deleteNetNodes(callback) {
   DbNode.deleteMany({ tag: 0 }, (err, res) => {
     if (err) {
-      console.warn(`[!] ${err}`);
+      console.warn(`[!] ${err.message}`);
     } else {
       console.warn(`[!] ${res} old nodes were deleted.`);
     }
@@ -338,7 +338,7 @@ function importNodes(callback) {
     },
     err => {
       if (err) {
-        setError(`Importing failed: ${err}`);
+        setError(`Importing failed: ${err.message}`);
       } else {
         console.info("Importing successed.");
       }
@@ -515,7 +515,7 @@ function checkIntegrity(callback) {
     { sort: { name: 1 } },
     (err, netNodes) => {
       if (err) {
-        setError(`Checking integrity failed: ${err}`);
+        setError(`Checking integrity failed: ${err.message}`);
         callback(err);
       } else if (netNodes.length > 0) {
         let s = "";

@@ -25,7 +25,7 @@ mongoose.set("useUnifiedTopology", true);
 dbModels.connect(config.dbUri, true, err => {
   if (err) {
     // eslint-disable-next-line no-console
-    console.error(`dbModels connection error: ${err}`);
+    console.error(`dbModels connection error: ${err.message}`);
     process.exit(1);
   }
   // start listening only after models has loaded.
@@ -46,7 +46,7 @@ process.on("SIGINT", () => {
   mongoose.connection.close(err => {
     if (err) {
       // eslint-disable-next-line no-console
-      console.error(`Error on close Mongoose connection: ${err}`);
+      console.error(`Error on close Mongoose connection: ${err.message}`);
       process.exit(1);
     }
     // eslint-disable-next-line no-console

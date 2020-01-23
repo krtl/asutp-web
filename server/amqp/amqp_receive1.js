@@ -102,7 +102,7 @@ function work(msg, cb) {
 
 function closeOnErr(err) {
   if (!err) return false;
-  logger.error(`[AMQP] error ${err}`);
+  logger.error(`[AMQP] error ${err.message}`);
   amqpConn.close();
   return true;
 }

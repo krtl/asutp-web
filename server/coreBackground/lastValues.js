@@ -112,7 +112,7 @@ function restoreLastParamValues(callback) {
     ],
     (err, values) => {
       if (err) {
-        logger.error(`[LastParamValues] Failed to get last value: "${err}".`);
+        logger.error(`[LastParamValues] Failed to get last value: "${err.message}".`);
         callback(err);
       } else {
         for (let i = 0; i < values.length; i += 1) {

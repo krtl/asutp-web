@@ -25,7 +25,7 @@ describe("WebSocketServer", () => {
       done();
     });
     wsc.on("error", err => {
-      console.warn(`error: ${err}`);
+      console.warn(`error: ${err.message}`);
       done();
     });
     wsc.on("close", () => {

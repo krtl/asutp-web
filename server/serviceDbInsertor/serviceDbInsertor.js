@@ -38,12 +38,12 @@ db.on("connected", () => {
   logger.info(`We are connected to ${config.dbUri}`);
   MyDataModelParams.LoadFromDB(err => {
     if (err) {
-      logger.error(`Failed! Error: ${err}`);
+      logger.error(`Failed! Error: ${err.message}`);
     } else {
       // logger.info('Done!');
       HalfHourValuesTracker.loadLastTrackedValues(err => {
         if (err) {
-          logger.error(`Failed! Error: ${err}`);
+          logger.error(`Failed! Error: ${err.message}`);
         } else {
           amqpValuesReceiver.start(
             config.amqpUri,
@@ -141,7 +141,7 @@ db.on("connected", () => {
 
 // mongoose.connection.close((err) => {
 //     if (err) {
-//       logger.info(`We are disconnected from db. Error: ${err}`);
+//       logger.info(`We are disconnected from db. Error: ${err.message}`);
 //     } else {
 //       logger.info('We are disconnected from db.');
 //     }
@@ -154,7 +154,7 @@ process.on("SIGINT", () => {
   mongoose.connection.close(err => {
     if (err) {
       // eslint-disable-next-line no-console
-      console.error(`Error on close Mongoose connection: ${err}`);
+      console.error(`Error on close Mongoose connection: ${err.message}`);
       process.exit(1);
     }
     // eslint-disable-next-line no-console

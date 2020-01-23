@@ -120,7 +120,7 @@ const CreateMySocketClient = function() {
     };
 
     stompClient.ws.onerror = err => {
-      console.log(`[stompClient] socket error: ${err}`);
+      console.log(`[stompClient] socket error: ${err.message}`);
     };
 
     stompClient.ws.onclose = () => {

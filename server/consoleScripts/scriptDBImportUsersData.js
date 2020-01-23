@@ -183,7 +183,7 @@ importLinkages = callback => {
     },
     err => {
       if (err) {
-        console.error(`Failed: ${err}`);
+        console.error(`Failed: ${err.message}`);
       } else {
         console.info(`Success: ${fileName}`);
       }
@@ -268,7 +268,7 @@ importNodeSchemas = callback => {
     },
     err => {
       if (err) {
-        console.error(`Failed: ${err}`);
+        console.error(`Failed: ${err.message}`);
       } else {
         console.info(`Success: ${fileName}`);
       }
@@ -388,7 +388,7 @@ importNodeCoordinates = callback => {
     },
     err => {
       if (err) {
-        console.error(`Failed: ${err}`);
+        console.error(`Failed: ${err.message}`);
       } else {
         console.info(`Success: ${fileName}`);
       }

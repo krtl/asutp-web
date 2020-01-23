@@ -111,7 +111,7 @@ router.post("/save_node", (req, res, next) => {
     },
     err => {
       if (err) {
-        logger.info(`Failed: ${err}`);
+        logger.info(`Failed: ${err.message}`);
         next(err);
         // res.status(500).json({
         //   message: err.message,
@@ -152,7 +152,7 @@ router.get("/params", (req, res, next) => {
     (err, prmList) => {
       if (err) return next(err);
 
-      if (prmList) {
+      if (prmList && prmList.paramNames) {
         const locParams = prmList.paramNames.split(",");
         DbParam.find(
           {
@@ -287,7 +287,7 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
 
   DbNodeCoordinates.deleteMany({ schemaName }, (err, count) => {
     if (err) {
-      logger.warn(`[!] ${err}`);
+      logger.warn(`[!] ${err.message}`);
       next(err);
     } else {
       const s = `${count} nodes were deleted from DbNodeCoordinates.`;
@@ -321,7 +321,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
         },
         (err, netNode) => {
           if (err) {
-            logger.info(`[saveNodeCoordinates] findOne error: ${err}`);
+            logger.info(`[saveNodeCoordinates] findOne error: ${err.message}`);
             return callback(err);
           }
 
@@ -355,7 +355,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
             newNodeCoordinates.save(err => {
               if (err) {
                 logger.warn(
-                  `[saveNodeCoordinates] newNetNodeShema.save error: ${err}`
+                  `[saveNodeCoordinates] newNetNodeShema.save error: ${err.message}`
                 );
                 return callback(err);
               }
@@ -372,7 +372,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
     },
     err => {
       if (err) {
-        logger.info(`[saveNodeCoordinates] Failed: ${err}`);
+        logger.info(`[saveNodeCoordinates] Failed: ${err.message}`);
         // next(err);
         res.status(500).json({
           message: err.message
@@ -392,7 +392,7 @@ router.post("/saveParamManualValue", (req, res, next) => {
   const err = commandsServer.SetManualValue(manualvalue);
 
   if (err) {
-    logger.info(`[saveParamManualValue] Failed: ${err}`);
+    logger.info(`[saveParamManualValue] Failed: ${err.message}`);
     // next(err);
     res.status(500).json({
       message: err.message
@@ -410,7 +410,7 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
   const err = commandsServer.SetManualValue(manualvalue);
 
   if (err) {
-    logger.info(`[saveConnectionManualValue] Failed: ${err}`);
+    logger.info(`[saveConnectionManualValue] Failed: ${err.message}`);
     // next(err);
     res.status(500).json({
       message: err.message
@@ -428,7 +428,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
   const dbSchema = DbNodeSchema(schemaInfo);
   dbSchema.save(err => {
     if (err) {
-      logger.info(`[addNewCustomSchema] Failed: ${err}`);
+      logger.info(`[addNewCustomSchema] Failed: ${err.message}`);
       // next(err);
       res.status(500).json({
         message: err.message
@@ -437,7 +437,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
       console.log(`Schema "${dbSchema.name}" inserted`);
       myDataModelSchemas.ReloadCustomSchema(dbSchema.name, err => {
         if (err) {
-          logger.info(`[ReloadCustomSchema] Failed: ${err}`);
+          logger.info(`[ReloadCustomSchema] Failed: ${err.message}`);
           // next(err);
           res.status(500).json({
             message: err.message
@@ -459,7 +459,7 @@ router.post("/deleteCustomSchema", (req, res, next) => {
 
   myDataModelSchemas.DeleteCustomSchema(schemaName, err => {
     if (err) {
-      logger.info(`[DeleteCustomSchema] Failed: ${err}`);
+      logger.info(`[DeleteCustomSchema] Failed: ${err.message}`);
       // next(err);
       res.status(500).json({
         message: err.message
@@ -483,7 +483,7 @@ router.post("/customSchemaAddNode", (req, res, next) => {
     requestInfo.nodeName,
     err => {
       if (err) {
-        logger.info(`[CustomSchemaAddNode] Failed: ${err}`);
+        logger.info(`[CustomSchemaAddNode] Failed: ${err.message}`);
         // next(err);
         res.status(500).json({
           message: err.message
@@ -508,8 +508,8 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
     requestInfo.nodeName,
     err => {
       if (err) {
-        logger.info(`[CustomSchemaDeleteNode] Failed: ${err}`);
-         next(err);
+        logger.info(`[CustomSchemaDeleteNode] Failed: ${err.message}`);
+        next(err);
         // res.status(500).json({
         //   message: err.message
         // });

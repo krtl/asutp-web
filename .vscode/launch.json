@@ -33,6 +33,12 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "DBCreateDefaultSchemas",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBCreateDefaultSchemas.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "DBExportUserData",
       "program": "${workspaceFolder}/server/consoleScripts/scriptDBExportUsersData.js"
     },

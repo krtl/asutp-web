@@ -1,4 +1,4 @@
-const myNodeState = require('./myNodeState');
+const myNodeState = require("./myNodeState");
 
 function MySchemeWire(name, caption, description, nodeType) {
   this.name = name;
@@ -7,18 +7,19 @@ function MySchemeWire(name, caption, description, nodeType) {
   this.nodeType = nodeType;
 
   this.powered = myNodeState.POWERED_UNKNOWN;
+ 
   this.parentNode = undefined;
-  // this.description = undefined;
+  this.powered = undefined;
 }
 
-
 function myWireStringifyReplacer(key, value) {
-  if (key === 'parentNode') return undefined;
-  if (key === 'description') return undefined;
+  if (key === "parentNode") return undefined;
+  if (key === "description") return undefined;
   return value;
 }
 
-const MyWireJsonSerialize = (node) => JSON.stringify(node, myWireStringifyReplacer, 2);
+const MyWireJsonSerialize = node =>
+  JSON.stringify(node, myWireStringifyReplacer, 2);
 
 module.exports = MySchemeWire;
 module.exports.MyWireJsonSerialize = MyWireJsonSerialize;

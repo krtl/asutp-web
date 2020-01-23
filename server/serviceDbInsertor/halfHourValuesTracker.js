@@ -55,7 +55,7 @@ const loadLastTrackedValues = (callback) => {
   async.each(params, (param, callback) => {
     DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
       if (err) {
-        logger.error(`[DbValuesTracker] Failed to get last half hour value: "${err}".`);
+        logger.error(`[DbValuesTracker] Failed to get last half hour value: "${err.message}".`);
       } else if (paramValue) {
         const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
         lastTrackedValues.set(param.name, lastValue);
@@ -70,8 +70,8 @@ const loadLastTrackedValues = (callback) => {
     });
   }, (err) => {
     if (err) {
-      // setError(`Importing failed: ${err}`);
-      logger.error(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded wirh error: "${err}".`);
+      // setError(`Importing failed: ${err.message}`);
+      logger.error(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded wirh error: "${err.message}".`);
     } else {
       const duration = moment().diff(start);
       logger.info(`[DbValuesTracker] ${lastTrackedValues.size} LastTrackedValues loaded in ${moment(duration).format('mm:ss.SSS')}`);

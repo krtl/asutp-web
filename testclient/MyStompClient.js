@@ -115,7 +115,7 @@ const connect = (host, callback) => {
   const ws = new WebSocket(`ws://${locHost}/stomp`);
   // stompClient = webstomp.client(`ws://${locHost}/stomp`);
   ws.on('error', (err) => {
-    console.log(`[stompClient] socket error: ${err}`);
+    console.log(`[stompClient] socket error: ${err.message}`);
   });
   ws.on('close', () => {
     console.log('[stompClient] socket disconnected');

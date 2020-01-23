@@ -76,7 +76,7 @@ const initializeWebSocketServer = (webSocket) => {
   });
 
   wss.on('error', (err) => {
-    logger.warn(`[WS] error on WebSocketServer: ${err}`);
+    logger.warn(`[WS] error on WebSocketServer: ${err.message}`);
   });
 
   wss.on('listening', () => {

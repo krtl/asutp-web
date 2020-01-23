@@ -10,7 +10,7 @@ function connect(doOnReceived) {
   ws = new WebSocket(`ws://${location.host}`);
 
   ws.onerror = err => {
-    console.log(`WebSocket error: ${err}`);
+    console.log(`WebSocket error: ${err.message}`);
   };
   ws.onopen = () => console.log("WebSocket connection established");
   ws.onclose = () => console.log("WebSocket connection closed");

@@ -22,7 +22,7 @@ async.series(
   err => {
     // console.info(arguments);
     if (err) {
-      console.info(`Failed! ${err}`);
+      console.info(`Failed! ${err.message}`);
     } else {
       const duration = moment().diff(start);
       console.info(`done in ${moment(duration).format("mm:ss.SSS")}`);
@@ -113,7 +113,7 @@ function test2(callback) {
       });
     } catch (err) {
       logger.warn(
-        `[ModelNodes][restoreLastStateValues] failed. Error: "${err}".`
+        `[ModelNodes][restoreLastStateValues] failed. Error: "${err.message}".`
       );
       callback(err);
     }

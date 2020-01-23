@@ -33,7 +33,6 @@ const MyNodeSchema = require("./myNodeSchema");
 
 const users = new Map();
 const nodeSchemas = new Map();
-const psSchemas = new Map(); // temporary
 
 let errs = 0;
 function setError(text) {
@@ -48,22 +47,6 @@ function setWarning(text) {
   logger.warn(`[ModelSchemas] ${text}`);
 }
 
-// process
-//   .on("unhandledRejection", (reason, p) => {
-//     const s = `Unhandled Rejection at Promise: ${reason}  ${p}`;
-//     setError(s);
-//     // eslint-disable-next-line no-console
-//     console.error(s);
-//     process.exit(1);
-//   })
-//   .on("uncaughtException", err => {
-//     const s = `Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`;
-//     setError(s);
-//     // eslint-disable-next-line no-console
-//     console.error(s);
-//     process.exit(1);
-//   });
-
 const LoadFromDB = cb => {
   const start = moment();
   errs = 0;
@@ -71,9 +54,7 @@ const LoadFromDB = cb => {
     [
       clearData,
       loadUsers,
-      createNodeSchemasForRegions,
-      loadCustomSchemas,
-      createNodeSchemasForPSs,
+      loadSchemas,
       makeSchemaNamesForEachNode,
       makeSchemaNamesForEachParam
     ],
@@ -82,9 +63,9 @@ const LoadFromDB = cb => {
       if (errs === 0) {
         const duration = moment().diff(start);
         logger.info(
-          `[ModelSchemas] loaded from DB with ${nodeSchemas.size} + ${
-            psSchemas.size
-          } Schemas in ${moment(duration).format("mm:ss.SSS")}`
+          `[ModelSchemas] loaded from DB with ${
+            nodeSchemas.size
+          } schemas in ${moment(duration).format("mm:ss.SSS")}`
         );
 
         // eslint-disable-next-line no-console
@@ -104,7 +85,6 @@ const LoadFromDB = cb => {
 function clearData(cb) {
   users.clear();
   nodeSchemas.clear();
-  psSchemas.clear();
 
   return cb();
 }
@@ -262,11 +242,12 @@ const getSchema1 = (schemaName, callback) => {
   const wires = [];
 
   if (!nodeSchemas.has(schemaName)) {
+    const error = `Unknown nodeSchema with name= ${schemaName}`;
     // eslint-disable-next-line no-console
-    console.error(`Unknown nodeSchema with name= ${schemaName}`);
+    console.error(error);
     const result = { nodes: [], wires };
 
-    callback("", result);
+    callback(Error(error), result);
     return 1;
   }
 
@@ -305,9 +286,9 @@ const getSchema1 = (schemaName, callback) => {
       }
       const wire = new MySchemeWire(
         lep2ps.name,
-        lep2ps.caption,
-        lep2ps.description,
-        lep2ps.nodeType
+        undefined,
+        undefined,
+        undefined
       );
       wire.nodeFrom = lep2ps.parentNode.name;
       wire.nodeTo = ps.name;
@@ -326,9 +307,9 @@ const getSchema1 = (schemaName, callback) => {
         ) {
           const wire = new MySchemeWire(
             lep2lep.name,
-            lep2lep.caption,
-            lep2lep.description,
-            lep2lep.nodeType
+            undefined,
+            undefined,
+            undefined
           );
           wire.nodeFrom = lep2lep.parentNode.name;
           wire.nodeTo = lep2lep.toNode.name;
@@ -342,25 +323,36 @@ const getSchema1 = (schemaName, callback) => {
     }
   }
 
-  const nodes = getNodeForScheme(leps.concat(pss));
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i];
+  const schemaNodes = populateNodesWithMatrixCoordinates(
+    getNodeForScheme(leps.concat(pss)),
+    wires
+  );
+
+  const result = { nodes: schemaNodes, wires };
+
+  callback(undefined, result);
+  return 0;
+};
+
+const populateNodesWithMatrixCoordinates = (schemaNodes, schemaWires) => {
+  for (let i = 0; i < schemaNodes.length; i += 1) {
+    const node = schemaNodes[i];
     node.peers = [];
     node.tag = 0;
   }
 
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i];
-    for (let j = 0; j < wires.length; j += 1) {
-      const wire = wires[j];
+  for (let i = 0; i < schemaNodes.length; i += 1) {
+    const node = schemaNodes[i];
+    for (let j = 0; j < schemaWires.length; j += 1) {
+      const wire = schemaWires[j];
       if (wire.nodeFrom === node.name) {
-        const locNode = nodes.find(nde => nde.name === wire.nodeTo);
+        const locNode = schemaNodes.find(nde => nde.name === wire.nodeTo);
         if (locNode) {
           node.peers.push(locNode);
         }
       }
       if (wire.nodeTo === node.name) {
-        const locNode = nodes.find(nde => nde.name === wire.nodeFrom);
+        const locNode = schemaNodes.find(nde => nde.name === wire.nodeFrom);
         if (locNode) {
           node.peers.push(locNode);
         }
@@ -368,7 +360,7 @@ const getSchema1 = (schemaName, callback) => {
     }
   }
 
-  // nodes.sort((a, b) => {
+  // schemaNodes.sort((a, b) => {
   //   if (a.peers.length > b.peers.length) {
   //     return -1;
   //   }
@@ -392,8 +384,8 @@ const getSchema1 = (schemaName, callback) => {
     }
   };
 
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i];
+  for (let i = 0; i < schemaNodes.length; i += 1) {
+    const node = schemaNodes[i];
     if (node.peers.length > 0 && node.tag === 0) {
       setPeersNumber(node);
     }
@@ -402,8 +394,8 @@ const getSchema1 = (schemaName, callback) => {
   const matrix = [];
   for (let i = 0; i < matrixNum; i += 1) {
     const line = [];
-    for (let j = 0; j < nodes.length; j += 1) {
-      const node = nodes[j];
+    for (let j = 0; j < schemaNodes.length; j += 1) {
+      const node = schemaNodes[j];
       if (node.tag === i) {
         line.push(node);
       }
@@ -454,7 +446,7 @@ const getSchema1 = (schemaName, callback) => {
   });
 
   const WIDTH = 55;
-  const HEIGHT = Math.ceil(nodes.length / 50) + 2;
+  const HEIGHT = Math.ceil(schemaNodes.length / 50) + 2;
 
   const setMatrixForLine = line => {
     if (line.length < 4) {
@@ -704,11 +696,10 @@ const getSchema1 = (schemaName, callback) => {
     node.y *= NODE_RADIUS;
   }
 
-  const result = { nodes, wires };
-
-  callback("", result);
-  return 0;
+  return schemaNodes;
 };
+
+// ----------------------------------------------------------------
 
 const getSchema = (schemaName, callback) => {
   setTimeout(() => {
@@ -720,12 +711,13 @@ const getPSSchema1 = (psName, callback) => {
   const wires = [];
   const ps = myDataModelNodes.GetPS(psName);
 
-  if (!psSchemas.has(psName) || !ps) {
+  if (!nodeSchemas.has(`schema_of_${psName}`) || !ps) {
+    const error = `Unknown schema with name = ${psName}`;
     // eslint-disable-next-line no-console
-    console.error(`Unknown psSchema with name = ${psName}`);
+    console.error(error);
     const result = { nodes: [], wires };
 
-    callback("", result);
+    callback(Error(error), result);
     return 1;
   }
 
@@ -856,7 +848,9 @@ const getPSSchema1 = (psName, callback) => {
     return { x: section1.x + (section2.x - section1.x) / 2, y: section1.y };
   };
 
-  const nodes = [];
+  //----------------------------------------------------
+
+  const schemaNodes = [];
   const sectionsLine1 = [];
   const sectionsLine2 = [];
   const sectionsLine3 = [];
@@ -935,11 +929,13 @@ const getPSSchema1 = (psName, callback) => {
       );
       section1.x = xy.x;
       section1.y = xy.y;
-      nodes.push(section1);
+      schemaNodes.push(section1);
 
       if (section[MyNodePropNameParamRole.VOLTAGE] !== "") {
-        if (params.has(section[MyNodePropNameParamRole.VOLTAGE])) {
-          const param = params.get(section[MyNodePropNameParamRole.VOLTAGE]);
+        const param = myDataModelNodes.GetParam(
+          section[MyNodePropNameParamRole.VOLTAGE]
+        );
+        if (param) {
           const locNode = new MyNode(
             `${section.name}.${MyNodePropNameParamRole.VOLTAGE}`,
             param.caption,
@@ -955,7 +951,7 @@ const getPSSchema1 = (psName, callback) => {
           locNode.x = section1.x + 1;
           locNode.y = section1.y;
           locNode.paramName = param.name;
-          nodes.push(locNode);
+          schemaNodes.push(locNode);
         }
       }
 
@@ -980,19 +976,24 @@ const getPSSchema1 = (psName, callback) => {
             : section1.y + 1;
         }
 
-        nodes.push(connector1);
+        schemaNodes.push(connector1);
 
-        const wire = new MySchemeWire(connector.name, "", "", -1);
+        const wire = new MySchemeWire(
+          connector.name,
+          undefined,
+          undefined,
+          undefined
+        );
         wire.nodeFrom = section.name;
         wire.nodeTo = connector.name;
         wires.push(wire);
 
         if (MyNodePropNameParamRole.POWER in connector) {
           if (connector[MyNodePropNameParamRole.POWER] !== "") {
-            if (params.has(connector[MyNodePropNameParamRole.POWER])) {
-              const param = params.get(
-                connector[MyNodePropNameParamRole.POWER]
-              );
+            const param = myDataModelNodes.GetParam(
+              connector[MyNodePropNameParamRole.POWER]
+            );
+            if (param) {
               const locNode = new MyNode(
                 `${connector.name}.${MyNodePropNameParamRole.POWER}`,
                 param.caption,
@@ -1023,7 +1024,7 @@ const getPSSchema1 = (psName, callback) => {
                 locNode.y = connector1.y + 1;
               }
               locNode.paramName = param.name;
-              nodes.push(locNode);
+              schemaNodes.push(locNode);
             }
           }
         }
@@ -1072,9 +1073,14 @@ const getPSSchema1 = (psName, callback) => {
             locNode.y = connector1.y + 2;
           }
           locNode.paramName = undefined;
-          nodes.push(locNode);
+          schemaNodes.push(locNode);
 
-          const wire = new MySchemeWire(lep.name, "", "", -1);
+          const wire = new MySchemeWire(
+            lep.name,
+            undefined,
+            undefined,
+            undefined
+          );
           wire.nodeFrom = connector.name;
           wire.nodeTo = lep.name;
           wires.push(wire);
@@ -1087,10 +1093,10 @@ const getPSSchema1 = (psName, callback) => {
       const sec2secConnector1 = getNewNodeForScheme(sec2secConnector);
       sec2secConnector1.switchedOn = sec2secConnector.switchedOn;
 
-      const xy = getSec2secXY(nodes, sec2secConnector);
+      const xy = getSec2secXY(schemaNodes, sec2secConnector);
       sec2secConnector1.x = xy.x;
       sec2secConnector1.y = xy.y;
-      nodes.push(sec2secConnector1);
+      schemaNodes.push(sec2secConnector1);
 
       for (let m = 0; m < sec2secConnector.equipments.length; m += 1) {
         const equipment = sec2secConnector.equipments[m];
@@ -1102,12 +1108,22 @@ const getPSSchema1 = (psName, callback) => {
         }
       }
 
-      const wire = new MySchemeWire(`${sec2secConnector.name}1`, "", "", -1);
+      const wire = new MySchemeWire(
+        `${sec2secConnector.name}1`,
+        undefined,
+        undefined,
+        undefined
+      );
       wire.nodeFrom = sec2secConnector.fromSection.name;
       wire.nodeTo = sec2secConnector.name;
       wires.push(wire);
 
-      const wire1 = new MySchemeWire(`${sec2secConnector.name}2`, "", "", -1);
+      const wire1 = new MySchemeWire(
+        `${sec2secConnector.name}2`,
+        undefined,
+        undefined,
+        undefined
+      );
       wire1.nodeFrom = sec2secConnector.name;
       wire1.nodeTo = sec2secConnector.toSection.name;
       wires.push(wire1);
@@ -1135,7 +1151,7 @@ const getPSSchema1 = (psName, callback) => {
     const transformer1 = getNewNodeForScheme(transformer);
     transformer1.x = 0;
     transformer1.y = TRANSFORMER_Y;
-    nodes.push(transformer1);
+    schemaNodes.push(transformer1);
 
     for (let j = 0; j < transformer.transConnectors.length; j += 1) {
       const transConnector = transformer.transConnectors[j];
@@ -1143,12 +1159,17 @@ const getPSSchema1 = (psName, callback) => {
       if (transformer1.x === 0) {
         const connector1 = getNodeByName(
           transConnector.toConnector.name,
-          nodes
+          schemaNodes
         );
         transformer1.x = connector1.x;
       }
 
-      const wire = new MySchemeWire(transConnector.name, "", "", -1);
+      const wire = new MySchemeWire(
+        transConnector.name,
+        undefined,
+        undefined,
+        undefined
+      );
       wire.nodeFrom = transformer.name;
       wire.nodeTo = transConnector.toConnector.name;
       wires.push(wire);
@@ -1156,16 +1177,16 @@ const getPSSchema1 = (psName, callback) => {
   }
 
   const NODE_RADIUS = 50;
-  for (let i = 0; i < nodes.length; i += 1) {
-    const node = nodes[i];
+  for (let i = 0; i < schemaNodes.length; i += 1) {
+    const node = schemaNodes[i];
     // node.tag = undefined;
     node.x *= NODE_RADIUS;
     node.y *= NODE_RADIUS;
   }
 
-  const result = { nodes, wires };
+  const result = { nodes: schemaNodes, wires };
 
-  callback("", result);
+  callback(undefined, result);
   return 0;
 };
 
@@ -1264,7 +1285,7 @@ function pushIfNotPushed(array, element) {
   }
 }
 
-function loadCustomSchemas(cb) {
+function loadSchemas(cb) {
   if (process.env.RECALCULATION) {
     return cb();
   }
@@ -1296,7 +1317,10 @@ function ReloadCustomSchema(schemaName, cb) {
 }
 
 function DeleteCustomSchema(schemaName, cb) {
-  if (schemaName.startsWith("nodes_of_")) {
+  if (
+    schemaName.startsWith("nodes_of_") ||
+    schemaName.startsWith("schema_of_")
+  ) {
     return cb(Error(`Schema "${schemaName}" cannot be removed.`));
   } else {
     DbNodeSchema.findOneAndRemove({ name: schemaName }, (err, schema) => {
@@ -1311,7 +1335,10 @@ function DeleteCustomSchema(schemaName, cb) {
 }
 
 function CustomSchemaAddNode(schemaName, nodeName, cb) {
-  if (schemaName.startsWith("nodes_of_")) {
+  if (
+    schemaName.startsWith("nodes_of_") ||
+    schemaName.startsWith("schema_of_")
+  ) {
     return cb(Error(`Schema "${schemaName}" cannot be edited.`));
   } else {
     DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
@@ -1324,7 +1351,7 @@ function CustomSchemaAddNode(schemaName, nodeName, cb) {
           if (locSchema.nodes.indexOf(locNode) < 0) {
             locSchema.nodes.push(locNode);
             let locNodeNames = [];
-            if (dbSchema.nodeNames !== undefined) {
+            if (dbSchema.nodeNames) {
               locNodeNames = dbSchema.nodeNames.split(",");
             }
             if (locNodeNames.indexOf(locNode.name) < 0) {
@@ -1353,7 +1380,10 @@ function CustomSchemaAddNode(schemaName, nodeName, cb) {
 }
 
 function CustomSchemaDeleteNode(schemaName, nodeName, cb) {
-  if (schemaName.startsWith("nodes_of_")) {
+  if (
+    schemaName.startsWith("nodes_of_") ||
+    schemaName.startsWith("schema_of_")
+  ) {
     return cb(Error(`Schema "${schemaName}" cannot be edited.`));
   } else {
     DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
@@ -1367,7 +1397,7 @@ function CustomSchemaDeleteNode(schemaName, nodeName, cb) {
           if (i1 > -1) {
             locSchema.nodes.splice(i1, 1);
             let locNodeNames = [];
-            if (dbSchema.nodeNames !== undefined) {
+            if (dbSchema.nodeNames) {
               locNodeNames = dbSchema.nodeNames.split(",");
             }
             const i2 = locNodeNames.indexOf(locNode.name);
@@ -1404,12 +1434,13 @@ function createMyNodeSchemaObj(dbSchema) {
   locNodes = [];
   nodeNames.forEach(nodeName => {
     if (nodeName != "") {
-      if (!myDataModelNodes.GetNode(nodeName)) {
+      const node = myDataModelNodes.GetNode(nodeName);
+      if (!node) {
         setError(
           `[ModelSchemas][loadNodeSchemas] Cannot find node "${nodeName}" in "${dbSchema.name}"`
         );
       } else {
-        locNodes.push(nodes.get(nodeName));
+        locNodes.push(node);
       }
     }
   });
@@ -1419,7 +1450,8 @@ function createMyNodeSchemaObj(dbSchema) {
     prmNames = dbSchema.paramNames.split(",");
   }
   prmNames.forEach(prmName => {
-    if (!params.has(prmName)) {
+    const param = myDataModelNodes.GetParam(prmName);
+    if (!param) {
       setError(
         `[ModelSchemas][loadNodeSchemas] Cannot find param "${prmName}" in "${dbSchema.name}"`
       );
@@ -1437,24 +1469,22 @@ function createMyNodeSchemaObj(dbSchema) {
   return obj;
 }
 
-function createNodeSchemasForRegions(cb) {
-  if (process.env.RECALCULATION) {
-    return cb();
-  }
+function CreateNodeSchemasForRegions() {
+  let schemas = [];
 
   const locPSs = myDataModelNodes.GetAllPSsAsArray();
   const locRegions = myDataModelNodes.GetAllRegionsAsArray();
 
   for (let i = 0; i < locRegions.length; i += 1) {
     const region = locRegions[i];
-    const locNodes = [];
+    const locNodeNames = [];
 
     for (let j = 0; j < locPSs.length; j += 1) {
       const ps = locPSs[j];
       if (ps.parentNode) {
         if (ps.parentNode.name === region.name) {
-          if (locNodes.indexOf(ps) < 0) {
-            locNodes.push(ps);
+          if (locNodeNames.indexOf(ps.name) < 0) {
+            locNodeNames.push(ps.name);
           }
 
           for (let k = 0; k < ps.lep2psConnectors.length; k += 1) {
@@ -1463,8 +1493,8 @@ function createNodeSchemasForRegions(cb) {
             if (lep2ps.parentNode) {
               const lep = lep2ps.parentNode;
 
-              if (locNodes.indexOf(lep) < 0) {
-                locNodes.push(lep);
+              if (locNodeNames.indexOf(lep.name) < 0) {
+                locNodeNames.push(lep.name);
               }
             }
           }
@@ -1476,36 +1506,38 @@ function createNodeSchemasForRegions(cb) {
       `nodes_of_${region.name}`,
       region.caption,
       region.description,
-      locNodes,
-      []
+      undefined,
+      undefined
     );
-    nodeSchemas.set(nl.name, nl);
+    nl.nodeNames = locNodeNames.join(",");
+    schemas.push(nl);
   }
-  return cb();
+
+  return schemas;
 }
 
-function createPSSchema(ps) {
-  const locNodes = [];
+function CreatePSSchema(ps) {
+  const locNodeNames = [];
   const paramNames = [];
 
   for (let j = 0; j < ps.transformers.length; j += 1) {
     const transformer = ps.transformers[j];
-    locNodes.push(transformer);
+    locNodeNames.push(transformer.name);
   }
 
   for (let j = 0; j < ps.psparts.length; j += 1) {
     const pspart = ps.psparts[j];
-    locNodes.push(pspart);
+    // locNodeNames.push(pspart.name);
     for (let k = 0; k < pspart.sections.length; k += 1) {
       const section = pspart.sections[k];
-      locNodes.push(section);
+      locNodeNames.push(section.name);
       if (section[MyNodePropNameParamRole.VOLTAGE] !== "") {
         pushIfNotPushed(paramNames, section[MyNodePropNameParamRole.VOLTAGE]);
       }
 
       for (let l = 0; l < section.connectors.length; l += 1) {
         const connector = section.connectors[l];
-        locNodes.push(connector);
+        locNodeNames.push(connector.name);
         if (MyNodePropNameParamRole.POWER in connector) {
           if (connector[MyNodePropNameParamRole.POWER] !== "") {
             pushIfNotPushed(
@@ -1515,11 +1547,11 @@ function createPSSchema(ps) {
           }
         }
         if (connector.lep2PsConnector) {
-          locNodes.push(connector.lep2PsConnector.parentNode);
+          locNodeNames.push(connector.lep2PsConnector.parentNode.name);
         }
         for (let m = 0; m < connector.equipments.length; m += 1) {
           const equipment = connector.equipments[m];
-          locNodes.push(equipment);
+          // locNodeNames.push(equipment.name);
           if (MyNodePropNameParamRole.STATE in equipment) {
             if (equipment[MyNodePropNameParamRole.STATE] !== "") {
               pushIfNotPushed(
@@ -1532,8 +1564,8 @@ function createPSSchema(ps) {
 
         if (connector.lep2PsConnector) {
           const lep = connector.lep2PsConnector.parentNode;
-          if (locNodes.indexOf(lep) < 0) {
-            locNodes.push(lep);
+          if (locNodeNames.indexOf(lep.name) < 0) {
+            locNodeNames.push(lep.name);
           }
         }
       }
@@ -1541,7 +1573,7 @@ function createPSSchema(ps) {
 
     for (let l = 0; l < pspart.sec2secConnectors.length; l += 1) {
       const connector = pspart.sec2secConnectors[l];
-      locNodes.push(connector);
+      locNodeNames.push(connector.name);
       if (MyNodePropNameParamRole.POWER in connector) {
         if (connector[MyNodePropNameParamRole.POWER] !== "") {
           pushIfNotPushed(paramNames, connector[MyNodePropNameParamRole.POWER]);
@@ -1550,7 +1582,7 @@ function createPSSchema(ps) {
 
       for (let m = 0; m < connector.equipments.length; m += 1) {
         const equipment = connector.equipments[m];
-        locNodes.push(equipment);
+        // locNodeNames.push(equipment.name);
         if (MyNodePropNameParamRole.STATE in equipment) {
           if (equipment[MyNodePropNameParamRole.STATE] !== "") {
             pushIfNotPushed(
@@ -1564,38 +1596,25 @@ function createPSSchema(ps) {
   }
 
   const schema = new MyNodeSchema(
-    ps.name,
+    `schema_of_${ps.name}`,
     ps.caption,
     ps.description,
-    locNodes,
-    paramNames
+    undefined,
+    paramNames.join(",")
   );
-
+  schema.nodeNames = locNodeNames.join(",");
   return schema;
 }
 
-function createNodeSchemasForPSs(cb) {
-  if (process.env.RECALCULATION) {
-    return cb();
-  }
-
-  const locPSs = myDataModelNodes.GetAllPSsAsArray();
-  for (let i = 0; i < locPSs.length; i += 1) {
-    const ps = locPSs[i];
-    const schema = createPSSchema(ps);
-    psSchemas.set(schema.name, schema);
-  }
-  return cb();
-}
-
+// should be redone !!
 function ReloadPSSchemaParams(schemaName, cb) {
-  if (psSchemas.has(schemaName)) {
+  if (psSchema.has(schemaName)) {
     const ps = myDataModelNodes.GetPS(schemaName);
     if (ps) {
       // schemaName = psName
-      const schema = createPSSchema(ps);
-      psSchemas.delete(schemaName);
-      psSchemas.set(schema.name, schema);
+      const schema = CreatePSSchema(ps);
+      psSchema.delete(schemaName);
+      psSchema.set(schema.name, schema);
       cb();
     } else {
       cb(`PS with name ${schemaName} did not found.`);
@@ -1611,8 +1630,7 @@ function makeSchemaNamesForEachNode(cb) {
   }
 
   const locNodes = myDataModelNodes.GetAllNodesAsArray();
-  const locSchemas1 = Array.from(nodeSchemas.values());
-  const locSchemas = locSchemas1.concat(Array.from(psSchemas.values()));
+  const locSchemas = Array.from(nodeSchemas.values());
 
   for (let i = 0; i < locNodes.length; i += 1) {
     const node = locNodes[i];
@@ -1636,7 +1654,7 @@ function makeSchemaNamesForEachParam(cb) {
   }
 
   const locParams = myDataModelNodes.GetAllParamsAsArray();
-  const locPSSchemas = Array.from(psSchemas.values());
+  const locPSSchemas = Array.from(nodeSchemas.values());
 
   for (let i = 0; i < locParams.length; i += 1) {
     const param = locParams[i];
@@ -1669,7 +1687,10 @@ const GetAvailableSchemas = userName => {
     }
   } else if (users.has(userName)) {
     const locMight = users.get(userName);
-    const locMights = locMight.split(",");
+    let locMights = [];
+    if (locMight) {
+      locMights = locMight.split(",");
+    }
     locMights.forEach(schemaName => {
       if (nodeSchemas.has(schemaName)) {
         const locSchema = nodeSchemas.get(schemaName);
@@ -1692,25 +1713,59 @@ const GetSchemaParamNames = schemaName => {
   return [];
 };
 
-const GetPSSchemaParamNames = schemaName => {
-  if (psSchemas.has(schemaName)) {
-    const locSchema = psSchemas.get(schemaName);
-    if (locSchema !== undefined) {
-      return locSchema.paramNames;
-    }
+const GetSchemaDefaultCoordinates = schemaName => {
+  let coordinates = [];
+  if (schemaName.startsWith("nodes_of_")) {
+    getSchema1(schemaName, (err, schema) => {
+      if (err) {
+        // return;
+      } else {
+        for (let i = 0; i < schema.nodes.length; i += 1) {
+          const node = schema.nodes[i];
+          coordinates.push({
+            schemaName,
+            nodeName: node.name,
+            x: node.x,
+            y: node.y
+          });
+        }
+        // return coordinates;
+      }
+    });
+  } else if (schemaName.startsWith("schema_of_")) {
+    getPSSchema1(schemaName.replace("schema_of_", ""), (err, schema) => {
+      if (err) {
+        // return;
+      } else {
+        for (let i = 0; i < schema.nodes.length; i += 1) {
+          const node = schema.nodes[i];
+          coordinates.push({
+            schemaName,
+            nodeName: node.name,
+            x: node.x,
+            y: node.y
+          });
+        }
+        // return coordinates;
+      }
+    });
+  } else {
+    //
   }
-  return [];
+  return coordinates;
 };
 
 module.exports.LoadFromDB = LoadFromDB;
-module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams;
+module.exports.CreatePSSchema = CreatePSSchema;
+module.exports.CreateNodeSchemasForRegions = CreateNodeSchemasForRegions;
+module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams; // should be redone !!
 module.exports.GetNodeSchemas = GetNodeSchemas;
 module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetSchema = GetSchema;
 module.exports.GetPSSchema = GetPSSchema;
+module.exports.GetSchemaDefaultCoordinates = GetSchemaDefaultCoordinates;
 module.exports.GetAvailableSchemas = GetAvailableSchemas;
-module.exports.GetSchemaParamNames = GetSchemaParamNames; //not used!
-module.exports.GetPSSchemaParamNames = GetPSSchemaParamNames;
+module.exports.GetSchemaParamNames = GetSchemaParamNames;
 module.exports.ReloadCustomSchema = ReloadCustomSchema;
 module.exports.DeleteCustomSchema = DeleteCustomSchema;
 module.exports.CustomSchemaAddNode = CustomSchemaAddNode;
