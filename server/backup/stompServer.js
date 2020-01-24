@@ -193,7 +193,7 @@ var StompServer = function(config) {
 
     if (frame.body !== undefined) {
       if (typeof frame.body !== "string" && !Buffer.isBuffer(frame.body)) {
-        throw "Message body is not string";
+        throw Error("Message body is not string");
       }
       frame.headers["content-length"] = frame.body.length;
     }
@@ -419,7 +419,7 @@ var StompServer = function(config) {
       "content-type": "text/plain"
     };
     if (frame.body !== undefined) {
-      if (typeof frame.body !== "string") throw "Message body is not string";
+      if (typeof frame.body !== "string") throw Error("Message body is not string");
       frame.headers["content-length"] = frame.body.length;
     }
     if (frame.headers) {

@@ -120,11 +120,13 @@ importLinkages = callback => {
     linkages,
     (linkageRawData, callback) => {
       getNode(linkageRawData.nodeName, (err, node) => {
-        if (err) callback(err);
-        if (node) {
+        if (err) {
+          callback(err);
+        } else if (node) {
           getParam(linkageRawData.paramPropValue, (err, param) => {
-            if (err) callback(err);
-            if (param) {
+            if (err) {
+              callback(err);
+            } else if (param) {
               const newLinkage = new DbNodeParamLinkage(linkageRawData);
               DbNodeParamLinkage.findOne(
                 {
@@ -132,8 +134,9 @@ importLinkages = callback => {
                   paramPropName: linkageRawData.paramPropName
                 },
                 (err, linkage) => {
-                  if (err) callback(err);
-                  if (linkage) {
+                  if (err) {
+                    callback(err);
+                  } else if (linkage) {
                     if (
                       linkageRawData.paramPropValue !== linkage.paramPropValue
                     ) {
@@ -144,12 +147,15 @@ importLinkages = callback => {
                             paramPropValue: linkageRawData.paramPropValue
                           }
                         },
-                        error => {
-                          if (error) throw callback(error);
-                          console.info(
-                            `Linkage "${linkage.nodeName}.${linkage.paramPropName}" updated`
-                          );
-                          callback(null);
+                        err => {
+                          if (err) {
+                            callback(err);
+                          } else {
+                            console.info(
+                              `Linkage "${linkage.nodeName}.${linkage.paramPropName}" updated`
+                            );
+                            callback(null);
+                          }
                         }
                       );
                     } else {
@@ -157,11 +163,14 @@ importLinkages = callback => {
                     }
                   } else {
                     newLinkage.save(err => {
-                      if (err) callback(err);
-                      console.info(
-                        `Linkage "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`
-                      );
-                      callback(null);
+                      if (err) {
+                        callback(err);
+                      } else {
+                        console.info(
+                          `Linkage "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`
+                        );
+                        callback(null);
+                      }
                     });
                   }
                 }
@@ -229,13 +238,15 @@ importNodeSchemas = callback => {
           name: schemaRawData.name
         },
         (err, schema) => {
-          if (err) callback(err);
-          if (schema) {
+          if (err) {
+            callback(err);
+          } else if (schema) {
             if (
               schemaRawData.caption !== schema.caption ||
               schemaRawData.description !== schema.description ||
               schemaRawData.nodeNames !== schema.nodeNames ||
-              schemaRawData.paramNames !== schema.paramNames
+              // schemaRawData.paramNames !== schema.paramNames
+              !(schemaRawData.paramNames == schema.paramNames) // null !== undefined but null == undefined
             ) {
               DbNodeParamLinkage.updateOne(
                 { _id: schema.id },
@@ -247,11 +258,14 @@ importNodeSchemas = callback => {
                     paramNames: schemaRawData.paramNames
                   }
                 },
-                error => {
-                  if (error) throw callback(error);
+                err => {
+                  if (err) {
+                    callback(err);
+                  } else {
                   console.info(`Schema "${schema.name}" updated`);
-                  callback(null);
+                  callback();
                 }
+              }
               );
             } else {
               callback(null);
@@ -309,25 +323,13 @@ importNodeCoordinates = callback => {
     coordinates,
     (coordinatesRawData, callback) => {
       getNode(coordinatesRawData.nodeName, (err, node) => {
-        if (err) callback(err);
-        if (node) {
+        if (err) {
+          callback(err);
+        } else if (node) {
           getSchema(coordinatesRawData.schemaName, (err, schema) => {
-            if (err) callback(err);
-            if (!schema) {
-              if (coordinatesRawData.schemaName.startsWith("nodes_of_")) {
-                //res
-
-                //check if res exists
-
-              } else {
-                //ps
-
-                // check if ps exists
-
-              }
-            }
-
-            if (schema) {
+            if (err) {
+              callback(err);
+            } else if (schema) {
               const newCoordinates = new DbNodeCoordinates(coordinatesRawData);
               DbNodeCoordinates.findOne(
                 {
@@ -335,8 +337,9 @@ importNodeCoordinates = callback => {
                   nodeName: coordinatesRawData.nodeName
                 },
                 (err, coordinates) => {
-                  if (err) callback(err);
-                  if (coordinates) {
+                  if (err) {
+                    callback(err);
+                  } else if (coordinates) {
                     if (
                       coordinatesRawData.x !== coordinates.x ||
                       coordinatesRawData.y !== coordinates.y
@@ -349,24 +352,30 @@ importNodeCoordinates = callback => {
                             y: coordinatesRawData.y
                           }
                         },
-                        error => {
-                          if (error) throw callback(error);
-                          console.info(
+                        err => {
+                          if (err) {
+                            callback(err);
+                          } else {
+                            console.info(
                             `Coordinates "${coordinates.schemaName}.${coordinates.nodeName}" updated`
                           );
-                          callback(null);
+                          callback();
+                            }
                         }
                       );
                     } else {
-                      callback(null);
+                      callback();
                     }
                   } else {
                     newCoordinates.save(err => {
-                      if (err) callback(err);
-                      console.info(
-                        `Coordinates "${coordinates.schemaName}.${coordinates.nodeName}" inserted`
-                      );
-                      callback(null);
+                      if (err) {
+                        callback(err);
+                      } else {
+                        console.info(
+                          `Coordinates "${coordinatesRawData.schemaName}.${coordinatesRawData.nodeName}" inserted`
+                        );
+                        callback();
+                        }
                     });
                   }
                 }

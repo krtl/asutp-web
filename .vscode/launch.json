@@ -39,14 +39,20 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "DBExportUserData",
-      "program": "${workspaceFolder}/server/consoleScripts/scriptDBExportUsersData.js"
+      "name": "DBUserDataRemove",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBUsersDataRemove.js"
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "DBImportUserData",
-      "program": "${workspaceFolder}/server/consoleScripts/scriptDBImportUsersData.js"
+      "name": "DBUserDataExport",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBUsersDataExport.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "DBUserDataImport",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBUsersDataImport.js"
     },
     {
       "type": "node",

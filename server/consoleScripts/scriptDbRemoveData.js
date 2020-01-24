@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 // const dbParam = require('../dbmodels/param');
 const dbParamValue = require("../dbmodels/paramValue");
 const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
-const DbBlockedParam = require('../dbmodels/blockedParam');
+const DbBlockedParam = require("../dbmodels/blockedParam");
 const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
 const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 
@@ -11,12 +11,13 @@ const config = require("../../config");
 
 async.series(
   [
-    open,
+    openDBConnection,
     removeParamValueData,
     removeParamHalfHourValueData,
     removeBlockedParams,
     removeNodePoweredStateValues,
-    removeNodeSwitchedOnStateValues
+    removeNodeSwitchedOnStateValues,
+    closeDBConnection
   ],
   err => {
     //  console.log(arguments);
@@ -29,45 +30,45 @@ async.series(
   }
 );
 
-function open(callback) {
-  console.log("open");
+openDBConnection = callback => {
+  console.info("open");
   // connect to the database and load dbmodels
   require("../dbmodels").connect(config.dbUri, false); // eslint-disable-line global-require
 
   mongoose.connection.on("open", callback);
-}
+};
+
+closeDBConnection = callback => {
+  mongoose.connection.close();
+  callback();
+};
 
 function removeParamValueData(callback) {
   dbParamValue.deleteMany({}, err => {
-    if (err) throw callback(err);
-    callback();
+    callback(err);
   });
 }
 
 function removeParamHalfHourValueData(callback) {
   DbParamHalfHourValue.deleteMany({}, err => {
-    if (err) throw callback(err);
-    callback();
+    callback(err);
   });
 }
 
 function removeBlockedParams(callback) {
   DbBlockedParam.deleteMany({}, err => {
-    if (err) throw callback(err);
-    callback();
+    callback(err);
   });
 }
 
 function removeNodePoweredStateValues(callback) {
   DbNodePoweredStateValue.deleteMany({}, err => {
-    if (err) throw callback(err);
-    callback();
+    callback(err);
   });
 }
 
 function removeNodeSwitchedOnStateValues(callback) {
   DbNodeSwitchedOnStateValue.deleteMany({}, err => {
-    if (err) throw callback(err);
-    callback();
+    callback(err);
   });
 }

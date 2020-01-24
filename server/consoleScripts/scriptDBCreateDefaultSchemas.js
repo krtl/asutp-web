@@ -83,7 +83,7 @@ const insertOrUpdateDBSchema = (schema, callback) => {
         dbSchema.caption !== schema.caption ||
         dbSchema.description !== schema.description ||
         dbSchema.nodeNames !== schema.nodeNames ||
-        dbSchema.paramNames !== schema.paramNames
+        !(dbSchema.paramNames == schema.paramNames) // null !== undefined but null == undefined
       ) {
         DbNodeSchema.updateOne(
           { _id: dbSchema.id },

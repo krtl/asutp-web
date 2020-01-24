@@ -1360,7 +1360,7 @@ function CustomSchemaAddNode(schemaName, nodeName, cb) {
                 { _id: dbSchema.id },
                 {
                   $set: {
-                    nodeNames: locNodeNames.join(",")
+                    nodeNames: locNodeNames.sort().join(",")
                   }
                 },
                 err => {
@@ -1407,7 +1407,7 @@ function CustomSchemaDeleteNode(schemaName, nodeName, cb) {
                 { _id: dbSchema.id },
                 {
                   $set: {
-                    nodeNames: locNodeNames.join(",")
+                    nodeNames: locNodeNames.sort().join(",")
                   }
                 },
                 err => {
@@ -1509,7 +1509,7 @@ function CreateNodeSchemasForRegions() {
       undefined,
       undefined
     );
-    nl.nodeNames = locNodeNames.join(",");
+    nl.nodeNames = locNodeNames.sort().join(",");
     schemas.push(nl);
   }
 
@@ -1600,9 +1600,9 @@ function CreatePSSchema(ps) {
     ps.caption,
     ps.description,
     undefined,
-    paramNames.join(",")
+    paramNames.sort().join(",")
   );
-  schema.nodeNames = locNodeNames.join(",");
+  schema.nodeNames = locNodeNames.sort().join(",");
   return schema;
 }
 
