@@ -4,6 +4,10 @@ const moment = require("moment");
 const async = require("async");
 const config = require("../../config");
 
+const DbParam = require("../dbmodels/param");
+const DbNodeSchema = require("../dbmodels/nodeSchema");
+const DbAsutpConnection = require("../dbmodels/asutpConnection");
+
 const FileNames = ["asutpParams.json", "asutpConnections.json"];
 
 function Start(cb) {
@@ -11,7 +15,7 @@ function Start(cb) {
   async.series(
     [
       // open,
-      requireModels,
+      // requireModels,
       importParams,
       importAsutpConnections
     ],
@@ -41,20 +45,20 @@ function Start(cb) {
 //   mongoose.connection.on('open', callback);
 // }
 
-function requireModels(callback) {
-  console.log("models");
-  require("mongoose").model("Param"); // eslint-disable-line global-require
-  require("mongoose").model("NodeSchema"); // eslint-disable-line global-require
-  require("mongoose").model("AsutpConnection"); // eslint-disable-line global-require
+// function requireModels(callback) {
+//   console.log("models");
+//   require("mongoose").model("Param"); // eslint-disable-line global-require
+//   require("mongoose").model("NodeSchema"); // eslint-disable-line global-require
+//   require("mongoose").model("AsutpConnection"); // eslint-disable-line global-require
 
-  async.each(
-    Object.keys(mongoose.models),
-    (modelName, callback) => {
-      mongoose.models[modelName].createIndexes(callback);
-    },
-    callback
-  );
-}
+//   async.each(
+//     Object.keys(mongoose.models),
+//     (modelName, callback) => {
+//       mongoose.models[modelName].createIndexes(callback);
+//     },
+//     callback
+//   );
+// }
 
 function importParams(callback) {
   console.log("importing params..");
@@ -74,9 +78,9 @@ function importParams(callback) {
   async.each(
     params,
     (paramData, callback) => {
-      const newParam = new mongoose.models.Param(paramData);
+      const newParam = new DbParam(paramData);
 
-      mongoose.models.Param.findOne(
+      DbParam.findOne(
         {
           name: newParam.name
         },
@@ -89,7 +93,7 @@ function importParams(callback) {
               param.caption !== newParam.caption ||
               param.description !== newParam.description
             ) {
-              mongoose.models.Param.updateOne(
+              DbParam.updateOne(
                 { _id: param.id },
                 {
                   $set: {
@@ -149,9 +153,9 @@ function importAsutpConnections(callback) {
   async.each(
     connections,
     (paramData, callback) => {
-      const newConnection = new mongoose.models.AsutpConnection(paramData);
+      const newConnection = new DbAsutpConnection(paramData);
 
-      mongoose.models.AsutpConnection.findOne(
+      DbAsutpConnection.findOne(
         {
           name: newConnection.name
         },
@@ -168,7 +172,7 @@ function importAsutpConnections(callback) {
               asutpConnection.UlParamName !== newConnection.UlParamName ||
               asutpConnection.PParamName !== newConnection.PParamName
             ) {
-              mongoose.models.AsutpConnection.updateOne(
+              DbAsutpConnection.updateOne(
                 { _id: asutpConnection.id },
                 {
                   $set: {

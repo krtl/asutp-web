@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
+const async = require("async");
 const fs = require("fs");
 const moment = require("moment");
+const config = require("../../config");
+
 const DbNode = require("../dbmodels/node");
 const DbParam = require("../dbmodels/param");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
-
-const async = require("async");
-const config = require("../../config");
 
 let warns = 0;
 setWarn = text => {
@@ -262,10 +262,10 @@ importNodeSchemas = callback => {
                   if (err) {
                     callback(err);
                   } else {
-                  console.info(`Schema "${schema.name}" updated`);
-                  callback();
+                    console.info(`Schema "${schema.name}" updated`);
+                    callback();
+                  }
                 }
-              }
               );
             } else {
               callback(null);
@@ -357,10 +357,10 @@ importNodeCoordinates = callback => {
                             callback(err);
                           } else {
                             console.info(
-                            `Coordinates "${coordinates.schemaName}.${coordinates.nodeName}" updated`
-                          );
-                          callback();
-                            }
+                              `Coordinates "${coordinates.schemaName}.${coordinates.nodeName}" updated`
+                            );
+                            callback();
+                          }
                         }
                       );
                     } else {
@@ -375,7 +375,7 @@ importNodeCoordinates = callback => {
                           `Coordinates "${coordinatesRawData.schemaName}.${coordinatesRawData.nodeName}" inserted`
                         );
                         callback();
-                        }
+                      }
                     });
                   }
                 }

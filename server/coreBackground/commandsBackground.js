@@ -49,7 +49,7 @@ const SendRecalculationStatus = status => {
 };
 
 const processReceivedCommand = command => {
-  //   console.log("background received a command: ", command);
+  // console.log("background received a command: ", command);
 
   if ("cmd" in command) {
     if (myCoreCommandType.isServerCommand(command.cmd)) {

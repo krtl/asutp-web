@@ -196,7 +196,19 @@ function getPSForJson(ps) {
   return locPS;
 }
 
-const GetNodeSchemas = () => Array.from(nodeSchemas.values());
+// const GetNodeSchemas = () => Array.from(nodeSchemas.values());
+
+const GetCustomAndRegionSchemas = () => {
+  const result = [];
+  const schemas = Array.from(nodeSchemas.values());
+  for (let i = 0; i < schemas.length; i += 1) {
+    const schema = schemas[i];
+    if (!schema.name.startsWith("schema_of_")) {
+      result.push(schema);
+    }
+  }
+  return result;
+};
 
 const GetSchemaPSs = schemaName => {
   const result = [];
@@ -618,7 +630,7 @@ const populateNodesWithMatrixCoordinates = (schemaNodes, schemaWires) => {
     }
 
     // eslint-disable-next-line no-console
-    console.error(`setNextXY error for ${dimension.width}:${dimension.height}`);
+    // console.warn(`[!]setNextXY error for ${dimension.width}:${dimension.height}`);
     return { x: 0, y: 0 };
   };
 
@@ -712,7 +724,7 @@ const getPSSchema1 = (psName, callback) => {
   const ps = myDataModelNodes.GetPS(psName);
 
   if (!nodeSchemas.has(`schema_of_${psName}`) || !ps) {
-    const error = `Unknown schema with name = ${psName}`;
+    const error = `Unknown schema with name = schema_of_${psName}`;
     // eslint-disable-next-line no-console
     console.error(error);
     const result = { nodes: [], wires };
@@ -1436,7 +1448,7 @@ function createMyNodeSchemaObj(dbSchema) {
     if (nodeName != "") {
       const node = myDataModelNodes.GetNode(nodeName);
       if (!node) {
-        setError(
+        setWarning(
           `[ModelSchemas][loadNodeSchemas] Cannot find node "${nodeName}" in "${dbSchema.name}"`
         );
       } else {
@@ -1452,7 +1464,7 @@ function createMyNodeSchemaObj(dbSchema) {
   prmNames.forEach(prmName => {
     const param = myDataModelNodes.GetParam(prmName);
     if (!param) {
-      setError(
+      setWarning(
         `[ModelSchemas][loadNodeSchemas] Cannot find param "${prmName}" in "${dbSchema.name}"`
       );
     }
@@ -1759,7 +1771,7 @@ module.exports.LoadFromDB = LoadFromDB;
 module.exports.CreatePSSchema = CreatePSSchema;
 module.exports.CreateNodeSchemasForRegions = CreateNodeSchemasForRegions;
 module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams; // should be redone !!
-module.exports.GetNodeSchemas = GetNodeSchemas;
+module.exports.GetCustomAndRegionSchemas = GetCustomAndRegionSchemas;
 module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetSchema = GetSchema;
 module.exports.GetPSSchema = GetPSSchema;

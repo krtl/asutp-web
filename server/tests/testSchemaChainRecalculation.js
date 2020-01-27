@@ -36,15 +36,18 @@ describe("mySchemaChainRecalculation", () => {
       myDataModelNodes.LoadFromDB(err => {
         expect(err).to.equal(null);
 
-        paramValuesProcessor.initializeParamValuesProcessor({
-          useStompServer: false,
-          useDbValueTracker: false
-        });
+        paramValuesProcessor.initializeParamValuesProcessor(
+          {
+            useStompServer: false,
+            useDbValueTracker: false
+          },
+          () => {
+            pss = myDataModelNodes.GetAllPSsAsArray();
+            // leps = myDataModelNodes.GetAllLEPsAsArray();
 
-        pss = myDataModelNodes.GetAllPSsAsArray();
-        // leps = myDataModelNodes.GetAllLEPsAsArray();
-
-        done();
+            done();
+          }
+        );
       });
     });
   });

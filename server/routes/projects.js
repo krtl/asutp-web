@@ -14,7 +14,7 @@ module.exports = app => {
 
   app.get("/getSchemas", (req, res) => {
     const names = [];
-    const schemas = myDataModelSchemas.GetNodeSchemas();
+    const schemas = myDataModelSchemas.GetCustomAndRegionSchemas();
     schemas.forEach(nodeSchema => {
       const obj = {
         name: nodeSchema.name,
@@ -151,7 +151,9 @@ module.exports = app => {
   });
 
   app.get("/getPSParams", (req, res) => {
-    const paramNames = myDataModelSchemas.GetSchemaParamNames(req.query.name);
+    const paramNames = myDataModelSchemas.GetSchemaParamNames(
+      `schema_of_${req.query.name}`
+    );
     const params = [];
     paramNames.forEach(name => {
       const obj = { name, value: 0 };

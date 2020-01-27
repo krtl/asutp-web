@@ -21,6 +21,7 @@ Start = cb => {
       loadDataModels,
       createRegionSchemas,
       createPSSchemas,
+      loadDataModels,     //if there are inserts or updates then datamodel should be reloaded.
       createDefaultCoordinatesForSchemaNodes,
       closeDBConnection
     ],
@@ -190,7 +191,7 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
   const defaultCoordinates = myDataModelSchemas.GetSchemaDefaultCoordinates(
     schema.name
   );
-  if (!defaultCoordinates) {
+  if (defaultCoordinates.length === 0) {
     callback(
       Error(`Cannot create default coordinates for 
     schema with name "${schema.name}".`)
@@ -300,7 +301,11 @@ const createDefaultCoordinatesForSchemaNodes = callback => {
         async.each(
           schemas,
           (schema, cb) => {
-            insertOrUpdateDBCoordinates(schema, cb);
+            if (schema.nodeNames) {
+              insertOrUpdateDBCoordinates(schema, cb);
+            } else {
+              cb();
+            }            
           },
           err => {
             if (err) {

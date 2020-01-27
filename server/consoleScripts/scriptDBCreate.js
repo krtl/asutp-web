@@ -1,19 +1,28 @@
-const mongoose = require('mongoose');
-const fs = require('fs');
-const async = require('async');
-const config = require('../../config');
+const mongoose = require("mongoose");
+const fs = require("fs");
+const async = require("async");
+const config = require("../../config");
+
+const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
+const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
+const DbParamValue = require("../dbmodels/paramValue");
+const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
+const DbBlockedParam = require("../dbmodels/blockedParam");
 
 function Start(cb) {
-  async.series([
-    // open,
-    dropDatabase,
-    requireModels,
-    createUsers,
-  ], (err) => {
-    // console.log(arguments);
-    // mongoose.disconnect();
-    cb(err);
-  });
+  async.series(
+    [
+      // open,
+      dropDatabase,
+      requireModels,
+      createUsers
+    ],
+    err => {
+      // console.log(arguments);
+      // mongoose.disconnect();
+      cb(err);
+    }
+  );
 }
 
 // function open(callback) {
@@ -25,54 +34,59 @@ function Start(cb) {
 // }
 
 function dropDatabase(callback) {
-  console.log('drop');
+  console.log("drop");
   const db = mongoose.connection.db;
   db.dropDatabase(callback);
 }
 
 function requireModels(callback) {
-  console.log('requiring models');
-  require('mongoose').model('AuthUser');  // eslint-disable-line global-require
-  require('mongoose').model('Param');  // eslint-disable-line global-require
-  require('mongoose').model('ParamValue');  // eslint-disable-line global-require
-  require('mongoose').model('ParamHalfHourValue');  // eslint-disable-line global-require
+  console.log("requiring models");
+  require("mongoose").model("AuthUser"); // eslint-disable-line global-require
+  require("mongoose").model("Param"); // eslint-disable-line global-require
+  require("mongoose").model("ParamValue"); // eslint-disable-line global-require
+  require("mongoose").model("ParamHalfHourValue"); // eslint-disable-line global-require
 
-  require('mongoose').model('AsutpConnection');  // eslint-disable-line global-require
+  require("mongoose").model("AsutpConnection"); // eslint-disable-line global-require
 
-  require('mongoose').model('NetNode');  // eslint-disable-line global-require
-  require('mongoose').model('NetWire');  // eslint-disable-line global-require
+  // require("mongoose").model("NetNode"); // eslint-disable-line global-require
+  // require("mongoose").model("NetWire"); // eslint-disable-line global-require
 
-  require('mongoose').model('Node');  // eslint-disable-line global-require
-  require('mongoose').model('NodeRegion');  // eslint-disable-line global-require
-  require('mongoose').model('NodeLEP');  // eslint-disable-line global-require
-  require('mongoose').model('NodeLEP2PSConnection');  // eslint-disable-line global-require
-  require('mongoose').model('NodeLEP2LEPConnection');  // eslint-disable-line global-require
-  require('mongoose').model('NodePS');  // eslint-disable-line global-require
-  require('mongoose').model('NodePSPart');  // eslint-disable-line global-require
-  require('mongoose').model('NodeTransformer');  // eslint-disable-line global-require
-  require('mongoose').model('NodeTransformerConnector');  // eslint-disable-line global-require
-  require('mongoose').model('NodeSection');  // eslint-disable-line global-require
-  require('mongoose').model('NodeSectionConnector');  // eslint-disable-line global-require
-  require('mongoose').model('NodeSec2SecConnector');  // eslint-disable-line global-require
-  require('mongoose').model('NodeEquipment');  // eslint-disable-line global-require
+  require("mongoose").model("Node"); // eslint-disable-line global-require
+  require("mongoose").model("NodeRegion"); // eslint-disable-line global-require
+  require("mongoose").model("NodeLEP"); // eslint-disable-line global-require
+  require("mongoose").model("NodeLEP2PSConnection"); // eslint-disable-line global-require
+  require("mongoose").model("NodeLEP2LEPConnection"); // eslint-disable-line global-require
+  require("mongoose").model("NodePS"); // eslint-disable-line global-require
+  require("mongoose").model("NodePSPart"); // eslint-disable-line global-require
+  require("mongoose").model("NodeTransformer"); // eslint-disable-line global-require
+  require("mongoose").model("NodeTransformerConnector"); // eslint-disable-line global-require
+  require("mongoose").model("NodeSection"); // eslint-disable-line global-require
+  require("mongoose").model("NodeSectionConnector"); // eslint-disable-line global-require
+  require("mongoose").model("NodeSec2SecConnector"); // eslint-disable-line global-require
+  require("mongoose").model("NodeEquipment"); // eslint-disable-line global-require
 
-  require('mongoose').model('NodeParamLinkage');  // eslint-disable-line global-require
+  require("mongoose").model("NodeParamLinkage"); // eslint-disable-line global-require
 
-  require('mongoose').model('NodeSchema');  // eslint-disable-line global-require
-  require('mongoose').model('NodeStateValue');  // eslint-disable-line global-require
-  require('mongoose').model('NodeCoordinates');  // eslint-disable-line global-require
+  require("mongoose").model("NodeSchema"); // eslint-disable-line global-require
+  require("mongoose").model("NodeSwitchedOnStateValue"); // eslint-disable-line global-require
+  require("mongoose").model("NodePoweredStateValue"); // eslint-disable-line global-require
+  require("mongoose").model("NodeCoordinates"); // eslint-disable-line global-require
 
-  async.each(Object.keys(mongoose.models), (modelName, callback) => {
-    mongoose.models[modelName].createIndexes(callback);
-  }, callback);
+  async.each(
+    Object.keys(mongoose.models),
+    (modelName, callback) => {
+      mongoose.models[modelName].createIndexes(callback);
+    },
+    callback
+  );
 }
 
 function createUsers(callback) {
-  console.log('creating users');
-//  var users = require(importPath +'/users.json');
+  console.log("creating users");
+  //  var users = require(importPath +'/users.json');
 
   const fileName = `${config.importPath}users.json`;
-  let rawdata = '';
+  let rawdata = "";
   try {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
@@ -82,22 +96,25 @@ function createUsers(callback) {
 
   const users = JSON.parse(rawdata);
 
-  async.each(users, (userData, callback) => {
-    const user = new mongoose.models.AuthUser(userData);
-    user.save((err) => {
-      if (err) callback(err);
-      console.log(`User "${user.email}" inserted`);
-      callback(null);
-    });
-  }, (err) => {
-    if (err) {
-      console.error(`Failed: ${err.message}`);
-    } else {
-      console.log('Success.');
+  async.each(
+    users,
+    (userData, callback) => {
+      const user = new mongoose.models.AuthUser(userData);
+      user.save(err => {
+        if (err) callback(err);
+        console.log(`User "${user.email}" inserted`);
+        callback(null);
+      });
+    },
+    err => {
+      if (err) {
+        console.error(`Failed: ${err.message}`);
+      } else {
+        console.log("Success.");
+      }
+      callback(err);
     }
-    callback(err);
-  });
+  );
 }
 
 module.exports.Start = Start;
-

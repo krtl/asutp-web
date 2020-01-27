@@ -63,7 +63,9 @@ const initializeParamValuesProcessor = (setts, cb) => {
           newState,
           new Date()
         );
-        dbNodeStateValuesTracker.TrackDbNodeSwitchedOnStateValue(nodeStateValue);
+        dbNodeStateValuesTracker.TrackDbNodeSwitchedOnStateValue(
+          nodeStateValue
+        );
 
         commandsServer.SendNodeSwitchedState(nodeStateValue);
 
@@ -88,13 +90,13 @@ const initializeParamValuesProcessor = (setts, cb) => {
         const value = lastValues.getLastValue(paramName);
         const param = MyDataModelNodes.GetParam(paramName);
         if (param && value) {
-          if (param.schemaNames.length > 0) {
-            recalculateSchema = true;
+          // if (param.schemaNames.length > 0) {
+          recalculateSchema = true;
 
-            // this is not working anymore, so recalculation should be done by timer without detecting changes in params values.
+          // this is not working anymore, so recalculation started for changing of any param value
 
-            commandsServer.SendParamValue(value);
-          }
+          commandsServer.SendParamValue(value);
+          // }
         }
       }
 

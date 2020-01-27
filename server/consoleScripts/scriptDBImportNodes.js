@@ -49,7 +49,7 @@ function Start(cb) {
   async.series(
     [
       // open,
-      requireModels,
+      // requireModels,
       preparingNodes,
       importNodes,
       checkIntegrity,
@@ -81,17 +81,17 @@ function Start(cb) {
 //     mongoose.connection.on('open', callback);
 // }
 
-function requireModels(callback) {
-  console.info("models");
+// function requireModels(callback) {
+//   console.info("models");
 
-  async.each(
-    Object.keys(mongoose.models),
-    (modelName, callback) => {
-      mongoose.models[modelName].createIndexes(callback);
-    },
-    callback
-  );
-}
+//   async.each(
+//     Object.keys(mongoose.models),
+//     (modelName, callback) => {
+//       mongoose.models[modelName].createIndexes(callback);
+//     },
+//     callback
+//   );
+// }
 
 function getNode(nodeName, callback) {
   DbNode.findOne(
@@ -389,8 +389,14 @@ let newNode = null; // don't know how to pass into async.series function as para
 let newNodeObj = null; // don't know how to pass into async.series function as parameters
 
 function processNode(processNodeCallback) {
+  if (newNode.name == "") {
+    processNodeCallback(Error(`Empty Node name for "${newNode.sapCode}"!`));
+    return;
+  }
+
   getNode(newNode.name, (err, netNode) => {
     if (err) processNodeCallback(err);
+
     if (netNode) {
       // node exists
 

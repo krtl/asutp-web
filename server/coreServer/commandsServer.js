@@ -13,6 +13,9 @@ let backgroundProcess = undefined;
 
 const initialize = peerProcess => {
   backgroundProcess = peerProcess;
+  if (backgroundProcess) {
+    console.log("[commandsServer] initialized with backgroundProcess");
+  }
 };
 
 const sendCommand = cmd => {
@@ -32,7 +35,7 @@ const SetManualValue = manualValue => {
 const processReceivedCommand = command => {
   let err = "";
 
-  //   console.log("Cmd received from backgound:", command);
+  // console.log("Cmd received from backgound:", command);
 
   if ("cmd" in command) {
     if (myCoreCommandType.isBackgroundCommand(command.cmd)) {
@@ -43,10 +46,13 @@ const processReceivedCommand = command => {
             lastParamValues.setValue(command.value);
 
             for (let i = 0; i < param.schemaNames.length; i += 1) {
-              const psSchemaName = param.schemaNames[i];
-
+              // const schemaName = param.schemaNames[i];
+              let schemaName = param.schemaNames[i];
+              if (schemaName.startsWith("schema_of_")) {
+                schemaName = schemaName.replace("schema_of_", "");
+              }
               // if (setts.useStompServer) {
-              MyStompServer.sendParamValue(psSchemaName, command.value);
+              MyStompServer.sendParamValue(schemaName, command.value);
               // }
             }
           } else {
@@ -64,7 +70,10 @@ const processReceivedCommand = command => {
 
             // if (setts.useStompServer) {
             for (let i = 0; i < node.schemaNames.length; i += 1) {
-              const schemaName = node.schemaNames[i];
+              let schemaName = node.schemaNames[i];
+              if (schemaName.startsWith("schema_of_")) {
+                schemaName = schemaName.replace("schema_of_", "");
+              }
               MyStompServer.sendNodeStateValue(schemaName, command.value);
             }
             //   }
@@ -80,7 +89,11 @@ const processReceivedCommand = command => {
 
             // if (setts.useStompServer) {
             for (let i = 0; i < node.schemaNames.length; i += 1) {
-              const schemaName = node.schemaNames[i];
+              // const schemaName = node.schemaNames[i];
+              let schemaName = node.schemaNames[i];
+              if (schemaName.startsWith("schema_of_")) {
+                schemaName = schemaName.replace("schema_of_", "");
+              }
               MyStompServer.sendNodeStateValue(schemaName, command.value);
             }
             //   }

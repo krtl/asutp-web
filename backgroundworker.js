@@ -27,7 +27,14 @@ dbModels.connect(config.dbUri, true, err => {
     // eslint-disable-next-line no-console
     console.error(`dbModels connection error: ${err.message}`);
     process.exit(1);
+  } else {
+    //testing
+    // commandProcessor.processReceivedCommand({
+    //   cmd: 4,
+    //   value: { nodeName: "ps1part110cc1", cmd: "block", manualValue: 1 }
+    // });
   }
+
   // start listening only after models has loaded.
   // ...
 });
@@ -55,9 +62,8 @@ process.on("SIGINT", () => {
     paramValuesProcessor.finalizeParamValuesProcessor();
     amqpLogSender.stop();
     // eslint-disable-next-line no-console
-    console.log("amqpLogSender closed.");     
+    console.log("amqpLogSender closed.");
   });
-
 });
 
 process.on("message", msg => {

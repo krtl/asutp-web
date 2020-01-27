@@ -46,11 +46,15 @@ const init = done => {
     myDataModelNodes.LoadFromDB(err => {
       expect(err).to.equal(null);
 
-      paramValuesProcessor.initializeParamValuesProcessor({
-        useStompServer: false,
-        useDbValueTracker: false
-      });
-      done();
+      paramValuesProcessor.initializeParamValuesProcessor(
+        {
+          useStompServer: false,
+          useDbValueTracker: false
+        },
+        () => {
+          done();
+        }
+      );
     });
   });
 };
@@ -373,7 +377,7 @@ function schemaCustomTest() {
 
   expect(lep1.powered).to.equal(myNodeState.POWERED_ON);
 
-  UnpowerSection(section);  
+  UnpowerSection(section);
   MyChains.Recalculate();
   console.log("----should no state changes after this----");
   MyChains.Recalculate();

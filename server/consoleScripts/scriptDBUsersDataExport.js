@@ -71,18 +71,22 @@ exportLinkages = callback => {
 };
 
 exportNodeSchemas = callback => {
-  DbNodeSchema.find({}, (err, schemas) => {
-    if (err) {
-      callback(err);
-    } else {
-      const fileName = `${config.exportPath}nodeSchemas${Date.now()}.json`;
-      const json = JSON.stringify(schemas);
-      fs.writeFile(fileName, json, "utf8", err => {
-        console.info(`done: ${fileName}`);
+  DbNodeSchema.find(
+  { name: { $not: /^nodes_of_|^schema_of_*/ } },
+    // { name: new RegExp("^nodes_of_|^schema_of_", "i") },
+    (err, schemas) => {
+      if (err) {
         callback(err);
-      });
+      } else {
+        const fileName = `${config.exportPath}nodeSchemas${Date.now()}.json`;
+        const json = JSON.stringify(schemas);
+        fs.writeFile(fileName, json, "utf8", err => {
+          console.info(`done: ${fileName}`);
+          callback(err);
+        });
+      }
     }
-  }).select({
+  ).select({
     name: 1,
     caption: 1,
     description: 1,
