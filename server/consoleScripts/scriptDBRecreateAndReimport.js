@@ -1,16 +1,22 @@
 // process.argv.push("recreate");
-process.argv.push("donotremoveoldnodes");
+// process.argv.push("donotremoveoldnodes");
+
+process.env.LOGGER_NAME = "scriptDBRecreateAndReimport";
+process.env.LOGGER_LEVEL = "debug";
+const logger = require("../logger_to_file");
 
 const mongoose = require("mongoose");
 const async = require("async");
 const moment = require("moment");
 const config = require("../../config");
 const creator = require("./scriptDBCreate");
-const nodesImporter = require("./scriptDBImportNodes");
-const paramsImporter = require("./scriptDBImportParams");
+const nodesImporter = require("./scriptDBNodesImport");
+const paramsImporter = require("./scriptDBParamsImport");
 // const usersDataImporter = require("./scriptDBUsersDataImport");
 
 const start = moment();
+
+logger.info("script started.");
 
 async.series(
   [
@@ -26,6 +32,7 @@ async.series(
 
     const duration = moment().diff(start);
     console.log(`all done in ${moment(duration).format("mm:ss.SSS")}`);
+    logger.info(`all done in ${moment(duration).format("mm:ss.SSS")}`);
 
     process.exit(err ? 255 : 0);
   }

@@ -4,6 +4,11 @@ const moment = require("moment");
 const async = require("async");
 const events = require("events");
 const config = require("../../config");
+
+// process.env.LOGGER_NAME = "scriptDBNodesImport";
+// process.env.LOGGER_LEVEL = "debug";
+const logger = require("../logger_to_file");
+
 const myNodeType = require("../models/myNodeType");
 
 const DbNode = require("../dbmodels/node");
@@ -35,16 +40,22 @@ const Sheme = [
   [DbNodeEquipment, "nodeEquipments.json"]
 ];
 
+let nodes_inserted = 0;
+let nodes_updated = 0;
+
 let errs = 0;
 function setError(text) {
   errs += 1;
   console.error(text);
+  logger.error(text);
 }
 let updateStarted = 0; // for debugging
 let updated = 0; // for debugging
 let processed = 0; // for debugging
 
 function Start(cb) {
+  logger.info("script started.");
+
   const start = moment();
   async.series(
     [
@@ -61,11 +72,15 @@ function Start(cb) {
 
       if (errs === 0) {
         const duration = moment().diff(start);
-        console.log(
+        console.info(
+          `Importing nodes done in ${moment(duration).format("mm:ss.SSS")}`
+        );
+        logger.info(
           `Importing nodes done in ${moment(duration).format("mm:ss.SSS")}`
         );
       } else {
         console.error(`Importing nodes failed with ${errs} errors!`);
+        logger.error(`Importing nodes failed with ${errs} errors!`);
       }
 
       cb(err);
@@ -213,8 +228,9 @@ function preparingNodes(callback) {
     (err, res) => {
       if (err) {
         console.warn(`[!] ${err.message}`);
+        logger.warn(`[!] ${err.message}`);
       } else {
-        console.debug(`[debug] ${res.nModified} updated.`);
+        logger.debug(`[debug] ${res.nModified} updated.`);
       }
       callback(err);
     }
@@ -233,8 +249,10 @@ function updateNodeTag(originNode, callback) {
     (err, res) => {
       if (err) {
         console.warn(`[!] ${err.message}`);
+        logger.warn(`[!] ${err.message}`);
       } else if (res.nModified === 0) {
         console.warn("[!] did not updated.");
+        logger.warn("[!] did not updated.");
       } else {
         updated += 1;
       }
@@ -249,23 +267,24 @@ let DbNodesToDelete = null; // don't know how to pass into async.series function
 function deleteNetNodeObjects(callback) {
   async.eachSeries(
     DbNodesToDelete,
-    (netNode, callback) => {
+    (netNode, cb1) => {
       async.eachSeries(
         Sheme,
-        (schemeElement, callback) => {
+        (schemeElement, cb2) => {
           const DbNodeObj = schemeElement[0];
           DbNodeObj.deleteOne({ name: netNode.name }, err => {
             if (err) {
               console.warn(`[!] Deleting DbNodeObj failed: ${err.message}`);
+              logger.warn(`[!] Deleting DbNodeObj failed: ${err.message}`);
             }
-            callback(err);
+            cb2(err);
           });
         },
         err => {
           // if (err) {
           //   setError(`Deleting DbNodeObjects failed: ${err.message}`);
           // }
-          callback(err);
+          cb1(err);
         }
       );
     },
@@ -282,19 +301,22 @@ function deleteNetNodes(callback) {
   DbNode.deleteMany({ tag: 0 }, (err, res) => {
     if (err) {
       console.warn(`[!] ${err.message}`);
+      logger.warn(`[!] ${err.message}`);
     } else {
       console.warn(`[!] ${res} old nodes were deleted.`);
+      logger.warn(`[!] ${res} old nodes were deleted.`);
     }
+
+    callback(err);
   });
-  callback();
 }
 
 function removingOldNodes(callback) {
   if (process.argv.indexOf("donotremoveoldnodes") >= 0) {
-    console.debug("[debug] Removing old nodes ignored.");
+    logger.debug("[debug] Removing old nodes ignored.");
     callback();
   } else {
-    console.debug(
+    logger.debug(
       `[debug] processed = ${processed} updateStarted = ${updateStarted} updated = ${updated}`
     );
 
@@ -303,7 +325,9 @@ function removingOldNodes(callback) {
         tag: 0
       },
       (err, netNodes) => {
-        if (netNodes.length > 0) {
+        if (err) {
+          callback(err);
+        } else if (netNodes.length > 0) {
           DbNodesToDelete = netNodes;
 
           let count = DbNodesToDelete.length;
@@ -315,6 +339,9 @@ function removingOldNodes(callback) {
           }
 
           console.warn(
+            `[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`
+          );
+          logger.warn(
             `[!] there are ${netNodes.length} old nodes: ${s} that will be deleted.`
           );
 
@@ -330,6 +357,9 @@ function removingOldNodes(callback) {
 }
 
 function importNodes(callback) {
+  nodes_inserted = 0;
+  nodes_updated = 0;
+
   events.EventEmitter.defaultMaxListeners = 125;
   async.eachSeries(
     Sheme,
@@ -340,7 +370,12 @@ function importNodes(callback) {
       if (err) {
         setError(`Importing failed: ${err.message}`);
       } else {
-        console.info("Importing successed.");
+        console.info(
+          `Importing Successed. Inserted: ${nodes_inserted} Updated: ${nodes_updated}`
+        );
+        logger.info(
+          `Importing Successed. Inserted: ${nodes_inserted} Updated: ${nodes_updated}`
+        );
       }
       callback(err);
     },
@@ -403,7 +438,8 @@ function processNode(processNodeCallback) {
       if (!isTheSameNode(netNode, newNode)) {
         updateNode(netNode, newNode, error => {
           if (error) processNodeCallback(error);
-          console.info(`Node "${newNode.name}" updated`);
+          logger.info(`Node "${newNode.name}" updated`);
+          nodes_updated++;
           checkIfParentNodeExists(newNode, processNodeCallback);
         });
       } else {
@@ -424,7 +460,8 @@ function processNode(processNodeCallback) {
         if (err) {
           processNodeCallback(err);
         }
-        console.info(`Node "${newNode.name}" inserted`);
+        logger.info(`Node "${newNode.name}" inserted`);
+        nodes_inserted++;
         checkIfParentNodeExists(newNode, processNodeCallback);
       });
     }
@@ -440,7 +477,8 @@ function processNodeObj(processNodeObjCallback) {
       if (!isTheSameNodeObj(DbNodeObj, existedNodeObj, newNodeObj)) {
         updateNodeObj(DbNodeObj, existedNodeObj, newNodeObj, error => {
           if (error) processNodeObjCallback(error);
-          console.info(`NodeObj "${newNode.name}" updated`);
+          logger.info(`NodeObj "${newNode.name}" updated`);
+          nodes_updated++;
           processNodeObjCallback(null);
         });
       } else {
@@ -452,7 +490,8 @@ function processNodeObj(processNodeObjCallback) {
         if (err) {
           processNodeObjCallback(err);
         }
-        console.info(`NodeObj "${newNode.name}" inserted`);
+        logger.info(`NodeObj "${newNode.name}" inserted`);
+        nodes_inserted++;
         processNodeObjCallback(null);
       });
     }
@@ -472,7 +511,7 @@ function importNodesFromFile(schemeElement, callback) {
   DbNodeObj = schemeElement[0];
   const fileName = schemeElement[1];
   const fullFileName = `${config.importPath}${fileName}`;
-  console.info(`importing from "${fullFileName}"..`);
+  logger.info(`importing from "${fullFileName}"..`);
   let rawdata = "";
   try {
     rawdata = fs.readFileSync(fullFileName);
@@ -503,7 +542,12 @@ function importNodesFromFile(schemeElement, callback) {
     },
     err => {
       if (err === null) {
-        console.info("importing from file successed.");
+        console.info(
+          `importing from "${fullFileName}" successed. Inserted: ${nodes_inserted} Updated: ${nodes_updated}`
+        );
+        logger.info(
+          `importing from "${fullFileName}" successed. Inserted: ${nodes_inserted} Updated: ${nodes_updated}`
+        );
       }
       callback(err);
     }
@@ -511,7 +555,7 @@ function importNodesFromFile(schemeElement, callback) {
 }
 
 function checkIntegrity(callback) {
-  console.info("Checking integrity..");
+  logger.info("Checking integrity..");
   DbNode.find(
     {
       parentNode: null,
@@ -540,11 +584,13 @@ function checkIntegrity(callback) {
           );
           callback(s);
         } else {
-          console.info("Checking Successed.");
+          console.info("Checking integrity Successed.");
+          logger.info("Checking integrity Successed.");
           callback(null);
         }
       } else {
-        console.info("Checking Successed.");
+        console.info("Checking integrity Successed.");
+        logger.info("Checking integrity Successed.");
         callback(null);
       }
     }

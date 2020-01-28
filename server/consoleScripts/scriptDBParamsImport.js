@@ -4,13 +4,22 @@ const moment = require("moment");
 const async = require("async");
 const config = require("../../config");
 
+// process.env.LOGGER_NAME = "scriptDBParamsImport";
+// process.env.LOGGER_LEVEL = "debug";
+const logger = require("../logger_to_file");
+
 const DbParam = require("../dbmodels/param");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
 
 const FileNames = ["asutpParams.json", "asutpConnections.json"];
 
+let inserted = 0;
+let updated = 0;
+
 function Start(cb) {
+  logger.info("script started.");
+
   const start = moment();
   async.series(
     [
@@ -20,14 +29,15 @@ function Start(cb) {
       importAsutpConnections
     ],
     err => {
-      //  console.log(arguments);
-      if (err) console.error("Failed!");
-
       if (err) {
         console.error(`Importing params failed with ${err.message}`);
+        logger.error(`Importing params failed with ${err.message}`);
       } else {
         const duration = moment().diff(start);
-        console.log(
+        console.info(
+          `Importing params done in ${moment(duration).format("mm:ss.SSS")}`
+        );
+        logger.info(
           `Importing params done in ${moment(duration).format("mm:ss.SSS")}`
         );
       }
@@ -61,19 +71,40 @@ function Start(cb) {
 // }
 
 function importParams(callback) {
-  console.log("importing params..");
+  console.info("importing params..");
+  logger.info("importing params..");
+  inserted = 0;
+  updated = 0;
 
   const fileName = `${config.importPath}${FileNames[0]}`;
 
   if (!fs.existsSync(fileName)) {
     const err = Error(`file "${fileName}" does not exists`);
-    console.log(err.message);
+    console.info(err.message);
+    logger.info(err.message);
     callback(err);
     return;
   }
 
-  const rawdata = fs.readFileSync(fileName);
-  const params = JSON.parse(rawdata);
+  let rawdata;
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
+    callback(err);
+    return;
+  }
+
+  let params;
+  try {
+    params = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`JSON.parse Error: ${e.message}`);
+    logger.error(`JSON.parse Error: ${e.message}`);
+    callback(e);
+    return;
+  }
 
   async.each(
     params,
@@ -105,7 +136,8 @@ function importParams(callback) {
                   if (err) {
                     callback(err);
                   } else {
-                    console.log(`Param "${newParam.name}" updated`);
+                    logger.info(`Param "${newParam.name}" updated`);
+                    updated++;
                     callback(null);
                   }
                 }
@@ -117,7 +149,8 @@ function importParams(callback) {
             // param does not exist
             newParam.save(err => {
               if (err) callback(err);
-              console.log(`Param "${newParam.name}" inserted`);
+              logger.info(`Param "${newParam.name}" inserted`);
+              inserted++;
               callback(null);
             });
           }
@@ -127,8 +160,9 @@ function importParams(callback) {
     err => {
       if (err) {
         console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
       } else {
-        console.log("Success.");
+        console.log(`Success. Inserted: ${inserted} Updated: ${updated}`);
       }
       callback(err);
     }
@@ -136,19 +170,40 @@ function importParams(callback) {
 }
 
 function importAsutpConnections(callback) {
-  console.log("importing ASUTP Connections..");
+  console.info("importing ASUTP Connections..");
+  logger.info("importing ASUTP Connections..");
+  inserted = 0;
+  updated = 0;
 
   const fileName = `${config.importPath}${FileNames[1]}`;
 
   if (!fs.existsSync(fileName)) {
     const err = Error(`file "${fileName}" does not exists`);
-    console.log(err.message);
+    console.info(err.message);
+    logger.info(err.message);
     callback(err);
     return;
   }
 
-  const rawdata = fs.readFileSync(fileName);
-  const connections = JSON.parse(rawdata);
+  let rawdata;
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
+    callback(err);
+    return;
+  }
+
+  let connections;
+  try {
+    connections = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`JSON.parse Error: ${e.message}`);
+    logger.error(`JSON.parse Error: ${e.message}`);
+    callback(e);
+    return;
+  }
 
   async.each(
     connections,
@@ -189,9 +244,10 @@ function importAsutpConnections(callback) {
                   if (err) {
                     callback(err);
                   } else {
-                    console.log(
+                    logger.info(
                       `asutpConnection "${newConnection.name}" updated`
                     );
+                    updated++;
                     callback(null);
                   }
                 }
@@ -202,7 +258,8 @@ function importAsutpConnections(callback) {
           } else {
             newConnection.save(err => {
               if (err) callback(err);
-              console.log(`asutpConnection "${newConnection.name}" inserted`);
+              logger.info(`asutpConnection "${newConnection.name}" inserted`);
+              inserted++;
               callback(null);
             });
           }
@@ -212,8 +269,10 @@ function importAsutpConnections(callback) {
     err => {
       if (err) {
         console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
       } else {
-        console.log("Success.");
+        console.info(`Success. Inserted: ${inserted} Updated: ${updated}`);
+        logger.info(`Success. Inserted: ${inserted} Updated: ${updated}`);
       }
       callback(err);
     }

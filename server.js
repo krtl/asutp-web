@@ -159,6 +159,7 @@ process.on("SIGINT", () => {
       amqpLogSender.stop();
       // eslint-disable-next-line no-console
       console.log("amqpLogSender closed.");
+      process.exit(0);
     });
   });
 

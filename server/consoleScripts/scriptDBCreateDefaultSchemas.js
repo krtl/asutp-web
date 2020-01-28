@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const async = require("async");
 const config = require("../../config");
 
+process.env.LOGGER_NAME = "scriptDBCreateDefaultSchemas";
+process.env.LOGGER_LEVEL = "debug";
+const logger = require("../logger_to_file");
+
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 
@@ -13,6 +17,8 @@ let inserted = 0;
 let updated = 0;
 
 Start = cb => {
+  logger.info("script started.");
+
   const start = moment();
 
   async.series(
@@ -21,38 +27,46 @@ Start = cb => {
       loadDataModels,
       createRegionSchemas,
       createPSSchemas,
-      loadDataModels,     //if there are inserts or updates then datamodel should be reloaded.
+      loadDataModels, //if there are inserts or updates then datamodel should be reloaded.
       createDefaultCoordinatesForSchemaNodes,
       closeDBConnection
     ],
     err => {
       if (err) {
         console.info(`Failed! ${err.message}`);
+        logger.info(`Failed! ${err.message}`);
       } else {
         const duration = moment().diff(start);
         console.info(`done in ${moment(duration).format("mm:ss.SSS")}`);
+        logger.info(`done in ${moment(duration).format("mm:ss.SSS")}`);
       }
 
-      if (cb) cb(err);
-      process.exit(err ? 1 : 0);
+      if (cb) {
+        cb(err);
+      } else {
+        // so that the logger could be done its work
+        setTimeout(() => {
+          process.exit(err ? 1 : 0);
+        }, 1000);
+      }
     }
   );
 };
 
-openDBConnection = callback => {
-  console.info("open");
+const openDBConnection = callback => {
+  logger.info("open");
   // connect to the database and load dbmodels
   require("../dbmodels").connect(config.dbUri, false); // eslint-disable-line global-require
 
   mongoose.connection.on("open", callback);
 };
 
-closeDBConnection = callback => {
+const closeDBConnection = callback => {
   mongoose.connection.close();
   callback();
 };
 
-loadDataModels = callback => {
+const loadDataModels = callback => {
   myDataModelNodes.LoadFromDB(err => {
     if (err) {
       callback(err);
@@ -64,7 +78,7 @@ loadDataModels = callback => {
   });
 };
 
-getDBSchema = (schemaName, callback) => {
+const getDBSchema = (schemaName, callback) => {
   DbNodeSchema.findOne(
     {
       name: schemaName
@@ -101,7 +115,7 @@ const insertOrUpdateDBSchema = (schema, callback) => {
               callback(err);
             } else {
               updated++;
-              console.info(`Schema "${schema.name}" updated`);
+              logger.info(`Schema "${schema.name}" updated`);
               callback();
             }
           }
@@ -116,7 +130,7 @@ const insertOrUpdateDBSchema = (schema, callback) => {
           callback(err);
         } else {
           inserted++;
-          console.info(`Schema "${schema.name}" inserted`);
+          logger.info(`Schema "${schema.name}" inserted`);
           callback();
         }
       });
@@ -138,8 +152,12 @@ const createPSSchemas = callback => {
     err => {
       if (err) {
         console.error(`createPSSchemas Failed: ${err.message}`);
+        logger.error(`createPSSchemas Failed: ${err.message}`);
       } else {
         console.info(
+          `createPSSchemas Successed: inserted: ${inserted} updated: ${updated}`
+        );
+        logger.info(
           `createPSSchemas Successed: inserted: ${inserted} updated: ${updated}`
         );
       }
@@ -161,8 +179,12 @@ const createRegionSchemas = callback => {
     err => {
       if (err) {
         console.error(`createRegionSchemas Failed: ${err.message}`);
+        logger.error(`createRegionSchemas Failed: ${err.message}`);
       } else {
         console.info(
+          `createRegionSchemas Successed: inserted: ${inserted} updated: ${updated}`
+        );
+        logger.info(
           `createRegionSchemas Successed: inserted: ${inserted} updated: ${updated}`
         );
       }
@@ -246,7 +268,7 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
                     cb(err);
                   } else {
                     updated++;
-                    console.info(
+                    logger.info(
                       `Coordinate "${schema.name}.${nodeName}" updated`
                     );
                     cb();
@@ -263,9 +285,7 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
                 cb(err);
               } else {
                 inserted++;
-                console.info(
-                  `Coordinate "${schema.name}.${nodeName}" inserted`
-                );
+                logger.info(`Coordinate "${schema.name}.${nodeName}" inserted`);
                 cb();
               }
             });
@@ -276,8 +296,14 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
             console.error(
               `insertOrUpdateDBCoordinates for "${schema.name}" Failed: ${err.message}`
             );
+            logger.error(
+              `insertOrUpdateDBCoordinates for "${schema.name}" Failed: ${err.message}`
+            );
           } else {
             console.info(
+              `insertOrUpdateDBCoordinates for "${schema.name}" Successed: inserted: ${inserted} updated: ${updated}`
+            );
+            logger.info(
               `insertOrUpdateDBCoordinates for "${schema.name}" Successed: inserted: ${inserted} updated: ${updated}`
             );
           }
@@ -305,15 +331,21 @@ const createDefaultCoordinatesForSchemaNodes = callback => {
               insertOrUpdateDBCoordinates(schema, cb);
             } else {
               cb();
-            }            
+            }
           },
           err => {
             if (err) {
               console.error(
                 `createDefaultCoordinatesForSchemaNodes Failed: ${err.message}`
               );
+              logger.error(
+                `createDefaultCoordinatesForSchemaNodes Failed: ${err.message}`
+              );
             } else {
               console.info(
+                `createDefaultCoordinatesForSchemaNodes Successed: inserted: ${inserted} updated: ${updated}`
+              );
+              logger.info(
                 `createDefaultCoordinatesForSchemaNodes Successed: inserted: ${inserted} updated: ${updated}`
               );
             }

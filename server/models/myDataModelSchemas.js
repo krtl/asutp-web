@@ -1558,9 +1558,6 @@ function CreatePSSchema(ps) {
             );
           }
         }
-        if (connector.lep2PsConnector) {
-          locNodeNames.push(connector.lep2PsConnector.parentNode.name);
-        }
         for (let m = 0; m < connector.equipments.length; m += 1) {
           const equipment = connector.equipments[m];
           // locNodeNames.push(equipment.name);

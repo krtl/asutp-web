@@ -4,19 +4,26 @@ const fs = require("fs");
 const moment = require("moment");
 const config = require("../../config");
 
+process.env.LOGGER_NAME = "scriptDBUsersDataImport";
+process.env.LOGGER_LEVEL = "debug";
+const logger = require("../logger_to_file");
+
 const DbNode = require("../dbmodels/node");
 const DbParam = require("../dbmodels/param");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 
+
 let warns = 0;
 setWarn = text => {
   warns += 1;
   console.warn(`[!] ${text}`);
+  logger.warn(`[!] ${text}`);
 };
 
 Start = cb => {
+  logger.info("script started.");
   const start = moment();
   async.series(
     [
@@ -30,11 +37,14 @@ Start = cb => {
       // console.info(arguments);
       if (err) {
         console.error(`Failed! ${err.message}`);
+        logger.error(`Failed! ${err.message}`);
       } else if (warns === 0) {
         const duration = moment().diff(start);
         console.info(`done in ${moment(duration).format("mm:ss.SSS")}`);
+        logger.info(`done in ${moment(duration).format("mm:ss.SSS")}`);
       } else {
         console.info(`done. warns ${warns}`);
+        logger.info(`done. warns ${warns}`);
       }
 
       if (cb) cb(err);
@@ -43,7 +53,8 @@ Start = cb => {
 };
 
 openDBConnection = callback => {
-  console.info("open");
+  logger.info("open");
+
   // connect to the database and load dbmodels
   require("../dbmodels").connect(config.dbUri, false); // eslint-disable-line global-require
 
@@ -94,7 +105,8 @@ importLinkages = callback => {
 
   if (!fs.existsSync(fileName)) {
     const err = Error(`file not exists: "${fileName}"`);
-    console.log(err.message);
+    console.info(err.message);
+    logger.info(err.message);
     callback();
     return;
   }
@@ -103,6 +115,7 @@ importLinkages = callback => {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
     console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     callback(err);
     return;
   }
@@ -112,6 +125,7 @@ importLinkages = callback => {
     linkages = JSON.parse(rawdata);
   } catch (e) {
     console.error(`create linkage Error: ${e.message}`);
+    logger.error(`create linkage Error: ${e.message}`);
     callback(e);
     return;
   }
@@ -151,7 +165,7 @@ importLinkages = callback => {
                           if (err) {
                             callback(err);
                           } else {
-                            console.info(
+                            logger.info(
                               `Linkage "${linkage.nodeName}.${linkage.paramPropName}" updated`
                             );
                             callback(null);
@@ -166,7 +180,7 @@ importLinkages = callback => {
                       if (err) {
                         callback(err);
                       } else {
-                        console.info(
+                        logger.info(
                           `Linkage "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`
                         );
                         callback(null);
@@ -193,8 +207,10 @@ importLinkages = callback => {
     err => {
       if (err) {
         console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
       } else {
         console.info(`Success: ${fileName}`);
+        logger.info(`Success: ${fileName}`);
       }
       callback(err);
     }
@@ -207,7 +223,8 @@ importNodeSchemas = callback => {
 
   if (!fs.existsSync(fileName)) {
     const err = Error(`file not exists: "${fileName}"`);
-    console.log(err.message);
+    console.info(err.message);
+    logger.info(err.message);
     callback();
     return;
   }
@@ -216,6 +233,7 @@ importNodeSchemas = callback => {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
     console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     callback(err);
     return;
   }
@@ -225,6 +243,7 @@ importNodeSchemas = callback => {
     schemas = JSON.parse(rawdata);
   } catch (e) {
     console.error(`create schema Error: ${e.message}`);
+    logger.error(`create schema Error: ${e.message}`);
     callback(e);
     return;
   }
@@ -262,7 +281,7 @@ importNodeSchemas = callback => {
                   if (err) {
                     callback(err);
                   } else {
-                    console.info(`Schema "${schema.name}" updated`);
+                    logger.info(`Schema "${schema.name}" updated`);
                     callback();
                   }
                 }
@@ -273,7 +292,7 @@ importNodeSchemas = callback => {
           } else {
             newSchema.save(err => {
               if (err) callback(err);
-              console.info(`Schema "${newSchema.name}" inserted`);
+              logger.info(`Schema "${newSchema.name}" inserted`);
               callback(null);
             });
           }
@@ -283,8 +302,10 @@ importNodeSchemas = callback => {
     err => {
       if (err) {
         console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
       } else {
         console.info(`Success: ${fileName}`);
+        logger.info(`Success: ${fileName}`);
       }
       callback(err);
     }
@@ -297,7 +318,8 @@ importNodeCoordinates = callback => {
 
   if (!fs.existsSync(fileName)) {
     const err = Error(`file not exists: "${fileName}"`);
-    console.log(err.message);
+    console.info(err.message);
+    logger.info(err.message);
     callback();
     return;
   }
@@ -306,6 +328,7 @@ importNodeCoordinates = callback => {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
     console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     callback(err);
     return;
   }
@@ -315,6 +338,7 @@ importNodeCoordinates = callback => {
     coordinates = JSON.parse(rawdata);
   } catch (e) {
     console.error(`create coordinates Error: ${e.message}`);
+    logger.error(`create coordinates Error: ${e.message}`);
     callback(e);
     return;
   }
@@ -356,7 +380,7 @@ importNodeCoordinates = callback => {
                           if (err) {
                             callback(err);
                           } else {
-                            console.info(
+                            logger.info(
                               `Coordinates "${coordinates.schemaName}.${coordinates.nodeName}" updated`
                             );
                             callback();
@@ -371,7 +395,7 @@ importNodeCoordinates = callback => {
                       if (err) {
                         callback(err);
                       } else {
-                        console.info(
+                        logger.info(
                           `Coordinates "${coordinatesRawData.schemaName}.${coordinatesRawData.nodeName}" inserted`
                         );
                         callback();
@@ -398,8 +422,10 @@ importNodeCoordinates = callback => {
     err => {
       if (err) {
         console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
       } else {
         console.info(`Success: ${fileName}`);
+        logger.info(`Success: ${fileName}`);
       }
       callback(err);
     }

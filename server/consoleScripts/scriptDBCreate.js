@@ -3,6 +3,10 @@ const fs = require("fs");
 const async = require("async");
 const config = require("../../config");
 
+// process.env.LOGGER_NAME = "scriptDBCreate";
+// process.env.LOGGER_LEVEL = "debug";
+const logger = require("../logger_to_file");
+
 const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
 const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 const DbParamValue = require("../dbmodels/paramValue");
@@ -34,13 +38,15 @@ function Start(cb) {
 // }
 
 function dropDatabase(callback) {
-  console.log("drop");
+  console.info("drop");
+  logger.info("drop");
   const db = mongoose.connection.db;
   db.dropDatabase(callback);
 }
 
 function requireModels(callback) {
   console.log("requiring models");
+  logger.info("requiring models");
   require("mongoose").model("AuthUser"); // eslint-disable-line global-require
   require("mongoose").model("Param"); // eslint-disable-line global-require
   require("mongoose").model("ParamValue"); // eslint-disable-line global-require
@@ -82,7 +88,10 @@ function requireModels(callback) {
 }
 
 function createUsers(callback) {
-  console.log("creating users");
+  // should be redone!
+
+  console.info("creating users");
+  logger.info("creating users");
   //  var users = require(importPath +'/users.json');
 
   const fileName = `${config.importPath}users.json`;
@@ -91,6 +100,7 @@ function createUsers(callback) {
     rawdata = fs.readFileSync(fileName);
   } catch (err) {
     console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
     return;
   }
 
@@ -109,8 +119,10 @@ function createUsers(callback) {
     err => {
       if (err) {
         console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
       } else {
         console.log("Success.");
+        logger.info("Success.");
       }
       callback(err);
     }
