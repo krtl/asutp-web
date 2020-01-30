@@ -124,16 +124,20 @@ const insertOrUpdateDBSchema = (schema, callback) => {
         callback();
       }
     } else {
-      const newDbSchema = new DbNodeSchema(schema);
-      newDbSchema.save(err => {
-        if (err) {
-          callback(err);
-        } else {
-          inserted++;
-          logger.info(`Schema "${schema.name}" inserted`);
-          callback();
-        }
-      });
+      if (schema.nodeNames == "") {
+        logger.warn(`Ignored inserting of Schema "${schema.name}". No nodes.`);
+      } else {
+        const newDbSchema = new DbNodeSchema(schema);
+        newDbSchema.save(err => {
+          if (err) {
+            callback(`Exception on save Schema: ${err.message}`);
+          } else {
+            inserted++;
+            logger.info(`Schema "${schema.name}" inserted`);
+            callback();
+          }
+        });
+      }
     }
   });
 };
@@ -282,7 +286,7 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
             const newDbCoordinate = new DbNodeCoordinates(newCoordinate);
             newDbCoordinate.save(err => {
               if (err) {
-                cb(err);
+                cb(`Exception on save Coordinate: ${err.message}`);
               } else {
                 inserted++;
                 logger.info(`Coordinate "${schema.name}.${nodeName}" inserted`);

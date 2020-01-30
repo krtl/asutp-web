@@ -1,10 +1,17 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 /* eslint no-param-reassign: ["error", { "props": false }] */
+
+let logger;
+if(process.env.LOGGER_SHMEMA == "external_service") {
+  logger = require("../logger");
+} else {
+  logger = require("../logger_to_file");
+}
+
 const fs = require("fs");
 const moment = require("moment");
 const async = require("async");
 const events = require("events");
-const logger = require("../logger");
 const config = require("../../config");
 const { MyNodeJsonSerialize } = require("./myNode");
 
@@ -126,8 +133,8 @@ const LoadFromDB = cb => {
           `[ModelNodes] loaded in ${moment(duration).format("mm:ss.SSS")}`
         );
       } else {
-        res = `loading nodes failed with ${errs} errors!`;
-        logger.error(res);
+        res = Error(`loading nodes failed with ${errs} errors!`);
+        logger.error(res.message);
       }
 
       return cb(res);
@@ -191,7 +198,7 @@ function loadNodesFromDB(schemeElement, cb) {
           },
           (err, locNode) => {
             if (err) {
-              setError(err);
+              setError(err.message);
               callback(err);
             } else if (locNode) {
               let locParentNode = null;
@@ -362,7 +369,7 @@ function ExportPSs(callback) {
 
       fs.writeFile(`${config.exportPath}${ps.name}.json`, json, "utf8", err => {
         if (err) {
-          setError(err);
+          setError(err.message);
           // console.error(`Failed! Error: ${err}`);
         } else {
           // console.info('FileWriteDone!');
@@ -397,12 +404,16 @@ function replaceNamesWithObjects(callback) {
                   const nodeItem = locNode; // unwarn eslint
                   nodeItem[pName] = nodes.get(locNode[pName]);
                 } else {
-                  err = `Cannot convert Name to Object on "${locNode.name}". Node Ojbect "${locNode[pName]}" does not exists in loaded nodes!`;
-                  setError(err);
+                  err = Error(
+                    `Cannot convert Name to Object on "${locNode.name}". Node Ojbect "${locNode[pName]}" does not exists in loaded nodes!`
+                  );
+                  setError(err.message);
                 }
               } else {
-                err = `Cannot convert Name to Object. There is no property with Node "${pName}"!`;
-                setError(err);
+                err = Error(
+                  `Cannot convert Name to Object. There is no property with Node "${pName}"!`
+                );
+                setError(err.message);
               }
             }
           }

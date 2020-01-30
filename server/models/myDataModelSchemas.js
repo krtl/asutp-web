@@ -1,10 +1,18 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 /* eslint no-param-reassign: ["error", { "props": false }] */
+
+let logger;
+if(process.env.LOGGER_SHMEMA == "external_service") {
+  logger = require("../logger");
+} else {
+  logger = require("../logger_to_file");
+}
+
+
 const fs = require("fs");
 const moment = require("moment");
 const async = require("async");
 const events = require("events");
-const logger = require("../logger");
 const config = require("../../config");
 const { MyNodeJsonSerialize } = require("./myNode");
 

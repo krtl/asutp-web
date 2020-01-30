@@ -148,7 +148,7 @@ function importParams(callback) {
           } else {
             // param does not exist
             newParam.save(err => {
-              if (err) callback(err);
+              if (err) callback(`Exception on save Param: ${err.message}`);
               logger.info(`Param "${newParam.name}" inserted`);
               inserted++;
               callback(null);
@@ -257,10 +257,13 @@ function importAsutpConnections(callback) {
             }
           } else {
             newConnection.save(err => {
-              if (err) callback(err);
-              logger.info(`asutpConnection "${newConnection.name}" inserted`);
-              inserted++;
-              callback(null);
+              if (err) {
+                callback(`Exception on save AsutpConnection: ${err.message}`);
+              } else {
+                logger.info(`asutpConnection "${newConnection.name}" inserted`);
+                inserted++;
+                callback(null);
+              }
             });
           }
         }

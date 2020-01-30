@@ -195,7 +195,7 @@ function restoreBlockedParamNamess(callback) {
 }
 
 const SetManualValue = manualValue => {
-  let err = "";
+  let errMess = "";
 
   // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
   // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
@@ -207,18 +207,18 @@ const SetManualValue = manualValue => {
     } else {
       const s = `[lastValues][SetManualValue] "${manualValue.nodeName}" is not available node.`;
       logger.error(s);
-      err += s;
+      errMess += s;
     }
   } else if ("paramName" in manualValue) {
     if (process.env.NOWTESTING === undefined) {
       if (!myDataModelNodes.GetParam(manualValue.paramName)) {
         const s = `[lastValues][SetManualValue] Can't find param "${manualValue.paramName}".`;
         logger.error(s);
-        err += s;
+        errMess += s;
       }
     }
 
-    if (err === "") {
+    if (errMess === "") {
       if (manualValue.cmd === "block") {
         BlockRawValues(manualValue.paramName);
       } else if (manualValue.cmd === "unblock") {
@@ -241,13 +241,13 @@ const SetManualValue = manualValue => {
   } else {
     const s = `[lastValues][SetManualValue] Unknown command: "${manualValue}".`;
     logger.error(s);
-    err += s;
+    errMess += s;
   }
 
-  if (err === "") {
+  if (errMess === "") {
     return;
   } else {
-    return Error(err);
+    return Error(errMess);
   }
 };
 

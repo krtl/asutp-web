@@ -1,4 +1,5 @@
 process.env.RECALCULATION = "recalculation";
+process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "backgroundworker";
 process.env.LOGGER_LEVEL = "debug";
 process.env.NODE_ENV = "production";

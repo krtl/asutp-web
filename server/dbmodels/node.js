@@ -27,7 +27,8 @@ const NodeSchema = new mongoose.Schema({
   },
   sapCode: {
     type: String,
-    index: { unique: true },
+    index: true,
+    // index: { unique: true }, //this key prevent importing in case if node changed name but remained the SapCode.
   },
   tag: {
     type: Number,

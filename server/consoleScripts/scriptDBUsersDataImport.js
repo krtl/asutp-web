@@ -14,7 +14,6 @@ const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 
-
 let warns = 0;
 setWarn = text => {
   warns += 1;
@@ -178,7 +177,7 @@ importLinkages = callback => {
                   } else {
                     newLinkage.save(err => {
                       if (err) {
-                        callback(err);
+                        callback(`Exception on save Linkage: ${err.message}`);
                       } else {
                         logger.info(
                           `Linkage "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`
@@ -291,9 +290,12 @@ importNodeSchemas = callback => {
             }
           } else {
             newSchema.save(err => {
-              if (err) callback(err);
-              logger.info(`Schema "${newSchema.name}" inserted`);
-              callback(null);
+              if (err) {
+                callback(`Exception on save Schema: ${err.message}`);
+              } else {
+                logger.info(`Schema "${newSchema.name}" inserted`);
+                callback(null);
+              }
             });
           }
         }
@@ -393,7 +395,7 @@ importNodeCoordinates = callback => {
                   } else {
                     newCoordinates.save(err => {
                       if (err) {
-                        callback(err);
+                        callback(`Exception on save Coordinate: ${err.message}`);
                       } else {
                         logger.info(
                           `Coordinates "${coordinatesRawData.schemaName}.${coordinatesRawData.nodeName}" inserted`

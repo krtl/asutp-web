@@ -111,7 +111,7 @@ function createUsers(callback) {
     (userData, callback) => {
       const user = new mongoose.models.AuthUser(userData);
       user.save(err => {
-        if (err) callback(err);
+        if (err) callback(`Exception on save User: ${err.message}`);
         console.log(`User "${user.email}" inserted`);
         callback(null);
       });

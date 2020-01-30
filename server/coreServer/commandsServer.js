@@ -33,8 +33,7 @@ const SetManualValue = manualValue => {
 };
 
 const processReceivedCommand = command => {
-  let err = "";
-
+  
   // console.log("Cmd received from backgound:", command);
 
   if ("cmd" in command) {

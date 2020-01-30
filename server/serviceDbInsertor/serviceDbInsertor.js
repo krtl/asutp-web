@@ -1,3 +1,4 @@
+process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "serviceDbInsertor";
 process.env.LOGGER_LEVEL = "debug";
 

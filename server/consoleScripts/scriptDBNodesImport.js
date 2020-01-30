@@ -458,7 +458,7 @@ function processNode(processNodeCallback) {
 
       newNode.save(err => {
         if (err) {
-          processNodeCallback(err);
+          processNodeCallback(`Exception on save Node: ${err.message}`);
         }
         logger.info(`Node "${newNode.name}" inserted`);
         nodes_inserted++;
@@ -488,7 +488,7 @@ function processNodeObj(processNodeObjCallback) {
       // does not exist
       newNodeObj.save(err => {
         if (err) {
-          processNodeObjCallback(err);
+          processNodeCallback(`Exception on save NodeObj: ${err.message}`);
         }
         logger.info(`NodeObj "${newNode.name}" inserted`);
         nodes_inserted++;
@@ -501,7 +501,7 @@ function processNodeObj(processNodeObjCallback) {
 function processNodeSeries(callback) {
   async.series([processNode, processNodeObj], err => {
     if (err) {
-      setError(err);
+      setError(err.message);
     }
     callback(err);
   });
