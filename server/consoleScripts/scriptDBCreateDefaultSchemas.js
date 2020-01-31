@@ -126,6 +126,7 @@ const insertOrUpdateDBSchema = (schema, callback) => {
     } else {
       if (schema.nodeNames == "") {
         logger.warn(`Ignored inserting of Schema "${schema.name}". No nodes.`);
+        callback();
       } else {
         const newDbSchema = new DbNodeSchema(schema);
         newDbSchema.save(err => {

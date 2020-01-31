@@ -1,6 +1,6 @@
 process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "serviceDbInsertor";
-process.env.LOGGER_LEVEL = "debug";
+process.env.LOGGER_LEVEL = "info";
 
 const logger = require("../logger");
 const amqpLogSender = require("../amqp/amqp_send");
@@ -68,7 +68,13 @@ db.on("connected", () => {
                     const float = parseFloat(s[2].replace(",", "."));
                     const obj = new MyParamValue(s[1], float, dt, s[3]);
 
-                    DbValuesTracker.trackDbParamValue(obj);
+                    if (isNaN(float)) {
+                      logger.error(
+                        `[ValuesReceiver][MyParamValue] Failed to parse floating-point value in: ${received}`
+                      );
+                    } else {
+                      DbValuesTracker.trackDbParamValue(obj);
+                    }
                   } else {
                     logger.error(
                       `[ValuesReceiver][MyParamValue] Failed to parse: ${received}`
