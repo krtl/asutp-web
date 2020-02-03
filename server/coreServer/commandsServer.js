@@ -9,18 +9,18 @@ const myCoreCommandType = require("./coreCommands");
 const lastParamValues = require("./lastParamValues");
 const MyServerStatus = require("./serverStatus");
 
-let backgroundProcess = undefined;
+let peerProcess = undefined;
 
-const initialize = peerProcess => {
-  backgroundProcess = peerProcess;
-  if (backgroundProcess) {
+const initialize = aPeerProcess => {
+  peerProcess = aPeerProcess;
+  if (peerProcess) {
     console.log("[commandsServer] initialized with backgroundProcess");
   }
 };
 
 const sendCommand = cmd => {
-  if (backgroundProcess) {
-    backgroundProcess.send(cmd);
+  if (peerProcess) {
+    peerProcess.send(cmd);
 
     // console.log("Sent command to backgound:", cmd);
   }

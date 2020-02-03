@@ -96,7 +96,12 @@
       "name": "Test Schemas",
       "program": "${workspaceFolder}/server/consoleScripts/scriptSchemaRecalculationTestings.js"
     },
-
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test Values",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptIntegrationTestValues.js"
+    },
     {
       "type": "node",
       "request": "launch",

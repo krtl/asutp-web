@@ -29,10 +29,13 @@ const initializeParamValuesProcessor = (setts, cb) => {
         logger.debug(
           `[state] Powered state changed for Node: ${node.name} from ${oldState} to ${newState}.`
         );
-        // eslint-disable-next-line no-console
-        console.log(
-          `Powered state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`
-        );
+
+        if (process.env.LOGGER_LEVEL === "debug") {
+          // eslint-disable-next-line no-console
+          console.log(
+            `Powered state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`
+          );
+        }
 
         const nodeStateValue = new MyNodePoweredStateValue(
           node.name,
@@ -52,10 +55,13 @@ const initializeParamValuesProcessor = (setts, cb) => {
         logger.debug(
           `[state] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}.`
         );
-        // eslint-disable-next-line no-console
-        console.log(
-          `SwitchedOn state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`
-        );
+
+        if (process.env.LOGGER_LEVEL === "debug") {
+          // eslint-disable-next-line no-console
+          console.log(
+            `SwitchedOn state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`
+          );
+        }
 
         const nodeStateValue = new MyNodeSwitchedOnStateValue(
           node.name,
@@ -91,9 +97,10 @@ const initializeParamValuesProcessor = (setts, cb) => {
         const param = MyDataModelNodes.GetParam(paramName);
         if (param && value) {
           // if (param.schemaNames.length > 0) {
-          recalculateSchema = true;
+          // this is not working anymore, so for now recalculation started after each changing
+          // This should be redone to start recalculsateion if VV or voltage param changed.
 
-          // this is not working anymore, so recalculation started for changing of any param value
+          recalculateSchema = true;
 
           commandsServer.SendParamValue(value);
           // }

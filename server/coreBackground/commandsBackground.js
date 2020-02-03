@@ -8,18 +8,18 @@ const MyParamValue = require("../models/myParamValue");
 const myCoreCommandType = require("../coreServer/coreCommands");
 const lastValues = require("./lastValues");
 
-let backgroundProcess = undefined;
+let peerProcess = undefined;
 
-const initialize = peerProcess => {
-  backgroundProcess = peerProcess;
+const initialize = aPeerProcess => {
+  peerProcess = aPeerProcess;
 };
 
 const sendCommand = cmd => {
-  if (backgroundProcess) {
+  if (peerProcess) {
     // console.debug("cmd: ", cmd);
-    if (backgroundProcess.send)
+    if (peerProcess.send)
       // for run under debugger
-      backgroundProcess.send(cmd);
+      peerProcess.send(cmd);
   }
 };
 

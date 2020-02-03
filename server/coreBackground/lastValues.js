@@ -78,15 +78,15 @@ function init(obj, callback) {
     useDbValueTracker = obj.useDbValueTracker;
   }
 
-  if (process.env.NOWTESTING) {
-    callback();
-  } else {
+  if ((process.env.NOWTESTING === undefined) || (process.env.NOWTESTING === "test_values")) {
     restoreLastParamValues(() => {
       restoreBlockedParamNamess(() => {
       dbValuesTracker.Start();
       callback();
       });
     });
+  } else {
+    callback();
   }
 }
 
