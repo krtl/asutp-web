@@ -2,7 +2,7 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
 let logger;
-if(process.env.LOGGER_SHMEMA == "external_service") {
+if (process.env.LOGGER_SHMEMA == "external_service") {
   logger = require("../logger");
 } else {
   logger = require("../logger_to_file");

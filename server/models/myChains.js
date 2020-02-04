@@ -45,7 +45,7 @@ function HoldersCouldBeConnected(holders) {
             setError(
               `[Chains][Recalculation] Warning! Collision with different Powered state on trusted sections within the one chain. Holders: "${section1.name}" = "${section1.powered}" and "${section2.name}" = "${section2.powered}"`
             );
-            countOfCollisions+=1;
+            countOfCollisions += 1;
             return false;
           }
         }

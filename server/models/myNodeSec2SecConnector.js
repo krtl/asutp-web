@@ -1,6 +1,5 @@
-
-const myNodeType = require('./myNodeType');
-const MyNodeConnector = require('./myNodeConnector');
+const myNodeType = require("./myNodeType");
+const MyNodeConnector = require("./myNodeConnector");
 
 class MyNodeSec2SecConnector extends MyNodeConnector {
   constructor(name, caption, description) {

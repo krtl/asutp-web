@@ -1,4 +1,4 @@
-const myNodeState = require('./myNodeState');
+const myNodeState = require("./myNodeState");
 // const MyChains = require('../models/myChains');
 // const MyNode = require('./myNode');
 
@@ -17,7 +17,7 @@ function MyChain() {
   this.disconnectedElements = [];
   this.powered = myNodeState.POWERED_UNKNOWN;
 
-  this.join = (chain) => {
+  this.join = chain => {
     concatNonExisted(this.holders, chain.holders);
     concatNonExisted(this.connectedElements, chain.connectedElements);
     concatNonExisted(this.disconnectedElements, chain.disconnectedElements);

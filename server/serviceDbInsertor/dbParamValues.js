@@ -141,7 +141,7 @@ const UnblockDbParamValue = paramName => {
         }
       });
     } else {
-      logger.warn(`[UnblockDbParam] param "${err.message}" already unblocked.`);
+      logger.warn(`[UnblockDbParam] param "${paramName}" already unblocked.`);
     }
   });
 };

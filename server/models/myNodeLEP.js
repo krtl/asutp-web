@@ -1,8 +1,7 @@
-const myNodeType = require('./myNodeType');
-const MyNodeChainHolder = require('./myNodeChainHolder');
-const MyChain = require('./myChain');
-const MyChains = require('../models/myChains');
-
+const myNodeType = require("./myNodeType");
+const MyNodeChainHolder = require("./myNodeChainHolder");
+const MyChain = require("./myChain");
+const MyChains = require("../models/myChains");
 
 class MyNodeLEP extends MyNodeChainHolder {
   constructor(name, caption, description) {
@@ -29,7 +28,11 @@ class MyNodeLEP extends MyNodeChainHolder {
       const section1 = connectedSections[0];
       for (let k = 1; k < connectedSections.length; k += 1) {
         const section2 = connectedSections[k];
-        if ((!MyChains.HoldersCouldBeConnected(section1.chain.holders.concat(section2.chain.holders)))) {
+        if (
+          !MyChains.HoldersCouldBeConnected(
+            section1.chain.holders.concat(section2.chain.holders)
+          )
+        ) {
           collisionExists = true;
           break;
         }
@@ -60,10 +63,8 @@ class MyNodeLEP extends MyNodeChainHolder {
       this.chain.holders.push(this);
     }
 
-
     // lep2lep connectors should be processed externaly
   }
 }
-
 
 module.exports = MyNodeLEP;

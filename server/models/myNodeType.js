@@ -12,7 +12,7 @@ const myNodeType = {
   TRANSFORMER: 10,
   TRANSFORMERCONNECTOR: 11,
   EQUIPMENT: 12,
-  PARAM: 13, // only for GUI
+  PARAM: 13 // only for GUI
 };
 
 const requireParent = [
@@ -25,7 +25,7 @@ const requireParent = [
   myNodeType.SEC2SECCONNECTOR,
   myNodeType.TRANSFORMER,
   myNodeType.TRANSFORMERCONNECTOR,
-  myNodeType.EQUIPMENT,
+  myNodeType.EQUIPMENT
 ];
 
 const requireSchemaRecalculation = [
@@ -34,7 +34,7 @@ const requireSchemaRecalculation = [
   myNodeType.LEP2LEPCONNECTION,
   myNodeType.PS,
   myNodeType.SECTIONCONNECTOR,
-  myNodeType.SEC2SECCONNECTOR,
+  myNodeType.SEC2SECCONNECTOR
 ];
 
 function getNodesThatShouldHaveAParent() {
@@ -42,11 +42,11 @@ function getNodesThatShouldHaveAParent() {
 }
 
 function isParentRequiredFor(nodeType) {
-  return (requireParent.indexOf(nodeType) > -1);
+  return requireParent.indexOf(nodeType) > -1;
 }
 
 function isSchemaRecalculationRequiredFor(nodeType) {
-  return (requireSchemaRecalculation.indexOf(nodeType) > -1);
+  return requireSchemaRecalculation.indexOf(nodeType) > -1;
 }
 
 module.exports = myNodeType;

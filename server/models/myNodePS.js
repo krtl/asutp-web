@@ -1,7 +1,6 @@
-const myNodeType = require('./myNodeType');
-const MyNode = require('./myNode');
-const MyChains = require('../models/myChains');
-
+const myNodeType = require("./myNodeType");
+const MyNode = require("./myNode");
+const MyChains = require("../models/myChains");
 
 class MyNodePS extends MyNode {
   constructor(name, caption, description) {
@@ -38,7 +37,11 @@ class MyNodePS extends MyNode {
         const section1 = connectedSections[0];
         for (let k = 1; k < connectedSections.length; k += 1) {
           const section2 = connectedSections[k];
-          if ((!MyChains.HoldersCouldBeConnected(section1.chain.holders.concat(section2.chain.holders)))) {
+          if (
+            !MyChains.HoldersCouldBeConnected(
+              section1.chain.holders.concat(section2.chain.holders)
+            )
+          ) {
             collisionExists = true;
             break;
           }
@@ -68,6 +71,5 @@ class MyNodePS extends MyNode {
     }
   }
 }
-
 
 module.exports = MyNodePS;

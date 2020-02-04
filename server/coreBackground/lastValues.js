@@ -78,11 +78,14 @@ function init(obj, callback) {
     useDbValueTracker = obj.useDbValueTracker;
   }
 
-  if ((process.env.NOWTESTING === undefined) || (process.env.NOWTESTING === "test_values")) {
+  if (
+    process.env.NOWTESTING === undefined ||
+    process.env.NOWTESTING === "test_values"
+  ) {
     restoreLastParamValues(() => {
       restoreBlockedParamNamess(() => {
-      dbValuesTracker.Start();
-      callback();
+        dbValuesTracker.Start();
+        callback();
       });
     });
   } else {
@@ -112,7 +115,9 @@ function restoreLastParamValues(callback) {
     ],
     (err, values) => {
       if (err) {
-        logger.error(`[LastParamValues] Failed to get last value: "${err.message}".`);
+        logger.error(
+          `[LastParamValues] Failed to get last value: "${err.message}".`
+        );
         callback(err);
       } else {
         for (let i = 0; i < values.length; i += 1) {
@@ -179,16 +184,24 @@ function restoreBlockedParamNamess(callback) {
           count += 1;
         } else {
           logger.warn(
-            `[][RestoreBlockedParamNames] failed to find param: ${prm.name}`
+            `[LastParamValues][RestoreBlockedParamNames] failed to find param: ${prm.name}`
           );
         }
       }
 
       logger.debug(
-        `[] ${count} BlockedParams loaded in ${moment(duration1).format(
-          "mm:ss.SSS"
-        )}`
+        `[LastParamValues] ${count} BlockedParams loaded in ${moment(
+          duration1
+        ).format("mm:ss.SSS")}`
       );
+
+      // eslint-disable-next-line no-console
+      console.debug(
+        `[LastParamValues] ${count} BlockedParams loaded in ${moment(
+          duration1
+        ).format("mm:ss.SSS")}`
+      );
+
       callback();
     }
   });
@@ -202,7 +215,10 @@ const SetManualValue = manualValue => {
 
   if ("nodeName" in manualValue) {
     const node = myDataModelNodes.GetNode(manualValue.nodeName);
-    if (node instanceof MyNodeConnector || node instanceof MyNodeSection) {
+    if (
+      node &&
+      (node instanceof MyNodeConnector || node instanceof MyNodeSection)
+    ) {
       node.SetManualValue(manualValue);
     } else {
       const s = `[lastValues][SetManualValue] "${manualValue.nodeName}" is not available node.`;
