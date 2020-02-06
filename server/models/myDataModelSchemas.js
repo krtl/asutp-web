@@ -78,7 +78,9 @@ const LoadFromDB = cb => {
 
         // eslint-disable-next-line no-console
         console.debug(
-          `[ModelSchemas] loaded in ${moment(duration).format("mm:ss.SSS")}`
+          `[ModelSchemas] loaded from DB with ${
+            nodeSchemas.size
+          } schemas in ${moment(duration).format("mm:ss.SSS")}`
         );
       } else {
         res = `loading schemas failed with ${errs} errors!`;

@@ -5,6 +5,7 @@ const MyServerStatus = ({ socketStatus, serverStatus, onClick }) => {
   const handleOnClick = option => () => onClick(option);
 
   let items = [];
+
   items.push(`socket: ${socketStatus}`);
   for (var prop in serverStatus) {
     items.push(`${prop}: ${serverStatus[prop]}`);

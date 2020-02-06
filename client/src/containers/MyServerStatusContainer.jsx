@@ -2,6 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyServerStatus from "../components/MyServerStatus/MyServerStatus";
 import MyStompClient from "../modules/MyStompClient";
+// import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import ErrorIcon from "@material-ui/icons/Error";
+
+import "../components/MyServerStatus/MainStatus.css";
+
+function MyServerCollisionsStatus(props) {
+  const isActive = props.isActive;
+
+  const handleClick = event => {
+    // setAnchorEl(event.currentTarget);
+  };
+  
+  if (isActive) {
+    return (
+      <div>
+        <IconButton
+          size="small"
+          color="secondary"
+          aria-label="collision"
+          onClick={handleClick}
+        >
+          <ErrorIcon />
+        </IconButton>
+      </div>
+    );
+  }
+  return null;
+}
 
 export default class MyServerStatusContainer extends React.Component {
   constructor(props) {
@@ -50,10 +79,17 @@ export default class MyServerStatusContainer extends React.Component {
   render() {
     return (
       <div>
-        <MyServerStatus
-          socketStatus={this.state.socketStatus}
-          serverStatus={this.state.serverStatus}
-        />
+        <div className="column">
+          <MyServerCollisionsStatus
+            isActive={this.state.serverStatus.collisions}
+          />
+        </div>
+        <div className="column">
+          <MyServerStatus
+            socketStatus={this.state.socketStatus}
+            serverStatus={this.state.serverStatus}
+          />
+        </div>
       </div>
     );
   }

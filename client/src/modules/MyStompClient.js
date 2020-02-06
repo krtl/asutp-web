@@ -170,6 +170,7 @@ const CreateMySocketClient = function() {
     if (stompClient !== undefined) {
       if (subsciptionValues) {
         subsciptionValues.unsubscribe({});
+        subsciptionValues = null;
       }
     }
   };
@@ -200,6 +201,7 @@ const CreateMySocketClient = function() {
     if (stompClient !== undefined) {
       if (subsciptionServerStatus) {
         subsciptionServerStatus.unsubscribe({});
+        subsciptionServerStatus = null;
       }
     }
   };

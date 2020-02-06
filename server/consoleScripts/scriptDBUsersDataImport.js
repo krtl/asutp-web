@@ -259,12 +259,19 @@ importNodeSchemas = callback => {
           if (err) {
             callback(err);
           } else if (schema) {
+            // null !== undefined but null == undefined
+            if (
+              schemaRawData.paramNames === null &&
+              schema.paramNames === undefined
+            ) {
+              schemaRawData.paramNames = schema.paramNames;
+            }
+
             if (
               schemaRawData.caption !== schema.caption ||
               schemaRawData.description !== schema.description ||
               schemaRawData.nodeNames !== schema.nodeNames ||
-              // schemaRawData.paramNames !== schema.paramNames
-              !(schemaRawData.paramNames == schema.paramNames) // null !== undefined but null == undefined
+              schemaRawData.paramNames !== schema.paramNames
             ) {
               DbNodeParamLinkage.updateOne(
                 { _id: schema.id },
@@ -395,7 +402,9 @@ importNodeCoordinates = callback => {
                   } else {
                     newCoordinates.save(err => {
                       if (err) {
-                        callback(`Exception on save Coordinate: ${err.message}`);
+                        callback(
+                          `Exception on save Coordinate: ${err.message}`
+                        );
                       } else {
                         logger.info(
                           `Coordinates "${coordinatesRawData.schemaName}.${coordinatesRawData.nodeName}" inserted`
