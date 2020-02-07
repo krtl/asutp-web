@@ -8,7 +8,7 @@ const Base = ({ children }) => (
   <div>
     <div className="top-bar">
       <div className="top-bar-left">
-        <MainStatus />
+        <MainStatus history={children.props.history} />
       </div>
 
       {Auth.isUserAuthenticated() ? (

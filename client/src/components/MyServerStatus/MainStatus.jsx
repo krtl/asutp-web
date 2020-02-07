@@ -44,7 +44,7 @@ class MainStatus extends Component {
           <MySpinner isActive={this.props.nowLoading} />
         </div>
         <div className="column">
-          <MyServerStatusContainer />
+          <MyServerStatusContainer history={this.props.history} />
         </div>
       </div>
     );
@@ -52,6 +52,7 @@ class MainStatus extends Component {
 }
 
 MainStatus.propTypes = {
+  history: PropTypes.object.isRequired,
   nowLoading: PropTypes.bool,
   countOfUpdates: PropTypes.number
 };

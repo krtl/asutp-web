@@ -6,6 +6,7 @@ const NetNode = require("../dbmodels/netNode");
 const NetWire = require("../dbmodels/netWire");
 const DbParam = require("../dbmodels/param");
 const DbParamValues = require("../dbmodels/paramValue");
+const DbBlockedParams = require("../dbmodels/blockedParam");
 const DbParamHalfHourValues = require("../dbmodels/paramHalfHourValue");
 const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
 const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
@@ -13,6 +14,7 @@ const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
+const MyServerStatus = require("../coreServer/serverStatus");
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
 const commandsServer = require("../coreServer/commandsServer");
@@ -524,6 +526,46 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
       }
     }
   );
+});
+
+router.get("/getCollisions", (req, res, next) => {
+  // currently callback from backgroundworker is not implemented, so to receive actual collisions you need to tap several time
+
+  const err = commandsServer.GetCollisions();
+  if (err) {
+    logger.info(`[GetCollisions] Failed: ${err.message}`);
+    // next(err);
+    res.status(500).json({
+      message: err.message
+    });
+  } else {
+    res.status(200).json(MyServerStatus.getCollisions());
+    return 0;
+  }
+});
+
+router.get("/getBlockedParams", (req, res, next) => {
+  DbBlockedParams.find({})
+    .sort({ dt: "desc" })
+    .limit(500)
+    .select({
+      name: 1,
+      dt: 1,
+      user: 1,
+      _id: 0
+    })
+    .exec((err, data) => {
+      if (err) {
+        logger.info(`[CustomSchemaDeleteNode] Failed: ${err.message}`);
+        next(err);
+        // res.status(500).json({
+        //   message: err.message
+        // });
+      } else {
+        res.status(200).json(data);
+        return 0;
+      }
+    });
 });
 
 module.exports = router;

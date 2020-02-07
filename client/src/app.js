@@ -8,6 +8,7 @@ import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
+import SystemServicePage from "./containers/SystemServicePage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";
@@ -55,6 +56,10 @@ export default function App() {
 
         <PrivateRoute path="/nodeStateHistory/:nodeName">
           <NodeStateHistoryPage />
+        </PrivateRoute>
+
+        <PrivateRoute path="/systemService">
+          <SystemServicePage />
         </PrivateRoute>
 
         <Route path="/login" render={props => <LoginPage {...props} />} />

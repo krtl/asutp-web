@@ -2,7 +2,7 @@ const MyStompServer = require("../coreServer/myStompServer");
 
 function MyServerStatus() {
   this.clientsConnected = 0;
-  this.collisions = 0;
+  this.collisionsCount = 0;
   this.avgRecalcTime = 0;
   this.maxRecalcTime = 0;
 }
@@ -10,6 +10,7 @@ function MyServerStatus() {
 let status = new MyServerStatus();
 let changed = false;
 let timerId;
+let collisions = [];
 
 const initialize = () => {
   if (process.env.NOWTESTING === undefined) {
@@ -32,9 +33,9 @@ const finalize = () => {
 };
 
 const setRecalculationStatus = recalcStatus => {
-  if (recalcStatus.collisions !== undefined) {
-    if (status.collisions != recalcStatus.collisions) {
-      status.collisions = recalcStatus.collisions;
+  if (recalcStatus.collisionsCount !== undefined) {
+    if (status.collisionsCount != recalcStatus.collisionsCount) {
+      status.collisionsCount = recalcStatus.collisionsCount;
       changed = true;
     }
   }
@@ -70,8 +71,16 @@ const getServerStatus = () => {
   return status;
 };
 
+const setCollisions = aCollisions => {
+  collisions = aCollisions;
+};
+
+const getCollisions = () => {
+  return collisions;
+};
+
 function myServerStatusStringifyReplacer(key, value) {
-  // if (key === 'listNames') return undefined; // for future use
+  // if (key === "collisions") return undefined;
   return value;
 }
 const MyServerStatusJsonSerialize = value =>
@@ -85,3 +94,5 @@ module.exports.setRecalculationStatus = setRecalculationStatus;
 module.exports.setWSocketStatus = setWSocketStatus;
 module.exports.isStatusChanged = isStatusChanged;
 module.exports.getServerStatus = getServerStatus;
+module.exports.setCollisions = setCollisions;
+module.exports.getCollisions = getCollisions;

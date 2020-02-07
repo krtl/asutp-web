@@ -4,16 +4,19 @@ const myCoreCommandType = {
   NODE_POWERED_STATE: 2,
   NODE_SWITCHED_STATE: 3,
   MANUAL_VALUE: 4,
-  RECALCULATION_STATE: 5
+  RECALCULATION_STATE: 5,
+  GET_COLLISIONS: 6,
+  COLLISIONS_DETAILS: 6
 };
 
-const serverCommands = [myCoreCommandType.MANUAL_VALUE];
+const serverCommands = [myCoreCommandType.MANUAL_VALUE, myCoreCommandType.GET_COLLISIONS];
 
 const backgroundCommands = [
   myCoreCommandType.PARAM_VALUE,
   myCoreCommandType.NODE_POWERED_STATE,
   myCoreCommandType.NODE_SWITCHED_STATE,
-  myCoreCommandType.RECALCULATION_STATE
+  myCoreCommandType.RECALCULATION_STATE,
+  myCoreCommandType.COLLISIONS_DETAILS
 ];
 
 function isServerCommand(myCoreCommandType) {

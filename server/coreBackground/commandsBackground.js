@@ -7,6 +7,7 @@ const logger = require("../logger");
 const MyParamValue = require("../models/myParamValue");
 const myCoreCommandType = require("../coreServer/coreCommands");
 const lastValues = require("./lastValues");
+const paramValuesProcessor = require("./paramValuesProcessor");
 
 let peerProcess = undefined;
 
@@ -56,6 +57,14 @@ const processReceivedCommand = command => {
       switch (command.cmd) {
         case myCoreCommandType.MANUAL_VALUE: {
           lastValues.SetManualValue(command.value);
+          break;
+        }
+        case myCoreCommandType.GET_COLLISIONS: {
+          const collisions = paramValuesProcessor.getCollisions();
+          sendCommand({
+            cmd: myCoreCommandType.COLLISIONS_DETAILS,
+            value: collisions
+          });
           break;
         }
         default: {

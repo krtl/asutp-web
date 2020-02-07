@@ -6,7 +6,7 @@ const MyNodeSection = require("../models/myNodeSection");
 // const moment = require("moment");
 
 let chains = [];
-let countOfCollisions = 0;
+let collisions = [];
 
 let errs = 0;
 function setError(text) {
@@ -41,11 +41,12 @@ function HoldersCouldBeConnected(holders) {
           section2.powered !== myNodeState.POWERED_UNKNOWN
         ) {
           if (section1.powered !== section2.powered) {
+            const collisionText = `Holders: "${section1.name}" = "${section1.powered}" and "${section2.name}" = "${section2.powered}"`;
             // eslint-disable-next-line max-len
             setError(
-              `[Chains][Recalculation] Warning! Collision with different Powered state on trusted sections within the one chain. Holders: "${section1.name}" = "${section1.powered}" and "${section2.name}" = "${section2.powered}"`
+              `[Chains][Recalculation] Warning! Collision with different Powered state on trusted sections within the one chain. ${collisionText}`
             );
-            countOfCollisions += 1;
+            collisions.push(collisionText);
             return false;
           }
         }
@@ -60,7 +61,7 @@ function Recalculate() {
 
   // let start = moment();
 
-  countOfCollisions = 0;
+  collisions = [];
 
   const pss = myDataModelNodes.GetAllPSsAsArray();
 
@@ -268,7 +269,7 @@ function Recalculate() {
   //   `Powering PSs done in ${moment(moment().diff(start)).format("mm:ss.SSS")}`
   // );
 
-  return countOfCollisions;
+  return collisions;
 }
 
 module.exports.Recalculate = Recalculate;

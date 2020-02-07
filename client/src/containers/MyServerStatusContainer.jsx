@@ -12,9 +12,10 @@ function MyServerCollisionsStatus(props) {
   const isActive = props.isActive;
 
   const handleClick = event => {
-    // setAnchorEl(event.currentTarget);
+    // window.open(`/systemService`, "_blank");
+    props.history.push(`/systemService`);
   };
-  
+
   if (isActive) {
     return (
       <div>
@@ -81,7 +82,8 @@ export default class MyServerStatusContainer extends React.Component {
       <div>
         <div className="column">
           <MyServerCollisionsStatus
-            isActive={this.state.serverStatus.collisions}
+            isActive={this.state.serverStatus.collisionsCount}
+            history={this.props.history}
           />
         </div>
         <div className="column">
@@ -96,7 +98,5 @@ export default class MyServerStatusContainer extends React.Component {
 }
 
 MyServerStatusContainer.propTypes = {
-  router: PropTypes.shape({
-    history: PropTypes.object.isRequired
-  })
+  history: PropTypes.object.isRequired
 };

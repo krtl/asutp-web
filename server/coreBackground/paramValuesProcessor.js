@@ -19,6 +19,7 @@ let prevCountOfCollisions = 0;
 let prevAvgRecalcTime = 0;
 let prevMaxRecalcTime = 0;
 let maxRecalcTime = 0;
+let collisions = [];
 
 const initializeParamValuesProcessor = (setts, cb) => {
   lastValues.init({ useDbValueTracker: setts.useDbValueTracker }, () => {
@@ -112,7 +113,8 @@ const initializeParamValuesProcessor = (setts, cb) => {
 
         const start = moment();
 
-        const collisions = MyChains.Recalculate();
+        collisions = MyChains.Recalculate();
+        const countOfCollisions = collisions.length;
 
         const duration = moment().diff(start);
         // eslint-disable-next-line no-console
@@ -129,16 +131,16 @@ const initializeParamValuesProcessor = (setts, cb) => {
         );
 
         if (
-          prevCountOfCollisions !== collisions ||
+          prevCountOfCollisions !== countOfCollisions ||
           prevAvgRecalcTime !== avgRecalcTime ||
           prevMaxRecalcTime !== maxRecalcTime
         ) {
-          prevCountOfCollisions = collisions;
+          prevCountOfCollisions = countOfCollisions;
           prevAvgRecalcTime = avgRecalcTime;
           prevMaxRecalcTime = maxRecalcTime;
 
           commandsServer.SendRecalculationStatus({
-            collisions,
+            collisionsCount: countOfCollisions,
             avgRecalcTime,
             maxRecalcTime
           });
@@ -160,5 +162,10 @@ const finalizeParamValuesProcessor = () => {
   }
 };
 
+const getCollisions = () => {
+  return collisions;
+};
+
 module.exports.initializeParamValuesProcessor = initializeParamValuesProcessor;
 module.exports.finalizeParamValuesProcessor = finalizeParamValuesProcessor;
+module.exports.getCollisions = getCollisions;

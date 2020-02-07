@@ -1,0 +1,88 @@
+import React from "react";
+import PropTypes from "prop-types";
+import SystemServiceForm from "../components/SystemServiceForm";
+import MyFetchClient from "./MyFetchClient";
+import makeUid from "../modules/MyFuncs";
+
+const MATCHING_ITEM_LIMIT = 2500;
+
+export default class SystemServicePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cmdUid: "",
+      fetchRequests: [],
+      collisions: [],
+      blockedParams: []
+    };
+
+    this.reloadCollisions = this.reloadCollisions.bind(this);
+    this.reloadBlockedParams = this.reloadBlockedParams.bind(this);
+  }
+
+  reloadCollisions() {
+    const cmds = [
+      {
+        fetchUrl: "/api/getCollisions",
+        fetchMethod: "get",
+        fetchData: "",
+        fetchCallback: values => {
+          this.setState({
+            collisions: values.slice(0, MATCHING_ITEM_LIMIT)
+          });
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
+  }
+
+  reloadBlockedParams() {
+    const cmds = [
+      {
+        fetchUrl: "/api/getBlockedParams",
+        fetchMethod: "get",
+        fetchData: "",
+        fetchCallback: values => {
+          this.setState({
+            blockedParams: values.slice(0, MATCHING_ITEM_LIMIT)
+          });
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <SystemServiceForm
+          collisions={this.state.collisions}
+          blockedParams={this.state.blockedParams}
+          onReloadCollisions={this.reloadCollisions}
+          onReloadBlockedParams={this.reloadBlockedParams}
+          history={this.props.history}
+        />
+        <MyFetchClient
+          cmdUid={this.state.cmdUid}
+          fetchRequests={this.state.fetchRequests}
+          history={this.props.history}
+        />
+      </div>
+    );
+  }
+}
+
+SystemServicePage.propTypes = {
+  router: PropTypes.shape({
+    history: PropTypes.object.isRequired
+  })
+};

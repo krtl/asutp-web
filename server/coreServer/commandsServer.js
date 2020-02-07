@@ -32,6 +32,11 @@ const SetManualValue = manualValue => {
   return null; // for future use
 };
 
+const GetCollisions = () => {
+  sendCommand({ cmd: myCoreCommandType.GET_COLLISIONS });
+  return null; 
+};
+
 const processReceivedCommand = command => {
   
   // console.log("Cmd received from backgound:", command);
@@ -107,6 +112,10 @@ const processReceivedCommand = command => {
           MyServerStatus.setRecalculationStatus(command.value);
           break;
         }
+        case myCoreCommandType.COLLISIONS_DETAILS: {
+          MyServerStatus.setCollisions(command.value);
+          break;
+        }        
         default: {
           return Error(`Unknown command: ${command.cmd}`);
         }
@@ -123,3 +132,5 @@ module.exports.initialize = initialize;
 module.exports.processReceivedCommand = processReceivedCommand;
 module.exports.sendCommand = sendCommand;
 module.exports.SetManualValue = SetManualValue;
+module.exports.GetCollisions = GetCollisions;
+
