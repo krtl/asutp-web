@@ -316,9 +316,18 @@ export default class MyPSSchemeForm extends React.Component {
         for (let j = 0; j < locParams.length; j += 1) {
           const locParam = locParams[j];
           if (locParam.name === locNode.paramName) {
-            locNode.caption = locParam.value;
+            locNode.paramValue = locParam.value;
             locNode.paramQD = locParam.qd;
             break;
+          }
+        }
+      } else if ((locNode.nodeType === MyConsts.NODE_TYPE_SECTIONCONNECTOR) || (locNode.nodeType === MyConsts.NODE_TYPE_SEC2SECCONNECTOR)) {
+        if (locNode.paramName) {
+          const param = this.getParamByName(locNode.paramName);
+          if (param) {
+            if (param.qd) {
+              locNode.paramQD = param.qd;
+            }
           }
         }
       }

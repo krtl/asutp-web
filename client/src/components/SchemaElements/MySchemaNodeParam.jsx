@@ -43,29 +43,28 @@ export default class MySchemaNodeParam extends React.Component {
     const x = this.props.node.x - MyConsts.NODE_PS_RADIUS;
     const y = this.props.node.y;
 
-    let paramValueColor;
+    let paramBorderColor = "black";
     if (this.props.node.paramQD) {
       if (this.props.node.paramQD.indexOf("B") > -1) {
-        paramValueColor = "green";
+        paramBorderColor = "maroon";
       } else if (this.props.node.paramQD.indexOf("Z") > -1) {
-        paramValueColor = "aquamarine";
+        paramBorderColor = "blue";
       } else if (this.props.node.paramQD.indexOf("NA") > -1) {
-        paramValueColor = "grey";
-      } else {
-        paramValueColor = "white";
+        paramBorderColor = "gold";
       }
     }
 
-    const body = <>
+    const body = (
+      <>
         <Text x={0} y={0} fontSize={9} text={this.props.node.name} />
         <Rect
           x={0}
           y={10}
           width={MyConsts.NODE_PS_RADIUS * 4}
           height={MyConsts.NODE_PS_RADIUS}
-          stroke={"black"}
+          stroke={paramBorderColor}
           strokeWidth={1}
-          fill={paramValueColor}
+          fill={"gainsboro"}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
         />
@@ -73,7 +72,7 @@ export default class MySchemaNodeParam extends React.Component {
           x={1}
           y={11}
           fontSize={9}
-          text={this.props.node.caption}
+          text={`${this.props.node.paramValue}`}
           onDblClick={this.handleDblClick}
         />
         <Text x={1} y={21} fontSize={9} text={this.props.node.paramName} />
@@ -89,8 +88,9 @@ export default class MySchemaNodeParam extends React.Component {
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
-    </>;
-    
+      </>
+    );
+
     return this.props.editMode ? (
       <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
         {body}

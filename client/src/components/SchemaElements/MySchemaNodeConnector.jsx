@@ -44,6 +44,17 @@ export default class MySchemaNodeConnector extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
+    let borderColor = "black";
+    if (this.props.node.paramQD) {
+      if (this.props.node.paramQD.indexOf("B") > -1) {
+        borderColor = "maroon";
+      } else if (this.props.node.paramQD.indexOf("Z") > -1) {
+        borderColor = "blue";
+      } else if (this.props.node.paramQD.indexOf("NA") > -1) {
+        borderColor = "gold";
+      }
+    }
+
     const body = (
       <>
         <Text x={1} y={-10} fontSize={9} text={this.props.node.name} />
@@ -52,7 +63,7 @@ export default class MySchemaNodeConnector extends React.Component {
           y={0}
           width={MyConsts.NODE_PS_RADIUS * 2}
           height={MyConsts.NODE_PS_RADIUS * 2}
-          stroke={"black"}
+          stroke={borderColor}
           strokeWidth={1}
           fill={this.props.color}
           shadowBlur={0}
