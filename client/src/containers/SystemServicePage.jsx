@@ -14,11 +14,13 @@ export default class SystemServicePage extends React.Component {
       cmdUid: "",
       fetchRequests: [],
       collisions: [],
-      blockedParams: []
+      blockedParams: [],
+      asutpConnections: []
     };
 
     this.reloadCollisions = this.reloadCollisions.bind(this);
     this.reloadBlockedParams = this.reloadBlockedParams.bind(this);
+    this.reloadAsutpConnections = this.reloadAsutpConnections.bind(this);
   }
 
   reloadCollisions() {
@@ -61,14 +63,36 @@ export default class SystemServicePage extends React.Component {
     });
   }
 
+  reloadAsutpConnections() {
+    const cmds = [
+      {
+        fetchUrl: "/api/getAsutpConnections",
+        fetchMethod: "get",
+        fetchData: "",
+        fetchCallback: values => {
+          this.setState({
+            asutpConnections: values.slice(0, MATCHING_ITEM_LIMIT)
+          });
+        }
+      }
+    ];
+
+    this.setState({
+      cmdUid: makeUid(5),
+      fetchRequests: cmds
+    });
+  }  
+
   render() {
     return (
       <div>
         <SystemServiceForm
           collisions={this.state.collisions}
           blockedParams={this.state.blockedParams}
+          asutpConnections={this.state.asutpConnections}
           onReloadCollisions={this.reloadCollisions}
           onReloadBlockedParams={this.reloadBlockedParams}
+          onReloadAsutpConnections={this.reloadAsutpConnections}
           history={this.props.history}
         />
         <MyFetchClient

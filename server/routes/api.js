@@ -12,12 +12,15 @@ const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
 const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
+const DbAsutpConnection = require("../dbmodels/asutpConnection");
+
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
 const MyServerStatus = require("../coreServer/serverStatus");
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
 const commandsServer = require("../coreServer/commandsServer");
+const lastParamValues = require("../coreServer/lastParamValues");
 
 const router = new express.Router();
 
@@ -565,6 +568,96 @@ router.get("/getBlockedParams", (req, res, next) => {
         res.status(200).json(data);
         return 0;
       }
+    });
+});
+
+router.get("/getAsutpConnections", (req, res, next) => {
+  DbAsutpConnection.find({})
+    .sort({ psSapCode: 1, voltage: -1 })
+    .select({
+      name: 1,
+      caption: 1,
+      psSapCode: 1,
+      voltage: 1,
+      connectionNumber: 1,
+      VVParamName: 1,
+      PParamName: 1,
+      UlParamName: 1,
+      _id: 0
+    })
+    .limit(5000)
+    .exec((err, asutpConnections) => {
+      if (err) return next(err);
+
+      let resultPSs = new Map();
+      let key = 0;
+
+      const locPSs = myDataModelNodes.GetAllPSsAsArray();
+
+      for (let i = 0; i < asutpConnections.length; i += 1) {
+        const asutpConnection = asutpConnections[i];
+        const resultConnection = {
+          key: key++,
+          name: asutpConnection.name,
+          caption: asutpConnection.caption,
+          voltage: asutpConnection.voltage,
+          connectionNumber: asutpConnection.connectionNumber,
+          params: []
+        };
+        for (let j = 0; j < locPSs.length; j += 1) {
+          const ps = locPSs[j];
+          if (ps.sapCode === asutpConnection.psSapCode) {
+            let resultPS;
+            if (resultPSs.has(asutpConnection.psSapCode)) {
+              resultPS = resultPSs.get(asutpConnection.psSapCode);
+            } else {
+              resultPS = {
+                key: key++,
+                name: ps.name,
+                caption: ps.caption,
+                sapCode: ps.sapCode,
+                connections: []
+              };
+              resultPSs.set(asutpConnection.psSapCode, resultPS);
+            }
+            resultPS.connections.push(resultConnection);
+
+            const paramPropNames = ["VVParamName", "PParamName", "UlParamName"];
+
+            for (let k = 0; k < paramPropNames.length; k += 1) {
+              const paramPropName = paramPropNames[k];
+              if (paramPropName in asutpConnection) {
+                const locParam = myDataModelNodes.GetParam(
+                  asutpConnection[paramPropName]
+                );
+                if (locParam) {
+                  const resultParam = {
+                    key: key++,
+                    name: locParam.name,
+                    caption: locParam.caption,
+                    value: ""
+                  };
+                  resultConnection.params.push(resultParam);
+
+                  const paramValue = lastParamValues.getLastValue(
+                    locParam.name
+                  );
+                  if (paramValue) {
+                    resultParam.value = paramValue.value;
+                  }
+                }
+              }
+            }
+
+            break;
+          }
+        }
+      }
+
+      const result = Array.from(resultPSs.values());
+
+      res.status(200).json(result);
+      return 0;
     });
 });
 
