@@ -5,11 +5,12 @@ import MyStompClient from "../modules/MyStompClient";
 // import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import ErrorIcon from "@material-ui/icons/Error";
+import Badge from '@material-ui/core/Badge';
 
 import "../components/MyServerStatus/MainStatus.css";
 
 function MyServerCollisionsStatus(props) {
-  const isActive = props.isActive;
+  const isActive = props.count > 0;
 
   const handleClick = event => {
     // window.open(`/systemService`, "_blank");
@@ -25,7 +26,9 @@ function MyServerCollisionsStatus(props) {
           aria-label="collision"
           onClick={handleClick}
         >
+          <Badge badgeContent={props.count} color="secondary">
           <ErrorIcon />
+          </Badge>          
         </IconButton>
       </div>
     );
@@ -82,7 +85,7 @@ export default class MyServerStatusContainer extends React.Component {
       <div>
         <div className="column">
           <MyServerCollisionsStatus
-            isActive={this.state.serverStatus.collisionsCount}
+            count={this.state.serverStatus.collisionsCount}
             history={this.props.history}
           />
         </div>
