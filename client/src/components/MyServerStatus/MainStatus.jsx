@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
 import MyServerStatusContainer from "../../containers/MyServerStatusContainer";
@@ -34,9 +34,6 @@ class MainStatus extends Component {
     return (
       // <MySpinner isActive={this.props.nowLoading} />
       <div className="row">
-        <div className="column">
-          <NavLink to="/">ASUTP</NavLink>
-        </div>
         <div className="column">
           <MyDebugData countOfUpdates={this.props.countOfUpdates} />
         </div>

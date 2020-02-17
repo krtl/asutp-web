@@ -13,6 +13,7 @@ export default class SystemServicePage extends React.Component {
     this.state = {
       cmdUid: "",
       fetchRequests: [],
+      // abort: false,
       collisions: [],
       blockedParams: [],
       asutpConnections: []
@@ -81,7 +82,14 @@ export default class SystemServicePage extends React.Component {
       cmdUid: makeUid(5),
       fetchRequests: cmds
     });
-  }  
+  }
+
+  componentWillUnmount() {
+    // calcel all pending requests
+    // this.setState({
+    //   abort: true
+    // });
+  }
 
   render() {
     return (
@@ -98,6 +106,7 @@ export default class SystemServicePage extends React.Component {
         <MyFetchClient
           cmdUid={this.state.cmdUid}
           fetchRequests={this.state.fetchRequests}
+          // abort={this.state.abort}
           history={this.props.history}
         />
       </div>

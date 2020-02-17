@@ -53,8 +53,8 @@ export default class SystemServiceForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onReloadCollisions();
-    this.props.onReloadBlockedParams();
+    // this.props.onReloadCollisions();
+    // this.props.onReloadBlockedParams();
     this.props.onReloadAsutpConnections();
   }
 
