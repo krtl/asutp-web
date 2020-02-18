@@ -45,6 +45,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
     this.state = {
       open: false,
       paramRole: "",
+      connectionCaption: "",
       initialParamName: "",
       editedNodeName: ""
     };
@@ -150,16 +151,20 @@ export default class MyPSAsutpLinkageForm extends React.Component {
     }
 
     if (role !== "") {
-      this.setState({
-        open: true,
-        paramRole: role,
-        initialParamName: param.caption, // this is a temporary solution
-        editedNodeName: nodeName
-      });
+      const node = this.getNodeByName(nodeName, true);
+      if (node) {
+        this.setState({
+          open: true,
+          paramRole: role,
+          connectionCaption: node.caption,
+          initialParamName: param.caption, // this is a temporary solution
+          editedNodeName: nodeName
+        });
+      }
     }
   }
 
-  getNodeByName(nodeName) {
+  getNodeByName(nodeName, returnContainerNode) {
     if (this.props.PS) {
       for (let i = 0; i < this.props.PS.psparts.length; i++) {
         let pspart = this.props.PS.psparts[i];
@@ -176,7 +181,11 @@ export default class MyPSAsutpLinkageForm extends React.Component {
             for (let l = 0; l < connector.equipments.length; l++) {
               let equipment = connector.equipments[l];
               if (equipment.name === nodeName) {
-                return equipment;
+                if (returnContainerNode) {
+                  return connector;
+                } else {
+                  return equipment;
+                }
               }
             }
           }
@@ -190,7 +199,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
     this.setState({ open: false });
 
     if (newParamName !== "dismiss") {
-      const node = this.getNodeByName(this.state.editedNodeName);
+      const node = this.getNodeByName(this.state.editedNodeName, false);
       if (node) {
         if (this.state.paramRole in node) {
           if (node[this.state.paramRole] !== newParamName) {
@@ -348,6 +357,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
           onClose={this.handleDialogClose}
           asutpConnections={this.props.asutpConnections}
           paramRole={this.state.paramRole}
+          connectionCaption={this.state.connectionCaption}
           initialParamName={this.state.initialParamName}
           editedNodeName={this.state.editedNodeName}
         />

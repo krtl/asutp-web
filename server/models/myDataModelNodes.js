@@ -464,12 +464,24 @@ function linkLEP2PSConnectorToLepAndToPS(lep2psConnector) {
       lep2psConnector.toNodeConnector.nodeType === myNodeType.SECTIONCONNECTOR
     ) {
       const section = lep2psConnector.toNodeConnector.parentNode;
-      if (section.parentNode.nodeType === myNodeType.PSPART) {
-        const pspart = section.parentNode;
-        if (pspart.parentNode.nodeType === myNodeType.PS) {
-          const ps = pspart.parentNode;
-          ps.lep2psConnectors.push(lep2psConnector);
-          lep2psConnector.toNodeConnector.lep2PsConnector = lep2psConnector;
+      if (section.parentNode) {
+        if (section.parentNode.nodeType === myNodeType.PSPART) {
+          const pspart = section.parentNode;
+          if (pspart.parentNode) {
+            if (pspart.parentNode.nodeType === myNodeType.PS) {
+              const ps = pspart.parentNode;
+              ps.lep2psConnectors.push(lep2psConnector);
+              lep2psConnector.toNodeConnector.lep2PsConnector = lep2psConnector;
+            } else {
+              setError(
+                `Failed to link LEPConnector: ${lep2psConnector.name}. toNodeConnector Owner is not PS`
+              );
+            }
+          } else {
+            setError(
+              `Failed to link LEPConnector: ${lep2psConnector.name}. There is no parent node for ${pspart.name}`
+            );
+          }
         } else {
           setError(
             `Failed to link LEPConnector: ${lep2psConnector.name}. toNodeConnector Owner is not PS`
@@ -477,7 +489,7 @@ function linkLEP2PSConnectorToLepAndToPS(lep2psConnector) {
         }
       } else {
         setError(
-          `Failed to link LEPConnector: ${lep2psConnector.name}. toNodeConnector Owner is not PS`
+          `Failed to link LEPConnector: ${lep2psConnector.name}. There is no parent node for ${section.name}`
         );
       }
     } else {
