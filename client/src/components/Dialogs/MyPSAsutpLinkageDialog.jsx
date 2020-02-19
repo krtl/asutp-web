@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import FlatButton from "material-ui/FlatButton";
 import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
 import Typography from "@material-ui/core/Typography";
@@ -104,15 +105,15 @@ export default class MyPSAsutpLinkageDialog extends React.Component {
 
     return (
       <Dialog
-        title={`Link ASUTP param for '${this.props.editedNodeName}'`}
         actions={actions}
         modal={false}
         open={this.state.open}
         onRequestClose={this.handleClose}
         autoScrollBodyContent={true}
       >
-        <Typography variant="h6" paragraph color="primary">
-          {`Connection: ${this.props.connectionCaption}`}
+        <DialogTitle align="center">{`Link ASUTP param for '${this.props.editedNodeName}'`}</DialogTitle>
+        <Typography variant="h6" paragraph color="secondary" align="center">
+          {this.props.connectionCaption}
         </Typography>
         <RadioButtonGroup
           name="shipSpeed"

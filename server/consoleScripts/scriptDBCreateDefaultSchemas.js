@@ -143,6 +143,7 @@ const insertOrUpdateDBSchema = (schema, callback) => {
   });
 };
 
+
 const createPSSchemas = callback => {
   inserted = 0;
   updated = 0;
@@ -287,7 +288,7 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
             const newDbCoordinate = new DbNodeCoordinates(newCoordinate);
             newDbCoordinate.save(err => {
               if (err) {
-                cb(`Exception on save Coordinate: ${err.message}`);
+                cb(Error(`Exception on save Coordinate: ${err.message}`));
               } else {
                 inserted++;
                 logger.info(`Coordinate "${schema.name}.${nodeName}" inserted`);

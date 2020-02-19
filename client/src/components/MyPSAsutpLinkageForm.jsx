@@ -10,6 +10,8 @@ import {
   TableRow,
   TableRowColumn
 } from "material-ui/Table";
+import Typography from "@material-ui/core/Typography";
+
 import MyPSAsutpLinkageDialog from "./Dialogs/MyPSAsutpLinkageDialog";
 import { MyConsts } from "../modules/MyConsts";
 
@@ -239,14 +241,16 @@ export default class MyPSAsutpLinkageForm extends React.Component {
               name: connector.name,
               caption: connector.caption,
               nodeType: connector.nodeType,
-              sapCode: connector.sapCode
+              sapCode: connector.sapCode,
+              color: "secondary"
             });
             rows.push({
               name:
                 connector.name + "." + MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER,
               caption: connector[MyConsts.NODE_PRPNAME_PARAM_ROLE_POWER],
               nodeType: "Modified" in connector ? "Modified" : "",
-              sapCode: ""
+              sapCode: "",
+              color: "primary"
             });
             connector.equipments.forEach(equipment => {
               rows.push({
@@ -260,7 +264,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                   equipment.name + "." + MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE,
                 caption: equipment[MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE],
                 nodeType: "Modified" in equipment ? "Modified" : "",
-                sapCode: ""
+                sapCode: "",
+                color: "primary"
               });
             });
           });
@@ -285,7 +290,8 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                 equipment.name + "." + MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE,
               caption: equipment[MyConsts.NODE_PRPNAME_PARAM_ROLE_STATE],
               nodeType: "Modified" in equipment ? "Modified" : "",
-              sapCode: ""
+              sapCode: "",
+              color: "primary"
             });
           });
         });
@@ -338,9 +344,19 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                   <TableRowColumn style={styles.cellCustomHeight}>
                     {row.name}
                   </TableRowColumn>
-                  <TableRowColumn style={styles.cellCustomHeight}>
-                    {row.caption}
-                  </TableRowColumn>
+
+                  {row.color ? (
+                    <TableRowColumn style={styles.cellCustomHeight}>
+                      <Typography variant="inherit" color={row.color}>
+                        {row.caption}
+                      </Typography>
+                    </TableRowColumn>
+                  ) : (
+                    <TableRowColumn style={styles.cellCustomHeight}>
+                      {row.caption}
+                    </TableRowColumn>
+                  )}
+
                   <TableRowColumn style={styles.cellCustomHeight}>
                     {row.nodeType}
                   </TableRowColumn>

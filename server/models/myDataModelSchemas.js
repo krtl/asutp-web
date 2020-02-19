@@ -2,12 +2,11 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
 
 let logger;
-if(process.env.LOGGER_SHMEMA == "external_service") {
+if (process.env.LOGGER_SHMEMA == "external_service") {
   logger = require("../logger");
 } else {
   logger = require("../logger_to_file");
 }
-
 
 const fs = require("fs");
 const moment = require("moment");
@@ -1625,21 +1624,96 @@ function CreatePSSchema(ps) {
   return schema;
 }
 
-// should be redone !!
-function ReloadPSSchemaParams(schemaName, cb) {
-  if (psSchema.has(schemaName)) {
-    const ps = myDataModelNodes.GetPS(schemaName);
-    if (ps) {
-      // schemaName = psName
-      const schema = CreatePSSchema(ps);
-      psSchema.delete(schemaName);
-      psSchema.set(schema.name, schema);
-      cb();
+const getDBSchema = (schemaName, callback) => {
+  DbNodeSchema.findOne(
+    {
+      name: schemaName
+    },
+    (err, schema) => {
+      callback(err, schema);
+    }
+  );
+};
+
+const insertOrUpdateDBSchema = (schema, callback) => {
+  getDBSchema(schema.name, (err, dbSchema) => {
+    if (err) {
+      callback(err);
+    } else if (dbSchema) {
+      if (
+        dbSchema.caption !== schema.caption ||
+        dbSchema.description !== schema.description ||
+        dbSchema.nodeNames !== schema.nodeNames ||
+        !(dbSchema.paramNames == schema.paramNames) // null !== undefined but null == undefined
+      ) {
+        DbNodeSchema.updateOne(
+          { _id: dbSchema.id },
+          {
+            $set: {
+              caption: schema.caption,
+              description: schema.description,
+              nodeNames: schema.nodeNames,
+              paramNames: schema.paramNames
+            }
+          },
+          error => {
+            if (error) {
+              callback(err);
+            } else {
+              // updated++;
+              logger.info(`Schema "${schema.name}" updated`);
+              callback();
+            }
+          }
+        );
+      } else {
+        callback();
+      }
     } else {
-      cb(`PS with name ${schemaName} did not found.`);
+      if (schema.nodeNames == "") {
+        logger.warn(`Ignored inserting of Schema "${schema.name}". No nodes.`);
+        callback();
+      } else {
+        const newDbSchema = new DbNodeSchema(schema);
+        newDbSchema.save(err => {
+          if (err) {
+            callback(`Exception on save Schema: ${err.message}`);
+          } else {
+            // inserted++;
+            logger.info(`Schema "${schema.name}" inserted`);
+            callback();
+          }
+        });
+      }
+    }
+  });
+};
+
+function ReloadPSSchemaParams(psName, cb) {
+  schemaName = `schema_of_${psName}`;
+
+  if (nodeSchemas.has(schemaName)) {
+    const ps = myDataModelNodes.GetPS(psName);
+    if (ps) {
+      const schema = CreatePSSchema(ps);
+      insertOrUpdateDBSchema(schema, err => {
+        if (err) return cb(err);
+
+        DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
+          if (err) return cb(err);
+
+          nodeSchemas.delete(schemaName);
+
+          const obj = createMyNodeSchemaObj(dbSchema);
+          nodeSchemas.set(obj.name, obj);
+          return cb();
+        });
+      });
+    } else {
+      cb(Error(`PS with name ${psName} did't found.`));
     }
   } else {
-    cb(`PS Schema with name ${schemaName} did not found.`);
+    cb(Error(`PS Schema with name ${schemaName} did't  found.`));
   }
 }
 
@@ -1722,10 +1796,10 @@ const GetAvailableSchemas = userName => {
   return result;
 };
 
-const GetSchemaParamNames = schemaName => {
+const GetSchemaParamNamesAsArray = schemaName => {
   if (nodeSchemas.has(schemaName)) {
     const locSchema = nodeSchemas.get(schemaName);
-    if (locSchema !== undefined) {
+    if (locSchema) {
       return locSchema.paramNames;
     }
   }
@@ -1777,14 +1851,14 @@ const GetSchemaDefaultCoordinates = schemaName => {
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.CreatePSSchema = CreatePSSchema;
 module.exports.CreateNodeSchemasForRegions = CreateNodeSchemasForRegions;
-module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams; // should be redone !!
+module.exports.ReloadPSSchemaParams = ReloadPSSchemaParams;
 module.exports.GetCustomAndRegionSchemas = GetCustomAndRegionSchemas;
 module.exports.GetSchemaPSs = GetSchemaPSs;
 module.exports.GetSchema = GetSchema;
 module.exports.GetPSSchema = GetPSSchema;
 module.exports.GetSchemaDefaultCoordinates = GetSchemaDefaultCoordinates;
 module.exports.GetAvailableSchemas = GetAvailableSchemas;
-module.exports.GetSchemaParamNames = GetSchemaParamNames;
+module.exports.GetSchemaParamNamesAsArray = GetSchemaParamNamesAsArray;
 module.exports.ReloadCustomSchema = ReloadCustomSchema;
 module.exports.DeleteCustomSchema = DeleteCustomSchema;
 module.exports.CustomSchemaAddNode = CustomSchemaAddNode;

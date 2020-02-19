@@ -128,14 +128,13 @@ module.exports = app => {
     });
   });
 
-  app.get("/getPSSchema", (req, res) => {
+  app.get("/getPSSchema", (req, res, next) => {
     myDataModelSchemas.GetPSSchema(req.query.name, (err, json) => {
       if (err) {
-        res.send(err); // ??
-        return false;
+        next(err);
+      } else {
+        res.send(json);
       }
-      res.send(json);
-      return true;
     });
   });
 
@@ -150,18 +149,17 @@ module.exports = app => {
     return true;
   });
 
-  app.get("/getPSParams", (req, res) => {
-    const paramNames = myDataModelSchemas.GetSchemaParamNames(
+  app.get("/getPSParams", (req, res, next) => {
+    const paramNames = myDataModelSchemas.GetSchemaParamNamesAsArray(
       `schema_of_${req.query.name}`
     );
     const params = [];
-    paramNames.forEach(name => {
-      const obj = { name, value: 0 };
+    for (let i = 0; i < paramNames.length; i += 1) {
+      const obj = { name: `${paramNames[i]}`, value: 0 };
       params.push(obj);
-    });
+    }
 
     res.json(params);
-    return true;
   });
 
   app.get("/getJsonPS", (req, res) => {
@@ -216,7 +214,7 @@ module.exports = app => {
                   err => {
                     if (err) {
                       logger.warn(
-                        `[savePSLinkage] Something wrong when DbNodeParamLinkage update  for "${psName}"!`
+                        `[savePSLinkage] Something wrong when DbNodeParamLinkage update for "${psName}"!`
                       );
                       return callback(err);
                     }
@@ -267,8 +265,9 @@ module.exports = app => {
           myDataModelNodes.RelinkParamNamesToNodes(err => {
             if (err) {
               logger.warn(
-                `[savePSLinkage] Something wrong on RelinkParamsToNodes for "${psName}"!`
+                `[savePSLinkage] Something wrong on RelinkParamsToNodes for "${psName}"! ${err.message}`
               );
+              next(err);
             } else {
               logger.info(
                 `[savePSLinkage] Nodes are successfully relinked to Params for "${psName}"`
@@ -277,19 +276,21 @@ module.exports = app => {
               myDataModelSchemas.ReloadPSSchemaParams(psName, err => {
                 if (err) {
                   logger.warn(
-                    `[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"!`
+                    `[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"! ${err.message}`
                   );
+
+                  next(err);
                 } else {
                   logger.info(
                     `[savePSLinkage] PSSchema params "${psName}" successfully reloaded.`
                   );
+
+                  res.status(200).json({
+                    message: `All nodeLinkages are saved successfully for "${psName}"`
+                  });
                 }
               });
             }
-          });
-
-          res.status(200).json({
-            message: `All nodeLinkages are saved successfully for "${psName}"`
           });
         }
       }
