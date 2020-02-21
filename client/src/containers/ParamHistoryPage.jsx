@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyParamHistoryForm from "../components/MyParamHistoryForm";
 import MyFetchClient from "./MyFetchClient";
-import makeUid from "../modules/MyFuncs";
+import {MakeUid} from "../modules/MyFuncs";
 
 const MATCHING_VALUES_LIMIT = 2500;
 
@@ -32,7 +32,7 @@ export default class ParamHistoryPage extends React.Component {
       url = `/api/paramValues?paramName=${historyParamName}`;
     }
 
-    const uid = makeUid(5);
+    const uid = MakeUid(5);
     const cmds = [
       {
         fetchUrl: url,

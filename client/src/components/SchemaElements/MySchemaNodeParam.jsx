@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Text, Rect, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
+import { RoundFloatString } from "../../modules/MyFuncs";
 import MyMenuBase from "./MyMenuBase";
 
 const optionHistory = "History";
@@ -54,6 +55,8 @@ export default class MySchemaNodeParam extends React.Component {
       }
     }
 
+    const paramValue = RoundFloatString(this.props.node.paramValue, 7);
+
     const body = (
       <>
         <Text x={0} y={0} fontSize={9} text={this.props.node.name} />
@@ -72,7 +75,7 @@ export default class MySchemaNodeParam extends React.Component {
           x={1}
           y={11}
           fontSize={9}
-          text={`${this.props.node.paramValue}`}
+          text={`${paramValue}`}
           onDblClick={this.handleDblClick}
         />
         <Text x={1} y={21} fontSize={9} text={this.props.node.paramName} />

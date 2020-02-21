@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyRegionSchema from "../components/MyRegionSchema";
 import MyFetchClient from "./MyFetchClient";
-import makeUid from "../modules/MyFuncs";
+import {MakeUid} from "../modules/MyFuncs";
 import MyStompClient from "../modules/MyStompClient";
 import { connect } from "react-redux";
 import { incCountOfUpdates } from "../reducers/actions";
@@ -102,7 +102,7 @@ class MyRegionSchemaContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -133,7 +133,7 @@ class MyRegionSchemaContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -152,7 +152,7 @@ class MyRegionSchemaContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -171,7 +171,7 @@ class MyRegionSchemaContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -194,7 +194,7 @@ class MyRegionSchemaContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -217,7 +217,7 @@ class MyRegionSchemaContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }

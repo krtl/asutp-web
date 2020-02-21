@@ -164,7 +164,7 @@ const init = done => {
   db.on("error", console.error.bind(console, "connection error"));
   db.on("connected", () => {
     console.info(`We are connected to ${config.dbUri}`);
-    amqpSender.start(config.amqpUri, "TestSender");
+    amqpSender.start(config.amqpUriTestSender, "TestSender");
 
     myDataModelNodes.LoadFromDB(err => {
       expect(err).to.equal(null);

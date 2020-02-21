@@ -11,7 +11,7 @@ const loggers = new Map();
 logger.info("serviceLogger is started.");
 
 amqpServiceLoggsReceiver.start(
-  config.amqpUri,
+  config.amqpUriLogger,
   config.amqpServiceLoggsQueueName,
   received => {
     logger.verbose(`[LoggsReceiver] Got msg: ${received}`);

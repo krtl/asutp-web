@@ -46,7 +46,7 @@ const verbose = message => {
 
 const setup = setts => {
   amqpSender = setts.amqpSender;
-  amqpSender.start(config.amqpUri, "LoggsSender");
+  amqpSender.start(config.amqpUriLogSender, "LoggsSender");
 };
 
 module.exports = { error, warn, info, debug, verbose, setup };

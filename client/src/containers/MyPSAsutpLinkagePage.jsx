@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import MyPSAsutpLinkageForm from '../components/MyPSAsutpLinkageForm';
 import MyFetchClient from './MyFetchClient';
-import makeUid from '../modules/MyFuncs';
+import {MakeUid} from '../modules/MyFuncs';
 
 
 export default class PSAsutpLinkagePage extends React.Component {
@@ -44,7 +44,7 @@ export default class PSAsutpLinkagePage extends React.Component {
     ]
 
     this.setState({
-        cmdUid: makeUid(5),
+        cmdUid: MakeUid(5),
         fetchRequests: cmds,
         psName: psName,
       });
@@ -64,7 +64,7 @@ export default class PSAsutpLinkagePage extends React.Component {
     ]
 
     this.setState({
-        cmdUid: makeUid(5),
+        cmdUid: MakeUid(5),
         fetchRequests: cmds,
       });
   }
@@ -96,7 +96,7 @@ export default class PSAsutpLinkagePage extends React.Component {
     ]
 
     this.setState({
-        cmdUid: makeUid(5),
+        cmdUid: MakeUid(5),
         fetchRequests: cmds,
       });
   }  

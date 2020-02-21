@@ -7,7 +7,7 @@ const logger = require("../logger");
 
 const Start = () => {
   amqpRawValuesReceiver.start(
-    config.amqpUri,
+    config.amqpUriAsutpValuesReceiver,
     config.amqpRawValuesQueueName,
     received => {
       logger.verbose(`[RawValuesReceiver] Got msg ${received}`);

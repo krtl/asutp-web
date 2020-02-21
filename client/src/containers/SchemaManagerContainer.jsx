@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import SchemaManager from "../components/SchemaManager";
 import MyFetchClient from "./MyFetchClient";
-import makeUid from "../modules/MyFuncs";
+import {MakeUid} from "../modules/MyFuncs";
 
 const MATCHING_ITEM_LIMIT = 10000;
 
@@ -56,7 +56,7 @@ export default class SchemaManagerContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -74,7 +74,7 @@ export default class SchemaManagerContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -92,7 +92,7 @@ export default class SchemaManagerContainer extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }

@@ -92,8 +92,7 @@ function createUsers(callback) {
 
   console.info("creating users");
   logger.info("creating users");
-  //  var users = require(importPath +'/users.json');
-
+  
   const fileName = `${config.importPath}users.json`;
   let rawdata = "";
   try {

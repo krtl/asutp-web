@@ -7,7 +7,7 @@ const MyServerStatus = ({ socketStatus, serverStatus, onClick }) => {
   let items = [];
 
   items.push(`socket: ${socketStatus}`);
-  for (var prop in serverStatus) {
+  for (let prop in serverStatus) {
     items.push(`${prop}: ${serverStatus[prop]}`);
   }
 

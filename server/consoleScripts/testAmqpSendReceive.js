@@ -33,7 +33,7 @@ db.on('connected', () => {
 });
 
 
-amqpSender.start(config.amqpUri, "TestSender");
+amqpSender.start(config.amqpUriTestSender, "TestSender");
 
 setInterval(() => {
   const dt = moment().format('YYYY-MM-DD HH:mm:ss.SSS');

@@ -47,7 +47,7 @@ db.on("connected", () => {
           logger.error(`Failed! Error: ${err.message}`);
         } else {
           amqpValuesReceiver.start(
-            config.amqpUri,
+            config.amqpUriDbInsertor,
             config.amqpInsertValuesQueueName,
             received => {
               logger.verbose(`[ValuesReceiver] Got msg ${received}`);
@@ -96,7 +96,7 @@ db.on("connected", () => {
           // should be remaked!
 
           amqpNodeStateReceiver.start(
-            config.amqpUri,
+            config.amqpUriDbInsertor,
             config.amqpInsertNodeStateQueueName,
             received => {
               logger.verbose(`[NodeStateReceiver] Got msg ${received}`);

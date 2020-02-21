@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyPSSchemeForm from "../components/MyPSSchemeForm";
 import MyFetchClient from "./MyFetchClient";
-import makeUid from "../modules/MyFuncs";
+import {MakeUid} from "../modules/MyFuncs";
 import MyStompClient from "../modules/MyStompClient";
 import { connect } from "react-redux";
 import { incCountOfUpdates } from "../reducers/actions";
@@ -152,7 +152,7 @@ class PSSchemePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -171,7 +171,7 @@ class PSSchemePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -190,7 +190,7 @@ class PSSchemePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -209,7 +209,7 @@ class PSSchemePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -228,7 +228,7 @@ class PSSchemePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }

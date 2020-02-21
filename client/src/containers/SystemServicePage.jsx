@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import SystemServiceForm from "../components/SystemServiceForm";
 import MyFetchClient from "./MyFetchClient";
-import makeUid from "../modules/MyFuncs";
+import {MakeUid} from "../modules/MyFuncs";
 
 const MATCHING_ITEM_LIMIT = 2500;
 
@@ -39,7 +39,7 @@ export default class SystemServicePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -59,7 +59,7 @@ export default class SystemServicePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
@@ -79,7 +79,7 @@ export default class SystemServicePage extends React.Component {
     ];
 
     this.setState({
-      cmdUid: makeUid(5),
+      cmdUid: MakeUid(5),
       fetchRequests: cmds
     });
   }
