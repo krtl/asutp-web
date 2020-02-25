@@ -10,7 +10,7 @@ require('../logger');
 
 const amqpSender = require('../amqp/amqp_send');
 // const MyParamValue = require('../models/myParamValue');
-// const lastValues = require('../coreBackground/lastValues');
+// const lastValues = require('../serviceBackground/lastValues');
 const moment = require('moment');
 
 

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 const { expect } = chai;
 const myDataModelNodes = require("../models/myDataModelNodes");
-const paramValuesProcessor = require("../coreBackground/paramValuesProcessor");
+const paramValuesProcessor = require("../serviceBackground/paramValuesProcessor");
 const myNodeState = require("../models/myNodeState");
 const MyChains = require("../models/myChains");
 

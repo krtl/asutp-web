@@ -4,7 +4,7 @@ const MyNode = require("./myNode");
 const MyNodePropNameParamRole = require("./MyNodePropNameParamRole");
 let lastValues = undefined;
 if (process.env.RECALCULATION) {
-  lastValues = require("../coreBackground/lastValues");
+  lastValues = require("../serviceBackground/lastValues");
 }
 
 class MyNodeEquiment extends MyNode {

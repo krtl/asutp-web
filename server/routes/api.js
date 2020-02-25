@@ -16,11 +16,11 @@ const DbAsutpConnection = require("../dbmodels/asutpConnection");
 
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
-const MyServerStatus = require("../coreServer/serverStatus");
+const MyServerStatus = require("../serviceServer/serverStatus");
 
 // const myDataModelNodes = require('../models/myDataModelNodes');
-const commandsServer = require("../coreServer/commandsServer");
-const lastParamValues = require("../coreServer/lastParamValues");
+const commandsServer = require("../serviceServer/commandsServer");
+const lastParamValues = require("../serviceServer/lastParamValues");
 
 const router = new express.Router();
 
@@ -68,8 +68,8 @@ router.post("/save_node", (req, res, next) => {
   const nodes = req.body;
   // throw new Error('TestErr!');
 
-  async.each(
-    nodes,
+  async.eachLimit(
+    nodes, 100,
     (locNode, callback) => {
       NetNode.findOne(
         {
@@ -316,8 +316,8 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
 
   const nodes = req.body;
 
-  async.each(
-    nodes,
+  async.eachLimit(
+    nodes, 100,
     (locNode, callback) => {
       DbNodeCoordinates.findOne(
         {

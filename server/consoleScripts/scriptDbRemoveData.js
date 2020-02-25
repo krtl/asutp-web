@@ -30,18 +30,18 @@ async.series(
   }
 );
 
-openDBConnection = callback => {
+function openDBConnection(callback) {
   console.info("open");
   // connect to the database and load dbmodels
   require("../dbmodels").connect(config.dbUri, false); // eslint-disable-line global-require
 
   mongoose.connection.on("open", callback);
-};
+}
 
-closeDBConnection = callback => {
+function closeDBConnection(callback) {
   mongoose.connection.close();
   callback();
-};
+}
 
 function removeParamValueData(callback) {
   dbParamValue.deleteMany({}, err => {

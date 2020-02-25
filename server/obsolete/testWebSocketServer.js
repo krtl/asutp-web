@@ -2,7 +2,7 @@ const chai = require("chai");
 
 const expect = chai.expect;
 const WebSocket = require("ws");
-const WebSocketServer = require("../coreBackground/webSocketServer");
+const WebSocketServer = require("../serviceBackground/webSocketServer");
 
 describe("WebSocketServer", () => {
   let wss;

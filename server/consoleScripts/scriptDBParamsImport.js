@@ -55,20 +55,6 @@ function Start(cb) {
 //   mongoose.connection.on('open', callback);
 // }
 
-// function requireModels(callback) {
-//   console.log("models");
-//   require("mongoose").model("Param"); // eslint-disable-line global-require
-//   require("mongoose").model("NodeSchema"); // eslint-disable-line global-require
-//   require("mongoose").model("AsutpConnection"); // eslint-disable-line global-require
-
-//   async.each(
-//     Object.keys(mongoose.models),
-//     (modelName, callback) => {
-//       mongoose.models[modelName].createIndexes(callback);
-//     },
-//     callback
-//   );
-// }
 
 function importParams(callback) {
   console.info("importing params..");
@@ -106,8 +92,8 @@ function importParams(callback) {
     return;
   }
 
-  async.each(
-    params,
+  async.eachLimit(
+    params, 100,
     (paramData, callback) => {
       const newParam = new DbParam(paramData);
 
@@ -122,14 +108,18 @@ function importParams(callback) {
 
             if (
               param.caption !== newParam.caption ||
-              param.description !== newParam.description
+              param.description !== newParam.description ||
+              param.trackAllChanges !== newParam.trackAllChanges ||
+              param.trackAveragePerHour !== newParam.trackAveragePerHour
             ) {
               DbParam.updateOne(
                 { _id: param.id },
                 {
                   $set: {
                     caption: newParam.caption,
-                    description: newParam.description
+                    description: newParam.description,
+                    trackAllChanges: newParam.trackAllChanges,
+                    trackAveragePerHour: newParam.trackAveragePerHour,
                   }
                 },
                 err => {
@@ -205,8 +195,8 @@ function importAsutpConnections(callback) {
     return;
   }
 
-  async.each(
-    connections,
+  async.eachLimit(
+    connections, 100,
     (paramData, callback) => {
       const newConnection = new DbAsutpConnection(paramData);
 

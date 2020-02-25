@@ -1,11 +1,11 @@
-function MyParam(name, caption, description) {
+function MyParam(name, caption, description, trackAllChanges, trackAveragePerHour) {
   this.name = name;
   this.caption = caption;
   this.description = description;
   this.schemaNames = []; // currently only PS schemas
 
-  this.trackAllChanges = true; // temporary
-  this.trackAveragePerHour = true; // temporary
+  this.trackAllChanges = trackAllChanges;
+  this.trackAveragePerHour = trackAveragePerHour;
 
   this.setSchemaNames = schemaNames => {
     this.schemaNames = schemaNames;

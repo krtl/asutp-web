@@ -1,12 +1,12 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 const config = require("../../config");
 const MyDataModelNodes = require("../models/myDataModelNodes");
-const amqpSender = require("../amqp/amqp_send");
+const amqpInsertValuesSender = require("../amqp/amqp_send2");
 // const logger = require('../logger');
 const moment = require("moment");
 
 const Start = () => {
-  amqpSender.start(config.amqpUriParamValuesSender, "ParamValuesSender");
+  amqpInsertValuesSender.start(config.amqpUriParamValuesSender, "ParamValuesSender");
 };
 
 const TrackDbParamValue = newParamValue => {
@@ -15,21 +15,21 @@ const TrackDbParamValue = newParamValue => {
     if (param.trackAllChanges || param.trackAveragePerHour) {
       const dt = moment(newParamValue.dt).format("YYYY-MM-DD HH:mm:ss.SSS");
       const s = `PV<>${newParamValue.paramName}<>${newParamValue.value}<>${newParamValue.qd}<>${dt}`;
-      amqpSender.send(config.amqpInsertValuesQueueName, s);
+      amqpInsertValuesSender.send(config.amqpInsertValuesQueueName, s);
     }
   }
 };
 
 const BlockParam = paramName => {
-  amqpSender.send(config.amqpInsertValuesQueueName, `BP<>${paramName}`);
+  amqpInsertValuesSender.send(config.amqpInsertValuesQueueName, `BP<>${paramName}`);
 };
 
 const UnblockParam = paramName => {
-  amqpSender.send(config.amqpInsertValuesQueueName, `UBP<>${paramName}`);
+  amqpInsertValuesSender.send(config.amqpInsertValuesQueueName, `UBP<>${paramName}`);
 };
 
 const Stop = () => {
-  amqpSender.stop();
+  amqpInsertValuesSender.stop();
 };
 
 module.exports.TrackDbParamValue = TrackDbParamValue;

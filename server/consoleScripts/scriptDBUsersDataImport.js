@@ -129,8 +129,8 @@ importLinkages = callback => {
     return;
   }
 
-  async.each(
-    linkages,
+  async.eachLimit(
+    linkages, 100,
     (linkageRawData, callback) => {
       getNode(linkageRawData.nodeName, (err, node) => {
         if (err) {
@@ -247,8 +247,8 @@ importNodeSchemas = callback => {
     return;
   }
 
-  async.each(
-    schemas,
+  async.eachLimit(
+    schemas, 100,
     (schemaRawData, callback) => {
       const newSchema = new DbNodeSchema(schemaRawData);
       DbNodeSchema.findOne(
@@ -352,8 +352,8 @@ importNodeCoordinates = callback => {
     return;
   }
 
-  async.each(
-    coordinates,
+  async.eachLimit(
+    coordinates, 100,
     (coordinatesRawData, callback) => {
       getNode(coordinatesRawData.nodeName, (err, node) => {
         if (err) {

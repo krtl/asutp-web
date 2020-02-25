@@ -1,6 +1,6 @@
 const myNodeType = require("../models/myNodeType");
 const MyDataModelNodes = require("../models/myDataModelNodes");
-const MyStompServer = require("../coreServer/myStompServer");
+const MyStompServer = require("./myStompServer");
 const MyNodePoweredStateValue = require("../models/myNodePoweredStateValue");
 const MyNodeSwitchedOnStateValue = require("../models/myNodeSwitchedOnStateValue");
 const logger = require("../logger");

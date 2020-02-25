@@ -5,7 +5,7 @@ const myNodeState = require("./myNodeState");
 const MyChain = require("./myChain");
 let lastValues = undefined;
 if (process.env.RECALCULATION) {
-  lastValues = require("../coreBackground/lastValues");
+  lastValues = require("../serviceBackground/lastValues");
 }
 
 class MyNodeSection extends MyNodeChainHolder {

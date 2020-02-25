@@ -22,8 +22,8 @@ const { expect } = chai;
 
 const DbBlockedParam = require("../dbmodels/blockedParam");
 const myDataModelNodes = require("../models/myDataModelNodes");
-const paramValuesProcessor = require("../coreBackground/paramValuesProcessor");
-const lastValues = require("../coreBackground/lastValues");
+const paramValuesProcessor = require("../serviceBackground/paramValuesProcessor");
+const lastValues = require("../serviceBackground/lastValues");
 // const MyParamValue = require('../models/myParamValue');
 const myNodeState = require("../models/myNodeState");
 const MyNodePropNameParamRole = require("../models/MyNodePropNameParamRole");

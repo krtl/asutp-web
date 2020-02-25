@@ -4,7 +4,7 @@ const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
 let paramValuesProcessor = undefined;
 if (process.env.RECALCULATION) {
-  paramValuesProcessor = require("../coreBackground/paramValuesProcessor");
+  paramValuesProcessor = require("../serviceBackground/paramValuesProcessor");
 }
 
 module.exports.connect = (uri, useDataModel, callback) => {

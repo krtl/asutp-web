@@ -1,5 +1,5 @@
 process.env.LOGGER_NAME = "serviceLogger";
-process.env.LOGGER_LEVEL = "debug";
+process.env.LOGGER_LEVEL = "info";
 
 const logger = require("../logger_to_file");
 const loggerStarter = require("./logger");

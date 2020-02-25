@@ -105,8 +105,8 @@ function createUsers(callback) {
 
   const users = JSON.parse(rawdata);
 
-  async.each(
-    users,
+  async.eachLimit(
+    users, 100,
     (userData, callback) => {
       const user = new mongoose.models.AuthUser(userData);
       user.save(err => {

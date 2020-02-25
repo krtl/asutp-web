@@ -93,71 +93,136 @@ function init(obj, callback) {
   }
 }
 
-function restoreLastParamValues(callback) {
-  // callback();
+// function restoreLastParamValues(callback) {
+//   const start = moment();
+//   DbParamValue.aggregate(
+//     [
+//       { $sort: { paramName: 1, dt: -1 } },
+//       {
+//         $group: {
+//           _id: "$paramName",
+//           dt: { $first: "$dt" },
+//           qd: { $first: "$qd" },
+//           value: { $first: "$value" }
+//         }
+//       }
+//     ],
+//     (err, values) => {
+//       if (err) {
+//         logger.error(
+//           `[!] [LastParamValues] Failed to get last value: "${err.message}".`
+//         );
+//         callback(err);
+//       } else {
+//         for (let i = 0; i < values.length; i += 1) {
+//           const value = values[i];
+//           const param = myDataModelNodes.GetParam(value._id);
+//           if (param) {
+//             const lastValue = new MyParamValue(
+//               value._id,
+//               value.value,
+//               value.dt,
+//               value.qd
+//             );
+//             lastValues.set(value._id, lastValue);
+//             if (lastChanged.indexOf(value._id) < 0) {
+//               lastChanged.push(value._id);
+//             }
+//             // console.debug("[]LastParamValue:", lastValue);
+//           } else {
+//             logger.warn(
+//               `[ModelNodes][restoreLastParamValue] failed to find param: ${value._id}`
+//             );
+//           }
+//         }
 
+//         const duration = moment().diff(start);
+//         logger.info(
+//           `[LastParamValues] ${
+//             lastValues.size
+//           } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
+//         );
+
+//         // eslint-disable-next-line no-console
+//         console.debug(
+//           `[LastParamValues] ${
+//             lastValues.size
+//           } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
+//         );
+
+//         callback();
+//       }
+//     }
+//   );
+// }
+
+function restoreLastParamValues(callback) {
   const start = moment();
 
-  // DbParamHalfHourValue
+  const params = myDataModelNodes.GetAllParamsAsArray();
 
-  DbParamValue.aggregate(
-    [
-      // { $match: { nodeName: "ps1part110cc1" } },
-      { $sort: { paramName: 1, dt: -1 } },
-      {
-        $group: {
-          _id: "$paramName",
-          dt: { $first: "$dt" },
-          qd: { $first: "$qd" },
-          value: { $first: "$value" }
-        }
+  async.eachLimit(
+    params,
+    100,
+    (param, callback) => {
+      let locDbParamValue = null;
+      if (param.trackAllChanges) {
+        locDbParamValue = DbParamValue;
+      } else if (param.trackAveragePerHour) {
+        locDbParamValue = DbParamHalfHourValue;
       }
-    ],
-    (err, values) => {
-      if (err) {
-        logger.error(
-          `[LastParamValues] Failed to get last value: "${err.message}".`
-        );
-        callback(err);
-      } else {
-        for (let i = 0; i < values.length; i += 1) {
-          const value = values[i];
-          const param = myDataModelNodes.GetParam(value._id);
-          if (param) {
-            const lastValue = new MyParamValue(
-              value._id,
-              value.value,
-              value.dt,
-              value.qd
-            );
-            lastValues.set(value._id, lastValue);
-            if (lastChanged.indexOf(value._id) < 0) {
-              lastChanged.push(value._id);
+
+      if (locDbParamValue) {
+        locDbParamValue.findOne(
+          { paramName: param.name },
+          null,
+          { sort: { dt: "desc" } },
+          (err, paramValue) => {
+            if (err) {
+              logger.error(
+                `[lastValues] Failed to get last value: "${err.message}".`
+              );
+            } else if (paramValue) {
+              const lastValue = new MyParamValue(
+                paramValue.paramName,
+                paramValue.value,
+                paramValue.dt,
+                paramValue.qd
+              );
+              lastValues.set(param.name, lastValue);
+            } else {
+              // temporary this way
+              const now = moment()
+                .minutes(0)
+                .seconds(0)
+                .milliseconds(0);
+              const lastValue = new MyParamValue(param.name, 0, now, "NA");
+              lastValues.set(param.name, lastValue);
             }
-            // console.debug("[]LastParamValue:", lastValue);
-          } else {
-            logger.warn(
-              `[ModelNodes][restoreLastParamValue] failed to find param: ${value._id}`
-            );
+
+            callback(err);
           }
-        }
-
-        const duration = moment().diff(start);
-        logger.info(
-          `[LastParamValues] ${
-            lastValues.size
-          } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
         );
-
-        // eslint-disable-next-line no-console
-        console.debug(
-          `[LastParamValues] ${
-            lastValues.size
-          } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
-        );
-
+      } else {
         callback();
       }
+    },
+    err => {
+      if (err) {
+        // setError(`Importing failed: ${err.message}`);
+        logger.error(
+          `[lastValues] ${lastValues.size} LastParamValues loaded wirh error: "${err.message}".`
+        );
+      } else {
+        const duration = moment().diff(start);
+        logger.info(
+          `[lastValues] ${
+            lastValues.size
+          } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
+        );
+      }
+
+      callback(err);
     }
   );
 }

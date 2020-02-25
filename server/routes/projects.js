@@ -184,8 +184,8 @@ module.exports = app => {
 
     const linkages = req.body;
 
-    async.each(
-      linkages,
+    async.eachLimit(
+      linkages, 100,
       (locLinkage, callback) => {
         DbNodeParamLinkage.findOne(
           {

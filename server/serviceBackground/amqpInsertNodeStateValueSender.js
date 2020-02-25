@@ -1,12 +1,12 @@
 /* eslint max-len: ["error", { "code": 300 }] */
 const config = require("../../config");
 const MyDataModelNodes = require("../models/myDataModelNodes");
-const amqpSender = require("../amqp/amqp_send");
+const amqpInsertNodeStateSender = require("../amqp/amqp_send1");
 // const logger = require('../logger');
 const moment = require("moment");
 
 const Start = () => {
-  amqpSender.start(config.amqpUriNodeStateSender, "NodeStateSender");
+  amqpInsertNodeStateSender.start(config.amqpUriNodeStateSender, "NodeStateSender");
 };
 
 const TrackDbNodePoweredStateValue = newNodeStateValue => {
@@ -16,7 +16,7 @@ const TrackDbNodePoweredStateValue = newNodeStateValue => {
   if (node !== undefined) {
     const dt = moment(newNodeStateValue.dt).format("YYYY-MM-DD HH:mm:ss.SSS");
     const s = `P<>${newNodeStateValue.nodeName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}`;
-    amqpSender.send(config.amqpInsertNodeStateQueueName, s);
+    amqpInsertNodeStateSender.send(config.amqpInsertNodeStateQueueName, s);
   }
 };
 
@@ -27,12 +27,12 @@ const TrackDbNodeSwitchedOnStateValue = newNodeStateValue => {
   if (node !== undefined) {
     const dt = moment(newNodeStateValue.dt).format("YYYY-MM-DD HH:mm:ss.SSS");
     const s = `S<>${newNodeStateValue.connectorName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}`;
-    amqpSender.send(config.amqpInsertNodeStateQueueName, s);
+    amqpInsertNodeStateSender.send(config.amqpInsertNodeStateQueueName, s);
   }
 };
 
 const Stop = () => {
-  amqpSender.stop();
+  amqpInsertNodeStateSender.stop();
 };
 
 module.exports.TrackDbNodePoweredStateValue = TrackDbNodePoweredStateValue;

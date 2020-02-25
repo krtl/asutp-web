@@ -1,4 +1,4 @@
-const MyStompServer = require("../coreServer/myStompServer");
+const MyStompServer = require("./myStompServer");
 
 function MyServerStatus() {
   this.clientsConnected = 0;

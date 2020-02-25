@@ -1,7 +1,7 @@
 process.env.RECALCULATION = "recalculation";
 process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "backgroundworker";
-process.env.LOGGER_LEVEL = "debug";
+process.env.LOGGER_LEVEL = "info";
 process.env.NODE_ENV = "production";
 
 const logger = require("./server/logger");
@@ -15,8 +15,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const config = require("./config");
 const dbModels = require("./server/dbmodels");
-const paramValuesProcessor = require("./server/coreBackground/paramValuesProcessor");
-const commandProcessor = require("./server/coreBackground/commandsBackground");
+const paramValuesProcessor = require("./server/serviceBackground/paramValuesProcessor");
+const commandProcessor = require("./server/serviceBackground/commandsBackground");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);

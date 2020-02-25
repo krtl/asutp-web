@@ -156,7 +156,13 @@ function loadParams(cb) {
   DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
     prms.forEach(prm => {
-      const p = new MyParam(prm.name, prm.caption, prm.description);
+      const p = new MyParam(
+        prm.name,
+        prm.caption,
+        prm.description,
+        prm.trackAllChanges,
+        prm.trackAveragePerHour
+      );
       params.set(prm.name, p);
     });
     return cb();
@@ -189,8 +195,9 @@ function loadNodesFromDB(schemeElement, cb) {
   const MyNodeObj = schemeElement[1];
   DbNodeObj.find({}, null, { sort: { name: 1 } }, (err, objcts) => {
     if (err) return cb(err);
-    async.each(
+    async.eachLimit(
       objcts,
+      100,
       (dbNodeObj, callback) => {
         DbNode.findOne(
           {
@@ -361,8 +368,9 @@ function getPSForJson(ps) {
 }
 
 function ExportPSs(callback) {
-  async.each(
+  async.eachLimit(
     PSs,
+    100,
     (locNodePair, callback) => {
       const ps = locNodePair[1];
       const json = MyNodeJsonSerialize(getPSForJson(ps));
@@ -385,8 +393,9 @@ function ExportPSs(callback) {
 
 function replaceNamesWithObjects(callback) {
   // linking names to objects
-  async.each(
+  async.eachLimit(
     Shema,
+    100,
     (schemeElement, callback) => {
       const DbNodeObj = schemeElement[0];
       let err = null;
@@ -959,130 +968,242 @@ const SetStateChangedHandlers = (
 function restoreLastPoweredStateValues(callback) {
   if (process.env.RECALCULATION) {
     const start = moment();
+    let count = 0;
 
-    DbNodePoweredStateValue.aggregate(
-      [
-        { $sort: { nodeName: 1, dt: -1 } },
-        {
-          $group: {
-            _id: "$nodeName",
-            dt: { $first: "$dt" },
-            state: { $first: "$newState" }
-          }
-        }
-      ],
-      (err, states) => {
-        if (err) {
-          callback(err);
-        } else {
-          const duration1 = moment().diff(start);
-          let count = 0;
+    const nodes = GetAllNodesAsArray();
 
-          for (let i = 0; i < states.length; i += 1) {
-            const state = states[i];
-            if (nodes.has(state._id)) {
-              const node = nodes.get(state._id);
-              // node.powered = state.state;
-              node.doOnPoweredStateChanged(state.state);
-              count += 1;
-
-              // console.debug("[]LastPoweredStateValue:", state);
-            } else {
-              logger.warn(
-                `[ModelNodes][restoreLastPoweredStateValues] failed to find node: ${state._id}`
+    async.eachLimit(
+      nodes,
+      100,
+      (node, callback) => {
+        DbNodePoweredStateValue.findOne(
+          { nodeName: node.name },
+          null,
+          { sort: { dt: "desc" } },
+          (err, nodeState) => {
+            if (err) {
+              logger.error(
+                `[ModelNodes] Failed to get LastPoweredState value: "${err.message}".`
               );
+            } else if (nodeState) {
+              node.doOnPoweredStateChanged(nodeState.newState);
+              count += 1;
             }
+
+            callback(err);
           }
-
-          const duration2 = moment().diff(start);
-          logger.debug(
-            `[ModelNodes] ${count} LastPoweredStateValues loaded in ${moment(
-              duration2
-            ).format("mm:ss.SSS")} (aggregation done in ${moment(
-              duration1
-            ).format("mm:ss.SSS")})`
+        );
+      },
+      err => {
+        if (err) {
+          logger.error(
+            `[ModelNodes] ${count} LastPoweredStateValues loaded wirh error: "${err.message}".`
           );
-          // eslint-disable-next-line no-console
-          console.debug(
+        } else {
+          const duration = moment().diff(start);
+          logger.info(
             `[ModelNodes] ${count} LastPoweredStateValues loaded in ${moment(
-              duration2
-            ).format("mm:ss.SSS")} (aggregation done in ${moment(
-              duration1
-            ).format("mm:ss.SSS")})`
+              duration
+            ).format("mm:ss.SSS")}`
           );
-
-          callback();
         }
+
+        callback(err);
       }
     );
   } else {
     callback();
   }
 }
+
+// function restoreLastPoweredStateValues(callback) {
+//   if (process.env.RECALCULATION) {
+//     const start = moment();
+
+//     DbNodePoweredStateValue.aggregate(
+//       [
+//         { $sort: { nodeName: 1, dt: -1 } },
+//         {
+//           $group: {
+//             _id: "$nodeName",
+//             dt: { $first: "$dt" },
+//             state: { $first: "$newState" }
+//           }
+//         }
+//       ],
+//       (err, states) => {
+//         if (err) {
+//           callback(err);
+//         } else {
+//           const duration1 = moment().diff(start);
+//           let count = 0;
+
+//           for (let i = 0; i < states.length; i += 1) {
+//             const state = states[i];
+//             if (nodes.has(state._id)) {
+//               const node = nodes.get(state._id);
+//               // node.powered = state.state;
+//               node.doOnPoweredStateChanged(state.state);
+//               count += 1;
+
+//               // console.debug("[]LastPoweredStateValue:", state);
+//             } else {
+//               logger.warn(
+//                 `[ModelNodes][restoreLastPoweredStateValues] failed to find node: ${state._id}`
+//               );
+//             }
+//           }
+
+//           const duration2 = moment().diff(start);
+//           logger.debug(
+//             `[ModelNodes] ${count} LastPoweredStateValues loaded in ${moment(
+//               duration2
+//             ).format("mm:ss.SSS")} (aggregation done in ${moment(
+//               duration1
+//             ).format("mm:ss.SSS")})`
+//           );
+//           // eslint-disable-next-line no-console
+//           console.debug(
+//             `[ModelNodes] ${count} LastPoweredStateValues loaded in ${moment(
+//               duration2
+//             ).format("mm:ss.SSS")} (aggregation done in ${moment(
+//               duration1
+//             ).format("mm:ss.SSS")})`
+//           );
+
+//           callback();
+//         }
+//       }
+//     );
+//   } else {
+//     callback();
+//   }
+// }
 
 function restoreLastSwitchedOnStateValues(callback) {
   if (process.env.RECALCULATION) {
     const start = moment();
+    let count = 0;
 
-    DbNodeSwitchedOnStateValue.aggregate(
-      [
-        { $sort: { connectorName: 1, dt: -1 } },
-        {
-          $group: {
-            _id: "$connectorName",
-            dt: { $first: "$dt" },
-            state: { $first: "$newState" }
-          }
-        }
-      ],
-      (err, states) => {
-        if (err) {
-          callback(err);
-        } else {
-          const duration1 = moment().diff(start);
-          let count = 0;
+    const allnodes = GetAllNodesAsArray();
+    const nodes = [];
+    for (let i = 0; i < allnodes.length; i += 1) {
+      const node = allnodes[i];
+      if (
+        node.nodeType === myNodeType.SECTIONCONNECTOR ||
+        node.nodeType === myNodeType.SEC2SECCONNECTOR
+      ) {
+        nodes.push(node);
+      }
+    }
 
-          for (let i = 0; i < states.length; i += 1) {
-            const state = states[i];
-            if (nodes.has(state._id)) {
-              const node = nodes.get(state._id);
-              // node.switchedOn = state.state;
-              node.doOnSwitchedOnStateChanged(state.state);
-              count += 1;
-
-              // console.debug("[]LastSwitchedOnStateValue:", state);
-            } else {
-              logger.warn(
-                `[ModelNodes][restoreLastSwitchedOnStateValues] failed to find node: ${state._id}`
+    async.eachLimit(
+      nodes,
+      100,
+      (node, callback) => {
+        DbNodeSwitchedOnStateValue.findOne(
+          { connectorName: node.name },
+          null,
+          { sort: { dt: "desc" } },
+          (err, nodeState) => {
+            if (err) {
+              logger.error(
+                `[ModelNodes] Failed to get LastSwitchedOnState value: "${err.message}".`
               );
+            } else if (nodeState) {
+              node.doOnSwitchedOnStateChanged(nodeState.newState);
+              count += 1;
             }
+
+            callback(err);
           }
-
-          const duration2 = moment().diff(start);
-          logger.debug(
-            `[ModelNodes] ${count} LastSwitchedOnStateValues loaded in ${moment(
-              duration2
-            ).format("mm:ss.SSS")} (aggregation done in ${moment(
-              duration1
-            ).format("mm:ss.SSS")})`
+        );
+      },
+      err => {
+        if (err) {
+          logger.error(
+            `[ModelNodes] ${count} LastSwitchedOnState loaded wirh error: "${err.message}".`
           );
-          // eslint-disable-next-line no-console
-          console.debug(
-            `[ModelNodes] ${count} LastSwitchedOnStateValues loaded in ${moment(
-              duration2
-            ).format("mm:ss.SSS")} (aggregation done in ${moment(
-              duration1
-            ).format("mm:ss.SSS")})`
+        } else {
+          const duration = moment().diff(start);
+          logger.info(
+            `[ModelNodes] ${count} LastSwitchedOnState loaded in ${moment(
+              duration
+            ).format("mm:ss.SSS")}`
           );
-
-          callback();
         }
+
+        callback(err);
       }
     );
   } else {
     callback();
   }
 }
+
+// function restoreLastSwitchedOnStateValues(callback) {
+//   if (process.env.RECALCULATION) {
+//     const start = moment();
+
+//     DbNodeSwitchedOnStateValue.aggregate(
+//       [
+//         { $sort: { connectorName: 1, dt: -1 } },
+//         {
+//           $group: {
+//             _id: "$connectorName",
+//             dt: { $first: "$dt" },
+//             state: { $first: "$newState" }
+//           }
+//         }
+//       ],
+//       (err, states) => {
+//         if (err) {
+//           callback(err);
+//         } else {
+//           const duration1 = moment().diff(start);
+//           let count = 0;
+
+//           for (let i = 0; i < states.length; i += 1) {
+//             const state = states[i];
+//             if (nodes.has(state._id)) {
+//               const node = nodes.get(state._id);
+//               // node.switchedOn = state.state;
+//               node.doOnSwitchedOnStateChanged(state.state);
+//               count += 1;
+
+//               // console.debug("[]LastSwitchedOnStateValue:", state);
+//             } else {
+//               logger.warn(
+//                 `[ModelNodes][restoreLastSwitchedOnStateValues] failed to find node: ${state._id}`
+//               );
+//             }
+//           }
+
+//           const duration2 = moment().diff(start);
+//           logger.debug(
+//             `[ModelNodes] ${count} LastSwitchedOnStateValues loaded in ${moment(
+//               duration2
+//             ).format("mm:ss.SSS")} (aggregation done in ${moment(
+//               duration1
+//             ).format("mm:ss.SSS")})`
+//           );
+//           // eslint-disable-next-line no-console
+//           console.debug(
+//             `[ModelNodes] ${count} LastSwitchedOnStateValues loaded in ${moment(
+//               duration2
+//             ).format("mm:ss.SSS")} (aggregation done in ${moment(
+//               duration1
+//             ).format("mm:ss.SSS")})`
+//           );
+
+//           callback();
+//         }
+//       }
+//     );
+//   } else {
+//     callback();
+//   }
+// }
 
 const GetPSForJson = name => {
   if (PSs.has(name)) {

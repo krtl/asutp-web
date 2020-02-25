@@ -96,17 +96,7 @@ function Start(cb) {
 //     mongoose.connection.on('open', callback);
 // }
 
-// function requireModels(callback) {
-//   console.info("models");
 
-//   async.each(
-//     Object.keys(mongoose.models),
-//     (modelName, callback) => {
-//       mongoose.models[modelName].createIndexes(callback);
-//     },
-//     callback
-//   );
-// }
 
 function getNode(nodeName, callback) {
   DbNode.findOne(

@@ -1,6 +1,6 @@
 process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "server";
-process.env.LOGGER_LEVEL = "debug";
+process.env.LOGGER_LEVEL = "info";
 process.env.NODE_ENV = "production";
 
 const logger = require("./server/logger");
@@ -20,11 +20,11 @@ const passport = require("passport");
 const config = require("./config");
 const routeUsers = require("./server/routes/users");
 const routeProjects = require("./server/routes/projects");
-const MyStompServer = require("./server/coreServer/myStompServer");
+const MyStompServer = require("./server/serviceServer/myStompServer");
 const dbModels = require("./server/dbmodels");
 // const paramValuesProcessor = require('./server/values/paramValuesProcessor');
-const commandsServer = require("./server/coreServer/commandsServer");
-const MyServerStatus = require("./server/coreServer/serverStatus");
+const commandsServer = require("./server/serviceServer/commandsServer");
+const MyServerStatus = require("./server/serviceServer/serverStatus");
 
 require("http-shutdown").extend();
 

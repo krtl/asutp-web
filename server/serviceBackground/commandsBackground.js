@@ -1,11 +1,11 @@
 const myNodeType = require("../models/myNodeType");
 const MyDataModelNodes = require("../models/myDataModelNodes");
-const MyStompServer = require("../coreServer/myStompServer");
+const MyStompServer = require("../serviceServer/myStompServer");
 const MyNodePoweredStateValue = require("../models/myNodePoweredStateValue");
 const MyNodeSwitchedOnStateValue = require("../models/myNodeSwitchedOnStateValue");
 const logger = require("../logger");
 const MyParamValue = require("../models/myParamValue");
-const myCoreCommandType = require("../coreServer/coreCommands");
+const myCoreCommandType = require("../serviceServer/coreCommands");
 const lastValues = require("./lastValues");
 const paramValuesProcessor = require("./paramValuesProcessor");
 

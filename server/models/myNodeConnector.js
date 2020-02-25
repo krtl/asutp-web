@@ -3,7 +3,7 @@ const MyNode = require("./myNode");
 const MyNodePropNameParamRole = require("../models/MyNodePropNameParamRole");
 let lastValues = undefined;
 if (process.env.RECALCULATION) {
-  lastValues = require("../coreBackground/lastValues");
+  lastValues = require("../serviceBackground/lastValues");
 }
 
 class MyNodeConnector extends MyNode {

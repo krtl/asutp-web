@@ -1,7 +1,7 @@
 const chai = require("chai");
 
 const expect = chai.expect;
-const lastValues = require("../coreBackground/lastValues");
+const lastValues = require("../serviceBackground/lastValues");
 const MyParamValue = require("../models/myParamValue");
 
 process.env.NOWTESTING = "test_lastValues";

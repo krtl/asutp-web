@@ -51,8 +51,7 @@ const loadLastTrackedValues = (callback) => {
 
   const params = MyDataModelParams.getAllParamsAsArray();
 
-  // events.EventEmitter.defaultMaxListeners = 125;
-  async.each(params, (param, callback) => {
+  async.eachLimit(params, 100, (param, callback) => {
     DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
       if (err) {
         logger.error(`[DbValuesTracker] Failed to get last half hour value: "${err.message}".`);

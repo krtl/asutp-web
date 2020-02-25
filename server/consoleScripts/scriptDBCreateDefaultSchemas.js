@@ -149,8 +149,8 @@ const createPSSchemas = callback => {
   updated = 0;
   const locPSs = myDataModelNodes.GetAllPSsAsArray();
 
-  async.each(
-    locPSs,
+  async.eachLimit(
+    locPSs, 100,
     (ps, cb) => {
       const schema = myDataModelSchemas.CreatePSSchema(ps);
       insertOrUpdateDBSchema(schema, cb);
@@ -177,8 +177,8 @@ const createRegionSchemas = callback => {
   updated = 0;
   const schemas = myDataModelSchemas.CreateNodeSchemasForRegions();
 
-  async.each(
-    schemas,
+  async.eachLimit(
+    schemas, 100,
     (schema, cb) => {
       insertOrUpdateDBSchema(schema, cb);
     },
@@ -236,8 +236,8 @@ insertOrUpdateDBCoordinates = (schema, callback) => {
     if (err) {
       callback(err);
     } else {
-      async.each(
-        nodeNames,
+      async.eachLimit(
+        nodeNames, 100,
         (nodeName, cb) => {
           const newCoordinate = defaultCoordinates.find(
             coordinate => coordinate.nodeName === nodeName
@@ -330,8 +330,8 @@ const createDefaultCoordinatesForSchemaNodes = callback => {
       if (err) {
         callback(err);
       } else {
-        async.each(
-          schemas,
+        async.eachLimit(
+          schemas, 100,
           (schema, cb) => {
             if (schema.nodeNames) {
               insertOrUpdateDBCoordinates(schema, cb);

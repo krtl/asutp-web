@@ -20,7 +20,7 @@ const SaveParamValue = (lastValue, callback) => {
   paramValue.save(err => {
     if (err) {
       logger.error(
-        `[dbParamValues] Failed to save value. Error: ${err.message}  ${lastValue}`
+        `[!][dbParamValues] Failed to save value. Error: ${err.message}  ${lastValue}`
       );
     }
     if (callback) {
@@ -89,7 +89,9 @@ const RemoveOldParamValues = callback => {
   const olderThan = moment().subtract(200, "days");
   dbParamValue.deleteMany({ dt: { $lt: olderThan.toDate() } }, err => {
     if (err) {
-      logger.error(`[dbParamValues] Failed to delete value. Error: ${err.message}`);
+      logger.error(
+        `[dbParamValues] Failed to delete value. Error: ${err.message}`
+      );
     }
     if (callback) {
       callback(err);
@@ -98,7 +100,9 @@ const RemoveOldParamValues = callback => {
 
   dbParamHalfHourValue.deleteMany({ dt: { $lt: olderThan.toDate() } }, err => {
     if (err) {
-      logger.error(`[dbParamValues] Failed to delete value. Error: ${err.message}`);
+      logger.error(
+        `[dbParamValues] Failed to delete value. Error: ${err.message}`
+      );
     }
     if (callback) {
       callback(err);
@@ -135,7 +139,9 @@ const UnblockDbParamValue = paramName => {
     } else if (param) {
       DbBlockedParam.deleteOne({ name: paramName }, err => {
         if (err) {
-          logger.error(`[UnblockDbParam] Failed to delete. Error: ${err.message}`);
+          logger.error(
+            `[UnblockDbParam] Failed to delete. Error: ${err.message}`
+          );
         } else {
           logger.debug(`[dbParamValues] param "${paramName}" is unblocked.`);
         }

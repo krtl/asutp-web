@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const { expect } = chai;
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
-const lastValues = require("../coreBackground/lastValues");
+const lastValues = require("../serviceBackground/lastValues");
 const MyParamValue = require("../models/myParamValue");
 
 const MyNodePropNameParamRole = require("../models/MyNodePropNameParamRole");
