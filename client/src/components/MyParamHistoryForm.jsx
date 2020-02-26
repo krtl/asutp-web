@@ -28,20 +28,17 @@ export default class MyParamHistoryForm extends React.Component {
     super(props);
 
     this.handleReloadParamValuesClick = this.handleReloadParamValuesClick.bind(this);
-    this.handleReloadParamHalfHourValuesClick = this.handleReloadParamHalfHourValuesClick.bind(this);
   }
 
   componentDidMount() {
-    this.props.onReloadParamValues(this.props.paramName, true);
+    this.props.onReloadParamValues(this.props.paramName);
   }
 
   handleReloadParamValuesClick() {
-    this.props.onReloadParamValues(this.props.paramName, false);
+    this.props.onReloadParamValues(this.props.paramName);
   }
 
-  handleReloadParamHalfHourValuesClick() {
-    this.props.onReloadParamValues(this.props.paramName, true);
-  }    
+ 
 
   render() {
     const data = [      
@@ -63,7 +60,6 @@ export default class MyParamHistoryForm extends React.Component {
         <div>
           <CardText>{this.props.paramName}</CardText>
           <RaisedButton onClick={this.handleReloadParamValuesClick}>Reload</RaisedButton>
-          <RaisedButton onClick={this.handleReloadParamHalfHourValuesClick}>HalfHour</RaisedButton>
         </div>
 
         <Tabs>

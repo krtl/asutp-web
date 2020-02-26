@@ -69,7 +69,8 @@ router.post("/save_node", (req, res, next) => {
   // throw new Error('TestErr!');
 
   async.eachLimit(
-    nodes, 100,
+    nodes,
+    100,
     (locNode, callback) => {
       NetNode.findOne(
         {
@@ -187,14 +188,36 @@ router.get("/paramValues", (req, res, next) => {
     return;
   }
 
-  DbParamValues.find({ paramName })
-    .sort({ dt: "desc" })
-    .limit(500)
-    .exec((err, paramValues) => {
-      if (err) return next(err);
-      res.status(200).json(paramValues);
+  const param = myDataModelNodes.GetParam(paramName);
+  if (param) {
+    if (param.trackAllChanges) {
+      DbParamValues.find({ paramName })
+      .sort({ dt: "desc" })
+      .limit(500)
+      .exec((err, paramValues) => {
+        if (err) return next(err);
+        res.status(200).json(paramValues);
+        return 0;
+      });
+    } else if (param.trackAveragePerHour) {
+      DbParamHalfHourValues.find({ paramName })
+      .sort({ dt: "desc" })
+      .limit(500)
+      .exec((err, paramValues) => {
+        if (err) return next(err);
+        res.status(200).json(paramValues);
+        return 0;
+      });
+    } else {
+      res.status(200).json([]);
       return 0;
+    }
+  } else {
+    res.json({
+      error: `Param with name="${paramName}" is not found!`
     });
+    return;
+  }
 });
 
 router.get("/paramHalfHourValues", (req, res, next) => {
@@ -317,7 +340,8 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
   const nodes = req.body;
 
   async.eachLimit(
-    nodes, 100,
+    nodes,
+    100,
     (locNode, callback) => {
       DbNodeCoordinates.findOne(
         {

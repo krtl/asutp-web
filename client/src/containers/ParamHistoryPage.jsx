@@ -20,17 +20,12 @@ export default class ParamHistoryPage extends React.Component {
     this.reloadParamValues = this.reloadParamValues.bind(this);
   }
 
-  reloadParamValues(paramName, useHalfHourValues) {
+  reloadParamValues(paramName) {
     const historyParamName = window.location.href.slice(
       window.location.href.lastIndexOf("/") + 1
     );
 
-    let url = "";
-    if (useHalfHourValues) {
-      url = `/api/paramHalfHourValues?paramName=${historyParamName}`;
-    } else {
-      url = `/api/paramValues?paramName=${historyParamName}`;
-    }
+    const url = `/api/paramValues?paramName=${historyParamName}`;
 
     const uid = MakeUid(5);
     const cmds = [
