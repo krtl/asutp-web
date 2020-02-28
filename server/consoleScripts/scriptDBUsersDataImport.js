@@ -8,6 +8,7 @@ process.env.LOGGER_NAME = "scriptDBUsersDataImport";
 process.env.LOGGER_LEVEL = "debug";
 const logger = require("../logger_to_file");
 
+const DbUser = require("../dbmodels/authUser");
 const DbNode = require("../dbmodels/node");
 const DbParam = require("../dbmodels/param");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
@@ -27,6 +28,7 @@ Start = cb => {
   async.series(
     [
       openDBConnection,
+      importUsers,
       importLinkages,
       importNodeSchemas,
       importNodeCoordinates,
@@ -63,6 +65,114 @@ openDBConnection = callback => {
 closeDBConnection = callback => {
   mongoose.connection.close();
   callback();
+};
+
+getUser = (userEmail, callback) => {
+  DbUser.findOne(
+    {
+      email: userEmail
+    },
+    (err, user) => {
+      callback(err, user);
+    }
+  );
+};
+
+importUsers = callback => {
+  let rawdata = null;
+  const fileName = `${config.importPath}authUser.json`;
+
+  if (!fs.existsSync(fileName)) {
+    const err = Error(`file not exists: "${fileName}"`);
+    console.info(err.message);
+    logger.info(err.message);
+    callback();
+    return;
+  }
+
+  try {
+    rawdata = fs.readFileSync(fileName);
+  } catch (err) {
+    console.error(`Read file error: ${err.message}`);
+    logger.error(`Read file error: ${err.message}`);
+    callback(err);
+    return;
+  }
+
+  let users;
+  try {
+    users = JSON.parse(rawdata);
+  } catch (e) {
+    console.error(`create linkage Error: ${e.message}`);
+    logger.error(`create linkage Error: ${e.message}`);
+    callback(e);
+    return;
+  }
+
+  async.eachLimit(
+    users,
+    100,
+    (userRawData, callback) => {
+      const newUser = new DbUser(userRawData);
+      getUser(userRawData.email, (err, user) => {
+        if (err) {
+          callback(err);
+        } else if (user) {
+          if (
+            userRawData.password !== user.password ||
+            userRawData.name !== user.name ||
+            userRawData.role !== user.role ||
+            userRawData.might !== user.might ||
+            userRawData.created !== user.created
+          ) {
+            DbUser.updateOne(
+              { _id: user.id },
+              {
+                $set: {
+                  password: user.password,
+                  name: user.name,
+                  role: user.role,
+                  might: user.might,
+                  created: user.created
+                }
+              },
+              err => {
+                if (err) {
+                  callback(err);
+                } else {
+                  logger.info(`User "${user.email}"(${user.name}) updated`);
+                  callback(null);
+                }
+              }
+            );
+          } else {
+            callback(null);
+          }
+        } else {
+          newUser.save(err => {
+            if (err) {
+              callback(`Exception on save User: ${err.message}`);
+            } else {
+              logger.info(
+                `User "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`
+              );
+              callback(null);
+            }
+          });
+        }
+      });
+    },
+    err => {
+      if (err) {
+        console.error(`Failed: ${err.message}`);
+        logger.error(`Failed: ${err.message}`);
+      } else {
+        console.info(`Success: ${fileName}`);
+        logger.info(`Success: ${fileName}`);
+      }
+      callback(err);
+    }
+  );
 };
 
 getNode = (nodeName, callback) => {
@@ -130,7 +240,8 @@ importLinkages = callback => {
   }
 
   async.eachLimit(
-    linkages, 100,
+    linkages,
+    100,
     (linkageRawData, callback) => {
       getNode(linkageRawData.nodeName, (err, node) => {
         if (err) {
@@ -248,7 +359,8 @@ importNodeSchemas = callback => {
   }
 
   async.eachLimit(
-    schemas, 100,
+    schemas,
+    100,
     (schemaRawData, callback) => {
       const newSchema = new DbNodeSchema(schemaRawData);
       DbNodeSchema.findOne(
@@ -353,7 +465,8 @@ importNodeCoordinates = callback => {
   }
 
   async.eachLimit(
-    coordinates, 100,
+    coordinates,
+    100,
     (coordinatesRawData, callback) => {
       getNode(coordinatesRawData.nodeName, (err, node) => {
         if (err) {

@@ -1,14 +1,21 @@
 const mongoose = require("mongoose");
 
-const DbUser = require("../dbmodels/authUser");
-const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
-const DbNodeSchema = require("../dbmodels/nodeSchema");
-const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
+const DbParamValue = require("../dbmodels/paramValue");
+const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
+const DbBlockedParam = require("../dbmodels/blockedParam");
+const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
+const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
 
 const async = require("async");
 const config = require("../../config");
 
-const models = [DbUser, DbNodeParamLinkage, DbNodeCoordinates, DbNodeSchema];
+const models = [
+  DbParamValue,
+  DbParamHalfHourValue,
+  DbBlockedParam,
+  DbNodePoweredStateValue,
+  DbNodeSwitchedOnStateValue
+];
 
 async.series([openDBConnection, removeDataForList, closeDBConnection], err => {
   //  console.log(arguments);

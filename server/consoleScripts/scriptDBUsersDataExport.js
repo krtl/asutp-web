@@ -22,6 +22,7 @@ Start = cb => {
   async.series(
     [
       openDBConnection,
+      exportUsers,
       exportLinkages,
       exportNodeSchemas,
       exportNodeCoordinates,
@@ -53,6 +54,21 @@ openDBConnection = callback => {
 closeDBConnection = callback => {
   mongoose.connection.close();
   callback();
+};
+
+exportUsers = callback => {
+  DbUser.find({}, (err, user) => {
+    if (err) {
+      callback(err);
+    } else {
+      const fileName = `${config.exportPath}authUser${Date.now()}.json`;
+      const json = JSON.stringify(user);
+      fs.writeFile(fileName, json, "utf8", err => {
+        console.info(`done: ${fileName}`);
+        callback(err);
+      });
+    }
+  }).select({ email: 1, password: 1, name: 1, role: 1, might: 1, created: 1, _id: 0 });
 };
 
 exportLinkages = callback => {

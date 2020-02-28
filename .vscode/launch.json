@@ -57,6 +57,18 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "DBDataBackup",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBDataBackup.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "DBDataRestore",
+      "program": "${workspaceFolder}/server/consoleScripts/scriptDBDataRestore.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "DBRecreateAndReimport",
       "program": "${workspaceFolder}/server/consoleScripts/scriptDBRecreateAndReimport.js"
     },
