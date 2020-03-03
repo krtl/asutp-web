@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
 const ParamHalfHourValueSchema = new mongoose.Schema({
+  param: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Param"
+  },
   paramName: {
     type: String,
     required: true,
-    index: true,
+    // index: true,
   },
   value: Number,
   qd: {
@@ -14,10 +18,11 @@ const ParamHalfHourValueSchema = new mongoose.Schema({
   dt: {
     type: Date,
     default: Date.now,
-    index: true,
+    // index: true,
   },
 });
 
+ParamHalfHourValueSchema.index({ param: 1, dt: -1 }, { unique: true });
 ParamHalfHourValueSchema.index({ paramName: 1, dt: -1 }, { unique: true });
 
 

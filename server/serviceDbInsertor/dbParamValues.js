@@ -6,6 +6,7 @@ const logger = require("../logger");
 
 const SaveParamValue = (lastValue, callback) => {
   const paramValue = dbParamValue({
+    param: lastValue.param._id,
     paramName: lastValue.paramName,
     value: Math.round(lastValue.value * 1000) / 1000,
     dt: lastValue.dt,
@@ -31,6 +32,7 @@ const SaveParamValue = (lastValue, callback) => {
 
 const SaveHalfHourParamValue = (lastValue, callback) => {
   const paramValue = dbParamHalfHourValue({
+    param: lastValue.param._id,
     paramName: lastValue.paramName,
     value: Math.round(lastValue.value * 1000) / 1000,
     dt: lastValue.dt, // check minutes should be 00 or 30

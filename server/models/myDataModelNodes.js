@@ -157,6 +157,7 @@ function loadParams(cb) {
     if (err) return cb(err);
     prms.forEach(prm => {
       const p = new MyParam(
+        prm._id,
         prm.name,
         prm.caption,
         prm.description,

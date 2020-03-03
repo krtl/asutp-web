@@ -4,6 +4,7 @@ function MyParamValue(paramName, value, dt, qd) {
   this.dt = dt;
   this.qd = qd;
 }
+// this.param = param;
 
 function myParamStringifyReplacer(key, value) {
   // if (key === 'listNames') return undefined; // for future use

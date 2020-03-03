@@ -174,6 +174,7 @@ function restoreLastParamValues(callback) {
 
       if (locDbParamValue) {
         locDbParamValue.findOne(
+          // { param: param._id },
           { paramName: param.name },
           null,
           { sort: { dt: "desc" } },
@@ -216,9 +217,9 @@ function restoreLastParamValues(callback) {
       } else {
         const duration = moment().diff(start);
         logger.info(
-          `[lastValues] ${
-            lastValues.size
-          } LastParamValues loaded in ${moment(duration).format("mm:ss.SSS")}`
+          `[lastValues] ${lastValues.size} LastParamValues loaded in ${moment(
+            duration
+          ).format("mm:ss.SSS")}`
         );
       }
 

@@ -61,6 +61,7 @@ function loadParams(cb) {
     if (err) return cb(err);
     prms.forEach(prm => {
       const p = new MyParam(
+        prm._id,
         prm.name,
         prm.caption,
         prm.description,
@@ -73,9 +74,9 @@ function loadParams(cb) {
   });
 }
 
-const getParam = paramName => params.get(paramName);
-const getAllParamsAsArray = () => Array.from(params.values());
+const GetParam = paramName => params.get(paramName);
+const GetAllParamsAsArray = () => Array.from(params.values());
 
 module.exports.LoadFromDB = LoadFromDB;
-module.exports.getParam = getParam;
-module.exports.getAllParamsAsArray = getAllParamsAsArray;
+module.exports.GetParam = GetParam;
+module.exports.GetAllParamsAsArray = GetAllParamsAsArray;

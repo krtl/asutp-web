@@ -7,9 +7,9 @@ const logger = require("../logger");
 const halfHourValuesTracker = require("./halfHourValuesTracker");
 
 const trackDbParamValue = newParamValue => {
-  const param = MyDataModelParams.getParam(newParamValue.paramName);
-  if (param !== undefined) {
-    if (param.trackAllChanges) {
+  newParamValue.param = MyDataModelParams.GetParam(newParamValue.paramName);
+  if (newParamValue.param !== undefined) {
+    if (newParamValue.param.trackAllChanges) {
       dbParamValues.SaveParamValue(newParamValue);
     }
 
@@ -31,7 +31,7 @@ const trackDbParamValue = newParamValue => {
     //   }
     // }
 
-    if (param.trackAveragePerHour) {
+    if (newParamValue.param.trackAveragePerHour) {
       halfHourValuesTracker.trackHalfHourParamValue(newParamValue);
     }
   } else {
@@ -40,6 +40,5 @@ const trackDbParamValue = newParamValue => {
     );
   }
 };
-
 
 module.exports.trackDbParamValue = trackDbParamValue;

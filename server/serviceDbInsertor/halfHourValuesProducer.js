@@ -40,6 +40,7 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
 
     for (let i = 0; i < missedMoments.length; i += 1) {
       const newValue = new MyParamValue(lastValue.paramName, lastValue.value, missedMoments[i].toDate(), lastValue.qd);
+      newValue.param = lastValue.param; 
       let avgValue = 0;
       let avgCount = 0;
       for (let j = 0; j < trackedValues.length; j += 1) {
@@ -79,6 +80,7 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
             valuesForUpdate.set(dtKey, locValue);
           } else {
             const newValue = new MyParamValue(locTrackedValue.paramName, locTrackedValue.value, dtMoment.toDate(), locTrackedValue.qd);
+            newValue.param = lastValue.param; 
             valuesForUpdate.set(dtKey, newValue);
           }
           locTrackedValue.tag = 1;
@@ -101,6 +103,7 @@ const produceHalfHourParamValues = (currentMoment, lastValue, trackedValues, cal
     for (let i = 0; i < missedMoments.length; i += 1) {
       const locMoment = missedMoments[i];
       const newValue = new MyParamValue(lastValue.paramName, lastValue.value, locMoment.toDate(), lastValue.qd);
+      newValue.param = lastValue.param; 
       valuesForInsert.push(newValue);
     }
   }

@@ -1,4 +1,5 @@
-function MyParam(name, caption, description, trackAllChanges, trackAveragePerHour) {
+function MyParam(_id, name, caption, description, trackAllChanges, trackAveragePerHour) {
+  this._id = _id;
   this.name = name;
   this.caption = caption;
   this.description = description;
@@ -13,6 +14,7 @@ function MyParam(name, caption, description, trackAllChanges, trackAveragePerHou
 }
 
 function myParamStringifyReplacer(key, value) {
+  if (key === "_id") return undefined;
   if (key === "schemaNames") return undefined;
   if (key === "trackAllChanges") return undefined;
   if (key === "trackAveragePerHour") return undefined;

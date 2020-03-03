@@ -41,7 +41,6 @@ db.on("connected", () => {
     if (err) {
       logger.error(`Failed! Error: ${err.message}`);
     } else {
-      // logger.info('Done!');
       HalfHourValuesTracker.loadLastTrackedValues(err => {
         if (err) {
           logger.error(`Failed! Error: ${err.message}`);

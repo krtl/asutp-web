@@ -15,9 +15,9 @@ const paramValueBuffers = new Map();
 const lastTrackedValues = new Map();
 
 const trackHalfHourParamValue = (newParamValue) => {
-  const param = MyDataModelParams.getParam(newParamValue.paramName);
-  if (param !== undefined) {
-    if (param.trackAveragePerHour) {
+  // newParamValue.param = MyDataModelParams.GetParam(newParamValue.paramName); // this is already done previously
+  if (newParamValue.param !== undefined) {
+    if (newParamValue.param.trackAveragePerHour) {
       let trackedArr = paramValueBuffers.get(newParamValue.paramName);
       if (trackedArr === undefined) {
         trackedArr = [];
@@ -49,7 +49,7 @@ const trackHalfHourParamValue = (newParamValue) => {
 const loadLastTrackedValues = (callback) => {
   const start = moment();
 
-  const params = MyDataModelParams.getAllParamsAsArray();
+  const params = MyDataModelParams.GetAllParamsAsArray();
 
   async.eachLimit(params, 100, (param, callback) => {
     DbParamHalfHourValue.findOne({ paramName: param.name }, null, { sort: { dt: 'desc' } }, (err, paramValue) => {
@@ -57,11 +57,13 @@ const loadLastTrackedValues = (callback) => {
         logger.error(`[DbValuesTracker] Failed to get last half hour value: "${err.message}".`);
       } else if (paramValue) {
         const lastValue = new MyParamValue(paramValue.paramName, paramValue.value, paramValue.dt, paramValue.qd);
+        lastValue.param = param; 
         lastTrackedValues.set(param.name, lastValue);
       } else {
         // temporary this way
         const now = moment().minutes(0).seconds(0).milliseconds(0);
         const lastValue = new MyParamValue(param.name, 0, now, 'NA');
+        lastValue.param = param; 
         lastTrackedValues.set(param.name, lastValue);
       }
 
