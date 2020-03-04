@@ -19,6 +19,13 @@ const amqpSender = require("../amqp/amqp_send");
 
 let timerId;
 let ticks = 0;
+let maxticks = 10;
+let myArgs = process.argv.slice(2);
+if (myArgs.length > 0) {
+  maxticks = parseInt(myArgs[0], 10);
+}
+
+console.debug(`Started with maxticks=${maxticks}.`);
 
 let testsPassed = 0;
 let testsFailed = 0;
@@ -83,26 +90,26 @@ const finit = done => {
 const sendTestValue = done => {
   timerId = setInterval(() => {
     const dt = moment().format("YYYY-MM-DD HH:mm:ss.SSS");
-    const dt1 = moment()
-      .subtract(100, "days")
-      .format("YYYY-MM-DD HH:mm:ss.SSS");
-    const dt2 = moment()
-      .subtract(200, "days")
-      .format("YYYY-MM-DD HH:mm:ss.SSS");
+    // const dt1 = moment()
+    //   .subtract(100, "days")
+    //   .format("YYYY-MM-DD HH:mm:ss.SSS");
+    // const dt2 = moment()
+    //   .subtract(200, "days")
+    //   .format("YYYY-MM-DD HH:mm:ss.SSS");
 
     const value = Math.floor(Math.random() * Math.floor(300000));
     const params = MyDataModelParams.GetAllParamsAsArray();
 
     for (let i = 0; i < params.length; i++) {
-      const paramName = params[i].paramName;
-      amqpSender.send(
-        config.amqpRawValuesQueueName,
-        `${paramName}<>${value}<>NA<>${dt2}`
-      );
-      amqpSender.send(
-        config.amqpRawValuesQueueName,
-        `${paramName}<>${value}<>NA<>${dt1}`
-      );
+      const paramName = params[i].name;
+      // amqpSender.send(
+      //   config.amqpRawValuesQueueName,
+      //   `${paramName}<>${value}<>NA<>${dt2}`
+      // );
+      // amqpSender.send(
+      //   config.amqpRawValuesQueueName,
+      //   `${paramName}<>${value}<>NA<>${dt1}`
+      // );
       amqpSender.send(
         config.amqpRawValuesQueueName,
         `${paramName}<>${value}<>NA<>${dt}`
@@ -114,10 +121,10 @@ const sendTestValue = done => {
 
     ticks++;
 
-    if (ticks > 1000) {
+    if (ticks > maxticks) {
       done();
     }
-  }, 2000);
+  }, 5000);
 };
 
 startTests();

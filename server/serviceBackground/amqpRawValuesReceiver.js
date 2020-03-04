@@ -1,4 +1,5 @@
 const moment = require("moment");
+const myDataModelNodes = require("../models/myDataModelNodes");
 const MyParamValue = require("../models/myParamValue");
 const config = require("../../config");
 const amqpRawValuesReceiver = require("../amqp/amqp_receive");
@@ -24,7 +25,14 @@ const Start = () => {
             `[RawValuesReceiver][MyParamValue] Failed to parse floating-point value from: ${received}`
           );
         } else {
-          lastValues.setRawValue(obj);
+          const param = myDataModelNodes.GetParam(s[0]);
+          if (param) {
+            lastValues.setRawValue(obj);
+          } else {
+            logger.warn(
+              `[RawValuesReceiver][MyParamValue] Cant find param from:  ${received}`
+            );
+          }
         }
       } else {
         logger.error(
