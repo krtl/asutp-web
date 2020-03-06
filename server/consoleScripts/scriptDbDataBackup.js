@@ -61,7 +61,7 @@ function backupDataForList(callback) {
     },
     err => {
       if (err) {
-        console.Error(`Failed: ${err.message}`);
+        console.error(`Failed: ${err.message}`);
       } else {
         console.info("success.");
       }
@@ -72,7 +72,13 @@ function backupDataForList(callback) {
 
 function backupDataFor(element, callback) {
   element.model
-    .find({}, (err, linkages) => {
+    .find({})
+    .sort({ _id: "desc" })
+    // .sort({ dt: "desc" })
+    // .select("-_id");
+    .select({ _id: 0, __v: 0 }) //exclude id and __v
+    .limit(500000)
+    .exec((err, linkages) => {
       if (err) {
         callback(err);
       } else {
@@ -85,9 +91,7 @@ function backupDataFor(element, callback) {
           callback(err);
         });
       }
-    })
-    // .select("-_id");
-    .select({ _id: 0, __v: 0 }); //exclude id and __v
+    });
 }
 
 Start();

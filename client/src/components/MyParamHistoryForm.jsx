@@ -1,70 +1,107 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import RaisedButton from 'material-ui/RaisedButton';
+import React from "react";
+import PropTypes from "prop-types";
+import { Tabs, Tab } from "material-ui/Tabs";
+import RaisedButton from "material-ui/RaisedButton";
 // import SelectField from 'material-ui/SelectField';
-import { Card, CardText } from 'material-ui/Card';
+
+import TextField from "@material-ui/core/TextField";
+
+import { Card, CardText } from "material-ui/Card";
 import {
   Table,
   TableBody,
   TableHeader,
   TableHeaderColumn,
   TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import Moment from 'react-moment';
+  TableRowColumn
+} from "material-ui/Table";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend
+} from "recharts";
+import Moment from "react-moment";
 
+import { formatDateTime } from "../modules/formatDateTime";
 
 const styles = {
+  textField: {
+    marginLeft: 1,
+    marginRight: 1,
+    width: 200
+  },
   cellCustomHeight: {
-    height: 12,
+    height: 12
   }
 };
-
 
 export default class MyParamHistoryForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleReloadParamValuesClick = this.handleReloadParamValuesClick.bind(this);
+    this.state = {
+      dt: formatDateTime(new Date())
+    };
+
+    this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
+    this.handleReloadParamValuesClick = this.handleReloadParamValuesClick.bind(
+      this
+    );
   }
 
   componentDidMount() {
-    this.props.onReloadParamValues(this.props.paramName);
+    this.props.onReloadParamValues(this.props.paramName, this.state.dt);
   }
 
   handleReloadParamValuesClick() {
-    this.props.onReloadParamValues(this.props.paramName);
+    this.props.onReloadParamValues(this.props.paramName, this.state.dt);
   }
 
- 
+  handleDateTimeChange(event) {
+    this.setState({ dt: event.target.value });
+  }
 
   render() {
-    const data = [      
-    ];
+    const data = [];
 
-    this.props.paramValues.forEach((vl) => {
-      data.push(
-        {
-          value: vl.value,
-          dt: vl.dt,  // dt currently not works.
-        },
-      );
+    this.props.paramValues.forEach(vl => {
+      data.push({
+        value: vl.value,
+        dt: vl.dt // dt currently not works.
+      });
     });
 
-
     return (
-      
-      <Card className='container'>
+      <Card className="container">
         <div>
           <CardText>{this.props.paramName}</CardText>
-          <RaisedButton onClick={this.handleReloadParamValuesClick}>Reload</RaisedButton>
+          <TextField
+            id="datetime-local"
+            type="datetime-local"
+            // pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}"
+            required
+            defaultValue={this.state.dt}
+            className={styles.textField}
+            InputLabelProps={{
+              shrink: true
+            }}
+            inputProps={{
+              step: 1
+            }}
+            onChange={this.handleDateTimeChange}
+          />
+          <RaisedButton onClick={this.handleReloadParamValuesClick}>
+            Reload
+          </RaisedButton>
         </div>
 
         <Tabs>
-          <Tab label='Table' >
-            <Table height='1000px'>
+          <Tab label="Table">
+            <Table height="1000px">
               <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                 <TableRow>
                   <TableHeaderColumn>DateTime</TableHeaderColumn>
@@ -76,29 +113,38 @@ export default class MyParamHistoryForm extends React.Component {
               <TableBody displayRowCheckbox={false}>
                 {this.props.paramValues.map(value => (
                   <TableRow key={value.dt} style={styles.cellCustomHeight}>
-                    <TableRowColumn style={styles.cellCustomHeight}><Moment format='YYYY.MM.DD HH:mm:ss'>{value.dt}</Moment></TableRowColumn>
-                    <TableRowColumn style={styles.cellCustomHeight}>{value.value}</TableRowColumn>
-                    <TableRowColumn style={styles.cellCustomHeight}>{value.qd}</TableRowColumn>
-                  </TableRow>))
-                }
+                    <TableRowColumn style={styles.cellCustomHeight}>
+                      <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
+                    </TableRowColumn>
+                    <TableRowColumn style={styles.cellCustomHeight}>
+                      {value.value}
+                    </TableRowColumn>
+                    <TableRowColumn style={styles.cellCustomHeight}>
+                      {value.qd}
+                    </TableRowColumn>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </Tab>
-          <Tab label='Chart' >
+          <Tab label="Chart">
             <LineChart
               width={1200}
               height={600}
               data={data}
               margin={{
-                top: 70, right: 30, left: 20, bottom: 5,
+                top: 70,
+                right: 30,
+                left: 20,
+                bottom: 5
               }}
             >
-              <XAxis dataKey='dt' />
+              <XAxis dataKey="dt" />
               <YAxis />
-              <CartesianGrid strokeDasharray='3 3' />
+              <CartesianGrid strokeDasharray="3 3" />
               <Tooltip />
               <Legend />
-              <Line type='monotone' dataKey='value' stroke='#8884d8' />
+              <Line type="monotone" dataKey="value" stroke="#8884d8" />
             </LineChart>
           </Tab>
         </Tabs>
@@ -107,17 +153,15 @@ export default class MyParamHistoryForm extends React.Component {
   }
 }
 
-
- MyParamHistoryForm.propTypes = {
+MyParamHistoryForm.propTypes = {
   paramName: PropTypes.string,
-  paramValues: PropTypes.arrayOf(PropTypes.shape({
-     paramName: PropTypes.string,
-     value: PropTypes.number,
-     dt: PropTypes.string,
-     qd: PropTypes.string,
-   })),
-   onReloadParamValues: PropTypes.func,
- };
-
-
-
+  paramValues: PropTypes.arrayOf(
+    PropTypes.shape({
+      paramName: PropTypes.string,
+      value: PropTypes.number,
+      dt: PropTypes.string,
+      qd: PropTypes.string
+    })
+  ),
+  onReloadParamValues: PropTypes.func
+};

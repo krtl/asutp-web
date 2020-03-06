@@ -174,8 +174,8 @@ function restoreLastParamValues(callback) {
 
       if (locDbParamValue) {
         locDbParamValue.findOne(
-          { param: param._id },
-          // { paramName: param.name },
+          // { param: param._id },
+          { paramName: param.name },
           null,
           { sort: { dt: "desc" } },
           (err, paramValue) => {

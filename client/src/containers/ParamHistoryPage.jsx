@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyParamHistoryForm from "../components/MyParamHistoryForm";
 import MyFetchClient from "./MyFetchClient";
-import {MakeUid} from "../modules/MyFuncs";
+import { MakeUid } from "../modules/MyFuncs";
 
 const MATCHING_VALUES_LIMIT = 2500;
 
@@ -20,12 +20,12 @@ export default class ParamHistoryPage extends React.Component {
     this.reloadParamValues = this.reloadParamValues.bind(this);
   }
 
-  reloadParamValues(paramName) {
+  reloadParamValues(paramName, startDT) {
     const historyParamName = window.location.href.slice(
       window.location.href.lastIndexOf("/") + 1
     );
 
-    const url = `/api/paramValues?paramName=${historyParamName}`;
+    const url = `/api/paramValues?paramName=${historyParamName}&startDT=${startDT}`;
 
     const uid = MakeUid(5);
     const cmds = [

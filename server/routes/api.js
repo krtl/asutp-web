@@ -1,5 +1,6 @@
 const express = require("express");
 const async = require("async");
+const moment = require("moment");
 const logger = require("../logger");
 
 const NetNode = require("../dbmodels/netNode");
@@ -180,6 +181,8 @@ router.get("/params", (req, res, next) => {
 
 router.get("/paramValues", (req, res, next) => {
   const paramName = req.query.paramName;
+  const momentDT = moment(req.query.startDT);
+  const startDT = new Date(momentDT);
 
   if (!paramName || paramName === "") {
     res.json({
@@ -190,24 +193,29 @@ router.get("/paramValues", (req, res, next) => {
 
   const param = myDataModelNodes.GetParam(paramName);
   if (param) {
+    let model;
     if (param.trackAllChanges) {
-      DbParamValues.find({ paramName })
-      .sort({ dt: "desc" })
-      .limit(500)
-      .exec((err, paramValues) => {
-        if (err) return next(err);
-        res.status(200).json(paramValues);
-        return 0;
-      });
+      model = DbParamValues;
     } else if (param.trackAveragePerHour) {
-      DbParamHalfHourValues.find({ paramName })
-      .sort({ dt: "desc" })
-      .limit(500)
-      .exec((err, paramValues) => {
-        if (err) return next(err);
-        res.status(200).json(paramValues);
-        return 0;
-      });
+      model = DbParamHalfHourValues;
+    }
+    if (model) {
+      model
+        .find({ paramName, dt: { $gte: startDT } })
+        .sort({ dt: "desc" })
+        .select({
+          paramName: 1,
+          value: 1,
+          dt: 1,
+          qd: 1,
+          _id: 0
+        })
+        .limit(500)
+        .exec((err, paramValues) => {
+          if (err) return next(err);
+          res.status(200).json(paramValues);
+          return 0;
+        });
     } else {
       res.status(200).json([]);
       return 0;

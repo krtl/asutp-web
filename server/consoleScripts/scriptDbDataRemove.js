@@ -49,7 +49,7 @@ function removeDataForList(callback) {
     },
     err => {
       if (err) {
-        console.Error(`Failed: ${err.message}`);
+        console.error(`Failed: ${err.message}`);
       } else {
         console.info("success.");
       }
