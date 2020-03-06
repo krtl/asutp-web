@@ -43,8 +43,11 @@ export default class MyParamHistoryForm extends React.Component {
   constructor(props) {
     super(props);
 
+    let yesterday = new Date();
+    yesterday.setDate(new Date().getDate() - 1);
+
     this.state = {
-      dt: formatDateTime(new Date())
+      dt: formatDateTime(yesterday)
     };
 
     this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
