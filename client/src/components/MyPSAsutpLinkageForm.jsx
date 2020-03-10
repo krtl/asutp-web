@@ -2,43 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import { Card, CardText } from "material-ui/Card";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn
-} from "material-ui/Table";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+// import TablePagination from '@material-ui/core/TablePagination';
 import Typography from "@material-ui/core/Typography";
 
 import MyPSAsutpLinkageDialog from "./Dialogs/MyPSAsutpLinkageDialog";
 import { MyConsts } from "../modules/MyConsts";
-
-const styles = {
-  customWidth: {
-    width: 750
-  },
-  cellCustomHeight: {
-    height: 12
-  },
-  cellCustomSize1: {
-    height: 12,
-    width: "30%"
-  },
-  cellCustomSize2: {
-    height: 12,
-    width: "50%"
-  },
-  cellCustomSize3: {
-    height: 12,
-    width: "10%"
-  },
-  cellCustomSize4: {
-    height: 12,
-    width: "10%"
-  }
-};
 
 export default class MyPSAsutpLinkageForm extends React.Component {
   constructor(props) {
@@ -324,49 +298,42 @@ export default class MyPSAsutpLinkageForm extends React.Component {
         </div>
         <div>
           {/* <CardText>{this.props.PS}</CardText> */}
-          <Table height="1000px">
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Caption</TableHeaderColumn>
-                <TableHeaderColumn>Type</TableHeaderColumn>
-                <TableHeaderColumn>sapCode</TableHeaderColumn>
-                <TableHeaderColumn />
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {rows.map(row => (
-                <TableRow
-                  key={row.name}
-                  style={styles.cellCustomHeight}
-                  onDoubleClick={this.handleRowDblClick.bind(this, row)}
-                >
-                  <TableRowColumn style={styles.cellCustomHeight}>
-                    {row.name}
-                  </TableRowColumn>
-
-                  {row.color ? (
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      <Typography variant="inherit" color={row.color}>
-                        {row.caption}
-                      </Typography>
-                    </TableRowColumn>
-                  ) : (
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      {row.caption}
-                    </TableRowColumn>
-                  )}
-
-                  <TableRowColumn style={styles.cellCustomHeight}>
-                    {row.nodeType}
-                  </TableRowColumn>
-                  <TableRowColumn style={styles.cellCustomHeight}>
-                    {row.sapCode}
-                  </TableRowColumn>
+          <TableContainer>
+            <Table size="small" padding="none">
+              <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Caption</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell>sapCode</TableCell>
+                  <TableCell />
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+              <TableBody displayRowCheckbox={false}>
+                {rows.map(row => (
+                  <TableRow
+                    key={row.name}
+                    onDoubleClick={this.handleRowDblClick.bind(this, row)}
+                  >
+                    <TableCell>{row.name}</TableCell>
+
+                    {row.color ? (
+                      <TableCell>
+                        <Typography variant="inherit" color={row.color}>
+                          {row.caption}
+                        </Typography>
+                      </TableCell>
+                    ) : (
+                      <TableCell>{row.caption}</TableCell>
+                    )}
+
+                    <TableCell>{row.nodeType}</TableCell>
+                    <TableCell>{row.sapCode}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </div>
         <MyPSAsutpLinkageDialog
           open={this.state.open}

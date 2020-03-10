@@ -2,14 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn
-} from "material-ui/Table";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+// import TablePagination from '@material-ui/core/TablePagination';
 import Moment from "react-moment";
 
 export default class MyNodeStateHistoryForm extends React.Component {
@@ -50,29 +49,33 @@ export default class MyNodeStateHistoryForm extends React.Component {
             Reload
           </RaisedButton>
         </div>
-        <Table height="300px">
-          <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-            <TableRow>
-              <TableHeaderColumn>Name</TableHeaderColumn>
-              <TableHeaderColumn>Old State</TableHeaderColumn>
-              <TableHeaderColumn>New State</TableHeaderColumn>
-              <TableHeaderColumn>Time</TableHeaderColumn>
-              <TableHeaderColumn />
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            {this.props.stateValues.map(stateValue => (
-              <TableRow key={stateValue.dt}>
-                <TableRowColumn>{stateValue.nodeName}</TableRowColumn>
-                <TableRowColumn>{stateValue.oldState}</TableRowColumn>
-                <TableRowColumn>{stateValue.newState}</TableRowColumn>
-                <TableRowColumn>
-                  <Moment format="YYYY.MM.DD HH:mm:ss">{stateValue.dt}</Moment>
-                </TableRowColumn>
+        <TableContainer>
+          <Table size="small" padding="none">
+            <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Old State</TableCell>
+                <TableCell>New State</TableCell>
+                <TableCell>Time</TableCell>
+                <TableCell />
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody displayRowCheckbox={false}>
+              {this.props.stateValues.map(stateValue => (
+                <TableRow key={stateValue.dt}>
+                  <TableCell>{stateValue.nodeName}</TableCell>
+                  <TableCell>{stateValue.oldState}</TableCell>
+                  <TableCell>{stateValue.newState}</TableCell>
+                  <TableCell>
+                    <Moment format="YYYY.MM.DD HH:mm:ss">
+                      {stateValue.dt}
+                    </Moment>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     );
   }

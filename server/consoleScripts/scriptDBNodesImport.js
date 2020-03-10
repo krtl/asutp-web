@@ -293,8 +293,8 @@ function deleteNetNodes(callback) {
       console.warn(`[!] ${err.message}`);
       logger.warn(`[!] ${err.message}`);
     } else {
-      console.warn(`[!] ${res} old nodes were deleted.`);
-      logger.warn(`[!] ${res} old nodes were deleted.`);
+      console.warn(`[!] ${res.deletedCount} old nodes were deleted.`);
+      logger.warn(`[!] ${res.deletedCount} old nodes were deleted.`);
     }
 
     callback(err);

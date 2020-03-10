@@ -7,14 +7,13 @@ import RaisedButton from "material-ui/RaisedButton";
 import TextField from "@material-ui/core/TextField";
 
 import { Card, CardText } from "material-ui/Card";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn
-} from "material-ui/Table";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+// import TablePagination from '@material-ui/core/TablePagination';
 import {
   LineChart,
   Line,
@@ -33,9 +32,6 @@ const styles = {
     marginLeft: 1,
     marginRight: 1,
     width: 200
-  },
-  cellCustomHeight: {
-    height: 12
   }
 };
 
@@ -85,7 +81,6 @@ export default class MyParamHistoryForm extends React.Component {
           <TextField
             id="datetime-local"
             type="datetime-local"
-            // pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}"
             required
             defaultValue={this.state.dt}
             className={styles.textField}
@@ -104,31 +99,29 @@ export default class MyParamHistoryForm extends React.Component {
 
         <Tabs>
           <Tab label="Table">
-            <Table height="1000px">
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn>DateTime</TableHeaderColumn>
-                  <TableHeaderColumn>Value</TableHeaderColumn>
-                  <TableHeaderColumn>Quality</TableHeaderColumn>
-                  <TableHeaderColumn />
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {this.props.paramValues.map(value => (
-                  <TableRow key={value.dt} style={styles.cellCustomHeight}>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
-                    </TableRowColumn>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      {value.value}
-                    </TableRowColumn>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      {value.qd}
-                    </TableRowColumn>
+            <TableContainer>
+              <Table size="small" padding="none">
+                <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                  <TableRow>
+                    <TableCell>DateTime</TableCell>
+                    <TableCell>Value</TableCell>
+                    <TableCell>Quality</TableCell>
+                    <TableCell />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody displayRowCheckbox={false}>
+                  {this.props.paramValues.map(value => (
+                    <TableRow key={value.dt} style={styles.cellCustomHeight}>
+                      <TableCell>
+                        <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
+                      </TableCell>
+                      <TableCell>{value.value}</TableCell>
+                      <TableCell>{value.qd}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Tab>
           <Tab label="Chart">
             <LineChart

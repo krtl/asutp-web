@@ -202,7 +202,7 @@ router.get("/paramValues", (req, res, next) => {
     if (model) {
       model
         .find({ paramName, dt: { $gte: startDT } })
-        .sort({ dt: "desc" })
+        .sort({ dt: 1 })
         .select({
           paramName: 1,
           value: 1,
@@ -321,12 +321,12 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
     return;
   }
 
-  DbNodeCoordinates.deleteMany({ schemaName }, (err, count) => {
+  DbNodeCoordinates.deleteMany({ schemaName }, (err, result) => {
     if (err) {
       logger.warn(`[!] ${err.message}`);
       next(err);
     } else {
-      const s = `${count} nodes were deleted from DbNodeCoordinates.`;
+      const s = `${result.deletedCount} nodes were deleted from DbNodeCoordinates.`;
       logger.debug(s);
       res.status(200).json({
         message: s

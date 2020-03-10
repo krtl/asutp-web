@@ -4,14 +4,13 @@ import { Tabs, Tab } from "material-ui/Tabs";
 import RaisedButton from "material-ui/RaisedButton";
 // import SelectField from 'material-ui/SelectField';
 import { Card, CardText } from "material-ui/Card";
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn
-} from "material-ui/Table";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+// import TablePagination from '@material-ui/core/TablePagination';
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
 
@@ -20,12 +19,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 // import Typography from "@material-ui/core/Typography";
 
 import Moment from "react-moment";
-
-const styles = {
-  cellCustomHeight: {
-    height: 12
-  }
-};
 
 export default class SystemServiceForm extends React.Component {
   constructor(props) {
@@ -128,48 +121,46 @@ export default class SystemServiceForm extends React.Component {
 
         <Tabs>
           <Tab label="Collisions">
-            <Table height="1000px">
-              <TableHeader
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-              ></TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {this.props.collisions.map((value, index) => (
-                  <TableRow key={index} style={styles.cellCustomHeight}>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      {value}
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <TableContainer>
+              <Table size="small" padding="none">
+                <TableHead
+                  adjustForCheckbox={false}
+                  displaySelectAll={false}
+                ></TableHead>
+                <TableBody displayRowCheckbox={false}>
+                  {this.props.collisions.map((value, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{value}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Tab>
           <Tab label="Blocked Params">
-            <Table height="1000px">
-              <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                <TableRow>
-                  <TableHeaderColumn>Name</TableHeaderColumn>
-                  <TableHeaderColumn>DateTime</TableHeaderColumn>
-                  <TableHeaderColumn>User</TableHeaderColumn>
-                  <TableHeaderColumn />
-                </TableRow>
-              </TableHeader>
-              <TableBody displayRowCheckbox={false}>
-                {this.props.blockedParams.map((value, index) => (
-                  <TableRow key={index} style={styles.cellCustomHeight}>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      {value.name}
-                    </TableRowColumn>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
-                    </TableRowColumn>
-                    <TableRowColumn style={styles.cellCustomHeight}>
-                      {value.user}
-                    </TableRowColumn>
+            <TableContainer>
+              <Table size="small" padding="none">
+                <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell>DateTime</TableCell>
+                    <TableCell>User</TableCell>
+                    <TableCell />
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHead>
+                <TableBody displayRowCheckbox={false}>
+                  {this.props.blockedParams.map((value, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{value.name}</TableCell>
+                      <TableCell>
+                        <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
+                      </TableCell>
+                      <TableCell>{value.user}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Tab>
           <Tab label="ASUTP Connections">
             <TreeView
