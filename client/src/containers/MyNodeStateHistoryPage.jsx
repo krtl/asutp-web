@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyNodeStateHistoryForm from "../components/MyNodeStateHistoryForm";
 import MyFetchClient from "./MyFetchClient";
-import {MakeUid} from "../modules/MyFuncs";
+import { MakeUid } from "../modules/MyFuncs";
+import { formatDateTime } from "../modules/formatDateTime";
 
 const MATCHING_ITEM_LIMIT = 2500;
 
@@ -23,12 +24,14 @@ export default class NodeStateHistoryPage extends React.Component {
     this.reloadStateHistory = this.reloadStateHistory.bind(this);
   }
 
-  reloadStateHistory(nodeName) {
+  reloadStateHistory(nodeName, fromDT, toDT) {
     this.setState({ nodeName });
 
     const cmds = [
       {
-        fetchUrl: `/api/nodeStateValues?nodeName=${nodeName}`,
+        fetchUrl: `/api/nodeStateValues?nodeName=${nodeName}&fromDT=${formatDateTime(
+          fromDT
+        )}&toDT=${formatDateTime(toDT)}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: values => {

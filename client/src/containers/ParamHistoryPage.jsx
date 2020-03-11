@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import MyParamHistoryForm from "../components/MyParamHistoryForm";
 import MyFetchClient from "./MyFetchClient";
 import { MakeUid } from "../modules/MyFuncs";
+// import moment from "moment";
+import { formatDateTime } from "../modules/formatDateTime";
 
 const MATCHING_VALUES_LIMIT = 2500;
 
@@ -13,19 +15,28 @@ export default class ParamHistoryPage extends React.Component {
     this.state = {
       cmdUid: "",
       fetchRequests: [],
-      paramName: "",
+      paramName: window.location.href.slice(
+        window.location.href.lastIndexOf("/") + 1
+      ),
       paramValues: []
     };
 
     this.reloadParamValues = this.reloadParamValues.bind(this);
   }
 
-  reloadParamValues(paramName, startDT) {
-    const historyParamName = window.location.href.slice(
-      window.location.href.lastIndexOf("/") + 1
-    );
+  reloadParamValues(historyParamName, fromDT, toDT) {
+    // const historyParamName = window.location.href.slice(
+    //   window.location.href.lastIndexOf("/") + 1
+    // );
 
-    const url = `/api/paramValues?paramName=${historyParamName}&startDT=${startDT}`;
+    // const url = `/api/paramValues?paramName=${historyParamName}&fromDT=${moment(
+    //   fromDT
+    // ).format("YYYY-MM-DDTHH:mm:ss")}&toDT=${moment(toDT).format(
+    //   "YYYY-MM-DDTHH:mm:ss"
+    // )}`;
+    const url = `/api/paramValues?paramName=${historyParamName}&fromDT=${formatDateTime(
+      fromDT
+    )}&toDT=${formatDateTime(toDT)}`;
 
     const uid = MakeUid(5);
     const cmds = [

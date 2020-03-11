@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "material-ui/Tabs";
-import RaisedButton from "material-ui/RaisedButton";
-// import SelectField from 'material-ui/SelectField';
-
-import TextField from "@material-ui/core/TextField";
-
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import {
+  KeyboardDateTimePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
 import { Card, CardText } from "material-ui/Card";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -24,8 +25,7 @@ import {
   Legend
 } from "recharts";
 import Moment from "react-moment";
-
-import { formatDateTime } from "../modules/formatDateTime";
+import DateFnsUtils from "@date-io/date-fns";
 
 const styles = {
   textField: {
@@ -41,27 +41,43 @@ export default class MyParamHistoryForm extends React.Component {
 
     let yesterday = new Date();
     yesterday.setDate(new Date().getDate() - 1);
+    let tomorrow = new Date();
+    tomorrow.setDate(new Date().getDate() + 1);
 
     this.state = {
-      dt: formatDateTime(yesterday)
+      fromDt: yesterday,
+      toDt: tomorrow
     };
 
-    this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
+    this.handleFromDateTimeChange = this.handleFromDateTimeChange.bind(this);
+    this.handleToDateTimeChange = this.handleToDateTimeChange.bind(this);
     this.handleReloadParamValuesClick = this.handleReloadParamValuesClick.bind(
       this
     );
   }
 
   componentDidMount() {
-    this.props.onReloadParamValues(this.props.paramName, this.state.dt);
+    this.props.onReloadParamValues(
+      this.props.paramName,
+      this.state.fromDt,
+      this.state.toDt
+    );
   }
 
   handleReloadParamValuesClick() {
-    this.props.onReloadParamValues(this.props.paramName, this.state.dt);
+    this.props.onReloadParamValues(
+      this.props.paramName,
+      this.state.fromDt,
+      this.state.toDt
+    );
   }
 
-  handleDateTimeChange(event) {
-    this.setState({ dt: event.target.value });
+  handleFromDateTimeChange(value) {
+    this.setState({ fromDt: value });
+  }
+
+  handleToDateTimeChange(value) {
+    this.setState({ toDt: value });
   }
 
   render() {
@@ -78,72 +94,100 @@ export default class MyParamHistoryForm extends React.Component {
       <Card className="container">
         <div>
           <CardText>{this.props.paramName}</CardText>
-          <TextField
-            id="datetime-local"
-            type="datetime-local"
-            required
-            defaultValue={this.state.dt}
-            className={styles.textField}
-            InputLabelProps={{
-              shrink: true
-            }}
-            inputProps={{
-              step: 1
-            }}
-            onChange={this.handleDateTimeChange}
-          />
-          <RaisedButton onClick={this.handleReloadParamValuesClick}>
-            Reload
-          </RaisedButton>
         </div>
-
-        <Tabs>
-          <Tab label="Table">
-            <TableContainer>
-              <Table size="small" padding="none">
-                <TableHead adjustForCheckbox={false} displaySelectAll={false}>
-                  <TableRow>
-                    <TableCell>DateTime</TableCell>
-                    <TableCell>Value</TableCell>
-                    <TableCell>Quality</TableCell>
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody displayRowCheckbox={false}>
-                  {this.props.paramValues.map(value => (
-                    <TableRow key={value.dt} style={styles.cellCustomHeight}>
-                      <TableCell>
-                        <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
-                      </TableCell>
-                      <TableCell>{value.value}</TableCell>
-                      <TableCell>{value.qd}</TableCell>
+        <Grid container spacing={3}>
+          <Grid container item xs={12}>
+            <Grid container spacing={3} alignItems="center" justify="center">
+              <Grid item>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDateTimePicker
+                    // variant="inline"
+                    label="From:"
+                    ampm={false}
+                    value={this.state.fromDt}
+                    onChange={this.handleFromDateTimeChange}
+                    onError={console.log}
+                    format="yyyy/MM/dd HH:mm:ss"
+                    showTodayButton
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDateTimePicker
+                    // variant="inline"
+                    label="To:"
+                    ampm={false}
+                    value={this.state.toDt}
+                    onChange={this.handleToDateTimeChange}
+                    onError={console.log}
+                    format="yyyy/MM/dd HH:mm:ss"
+                    showTodayButton
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  onClick={this.handleReloadParamValuesClick}
+                >
+                  Reload
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Tabs>
+            <Tab label="Table">
+              <TableContainer>
+                <Table size="small" padding="none">
+                  <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                    <TableRow>
+                      <TableCell>DateTime</TableCell>
+                      <TableCell>Value</TableCell>
+                      <TableCell>Quality</TableCell>
+                      <TableCell />
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Tab>
-          <Tab label="Chart">
-            <LineChart
-              width={1200}
-              height={600}
-              data={data}
-              margin={{
-                top: 70,
-                right: 30,
-                left: 20,
-                bottom: 5
-              }}
-            >
-              <XAxis dataKey="dt" />
-              <YAxis />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="value" stroke="#8884d8" />
-            </LineChart>
-          </Tab>
-        </Tabs>
+                  </TableHead>
+                  <TableBody displayRowCheckbox={false}>
+                    {this.props.paramValues.map(value => (
+                      <TableRow key={value.dt} style={styles.cellCustomHeight}>
+                        <TableCell>
+                          <Moment format="YYYY.MM.DD HH:mm:ss">
+                            {value.dt}
+                          </Moment>
+                        </TableCell>
+                        <TableCell>{value.value}</TableCell>
+                        <TableCell>{value.qd}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Tab>
+            <Tab label="Chart">
+              <LineChart
+                width={1200}
+                height={600}
+                data={data}
+                margin={{
+                  top: 70,
+                  right: 30,
+                  left: 20,
+                  bottom: 5
+                }}
+              >
+                <XAxis dataKey="dt" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="value" stroke="#8884d8" />
+              </LineChart>
+            </Tab>
+          </Tabs>
+        </Grid>
       </Card>
     );
   }

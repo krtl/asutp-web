@@ -1367,7 +1367,7 @@ function CustomSchemaAddNode(schemaName, nodeName, cb) {
 
       if (nodeSchemas.has(schemaName) && dbSchema) {
         const locSchema = nodeSchemas.get(schemaName);
-        const locNode = nodes.get(nodeName);
+        const locNode = myDataModelNodes.GetNode(nodeName);
         if (locNode) {
           if (locSchema.nodes.indexOf(locNode) < 0) {
             locSchema.nodes.push(locNode);
@@ -1412,7 +1412,7 @@ function CustomSchemaDeleteNode(schemaName, nodeName, cb) {
 
       if (nodeSchemas.has(schemaName) && dbSchema) {
         const locSchema = nodeSchemas.get(schemaName);
-        const locNode = nodes.get(nodeName);
+        const locNode = myDataModelNodes.GetNode(nodeName);
         if (locNode) {
           const i1 = locSchema.nodes.indexOf(locNode);
           if (i1 > -1) {

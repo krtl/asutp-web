@@ -181,8 +181,10 @@ router.get("/params", (req, res, next) => {
 
 router.get("/paramValues", (req, res, next) => {
   const paramName = req.query.paramName;
-  const momentDT = moment(req.query.startDT);
-  const startDT = new Date(momentDT);
+  const momentFromDT = moment(req.query.fromDT);
+  const momentToDT = moment(req.query.toDT);
+  const fromDT = new Date(momentFromDT);
+  const toDT = new Date(momentToDT);
 
   if (!paramName || paramName === "") {
     res.json({
@@ -201,7 +203,7 @@ router.get("/paramValues", (req, res, next) => {
     }
     if (model) {
       model
-        .find({ paramName, dt: { $gte: startDT } })
+        .find({ paramName, dt: { $gte: fromDT, $lt: toDT } })
         .sort({ dt: 1 })
         .select({
           paramName: 1,
@@ -228,28 +230,12 @@ router.get("/paramValues", (req, res, next) => {
   }
 });
 
-router.get("/paramHalfHourValues", (req, res, next) => {
-  const paramName = req.query.paramName;
-
-  if (!paramName || paramName === "") {
-    res.json({
-      error: "Missing required parameter `paramName`!"
-    });
-    return;
-  }
-
-  DbParamHalfHourValues.find({ paramName })
-    .sort({ dt: "desc" })
-    .limit(500)
-    .exec((err, paramValues) => {
-      if (err) return next(err);
-      res.status(200).json(paramValues);
-      return 0;
-    });
-});
-
 router.get("/nodeStateValues", (req, res, next) => {
   const nodeName = req.query.nodeName;
+  const momentFromDT = moment(req.query.fromDT);
+  const momentToDT = moment(req.query.toDT);
+  const fromDT = new Date(momentFromDT);
+  const toDT = new Date(momentToDT);
 
   if (!nodeName || nodeName === "") {
     res.json({
@@ -258,7 +244,7 @@ router.get("/nodeStateValues", (req, res, next) => {
     return;
   }
 
-  DbNodePoweredStateValue.find({ nodeName })
+  DbNodePoweredStateValue.find({ nodeName, dt: { $gte: fromDT, $lt: toDT } })
     .select({ nodeName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
     .sort({ dt: "desc" })
     .limit(500)
@@ -271,6 +257,10 @@ router.get("/nodeStateValues", (req, res, next) => {
 
 router.get("/nodeSwitchedOnStateValues", (req, res, next) => {
   const connectorName = req.query.connectorName;
+  const momentFromDT = moment(req.query.fromDT);
+  const momentToDT = moment(req.query.toDT);
+  const fromDT = new Date(momentFromDT);
+  const toDT = new Date(momentToDT);
 
   if (!connectorName || connectorName === "") {
     res.json({
@@ -279,7 +269,7 @@ router.get("/nodeSwitchedOnStateValues", (req, res, next) => {
     return;
   }
 
-  DbNodeSwitchedOnStateValue.find({ nodeName: connectorName })
+  DbNodeSwitchedOnStateValue.find({ nodeName: connectorName, dt: { $gte: fromDT, $lt: toDT } })
     .select({ connectorName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
     .sort({ dt: "desc" })
     .limit(500)

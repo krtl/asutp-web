@@ -4,8 +4,8 @@ import { Text, Circle, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
 import MyMenuBase from "./MyMenuBase";
 
-const optionOpenInNewTab = "Open in new tab";
 const optionOpenInThisTab = "Open";
+const optionOpenInNewTab = "Open in new tab";
 const optionHistory = "History";
 const optionDeleteNode = "Delete";
 
@@ -24,12 +24,12 @@ export default class MySchemaNodePS extends React.Component {
     console.log(option);
 
     switch (option) {
-      case optionOpenInNewTab: {
-        window.open(`/psScheme/${this.props.node.name}`, "_blank");
-        break;
-      }
       case optionOpenInThisTab: {
         this.props.history.push(`/psScheme/${this.props.node.name}`);
+        break;
+      }
+      case optionOpenInNewTab: {
+        window.open(`/psScheme/${this.props.node.name}`, "_blank");
         break;
       }
       case optionHistory: {
@@ -63,11 +63,11 @@ export default class MySchemaNodePS extends React.Component {
     const menuItems = this.props.editMode
       ? [
           optionDeleteNode,
-          optionOpenInNewTab,
           optionOpenInThisTab,
+          optionOpenInNewTab,
           optionHistory
         ]
-      : [optionOpenInNewTab, optionOpenInThisTab, optionHistory];
+      : [optionOpenInThisTab, optionOpenInNewTab, optionHistory];
 
     const body = (
       <>
