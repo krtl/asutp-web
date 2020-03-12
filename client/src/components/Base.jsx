@@ -58,6 +58,11 @@ const Base = ({ children }) => {
     children.props.history.push(`/systemService`);
   };
 
+  const handleMainMenuUserActions = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/userActions`);
+  };
+
   const handleAccountMenuClose = () => {
     setAnchorElAccountMenu(null);
   };
@@ -122,6 +127,9 @@ const Base = ({ children }) => {
                   <MenuItem onClick={handleMainMenuRoot}>Root</MenuItem>
                   <MenuItem onClick={handleMainMenuSystemService}>
                     System Service
+                  </MenuItem>
+                  <MenuItem onClick={handleMainMenuUserActions}>
+                    User Actions
                   </MenuItem>
                   <MenuItem onClick={handleMainMenuClose}>Setup</MenuItem>
                 </MenuList>

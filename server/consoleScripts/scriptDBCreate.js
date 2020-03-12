@@ -7,19 +7,19 @@ const config = require("../../config");
 // process.env.LOGGER_LEVEL = "debug";
 const logger = require("../logger_to_file");
 
-const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
-const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
-const DbParamValue = require("../dbmodels/paramValue");
-const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
-const DbBlockedParam = require("../dbmodels/blockedParam");
+// const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
+// const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
+// const DbParamValue = require("../dbmodels/paramValue");
+// const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
+// const DbBlockedParam = require("../dbmodels/blockedParam");
 
 function Start(cb) {
   async.series(
     [
       // open,
       dropDatabase,
-      requireModels,
-      createUsers
+      requireModels
+      // createUsers
     ],
     err => {
       // console.log(arguments);
@@ -48,6 +48,7 @@ function requireModels(callback) {
   console.log("requiring models");
   logger.info("requiring models");
   require("mongoose").model("AuthUser"); // eslint-disable-line global-require
+  require("mongoose").model("AuthUserAction"); // eslint-disable-line global-require
   require("mongoose").model("Param"); // eslint-disable-line global-require
   require("mongoose").model("ParamValue"); // eslint-disable-line global-require
   require("mongoose").model("ParamHalfHourValue"); // eslint-disable-line global-require
@@ -92,7 +93,7 @@ function createUsers(callback) {
 
   console.info("creating users");
   logger.info("creating users");
-  
+
   const fileName = `${config.importPath}users.json`;
   let rawdata = "";
   try {
@@ -106,7 +107,8 @@ function createUsers(callback) {
   const users = JSON.parse(rawdata);
 
   async.eachLimit(
-    users, 100,
+    users,
+    100,
     (userData, callback) => {
       const user = new mongoose.models.AuthUser(userData);
       user.save(err => {

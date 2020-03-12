@@ -9,6 +9,7 @@ import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
 import SystemServicePage from "./containers/SystemServicePage.jsx";
+import UserActionsPage from "./containers/UserActionsPage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";
@@ -60,6 +61,10 @@ export default function App() {
 
         <PrivateRoute path="/systemService">
           <SystemServicePage />
+        </PrivateRoute>
+
+        <PrivateRoute path="/userActions">
+          <UserActionsPage />
         </PrivateRoute>
 
         <Route path="/login" render={props => <LoginPage {...props} />} />

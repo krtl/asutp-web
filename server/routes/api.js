@@ -2,6 +2,7 @@ const express = require("express");
 const async = require("async");
 const moment = require("moment");
 const logger = require("../logger");
+const userActions = require("../passport/userActions");
 
 const NetNode = require("../dbmodels/netNode");
 const NetWire = require("../dbmodels/netWire");
@@ -14,6 +15,8 @@ const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
+const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
+const DbUserAction = require("../dbmodels/authUserAction");
 
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
@@ -46,91 +49,6 @@ router.get("/nodes", (req, res, next) => {
     res.status(200).json(nodes);
     return 0;
   });
-});
-
-router.get("/wires", (req, res, next) => {
-  const project = req.query.proj;
-
-  if (!project) {
-    res.json({
-      error: "Missing required parameter `proj`"
-    });
-    return;
-  }
-
-  NetWire.find({}, (err, wires) => {
-    if (err) return next(err);
-    res.status(200).json(wires);
-    return 0;
-  });
-});
-
-router.post("/save_node", (req, res, next) => {
-  const nodes = req.body;
-  // throw new Error('TestErr!');
-
-  async.eachLimit(
-    nodes,
-    100,
-    (locNode, callback) => {
-      NetNode.findOne(
-        {
-          name: locNode.name
-        },
-        (err, netNode) => {
-          if (err) {
-            logger.info("Something wrong when findOne!");
-            return callback(err);
-          }
-
-          if (netNode) {
-            // node exists
-            if (locNode.x !== netNode.x || locNode.y !== netNode.y) {
-              NetNode.updateOne(
-                { _id: netNode.id },
-                {
-                  $set: {
-                    // caption: locNode.caption,
-                    // description: locNode.description,
-                    x: locNode.x,
-                    y: locNode.y
-                  }
-                },
-                err => {
-                  if (err) return callback(err);
-
-                  logger.info(`updated node ${netNode.name}`);
-
-                  return callback(null);
-                }
-              );
-            } else {
-              return callback(null);
-            }
-          } else {
-            logger.info(`node ${locNode.name} does not exist!`);
-
-            return callback(new Error("does not exist!"));
-          }
-          return null;
-        }
-      );
-    },
-    err => {
-      if (err) {
-        logger.info(`Failed: ${err.message}`);
-        next(err);
-        // res.status(500).json({
-        //   message: err.message,
-        // });
-      } else {
-        logger.info("All saved successfully");
-        res.status(200).json({
-          message: "'All saved successfully'"
-        });
-      }
-    }
-  );
 });
 
 router.get("/schemas", (req, res, next) => {
@@ -269,7 +187,10 @@ router.get("/nodeSwitchedOnStateValues", (req, res, next) => {
     return;
   }
 
-  DbNodeSwitchedOnStateValue.find({ nodeName: connectorName, dt: { $gte: fromDT, $lt: toDT } })
+  DbNodeSwitchedOnStateValue.find({
+    nodeName: connectorName,
+    dt: { $gte: fromDT, $lt: toDT }
+  })
     .select({ connectorName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
     .sort({ dt: "desc" })
     .limit(500)
@@ -318,6 +239,12 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
     } else {
       const s = `${result.deletedCount} nodes were deleted from DbNodeCoordinates.`;
       logger.debug(s);
+
+      userActions.LogUserAction(
+        req.user,
+        userActions.ResetNodeCoordinates,
+        `Schema=${schemaName}, Result=${s}`
+      );
       res.status(200).json({
         message: s
       });
@@ -327,6 +254,9 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
 
 router.post("/saveNodeCoordinates", (req, res, next) => {
   const schemaName = req.query.schemaName;
+
+  let updated = 0;
+  let inserted = 0;
 
   if (!schemaName || schemaName === "") {
     res.json({
@@ -368,6 +298,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
                   logger.debug(
                     `[saveNodeCoordinates] updated node "${netNode.nodeName}" in "${schemaName}"`
                   );
+                  updated++;
 
                   return callback(null);
                 }
@@ -389,6 +320,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
               logger.debug(
                 `[saveNodeCoordinates] node "${locNode.nodeName}" inserted into "${schemaName}"`
               );
+              inserted++;
 
               return callback(null);
             });
@@ -409,6 +341,11 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
         res.status(200).json({
           message: "'All saved successfully'"
         });
+        userActions.LogUserAction(
+          req.user,
+          userActions.SaveNodeCoordinates,
+          `Schema=${schemaName}, Updated=${updated}, Inserted=${inserted}`
+        );
       }
     }
   );
@@ -426,6 +363,13 @@ router.post("/saveParamManualValue", (req, res, next) => {
     });
   } else {
     logger.debug("[saveParamManualValue] Manual value saved");
+
+    userActions.LogUserAction(
+      req.user,
+      userActions.SaveParamManualValue,
+      `Param=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`
+    );
+
     res.status(200).json({
       message: "'Manual value saved'"
     });
@@ -444,6 +388,13 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
     });
   } else {
     logger.debug("[saveConnectionManualValue] Manual value saved");
+
+    userActions.LogUserAction(
+      req.user,
+      userActions.SaveConnectionManualValue,
+      `Node=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`
+    );
+
     res.status(200).json({
       message: "Manual value saved"
     });
@@ -473,6 +424,13 @@ router.post("/addNewCustomSchema", (req, res, next) => {
         logger.debug(
           `[addNewCustomSchema] New custom schema ${schemaInfo} has added`
         );
+
+        userActions.LogUserAction(
+          req.user,
+          userActions.AddNewCustomSchema,
+          `Name=${schemaInfo.name}`
+        );
+
         res.status(200).json({
           message: "New custom schema added"
         });
@@ -497,6 +455,12 @@ router.post("/deleteCustomSchema", (req, res, next) => {
       `[deleteCustomSchema] custom schema ${schemaName} has deleted`
     );
 
+    userActions.LogUserAction(
+      req.user,
+      userActions.DeleteCustomSchema,
+      `Schema=${schemaName}`
+    );
+
     res.status(200).json({
       message: "Custom schema deleted"
     });
@@ -518,6 +482,12 @@ router.post("/customSchemaAddNode", (req, res, next) => {
       } else {
         logger.debug(
           `[CustomSchemaAddNode] node ${requestInfo.nodeName} has added to custom schema ${requestInfo.schemaName}`
+        );
+
+        userActions.LogUserAction(
+          req.user,
+          userActions.CustomSchemaNodeAdded,
+          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`
         );
 
         res.status(200).json({
@@ -548,6 +518,12 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
         res.status(200).json({
           message: "Custom schema edited"
         });
+
+        userActions.LogUserAction(
+          req.user,
+          userActions.CustomSchemaNodeDeleted,
+          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`
+        );
       }
     }
   );
@@ -679,6 +655,167 @@ router.get("/getAsutpConnections", (req, res, next) => {
       const result = Array.from(resultPSs.values());
 
       res.status(200).json(result);
+      return 0;
+    });
+});
+
+router.post("/savePSLinkage", (req, res, next) => {
+  const psName = req.query.name;
+
+  const linkages = req.body;
+
+  async.eachLimit(
+    linkages,
+    100,
+    (locLinkage, callback) => {
+      DbNodeParamLinkage.findOne(
+        {
+          nodeName: locLinkage.nodeName,
+          paramPropName: locLinkage.paramPropName
+        },
+        (err, linkage) => {
+          if (err) {
+            logger.warn(
+              `[savePSLinkage] Something wrong when DbNodeParamLinkage findOne for "${psName}"!`
+            );
+            return callback(err);
+          }
+
+          if (linkage) {
+            if (locLinkage.paramPropValue !== linkage.paramPropValue) {
+              DbNodeParamLinkage.updateOne(
+                { _id: linkage.id },
+                {
+                  $set: {
+                    // caption: locNode.caption,
+                    // description: locNode.description,
+                    paramPropValue: locLinkage.paramPropValue
+                  }
+                },
+                err => {
+                  if (err) {
+                    logger.warn(
+                      `[savePSLinkage] Something wrong when DbNodeParamLinkage update for "${psName}"!`
+                    );
+                    return callback(err);
+                  }
+
+                  logger.debug(
+                    `[savePSLinkage] updated nodeLinkage "${linkage.nodeName}.${linkage.paramPropName}"`
+                  );
+
+                  return callback(null);
+                }
+              );
+            } else {
+              return callback(null);
+            }
+          } else {
+            const newNodeParamLinkage = new DbNodeParamLinkage(locLinkage);
+
+            newNodeParamLinkage.save(err => {
+              if (err) {
+                logger.warn(
+                  `[savePSLinkage] Something wrong when DbNodeParamLinkage save  for "${psName}"!`
+                );
+                return callback(err);
+              }
+              logger.debug(
+                `[savePSLinkage] nodeLinkage "${locLinkage.nodeName}.${locLinkage.paramPropName}" inserted`
+              );
+
+              return callback(null);
+            });
+          }
+          return 0;
+        }
+      );
+    },
+    err => {
+      if (err) {
+        logger.info(`Failed: ${err.message}`);
+        next(err);
+        // res.status(500).json({
+        //   message: err.message,
+        // });
+      } else {
+        logger.info(
+          `[savePSLinkage] All nodeLinkages are saved successfully for "${psName}"`
+        );
+
+        myDataModelNodes.RelinkParamNamesToNodes(err => {
+          if (err) {
+            logger.warn(
+              `[savePSLinkage] Something wrong on RelinkParamsToNodes for "${psName}"! ${err.message}`
+            );
+            next(err);
+          } else {
+            logger.info(
+              `[savePSLinkage] Nodes are successfully relinked to Params for "${psName}"`
+            );
+
+            myDataModelSchemas.ReloadPSSchemaParams(psName, err => {
+              if (err) {
+                logger.warn(
+                  `[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"! ${err.message}`
+                );
+
+                next(err);
+              } else {
+                logger.info(
+                  `[savePSLinkage] PSSchema params "${psName}" successfully reloaded.`
+                );
+
+                const changedNodes = [];
+                linkages.forEach(element => {
+                  changedNodes.push(element.nodeName);
+                });
+
+                userActions.LogUserAction(
+                  req.user,
+                  userActions.SavePSLinkage,
+                  `PS=${psName}, Linkages=${changedNodes.join()}`
+                );
+
+                res.status(200).json({
+                  message: `All nodeLinkages are saved successfully for "${psName}"`
+                });
+              }
+            });
+          }
+        });
+      }
+    }
+  );
+});
+
+router.get("/getUserActions", (req, res, next) => {
+  const userId = req.query.userId;
+  const action = req.query.action;
+  const momentFromDT = moment(req.query.fromDT);
+  const momentToDT = moment(req.query.toDT);
+  const fromDT = new Date(momentFromDT);
+  const toDT = new Date(momentToDT);
+
+  const findObj = {
+    dt: { $gte: fromDT, $lt: toDT }
+  };
+
+  if (userId && userId !== "") {
+    findObj.user = userId;
+  }
+  if (action && action !== "") {
+    findObj.action = action;
+  }
+
+  DbUserAction.find(findObj)
+    .populate("user", "_id name email")
+    .select("_id dt user action params")
+    .sort({ dt: -1 })
+    .limit(500)
+    .exec((err, nodeStateValues) => {
+      if (err) return next(err);
+      res.status(200).json(nodeStateValues);
       return 0;
     });
 });
