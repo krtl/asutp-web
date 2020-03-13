@@ -58,6 +58,10 @@ export default class UserActionsForm extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this.handleReloadUserActionsClick();
+  }
+
   handleSelectedUserChange(event, index, value) {
     this.setState({ selectedUser: value });
   }

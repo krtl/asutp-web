@@ -13,6 +13,9 @@ const AuthUserActionSchema = new mongoose.Schema({
   action: String,
   params: String,
   host: String
+},
+{
+  capped: { size: 10000000000 }
 });
 
 AuthUserActionSchema.index({ user: 1, dt: -1 });

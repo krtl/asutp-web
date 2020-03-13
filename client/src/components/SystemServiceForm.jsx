@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
 import { Tabs, Tab } from "material-ui/Tabs";
 import RaisedButton from "material-ui/RaisedButton";
 // import SelectField from 'material-ui/SelectField';
@@ -106,74 +107,88 @@ export default class SystemServiceForm extends React.Component {
 
     return (
       <Card className="container">
-        <div>
-          <CardText>{this.props.paramName}</CardText>
-          <RaisedButton onClick={this.handleReloadCollisionsClick}>
-            Collisions
-          </RaisedButton>
-          <RaisedButton onClick={this.handleReloadBlockedParamsClick}>
-            BlockedParams
-          </RaisedButton>
-          <RaisedButton onClick={this.handleReloadAsutpConnectionsClick}>
-            AsutpConnections
-          </RaisedButton>
-        </div>
+        <CardText>{this.props.paramName}</CardText>
 
-        <Tabs>
-          <Tab label="Collisions">
-            <TableContainer>
-              <Table size="small" padding="none">
-                <TableHead
-                  adjustForCheckbox={false}
-                  displaySelectAll={false}
-                ></TableHead>
-                <TableBody displayRowCheckbox={false}>
-                  {this.props.collisions.map((value, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{value}</TableCell>
+        <Grid container spacing={3}>
+          <Grid container item xs={12}>
+            <Grid container spacing={3} alignItems="center" justify="center">
+              <Grid item>
+                <RaisedButton onClick={this.handleReloadCollisionsClick}>
+                  Collisions
+                </RaisedButton>
+              </Grid>
+              <Grid item>
+                <RaisedButton onClick={this.handleReloadBlockedParamsClick}>
+                  BlockedParams
+                </RaisedButton>
+              </Grid>
+              <Grid item>
+                <RaisedButton onClick={this.handleReloadAsutpConnectionsClick}>
+                  AsutpConnections
+                </RaisedButton>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Tabs>
+            <Tab label="Collisions">
+              <TableContainer>
+                <Table size="small" padding="none">
+                  <TableHead
+                    adjustForCheckbox={false}
+                    displaySelectAll={false}
+                  ></TableHead>
+                  <TableBody displayRowCheckbox={false}>
+                    {this.props.collisions.map((value, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{value}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Tab>
+            <Tab label="Blocked Params">
+              <TableContainer>
+                <Table size="small" padding="none">
+                  <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>DateTime</TableCell>
+                      <TableCell>User</TableCell>
+                      <TableCell />
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Tab>
-          <Tab label="Blocked Params">
-            <TableContainer>
-              <Table size="small" padding="none">
-                <TableHead adjustForCheckbox={false} displaySelectAll={false}>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>DateTime</TableCell>
-                    <TableCell>User</TableCell>
-                    <TableCell />
-                  </TableRow>
-                </TableHead>
-                <TableBody displayRowCheckbox={false}>
-                  {this.props.blockedParams.map((value, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{value.name}</TableCell>
-                      <TableCell>
-                        <Moment format="YYYY.MM.DD HH:mm:ss">{value.dt}</Moment>
-                      </TableCell>
-                      <TableCell>{value.user}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Tab>
-          <Tab label="ASUTP Connections">
-            <TreeView
-              // style={styles.root}
-              defaultCollapseIcon={<ExpandMoreIcon />}
-              defaultExpandIcon={<ChevronRightIcon />}
-              expanded={this.state.expanded}
-              onNodeToggle={this.handleChange}
-            >
-              {treeItems}
-            </TreeView>
-          </Tab>
-        </Tabs>
+                  </TableHead>
+                  <TableBody displayRowCheckbox={false}>
+                    {this.props.blockedParams.map((value, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{value.name}</TableCell>
+                        <TableCell>
+                          <Moment format="YYYY.MM.DD HH:mm:ss">
+                            {value.dt}
+                          </Moment>
+                        </TableCell>
+                        <TableCell>{value.user}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Tab>
+            <Tab label="ASUTP Connections">
+              <TreeView
+                // style={styles.root}
+                defaultCollapseIcon={<ExpandMoreIcon />}
+                defaultExpandIcon={<ChevronRightIcon />}
+                expanded={this.state.expanded}
+                onNodeToggle={this.handleChange}
+              >
+                {treeItems}
+              </TreeView>
+            </Tab>
+          </Tabs>
+        </Grid>
       </Card>
     );
   }
