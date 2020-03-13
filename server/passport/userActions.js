@@ -16,13 +16,21 @@ const myUserAction = {
   SavePSLinkage: "SavePSLinkage"
 };
 
-const LogUserAction = (user, action, params, host, cb) => {
+const LogUserAction = (user, action, params, req, cb) => {
+  let remotehost = "";
+
+  if (req.connection.remoteAddress) {
+    remotehost = req.connection.remoteAddress.split(`:`).pop();
+  } else if (req.headers["x-forwarded-for"]) {
+    remotehost = req.headers["x-forwarded-for"].split(",")[0];
+  }
+
   const userActionData = {
     dt: moment(),
     user: user._id,
     action: action,
     params: params,
-    host: host
+    host: remotehost
   };
 
   const newUserAction = new DbUserAction(userActionData);

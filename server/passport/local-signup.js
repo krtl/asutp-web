@@ -31,7 +31,7 @@ module.exports = new PassportLocalStrategy(
         newUser,
         userActions.Signup,
         "",
-        req.headers["x-forwarded-for"] || req.connection.remoteAddress
+        req
       );
 
       return done(null);
