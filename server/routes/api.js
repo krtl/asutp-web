@@ -243,7 +243,8 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
       userActions.LogUserAction(
         req.user,
         userActions.ResetNodeCoordinates,
-        `Schema=${schemaName}, Result=${s}`
+        `Schema=${schemaName}, Result=${s}`,
+        req.remotehost
       );
       res.status(200).json({
         message: s
@@ -344,7 +345,8 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.SaveNodeCoordinates,
-          `Schema=${schemaName}, Updated=${updated}, Inserted=${inserted}`
+          `Schema=${schemaName}, Updated=${updated}, Inserted=${inserted}`,
+          req.remotehost
         );
       }
     }
@@ -367,7 +369,8 @@ router.post("/saveParamManualValue", (req, res, next) => {
     userActions.LogUserAction(
       req.user,
       userActions.SaveParamManualValue,
-      `Param=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`
+      `Param=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`,
+      req.remotehost
     );
 
     res.status(200).json({
@@ -392,7 +395,8 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
     userActions.LogUserAction(
       req.user,
       userActions.SaveConnectionManualValue,
-      `Node=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`
+      `Node=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`,
+      req.remotehost
     );
 
     res.status(200).json({
@@ -428,7 +432,8 @@ router.post("/addNewCustomSchema", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.AddNewCustomSchema,
-          `Name=${schemaInfo.name}`
+          `Name=${schemaInfo.name}`,
+          req.remotehost
         );
 
         res.status(200).json({
@@ -458,7 +463,8 @@ router.post("/deleteCustomSchema", (req, res, next) => {
     userActions.LogUserAction(
       req.user,
       userActions.DeleteCustomSchema,
-      `Schema=${schemaName}`
+      `Schema=${schemaName}`,
+      req.remotehost
     );
 
     res.status(200).json({
@@ -487,7 +493,8 @@ router.post("/customSchemaAddNode", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.CustomSchemaNodeAdded,
-          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`
+          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`,
+          req.remotehost
         );
 
         res.status(200).json({
@@ -522,7 +529,8 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.CustomSchemaNodeDeleted,
-          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`
+          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`,
+          req.remotehost
         );
       }
     }
@@ -774,7 +782,8 @@ router.post("/savePSLinkage", (req, res, next) => {
                 userActions.LogUserAction(
                   req.user,
                   userActions.SavePSLinkage,
-                  `PS=${psName}, Linkages=${changedNodes.join()}`
+                  `PS=${psName}, Linkages=${changedNodes.join()}`,
+                  req.remotehost
                 );
 
                 res.status(200).json({
@@ -810,7 +819,7 @@ router.get("/getUserActions", (req, res, next) => {
 
   DbUserAction.find(findObj)
     .populate("user", "_id name email")
-    .select("_id dt user action params")
+    .select("_id dt user action params host")
     .sort({ dt: -1 })
     .limit(500)
     .exec((err, nodeStateValues) => {

@@ -11,7 +11,8 @@ const AuthUserActionSchema = new mongoose.Schema({
     ref: "AuthUser"
   },
   action: String,
-  params: String
+  params: String,
+  host: String
 });
 
 AuthUserActionSchema.index({ user: 1, dt: -1 });

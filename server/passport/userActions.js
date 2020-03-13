@@ -16,12 +16,13 @@ const myUserAction = {
   SavePSLinkage: "SavePSLinkage"
 };
 
-const LogUserAction = (user, action, params, cb) => {
+const LogUserAction = (user, action, params, host, cb) => {
   const userActionData = {
     dt: moment(),
     user: user._id,
     action: action,
-    params: params
+    params: params,
+    host: host
   };
 
   const newUserAction = new DbUserAction(userActionData);

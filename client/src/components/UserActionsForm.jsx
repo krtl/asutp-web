@@ -187,6 +187,7 @@ export default class UserActionsForm extends React.Component {
                     <TableCell>Name</TableCell>
                     <TableCell>Action</TableCell>
                     <TableCell>Details</TableCell>
+                    <TableCell>Host</TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>
@@ -201,6 +202,7 @@ export default class UserActionsForm extends React.Component {
                       <TableCell>{`${userAction.user.name}(${userAction.user.email})`}</TableCell>
                       <TableCell>{userAction.action}</TableCell>
                       <TableCell>{userAction.params}</TableCell>
+                      <TableCell>{userAction.host}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -223,7 +225,8 @@ UserActionsForm.propTypes = {
         email: PropTypes.string
       }),
       action: PropTypes.string,
-      params: PropTypes.string
+      params: PropTypes.string,
+      host: PropTypes.string
     })
   ),
   onReloadUserActions: PropTypes.func,

@@ -26,7 +26,10 @@ module.exports = (req, res, next) => {
       if (userErr || !user) {
         return res.status(401).end();
       }
+
       req.user = user;
+      req.remotehost =
+        req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
       return next();
     });

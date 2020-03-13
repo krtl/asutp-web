@@ -27,7 +27,12 @@ module.exports = new PassportLocalStrategy(
         return done(err);
       }
 
-      userActions.LogUserAction(newUser, userActions.Signup, "");
+      userActions.LogUserAction(
+        newUser,
+        userActions.Signup,
+        "",
+        req.headers["x-forwarded-for"] || req.connection.remoteAddress
+      );
 
       return done(null);
     });
