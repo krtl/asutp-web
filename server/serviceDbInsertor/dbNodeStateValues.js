@@ -33,7 +33,8 @@ const SaveNodeSwitchedOnStateValue = (stateValue, callback) => {
     connectorName: stateValue.connectorName,
     oldState: stateValue.oldState,
     newState: stateValue.newState,
-    dt: stateValue.dt
+    dt: stateValue.dt,
+    user: stateValue.user
   });
 
   nodeStateValue.save(err => {

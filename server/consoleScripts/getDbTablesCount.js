@@ -4,6 +4,7 @@ const moment = require("moment");
 const config = require("../../config");
 
 const DbUser = require("../dbmodels/authUser");
+const DbUserAction = require("../dbmodels/authUserAction");
 const DbParam = require("../dbmodels/param");
 const DbParamValue = require("../dbmodels/paramValue");
 const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
@@ -30,6 +31,7 @@ const DbNodeSchema = require("../dbmodels/nodeSchema");
 
 const Sheme = [
   DbUser,
+  DbUserAction,
   DbParam,
   DbParamValue,
   DbParamHalfHourValue,

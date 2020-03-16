@@ -26,7 +26,7 @@ const initializeParamValuesProcessor = (setts, cb) => {
     recalculateSchema = true;
 
     MyDataModelNodes.SetStateChangedHandlers(
-      (node, oldState, newState) => {
+      (node, oldState, newState, user) => {
         logger.debug(
           `[state] Powered state changed for Node: ${node.name} from ${oldState} to ${newState}.`
         );
@@ -52,7 +52,7 @@ const initializeParamValuesProcessor = (setts, cb) => {
           recalculateSchema = true;
         }
       },
-      (node, oldState, newState) => {
+      (node, oldState, newState, user) => {
         logger.debug(
           `[state] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}.`
         );
@@ -68,8 +68,12 @@ const initializeParamValuesProcessor = (setts, cb) => {
           node.name,
           oldState,
           newState,
-          new Date()
+          new Date(),
+          user
         );
+
+        // console.log("TrackDbNodeSwitchedOnStateValue: ", nodeStateValue);
+
         dbNodeStateValuesTracker.TrackDbNodeSwitchedOnStateValue(
           nodeStateValue
         );

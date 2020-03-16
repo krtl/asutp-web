@@ -1,15 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const BlockedParamSchema = new mongoose.Schema({
   name: {
     type: String,
-    index: { unique: true },
+    index: { unique: true }
   },
   dt: {
     type: Date,
-    default: Date.now,
-  },  
-  user: String,
+    default: Date.now
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "AuthUser"
+  }
 });
 
-module.exports = mongoose.model('blockedParam', BlockedParamSchema);
+module.exports = mongoose.model("blockedParam", BlockedParamSchema);

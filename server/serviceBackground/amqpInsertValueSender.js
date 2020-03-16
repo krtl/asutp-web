@@ -20,8 +20,8 @@ const TrackDbParamValue = newParamValue => {
   }
 };
 
-const BlockParam = paramName => {
-  amqpInsertValuesSender.send(config.amqpInsertValuesQueueName, `BP<>${paramName}`);
+const BlockParam = (paramName, user) => {
+  amqpInsertValuesSender.send(config.amqpInsertValuesQueueName, `BP<>${paramName}<>${user}`);
 };
 
 const UnblockParam = paramName => {

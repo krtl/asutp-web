@@ -4,15 +4,19 @@ const NodeSwitchedOnStateValueSchema = new mongoose.Schema(
   {
     connectorName: {
       type: String,
-      required: true,
-      index: true
+      required: true
+      // index: true
     },
     oldState: Boolean,
     newState: Boolean,
     dt: {
       type: Date,
-      default: Date.now,
-      index: true
+      default: Date.now
+      // index: true
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AuthUser"
     }
   },
   {

@@ -56,6 +56,7 @@ const processReceivedCommand = command => {
     if (myCoreCommandType.isServerCommand(command.cmd)) {
       switch (command.cmd) {
         case myCoreCommandType.MANUAL_VALUE: {
+          // console.log("background received a MANUAL_VALUE command: ", command);
           lastValues.SetManualValue(command.value);
           break;
         }

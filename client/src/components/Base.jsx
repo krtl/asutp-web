@@ -53,6 +53,11 @@ const Base = ({ children }) => {
     children.props.history.push(`/`);
   };
 
+  const handleMainNodeStateHistory = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/nodeStateHistory/{node_name}`);
+  };
+
   const handleMainMenuSystemService = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/systemService`);
@@ -125,6 +130,9 @@ const Base = ({ children }) => {
               >
                 <MenuList>
                   <MenuItem onClick={handleMainMenuRoot}>Root</MenuItem>
+                  <MenuItem onClick={handleMainNodeStateHistory}>
+                    Node State History
+                  </MenuItem>
                   <MenuItem onClick={handleMainMenuSystemService}>
                     System Service
                   </MenuItem>

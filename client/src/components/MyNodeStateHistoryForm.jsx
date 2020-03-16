@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import {
   KeyboardDateTimePicker,
@@ -18,6 +20,17 @@ import TableRow from "@material-ui/core/TableRow";
 import Moment from "react-moment";
 import DateFnsUtils from "@date-io/date-fns";
 
+const styles = {
+  nodeNameFieldWidth: {
+    width: 350
+  },
+  actionComboWidth: {
+    width: 150
+  }
+};
+
+const actions = ["Powered", "SwitchedOn"];
+
 export default class MyNodeStateHistoryForm extends React.Component {
   constructor(props) {
     super(props);
@@ -32,10 +45,14 @@ export default class MyNodeStateHistoryForm extends React.Component {
     this.state = {
       nodeName: props.nodeName,
       fromDt: yesterday,
-      toDt: tomorrow
+      toDt: tomorrow,
+      selectedAction: "Powered"
     };
 
     this.handleNodeNameChange = this.handleNodeNameChange.bind(this);
+    this.handleSelectedActionChange = this.handleSelectedActionChange.bind(
+      this
+    );
     this.handleFromDateTimeChange = this.handleFromDateTimeChange.bind(this);
     this.handleToDateTimeChange = this.handleToDateTimeChange.bind(this);
     this.handleReloadStateValuesClick = this.handleReloadStateValuesClick.bind(
@@ -43,15 +60,30 @@ export default class MyNodeStateHistoryForm extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this.handleReloadStateValuesClick();
+  }
+
   handleNodeNameChange(event, value) {
     this.setState({ nodeName: value });
+  }
+
+  handleSelectedActionChange(event, index, value) {
+    this.setState({ selectedAction: value });
+    this.props.reloadStateHistory(
+      this.state.nodeName,
+      this.state.fromDt,
+      this.state.toDt,
+      value === "Powered"
+    );
   }
 
   handleReloadStateValuesClick() {
     this.props.reloadStateHistory(
       this.state.nodeName,
       this.state.fromDt,
-      this.state.toDt
+      this.state.toDt,
+      this.state.selectedAction === "Powered"
     );
   }
 
@@ -74,7 +106,20 @@ export default class MyNodeStateHistoryForm extends React.Component {
                   label="NodeName:"
                   onChange={this.handleNodeNameChange}
                   value={this.state.nodeName}
+                  style={styles.nodeNameFieldWidth}
                 />
+              </Grid>
+              <Grid item>
+                <SelectField
+                  floatingLabelText="Action:"
+                  value={this.state.selectedAction}
+                  onChange={this.handleSelectedActionChange}
+                  style={styles.actionComboWidth}
+                >
+                  {actions.map(item => (
+                    <MenuItem key={item} value={item} primaryText={item} />
+                  ))}
+                </SelectField>
               </Grid>
               <Grid item>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -123,20 +168,30 @@ export default class MyNodeStateHistoryForm extends React.Component {
                     <TableCell>Old State</TableCell>
                     <TableCell>New State</TableCell>
                     <TableCell>Time</TableCell>
+                    <TableCell>User</TableCell>
                     <TableCell />
                   </TableRow>
                 </TableHead>
                 <TableBody displayRowCheckbox={false}>
                   {this.props.stateValues.map(stateValue => (
                     <TableRow key={stateValue.dt}>
-                      <TableCell>{stateValue.nodeName}</TableCell>
-                      <TableCell>{stateValue.oldState}</TableCell>
-                      <TableCell>{stateValue.newState}</TableCell>
+                      {this.state.selectedAction === "Powered" ? (
+                        <TableCell>{stateValue.nodeName}</TableCell>
+                      ) : (
+                        <TableCell>{stateValue.connectorName}</TableCell>
+                      )}
+                      <TableCell>{stateValue.oldState.toString()}</TableCell>
+                      <TableCell>{stateValue.newState.toString()}</TableCell>
                       <TableCell>
                         <Moment format="YYYY.MM.DD HH:mm:ss">
                           {stateValue.dt}
                         </Moment>
                       </TableCell>
+                      {stateValue.user ? (
+                        <TableCell>{`${stateValue.user.name}(${stateValue.user.email})`}</TableCell>
+                      ) : (
+                        <TableCell></TableCell>
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -154,8 +209,8 @@ MyNodeStateHistoryForm.propTypes = {
   stateValues: PropTypes.arrayOf(
     PropTypes.shape({
       nodeName: PropTypes.string,
-      oldState: PropTypes.number,
-      newState: PropTypes.number,
+      oldState: PropTypes.string,
+      newState: PropTypes.string,
       dt: PropTypes.string
     })
   ),

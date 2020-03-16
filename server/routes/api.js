@@ -4,8 +4,6 @@ const moment = require("moment");
 const logger = require("../logger");
 const userActions = require("../passport/userActions");
 
-const NetNode = require("../dbmodels/netNode");
-const NetWire = require("../dbmodels/netWire");
 const DbParam = require("../dbmodels/param");
 const DbParamValues = require("../dbmodels/paramValue");
 const DbBlockedParams = require("../dbmodels/blockedParam");
@@ -31,23 +29,6 @@ const router = new express.Router();
 router.get("/dashboard", (req, res) => {
   res.status(200).json({
     message: "You're authorized to see this secret message."
-  });
-});
-
-router.get("/nodes", (req, res, next) => {
-  const project = req.query.proj;
-
-  if (!project) {
-    res.json({
-      error: "Missing required parameter `proj`"
-    });
-    return;
-  }
-
-  NetNode.find({}, (err, nodes) => {
-    if (err) return next(err);
-    res.status(200).json(nodes);
-    return 0;
   });
 });
 
@@ -148,7 +129,7 @@ router.get("/paramValues", (req, res, next) => {
   }
 });
 
-router.get("/nodeStateValues", (req, res, next) => {
+router.get("/nodePoweredStateValues", (req, res, next) => {
   const nodeName = req.query.nodeName;
   const momentFromDT = moment(req.query.fromDT);
   const momentToDT = moment(req.query.toDT);
@@ -163,7 +144,9 @@ router.get("/nodeStateValues", (req, res, next) => {
   }
 
   DbNodePoweredStateValue.find({ nodeName, dt: { $gte: fromDT, $lt: toDT } })
-    .select({ nodeName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
+    .populate("user", "_id name email")
+    .select("nodeName oldState newState dt user -_id")
+    // .select({ nodeName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
     .sort({ dt: "desc" })
     .limit(500)
     .exec((err, nodeStateValues) => {
@@ -188,10 +171,12 @@ router.get("/nodeSwitchedOnStateValues", (req, res, next) => {
   }
 
   DbNodeSwitchedOnStateValue.find({
-    nodeName: connectorName,
+    connectorName: connectorName,
     dt: { $gte: fromDT, $lt: toDT }
   })
-    .select({ connectorName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
+    .populate("user", "_id name email")
+    .select("connectorName oldState newState dt user -_id")
+    // .select({ connectorName: 1, oldState: 1, newState: 1, dt: 1, _id: 0 })
     .sort({ dt: "desc" })
     .limit(500)
     .exec((err, nodeStateValues) => {
@@ -347,7 +332,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
           userActions.SaveNodeCoordinates,
           `Schema=${schemaName}, Updated=${updated}, Inserted=${inserted}`,
           req
-          );
+        );
       }
     }
   );
@@ -355,6 +340,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
 
 router.post("/saveParamManualValue", (req, res, next) => {
   const manualvalue = req.body;
+  manualvalue.user = req.user._id;
   const err = commandsServer.SetManualValue(manualvalue);
 
   if (err) {
@@ -381,6 +367,7 @@ router.post("/saveParamManualValue", (req, res, next) => {
 
 router.post("/saveConnectionManualValue", (req, res, next) => {
   const manualvalue = req.body;
+  manualvalue.user = req.user._id;
   const err = commandsServer.SetManualValue(manualvalue);
 
   if (err) {
@@ -555,14 +542,10 @@ router.get("/getCollisions", (req, res, next) => {
 
 router.get("/getBlockedParams", (req, res, next) => {
   DbBlockedParams.find({})
+    .populate("user", "_id name email")
+    .select("name dt user -_id")
     .sort({ dt: "desc" })
-    .limit(500)
-    .select({
-      name: 1,
-      dt: 1,
-      user: 1,
-      _id: 0
-    })
+    .limit(1000)
     .exec((err, data) => {
       if (err) {
         logger.info(`[CustomSchemaDeleteNode] Failed: ${err.message}`);

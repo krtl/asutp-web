@@ -1,5 +1,6 @@
 // this unit fills paramValues with the random ones.
 //
+// need to start server.
 // need to start DBInsertor.
 
 process.env.LOGGER_NAME = "testValues";

@@ -46,10 +46,10 @@ const setRawValue = newValue => {
   }
 };
 
-const BlockRawValues = paramName => {
+const BlockRawValues = (paramName, user) => {
   if (blockedParams.indexOf(paramName) < 0) {
     blockedParams.push(paramName);
-    dbValuesTracker.BlockParam(paramName);
+    dbValuesTracker.BlockParam(paramName, user);
   }
 };
 
@@ -83,7 +83,7 @@ function init(obj, callback) {
     process.env.NOWTESTING === "test_values"
   ) {
     restoreLastParamValues(() => {
-      restoreBlockedParamNamess(() => {
+      restoreBlockedParamNames(() => {
         dbValuesTracker.Start();
         callback();
       });
@@ -228,12 +228,14 @@ function restoreLastParamValues(callback) {
   );
 }
 
-function restoreBlockedParamNamess(callback) {
+function restoreBlockedParamNames(callback) {
   const start = moment();
   let count = 0;
   blockedParams = [];
 
-  DbBlockedParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+  DbBlockedParam.find({})    
+    .select("name -_id")
+    .exec((err, prms) => {
     if (err) {
       logger.error(
         `[lastValues][restoreBlockedParamNames] failed. Error: "${err.message}".`
@@ -302,7 +304,7 @@ const SetManualValue = manualValue => {
 
     if (errMess === "") {
       if (manualValue.cmd === "block") {
-        BlockRawValues(manualValue.paramName);
+        BlockRawValues(manualValue.paramName, manualValue.user);
       } else if (manualValue.cmd === "unblock") {
         UnblockRawValues(manualValue.paramName);
       }

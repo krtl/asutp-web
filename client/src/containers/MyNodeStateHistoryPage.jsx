@@ -24,12 +24,16 @@ export default class NodeStateHistoryPage extends React.Component {
     this.reloadStateHistory = this.reloadStateHistory.bind(this);
   }
 
-  reloadStateHistory(nodeName, fromDT, toDT) {
+  reloadStateHistory(nodeName, fromDT, toDT, poweredNotSwitchedOn) {
     this.setState({ nodeName });
+
+    let urlFunc = poweredNotSwitchedOn
+      ? "nodePoweredStateValues?nodeName="
+      : "nodeSwitchedOnStateValues?connectorName=";
 
     const cmds = [
       {
-        fetchUrl: `/api/nodeStateValues?nodeName=${nodeName}&fromDT=${formatDateTime(
+        fetchUrl: `/api/${urlFunc}${nodeName}&fromDT=${formatDateTime(
           fromDT
         )}&toDT=${formatDateTime(toDT)}`,
         fetchMethod: "get",

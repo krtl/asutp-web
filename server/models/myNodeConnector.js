@@ -13,9 +13,14 @@ class MyNodeConnector extends MyNode {
     this.equipments = [];
     this.switchedOn = false;
 
-    this.doOnSwitchedOnStateChanged = newSwitchedOn => {
+    this.doOnSwitchedOnStateChanged = (newSwitchedOn, user) => {
       if (this.switchedOnStateChangeHandler) {
-        this.switchedOnStateChangeHandler(this, this.switchedOn, newSwitchedOn);
+        this.switchedOnStateChangeHandler(
+          this,
+          this.switchedOn,
+          newSwitchedOn,
+          user
+        );
       }
       this.switchedOn = newSwitchedOn;
     };
@@ -32,7 +37,8 @@ class MyNodeConnector extends MyNode {
             lastValues.SetManualValue({
               paramName: equipment[MyNodePropNameParamRole.STATE],
               cmd: manualValue.cmd,
-              manualValue: manualValue.manualValue
+              manualValue: manualValue.manualValue,
+              user: manualValue.user
             });
             b = true;
             break;
@@ -45,7 +51,8 @@ class MyNodeConnector extends MyNode {
         const float = manualValue.manualValue;
         const newSwitchedOn = float !== 0;
         if (this.switchedOn !== newSwitchedOn) {
-          this.doOnSwitchedOnStateChanged(newSwitchedOn);
+          // console.log("doOnSwitchedOnStateChanged: ", manualValue);
+          this.doOnSwitchedOnStateChanged(newSwitchedOn, manualValue.user);
         }
       }
     }

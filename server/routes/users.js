@@ -1,9 +1,8 @@
-
 // const AuthUser = require('mongoose').model('AuthUser');
-const AuthUser = require('../dbmodels/authUser');
+const AuthUser = require("../dbmodels/authUser");
 
-module.exports = (app) => {
-  app.get('/users', (req, res, next) => {
+module.exports = app => {
+  app.get("/users", (req, res, next) => {
     AuthUser.find({}, (err, users) => {
       if (err) return next(err);
       res.json(users);
@@ -11,7 +10,7 @@ module.exports = (app) => {
     });
   });
 
-  app.get('/users/:id', (req, res, next) => {
+  app.get("/users/:id", (req, res, next) => {
     AuthUser.findById(req.params.id, (err, user) => {
       if (err) {
         return next(err);

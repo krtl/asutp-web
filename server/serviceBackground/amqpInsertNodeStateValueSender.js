@@ -15,7 +15,7 @@ const TrackDbNodePoweredStateValue = newNodeStateValue => {
   const node = MyDataModelNodes.GetNode(newNodeStateValue.nodeName); // is that realy required??
   if (node !== undefined) {
     const dt = moment(newNodeStateValue.dt).format("YYYY-MM-DD HH:mm:ss.SSS");
-    const s = `P<>${newNodeStateValue.nodeName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}`;
+    const s = `P<>${newNodeStateValue.nodeName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}<>`;
     amqpInsertNodeStateSender.send(config.amqpInsertNodeStateQueueName, s);
   }
 };
@@ -26,7 +26,7 @@ const TrackDbNodeSwitchedOnStateValue = newNodeStateValue => {
   const node = MyDataModelNodes.GetNode(newNodeStateValue.connectorName); // is that realy required??
   if (node !== undefined) {
     const dt = moment(newNodeStateValue.dt).format("YYYY-MM-DD HH:mm:ss.SSS");
-    const s = `S<>${newNodeStateValue.connectorName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}`;
+    const s = `S<>${newNodeStateValue.connectorName}<>${newNodeStateValue.oldState}<>${newNodeStateValue.newState}<>${dt}<>${newNodeStateValue.user}`;
     amqpInsertNodeStateSender.send(config.amqpInsertNodeStateQueueName, s);
   }
 };

@@ -1,8 +1,9 @@
-function MyNodeSwitchedOnStateValue(nodeName, oldState, newState, dt) {
+function MyNodeSwitchedOnStateValue(nodeName, oldState, newState, dt, user) {
   this.connectorName = nodeName;
   this.oldState = oldState;
   this.newState = newState;
   this.dt = dt;
+  this.user = user;
 }
 
 function myNodeStateStringifyReplacer(key, value) {

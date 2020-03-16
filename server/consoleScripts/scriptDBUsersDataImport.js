@@ -154,7 +154,7 @@ importUsers = callback => {
               callback(`Exception on save User: ${err.message}`);
             } else {
               logger.info(
-                `User "${newLinkage.nodeName}.${newLinkage.paramPropName}" inserted`
+                `User "${userRawData.email}"(${userRawData.name}) inserted`
               );
               callback(null);
             }

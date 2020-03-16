@@ -57,7 +57,9 @@ db.on("connected", () => {
               if (s.length > 1) {
                 const type = s[0];
                 if (type == "BP") {
-                  DbParamValues.BlockDbParamValue(s[1]);
+                  let user;
+                  if (s.length > 2) user = s[2];
+                  DbParamValues.BlockDbParamValue(s[1], user);
                 } else if (type == "UBP") {
                   DbParamValues.UnblockDbParamValue(s[1]);
                 } else if (type == "PV") {
@@ -100,9 +102,9 @@ db.on("connected", () => {
             received => {
               logger.verbose(`[NodeStateReceiver] Got msg ${received}`);
 
-              // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132
+              // nodeName<>oldState<>newState<>2017-11-17 10:05:44.132<>user
               const s = received.split("<>");
-              if (s.length === 5) {
+              if (s.length === 6) {
                 const type = s[0];
                 const momentDT = moment(s[4]);
                 const dt = new Date(momentDT);
@@ -120,11 +122,13 @@ db.on("connected", () => {
                 } else if (type == "S") {
                   const oldState = s[2];
                   const newState = s[3];
+                  const user = s[5];
                   const obj = new MyNodeSwitchedOnStateValue(
                     s[1],
                     oldState,
                     newState,
-                    dt
+                    dt,
+                    user
                   );
                   DbNodeStateValues.SaveSwitchedOnNodeStateValue(obj);
                 } else {

@@ -169,7 +169,12 @@ export default class SystemServiceForm extends React.Component {
                             {value.dt}
                           </Moment>
                         </TableCell>
-                        <TableCell>{value.user}</TableCell>
+                        {value.user ? (
+                        <TableCell>{`${value.user.name}(${value.user.email})`}</TableCell>
+                      ) : (
+                        <TableCell></TableCell>
+                      )}
+
                       </TableRow>
                     ))}
                   </TableBody>

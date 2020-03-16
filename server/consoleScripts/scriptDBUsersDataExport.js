@@ -4,13 +4,6 @@ const moment = require("moment");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
-
-const DbNodePoweredStateValue = require("../dbmodels/nodePoweredStateValue");
-const DbNodeSwitchedOnStateValue = require("../dbmodels/nodeSwitchedOnStateValue");
-const DbParamValue = require("../dbmodels/paramValue");
-const DbParamHalfHourValue = require("../dbmodels/paramHalfHourValue");
-const DbBlockedParam = require("../dbmodels/blockedParam");
-
 const DbUser = require("../dbmodels/authUser");
 
 const async = require("async");
@@ -68,7 +61,15 @@ exportUsers = callback => {
         callback(err);
       });
     }
-  }).select({ email: 1, password: 1, name: 1, role: 1, might: 1, created: 1, _id: 0 });
+  }).select({
+    email: 1,
+    password: 1,
+    name: 1,
+    role: 1,
+    might: 1,
+    created: 1,
+    _id: 0
+  });
 };
 
 exportLinkages = callback => {
@@ -88,7 +89,7 @@ exportLinkages = callback => {
 
 exportNodeSchemas = callback => {
   DbNodeSchema.find(
-  { name: { $not: /^nodes_of_|^schema_of_*/ } },
+    { name: { $not: /^nodes_of_|^schema_of_*/ } },
     // { name: new RegExp("^nodes_of_|^schema_of_", "i") },
     (err, schemas) => {
       if (err) {

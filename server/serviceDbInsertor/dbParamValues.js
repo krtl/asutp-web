@@ -112,7 +112,7 @@ const RemoveOldParamValues = callback => {
   });
 };
 
-const BlockDbParamValue = paramName => {
+const BlockDbParamValue = (paramName, user) => {
   DbBlockedParam.findOne({ name: paramName }, (err, param) => {
     if (err) {
       logger.error(`[BlockDbParam] Error: ${err.message}`);
@@ -120,7 +120,8 @@ const BlockDbParamValue = paramName => {
       logger.warn(`[BlockDbParam] param "${err.message}" already unblocked.`);
     } else {
       const paramValue = DbBlockedParam({
-        name: paramName
+        name: paramName,
+        user: user
       });
 
       paramValue.save(err => {
