@@ -34,6 +34,7 @@ export default class MyPSSchemeForm extends React.Component {
       initialParamValue: 0,
       initialBlockRawValues: "",
       editedNodeName: "",
+      editedNodeCaption: "",
       editedParamName: ""
     };
 
@@ -236,6 +237,7 @@ export default class MyPSSchemeForm extends React.Component {
               initialParamValue: param.value,
               initialBlockRawValues: s,
               editedNodeName: locNode.name,
+              editedNodeCaption: locNode.caption,
               editedParamName: locNode.paramName
             });
           }
@@ -255,7 +257,9 @@ export default class MyPSSchemeForm extends React.Component {
             openConnectionDialog: true,
             initialParamValue: locNode.switchedOn ? 1 : 0,
             initialBlockRawValues: s,
-            editedNodeName: locNode.name
+            editedNodeName: locNode.name,
+            editedNodeCaption: locNode.caption,
+            editedParamName: locNode.paramName
           });
           break;
         }
@@ -321,7 +325,10 @@ export default class MyPSSchemeForm extends React.Component {
             break;
           }
         }
-      } else if ((locNode.nodeType === MyConsts.NODE_TYPE_SECTIONCONNECTOR) || (locNode.nodeType === MyConsts.NODE_TYPE_SEC2SECCONNECTOR)) {
+      } else if (
+        locNode.nodeType === MyConsts.NODE_TYPE_SECTIONCONNECTOR ||
+        locNode.nodeType === MyConsts.NODE_TYPE_SEC2SECCONNECTOR
+      ) {
         if (locNode.paramName) {
           const param = this.getParamByName(locNode.paramName);
           if (param) {
@@ -404,6 +411,7 @@ export default class MyPSSchemeForm extends React.Component {
           initialParamValue={this.state.initialParamValue}
           initialBlockRawValues={this.state.initialBlockRawValues}
           editedNodeName={this.state.editedNodeName}
+          editedNodeCaption={this.state.editedNodeCaption}
           editedParamName={this.state.editedParamName}
         />
 
@@ -413,6 +421,8 @@ export default class MyPSSchemeForm extends React.Component {
           initialParamValue={this.state.initialParamValue}
           initialBlockRawValues={this.state.initialBlockRawValues}
           editedNodeName={this.state.editedNodeName}
+          editedNodeCaption={this.state.editedNodeCaption}
+          editedParamName={this.state.editedParamName}
         />
       </div>
     );

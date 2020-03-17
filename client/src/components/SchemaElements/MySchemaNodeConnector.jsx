@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Text, Rect, Line, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
+import { GetBorderColor } from "../../modules/MyFuncs";
 import MyMenuBase from "./MyMenuBase";
 
 const optionHistory = "History";
@@ -44,16 +45,6 @@ export default class MySchemaNodeConnector extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
-    let borderColor = "black";
-    if (this.props.node.paramQD) {
-      if (this.props.node.paramQD.indexOf("B") > -1) {
-        borderColor = "maroon";
-      } else if (this.props.node.paramQD.indexOf("Z") > -1) {
-        borderColor = "blue";
-      } else if (this.props.node.paramQD.indexOf("NA") > -1) {
-        borderColor = "gold";
-      }
-    }
 
     const body = (
       <>
@@ -63,8 +54,8 @@ export default class MySchemaNodeConnector extends React.Component {
           y={0}
           width={MyConsts.NODE_PS_RADIUS * 2}
           height={MyConsts.NODE_PS_RADIUS * 2}
-          stroke={borderColor}
-          strokeWidth={1}
+          stroke={GetBorderColor(this.props.node.paramQD)}
+          strokeWidth={2}
           fill={this.props.color}
           shadowBlur={0}
           onDblClick={this.handleDblClick}

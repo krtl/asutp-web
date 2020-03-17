@@ -22,4 +22,19 @@ function RoundFloatString(value, wholeDigits) {
   return value;
 }
 
-export { MakeUid, RoundFloatString };
+function GetBorderColor(paramQD) {
+
+let borderColor = "grey";
+    if (paramQD) {
+      if (paramQD.indexOf("B") > -1) {
+        borderColor = "maroon";
+      } else if (paramQD.indexOf("Z") > -1) {
+        borderColor = "blue";
+      } else if (paramQD.indexOf("NA") > -1) {
+        borderColor = "gold";
+      }
+    }
+    return borderColor
+  }
+
+export { MakeUid, RoundFloatString, GetBorderColor };

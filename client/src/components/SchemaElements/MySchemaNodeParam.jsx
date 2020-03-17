@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Text, Rect, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
-import { RoundFloatString } from "../../modules/MyFuncs";
+import { RoundFloatString, GetBorderColor } from "../../modules/MyFuncs";
 import MyMenuBase from "./MyMenuBase";
 
 const optionHistory = "History";
@@ -44,17 +44,6 @@ export default class MySchemaNodeParam extends React.Component {
     const x = this.props.node.x - MyConsts.NODE_PS_RADIUS;
     const y = this.props.node.y;
 
-    let paramBorderColor = "black";
-    if (this.props.node.paramQD) {
-      if (this.props.node.paramQD.indexOf("B") > -1) {
-        paramBorderColor = "maroon";
-      } else if (this.props.node.paramQD.indexOf("Z") > -1) {
-        paramBorderColor = "blue";
-      } else if (this.props.node.paramQD.indexOf("NA") > -1) {
-        paramBorderColor = "gold";
-      }
-    }
-
     const paramValue = RoundFloatString(this.props.node.paramValue, 7);
 
     const body = (
@@ -65,8 +54,8 @@ export default class MySchemaNodeParam extends React.Component {
           y={10}
           width={MyConsts.NODE_PS_RADIUS * 4}
           height={MyConsts.NODE_PS_RADIUS}
-          stroke={paramBorderColor}
-          strokeWidth={1}
+          stroke={GetBorderColor(this.props.node.paramQD)}
+          strokeWidth={2}
           fill={"gainsboro"}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
