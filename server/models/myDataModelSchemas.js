@@ -1201,7 +1201,7 @@ const getPSSchema1 = (psName, callback) => {
   for (let i = 0; i < schemaNodes.length; i += 1) {
     const node = schemaNodes[i];
     // node.tag = undefined;
-    node.x *= NODE_RADIUS;
+    node.x *= NODE_RADIUS * 1.7;
     node.y *= NODE_RADIUS;
   }
 

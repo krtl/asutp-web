@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "material-ui/Tabs";
-import { Layer, Stage, Line } from "react-konva";
+import { Layer, Stage, Line, Label, Tag, Text } from "react-konva";
 import { Card, CardText } from "material-ui/Card";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
@@ -27,6 +27,8 @@ export default class MyPSSchemeForm extends React.Component {
       stateChanged: false,
       stageClicked: false,
 
+      hintTarget: undefined,
+
       editMode: false,
       openConnectionDialog: false,
 
@@ -43,6 +45,8 @@ export default class MyPSSchemeForm extends React.Component {
     this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
 
     this.handleParamDialogClose = this.handleParamDialogClose.bind(this);
     this.handleConnectionDialogClose = this.handleConnectionDialogClose.bind(
@@ -304,6 +308,21 @@ export default class MyPSSchemeForm extends React.Component {
     });
   }
 
+  handleMouseOut() {
+    // console.log("Mouse Out for ");
+    this.setState({
+      hintTarget: undefined
+    });
+  }
+
+  handleMouseOver(hintObj) {
+    // console.log("Mouse Over for ", hintObj);
+
+    this.setState({
+      hintTarget: hintObj
+    });
+  }
+
   render() {
     const locNodes = this.props.nodes;
     const locLines = this.getLines();
@@ -355,6 +374,17 @@ export default class MyPSSchemeForm extends React.Component {
       ? `${this.props.psInfo.name}(${this.props.psInfo.caption})`
       : "";
 
+    let toolTipVisible = false;
+    let toolTipX = 0;
+    let toolTipY = 0;
+    let toolTipText = "";
+    if (this.state.hintTarget) {
+      toolTipVisible = true;
+      toolTipX = this.state.hintTarget.x;
+      toolTipY = this.state.hintTarget.y - 5;
+      toolTipText = this.state.hintTarget.text;
+    }
+
     return (
       <div>
         <Card className="container">
@@ -393,11 +423,42 @@ export default class MyPSSchemeForm extends React.Component {
                     editMode={this.state.editMode}
                     parentStageClicked={this.state.stageClicked}
                     onDragEnd={this.handleDragEnd}
+                    onMouseOver={this.handleMouseOver}
+                    onMouseOut={this.handleMouseOut}
                     onDoubleClick={this.handleDoubleClick}
                     history={this.props.history}
                   />
                 ))}
+
+                <Label
+                  opacity={0.75}
+                  visible={toolTipVisible}
+                  x={toolTipX}
+                  y={toolTipY}
+                  listening={false}
+                >
+                  <Tag
+                    fill={"black"}
+                    pointerDirection={"down"}
+                    pointerWidth={10}
+                    pointerHeight={10}
+                    lineJoin={"round"}
+                    shadowColor={"black"}
+                    shadowBlur={10}
+                    shadowOffsetX={10}
+                    shadowOffsetY={10}
+                    shadowOpacity={0.2}
+                  ></Tag>
+                  <Text
+                    text={toolTipText}
+                    fontFamily={"Calibri"}
+                    fontSize={13}
+                    padding={5}
+                    fill={"white"}
+                  />
+                </Label>
               </Layer>
+              <Layer></Layer>
             </Stage>
           </Tab>
           <Tab label="Params">

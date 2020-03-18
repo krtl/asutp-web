@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Text, Rect, Line, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
-import { GetBorderColor } from "../../modules/MyFuncs";
+import { GetBorderColor, InsertLineBreaks } from "../../modules/MyFuncs";
 import MyMenuBase from "./MyMenuBase";
 
 const optionHistory = "History";
@@ -13,6 +13,8 @@ export default class MySchemaNodeConnector extends React.Component {
     this.state = {};
 
     this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleDblClick = this.handleDblClick.bind(this);
 
     this.handleMenuOptionSelected = this.handleMenuOptionSelected.bind(this);
@@ -36,6 +38,20 @@ export default class MySchemaNodeConnector extends React.Component {
     this.props.onDragEnd(args);
   }
 
+  handleMouseOut(args) {
+    this.props.onMouseOut();
+  }
+
+  handleMouseOver(args) {
+    if (args.evt) {
+      this.props.onMouseOver({
+        text: `${this.props.node.name}\n${this.props.node.paramName}`,
+        x: args.evt.offsetX,
+        y: args.evt.offsetY
+      });
+    }
+  }
+
   handleDblClick() {
     // console.log(`connector doubleclick for ${this.props.node}`);
     this.props.onDoubleClick(this.props.node);
@@ -45,10 +61,9 @@ export default class MySchemaNodeConnector extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
-
     const body = (
       <>
-        <Text x={1} y={-10} fontSize={9} text={this.props.node.name} />
+        {/* <Text x={1} y={-10} fontSize={9} text={this.props.node.name} /> */}
         <Rect
           x={0}
           y={0}
@@ -59,6 +74,10 @@ export default class MySchemaNodeConnector extends React.Component {
           fill={this.props.color}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
+          onMouseOut={this.handleMouseOut}
+          onMouseOver={this.handleMouseOver}
+          onMouseMove={this.handleMouseOver}
+          onMouseDragMove={this.handleMouseOver}
         />
 
         {this.props.node.switchedOn ? (
@@ -101,7 +120,12 @@ export default class MySchemaNodeConnector extends React.Component {
             />
           </Group>
         )}
-        <Text x={1} y={20} fontSize={9} text={this.props.node.caption} />
+        <Text
+          x={1 - 2.5 * MyConsts.NODE_PS_RADIUS}
+          y={20}
+          fontSize={9}
+          text={InsertLineBreaks(this.props.node.caption, 16)}
+        />
         <MyMenuBase
           x={0}
           y={0}
@@ -117,11 +141,27 @@ export default class MySchemaNodeConnector extends React.Component {
     );
 
     return this.props.editMode ? (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+      <Group
+        x={x}
+        y={y}
+        draggable
+        onDragend={this.handleDragEnd}
+        onMouseOut={this.handleMouseOut}
+        onMouseOver={this.handleMouseOver}
+        onMouseMove={this.handleMouseOver}
+        onMouseDragMove={this.handleMouseOver}
+      >
         {body}
       </Group>
     ) : (
-      <Group x={x} y={y}>
+      <Group
+        x={x}
+        y={y}
+        onMouseOut={this.handleMouseOut}
+        onMouseOver={this.handleMouseOver}
+        onMouseMove={this.handleMouseOver}
+        onMouseDragMove={this.handleMouseOver}
+      >
         {body}
       </Group>
     );
@@ -139,6 +179,8 @@ MySchemaNodeConnector.propTypes = {
   editMode: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired,
   onDragEnd: PropTypes.func.isRequired,
+  onMouseOut: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired

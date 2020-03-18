@@ -14,6 +14,8 @@ export default class MySchemaNode extends React.Component {
     super(props);
     this.state = {};
     this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleDblClick = this.handleDblClick.bind(this);
   }
 
@@ -28,6 +30,14 @@ export default class MySchemaNode extends React.Component {
       x: args.target.x(),
       y: args.target.y()
     });
+  }
+
+  handleMouseOut(args) {
+    this.props.onMouseOut(args);
+  }
+
+  handleMouseOver(args) {
+    this.props.onMouseOver(args);
   }
 
   render() {
@@ -113,6 +123,8 @@ export default class MySchemaNode extends React.Component {
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
             onDoubleClick={this.handleDblClick}
             history={this.props.history}
           />
@@ -127,6 +139,8 @@ export default class MySchemaNode extends React.Component {
             color={color}
             parentStageClicked={this.props.parentStageClicked}
             onDragEnd={this.handleDragEnd}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
             onDoubleClick={this.handleDblClick}
             history={this.props.history}
           />
@@ -176,6 +190,8 @@ MySchemaNode.propTypes = {
   editMode: PropTypes.bool.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
   onDragEnd: PropTypes.func.isRequired,
+  onMouseOut: PropTypes.func,
+  onMouseOver: PropTypes.func,
   onDoubleClick: PropTypes.func.isRequired,
   doOnDeleteNode: PropTypes.func,
   history: PropTypes.object.isRequired

@@ -23,18 +23,28 @@ function RoundFloatString(value, wholeDigits) {
 }
 
 function GetBorderColor(paramQD) {
-
-let borderColor = "grey";
-    if (paramQD) {
-      if (paramQD.indexOf("B") > -1) {
-        borderColor = "maroon";
-      } else if (paramQD.indexOf("Z") > -1) {
-        borderColor = "blue";
-      } else if (paramQD.indexOf("NA") > -1) {
-        borderColor = "gold";
-      }
+  let borderColor = "grey";
+  if (paramQD) {
+    if (paramQD.indexOf("B") > -1) {
+      borderColor = "maroon";
+    } else if (paramQD.indexOf("Z") > -1) {
+      borderColor = "blue";
+    } else if (paramQD.indexOf("NA") > -1) {
+      borderColor = "gold";
     }
-    return borderColor
+  }
+  return borderColor;
+}
+
+function InsertLineBreaks(text, size) {
+  const numChunks = Math.ceil(text.length / size);
+  const chunks = new Array(numChunks);
+
+  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+    chunks[i] = text.substr(o, size);
   }
 
-export { MakeUid, RoundFloatString, GetBorderColor };
+  return chunks.join("\n");
+}
+
+export { MakeUid, RoundFloatString, GetBorderColor, InsertLineBreaks };

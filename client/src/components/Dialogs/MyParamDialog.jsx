@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
 import FlatButton from "material-ui/FlatButton";
 import TextField from "material-ui/TextField";
 import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
@@ -92,6 +93,7 @@ export default class MyParamDialog extends React.Component {
     return (
       <Dialog
         // title={`Manual value for param: '${this.props.editedNodeName}'`}
+
         actions={actions}
         modal={false}
         open={this.state.open}
@@ -99,37 +101,47 @@ export default class MyParamDialog extends React.Component {
         autoScrollBodyContent={true}
       >
         <DialogTitle align="center">{"Manual value for param:"}</DialogTitle>
-        <Typography variant="h6" paragraph align="center">
+        <Typography variant="subtitle2" align="center">
           {this.props.editedNodeName}
         </Typography>
-        <Typography variant="h6" paragraph color="primary" align="center">
+        <Typography variant="h6" color="primary" align="center">
           {this.props.editedNodeCaption}
         </Typography>
-        <Typography variant="h6" paragraph color="secondary" align="center">
+        <Typography
+          paragraph
+          variant="subtitle2"
+          color="secondary"
+          align="center"
+        >
           {this.props.editedParamName}
         </Typography>
 
         {/* <DialogContent> */}
-        <TextField
-          floatingLabelText="Manual Value:"
-          name="ManualValue"
-          type="number"
-          // autoFocus
-          // margin="dense"
-          // id="manualValue"
-          // label="manualValue"
-          // fullWidth
-          onChange={this.handleManualValueChange}
-          value={this.state.newManualValue}
-        />
-
-        <RadioButtonGroup
-          name="blocking"
-          defaultSelected={this.props.initialBlockRawValues}
-          onChange={this.handleRadioGroupChange}
-        >
-          {radios}
-        </RadioButtonGroup>
+        <Grid container spacing={5} alignItems="center" justify="center">
+          <Grid item>
+            <TextField
+              floatingLabelText="Manual Value:"
+              name="ManualValue"
+              type="number"
+              // autoFocus
+              // margin="dense"
+              // id="manualValue"
+              // label="manualValue"
+              // fullWidth
+              onChange={this.handleManualValueChange}
+              value={this.state.newManualValue}
+            />
+          </Grid>
+          <Grid item>
+            <RadioButtonGroup
+              name="blocking"
+              defaultSelected={this.props.initialBlockRawValues}
+              onChange={this.handleRadioGroupChange}
+            >
+              {radios}
+            </RadioButtonGroup>
+          </Grid>
+        </Grid>
       </Dialog>
     );
   }

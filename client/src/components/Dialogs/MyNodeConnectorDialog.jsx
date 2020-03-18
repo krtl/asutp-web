@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Dialog from "material-ui/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
 import FlatButton from "material-ui/FlatButton";
 import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
 import Typography from "@material-ui/core/Typography";
@@ -109,33 +110,42 @@ export default class MyNodeConectorDialog extends React.Component {
         <DialogTitle align="center">
           {"Manual value for connector:"}
         </DialogTitle>
-        <Typography variant="h6" align="center">
+        <Typography variant="subtitle2" align="center">
           {this.props.editedNodeName}
         </Typography>
         <Typography variant="h6" color="primary" align="center">
           {this.props.editedNodeCaption}
         </Typography>
-        <Typography variant="h6" color="secondary" align="center">
+        <Typography
+          paragraph
+          variant="subtitle2"
+          color="secondary"
+          align="center"
+        >
           {this.props.editedParamName}
         </Typography>
-
         {/* <DialogContent> */}
 
-        <RadioButtonGroup
-          name="value"
-          defaultSelected={this.props.initialParamValue}
-          onChange={this.handleManualValueChange}
-        >
-          {radiosValue}
-        </RadioButtonGroup>
-
-        <RadioButtonGroup
-          name="blocking"
-          defaultSelected={this.props.initialBlockRawValues}
-          onChange={this.handleRadioGroupChange}
-        >
-          {radiosBlocking}
-        </RadioButtonGroup>
+        <Grid container spacing={5} alignItems="center" justify="center">
+          <Grid item>
+            <RadioButtonGroup
+              name="value"
+              defaultSelected={this.props.initialParamValue}
+              onChange={this.handleManualValueChange}
+            >
+              {radiosValue}
+            </RadioButtonGroup>
+          </Grid>
+          <Grid item>
+            <RadioButtonGroup
+              name="blocking"
+              defaultSelected={this.props.initialBlockRawValues}
+              onChange={this.handleRadioGroupChange}
+            >
+              {radiosBlocking}
+            </RadioButtonGroup>
+          </Grid>
+        </Grid>
       </Dialog>
     );
   }

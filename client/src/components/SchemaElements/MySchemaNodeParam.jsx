@@ -13,6 +13,8 @@ export default class MySchemaNodeParam extends React.Component {
     this.state = {};
 
     this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleDblClick = this.handleDblClick.bind(this);
 
     this.handleMenuOptionSelected = this.handleMenuOptionSelected.bind(this);
@@ -36,6 +38,20 @@ export default class MySchemaNodeParam extends React.Component {
     this.props.onDragEnd(args);
   }
 
+  handleMouseOut(args) {
+    this.props.onMouseOut(args);
+  }
+
+  handleMouseOver(args) {
+    if (args.evt) {
+      this.props.onMouseOver({
+        text: `${this.props.node.name}\n${this.props.node.paramName}`,
+        x: args.evt.offsetX,
+        y: args.evt.offsetY
+      });
+    }
+  }
+
   handleDblClick() {
     this.props.onDoubleClick(this.props.node);
   }
@@ -48,10 +64,10 @@ export default class MySchemaNodeParam extends React.Component {
 
     const body = (
       <>
-        <Text x={0} y={0} fontSize={9} text={this.props.node.name} />
+        {/* <Text x={0} y={-5} fontSize={9} text={this.props.node.name} /> */}
         <Rect
           x={0}
-          y={10}
+          y={5}
           width={MyConsts.NODE_PS_RADIUS * 4}
           height={MyConsts.NODE_PS_RADIUS}
           stroke={GetBorderColor(this.props.node.paramQD)}
@@ -59,15 +75,19 @@ export default class MySchemaNodeParam extends React.Component {
           fill={"gainsboro"}
           shadowBlur={0}
           onDblClick={this.handleDblClick}
+          onMouseOut={this.handleMouseOut}
+          onMouseOver={this.handleMouseOver}
+          onMouseMove={this.handleMouseOver}
+          onMouseDragMove={this.handleMouseOver}
         />
         <Text
           x={1}
-          y={11}
+          y={6}
           fontSize={9}
           text={`${paramValue}`}
           onDblClick={this.handleDblClick}
         />
-        <Text x={1} y={21} fontSize={9} text={this.props.node.paramName} />
+        {/* <Text x={1} y={15} fontSize={9} text={this.props.node.paramName} /> */}
 
         <MyMenuBase
           x={0}
@@ -84,11 +104,27 @@ export default class MySchemaNodeParam extends React.Component {
     );
 
     return this.props.editMode ? (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+      <Group
+        x={x}
+        y={y}
+        draggable
+        onDragend={this.handleDragEnd}
+        onMouseOut={this.handleMouseOut}
+        onMouseOver={this.handleMouseOver}
+        onMouseMove={this.handleMouseOver}
+        onMouseDragMove={this.handleMouseOver}
+      >
         {body}
       </Group>
     ) : (
-      <Group x={x} y={y}>
+      <Group
+        x={x}
+        y={y}
+        onMouseOut={this.handleMouseOut}
+        onMouseOver={this.handleMouseOver}
+        onMouseMove={this.handleMouseOver}
+        onMouseDragMove={this.handleMouseOver}
+      >
         {body}
       </Group>
     );
@@ -106,6 +142,8 @@ MySchemaNodeParam.propTypes = {
   editMode: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired,
   onDragEnd: PropTypes.func.isRequired,
+  onMouseOut: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   parentStageClicked: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired
