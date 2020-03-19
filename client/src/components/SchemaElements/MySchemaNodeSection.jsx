@@ -43,9 +43,14 @@ export default class MySchemaNodeSection extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
-
-    const body = <>
-        <Text x={1} y={-10} fontSize={9} text={this.props.node.name} />
+    const body = (
+      <>
+        <Text
+          x={1 - MyConsts.NODE_PS_RADIUS * 4}
+          y={-10}
+          fontSize={9}
+          text={this.props.node.name}
+        />
         <Rect
           x={0 - MyConsts.NODE_PS_RADIUS * 4}
           y={0}
@@ -57,7 +62,12 @@ export default class MySchemaNodeSection extends React.Component {
           shadowBlur={0}
           onDblClick={this.handleDblClick}
         />
-        <Text x={1} y={10} fontSize={9} text={this.props.node.caption} />
+        <Text
+          x={1 - MyConsts.NODE_PS_RADIUS * 4}
+          y={10}
+          fontSize={9}
+          text={this.props.node.caption}
+        />
         <MyMenuBase
           x={0}
           y={0}
@@ -69,7 +79,8 @@ export default class MySchemaNodeSection extends React.Component {
           onMenuItemSelected={this.handleMenuOptionSelected}
           parentStageClicked={this.props.parentStageClicked}
         />
-    </>;
+      </>
+    );
     return this.props.editMode ? (
       <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
         {body}

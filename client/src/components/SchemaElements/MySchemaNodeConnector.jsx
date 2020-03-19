@@ -61,6 +61,9 @@ export default class MySchemaNodeConnector extends React.Component {
     const x = this.props.node.x;
     const y = this.props.node.y;
 
+    const captionAtTheTop = this.props.node.y <= 100;
+    const captionY = captionAtTheTop ? -28 : 22;
+
     const body = (
       <>
         {/* <Text x={1} y={-10} fontSize={9} text={this.props.node.name} /> */}
@@ -122,7 +125,7 @@ export default class MySchemaNodeConnector extends React.Component {
         )}
         <Text
           x={1 - 2.5 * MyConsts.NODE_PS_RADIUS}
-          y={20}
+          y={captionY}
           fontSize={9}
           text={InsertLineBreaks(this.props.node.caption, 16)}
         />
