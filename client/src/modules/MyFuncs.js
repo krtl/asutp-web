@@ -37,12 +37,28 @@ function GetBorderColor(paramQD) {
 }
 
 function InsertLineBreaks(text, size) {
-  const numChunks = Math.ceil(text.length / size);
-  const chunks = new Array(numChunks);
-
-  for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-    chunks[i] = text.substr(o, size);
+  let words = text.split(" ");
+  let chunk = "";
+  let chunks = [];
+  let j = 0;
+  for (let i = 0; i < words.length; i++) {
+    if (j > size) {
+      chunks.push(chunk);
+      chunk = "";
+      j = 0;
+    }
+    if (chunk !== "") chunk += " ";
+    chunk += words[i];
+    j += words[i].length + 1;
   }
+
+  if (chunk !== "") chunks.push(chunk);
+
+  // const numChunks = Math.ceil(text.length / size);
+  // const chunks = new Array(numChunks);
+  // for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+  //   chunks[i] = text.substr(o, size);
+  // }
 
   return chunks.join("\n");
 }
