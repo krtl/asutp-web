@@ -18,6 +18,13 @@ const amqpSend = (level, message) => {
     const dt = moment().format("YYYY-MM-DD HH:mm:ss.SSS");
     const s = `${process.env.LOGGER_NAME}<|>${level}<|>${dt}<|>${message}`;
     amqpSender.send(config.amqpServiceLoggsQueueName, s);
+  } else {
+    switch (level) {
+      case 'error': console.error(message); break;
+      case 'warn': console.warn(message); break;
+      default: console.log(message);
+    }
+
   }
 };
 

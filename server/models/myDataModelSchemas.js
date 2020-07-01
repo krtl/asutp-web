@@ -1710,10 +1710,10 @@ function ReloadPSSchemaParams(psName, cb) {
         });
       });
     } else {
-      cb(Error(`PS with name ${psName} did't found.`));
+      cb(Error(`Can't find PS with name = "${psName}".`));
     }
   } else {
-    cb(Error(`PS Schema with name ${schemaName} did't  found.`));
+    cb(Error(`Can't find PS Schema with name = "${schemaName}".`));
   }
 }
 
