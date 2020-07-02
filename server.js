@@ -1,6 +1,6 @@
 process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "server";
-process.env.LOGGER_LEVEL = "info";
+process.env.LOGGER_LEVEL = "debug";
 process.env.NODE_ENV = "production";
 
 const logger = require("./server/logger");
@@ -86,7 +86,7 @@ app.set("port", process.env.PORT || 3001);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   app.use(express.static(path.join(__dirname, "client/build")));
-  app.get("/*", function(req, res) {
+  app.get("/*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
@@ -119,7 +119,7 @@ forked.on("message", msg => {
     console.log(err.message, msg);
   }
 });
-forked.on("exit", function(code, signal) {
+forked.on("exit", function (code, signal) {
   console.log(
     "child process exited with " + `code ${code} and signal ${signal}`
   );

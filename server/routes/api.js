@@ -350,12 +350,12 @@ router.post("/saveParamManualValue", (req, res, next) => {
       message: err.message
     });
   } else {
-    logger.debug("[saveParamManualValue] Manual value saved");
+    logger.debug(`[saveParamManualValue] Manual value saved. Param = ${manualvalue.paramName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}, User = ${req.user.name}(${req.user.email})`);
 
     userActions.LogUserAction(
       req.user,
       userActions.SaveParamManualValue,
-      `Param=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`,
+      `Param = ${manualvalue.paramName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}`,
       req
     );
 
@@ -377,12 +377,12 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
       message: err.message
     });
   } else {
-    logger.debug("[saveConnectionManualValue] Manual value saved");
+    logger.debug(`[saveConnectionManualValue] Connection Manual value saved. Param = ${manualvalue.nodeName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}, User = ${req.user.name}(${req.user.email})`);
 
     userActions.LogUserAction(
       req.user,
       userActions.SaveConnectionManualValue,
-      `Node=${manualvalue.nodeName}, Value=${manualvalue.manualValue}, cmd=${manualvalue.cmd}`,
+      `Node = ${manualvalue.nodeName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}`,
       req
     );
 
@@ -419,7 +419,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.AddNewCustomSchema,
-          `Name=${schemaInfo.name}`,
+          `Name = ${schemaInfo.name}`,
           req
         );
 
@@ -450,7 +450,7 @@ router.post("/deleteCustomSchema", (req, res, next) => {
     userActions.LogUserAction(
       req.user,
       userActions.DeleteCustomSchema,
-      `Schema=${schemaName}`,
+      `Schema = ${schemaName}`,
       req
     );
 
@@ -480,7 +480,7 @@ router.post("/customSchemaAddNode", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.CustomSchemaNodeAdded,
-          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`,
+          `Schema = ${requestInfo.schemaName}, Node = ${requestInfo.nodeName}`,
           req
         );
 
@@ -516,7 +516,7 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
         userActions.LogUserAction(
           req.user,
           userActions.CustomSchemaNodeDeleted,
-          `Schema=${requestInfo.schemaName}, Node=${requestInfo.nodeName}`,
+          `Schema = ${requestInfo.schemaName}, Node = ${requestInfo.nodeName}`,
           req
         );
       }
@@ -724,7 +724,7 @@ router.post("/savePSLinkage", (req, res, next) => {
     },
     err => {
       if (err) {
-        logger.info(`Failed: ${err.message}`);
+        logger.info(`Failed: ${err.message} `);
         next(err);
         // res.status(500).json({
         //   message: err.message,
@@ -765,7 +765,7 @@ router.post("/savePSLinkage", (req, res, next) => {
                 userActions.LogUserAction(
                   req.user,
                   userActions.SavePSLinkage,
-                  `PS=${psName}, Linkages=${changedNodes.join()}`,
+                  `PS = ${psName}, Linkages = ${changedNodes.join()} `,
                   req
                 );
 
