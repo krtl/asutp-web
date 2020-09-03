@@ -13,7 +13,7 @@
     "async": "^3.2.0",
     "bcrypt": "^3.0.8",
     "chai": "^4.2.0",
-    "date-fns": "^2.14.0",
+    "date-fns": "^2.16.1",
     "express": "^4.17.1",
     "history": "^4.10.1",
     "http-shutdown": "^1.2.2",
@@ -22,7 +22,7 @@
     "material-ui": "^0.20.2",
     "mocha": "^6.2.3",
     "moment": "^2.27.0",
-    "mongoose": "^5.9.20",
+    "mongoose": "^5.10.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
@@ -30,7 +30,7 @@
     "react-dom": "^16.13.1",
     "react-konva": "^16.10.1-0",
     "react-moment": "^0.9.7",
-    "react-redux": "^7.2.0",
+    "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-router-redux": "^4.0.8",
     "react-scripts": "^3.4.3",
@@ -40,7 +40,7 @@
     "validator": "^12.2.0",
     "webstomp-client": "^1.2.6",
     "winston": "^3.3.3",
-    "ws": "^7.3.0"
+    "ws": "^7.3.1"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
@@ -65,6 +65,6 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^5.2.0"
+    "concurrently": "^5.3.0"
   }
 }
