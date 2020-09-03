@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "logger",
       script:
-        "/home/kov/asutp-web/asutp-web/server/serviceLogger/serviceLogger.js",
+        "/var/projects/asutp-web/server/serviceLogger/serviceLogger.js",
       args: "",
       instances: 1,
       autorestart: true,
@@ -23,7 +23,7 @@ module.exports = {
     {
       name: "dbisertor",
       script:
-        "/home/kov/asutp-web/asutp-web/server/serviceDbInsertor/serviceDbInsertor.js",
+        "/var/projects/asutp-web/server/serviceDbInsertor/serviceDbInsertor.js",
       args: "",
       instances: 1,
       autorestart: true,
