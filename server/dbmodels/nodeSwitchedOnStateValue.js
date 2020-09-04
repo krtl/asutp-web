@@ -16,6 +16,7 @@ const NodeSwitchedOnStateValueSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
+      required: false,
       ref: "AuthUser"
     }
   },

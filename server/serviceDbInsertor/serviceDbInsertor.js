@@ -1,6 +1,6 @@
 process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "serviceDbInsertor";
-process.env.LOGGER_LEVEL = "info";
+process.env.LOGGER_LEVEL = "verbose";
 
 const logger = require("../logger");
 const amqpLogSender = require("../amqp/amqp_send");
@@ -94,7 +94,7 @@ db.on("connected", () => {
             }
           );
 
-          // should be remaked!
+          // should be remade!
 
           amqpNodeStateReceiver.start(
             config.amqpUriDbInsertor,

@@ -117,7 +117,7 @@ const BlockDbParamValue = (paramName, user) => {
     if (err) {
       logger.error(`[BlockDbParam] Error: ${err.message}`);
     } else if (param) {
-      logger.warn(`[BlockDbParam] param "${err.message}" already unblocked.`);
+      logger.warn(`[BlockDbParam] param "${paramName}" already unblocked.`);
     } else {
       const paramValue = DbBlockedParam({
         name: paramName,

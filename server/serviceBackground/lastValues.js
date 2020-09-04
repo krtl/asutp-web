@@ -233,53 +233,53 @@ function restoreBlockedParamNames(callback) {
   let count = 0;
   blockedParams = [];
 
-  DbBlockedParam.find({})    
+  DbBlockedParam.find({})
     .select("name -_id")
     .exec((err, prms) => {
-    if (err) {
-      logger.error(
-        `[lastValues][restoreBlockedParamNames] failed. Error: "${err.message}".`
-      );
-      callback(err);
-    } else {
-      const duration1 = moment().diff(start);
+      if (err) {
+        logger.error(
+          `[lastValues][restoreBlockedParamNames] failed. Error: "${err.message}".`
+        );
+        callback(err);
+      } else {
+        const duration1 = moment().diff(start);
 
-      for (let i = 0; i < prms.length; i += 1) {
-        const prm = prms[i];
+        for (let i = 0; i < prms.length; i += 1) {
+          const prm = prms[i];
 
-        if (myDataModelNodes.GetParam(prm.name)) {
-          blockedParams.push(prm.name);
-          count += 1;
-        } else {
-          logger.warn(
-            `[LastParamValues][RestoreBlockedParamNames] failed to find param: ${prm.name}`
-          );
+          if (myDataModelNodes.GetParam(prm.name)) {
+            blockedParams.push(prm.name);
+            count += 1;
+          } else {
+            logger.warn(
+              `[LastParamValues][RestoreBlockedParamNames] failed to find param: ${prm.name}`
+            );
+          }
         }
+
+        logger.debug(
+          `[LastParamValues] ${count} BlockedParams loaded in ${moment(
+            duration1
+          ).format("mm:ss.SSS")}`
+        );
+
+        // eslint-disable-next-line no-console
+        console.debug(
+          `[LastParamValues] ${count} BlockedParams loaded in ${moment(
+            duration1
+          ).format("mm:ss.SSS")}`
+        );
+
+        callback();
       }
-
-      logger.debug(
-        `[LastParamValues] ${count} BlockedParams loaded in ${moment(
-          duration1
-        ).format("mm:ss.SSS")}`
-      );
-
-      // eslint-disable-next-line no-console
-      console.debug(
-        `[LastParamValues] ${count} BlockedParams loaded in ${moment(
-          duration1
-        ).format("mm:ss.SSS")}`
-      );
-
-      callback();
-    }
-  });
+    });
 }
 
 const SetManualValue = manualValue => {
   let errMess = "";
 
-  // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
-  // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue }
+  // { paramName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue, user: _id }
+  // { nodeName: this.state.editedParamName, cmd: 'block', manualValue: newValue.newValue, user: _id }
 
   if ("nodeName" in manualValue) {
     const node = myDataModelNodes.GetNode(manualValue.nodeName);

@@ -1,3 +1,4 @@
+const logger = require("../logger");
 const myNodeType = require("./myNodeType");
 const MyNode = require("./myNode");
 const MyNodePropNameParamRole = require("../models/MyNodePropNameParamRole");
@@ -34,6 +35,9 @@ class MyNodeConnector extends MyNode {
         const equipment = this.equipments[i];
         if (MyNodePropNameParamRole.STATE in equipment) {
           if (equipment[MyNodePropNameParamRole.STATE] !== "") {
+
+            logger.debug(`doOnSwitchedOnStateChanged(${manualValue.manualValue}, ${manualValue.user})`)
+
             lastValues.SetManualValue({
               paramName: equipment[MyNodePropNameParamRole.STATE],
               cmd: manualValue.cmd,
@@ -51,7 +55,11 @@ class MyNodeConnector extends MyNode {
         const float = manualValue.manualValue;
         const newSwitchedOn = float !== 0;
         if (this.switchedOn !== newSwitchedOn) {
-          // console.log("doOnSwitchedOnStateChanged: ", manualValue);
+          
+          //console.log("doOnSwitchedOnStateChanged: ", manualValue);
+
+          logger.debug(`doOnSwitchedOnStateChanged(${newSwitchedOn}, ${manualValue.user})`)
+          
           this.doOnSwitchedOnStateChanged(newSwitchedOn, manualValue.user);
         }
       }

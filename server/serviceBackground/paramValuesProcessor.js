@@ -54,13 +54,13 @@ const initializeParamValuesProcessor = (setts, cb) => {
       },
       (node, oldState, newState, user) => {
         logger.debug(
-          `[state] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}.`
+          `[state] SwitchedOn state changed for Node: ${node.name} from ${oldState} to ${newState}. User: ${user}.`
         );
 
         if (process.env.LOGGER_LEVEL === "debug") {
           // eslint-disable-next-line no-console
           console.log(
-            `SwitchedOn state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}`
+            `SwitchedOn state changed for ${node.name} ${node.nodeType} from ${oldState} to ${newState}. ${node.schemaNames}. User: ${user}.`
           );
         }
 
