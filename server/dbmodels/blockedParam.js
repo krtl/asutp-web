@@ -15,4 +15,4 @@ const BlockedParamSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model("blockedParam", BlockedParamSchema);
+module.exports = mongoose.model("BlockedParam", BlockedParamSchema);

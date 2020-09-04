@@ -54,12 +54,6 @@ function InsertLineBreaks(text, size) {
 
   if (chunk !== "") chunks.push(chunk);
 
-  // const numChunks = Math.ceil(text.length / size);
-  // const chunks = new Array(numChunks);
-  // for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
-  //   chunks[i] = text.substr(o, size);
-  // }
-
   return chunks.join("\n");
 }
 

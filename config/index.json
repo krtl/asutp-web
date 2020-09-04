@@ -1,6 +1,6 @@
 {
-  "dbUri": "mongodb://kov:12@127.0.0.1/asutp_web",
-  "dbUri1": "mongodb://localhost/asutp_web",
+  "dbUri_": "mongodb://kov:12@127.0.0.1/asutp_web",
+  "dbUri": "mongodb://localhost/asutp_web",
   "amqpUriLogSender": "amqp://logSender:logSender@127.0.0.1",
   "amqpUriTestSender": "amqp://testSender:testSender@127.0.0.1",
   "amqpUriNodeStateSender": "amqp://stateSender:stateSender@127.0.0.1",
@@ -13,13 +13,15 @@
   "amqpInsertNodeStateQueueName": "asutp.insertNodeState.queue",
   "amqpServiceLoggsQueueName": "asutp.serviceLoggs.queue",
   "jwtSecret": "asutpsecretasutpphrase",
-  "storePath": "/home/kov/asutp-web/asutp-web/data/store/",
-  "exportPath1": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports/",
-  "exportPath": "/home/kov/asutp-web/asutp-web/data/exported_data/",
+  "storePath_": "/home/kov/asutp-web/asutp-web/data/store/",
+  "storePath": "D:/javascript/asutp-web-vs.code/data/store",
+  "exportPath_": "/home/kov/asutp-web/asutp-web/data/exported_data/",
+  "exportPath": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports1/",
   "importPath1": "D:/test/",
   "importPath2": "D:/mongodb_bases/",
-  "importPath0": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/",
-  "importPath": "/home/kov/asutp-web/asutp-web/data/imported_data/",
-  "importPath_": "/home/kov/asutp-web/asutp-web/server/testData/",
-  "logsFolderName": "/home/kov/asutp-web/asutp-web.logs"
+  "importPath": "D:/javascript/asutp-web-vs.code/data/imported_data/",
+  "importPath_": "/var/projects/asutp-web/data/imported_data/",
+  "importPath_1": "/home/kov/asutp-web/asutp-web/server/testData/",
+  "logsFolderName_": "/var/projects/asutp-web/asutp-web.logs",
+  "logsFolderName": "D:/javascript/asutp-web-vs.code.logs"
 }
