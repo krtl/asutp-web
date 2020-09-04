@@ -9,7 +9,7 @@ const TOPIC_COMMANDS = "/Commands";
 //let locHost = 'localhost:3001';
 let locConnectedCallback = null;
 
-const CreateMySocketClient = function() {
+const CreateMySocketClient = function () {
   let stompClient;
   let subsciptionValues;
   let subsciptionServerStatus;
@@ -21,7 +21,7 @@ const CreateMySocketClient = function() {
   let cbOnValueReceived = null;
   let cbOnServerStatusReceived = null;
 
-  const connectCallback = function() {
+  const connectCallback = function () {
     console.log("[stompClient] connected");
 
     if (locConnectedCallback) {
@@ -73,7 +73,7 @@ const CreateMySocketClient = function() {
     //  stompClient.send(TOPIC_COMMANDS, CMD_RELOAD, {});
   };
 
-  const errorCallback = function(error) {
+  const errorCallback = function (error) {
     console.warn(`[stompClient] stomp error: ${error}`); // not yet clean
     if (locConnectedCallback) {
       locConnectedCallback(error);
@@ -93,7 +93,7 @@ const CreateMySocketClient = function() {
     "client-id": "my-client-id"
   };
 
-  this.connect = function(callback) {
+  this.connect = function (callback) {
     if (stompClient) {
       stompClient.disconnect();
       // stompClient._cleanUp();
@@ -115,7 +115,7 @@ const CreateMySocketClient = function() {
     stompClient.heartbeat.incoming = 2000;
     // eslint-disable-next-line no-restricted-globals
 
-    stompClient.debug = function(str) {
+    stompClient.debug = function (str) {
       // console.log(str);
     };
 
@@ -135,16 +135,16 @@ const CreateMySocketClient = function() {
     stompClient.connect(headers, connectCallback, errorCallback);
   };
 
-  this.disconnect = function() {
+  this.disconnect = function () {
     stompClient.disconnect();
     // stompClient._cleanUp();
   };
 
-  this.sendCmd = function(data) {
+  this.sendCmd = function (data) {
     stompClient.send(TOPIC_COMMANDS, data, {});
   };
 
-  this.subscribeToValues = function(aParamsListName, cb) {
+  this.subscribeToValues = function (aParamsListName, cb) {
     cbOnValueReceived = cb;
     if (stompClient !== undefined) {
       if (subsciptionValues) {
@@ -165,7 +165,7 @@ const CreateMySocketClient = function() {
     }
   };
 
-  this.unsubscribeFromValues = function() {
+  this.unsubscribeFromValues = function () {
     cbOnValueReceived = null;
     if (stompClient !== undefined) {
       if (subsciptionValues) {
@@ -175,7 +175,7 @@ const CreateMySocketClient = function() {
     }
   };
 
-  this.subscribeToServerStatus = function(cb) {
+  this.subscribeToServerStatus = function (cb) {
     cbOnServerStatusReceived = cb;
     if (stompClient !== undefined) {
       if (subsciptionServerStatus) {
@@ -196,7 +196,7 @@ const CreateMySocketClient = function() {
     }
   };
 
-  this.unsubscribeFromServerStatus = function() {
+  this.unsubscribeFromServerStatus = function () {
     cbOnServerStatusReceived = null;
     if (stompClient !== undefined) {
       if (subsciptionServerStatus) {

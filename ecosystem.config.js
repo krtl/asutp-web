@@ -42,7 +42,7 @@ module.exports = {
     },
     {
       name: "server",
-      script: "server.js",
+      script: "/var/projects/asutp-web/server.js",
       args: "",
       instances: 1,
       autorestart: true,

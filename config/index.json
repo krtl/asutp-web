@@ -13,13 +13,13 @@
   "amqpInsertNodeStateQueueName": "asutp.insertNodeState.queue",
   "amqpServiceLoggsQueueName": "asutp.serviceLoggs.queue",
   "jwtSecret": "asutpsecretasutpphrase",
-  "storePath": "/home/kov/asutp-web/asutp-web/data/store/",
+  "storePath": "/var/projects/asutp-web/asutp-web/data/store/",
   "exportPath1": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/Exports/",
-  "exportPath": "/home/kov/asutp-web/asutp-web/data/exported_data/",
+  "exportPath": "/var/projects/asutp-web/asutp-web/data/exported_data/",
   "importPath1": "D:/test/",
   "importPath2": "D:/mongodb_bases/",
   "importPath0": "D:/c#/ImportFromSAP/ImportFromSAP/ImportFromSAP/bin/Debug/",
-  "importPath": "/home/kov/asutp-web/asutp-web/data/imported_data/",
-  "importPath_": "/home/kov/asutp-web/asutp-web/server/testData/",
-  "logsFolderName": "/home/kov/asutp-web/asutp-web.logs"
+  "importPath": "/var/projects/asutp-web/asutp-web/data/imported_data/",
+  "importPath_": "/var/projects/asutp-web/asutp-web/server/testData/",
+  "logsFolderName": "/var/projects/asutp-web/asutp-web.logs"
 }

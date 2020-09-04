@@ -1,6 +1,7 @@
 cra-server-ex.graffle
 
 logs/
+asutp-web.logs/
 data
 node_modules
 coverage
