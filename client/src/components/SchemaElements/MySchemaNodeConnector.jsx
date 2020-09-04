@@ -127,7 +127,7 @@ export default class MySchemaNodeConnector extends React.Component {
           x={1 - 2.5 * MyConsts.NODE_PS_RADIUS}
           y={captionY}
           fontSize={9}
-          text={InsertLineBreaks(this.props.node.caption, 16)}
+          text={InsertLineBreaks(this.props.node.caption, 12)}
         />
         <MyMenuBase
           x={0}
