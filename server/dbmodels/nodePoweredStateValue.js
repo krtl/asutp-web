@@ -19,9 +19,9 @@ const NodePoweredStateValueSchema = new mongoose.Schema(
     //   ref: "AuthUser"
     // }
   },
-  {
-    capped: { size: 5000000000 }
-  }
+  // {
+  //   capped: { size: 5000000000 }
+  // }
 );
 
 NodePoweredStateValueSchema.index({ nodeName: 1, dt: -1 }, { unique: true });

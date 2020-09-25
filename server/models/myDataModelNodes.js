@@ -71,7 +71,7 @@ const Shema = [
   [DbNodeSection, MyNodeSection],
   [DbNodeSectionConnector, MyNodeSectionConnector],
   [DbNodeSec2SecConnector, MyNodeSec2SecConnector],
-  [DbNodeEquipment, MyNodeEquipment]
+  [DbNodeEquipment, MyNodeEquipment],
 ];
 
 let errs = 0;
@@ -95,7 +95,7 @@ process
     console.error(s);
     process.exit(1);
   })
-  .on("uncaughtException", err => {
+  .on("uncaughtException", (err) => {
     const s = `Uncaught Exception thrown: ${err.message} \r\n callstack: ${err.stack}`;
     setError(s);
     // eslint-disable-next-line no-console
@@ -103,7 +103,7 @@ process
     process.exit(1);
   });
 
-const LoadFromDB = cb => {
+const LoadFromDB = (cb) => {
   const start = moment();
   errs = 0;
   async.series(
@@ -116,7 +116,7 @@ const LoadFromDB = cb => {
       preparePSs,
       prepareLEPs,
       checkIntegrity,
-      linkParamNamesToNodes
+      linkParamNamesToNodes,
     ],
     () => {
       let res = null;
@@ -130,7 +130,7 @@ const LoadFromDB = cb => {
 
         // eslint-disable-next-line no-console
         console.debug(
-          `[ModelNodes] loaded in ${moment(duration).format("mm:ss.SSS")}`
+          `[ModelNodes] loaded with ${nodes.size} nodes in ${moment(duration).format("mm:ss.SSS")}`
         );
       } else {
         res = Error(`loading nodes failed with ${errs} errors!`);
@@ -155,7 +155,7 @@ function clearData(cb) {
 function loadParams(cb) {
   DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
     if (err) return cb(err);
-    prms.forEach(prm => {
+    prms.forEach((prm) => {
       const p = new MyParam(
         prm._id,
         prm.name,
@@ -177,7 +177,7 @@ function loadNodes(callback) {
     (schemeElement, callback) => {
       loadNodesFromDB(schemeElement, callback);
     },
-    err => {
+    (err) => {
       if (err) {
         // setError(`loading failed: ${err}`);
       } else {
@@ -185,7 +185,7 @@ function loadNodes(callback) {
       }
       callback(err);
     },
-    err => {
+    (err) => {
       callback(err);
     }
   );
@@ -202,7 +202,7 @@ function loadNodesFromDB(schemeElement, cb) {
       (dbNodeObj, callback) => {
         DbNode.findOne(
           {
-            name: dbNodeObj.name
+            name: dbNodeObj.name,
           },
           (err, locNode) => {
             if (err) {
@@ -263,7 +263,7 @@ function loadNodesFromDB(schemeElement, cb) {
         );
         return false;
       },
-      err => {
+      (err) => {
         cb(err);
       }
     );
@@ -275,7 +275,7 @@ function getPSForJson(ps) {
   const locPS = new MyNodePS(ps.name, ps.caption, ps.description);
   locPS.parentNode = ps.parentNode.name;
   locPS.sapCode = ps.sapCode;
-  ps.transformers.forEach(transformer => {
+  ps.transformers.forEach((transformer) => {
     const locTransformer = new MyNodeTransformer(
       transformer.name,
       transformer.caption,
@@ -283,7 +283,7 @@ function getPSForJson(ps) {
     );
     locPS.transformers.push(locTransformer);
     locTransformer.sapCode = transformer.sapCode;
-    transformer.transConnectors.forEach(transConnector => {
+    transformer.transConnectors.forEach((transConnector) => {
       const locTransConnector = new MyNodeTransformerConnector(
         transConnector.name,
         transConnector.caption,
@@ -293,7 +293,7 @@ function getPSForJson(ps) {
       locTransformer.transConnectors.push(locTransConnector);
     });
   });
-  ps.psparts.forEach(pspart => {
+  ps.psparts.forEach((pspart) => {
     const locPSPart = new MyNodePSPart(
       pspart.name,
       pspart.caption,
@@ -302,7 +302,7 @@ function getPSForJson(ps) {
     locPS.psparts.push(locPSPart);
     locPSPart.sapCode = pspart.sapCode;
     locPSPart.voltage = pspart.voltage;
-    pspart.sections.forEach(section => {
+    pspart.sections.forEach((section) => {
       const locSection = new MyNodeSection(
         section.name,
         section.caption,
@@ -312,7 +312,7 @@ function getPSForJson(ps) {
       locSection.sapCode = section.sapCode;
       locSection[MyNodePropNameParamRole.VOLTAGE] =
         section[MyNodePropNameParamRole.VOLTAGE];
-      section.connectors.forEach(connection => {
+      section.connectors.forEach((connection) => {
         const locConnector = new MyNodeSectionConnector(
           connection.name,
           connection.caption,
@@ -323,7 +323,7 @@ function getPSForJson(ps) {
         locConnector.cellNumber = connection.cellNumber;
         locConnector[MyNodePropNameParamRole.POWER] =
           connection[MyNodePropNameParamRole.POWER];
-        connection.equipments.forEach(equipment => {
+        connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(
             equipment.name,
             equipment.caption,
@@ -338,7 +338,7 @@ function getPSForJson(ps) {
       });
     });
 
-    pspart.sec2secConnectors.forEach(connection => {
+    pspart.sec2secConnectors.forEach((connection) => {
       const locConnector = new MyNodeSec2SecConnector(
         connection.name,
         connection.caption,
@@ -350,7 +350,7 @@ function getPSForJson(ps) {
       locConnector.cellNumber = connection.cellNumber;
       locConnector[MyNodePropNameParamRole.POWER] =
         connection[MyNodePropNameParamRole.POWER];
-      connection.equipments.forEach(equipment => {
+      connection.equipments.forEach((equipment) => {
         const locEquipment = new MyNodeEquipment(
           equipment.name,
           equipment.caption,
@@ -376,17 +376,22 @@ function ExportPSs(callback) {
       const ps = locNodePair[1];
       const json = MyNodeJsonSerialize(getPSForJson(ps));
 
-      fs.writeFile(`${config.exportPath}${ps.name}.json`, json, "utf8", err => {
-        if (err) {
-          setError(err.message);
-          // console.error(`Failed! Error: ${err}`);
-        } else {
-          // console.info('FileWriteDone!');
+      fs.writeFile(
+        `${config.exportPath}${ps.name}.json`,
+        json,
+        "utf8",
+        (err) => {
+          if (err) {
+            setError(err.message);
+            // console.error(`Failed! Error: ${err}`);
+          } else {
+            // console.info('FileWriteDone!');
+          }
+          callback(err);
         }
-        callback(err);
-      });
+      );
     },
-    err => {
+    (err) => {
       callback(err);
     }
   );
@@ -431,7 +436,7 @@ function replaceNamesWithObjects(callback) {
       }
       callback(err);
     },
-    err => {
+    (err) => {
       if (err) {
         // setError(`replacing failed: ${err}`);
       } else {
@@ -439,7 +444,7 @@ function replaceNamesWithObjects(callback) {
       }
       callback(err);
     },
-    err => {
+    (err) => {
       callback(err);
     }
   );
@@ -696,7 +701,7 @@ function preparePSs(cb) {
       }
       inputPsPart.inputNotOutput = true;
 
-      // input psparts should be at the top
+      // input psparts should be at the top (this required for displaying schema on the GUI)
       if (inputPsPart !== ps.psparts[0]) {
         ps.psparts.splice(ps.psparts.indexOf(inputPsPart), 1);
         ps.psparts.unshift(inputPsPart);
@@ -823,7 +828,7 @@ function checkIntegrity(cb) {
       }
     }
 
-    locPS.transformers.forEach(locTransformer => {
+    locPS.transformers.forEach((locTransformer) => {
       if (locTransformer.transConnectors.length === 0) {
         setError(
           `Integrity checking error: Transformer "${locTransformer.name}" has no connectors!.`
@@ -833,7 +838,7 @@ function checkIntegrity(cb) {
           `Integrity checking error: Transformer "${locTransformer.name}" should have at least 2 connectors!.`
         );
       } else {
-        locTransformer.transConnectors.forEach(locTransConnector => {
+        locTransformer.transConnectors.forEach((locTransConnector) => {
           if (locTransConnector.toConnector === undefined) {
             setError(
               `Integrity checking error: Failed to link Transformer "${locTransformer.name}" to connector "${locTransConnector.toConnector}". No such connector. TransConnector: "${locTransConnector.name}"`
@@ -847,41 +852,6 @@ function checkIntegrity(cb) {
         });
       }
     });
-
-    // each section should have a connector to transformer?
-    if (locPS.transformers.length > 0) {
-      locPS.psparts.forEach(locPSPart => {
-        locPSPart.sections.forEach(locSection => {
-          locSection.tag = 0;
-        });
-      });
-    }
-
-    locPS.transformers.forEach(locTransformer => {
-      locTransformer.transConnectors.forEach(locTransConnector => {
-        if (
-          locTransConnector.toConnector.parentNode.nodeType ===
-          myNodeType.SECTION
-        ) {
-          const locToSection = locTransConnector.toConnector.parentNode;
-          locToSection.tag = 1;
-        } else {
-          setError(
-            `Integrity checking error: Transformer "${locTransformer.name}" connector "${locTransConnector.name}" does not connected to the section."`
-          );
-        }
-      });
-    });
-
-    // if (locPS.transformers.length > 0) {
-    //   locPS.psparts.forEach((locPSPart) => {
-    //     locPSPart.sections.forEach((locSection) => {
-    //       if (locSection.tag === 0) {
-    //         setError(`Integrity checking error: The section "${locSection.name}" is not connected to any of transformers.`);
-    //       }
-    //     });
-    //   });
-    // }
 
     // ..
   }
@@ -916,7 +886,7 @@ function linkParamNamesToNodes(cb) {
   });
 }
 
-const RelinkParamNamesToNodes = cb => {
+const RelinkParamNamesToNodes = (cb) => {
   linkParamNamesToNodes(cb);
 };
 
@@ -995,7 +965,7 @@ function restoreLastPoweredStateValues(callback) {
           }
         );
       },
-      err => {
+      (err) => {
         if (err) {
           logger.error(
             `[ModelNodes] ${count} LastPoweredStateValues loaded wirh error: "${err.message}".`
@@ -1120,7 +1090,7 @@ function restoreLastSwitchedOnStateValues(callback) {
           }
         );
       },
-      err => {
+      (err) => {
         if (err) {
           logger.error(
             `[ModelNodes] ${count} LastSwitchedOnState loaded wirh error: "${err.message}".`
@@ -1206,7 +1176,7 @@ function restoreLastSwitchedOnStateValues(callback) {
 //   }
 // }
 
-const GetPSForJson = name => {
+const GetPSForJson = (name) => {
   if (PSs.has(name)) {
     const locPS = PSs.get(name);
     return MyNodeJsonSerialize(getPSForJson(locPS));
@@ -1214,19 +1184,19 @@ const GetPSForJson = name => {
   return null;
 };
 
-const GetParam = paramName => params.get(paramName);
-const GetNode = nodeName => nodes.get(nodeName);
-const GetPS = psName => PSs.get(psName);
+const GetParam = (paramName) => params.get(paramName);
+const GetNode = (nodeName) => nodes.get(nodeName);
+const GetPS = (psName) => PSs.get(psName);
 const GetAllNodesAsArray = () => Array.from(nodes.values());
 const GetAllParamsAsArray = () => Array.from(params.values());
 const GetAllPSsAsArray = () => Array.from(PSs.values());
 const GetAllLEPsAsArray = () => Array.from(LEPs.values());
 const GetAllRegionsAsArray = () => Array.from(Regions.values());
 
-const RestoreLastValuesFromDB = cb => {
+const RestoreLastValuesFromDB = (cb) => {
   async.series(
     [restoreLastPoweredStateValues, restoreLastSwitchedOnStateValues],
-    err => {
+    (err) => {
       if (cb) cb(err);
     }
   );

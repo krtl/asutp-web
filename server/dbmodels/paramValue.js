@@ -4,27 +4,27 @@ const ParamValueSchema = new mongoose.Schema(
   {
     param: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Param"
+      ref: "Param",
     },
     paramName: {
       type: String,
-      required: true
+      required: true,
       // index: true
     },
     value: Number,
     qd: {
-      type: String //  ',B' + ',Z' + ',NA' +',NV'
+      type: String, //  ',B' + ',Z' + ',NA' +',NV'
       // enum: [ 'B', 'S', 'NV', 'NA' ],   //'B'-Blocked, 'S'-Substitution, 'NV'-Not Valid, 'NA'- Not Actual
     },
     dt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
       // index: true
-    }
-  },
-  {
-    capped: { size: 10000000000 }
+    },
   }
+  // {
+  //   capped: { size: 10000000000 }
+  // }
 );
 
 // ParamValueSchema.index({ param: 1, dt: -1 }, { unique: true });

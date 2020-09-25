@@ -20,9 +20,9 @@ const NodeSwitchedOnStateValueSchema = new mongoose.Schema(
       ref: "AuthUser"
     }
   },
-  {
-    capped: { size: 5000000000 }
-  }
+  // {
+  //   capped: { size: 5000000000 }
+  // }
 );
 
 NodeSwitchedOnStateValueSchema.index(

@@ -8,25 +8,27 @@ const MyParamValue = require("../models/myParamValue");
 const myCoreCommandType = require("./coreCommands");
 const lastParamValues = require("./lastParamValues");
 const MyServerStatus = require("./serverStatus");
+const tcpClient = require("./simpleTcpClient");
 
-let peerProcess = undefined;
+// let tcpClient = undefined;
 
-const initialize = aPeerProcess => {
-  peerProcess = aPeerProcess;
-  if (peerProcess) {
-    console.log("[commandsServer] initialized with backgroundProcess");
+const initialize = (aTcpClient) => {
+  // tcpClient = aTcpClient;
+  if (tcpClient) {
+    console.log("[commandsServer] initialized with external recalculation server");
   }
 };
 
-const sendCommand = cmd => {
-  if (peerProcess) {
-    peerProcess.send(cmd);
+const sendCommand = (cmd) => {
+  // if (tcpClient) {
+  //   tcpClient.write(JSON.stringify(cmd));
+  // console.log("Sent command to backgound:", cmd);
+  // }
 
-    // console.log("Sent command to backgound:", cmd);
-  }
+  tcpClient.Send(JSON.stringify(cmd));
 };
 
-const SetManualValue = manualValue => {
+const SetManualValue = (manualValue) => {
   sendCommand({ cmd: myCoreCommandType.MANUAL_VALUE, value: manualValue });
 
   return null; // for future use
@@ -34,11 +36,10 @@ const SetManualValue = manualValue => {
 
 const GetCollisions = () => {
   sendCommand({ cmd: myCoreCommandType.GET_COLLISIONS });
-  return null; 
+  return null;
 };
 
-const processReceivedCommand = command => {
-  
+const processReceivedCommand = (command) => {
   // console.log("Cmd received from backgound:", command);
 
   if ("cmd" in command) {
@@ -115,7 +116,7 @@ const processReceivedCommand = command => {
         case myCoreCommandType.COLLISIONS_DETAILS: {
           MyServerStatus.setCollisions(command.value);
           break;
-        }        
+        }
         default: {
           return Error(`Unknown command: ${command.cmd}`);
         }
@@ -133,4 +134,3 @@ module.exports.processReceivedCommand = processReceivedCommand;
 module.exports.sendCommand = sendCommand;
 module.exports.SetManualValue = SetManualValue;
 module.exports.GetCollisions = GetCollisions;
-

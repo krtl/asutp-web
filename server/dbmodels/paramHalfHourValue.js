@@ -22,9 +22,9 @@ const ParamHalfHourValueSchema = new mongoose.Schema(
       // index: true,
     }
   },
-  {
-    capped: { size: 5000000000 }
-  }
+  // {
+  //   capped: { size: 5000000000 }
+  // }
 );
 
 // ParamHalfHourValueSchema.index({ param: 1, dt: -1 }, { unique: true });

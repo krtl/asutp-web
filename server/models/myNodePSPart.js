@@ -12,8 +12,6 @@ class MyNodePSPart extends MyNode {
   }
 
   makeChains() {
-    const chains = [];
-
     for (let i = 0; i < this.sections.length; i += 1) {
       const section = this.sections[i];
       section.makeAChain();
@@ -49,7 +47,6 @@ class MyNodePSPart extends MyNode {
         }
       }
     }
-    return chains;
   }
 }
 

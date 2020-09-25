@@ -8,7 +8,7 @@ class MyNodeSectionConnector extends MyNodeConnector {
     this.connectionType = null;
 
     this[MyNodePropNameParamRole.POWER] = "";
-    this.connectors = [];
+    this.connectors = []; //??
     this.lep2PsConnector = null;
     this.transformerConnector = false;
   }

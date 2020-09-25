@@ -23,7 +23,7 @@ const routeProjects = require("./server/routes/projects");
 const MyStompServer = require("./server/serviceServer/myStompServer");
 const dbModels = require("./server/dbmodels");
 // const paramValuesProcessor = require('./server/values/paramValuesProcessor');
-const commandsServer = require("./server/serviceServer/commandsServer");
+const tcpClient = require("./server/serviceServer/simpleTcpClient");
 const MyServerStatus = require("./server/serviceServer/serverStatus");
 
 require("http-shutdown").extend();
@@ -108,25 +108,24 @@ httpserver.listen(app.get("port"), () => {
   logger.info(`Http server listening at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
 });
 
-const { fork } = require("child_process");
-
-const forked = fork("backgroundworker.js");
-
-forked.on("message", msg => {
-  // console.log("Message from background: ", msg);
-  const err = commandsServer.processReceivedCommand(msg);
-  if (err) {
-    console.log(err.message, msg);
-  }
-});
-forked.on("exit", function (code, signal) {
-  console.log(
-    "child process exited with " + `code ${code} and signal ${signal}`
-  );
-});
+// const { fork } = require("child_process");
+// const forked = fork("backgroundworker.js");
+// forked.on("message", msg => {
+//   // console.log("Message from background: ", msg);
+//   const err = commandsServer.processReceivedCommand(msg);
+//   if (err) {
+//     console.log(err.message, msg);
+//   }
+// });
+// forked.on("exit", function (code, signal) {
+//   console.log(
+//     "child process exited with " + `code ${code} and signal ${signal}`
+//   );
+// });
 
 MyServerStatus.initialize();
-commandsServer.initialize(forked);
+tcpClient.initializeTcpClient();
+
 
 // process.on('beforeExit', () => {
 //   logger.info('[] OnBeforeExit ...');
@@ -140,6 +139,8 @@ commandsServer.initialize(forked);
 process.on("SIGINT", () => {
   logger.info("[] Stopping ...");
   MyServerStatus.finalize();
+  tcpClient.finalizeTcpClient();
+
   httpserver.shutdown(() => {
     // httpserver.close((err) => {
     //   if (err) {

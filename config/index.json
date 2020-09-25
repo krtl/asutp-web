@@ -2,6 +2,8 @@
 {
   "dbUri_": "mongodb://kov:12@127.0.0.1/asutp_web",
   "dbUri": "mongodb://localhost/asutp_web",
+  "recalculationServerPort":"12345",
+  "config.recalculationServerHost":"10.109.33.38",
   "amqpUriLogSender": "amqp://logSender:logSender@127.0.0.1",
   "amqpUriTestSender": "amqp://testSender:testSender@127.0.0.1",
   "amqpUriNodeStateSender": "amqp://stateSender:stateSender@127.0.0.1",

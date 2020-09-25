@@ -8,8 +8,8 @@ if (process.env.RECALCULATION) {
 }
 
 class MyNodeConnector extends MyNode {
-  constructor(name, caption, description) {
-    super(name, caption, description, myNodeType.SEC2SECCONNECTOR);
+  constructor(name, caption, description, nodeType) {
+    super(name, caption, description, nodeType);
     this.cellNumber = "";
     this.equipments = [];
     this.switchedOn = false;
