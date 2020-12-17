@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import MyPSSchemeForm from "../components/MyPSSchemeForm";
 import MyFetchClient from "./MyFetchClient";
-import {MakeUid} from "../modules/MyFuncs";
 import MyStompClient from "../modules/MyStompClient";
+import {MakeUid} from "../modules/MyFuncs";
 import { connect } from "react-redux";
 import { incCountOfUpdates } from "../reducers/actions";
 // import {MyConsts} from '../modules/MyConsts';
@@ -107,7 +107,7 @@ class PSSchemePage extends React.Component {
           MyStompClient.subscribeToValues(psName, value => {
             let b = false;
 
-            console.log(value);
+            // console.log(value);
 
             if ("nodeName" in value) {
               for (let i = 0; i < this.state.nodes.length; i += 1) {

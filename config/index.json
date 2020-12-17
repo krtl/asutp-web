@@ -3,7 +3,7 @@
   "dbUri_": "mongodb://kov:12@127.0.0.1/asutp_web",
   "dbUri": "mongodb://localhost/asutp_web",
   "recalculationServerPort":"12345",
-  "config.recalculationServerHost":"10.109.33.38",
+  "recalculationServerHost":"10.109.69.22",
   "amqpUriLogSender": "amqp://logSender:logSender@127.0.0.1",
   "amqpUriTestSender": "amqp://testSender:testSender@127.0.0.1",
   "amqpUriNodeStateSender": "amqp://stateSender:stateSender@127.0.0.1",
@@ -26,5 +26,5 @@
   "importPath_": "/var/projects/asutp-web/data/imported_data/",
   "importPath_1": "/home/kov/asutp-web/asutp-web/server/testData/",
   "logsFolderName_": "/var/projects/asutp-web/asutp-web.logs",
-  "logsFolderName": "D:/javascript/asutp-web-vs.code.logs"
+  "logsFolderName": "D:/javascript/asutp-web-vs.code.logs"  
 }

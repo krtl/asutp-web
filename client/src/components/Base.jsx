@@ -53,6 +53,11 @@ const Base = ({ children }) => {
     children.props.history.push(`/`);
   };
 
+  const handleMainMenuStateOfCommunications = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/asutpCommunicationModel`);
+  };  
+
   const handleMainNodeStateHistory = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/nodeStateHistory/{node_name}`);
@@ -130,6 +135,7 @@ const Base = ({ children }) => {
               >
                 <MenuList>
                   <MenuItem onClick={handleMainMenuRoot}>Root</MenuItem>
+                  <MenuItem onClick={handleMainMenuStateOfCommunications}>StateOfCommunications</MenuItem>
                   <MenuItem onClick={handleMainNodeStateHistory}>
                     Node State History
                   </MenuItem>

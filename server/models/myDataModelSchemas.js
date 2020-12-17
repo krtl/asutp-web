@@ -54,7 +54,7 @@ function setWarning(text) {
   logger.warn(`[ModelSchemas] ${text}`);
 }
 
-const LoadFromDB = cb => {
+const LoadFromDB = (cb) => {
   const start = moment();
   errs = 0;
   async.series(
@@ -63,7 +63,7 @@ const LoadFromDB = cb => {
       loadUsers,
       loadSchemas,
       makeSchemaNamesForEachNode,
-      makeSchemaNamesForEachParam
+      makeSchemaNamesForEachParam,
     ],
     () => {
       let res = null;
@@ -101,7 +101,7 @@ function clearData(cb) {
 function loadUsers(cb) {
   DbUser.find({}, null, { sort: { name: 1 } }, (err, usrs) => {
     if (err) return cb(err);
-    usrs.forEach(usr => {
+    usrs.forEach((usr) => {
       users.set(usr.name, usr.might);
     });
     return cb();
@@ -112,7 +112,7 @@ function getPSForJson(ps) {
   const locPS = new MyNodePS(ps.name, ps.caption, ps.description);
   locPS.parentNode = ps.parentNode.name;
   locPS.sapCode = ps.sapCode;
-  ps.transformers.forEach(transformer => {
+  ps.transformers.forEach((transformer) => {
     const locTransformer = new MyNodeTransformer(
       transformer.name,
       transformer.caption,
@@ -120,7 +120,7 @@ function getPSForJson(ps) {
     );
     locPS.transformers.push(locTransformer);
     locTransformer.sapCode = transformer.sapCode;
-    transformer.transConnectors.forEach(transConnector => {
+    transformer.transConnectors.forEach((transConnector) => {
       const locTransConnector = new MyNodeTransformerConnector(
         transConnector.name,
         transConnector.caption,
@@ -130,7 +130,7 @@ function getPSForJson(ps) {
       locTransformer.transConnectors.push(locTransConnector);
     });
   });
-  ps.psparts.forEach(pspart => {
+  ps.psparts.forEach((pspart) => {
     const locPSPart = new MyNodePSPart(
       pspart.name,
       pspart.caption,
@@ -139,7 +139,7 @@ function getPSForJson(ps) {
     locPS.psparts.push(locPSPart);
     locPSPart.sapCode = pspart.sapCode;
     locPSPart.voltage = pspart.voltage;
-    pspart.sections.forEach(section => {
+    pspart.sections.forEach((section) => {
       const locSection = new MyNodeSection(
         section.name,
         section.caption,
@@ -149,7 +149,7 @@ function getPSForJson(ps) {
       locSection.sapCode = section.sapCode;
       locSection[MyNodePropNameParamRole.VOLTAGE] =
         section[MyNodePropNameParamRole.VOLTAGE];
-      section.connectors.forEach(connection => {
+      section.connectors.forEach((connection) => {
         const locConnector = new MyNodeSectionConnector(
           connection.name,
           connection.caption,
@@ -160,7 +160,7 @@ function getPSForJson(ps) {
         locConnector.cellNumber = connection.cellNumber;
         locConnector[MyNodePropNameParamRole.POWER] =
           connection[MyNodePropNameParamRole.POWER];
-        connection.equipments.forEach(equipment => {
+        connection.equipments.forEach((equipment) => {
           const locEquipment = new MyNodeEquipment(
             equipment.name,
             equipment.caption,
@@ -175,7 +175,7 @@ function getPSForJson(ps) {
       });
     });
 
-    pspart.sec2secConnectors.forEach(connection => {
+    pspart.sec2secConnectors.forEach((connection) => {
       const locConnector = new MyNodeSec2SecConnector(
         connection.name,
         connection.caption,
@@ -187,7 +187,7 @@ function getPSForJson(ps) {
       locConnector.cellNumber = connection.cellNumber;
       locConnector[MyNodePropNameParamRole.POWER] =
         connection[MyNodePropNameParamRole.POWER];
-      connection.equipments.forEach(equipment => {
+      connection.equipments.forEach((equipment) => {
         const locEquipment = new MyNodeEquipment(
           equipment.name,
           equipment.caption,
@@ -219,7 +219,7 @@ const GetCustomAndRegionSchemas = () => {
   return result;
 };
 
-const GetSchemaPSs = schemaName => {
+const GetSchemaPSs = (schemaName) => {
   const result = [];
   if (nodeSchemas.has(schemaName)) {
     const nodeSchema = nodeSchemas.get(schemaName);
@@ -234,7 +234,7 @@ const GetSchemaPSs = schemaName => {
   return result;
 };
 
-const getNodeForScheme = nodes => {
+const getNodeForScheme = (nodes) => {
   const resultNodes = [];
 
   for (let i = 0; i < nodes.length; i += 1) {
@@ -367,13 +367,13 @@ const populateNodesWithMatrixCoordinates = (schemaNodes, schemaWires) => {
     for (let j = 0; j < schemaWires.length; j += 1) {
       const wire = schemaWires[j];
       if (wire.nodeFrom === node.name) {
-        const locNode = schemaNodes.find(nde => nde.name === wire.nodeTo);
+        const locNode = schemaNodes.find((nde) => nde.name === wire.nodeTo);
         if (locNode) {
           node.peers.push(locNode);
         }
       }
       if (wire.nodeTo === node.name) {
-        const locNode = schemaNodes.find(nde => nde.name === wire.nodeFrom);
+        const locNode = schemaNodes.find((nde) => nde.name === wire.nodeFrom);
         if (locNode) {
           node.peers.push(locNode);
         }
@@ -392,7 +392,7 @@ const populateNodesWithMatrixCoordinates = (schemaNodes, schemaWires) => {
   // });
 
   let matrixNum = 1;
-  const setPeersNumber = node => {
+  const setPeersNumber = (node) => {
     node.tag = matrixNum;
     matrixNum += 1;
     for (let j = 0; j < node.peers.length; j += 1) {
@@ -450,7 +450,7 @@ const populateNodesWithMatrixCoordinates = (schemaNodes, schemaWires) => {
   //   return 0;
   // });
 
-  const getPeersCount = nodes => {
+  const getPeersCount = (nodes) => {
     let result = 0;
     for (let i = 0; i < nodes.length; i += 1) {
       const node = nodes[i];
@@ -469,7 +469,7 @@ const populateNodesWithMatrixCoordinates = (schemaNodes, schemaWires) => {
   const WIDTH = 55;
   const HEIGHT = Math.ceil(schemaNodes.length / 50) + 2;
 
-  const setMatrixForLine = line => {
+  const setMatrixForLine = (line) => {
     if (line.length < 4) {
       for (let i = 0; i < line.length; i += 1) {
         const node = line[i];
@@ -744,7 +744,7 @@ const getPSSchema1 = (psName, callback) => {
 
   // ps.psparts.sort((p1, p2) => (p2.voltage - p1.voltage));
 
-  const getNewNodeForScheme = node => {
+  const getNewNodeForScheme = (node) => {
     const locNode = new MyNode(
       node.name,
       node.caption,
@@ -770,7 +770,7 @@ const getPSSchema1 = (psName, callback) => {
   //   return result;
   // };
 
-  const getPSPartVoltage = line => {
+  const getPSPartVoltage = (line) => {
     if (line.length > 0) {
       const section = line[0];
       return section.parentNode.voltage;
@@ -1222,7 +1222,7 @@ const getNodeSchemeCoordinates = (schemaName, callback) => {
       nodeName: 1,
       x: 1,
       y: 1,
-      _id: 0
+      _id: 0,
     })
     .limit(10000)
     .exec((err, schemaNodes) => {
@@ -1234,7 +1234,7 @@ const GetSchema = (schemaName, callback) => {
   async.parallel(
     {
       schema: getSchema.bind(null, schemaName),
-      coordinates: getNodeSchemeCoordinates.bind(null, schemaName)
+      coordinates: getNodeSchemeCoordinates.bind(null, schemaName),
     },
     (err, result) => {
       if (err) {
@@ -1269,7 +1269,7 @@ const GetPSSchema = (psName, callback) => {
   async.parallel(
     {
       schema: getPSSchema.bind(null, psName),
-      coordinates: getNodeSchemeCoordinates.bind(null, psName)
+      coordinates: getNodeSchemeCoordinates.bind(null, psName),
     },
     (err, result) => {
       if (err) {
@@ -1314,7 +1314,7 @@ function loadSchemas(cb) {
   DbNodeSchema.find({}, null, { sort: { name: 1 } }, (err, dbNodeSchemas) => {
     if (err) return cb(err);
 
-    dbNodeSchemas.forEach(schema => {
+    dbNodeSchemas.forEach((schema) => {
       const obj = createMyNodeSchemaObj(schema);
       nodeSchemas.set(obj.name, obj);
     });
@@ -1381,10 +1381,10 @@ function CustomSchemaAddNode(schemaName, nodeName, cb) {
                 { _id: dbSchema.id },
                 {
                   $set: {
-                    nodeNames: locNodeNames.sort().join(",")
-                  }
+                    nodeNames: locNodeNames.sort().join(","),
+                  },
                 },
-                err => {
+                (err) => {
                   if (err) return cb(err);
 
                   logger.info(`updated schema ${schemaName}`);
@@ -1428,10 +1428,10 @@ function CustomSchemaDeleteNode(schemaName, nodeName, cb) {
                 { _id: dbSchema.id },
                 {
                   $set: {
-                    nodeNames: locNodeNames.sort().join(",")
-                  }
+                    nodeNames: locNodeNames.sort().join(","),
+                  },
                 },
-                err => {
+                (err) => {
                   if (err) return cb(err);
 
                   logger.info(`updated schema ${schemaName}`);
@@ -1453,7 +1453,7 @@ function createMyNodeSchemaObj(dbSchema) {
     nodeNames = dbSchema.nodeNames.split(",");
   }
   locNodes = [];
-  nodeNames.forEach(nodeName => {
+  nodeNames.forEach((nodeName) => {
     if (nodeName != "") {
       const node = myDataModelNodes.GetNode(nodeName);
       if (!node) {
@@ -1470,7 +1470,7 @@ function createMyNodeSchemaObj(dbSchema) {
   if (dbSchema.paramNames) {
     prmNames = dbSchema.paramNames.split(",");
   }
-  prmNames.forEach(prmName => {
+  prmNames.forEach((prmName) => {
     const param = myDataModelNodes.GetParam(prmName);
     if (!param) {
       setWarning(
@@ -1627,7 +1627,7 @@ function CreatePSSchema(ps) {
 const getDBSchema = (schemaName, callback) => {
   DbNodeSchema.findOne(
     {
-      name: schemaName
+      name: schemaName,
     },
     (err, schema) => {
       callback(err, schema);
@@ -1653,10 +1653,10 @@ const insertOrUpdateDBSchema = (schema, callback) => {
               caption: schema.caption,
               description: schema.description,
               nodeNames: schema.nodeNames,
-              paramNames: schema.paramNames
-            }
+              paramNames: schema.paramNames,
+            },
           },
-          error => {
+          (error) => {
             if (error) {
               callback(err);
             } else {
@@ -1675,7 +1675,7 @@ const insertOrUpdateDBSchema = (schema, callback) => {
         callback();
       } else {
         const newDbSchema = new DbNodeSchema(schema);
-        newDbSchema.save(err => {
+        newDbSchema.save((err) => {
           if (err) {
             callback(`Exception on save Schema: ${err.message}`);
           } else {
@@ -1696,7 +1696,7 @@ function ReloadPSSchemaParams(psName, cb) {
     const ps = myDataModelNodes.GetPS(psName);
     if (ps) {
       const schema = CreatePSSchema(ps);
-      insertOrUpdateDBSchema(schema, err => {
+      insertOrUpdateDBSchema(schema, (err) => {
         if (err) return cb(err);
 
         DbNodeSchema.findOne({ name: schemaName }, (err, dbSchema) => {
@@ -1762,10 +1762,23 @@ function makeSchemaNamesForEachParam(cb) {
     }
     param.setSchemaNames(locPSSchemaNames);
   }
+
+  const communicationParams = locParams.filter(
+    (param) =>
+      param.name.endsWith("_IsOnline") ||
+      param.name.endsWith("_CommunicationQuality")
+  );
+  for (let i = 0; i < communicationParams.length; i += 1) {
+    const param = communicationParams[i];
+    if (param.schemaNames.indexOf(ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME) < 0) {
+      param.schemaNames.push(ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME);
+    }
+  }
+
   return cb();
 }
 
-const GetAvailableSchemas = userName => {
+const GetAvailableSchemas = (userName) => {
   const locSchemas = Array.from(nodeSchemas.values());
   const result = [];
   if (userName === "") {
@@ -1775,7 +1788,7 @@ const GetAvailableSchemas = userName => {
       result.push({
         name: value.name,
         caption: value.caption,
-        description: value.description
+        description: value.description,
       });
     }
   } else if (users.has(userName)) {
@@ -1784,7 +1797,7 @@ const GetAvailableSchemas = userName => {
     if (locMight) {
       locMights = locMight.split(",");
     }
-    locMights.forEach(schemaName => {
+    locMights.forEach((schemaName) => {
       if (nodeSchemas.has(schemaName)) {
         const locSchema = nodeSchemas.get(schemaName);
         if (locSchema !== undefined) {
@@ -1796,8 +1809,13 @@ const GetAvailableSchemas = userName => {
   return result;
 };
 
-const GetSchemaParamNamesAsArray = schemaName => {
-  if (nodeSchemas.has(schemaName)) {
+const ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME =
+  "schema_of_ASUTP_COMMUNICATION_MODEL";
+
+const GetSchemaParamNamesAsArray = (schemaName) => {
+  if (schemaName == ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME) {
+    return myDataModelNodes.GetCommunacationParamNames();
+  } else if (nodeSchemas.has(schemaName)) {
     const locSchema = nodeSchemas.get(schemaName);
     if (locSchema) {
       return locSchema.paramNames;
@@ -1806,7 +1824,7 @@ const GetSchemaParamNamesAsArray = schemaName => {
   return [];
 };
 
-const GetSchemaDefaultCoordinates = schemaName => {
+const GetSchemaDefaultCoordinates = (schemaName) => {
   let coordinates = [];
   if (schemaName.startsWith("nodes_of_")) {
     getSchema1(schemaName, (err, schema) => {
@@ -1819,7 +1837,7 @@ const GetSchemaDefaultCoordinates = schemaName => {
             schemaName,
             nodeName: node.name,
             x: node.x,
-            y: node.y
+            y: node.y,
           });
         }
         // return coordinates;
@@ -1836,7 +1854,7 @@ const GetSchemaDefaultCoordinates = schemaName => {
             schemaName,
             nodeName: node.name,
             x: node.x,
-            y: node.y
+            y: node.y,
           });
         }
         // return coordinates;

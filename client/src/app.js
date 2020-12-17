@@ -9,6 +9,7 @@ import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
 import SystemServicePage from "./containers/SystemServicePage.jsx";
+import AsutpCommunicationModelPage from "./containers/AsutpCommunicationModelPage.jsx";
 import UserActionsPage from "./containers/UserActionsPage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
@@ -30,7 +31,7 @@ function PrivateRoute({ children, ...rest }) {
           <Redirect
             to={{
               pathname: "/login",
-              state: { from: location }
+              state: { from: location },
             }}
           />
         )
@@ -63,13 +64,17 @@ export default function App() {
           <SystemServicePage />
         </PrivateRoute>
 
+        <PrivateRoute path="/asutpCommunicationModel">
+          <AsutpCommunicationModelPage />
+        </PrivateRoute>
+
         <PrivateRoute path="/userActions">
           <UserActionsPage />
         </PrivateRoute>
 
-        <Route path="/login" render={props => <LoginPage {...props} />} />
-        <Route path="/signup" render={props => <SignUpPage {...props} />} />
-        <Route path="/logout" render={props => <LogoutPage {...props} />} />
+        <Route path="/login" render={(props) => <LoginPage {...props} />} />
+        <Route path="/signup" render={(props) => <SignUpPage {...props} />} />
+        <Route path="/logout" render={(props) => <LogoutPage {...props} />} />
 
         <PrivateRoute path="/">
           <MainPage />

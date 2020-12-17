@@ -6,10 +6,11 @@ const myCoreCommandType = {
   MANUAL_VALUE: 4,
   RECALCULATION_STATE: 5,
   GET_COLLISIONS: 6,
-  COLLISIONS_DETAILS: 6
+  COLLISIONS_DETAILS: 6,
+  GET_ALL_PARAM_VALUES: 7    
 };
 
-const serverCommands = [myCoreCommandType.MANUAL_VALUE, myCoreCommandType.GET_COLLISIONS];
+const serverCommands = [myCoreCommandType.MANUAL_VALUE, myCoreCommandType.GET_COLLISIONS, myCoreCommandType.GET_ALL_PARAM_VALUES];
 
 const backgroundCommands = [
   myCoreCommandType.PARAM_VALUE,

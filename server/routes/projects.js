@@ -1,10 +1,11 @@
 const async = require("async");
+const request = require("request");
 const logger = require("../logger");
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/allParamsAsArray", (req, res) => {
     const params = myDataModelNodes.GetAllParamsAsArray();
     res.json(params);
@@ -14,11 +15,11 @@ module.exports = app => {
   app.get("/getSchemas", (req, res) => {
     const names = [];
     const schemas = myDataModelSchemas.GetCustomAndRegionSchemas();
-    schemas.forEach(nodeSchema => {
+    schemas.forEach((nodeSchema) => {
       const obj = {
         name: nodeSchema.name,
         caption: nodeSchema.caption,
-        sapCode: nodeSchema.sapCode
+        sapCode: nodeSchema.sapCode,
       };
       names.push(obj);
     });
@@ -44,7 +45,7 @@ module.exports = app => {
             if (nodeNames.indexOf(ps.name) < 0) {
               const obj = {
                 name: ps.name,
-                caption: ps.caption
+                caption: ps.caption,
                 // sapCode: ps.sapCode
               };
               locNodes.push(obj);
@@ -86,7 +87,7 @@ module.exports = app => {
         name: region.name,
         caption: region.caption,
         // sapCode: region.sapCode,
-        nodes: locNodes
+        nodes: locNodes,
       };
       regions.push(obj);
     }
@@ -108,7 +109,7 @@ module.exports = app => {
   app.get("/getSchemaPSs", (req, res) => {
     const names = [];
     const pss = myDataModelSchemas.GetSchemaPSs(req.query.name);
-    pss.forEach(ps => {
+    pss.forEach((ps) => {
       const obj = { name: ps.name, caption: ps.caption };
       names.push(obj);
     });
@@ -178,4 +179,20 @@ module.exports = app => {
       });
   });
 
+  app.get("/getAsutpComminicationModel", (req, res, next) => {
+    request(
+      "http://asutp-smrem:8081/GetAsutpCommunicationModel",
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });
+
+  app.get("/getCommunacationParamNames", (req, res, next) => {
+    res.status(200).json(myDataModelNodes.GetCommunacationParamNames());
+    return 0;
+  });
 };

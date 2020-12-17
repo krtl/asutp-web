@@ -4,8 +4,8 @@ const commandsServer = require("./commandsServer");
 const config = require("../../config");
 
 // The port number and hostname of the server.
-const port = 12345;
-const host = "localhost";
+// const port = 12345;
+// const host = "localhost";
 var client = null;
 const EOF_sign = "<!EOF!>";
 var received = "";

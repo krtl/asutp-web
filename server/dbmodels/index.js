@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const logger = require("../logger");
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
+const commandsServer = require("../serviceServer/commandsServer");
+
 let paramValuesProcessor = undefined;
 if (process.env.RECALCULATION) {
   paramValuesProcessor = require("../serviceBackground/paramValuesProcessor");
@@ -16,7 +18,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
 
   mongoose.connect(uri, {
     // useMongoClient: true,
-    autoIndex: process.env.NODE_ENV !== "production"
+    autoIndex: process.env.NODE_ENV !== "production",
   });
 
   // plug in the promise library:
@@ -26,7 +28,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
     logger.info(`Mongoose connected to ${uri}`);
 
     if (useDataModel) {
-      myDataModelNodes.LoadFromDB(err => {
+      myDataModelNodes.LoadFromDB((err) => {
         if (err) {
           if (callback) callback(err);
           return;
@@ -35,16 +37,18 @@ module.exports.connect = (uri, useDataModel, callback) => {
           paramValuesProcessor.initializeParamValuesProcessor(
             {
               useStompServer: true,
-              useDbValueTracker: true
+              useDbValueTracker: true,
             },
             () => {
-              myDataModelNodes.RestoreLastValuesFromDB(err => {
+              myDataModelNodes.RestoreLastValuesFromDB((err) => {
                 if (callback) callback(err);
               });
             }
           );
         } else {
-          myDataModelSchemas.LoadFromDB(err => {
+          myDataModelSchemas.LoadFromDB((err) => {
+            commandsServer.GetAllParamValues();
+
             //..
             if (callback) callback(err);
           });
@@ -53,7 +57,7 @@ module.exports.connect = (uri, useDataModel, callback) => {
     }
   });
 
-  mongoose.connection.on("error", err => {
+  mongoose.connection.on("error", (err) => {
     logger.error(`Mongoose connection error: ${err.message}`);
     // eslint-disable-next-line no-console
     console.error(`Mongoose connection error: ${err.message}`);

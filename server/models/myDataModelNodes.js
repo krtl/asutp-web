@@ -12,6 +12,7 @@ const fs = require("fs");
 const moment = require("moment");
 const async = require("async");
 const events = require("events");
+const request = require("request");
 const config = require("../../config");
 const { MyNodeJsonSerialize } = require("./myNode");
 
@@ -130,7 +131,9 @@ const LoadFromDB = (cb) => {
 
         // eslint-disable-next-line no-console
         console.debug(
-          `[ModelNodes] loaded with ${nodes.size} nodes in ${moment(duration).format("mm:ss.SSS")}`
+          `[ModelNodes] loaded with ${nodes.size} nodes in ${moment(
+            duration
+          ).format("mm:ss.SSS")}`
         );
       } else {
         res = Error(`loading nodes failed with ${errs} errors!`);
@@ -153,21 +156,100 @@ function clearData(cb) {
 }
 
 function loadParams(cb) {
-  DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
-    if (err) return cb(err);
-    prms.forEach((prm) => {
-      const p = new MyParam(
-        prm._id,
-        prm.name,
-        prm.caption,
-        prm.description,
-        prm.trackAllChanges,
-        prm.trackAveragePerHour
-      );
-      params.set(prm.name, p);
-    });
-    return cb();
-  });
+  // DbParam.find({}, null, { sort: { name: 1 } }, (err, prms) => {
+  //   if (err) return cb(err);
+  //   prms.forEach((prm) => {
+  //     const p = new MyParam(
+  //       prm._id,
+  //       prm.name,
+  //       prm.caption,
+  //       prm.description,
+  //       prm.trackAllChanges,
+  //       prm.trackAveragePerHour
+  //     );
+  //     params.set(prm.name, p);
+  //   });
+  //   return cb();
+  // });
+
+  // remake to get params using http request.
+
+  request(
+    "http://asutp-smrem:8081/GetAsutpCommunicationModel",
+    { json: true },
+    (err, resp, body) => {
+      if (err) return cb(err);
+
+      let asutpRESes = body;
+      // try {
+      //   asutpRESes = JSON.parse(body);
+      // } catch (e) {
+      //   setError(`AsutpCommunicationModel JSON.parse Error: ${e.message}`);
+      //   return;
+      // }
+
+      for (let i = 0; i < asutpRESes.length; i++) {
+        const res = asutpRESes[i];
+        for (let j = 0; j < res.Devices.length; j++) {
+          const device = res.Devices[j];
+
+          for (let k = 0; k < device.Params.length; k++) {
+            const param = device.Params[k];
+
+            const p = new MyParam(
+              -1,
+              param.Name,
+              param.Caption,
+              "",
+              false,
+              false
+            );
+            params.set(p.name, p);
+          }
+        }
+      }
+      return cb();
+    }
+  );
+
+  // const asutpParamsFolder = "D://c#//SchemaRecalculation//SchemaRecalculation//SchemaRecalculationGUI//bin//Debug//data//"
+  // fs.readdir(asutpParamsFolder, (err, files) => {
+  //   if (err) return cb(err);
+  //   files.forEach((fileName) => {
+  //     if (fileName.endsWith("Params.json")) {
+  //       let rawdata;
+  //       try {
+  //         rawdata = fs.readFileSync(asutpParamsFolder + fileName);
+  //       } catch (err) {
+  //         setError(`Read file error: ${err.message}`);
+  //         return;
+  //       }
+
+  //       let prms;
+  //       try {
+  //         prms = JSON.parse(rawdata);
+  //       } catch (e) {
+  //         setError(`JSON.parse Error: ${e.message}`);
+  //         callback(e);
+  //         return;
+  //       }
+
+  //       prms.forEach((prm) => {
+  //         const p = new MyParam(-1, prm.Name, prm.Caption, "", false, false);
+  //         params.set(p.name, p);
+  //       });
+  //     }
+  //   });
+  // });
+}
+
+function GetCommunacationParamNames() {
+  let paramNames = Array.from(params.keys());
+  return paramNames.filter(
+    (paramName) =>
+      paramName.endsWith("_IsOnline") ||
+      paramName.endsWith("_CommunicationQuality")
+  );
 }
 
 function loadNodes(callback) {
@@ -1207,6 +1289,7 @@ module.exports.RestoreLastValuesFromDB = RestoreLastValuesFromDB;
 module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.SetStateChangedHandlers = SetStateChangedHandlers;
 module.exports.GetParam = GetParam;
+module.exports.GetCommunacationParamNames = GetCommunacationParamNames;
 module.exports.GetNode = GetNode;
 module.exports.GetPS = GetPS;
 module.exports.ExportPSs = ExportPSs;

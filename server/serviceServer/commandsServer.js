@@ -39,6 +39,11 @@ const GetCollisions = () => {
   return null;
 };
 
+const GetAllParamValues = () => {
+  sendCommand({ cmd: myCoreCommandType.GET_ALL_PARAM_VALUES });
+  return null;
+};
+
 const processReceivedCommand = (command) => {
   // console.log("Cmd received from backgound:", command);
 
@@ -134,3 +139,4 @@ module.exports.processReceivedCommand = processReceivedCommand;
 module.exports.sendCommand = sendCommand;
 module.exports.SetManualValue = SetManualValue;
 module.exports.GetCollisions = GetCollisions;
+module.exports.GetAllParamValues = GetAllParamValues;
