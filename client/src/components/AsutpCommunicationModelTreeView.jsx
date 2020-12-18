@@ -70,6 +70,7 @@ function StyledTreeItem(props) {
     ...other
   } = props;
 
+
   return (
     <TreeItem
       label={
@@ -81,13 +82,15 @@ function StyledTreeItem(props) {
           <Typography variant="caption" color="inherit">
             {labelInfo}
           </Typography>
+          {historyHref &&
           <IconButton
-            aria-label="delete"
-            className={classes.margin}
-            href={historyHref}
-          >
-            <BarChartIcon fontSize="small" />
-          </IconButton>
+          aria-label="delete"
+          className={classes.margin}
+          href={historyHref}
+        >
+          <BarChartIcon fontSize="small" />
+        </IconButton>
+          } 
         </div>
       }
       style={{
@@ -165,7 +168,7 @@ export default function AsutpCommunicationModelTreeView(props) {
         <StyledTreeItem
           key={device.Name}
           nodeId={device.Name}
-          labelText={`${device.Caption} (${device.Name}) [${connectedValue}] [${qualityValue}]`}
+          labelText={`${device.Caption} (${device.Name})`}
           labelIcon={icon}
           labelInfo={qualityValue}
           historyHref={historyHref}

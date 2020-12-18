@@ -6,7 +6,7 @@ process.env.NODE_ENV = "production";
 const logger = require("./server/logger");
 const amqpLogSender = require("./server/amqp/amqp_send");
 
-logger.setup({ amqpSender: amqpLogSender });
+// logger.setup({ amqpSender: amqpLogSender });
 
 console.log(`[] Starting in ${process.env.NODE_ENV} mode.`);
 logger.info(`[] Starting in ${process.env.NODE_ENV} mode.`);
