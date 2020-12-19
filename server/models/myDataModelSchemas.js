@@ -41,6 +41,8 @@ const MyNodeSchema = require("./myNodeSchema");
 const users = new Map();
 const nodeSchemas = new Map();
 
+let initialized = false;
+
 let errs = 0;
 function setError(text) {
   errs += 1;
@@ -81,6 +83,8 @@ const LoadFromDB = (cb) => {
             nodeSchemas.size
           } schemas in ${moment(duration).format("mm:ss.SSS")}`
         );
+
+        initialized = true;
       } else {
         res = `loading schemas failed with ${errs} errors!`;
         logger.error(res);
@@ -1866,6 +1870,10 @@ const GetSchemaDefaultCoordinates = (schemaName) => {
   return coordinates;
 };
 
+const IsInitialized = () => {
+  return initialized;
+};
+
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.CreatePSSchema = CreatePSSchema;
 module.exports.CreateNodeSchemasForRegions = CreateNodeSchemasForRegions;
@@ -1881,3 +1889,4 @@ module.exports.ReloadCustomSchema = ReloadCustomSchema;
 module.exports.DeleteCustomSchema = DeleteCustomSchema;
 module.exports.CustomSchemaAddNode = CustomSchemaAddNode;
 module.exports.CustomSchemaDeleteNode = CustomSchemaDeleteNode;
+module.exports.IsInitialized = IsInitialized;

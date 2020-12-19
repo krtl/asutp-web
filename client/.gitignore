@@ -19,3 +19,5 @@ npm-debug.log
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
+
+config/index.json

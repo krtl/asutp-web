@@ -1,6 +1,7 @@
 // Include Nodejs' net module.
 const Net = require("net");
 const commandsServer = require("./commandsServer");
+const myDataModelSchemas = require("../models/myDataModelSchemas");
 const config = require("../../config");
 
 // The port number and hostname of the server.
@@ -17,6 +18,10 @@ const initializeTcpClient = () => {
 
   client.on("connect", function () {
     console.log("Client: connection established with server");
+
+    if (myDataModelSchemas.IsInitialized) {
+      commandsServer.GetAllParamValues();
+    }
 
     // console.log("---------client details -----------------");
     // var address = client.address();
@@ -59,7 +64,7 @@ const initializeTcpClient = () => {
           try {
             cmd = JSON.parse(element);
           } catch (err) {
-            console.log(`Failed to parse elementL ${element}. Error= ${err}`);
+            console.log(`Failed to parse element: ${element}. Error= ${err}`);
           }
           if (cmd) {
             const err = commandsServer.processReceivedCommand(cmd);
