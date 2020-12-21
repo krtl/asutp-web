@@ -19,7 +19,7 @@ const initializeTcpClient = () => {
   client.on("connect", function () {
     console.log("Client: connection established with server");
 
-    if (myDataModelSchemas.IsInitialized) {
+    if (commandsServer.ParamsInitialized()) {
       commandsServer.GetAllParamValues();
     }
 
@@ -49,32 +49,38 @@ const initializeTcpClient = () => {
 
     received = received + chunk.toString();
 
-    let readyToProcess = received;
-    x = readyToProcess.indexOf(EOF_sign);
-    if (x > -1) {
-      if (!readyToProcess.endsWith(EOF_sign)) {
-        readyToProcess = received.substr(0, x);
-        received = received.substr(x, received.length);
-      }
-
-      const arr = received.split(EOF_sign);
-      arr.forEach((element) => {
-        if (element !== "") {
-          let cmd = null;
-          try {
-            cmd = JSON.parse(element);
-          } catch (err) {
-            console.log(`Failed to parse element: ${element}. Error= ${err}`);
-          }
-          if (cmd) {
-            const err = commandsServer.processReceivedCommand(cmd);
-            if (err) {
-              console.log(err.message, cmd);
+    if (commandsServer.ParamsInitialized()) {
+      let readyToProcess = "";
+      x = received.indexOf(EOF_sign);
+      if (x > -1) {
+        if (received.endsWith(EOF_sign)) {
+          readyToProcess = received;
+          received = "";
+        } else {
+          readyToProcess = received.substr(0, x);
+          received = received.substr(x, received.length);
+          console.log(`[!] received = ${received}`);
+        }
+  
+        const arr = readyToProcess.split(EOF_sign);
+        arr.forEach((element) => {
+          if (element !== "") {
+            let cmd = null;
+            try {
+              cmd = JSON.parse(element);
+            } catch (err) {
+              console.warn(`Failed to parse element: ${element}. Error= ${err}`);
+            }
+            if (cmd) {
+              const err = commandsServer.processReceivedCommand(cmd);
+              if (err) {
+                console.log(err.message, cmd);
+              }
             }
           }
-        }
-      });
-    }
+        });
+      }
+    }    
   });
 
   client.on("end", function () {

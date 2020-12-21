@@ -47,6 +47,9 @@ module.exports.connect = (uri, useDataModel, callback) => {
           );
         } else {
           myDataModelSchemas.LoadFromDB((err) => {
+
+            commandsServer.SetParamsInitialized();
+
             commandsServer.GetAllParamValues();
 
             //..

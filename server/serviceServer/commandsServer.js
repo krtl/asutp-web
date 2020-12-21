@@ -12,6 +12,8 @@ const tcpClient = require("./simpleTcpClient");
 
 // let tcpClient = undefined;
 
+let paramsInitialized = false;
+
 const initialize = (aTcpClient) => {
   // tcpClient = aTcpClient;
   if (tcpClient) {
@@ -51,6 +53,8 @@ const processReceivedCommand = (command) => {
     if (myCoreCommandType.isBackgroundCommand(command.cmd)) {
       switch (command.cmd) {
         case myCoreCommandType.PARAM_VALUE: {
+          // console.log(`PARAM_VALUE cmd received for "${command.value.paramName}".`);
+
           const param = MyDataModelNodes.GetParam(command.value.paramName);
           if (param) {
             lastParamValues.setValue(command.value);
@@ -63,6 +67,8 @@ const processReceivedCommand = (command) => {
               }
               // if (setts.useStompServer) {
               MyStompServer.sendParamValue(schemaName, command.value);
+              //console.log(`Stomp server sent value of "${command.value.paramName}" for: ${schemaName}.`);
+
               // }
             }
           } else {
@@ -134,9 +140,19 @@ const processReceivedCommand = (command) => {
   }
 };
 
+const ParamsInitialized = () => {
+  return paramsInitialized;
+};
+
+const SetParamsInitialized = () => {
+  return paramsInitialized = true;
+};
+
 module.exports.initialize = initialize;
 module.exports.processReceivedCommand = processReceivedCommand;
 module.exports.sendCommand = sendCommand;
 module.exports.SetManualValue = SetManualValue;
 module.exports.GetCollisions = GetCollisions;
 module.exports.GetAllParamValues = GetAllParamValues;
+module.exports.SetParamsInitialized = SetParamsInitialized;
+module.exports.ParamsInitialized = ParamsInitialized;
