@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "material-ui/Tabs";
+import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {
   KeyboardDateTimePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { Card, CardText } from "material-ui/Card";
 import Table from "@material-ui/core/Table";
@@ -22,17 +23,20 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  ResponsiveContainer,
 } from "recharts";
 import Moment from "react-moment";
+import moment from "moment";
+
 import DateFnsUtils from "@date-io/date-fns";
 
 const styles = {
   textField: {
     marginLeft: 1,
     marginRight: 1,
-    width: 200
-  }
+    width: 200,
+  },
 };
 
 export default class MyParamHistoryForm extends React.Component {
@@ -46,7 +50,7 @@ export default class MyParamHistoryForm extends React.Component {
 
     this.state = {
       fromDt: yesterday,
-      toDt: tomorrow
+      toDt: tomorrow,
     };
 
     this.handleFromDateTimeChange = this.handleFromDateTimeChange.bind(this);
@@ -83,112 +87,122 @@ export default class MyParamHistoryForm extends React.Component {
   render() {
     const data = [];
 
-    this.props.paramValues.forEach(vl => {
+    this.props.paramValues.forEach((vl) => {
       data.push({
         value: vl.value,
-        dt: vl.dt // dt currently not works.
+        // dt: vl.dt, // dt currently not works.
+        dt: moment(vl.dt).format("yyy.MM.DD HH:mm"),
       });
     });
 
     return (
-      <Card className="container">
-        <div>
-          <CardText>{this.props.paramName}</CardText>
-        </div>
-        <Grid container spacing={3}>
-          <Grid container item xs={12}>
-            <Grid container spacing={3} alignItems="center" justify="center">
-              <Grid item>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDateTimePicker
-                    // variant="inline"
-                    label="From:"
-                    ampm={false}
-                    value={this.state.fromDt}
-                    onChange={this.handleFromDateTimeChange}
-                    onError={console.log}
-                    format="yyyy/MM/dd HH:mm:ss"
-                    showTodayButton
-                  />
-                </MuiPickersUtilsProvider>
-              </Grid>
-              <Grid item>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDateTimePicker
-                    // variant="inline"
-                    label="To:"
-                    ampm={false}
-                    value={this.state.toDt}
-                    onChange={this.handleToDateTimeChange}
-                    onError={console.log}
-                    format="yyyy/MM/dd HH:mm:ss"
-                    showTodayButton
-                  />
-                </MuiPickersUtilsProvider>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  onClick={this.handleReloadParamValuesClick}
-                >
-                  Reload
-                </Button>
+      <Container>
+        <Card className="container">
+          <div>
+            <CardText>{this.props.paramName}</CardText>
+          </div>
+          <Grid container spacing={3}>
+            <Grid container item xs={12}>
+              <Grid container spacing={3} alignItems="center" justify="center">
+                <Grid item>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDateTimePicker
+                      // variant="inline"
+                      label="From:"
+                      ampm={false}
+                      value={this.state.fromDt}
+                      onChange={this.handleFromDateTimeChange}
+                      onError={console.log}
+                      format="yyyy/MM/dd HH:mm:ss"
+                      showTodayButton
+                    />
+                  </MuiPickersUtilsProvider>
+                </Grid>
+                <Grid item>
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <KeyboardDateTimePicker
+                      // variant="inline"
+                      label="To:"
+                      ampm={false}
+                      value={this.state.toDt}
+                      onChange={this.handleToDateTimeChange}
+                      onError={console.log}
+                      format="yyyy/MM/dd HH:mm:ss"
+                      showTodayButton
+                    />
+                  </MuiPickersUtilsProvider>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="outlined"
+                    onClick={this.handleReloadParamValuesClick}
+                  >
+                    Reload
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Tabs>
-            <Tab label="Table">
-              <TableContainer>
-                <Table size="small" padding="none">
-                  <TableHead adjustForCheckbox={false} displaySelectAll={false}>
-                    <TableRow>
-                      <TableCell>DateTime</TableCell>
-                      <TableCell>Value</TableCell>
-                      <TableCell>Quality</TableCell>
-                      <TableCell />
-                    </TableRow>
-                  </TableHead>
-                  <TableBody displayRowCheckbox={false}>
-                    {this.props.paramValues.map(value => (
-                      <TableRow key={value.dt} style={styles.cellCustomHeight}>
-                        <TableCell>
-                          <Moment format="YYYY.MM.DD HH:mm:ss">
-                            {value.dt}
-                          </Moment>
-                        </TableCell>
-                        <TableCell>{value.value}</TableCell>
-                        <TableCell>{value.qd}</TableCell>
+          <Grid item xs={12}>
+            <Tabs>
+              <Tab label="Table">
+                <TableContainer>
+                  <Table size="small" padding="none">
+                    <TableHead
+                      adjustForCheckbox={false}
+                      displaySelectAll={false}
+                    >
+                      <TableRow>
+                        <TableCell>DateTime</TableCell>
+                        <TableCell>Value</TableCell>
+                        <TableCell>Quality</TableCell>
+                        <TableCell />
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Tab>
-            <Tab label="Chart">
-              <LineChart
-                width={1200}
-                height={600}
-                data={data}
-                margin={{
-                  top: 70,
-                  right: 30,
-                  left: 20,
-                  bottom: 5
-                }}
-              >
-                <XAxis dataKey="dt" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="value" stroke="#8884d8" />
-              </LineChart>
-            </Tab>
-          </Tabs>
-        </Grid>
-      </Card>
+                    </TableHead>
+                    <TableBody displayRowCheckbox={false}>
+                      {this.props.paramValues.map((value) => (
+                        <TableRow
+                          key={value.dt}
+                          style={styles.cellCustomHeight}
+                        >
+                          <TableCell>
+                            <Moment format="YYYY.MM.DD HH:mm:ss">
+                              {value.dt}
+                            </Moment>
+                          </TableCell>
+                          <TableCell>{value.value}</TableCell>
+                          <TableCell>{value.qd}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Tab>
+              <Tab label="Chart">
+                <ResponsiveContainer width="95%" height={600}>
+                  <LineChart
+                    width={1000}
+                    height={600}
+                    data={data}
+                    margin={{
+                      top: 70,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <XAxis dataKey="dt" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Tab>
+            </Tabs>
+          </Grid>
+        </Card>
+      </Container>
     );
   }
 }
@@ -200,8 +214,8 @@ MyParamHistoryForm.propTypes = {
       paramName: PropTypes.string,
       value: PropTypes.number,
       dt: PropTypes.string,
-      qd: PropTypes.string
+      qd: PropTypes.string,
     })
   ),
-  onReloadParamValues: PropTypes.func
+  onReloadParamValues: PropTypes.func,
 };

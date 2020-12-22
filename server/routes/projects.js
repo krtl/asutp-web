@@ -195,4 +195,25 @@ module.exports = (app) => {
     res.status(200).json(myDataModelNodes.GetCommunacationParamNames());
     return 0;
   });
+
+  app.get("/paramValues", (req, res, next) => {
+    const paramName = req.query.paramName;
+
+    if (!paramName || paramName === "") {
+      res.json({
+        error: "Missing required parameter `paramName`!",
+      });
+      return;
+    }
+
+    request(
+      `http://asutp-smrem:8081/GetHistoryOfParamValues?ParamName=${paramName}&FromDT=${req.query.fromDT}&ToDT=${req.query.toDT}`,
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });
 };

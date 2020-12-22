@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import Container from "@material-ui/core/Container";
 import AsutpCommunicationModelTreeView from "./AsutpCommunicationModelTreeView";
 
 export default class AsutpCommunicationModelForm extends React.Component {
@@ -26,10 +27,12 @@ export default class AsutpCommunicationModelForm extends React.Component {
 
   render() {
     return (
-      <AsutpCommunicationModelTreeView
-        asutpRESes={this.props.asutpRESes}
-        paramValues={this.props.paramValues}
-      />
+      <Container>
+        <AsutpCommunicationModelTreeView
+          asutpRESes={this.props.asutpRESes}
+          paramValues={this.props.paramValues}
+        />
+      </Container>
     );
   }
 }

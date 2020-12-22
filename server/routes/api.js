@@ -1,5 +1,6 @@
 const express = require("express");
 const async = require("async");
+const request = require("request");
 const moment = require("moment");
 const logger = require("../logger");
 const userActions = require("../passport/userActions");
@@ -28,7 +29,7 @@ const router = new express.Router();
 
 router.get("/dashboard", (req, res) => {
   res.status(200).json({
-    message: "You're authorized to see this secret message."
+    message: "You're authorized to see this secret message.",
   });
 });
 
@@ -46,14 +47,14 @@ router.get("/params", (req, res, next) => {
 
   if (!schemaName || schemaName === "") {
     res.json({
-      error: "Missing required parameter `schemaName`!"
+      error: "Missing required parameter `schemaName`!",
     });
     return;
   }
 
   DbNodeSchema.findOne(
     {
-      name: schemaName
+      name: schemaName,
     },
     (err, prmList) => {
       if (err) return next(err);
@@ -62,7 +63,7 @@ router.get("/params", (req, res, next) => {
         const locParams = prmList.paramNames.split(",");
         DbParam.find(
           {
-            name: { $in: locParams }
+            name: { $in: locParams },
           },
           (err, params) => {
             if (err) return next(err);
@@ -80,54 +81,75 @@ router.get("/params", (req, res, next) => {
 
 router.get("/paramValues", (req, res, next) => {
   const paramName = req.query.paramName;
-  const momentFromDT = moment(req.query.fromDT);
-  const momentToDT = moment(req.query.toDT);
-  const fromDT = new Date(momentFromDT);
-  const toDT = new Date(momentToDT);
 
   if (!paramName || paramName === "") {
     res.json({
-      error: "Missing required parameter `paramName`!"
+      error: "Missing required parameter `paramName`!",
     });
     return;
   }
 
-  const param = myDataModelNodes.GetParam(paramName);
-  if (param) {
-    let model;
-    if (param.trackAllChanges) {
-      model = DbParamValues;
-    } else if (param.trackAveragePerHour) {
-      model = DbParamHalfHourValues;
-    }
-    if (model) {
-      model
-        .find({ paramName, dt: { $gte: fromDT, $lt: toDT } })
-        .sort({ dt: 1 })
-        .select({
-          paramName: 1,
-          value: 1,
-          dt: 1,
-          qd: 1,
-          _id: 0
-        })
-        .limit(500)
-        .exec((err, paramValues) => {
-          if (err) return next(err);
-          res.status(200).json(paramValues);
-          return 0;
-        });
-    } else {
-      res.status(200).json([]);
+  request(
+    `http://asutp-smrem:8081/GetHistoryOfParamValues?ParamName=${paramName}&FromDT=${req.query.fromDT}&ToDT=${req.query.toDT}`,
+    { json: true },
+    (err, resp, body) => {
+      if (err) return next(err);
+      res.status(200).json(body);
       return 0;
     }
-  } else {
-    res.json({
-      error: `Param with name="${paramName}" is not found!`
-    });
-    return;
-  }
+  );
 });
+
+// router.get("/paramValues", (req, res, next) => {
+//   const paramName = req.query.paramName;
+//   const momentFromDT = moment(req.query.fromDT);
+//   const momentToDT = moment(req.query.toDT);
+//   const fromDT = new Date(momentFromDT);
+//   const toDT = new Date(momentToDT);
+
+//   if (!paramName || paramName === "") {
+//     res.json({
+//       error: "Missing required parameter `paramName`!"
+//     });
+//     return;
+//   }
+
+//   const param = myDataModelNodes.GetParam(paramName);
+//   if (param) {
+//     let model;
+//     if (param.trackAllChanges) {
+//       model = DbParamValues;
+//     } else if (param.trackAveragePerHour) {
+//       model = DbParamHalfHourValues;
+//     }
+//     if (model) {
+//       model
+//         .find({ paramName, dt: { $gte: fromDT, $lt: toDT } })
+//         .sort({ dt: 1 })
+//         .select({
+//           paramName: 1,
+//           value: 1,
+//           dt: 1,
+//           qd: 1,
+//           _id: 0
+//         })
+//         .limit(500)
+//         .exec((err, paramValues) => {
+//           if (err) return next(err);
+//           res.status(200).json(paramValues);
+//           return 0;
+//         });
+//     } else {
+//       res.status(200).json([]);
+//       return 0;
+//     }
+//   } else {
+//     res.json({
+//       error: `Param with name="${paramName}" is not found!`
+//     });
+//     return;
+//   }
+// });
 
 router.get("/nodePoweredStateValues", (req, res, next) => {
   const nodeName = req.query.nodeName;
@@ -138,7 +160,7 @@ router.get("/nodePoweredStateValues", (req, res, next) => {
 
   if (!nodeName || nodeName === "") {
     res.json({
-      error: "Missing required parameter `nodeName`!"
+      error: "Missing required parameter `nodeName`!",
     });
     return;
   }
@@ -165,14 +187,14 @@ router.get("/nodeSwitchedOnStateValues", (req, res, next) => {
 
   if (!connectorName || connectorName === "") {
     res.json({
-      error: "Missing required parameter `connectorName`!"
+      error: "Missing required parameter `connectorName`!",
     });
     return;
   }
 
   DbNodeSwitchedOnStateValue.find({
     connectorName: connectorName,
-    dt: { $gte: fromDT, $lt: toDT }
+    dt: { $gte: fromDT, $lt: toDT },
   })
     .populate("user", "_id name email")
     .select("connectorName oldState newState dt user -_id")
@@ -192,7 +214,7 @@ router.get("/getNodeCoordinates", (req, res, next) => {
 
   if (!schemaName || schemaName === "") {
     res.json({
-      error: "Missing required parameter `schemaName`!"
+      error: "Missing required parameter `schemaName`!",
     });
     return;
   }
@@ -212,7 +234,7 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
 
   if (!schemaName || schemaName === "") {
     res.json({
-      error: "Missing required parameter `schemaName`!"
+      error: "Missing required parameter `schemaName`!",
     });
     return;
   }
@@ -232,7 +254,7 @@ router.post("/resetNodeCoordinates", (req, res, next) => {
         req
       );
       res.status(200).json({
-        message: s
+        message: s,
       });
     }
   });
@@ -246,7 +268,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
 
   if (!schemaName || schemaName === "") {
     res.json({
-      error: "Missing required parameter `schemaName`!"
+      error: "Missing required parameter `schemaName`!",
     });
     return;
   }
@@ -260,7 +282,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
       DbNodeCoordinates.findOne(
         {
           schemaName,
-          nodeName: locNode.nodeName
+          nodeName: locNode.nodeName,
         },
         (err, netNode) => {
           if (err) {
@@ -275,10 +297,10 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
                 {
                   $set: {
                     x: locNode.x,
-                    y: locNode.y
-                  }
+                    y: locNode.y,
+                  },
                 },
-                err => {
+                (err) => {
                   if (err) return callback(err);
 
                   logger.debug(
@@ -296,7 +318,7 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
             const newNodeCoordinates = new DbNodeCoordinates(locNode);
             newNodeCoordinates.nodeName = locNode.nodeName;
             newNodeCoordinates.schemaName = schemaName;
-            newNodeCoordinates.save(err => {
+            newNodeCoordinates.save((err) => {
               if (err) {
                 logger.warn(
                   `[saveNodeCoordinates] newNetNodeShema.save error: ${err.message}`
@@ -315,17 +337,17 @@ router.post("/saveNodeCoordinates", (req, res, next) => {
         }
       );
     },
-    err => {
+    (err) => {
       if (err) {
         logger.info(`[saveNodeCoordinates] Failed: ${err.message}`);
         // next(err);
         res.status(500).json({
-          message: err.message
+          message: err.message,
         });
       } else {
         logger.debug("[saveNodeCoordinates] All saved successfully");
         res.status(200).json({
-          message: "'All saved successfully'"
+          message: "'All saved successfully'",
         });
         userActions.LogUserAction(
           req.user,
@@ -347,10 +369,12 @@ router.post("/saveParamManualValue", (req, res, next) => {
     logger.info(`[saveParamManualValue] Failed: ${err.message}`);
     // next(err);
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   } else {
-    logger.debug(`[saveParamManualValue] Manual value saved. Param = ${manualvalue.paramName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}, User = ${req.user.name}(${req.user.email})`);
+    logger.debug(
+      `[saveParamManualValue] Manual value saved. Param = ${manualvalue.paramName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}, User = ${req.user.name}(${req.user.email})`
+    );
 
     userActions.LogUserAction(
       req.user,
@@ -360,7 +384,7 @@ router.post("/saveParamManualValue", (req, res, next) => {
     );
 
     res.status(200).json({
-      message: "'Manual value saved'"
+      message: "'Manual value saved'",
     });
   }
 });
@@ -374,10 +398,12 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
     logger.info(`[saveConnectionManualValue] Failed: ${err.message}`);
     // next(err);
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   } else {
-    logger.debug(`[saveConnectionManualValue] Connection Manual value saved. Param = ${manualvalue.nodeName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}, User = ${req.user.name}(${req.user.email})`);
+    logger.debug(
+      `[saveConnectionManualValue] Connection Manual value saved. Param = ${manualvalue.nodeName}, Value = ${manualvalue.manualValue}, cmd = ${manualvalue.cmd}, User = ${req.user.name}(${req.user.email})`
+    );
 
     userActions.LogUserAction(
       req.user,
@@ -387,7 +413,7 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
     );
 
     res.status(200).json({
-      message: "Manual value saved"
+      message: "Manual value saved",
     });
   }
 });
@@ -395,21 +421,21 @@ router.post("/saveConnectionManualValue", (req, res, next) => {
 router.post("/addNewCustomSchema", (req, res, next) => {
   const schemaInfo = req.body;
   const dbSchema = DbNodeSchema(schemaInfo);
-  dbSchema.save(err => {
+  dbSchema.save((err) => {
     if (err) {
       logger.info(`[addNewCustomSchema] Failed: ${err.message}`);
       // next(err);
       res.status(500).json({
-        message: err.message
+        message: err.message,
       });
     } else {
       console.log(`Schema "${dbSchema.name}" inserted`);
-      myDataModelSchemas.ReloadCustomSchema(dbSchema.name, err => {
+      myDataModelSchemas.ReloadCustomSchema(dbSchema.name, (err) => {
         if (err) {
           logger.info(`[ReloadCustomSchema] Failed: ${err.message}`);
           // next(err);
           res.status(500).json({
-            message: err.message
+            message: err.message,
           });
         }
         logger.debug(
@@ -424,7 +450,7 @@ router.post("/addNewCustomSchema", (req, res, next) => {
         );
 
         res.status(200).json({
-          message: "New custom schema added"
+          message: "New custom schema added",
         });
       });
     }
@@ -434,12 +460,12 @@ router.post("/addNewCustomSchema", (req, res, next) => {
 router.post("/deleteCustomSchema", (req, res, next) => {
   const schemaName = req.query.schemaName;
 
-  myDataModelSchemas.DeleteCustomSchema(schemaName, err => {
+  myDataModelSchemas.DeleteCustomSchema(schemaName, (err) => {
     if (err) {
       logger.info(`[DeleteCustomSchema] Failed: ${err.message}`);
       // next(err);
       res.status(500).json({
-        message: err.message
+        message: err.message,
       });
     }
 
@@ -455,7 +481,7 @@ router.post("/deleteCustomSchema", (req, res, next) => {
     );
 
     res.status(200).json({
-      message: "Custom schema deleted"
+      message: "Custom schema deleted",
     });
   });
 });
@@ -465,12 +491,12 @@ router.post("/customSchemaAddNode", (req, res, next) => {
   myDataModelSchemas.CustomSchemaAddNode(
     requestInfo.schemaName,
     requestInfo.nodeName,
-    err => {
+    (err) => {
       if (err) {
         logger.info(`[CustomSchemaAddNode] Failed: ${err.message}`);
         // next(err);
         res.status(500).json({
-          message: err.message
+          message: err.message,
         });
       } else {
         logger.debug(
@@ -485,7 +511,7 @@ router.post("/customSchemaAddNode", (req, res, next) => {
         );
 
         res.status(200).json({
-          message: "Custom schema edited"
+          message: "Custom schema edited",
         });
       }
     }
@@ -497,7 +523,7 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
   myDataModelSchemas.CustomSchemaDeleteNode(
     requestInfo.schemaName,
     requestInfo.nodeName,
-    err => {
+    (err) => {
       if (err) {
         logger.info(`[CustomSchemaDeleteNode] Failed: ${err.message}`);
         next(err);
@@ -510,7 +536,7 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
         );
 
         res.status(200).json({
-          message: "Custom schema edited"
+          message: "Custom schema edited",
         });
 
         userActions.LogUserAction(
@@ -532,7 +558,7 @@ router.get("/getCollisions", (req, res, next) => {
     logger.info(`[GetCollisions] Failed: ${err.message}`);
     // next(err);
     res.status(500).json({
-      message: err.message
+      message: err.message,
     });
   } else {
     res.status(200).json(MyServerStatus.getCollisions());
@@ -572,7 +598,7 @@ router.get("/getAsutpConnections", (req, res, next) => {
       VVParamName: 1,
       PParamName: 1,
       UlParamName: 1,
-      _id: 0
+      _id: 0,
     })
     .limit(5000)
     .exec((err, asutpConnections) => {
@@ -591,7 +617,7 @@ router.get("/getAsutpConnections", (req, res, next) => {
           caption: asutpConnection.caption,
           voltage: asutpConnection.voltage,
           connectionNumber: asutpConnection.connectionNumber,
-          params: []
+          params: [],
         };
         for (let j = 0; j < locPSs.length; j += 1) {
           const ps = locPSs[j];
@@ -605,7 +631,7 @@ router.get("/getAsutpConnections", (req, res, next) => {
                 name: ps.name,
                 caption: ps.caption,
                 sapCode: ps.sapCode,
-                connections: []
+                connections: [],
               };
               resultPSs.set(asutpConnection.psSapCode, resultPS);
             }
@@ -624,7 +650,7 @@ router.get("/getAsutpConnections", (req, res, next) => {
                     key: key++,
                     name: locParam.name,
                     caption: locParam.caption,
-                    value: ""
+                    value: "",
                   };
                   resultConnection.params.push(resultParam);
 
@@ -662,7 +688,7 @@ router.post("/savePSLinkage", (req, res, next) => {
       DbNodeParamLinkage.findOne(
         {
           nodeName: locLinkage.nodeName,
-          paramPropName: locLinkage.paramPropName
+          paramPropName: locLinkage.paramPropName,
         },
         (err, linkage) => {
           if (err) {
@@ -680,10 +706,10 @@ router.post("/savePSLinkage", (req, res, next) => {
                   $set: {
                     // caption: locNode.caption,
                     // description: locNode.description,
-                    paramPropValue: locLinkage.paramPropValue
-                  }
+                    paramPropValue: locLinkage.paramPropValue,
+                  },
                 },
-                err => {
+                (err) => {
                   if (err) {
                     logger.warn(
                       `[savePSLinkage] Something wrong when DbNodeParamLinkage update for "${psName}"!`
@@ -704,7 +730,7 @@ router.post("/savePSLinkage", (req, res, next) => {
           } else {
             const newNodeParamLinkage = new DbNodeParamLinkage(locLinkage);
 
-            newNodeParamLinkage.save(err => {
+            newNodeParamLinkage.save((err) => {
               if (err) {
                 logger.warn(
                   `[savePSLinkage] Something wrong when DbNodeParamLinkage save  for "${psName}"!`
@@ -722,7 +748,7 @@ router.post("/savePSLinkage", (req, res, next) => {
         }
       );
     },
-    err => {
+    (err) => {
       if (err) {
         logger.info(`Failed: ${err.message} `);
         next(err);
@@ -734,7 +760,7 @@ router.post("/savePSLinkage", (req, res, next) => {
           `[savePSLinkage] All nodeLinkages are saved successfully for "${psName}"`
         );
 
-        myDataModelNodes.RelinkParamNamesToNodes(err => {
+        myDataModelNodes.RelinkParamNamesToNodes((err) => {
           if (err) {
             logger.warn(
               `[savePSLinkage] Something wrong on RelinkParamsToNodes for "${psName}"! ${err.message}`
@@ -745,7 +771,7 @@ router.post("/savePSLinkage", (req, res, next) => {
               `[savePSLinkage] Nodes are successfully relinked to Params for "${psName}"`
             );
 
-            myDataModelSchemas.ReloadPSSchemaParams(psName, err => {
+            myDataModelSchemas.ReloadPSSchemaParams(psName, (err) => {
               if (err) {
                 logger.warn(
                   `[savePSLinkage] Something wrong on ReloadPSSchemaParams for "${psName}"! ${err.message}`
@@ -758,7 +784,7 @@ router.post("/savePSLinkage", (req, res, next) => {
                 );
 
                 const changedNodes = [];
-                linkages.forEach(element => {
+                linkages.forEach((element) => {
                   changedNodes.push(element.nodeName);
                 });
 
@@ -770,7 +796,7 @@ router.post("/savePSLinkage", (req, res, next) => {
                 );
 
                 res.status(200).json({
-                  message: `All nodeLinkages are saved successfully for "${psName}"`
+                  message: `All nodeLinkages are saved successfully for "${psName}"`,
                 });
               }
             });
@@ -790,7 +816,7 @@ router.get("/getUserActions", (req, res, next) => {
   const toDT = new Date(momentToDT);
 
   const findObj = {
-    dt: { $gte: fromDT, $lt: toDT }
+    dt: { $gte: fromDT, $lt: toDT },
   };
 
   if (userId && userId !== "") {
