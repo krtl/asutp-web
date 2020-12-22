@@ -195,6 +195,7 @@ export default class MyParamHistoryForm extends React.Component {
                     <YAxis />
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
+                    <Legend />
                     <Line type="monotone" dataKey="value" stroke="#8884d8" />
                   </LineChart>
                 </ResponsiveContainer>
