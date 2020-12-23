@@ -56,6 +56,9 @@ const useTreeItemStyles = makeStyles((theme) => ({
     fontWeight: "inherit",
     flexGrow: 1,
   },
+  buttonHistiry: {
+    marginRight: theme.spacing(2),
+  },
 }));
 
 function StyledTreeItem(props) {
@@ -70,7 +73,6 @@ function StyledTreeItem(props) {
     ...other
   } = props;
 
-
   return (
     <TreeItem
       label={
@@ -82,15 +84,16 @@ function StyledTreeItem(props) {
           <Typography variant="caption" color="inherit">
             {labelInfo}
           </Typography>
-          {historyHref &&
-          <IconButton
-          aria-label="delete"
-          className={classes.margin}
-          href={historyHref}
-        >
-          <BarChartIcon fontSize="small" />
-        </IconButton>
-          } 
+          {historyHref && (
+            <IconButton
+              aria-label="delete"
+              className={classes.buttonHistiry}
+              size="small"
+              href={historyHref}
+            >
+              <BarChartIcon fontSize="inherit" />
+            </IconButton>
+          )}
         </div>
       }
       style={{
@@ -116,6 +119,7 @@ StyledTreeItem.propTypes = {
   labelIcon: PropTypes.elementType.isRequired,
   labelInfo: PropTypes.string,
   labelText: PropTypes.string.isRequired,
+  historyHref: PropTypes.string,
 };
 
 const useStyles = makeStyles({

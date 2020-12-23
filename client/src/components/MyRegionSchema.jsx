@@ -24,7 +24,7 @@ export default class MyRegionSchema extends React.Component {
 
       editMode: false,
       openDialogAddNode: false,
-      openDialogAreYouSure: false
+      openDialogAreYouSure: false,
     };
     this.handleSaveSchemeClick = this.handleSaveSchemeClick.bind(this);
     this.handleResetSchemaClick = this.handleResetSchemaClick.bind(this);
@@ -48,14 +48,14 @@ export default class MyRegionSchema extends React.Component {
         this.props.onLoadRegionsForSchemaEdit(() => {
           this.setState({
             editMode: true,
-            selectedNode: undefined
+            selectedNode: undefined,
           });
         });
         break;
       }
       case optionShemaToDisplayMode: {
         this.setState({
-          editMode: false
+          editMode: false,
         });
         break;
       }
@@ -71,7 +71,7 @@ export default class MyRegionSchema extends React.Component {
       case optionShemaAddNode: {
         this.setState({
           openDialogAddNode: true,
-          editedSchemaName: `${this.props.schema.name}(${this.props.schema.caption})`
+          editedSchemaName: `${this.props.schema.name}(${this.props.schema.caption})`,
         });
         break;
       }
@@ -115,7 +115,10 @@ export default class MyRegionSchema extends React.Component {
     if (data !== "dismiss" && this.state.selectedNode) {
       const node = this.getNodeByName(this.state.selectedNode.name);
       if (node !== undefined) {
-        this.props.onDeleteNode(this.props.schema.name, this.state.selectedNode.name);
+        this.props.onDeleteNode(
+          this.props.schema.name,
+          this.state.selectedNode.name
+        );
       }
     }
   }
@@ -124,7 +127,7 @@ export default class MyRegionSchema extends React.Component {
     if (this.state.editMode) {
       this.setState({
         openDialogAreYouSure: true,
-        selectedNode: node
+        selectedNode: node,
       });
     }
   }
@@ -157,10 +160,10 @@ export default class MyRegionSchema extends React.Component {
       for (let i = 0; i < this.props.wires.length; i += 1) {
         const locWire = this.props.wires[i];
         const locNode1 = this.props.nodes.find(
-          node => node.name === locWire.nodeFrom
+          (node) => node.name === locWire.nodeFrom
         );
         const locNode2 = this.props.nodes.find(
-          node => node.name === locWire.nodeTo
+          (node) => node.name === locWire.nodeTo
         );
         if (locNode1 !== undefined && locNode2 !== undefined) {
           result.push({
@@ -169,8 +172,8 @@ export default class MyRegionSchema extends React.Component {
               locNode1.x + this.getCenterX(locNode1),
               locNode1.y + this.getCenterY(locNode1),
               locNode2.x + this.getCenterX(locNode2),
-              locNode2.y + this.getCenterY(locNode2)
-            ]
+              locNode2.y + this.getCenterY(locNode2),
+            ],
           });
         }
       }
@@ -182,7 +185,7 @@ export default class MyRegionSchema extends React.Component {
     if (this.state.editMode) {
       if (this.state.edited) {
         let nodes = [];
-        this.props.nodes.forEach(node => {
+        this.props.nodes.forEach((node) => {
           // if (node.changed !== undefined) { //currently we save all scheme due to automatic redistribution on server side.
           nodes.push({ nodeName: node.name, x: node.x, y: node.y });
           // }
@@ -202,7 +205,9 @@ export default class MyRegionSchema extends React.Component {
 
   handleDragEnd(nodeObj) {
     if (this.state.editMode) {
-      const locNode = this.props.nodes.find(node => node.name === nodeObj.name);
+      const locNode = this.props.nodes.find(
+        (node) => node.name === nodeObj.name
+      );
       if (locNode !== undefined) {
         // console.log(`[MyStage] Drag ends for ${locNode.name}`);
 
@@ -210,7 +215,7 @@ export default class MyRegionSchema extends React.Component {
         locNode.y = nodeObj.y;
         // locNode.changed = true;
         this.setState({
-          edited: true
+          edited: true,
         });
       }
     }
@@ -222,10 +227,10 @@ export default class MyRegionSchema extends React.Component {
 
   handleStageClick() {
     this.setState({
-      stageClicked: true
+      stageClicked: true,
     });
     this.setState({
-      stageClicked: false
+      stageClicked: false,
     });
   }
 
@@ -243,7 +248,7 @@ export default class MyRegionSchema extends React.Component {
           optionShemaLoad,
           optionShemaSave,
           optionShemaAddNode,
-          optionShemaReset
+          optionShemaReset,
         ]
       : [optionShemaToEditMode, optionShemaLoad];
 
@@ -278,7 +283,7 @@ export default class MyRegionSchema extends React.Component {
                 onMenuItemSelected={this.handleMenuItemSelected}
               />
 
-              {locNodes.map(rec => (
+              {locNodes.map((rec) => (
                 <MySchemaNode
                   key={rec.name}
                   node={rec}
@@ -290,7 +295,7 @@ export default class MyRegionSchema extends React.Component {
                   history={this.props.history}
                 />
               ))}
-              {locLines.map(line => (
+              {locLines.map((line) => (
                 <Line
                   key={line.name}
                   points={line.points}
@@ -309,7 +314,7 @@ export default class MyRegionSchema extends React.Component {
 MyRegionSchema.propTypes = {
   schema: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    caption: PropTypes.string.isRequired
+    caption: PropTypes.string.isRequired,
   }),
   regions: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
@@ -320,5 +325,5 @@ MyRegionSchema.propTypes = {
   onResetSchema: PropTypes.func.isRequired,
   onAddNode: PropTypes.func.isRequired,
   onDeleteNode: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
