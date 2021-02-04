@@ -5,6 +5,9 @@ import Konva from "konva";
 import Portal from "../ContextMenu/Portal";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
+import ReactDom from "react-dom";
+
+
 export default class MyMenuBase extends React.Component {
   constructor(props) {
     super(props);
@@ -30,11 +33,17 @@ export default class MyMenuBase extends React.Component {
 
   handleContextMenu(e) {
     e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
-    // const mousePosition = e.target.getStage().getPointerPosition();
-    const mousePosition = {
-      x: e.evt.pageX,
-      y: e.evt.pageY
-    };
+
+    const mousePosition = e.evt.x ? (
+      // for mouse devices
+      {
+        x: e.evt.pageX,
+        y: e.evt.pageY
+      }
+    ) : (
+      // for touch devices
+      e.target.getStage().getPointerPosition()
+    )    
 
     this.setState({
       selectedContextMenu: {
@@ -89,10 +98,12 @@ export default class MyMenuBase extends React.Component {
           strokeWidth={0}
           closed={true}
           onDblClick={this.handleDblClick}
+          onDblTap={this.handleDblClick}
           onDragStart={this.handleMenuDragStart}
           onDragEnd={this.handleMenuDragEnd}
-          onclick={this.handleClick}
+          // onclick={this.handleClick}
           onContextMenu={this.handleContextMenu}
+          onTouchStart={this.handleContextMenu}
         />
         {selectedContextMenu && (
           <Portal>

@@ -326,10 +326,15 @@ export default class MyPSSchemeForm extends React.Component {
   render() {
     const locNodes = this.props.nodes;
     const locLines = this.getLines();
-    // const locW = window.innerWidth - 30;
-    // const locH = window.innerHeight - 30;
-    const locW = 3000;
-    const locH = 5000;
+
+    // Avoid crashing on Android
+    let locW = window.innerWidth;
+    let locH = window.innerHeight;
+    if (locW > 1000) 
+    {
+      locW = 3000;
+      locH = 5000;
+    }
 
     const locParams = this.props.params;
 

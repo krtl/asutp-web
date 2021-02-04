@@ -27,7 +27,7 @@ export default class AsutpCommunicationModelForm extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Container maxWidth="sm">
         <AsutpCommunicationModelTreeView
           asutpRESes={this.props.asutpRESes}
           paramValues={this.props.paramValues}
