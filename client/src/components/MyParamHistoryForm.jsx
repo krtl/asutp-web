@@ -148,10 +148,7 @@ export default class MyParamHistoryForm extends React.Component {
               <Tab label="Table">
                 <TableContainer>
                   <Table size="small" padding="none">
-                    <TableHead
-                      adjustForCheckbox={false}
-                      displaySelectAll={false}
-                    >
+                    <TableHead>
                       <TableRow>
                         <TableCell>DateTime</TableCell>
                         <TableCell>Value</TableCell>
@@ -159,7 +156,7 @@ export default class MyParamHistoryForm extends React.Component {
                         <TableCell />
                       </TableRow>
                     </TableHead>
-                    <TableBody displayRowCheckbox={false}>
+                    <TableBody>
                       {this.props.paramValues.map((value) => (
                         <TableRow
                           key={value.dt}

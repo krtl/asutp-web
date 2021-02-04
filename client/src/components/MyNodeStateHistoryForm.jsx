@@ -162,7 +162,7 @@ export default class MyNodeStateHistoryForm extends React.Component {
           <Grid item xs={12}>
             <TableContainer>
               <Table size="small" padding="none">
-                <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                <TableHead>
                   <TableRow>
                     <TableCell>Name</TableCell>
                     <TableCell>Old State</TableCell>
@@ -172,7 +172,7 @@ export default class MyNodeStateHistoryForm extends React.Component {
                     <TableCell />
                   </TableRow>
                 </TableHead>
-                <TableBody displayRowCheckbox={false}>
+                <TableBody>
                   {this.props.stateValues.map(stateValue => (
                     <TableRow key={stateValue.dt}>
                       {this.state.selectedAction === "Powered" ? (

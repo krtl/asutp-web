@@ -135,11 +135,8 @@ export default class SystemServiceForm extends React.Component {
             <Tab label="Collisions">
               <TableContainer>
                 <Table size="small" padding="none">
-                  <TableHead
-                    adjustForCheckbox={false}
-                    displaySelectAll={false}
-                  ></TableHead>
-                  <TableBody displayRowCheckbox={false}>
+                  <TableHead></TableHead>
+                  <TableBody>
                     {this.props.collisions.map((value, index) => (
                       <TableRow key={index}>
                         <TableCell>{value}</TableCell>
@@ -152,7 +149,7 @@ export default class SystemServiceForm extends React.Component {
             <Tab label="Blocked Params">
               <TableContainer>
                 <Table size="small" padding="none">
-                  <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                  <TableHead>
                     <TableRow>
                       <TableCell>Name</TableCell>
                       <TableCell>DateTime</TableCell>
@@ -160,7 +157,7 @@ export default class SystemServiceForm extends React.Component {
                       <TableCell />
                     </TableRow>
                   </TableHead>
-                  <TableBody displayRowCheckbox={false}>
+                  <TableBody>
                     {this.props.blockedParams.map((value, index) => (
                       <TableRow key={index}>
                         <TableCell>{value.name}</TableCell>

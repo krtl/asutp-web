@@ -300,7 +300,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
           {/* <CardText>{this.props.PS}</CardText> */}
           <TableContainer>
             <Table size="small" padding="none">
-              <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+              <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
                   <TableCell>Caption</TableCell>
@@ -309,7 +309,7 @@ export default class MyPSAsutpLinkageForm extends React.Component {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              <TableBody displayRowCheckbox={false}>
+              <TableBody>
                 {rows.map(row => (
                   <TableRow
                     key={row.name}

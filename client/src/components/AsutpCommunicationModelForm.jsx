@@ -31,6 +31,7 @@ export default class AsutpCommunicationModelForm extends React.Component {
         <AsutpCommunicationModelTreeView
           asutpRESes={this.props.asutpRESes}
           paramValues={this.props.paramValues}
+          // history={this.props.history}
         />
       </Container>
     );
@@ -48,4 +49,5 @@ AsutpCommunicationModelForm.propTypes = {
   ),
   paramValues: PropTypes.array.isRequired,
   onReloadAsutpCommunicationModel: PropTypes.func,
+  history: PropTypes.object.isRequired
 };

@@ -82,7 +82,7 @@ export default class MyParams extends React.Component {
     return (
       <TableContainer>
         <Table size="small" padding="none">
-          <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+          <TableHead>
             <TableRow>
               <TableCell style={styles.cellCustomSizeName}>Name</TableCell>
               <TableCell style={styles.cellCustomSizeCaption}>
@@ -94,7 +94,7 @@ export default class MyParams extends React.Component {
               <TableCell style={styles.cellCustomSizeHistory} />
             </TableRow>
           </TableHead>
-          <TableBody displayRowCheckbox={false}>
+          <TableBody>
             {this.props.params.map(param => (
               <TableRow key={param.name} style={styles.cellCustomHeight}>
                 <TableCell style={styles.cellCustomSizeName}>

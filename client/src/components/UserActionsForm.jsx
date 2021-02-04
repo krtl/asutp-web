@@ -4,7 +4,7 @@ import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import {
   KeyboardDateTimePicker,
-  MuiPickersUtilsProvider
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -21,11 +21,11 @@ import DateFnsUtils from "@date-io/date-fns";
 
 const styles = {
   schemaComboWidth: {
-    width: 350
+    width: 350,
   },
   actionComboWidth: {
-    width: 270
-  }
+    width: 270,
+  },
 };
 
 export default class UserActionsForm extends React.Component {
@@ -44,7 +44,7 @@ export default class UserActionsForm extends React.Component {
       fromDt: yesterday,
       toDt: tomorrow,
       selectedUser: undefined,
-      selectedAction: undefined
+      selectedAction: undefined,
     };
 
     this.handleSelectedUserChange = this.handleSelectedUserChange.bind(this);
@@ -92,8 +92,8 @@ export default class UserActionsForm extends React.Component {
     const users = []; //extract users
     actions.push("");
     users.push("");
-    this.props.userActions.forEach(element => {
-      const found = users.some(user => user._id === element.user._id);
+    this.props.userActions.forEach((element) => {
+      const found = users.some((user) => user._id === element.user._id);
       if (!found) {
         if (
           this.state.selectedUser &&
@@ -122,7 +122,7 @@ export default class UserActionsForm extends React.Component {
                   onChange={this.handleSelectedUserChange}
                   style={styles.schemaComboWidth}
                 >
-                  {users.map(user => (
+                  {users.map((user) => (
                     <MenuItem
                       key={user._id}
                       value={user}
@@ -139,7 +139,7 @@ export default class UserActionsForm extends React.Component {
                   onChange={this.handleSelectedActionChange}
                   style={styles.actionComboWidth}
                 >
-                  {actions.map(item => (
+                  {actions.map((item) => (
                     <MenuItem key={item} value={item} primaryText={item} />
                   ))}
                 </SelectField>
@@ -185,7 +185,7 @@ export default class UserActionsForm extends React.Component {
           <Grid item xs={12}>
             <TableContainer>
               <Table size="small" padding="none">
-                <TableHead adjustForCheckbox={false} displaySelectAll={false}>
+                <TableHead>
                   <TableRow>
                     <TableCell>Time</TableCell>
                     <TableCell>Name</TableCell>
@@ -195,8 +195,8 @@ export default class UserActionsForm extends React.Component {
                     <TableCell />
                   </TableRow>
                 </TableHead>
-                <TableBody displayRowCheckbox={false}>
-                  {this.props.userActions.map(userAction => (
+                <TableBody>
+                  {this.props.userActions.map((userAction) => (
                     <TableRow key={userAction.dt}>
                       <TableCell>
                         <Moment format="YYYY.MM.DD HH:mm:ss">
@@ -226,13 +226,13 @@ UserActionsForm.propTypes = {
       user: PropTypes.shape({
         _id: PropTypes.string,
         name: PropTypes.string,
-        email: PropTypes.string
+        email: PropTypes.string,
       }),
       action: PropTypes.string,
       params: PropTypes.string,
-      host: PropTypes.string
+      host: PropTypes.string,
     })
   ),
   onReloadUserActions: PropTypes.func,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
