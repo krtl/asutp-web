@@ -5,14 +5,13 @@ import Konva from "konva";
 import Portal from "../ContextMenu/Portal";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
-import ReactDom from "react-dom";
-
+// import ReactDom from "react-dom";
 
 export default class MyMenuBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedContextMenu: null
+      selectedContextMenu: null,
     };
     this.handleDblClick = this.handleDblClick.bind(this);
 
@@ -34,22 +33,20 @@ export default class MyMenuBase extends React.Component {
   handleContextMenu(e) {
     e.evt.preventDefault(true); // NB!!!! Remember the ***TRUE***
 
-    const mousePosition = e.evt.x ? (
-      // for mouse devices
-      {
-        x: e.evt.pageX,
-        y: e.evt.pageY
-      }
-    ) : (
-      // for touch devices
-      e.target.getStage().getPointerPosition()
-    )    
+    const mousePosition = e.evt.x
+      ? // for mouse devices
+        {
+          x: e.evt.pageX,
+          y: e.evt.pageY,
+        }
+      : // for touch devices
+        e.target.getStage().getPointerPosition();
 
     this.setState({
       selectedContextMenu: {
         type: "START",
-        position: mousePosition
-      }
+        position: mousePosition,
+      },
     });
   }
 
@@ -57,10 +54,10 @@ export default class MyMenuBase extends React.Component {
     e.target.setAttrs({
       shadowOffset: {
         x: 15,
-        y: 15
+        y: 15,
       },
       scaleX: 1.1,
-      scaleY: 1.1
+      scaleY: 1.1,
     });
   }
 
@@ -71,7 +68,7 @@ export default class MyMenuBase extends React.Component {
       scaleX: 1,
       scaleY: 1,
       shadowOffsetX: 5,
-      shadowOffsetY: 5
+      shadowOffsetY: 5,
     });
     this.props.onDragEnd(e);
   }
@@ -127,5 +124,5 @@ MyMenuBase.propTypes = {
   items: PropTypes.array.isRequired,
   onDoubleClick: PropTypes.func.isRequired,
   onMenuItemSelected: PropTypes.func.isRequired,
-  parentStageClicked: PropTypes.bool.isRequired
+  parentStageClicked: PropTypes.bool.isRequired,
 };

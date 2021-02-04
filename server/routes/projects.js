@@ -216,4 +216,16 @@ module.exports = (app) => {
       }
     );
   });
+
+  app.get("/soeConsumptionHistory", (req, res, next) => {
+    request(
+      `http://asutp-smrem:8081/GetSoeConsumption?FromDT=${req.query.fromDT}&ToDT=${req.query.toDT}`,
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });
 };

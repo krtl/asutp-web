@@ -5,6 +5,7 @@ import Base from "./components/Base.jsx";
 // import HomePage from "./components/HomePage.jsx";
 import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
+import SoeConsumptionHistoryPage from "./containers/SoeConsumptionHistoryPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
@@ -46,6 +47,10 @@ export default function App() {
       <Switch>
         <PrivateRoute path="/paramHistory/:paramName">
           <ParamHistoryPage />
+        </PrivateRoute>
+        
+        <PrivateRoute path="/soeConsumption">
+          <SoeConsumptionHistoryPage />
         </PrivateRoute>
 
         <PrivateRoute path="/psScheme/:psName">

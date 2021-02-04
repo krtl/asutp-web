@@ -19,16 +19,16 @@ import MenuList from "@material-ui/core/MenuList";
 import Popover from "@material-ui/core/Popover";
 import { NavLink } from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 const Base = ({ children }) => {
@@ -36,7 +36,7 @@ const Base = ({ children }) => {
   const [anchorElAccountMenu, setAnchorElAccountMenu] = React.useState(null);
   const [anchorE1MainMenu, setAnchorE1MainMenu] = React.useState(null);
 
-  const handleMainMenuOpen = event => {
+  const handleMainMenuOpen = (event) => {
     setAnchorE1MainMenu(event.currentTarget);
   };
 
@@ -44,7 +44,7 @@ const Base = ({ children }) => {
     setAnchorE1MainMenu(null);
   };
 
-  const handleAccountMenuOpen = event => {
+  const handleAccountMenuOpen = (event) => {
     setAnchorElAccountMenu(event.currentTarget);
   };
 
@@ -56,7 +56,12 @@ const Base = ({ children }) => {
   const handleMainMenuStateOfCommunications = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/asutpCommunicationModel`);
-  };  
+  };
+
+  const handleMainMenuSoeConsumption = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/soeConsumption`);
+  };
 
   const handleMainNodeStateHistory = () => {
     setAnchorE1MainMenu(null);
@@ -126,16 +131,21 @@ const Base = ({ children }) => {
                 onClose={handleMainMenuClose}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "right"
+                  horizontal: "right",
                 }}
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right"
+                  horizontal: "right",
                 }}
               >
                 <MenuList>
                   <MenuItem onClick={handleMainMenuRoot}>Root</MenuItem>
-                  <MenuItem onClick={handleMainMenuStateOfCommunications}>StateOfCommunications</MenuItem>
+                  <MenuItem onClick={handleMainMenuStateOfCommunications}>
+                    State of Communications
+                  </MenuItem>
+                  <MenuItem onClick={handleMainMenuSoeConsumption}>
+                    SOE Consumption
+                  </MenuItem>
                   <MenuItem onClick={handleMainNodeStateHistory}>
                     Node State History
                   </MenuItem>
@@ -173,12 +183,12 @@ const Base = ({ children }) => {
                 anchorEl={anchorElAccountMenu}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "right"
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right"
+                  horizontal: "right",
                 }}
                 open={accountMenuOpen}
                 onClose={handleAccountMenuClose}
@@ -210,12 +220,12 @@ const Base = ({ children }) => {
                 anchorEl={anchorElAccountMenu}
                 anchorOrigin={{
                   vertical: "bottom",
-                  horizontal: "right"
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right"
+                  horizontal: "right",
                 }}
                 open={accountMenuOpen}
                 onClose={handleAccountMenuClose}
@@ -242,7 +252,7 @@ const Base = ({ children }) => {
 };
 
 Base.propTypes = {
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
 };
 
 export default Base;
