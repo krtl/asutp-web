@@ -6,6 +6,7 @@ import Base from "./components/Base.jsx";
 import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import SoeConsumptionHistoryPage from "./containers/SoeConsumptionHistoryPage.jsx";
+import AsutpUsersReportPage from "./containers/AsutpUsersReportPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
@@ -52,6 +53,10 @@ export default function App() {
         <PrivateRoute path="/soeConsumption">
           <SoeConsumptionHistoryPage />
         </PrivateRoute>
+
+        <PrivateRoute path="/AsutpUsersReport">
+          <AsutpUsersReportPage />
+        </PrivateRoute>        
 
         <PrivateRoute path="/psScheme/:psName">
           <PSSchemePage />

@@ -62,7 +62,12 @@ const Base = ({ children }) => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/soeConsumption`);
   };
-
+  
+  const handleMainMenuAsutpUsersReport = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/AsutpUsersReport`);
+  };
+  
   const handleMainNodeStateHistory = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/nodeStateHistory/{node_name}`);
@@ -145,6 +150,9 @@ const Base = ({ children }) => {
                   </MenuItem>
                   <MenuItem onClick={handleMainMenuSoeConsumption}>
                     SOE Consumption
+                  </MenuItem>
+                  <MenuItem onClick={handleMainMenuAsutpUsersReport}>
+                    ASUTP Users Report
                   </MenuItem>
                   <MenuItem onClick={handleMainNodeStateHistory}>
                     Node State History

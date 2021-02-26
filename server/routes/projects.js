@@ -228,4 +228,16 @@ module.exports = (app) => {
       }
     );
   });
+
+  app.get("/getAsutpUsersReport", (req, res, next) => {
+    request(
+      `http://asutp-smrem:8081/GetAsutpUsers`,
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });
 };
