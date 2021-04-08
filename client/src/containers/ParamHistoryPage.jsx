@@ -34,6 +34,9 @@ export default class ParamHistoryPage extends React.Component {
     // ).format("YYYY-MM-DDTHH:mm:ss")}&toDT=${moment(toDT).format(
     //   "YYYY-MM-DDTHH:mm:ss"
     // )}`;
+
+    sessionStorage.setItem('lastHistoryParam', historyParamName);
+
     const url = `/api/paramValues?paramName=${historyParamName}&fromDT=${formatDateTime(
       fromDT
     )}&toDT=${formatDateTime(toDT)}`;

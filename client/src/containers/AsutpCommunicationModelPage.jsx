@@ -22,6 +22,7 @@ export default class AsutpCommunicationModelPage extends React.Component {
       asutpCommunicationReses: [],
       paramValues: [],
       update: false,
+      lastHistoryParam: sessionStorage.getItem('lastHistoryParam'),
     };
 
     this.reloadAsutpComminicationModel = this.reloadAsutpComminicationModel.bind(
@@ -50,7 +51,7 @@ export default class AsutpCommunicationModelPage extends React.Component {
             (value) => {
               let b = false;
 
-              console.log(value);
+              //console.log(value);
 
               if ("paramName" in value) {
                 for (let i = 0; i < this.state.paramValues.length; i += 1) {
@@ -88,14 +89,14 @@ export default class AsutpCommunicationModelPage extends React.Component {
   }
 
   componentDidMount() {
-    timerId = setInterval(() => {
-      if (valuesUpdated > 0) {
-        valuesUpdated = 0;
-        this.setState({
-          update: true,
-        });
-      }
-    }, 1000);
+    // timerId = setInterval(() => {
+    //   if (valuesUpdated > 0) {
+    //     valuesUpdated = 0;
+    //     this.setState({
+    //       update: true,
+    //     });
+    //   }
+    // }, 1000);
   }
 
   componentWillUnmount() {
@@ -114,6 +115,7 @@ export default class AsutpCommunicationModelPage extends React.Component {
         <AsutpCommunicationModelForm
           asutpRESes={this.state.asutpCommunicationReses}
           paramValues={this.state.paramValues}
+          lastHistoryParam={this.state.lastHistoryParam}
           onReloadAsutpCommunicationModel={this.reloadAsutpComminicationModel}
           history={this.props.history}
         />

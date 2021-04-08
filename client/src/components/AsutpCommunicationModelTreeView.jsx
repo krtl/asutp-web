@@ -130,7 +130,8 @@ const useStyles = makeStyles({
 
 export default function AsutpCommunicationModelTreeView(props) {
   const classes = useStyles();
-
+  let locExpanded = [];
+  let locSelected = "";
   let treeItems = [];
 
   for (let i = 0; i < props.asutpRESes.length; i++) {
@@ -146,6 +147,10 @@ export default function AsutpCommunicationModelTreeView(props) {
 
       for (let k = 0; k < device.Params.length; k++) {
         const param = device.Params[k];
+        if (param.Name === props.lastHistoryParam) {
+          locSelected = device.Name;
+          locExpanded.push(res.Name);
+        }
 
         for (let z = 0; z < props.paramValues.length; z += 1) {
           const locParamValue = props.paramValues[z];
@@ -154,7 +159,7 @@ export default function AsutpCommunicationModelTreeView(props) {
               connectedValue = locParamValue.value;
             }
             if (param.Name.endsWith("_CommunicationQuality")) {
-              qualityValue = locParamValue.value;
+              qualityValue = locParamValue.value.toString();
               historyHref = `/paramHistory/${param.Name}`;
             }
             break;
@@ -199,16 +204,31 @@ export default function AsutpCommunicationModelTreeView(props) {
     );
   }
 
-  return (
-    <TreeView
-      className={classes.root}
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      // expanded={true}
-      // onNodeToggle={this.handleChange}
-      defaultEndIcon={<div style={{ width: 24 }} />}
-    >
-      {treeItems}
-    </TreeView>
-  );
+  let loading = props.lastHistoryParam != null;
+  if (props.asutpRESes.length > 0) {
+    loading = false;
+  }
+
+  if (loading) {
+    return (
+      <Typography variant="h6" className={classes.title}>
+        Loading...
+      </Typography>
+    );
+  } else {
+    return (
+      <TreeView
+        className={classes.root}
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        defaultExpanded={locExpanded}
+        defaultSelected={locSelected}
+        // expanded={true}
+        // onNodeToggle={this.handleChange}
+        defaultEndIcon={<div style={{ width: 24 }} />}
+      >
+        {treeItems}
+      </TreeView>
+    );
+  }
 }
