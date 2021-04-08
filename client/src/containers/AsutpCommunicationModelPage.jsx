@@ -8,7 +8,7 @@ import { MakeUid } from "../modules/MyFuncs";
 const ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME = "ASUTP_COMMUNICATION_MODEL";
 const MATCHING_ITEM_LIMIT = 2500;
 
-// let valuesUpdated = 0;
+let valuesUpdated = 0;
 let timerId;
 
 export default class AsutpCommunicationModelPage extends React.Component {
@@ -89,14 +89,14 @@ export default class AsutpCommunicationModelPage extends React.Component {
   }
 
   componentDidMount() {
-    // timerId = setInterval(() => {
-    //   if (valuesUpdated > 0) {
-    //     valuesUpdated = 0;
-    //     this.setState({
-    //       update: true,
-    //     });
-    //   }
-    // }, 1000);
+    timerId = setInterval(() => {
+      if (valuesUpdated > 0) {
+        valuesUpdated = 0;
+        this.setState({
+          update: true,
+        });
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {
