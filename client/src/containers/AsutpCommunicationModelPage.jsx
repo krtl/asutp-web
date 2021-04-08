@@ -8,7 +8,7 @@ import { MakeUid } from "../modules/MyFuncs";
 const ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME = "ASUTP_COMMUNICATION_MODEL";
 const MATCHING_ITEM_LIMIT = 2500;
 
-let valuesUpdated = 0;
+// let valuesUpdated = 0;
 let timerId;
 
 export default class AsutpCommunicationModelPage extends React.Component {
