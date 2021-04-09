@@ -4,6 +4,7 @@ const request = require("request");
 const moment = require("moment");
 const logger = require("../logger");
 const userActions = require("../passport/userActions");
+const validator = require("validator");
 
 const DbParam = require("../dbmodels/param");
 const DbParamValues = require("../dbmodels/paramValue");
@@ -15,6 +16,7 @@ const DbNodeCoordinates = require("../dbmodels/nodeCoordinates");
 const DbNodeSchema = require("../dbmodels/nodeSchema");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
 const DbNodeParamLinkage = require("../dbmodels/nodeParamLinkage");
+const DbAuthUser = require("../dbmodels/authUser");
 const DbUserAction = require("../dbmodels/authUserAction");
 
 const myDataModelNodes = require("../models/myDataModelNodes");
@@ -808,33 +810,51 @@ router.post("/savePSLinkage", (req, res, next) => {
 });
 
 router.get("/getUserActions", (req, res, next) => {
-  const userId = req.query.userId;
+  const userName = req.query.userName;
   const action = req.query.action;
   const momentFromDT = moment(req.query.fromDT);
   const momentToDT = moment(req.query.toDT);
   const fromDT = new Date(momentFromDT);
   const toDT = new Date(momentToDT);
 
-  const findObj = {
-    dt: { $gte: fromDT, $lt: toDT },
-  };
+  const findObj = {};
 
-  if (userId && userId !== "") {
-    findObj.user = userId;
-  }
-  if (action && action !== "") {
-    findObj.action = action;
+  if (userName == undefined) {
+    userName = "";
   }
 
-  DbUserAction.find(findObj)
-    .populate("user", "_id name email")
-    .select("_id dt user action params host")
-    .sort({ dt: -1 })
-    .limit(500)
-    .exec((err, nodeStateValues) => {
+  if (validator.isEmail(userName)) {
+    findObj.email = userName;
+  } else {
+    findObj.name = userName;
+  }
+  DbAuthUser.find(findObj)
+    // .select("_id")
+    .exec((err, userIds) => {
       if (err) return next(err);
-      res.status(200).json(nodeStateValues);
-      return 0;
+
+      const findObj = {
+        dt: { $gte: fromDT, $lt: toDT },
+      };
+
+      if (userIds.length > 0) {
+        findObj.user = userIds[0].id;
+      }
+
+      if (action && action !== "") {
+        findObj.action = action;
+      }
+
+      DbUserAction.find(findObj)
+        .populate("user", "_id name email")
+        .select("_id dt user action params host")
+        .sort({ dt: -1 })
+        .limit(500)
+        .exec((err, nodeStateValues) => {
+          if (err) return next(err);
+          res.status(200).json(nodeStateValues);
+          return 0;
+        });
     });
 });
 

@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
 import {
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -20,11 +19,8 @@ import Moment from "react-moment";
 import DateFnsUtils from "@date-io/date-fns";
 
 const styles = {
-  schemaComboWidth: {
-    width: 350,
-  },
-  actionComboWidth: {
-    width: 270,
+  userNameFieldWidth: {
+    width: 250,
   },
 };
 
@@ -34,23 +30,18 @@ export default class UserActionsForm extends React.Component {
 
     // console.log(`${this.props}`);
 
-    let yesterday = new Date();
-    yesterday.setDate(new Date().getDate() - 1);
+    let montAgo = new Date();
+    montAgo.setDate(new Date().getDate() - 30);
     let tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
 
     this.state = {
-      nodeName: props.nodeName,
-      fromDt: yesterday,
+      userName: undefined,
+      fromDt: montAgo,
       toDt: tomorrow,
-      selectedUser: undefined,
-      selectedAction: undefined,
     };
 
     this.handleSelectedUserChange = this.handleSelectedUserChange.bind(this);
-    this.handleSelectedActionChange = this.handleSelectedActionChange.bind(
-      this
-    );
     this.handleFromDateTimeChange = this.handleFromDateTimeChange.bind(this);
     this.handleToDateTimeChange = this.handleToDateTimeChange.bind(this);
     this.handleReloadUserActionsClick = this.handleReloadUserActionsClick.bind(
@@ -62,18 +53,13 @@ export default class UserActionsForm extends React.Component {
     this.handleReloadUserActionsClick();
   }
 
-  handleSelectedUserChange(event, index, value) {
-    this.setState({ selectedUser: value });
-  }
-
-  handleSelectedActionChange(event, index, value) {
-    this.setState({ selectedAction: value });
+  handleSelectedUserChange(event) {
+    this.setState({ userName: event.target.value });
   }
 
   handleReloadUserActionsClick() {
     this.props.onReloadUserActions(
-      this.state.selectedUser,
-      this.state.selectedAction,
+      this.state.userName,
       this.state.fromDt,
       this.state.toDt
     );
@@ -88,61 +74,18 @@ export default class UserActionsForm extends React.Component {
   }
 
   render() {
-    const actions = []; //extract actions
-    const users = []; //extract users
-    actions.push("");
-    users.push("");
-    this.props.userActions.forEach((element) => {
-      const found = users.some((user) => user._id === element.user._id);
-      if (!found) {
-        if (
-          this.state.selectedUser &&
-          this.state.selectedUser._id === element.user._id
-        ) {
-          users.push(this.state.selectedUser);
-        } else {
-          users.push(element.user);
-        }
-      }
-
-      if (actions.indexOf(element.action) < 0) {
-        actions.push(element.action);
-      }
-    });
-
     return (
       <div>
         <Grid container spacing={3}>
           <Grid container item xs={12}>
             <Grid container spacing={3} alignItems="center" justify="center">
               <Grid item>
-                <SelectField
-                  floatingLabelText="User:"
-                  value={this.state.selectedUser}
+                <TextField
+                  label="User:"
                   onChange={this.handleSelectedUserChange}
-                  style={styles.schemaComboWidth}
-                >
-                  {users.map((user) => (
-                    <MenuItem
-                      key={user._id}
-                      value={user}
-                      primaryText={user.name}
-                      secondaryText={user.email}
-                    />
-                  ))}
-                </SelectField>
-              </Grid>
-              <Grid item>
-                <SelectField
-                  floatingLabelText="Action:"
-                  value={this.state.selectedAction}
-                  onChange={this.handleSelectedActionChange}
-                  style={styles.actionComboWidth}
-                >
-                  {actions.map((item) => (
-                    <MenuItem key={item} value={item} primaryText={item} />
-                  ))}
-                </SelectField>
+                  value={this.state.userName}
+                  style={styles.userNameFieldWidth}
+                />
               </Grid>
               <Grid item>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>

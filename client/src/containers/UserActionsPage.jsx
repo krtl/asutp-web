@@ -20,14 +20,14 @@ export default class UserActionsPage extends React.Component {
     this.reloadUserActions = this.reloadUserActions.bind(this);
   }
 
-  reloadUserActions(user, action, fromDT, toDT) {
+  reloadUserActions(userName, fromDT, toDT) {
     let params = [];
-    if (user) {
-      params.push(`userId=${user._id}`);
+    if (userName) {
+      params.push(`userName=${userName}`);
     }
-    if (action) {
-      params.push(`action=${action}`);
-    }
+    // if (action) {
+    //   params.push(`action=${action}`);
+    // }
 
     let url = `/api/getUserActions?fromDT=${formatDateTime(
       fromDT
