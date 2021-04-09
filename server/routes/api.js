@@ -838,23 +838,26 @@ router.get("/getUserActions", (req, res, next) => {
       };
 
       if (userIds.length > 0) {
-        findObj.user = userIds[0].id;
-      }
+        findObj.user = userIds[0].id; // undefined returns actions for all users
 
-      if (action && action !== "") {
-        findObj.action = action;
-      }
+        if (action && action !== "") {
+          findObj.action = action;
+        }
 
-      DbUserAction.find(findObj)
-        .populate("user", "_id name email")
-        .select("_id dt user action params host")
-        .sort({ dt: -1 })
-        .limit(500)
-        .exec((err, nodeStateValues) => {
-          if (err) return next(err);
-          res.status(200).json(nodeStateValues);
-          return 0;
-        });
+        DbUserAction.find(findObj)
+          .populate("user", "_id name email")
+          .select("_id dt user action params host")
+          .sort({ dt: -1 })
+          .limit(500)
+          .exec((err, nodeStateValues) => {
+            if (err) return next(err);
+            res.status(200).json(nodeStateValues);
+            return 0;
+          });
+      } else {
+        res.status(200).json([]);
+        return 0;
+      }
     });
 });
 
