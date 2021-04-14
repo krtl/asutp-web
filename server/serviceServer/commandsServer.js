@@ -1,5 +1,6 @@
 const myNodeType = require("../models/myNodeType");
 const MyDataModelNodes = require("../models/myDataModelNodes");
+const MyDataModelSchemas = require("../models/myDataModelSchemas");
 const MyStompServer = require("./myStompServer");
 const MyNodePoweredStateValue = require("../models/myNodePoweredStateValue");
 const MyNodeSwitchedOnStateValue = require("../models/myNodeSwitchedOnStateValue");
@@ -126,6 +127,15 @@ const processReceivedCommand = (command) => {
         }
         case myCoreCommandType.COLLISIONS_DETAILS: {
           MyServerStatus.setCollisions(command.value);
+          break;
+        }
+        case myCoreCommandType.RES_STATUS: {
+          // param name = ResName
+          let schemaName = MyDataModelSchemas.ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME;
+          if (schemaName.startsWith("schema_of_")) {
+            schemaName = schemaName.replace("schema_of_", "");
+          }          
+          MyStompServer.sendParamValue(schemaName, command.value);
           break;
         }
         default: {

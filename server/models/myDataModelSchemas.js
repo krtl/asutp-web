@@ -81,7 +81,6 @@ const LoadFromDB = (cb) => {
             nodeSchemas.size
           } schemas in ${moment(duration).format("mm:ss.SSS")}`
         );
-
       } else {
         res = `loading schemas failed with ${errs} errors!`;
         logger.error(res);
@@ -1867,7 +1866,7 @@ const GetSchemaDefaultCoordinates = (schemaName) => {
   return coordinates;
 };
 
-
+module.exports.ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME = ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME;
 module.exports.LoadFromDB = LoadFromDB;
 module.exports.CreatePSSchema = CreatePSSchema;
 module.exports.CreateNodeSchemasForRegions = CreateNodeSchemasForRegions;

@@ -187,8 +187,20 @@ export default function AsutpCommunicationModelTreeView(props) {
       );
     }
 
+    for (let z = 0; z < props.paramValues.length; z += 1) {
+      const locParamValue = props.paramValues[z];
+      if (locParamValue.paramName === res.Name) {
+        if (locParamValue.value > 0) {
+          res.ConnectionStatus = "Connected";
+        } else {
+          res.ConnectionStatus = "Error";
+        }
+        break;
+      }
+    }
+
     let resIcon = LinkOffIcon;
-    if (res.ConnectionStatus) {
+    if (res.ConnectionStatus === "Connected") {
       resIcon = LinkIcon;
     }
 
