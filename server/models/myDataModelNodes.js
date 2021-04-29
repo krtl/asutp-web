@@ -193,8 +193,8 @@ function loadParams(cb) {
         for (let j = 0; j < res.Devices.length; j++) {
           const device = res.Devices[j];
 
-          for (let k = 0; k < device.Params.length; k++) {
-            const param = device.Params[k];
+          for (let k = 0; k < device.CommunicationParams.length; k++) {
+            const param = device.CommunicationParams[k];
 
             const p = new MyParam(
               -1,
