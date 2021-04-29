@@ -145,8 +145,8 @@ export default function AsutpCommunicationModelTreeView(props) {
       let qualityValue = "";
       let historyHref = "";
 
-      for (let k = 0; k < device.Params.length; k++) {
-        const param = device.Params[k];
+      for (let k = 0; k < device.CommunicationParams.length; k++) {
+        const param = device.CommunicationParams[k];
         if (param.Name === props.lastHistoryParam) {
           locSelected = device.Name;
           locExpanded.push(res.Name);
