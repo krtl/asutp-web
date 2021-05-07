@@ -21,6 +21,7 @@ module.exports = (req, res, next) => {
 
     const userId = decoded.sub;
 
+
     // check if a user exists
     return AuthUser.findById(userId, (userErr, user) => {
       if (userErr || !user) {
@@ -28,6 +29,27 @@ module.exports = (req, res, next) => {
       }
 
       req.user = user;
+
+      // console.debug(`[updateActivity] "${userId}" detected as "${user.name}"`);
+  
+      // inc activity
+      AuthUser.updateOne(
+        {_id: user.id},
+        {$inc: {'activity': 1}},
+        // (err, res) => {
+        //   if (err) {
+        //     console.warn(
+        //       `[updateActivity] Something wrong when updateactivity for "${user.name}"!`
+        //     )
+        //   }
+        //   else{
+        //     console.debug(
+        //       `[updateActivity] updated for "${user.name}" modified="${res.n}"`
+        //     );
+        //   }  
+        // }
+      );
+
       return next();
     });
   });

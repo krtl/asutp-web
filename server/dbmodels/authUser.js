@@ -15,6 +15,10 @@ const AuthUserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  activity: {
+    type: Number,
+    default: 0,
+  },
 });// , {
 //   autoIndex: process.env('mode') == 'development'
 // });
