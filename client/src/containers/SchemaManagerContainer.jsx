@@ -34,7 +34,7 @@ export default class SchemaManagerContainer extends React.Component {
   reloadSchemas() {
     const cmds = [
       {
-        fetchUrl: "/getSchemas",
+        fetchUrl: "/prj/getSchemas",
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: schemas => {

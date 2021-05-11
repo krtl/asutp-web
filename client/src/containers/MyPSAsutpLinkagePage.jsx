@@ -30,7 +30,7 @@ export default class PSAsutpLinkagePage extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: `/getJsonPS?name=${psName}`,
+        fetchUrl: `/prj/getJsonPS?name=${psName}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: value => {
@@ -71,7 +71,7 @@ export default class PSAsutpLinkagePage extends React.Component {
   reloadAsutpConnections(psSapCode) {
     const cmds = [
       {
-        fetchUrl: `/getAsutpConnectionsFor?psSapCode=${psSapCode}`,
+        fetchUrl: `/prj/getAsutpConnectionsFor?psSapCode=${psSapCode}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: connections => {

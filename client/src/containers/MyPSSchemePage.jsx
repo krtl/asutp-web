@@ -73,7 +73,7 @@ class PSSchemePage extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: `/getPSInfo?name=${psName}`,
+        fetchUrl: `/prj/getPSInfo?name=${psName}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: data => {
@@ -84,7 +84,7 @@ class PSSchemePage extends React.Component {
       },
             
       {
-        fetchUrl: `/getPSParams?name=${psName}`,
+        fetchUrl: `/prj/getPSParams?name=${psName}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: params => {
@@ -95,7 +95,7 @@ class PSSchemePage extends React.Component {
       },
 
       {
-        fetchUrl: `/getPSSchema?name=${psName}`,
+        fetchUrl: `/prj/getPSSchema?name=${psName}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: schema => {

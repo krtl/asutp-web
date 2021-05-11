@@ -18,8 +18,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const passport = require("passport");
 const config = require("./config");
-const routeUsers = require("./server/routes/users");
-const routeProjects = require("./server/routes/projects");
+const routeDebug = require("./server/routes/debug");
 const MyStompServer = require("./server/serviceServer/myStompServer");
 const dbModels = require("./server/dbmodels");
 // const paramValuesProcessor = require('./server/values/paramValuesProcessor');
@@ -69,16 +68,18 @@ passport.use("local-login", localLoginStrategy);
 const authCheckMiddleware = require("./server/middleware/auth-check");
 
 app.use("/api", authCheckMiddleware);
+app.use("/prj", authCheckMiddleware);
 
 // routes
 const authRoutes = require("./server/routes/auth");
 const apiRoutes = require("./server/routes/api");
+const prjRoutes = require("./server/routes/prj");
 
 app.use("/auth", authRoutes);
 app.use("/api", apiRoutes);
+app.use("/prj", prjRoutes);
 
-routeProjects(app);
-routeUsers(app);
+routeDebug(app);
 
 // port
 app.set("port", process.env.PORT || 3001);

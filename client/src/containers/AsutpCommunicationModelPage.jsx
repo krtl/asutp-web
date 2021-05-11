@@ -38,7 +38,7 @@ export default class AsutpCommunicationModelPage extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: "/getAsutpComminicationModel",
+        fetchUrl: "/prj/getAsutpComminicationModel",
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: (values) => {

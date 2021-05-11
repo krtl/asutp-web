@@ -21,7 +21,7 @@ export default class SoeConsumptionHistoryPage extends React.Component {
   }
 
   reloadUsersReport() {
-    const url = `/getAsutpUsersReport`;
+    const url = `/prj/getAsutpUsersReport`;
 
     const uid = MakeUid(5);
     const cmds = [

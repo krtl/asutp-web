@@ -1,3 +1,4 @@
+const express = require("express");
 const async = require("async");
 const request = require("request");
 const logger = require("../logger");
@@ -5,29 +6,25 @@ const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
 
-module.exports = (app) => {
-  app.get("/allParamsAsArray", (req, res) => {
-    const params = myDataModelNodes.GetAllParamsAsArray();
-    res.json(params);
-    return true;
-  });
 
-  app.get("/getSchemas", (req, res) => {
-    const names = [];
-    const schemas = myDataModelSchemas.GetCustomAndRegionSchemas();
-    schemas.forEach((nodeSchema) => {
-      const obj = {
-        name: nodeSchema.name,
-        caption: nodeSchema.caption,
-        sapCode: nodeSchema.sapCode,
-      };
-      names.push(obj);
-    });
-    res.json(names);
-    return true;
-  });
+const router = new express.Router();
 
-  app.get("/getRegionsNodesForSchemaEdit", (req, res) => {
+router.get("/getSchemas", (req, res) => {
+  const names = [];
+  const schemas = myDataModelSchemas.GetCustomAndRegionSchemas();
+  schemas.forEach((nodeSchema) => {
+    const obj = {
+      name: nodeSchema.name,
+      caption: nodeSchema.caption,
+      sapCode: nodeSchema.sapCode,
+    };
+    names.push(obj);
+  });
+  res.status(200).json(names);
+  return 0;
+});
+
+router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
     const regions = [];
 
     const locPSs = myDataModelNodes.GetAllPSsAsArray();
@@ -102,54 +99,56 @@ module.exports = (app) => {
       return 0;
     });
 
-    res.json(regions);
+    res.status(200).json(regions);
     return true;
   });
 
-  app.get("/getSchemaPSs", (req, res) => {
+  router.get("/getSchemaPSs", (req, res) => {
+
+    // not used
     const names = [];
     const pss = myDataModelSchemas.GetSchemaPSs(req.query.name);
     pss.forEach((ps) => {
       const obj = { name: ps.name, caption: ps.caption };
       names.push(obj);
     });
-    res.json(names);
+    res.status(200).json(names);
     return true;
   });
 
-  app.get("/getSchema", (req, res) => {
+
+  router.get("/getSchema", (req, res, next) => {
     myDataModelSchemas.GetSchema(req.query.name, (err, json) => {
       if (err) {
-        res.send(err); // ??
-        return false;
+        return next(err);
       }
-      res.send(json);
+      res.status(200).send(json);
       return true;
     });
   });
 
-  app.get("/getPSSchema", (req, res, next) => {
+  router.get("/getPSSchema", (req, res, next) => {
     myDataModelSchemas.GetPSSchema(req.query.name, (err, json) => {
       if (err) {
         next(err);
       } else {
-        res.send(json);
+        res.status(200).send(json);
       }
     });
   });
 
-  app.get("/getPSInfo", (req, res) => {
+  router.get("/getPSInfo", (req, res) => {
     const ps = myDataModelNodes.GetNode(req.query.name);
     const obj = { name: "unknown", caption: "unknown" };
     if (ps) {
       obj.name = ps.name;
       obj.caption = ps.caption;
     }
-    res.json(obj);
-    return true;
+    res.status(200).json(obj);
+    return 0;
   });
 
-  app.get("/getPSParams", (req, res, next) => {
+  router.get("/getPSParams", (req, res, next) => {
     const paramNames = myDataModelSchemas.GetSchemaParamNamesAsArray(
       `schema_of_${req.query.name}`
     );
@@ -159,16 +158,16 @@ module.exports = (app) => {
       params.push(obj);
     }
 
-    res.json(params);
+    res.status(200).json(params);
   });
 
-  app.get("/getJsonPS", (req, res) => {
+  router.get("/getJsonPS", (req, res) => {
     const json = myDataModelNodes.GetPSForJson(req.query.name);
-    res.send(json);
-    return true;
+    res.status(200).send(json);
+    return 0;
   });
 
-  app.get("/getAsutpConnectionsFor", (req, res, next) => {
+  router.get("/getAsutpConnectionsFor", (req, res, next) => {
     DbAsutpConnection.find({ psSapCode: req.query.psSapCode })
       .sort({ voltage: "desc" })
       .limit(500)
@@ -179,7 +178,7 @@ module.exports = (app) => {
       });
   });
 
-  app.get("/getAsutpComminicationModel", (req, res, next) => {
+  router.get("/getAsutpComminicationModel", (req, res, next) => {
     request(
       "http://asutp-smrem:8081/GetAsutpCommunicationModel",
       { json: true },
@@ -191,33 +190,8 @@ module.exports = (app) => {
     );
   });
 
-  app.get("/getCommunacationParamNames", (req, res, next) => {
-    res.status(200).json(myDataModelNodes.GetCommunacationParamNames());
-    return 0;
-  });
 
-  app.get("/paramValues", (req, res, next) => {
-    const paramName = req.query.paramName;
-
-    if (!paramName || paramName === "") {
-      res.json({
-        error: "Missing required parameter `paramName`!",
-      });
-      return;
-    }
-
-    request(
-      `http://asutp-smrem:8081/GetHistoryOfParamValues?ParamName=${paramName}&FromDT=${req.query.fromDT}&ToDT=${req.query.toDT}`,
-      { json: true },
-      (err, resp, body) => {
-        if (err) return next(err);
-        res.status(200).json(body);
-        return 0;
-      }
-    );
-  });
-
-  app.get("/soeConsumptionHistory", (req, res, next) => {
+  router.get("/soeConsumptionHistory", (req, res, next) => {
     request(
       `http://asutp-smrem:8081/GetSoeConsumption?FromDT=${req.query.fromDT}&ToDT=${req.query.toDT}`,
       { json: true },
@@ -229,7 +203,7 @@ module.exports = (app) => {
     );
   });
 
-  app.get("/getAsutpUsersReport", (req, res, next) => {
+  router.get("/getAsutpUsersReport", (req, res, next) => {
     request(
       `http://asutp-smrem:8081/GetAsutpUsers`,
       { json: true },
@@ -240,4 +214,5 @@ module.exports = (app) => {
       }
     );
   });
-};
+
+  module.exports = router;

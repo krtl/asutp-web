@@ -22,7 +22,7 @@ export default class SoeConsumptionHistoryPage extends React.Component {
   }
 
   reloadParamValues(fromDT, toDT) {
-    const url = `/soeConsumptionHistory?fromDT=${formatDateTime(
+    const url = `/prj/soeConsumptionHistory?fromDT=${formatDateTime(
       fromDT
     )}&toDT=${formatDateTime(toDT)}`;
 

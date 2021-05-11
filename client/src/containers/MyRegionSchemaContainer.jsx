@@ -71,7 +71,7 @@ class MyRegionSchemaContainer extends React.Component {
 
     const cmds = [
       {
-        fetchUrl: `/getSchema?name=${schemaName}`,
+        fetchUrl: `/prj/getSchema?name=${schemaName}`,
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: schema => {
@@ -110,7 +110,7 @@ class MyRegionSchemaContainer extends React.Component {
   loadRegionsForSchemaEdit(callback) {
     const cmds = [
       {
-        fetchUrl: "/getRegionsNodesForSchemaEdit",
+        fetchUrl: "/prj/getRegionsNodesForSchemaEdit",
         fetchMethod: "get",
         fetchData: "",
         fetchCallback: regs => {
