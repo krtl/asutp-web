@@ -2,9 +2,12 @@ const jwt = require("jsonwebtoken");
 const AuthUser = require("mongoose").model("AuthUser");
 const config = require("../../config");
 
+const debugUserActivity = true;
 /**
  *  The Auth Checker middleware function.
  */
+
+
 module.exports = (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).end();
@@ -30,24 +33,34 @@ module.exports = (req, res, next) => {
 
       req.user = user;
 
-      // console.debug(`[updateActivity] "${userId}" detected as "${user.name}"`);
-  
+      if (debugUserActivity) {
+        let remotehost = "";
+        if (req.connection.remoteAddress) {
+          remotehost = req.connection.remoteAddress.split(`:`).pop();
+        } else if (req.headers["x-forwarded-for"]) {
+          remotehost = req.headers["x-forwarded-for"].split(",")[0];
+        }        
+        console.debug(`[updateActivity] ${remotehost} "${userId}" detected as "${user.name}"`);
+      }
+
       // inc activity
       AuthUser.updateOne(
-        {_id: user.id},
-        {$inc: {'activity': 1}},
-        // (err, res) => {
-        //   if (err) {
-        //     console.warn(
-        //       `[updateActivity] Something wrong when updateactivity for "${user.name}"!`
-        //     )
-        //   }
-        //   else{
-        //     console.debug(
-        //       `[updateActivity] updated for "${user.name}" modified="${res.n}"`
-        //     );
-        //   }  
-        // }
+        { _id: user.id },
+        { $inc: { 'activity': 1 } },
+        (err, res) => {
+          if (debugUserActivity) {
+            if (err) {
+              console.warn(
+                `[updateActivity] Something wrong when updateactivity for "${user.name}", Error: ${err}`
+              )
+            }
+            else {
+              console.debug(
+                `[updateActivity] updated for "${user.name}" modified="${res.n}"`
+              );
+            }
+          }
+        }
       );
 
       return next();
