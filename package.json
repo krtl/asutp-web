@@ -38,7 +38,7 @@
     "redux": "^4.0.5",
     "request": "^2.88.2",
     "stomp-broker-js": "^1.1.2",
-    "validator": "^12.2.0",
+    "validator": "^13.7.0",
     "webstomp-client": "^1.2.6",
     "winston": "^3.3.3",
     "ws": "^7.4.1"
