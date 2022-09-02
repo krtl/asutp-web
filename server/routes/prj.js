@@ -5,6 +5,7 @@ const logger = require("../logger");
 const myDataModelNodes = require("../models/myDataModelNodes");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
 const DbAsutpConnection = require("../dbmodels/asutpConnection");
+const MyAirAlarms = require("../serviceServer/airAlarms");
 
 
 const router = new express.Router();
@@ -214,5 +215,12 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
       }
     );
   });
+
+  router.get("/getAirAlarmsModel", (req, res, next) => {
+    const regions = MyAirAlarms.GetRegions();
+    //console.debug('getAirAlarmsModel: ' + JSON.stringify(regions));
+    res.status(200).send(JSON.stringify(regions));
+    return 0;
+  });  
 
   module.exports = router;

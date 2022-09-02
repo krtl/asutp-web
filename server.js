@@ -1,6 +1,6 @@
 process.env.LOGGER_SHMEMA = "external_service"; //else used local logger
 process.env.LOGGER_NAME = "server";
-process.env.LOGGER_LEVEL = "debug";
+//process.env.LOGGER_LEVEL = "debug";
 process.env.NODE_ENV = "production";
 
 const logger = require("./server/logger");
@@ -24,6 +24,7 @@ const dbModels = require("./server/dbmodels");
 // const paramValuesProcessor = require('./server/values/paramValuesProcessor');
 const tcpClient = require("./server/serviceServer/simpleTcpClient");
 const MyServerStatus = require("./server/serviceServer/serverStatus");
+const MyAirAlarms = require("./server/serviceServer/airAlarms");
 
 require("http-shutdown").extend();
 
@@ -125,6 +126,7 @@ httpserver.listen(app.get("port"), () => {
 // });
 
 MyServerStatus.initialize();
+MyAirAlarms.initialize();
 tcpClient.initializeTcpClient();
 
 
@@ -140,6 +142,7 @@ tcpClient.initializeTcpClient();
 process.on("SIGINT", () => {
   logger.info("[] Stopping ...");
   MyServerStatus.finalize();
+  MyAirAlarms.finalize();
   tcpClient.finalizeTcpClient();
 
   httpserver.shutdown(() => {

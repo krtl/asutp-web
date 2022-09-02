@@ -15,9 +15,9 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 3001
       },
-      error_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Server_err.log",
-      out_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Server_out.log",
-      log_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Server_combined.log",
+      error_file: "/var/projects/asutp-web/asutp-web.logs/Server_err.log",
+      out_file: "/var/projects/asutp-web/asutp-web.logs/Server_out.log",
+      log_file: "/var/projects/asutp-web/asutp-web.logs/Server_combined.log",
       time: true
     }
   ]

@@ -8,10 +8,11 @@ const myCoreCommandType = {
   GET_COLLISIONS: 6,
   COLLISIONS_DETAILS: 6,
   GET_ALL_PARAM_VALUES: 7,
-  RES_STATUS: 8
+  RES_STATUS: 8,
+  SET_ACTIVE_AIR_ALARMS: 9 
 };
 
-const serverCommands = [myCoreCommandType.MANUAL_VALUE, myCoreCommandType.GET_COLLISIONS, myCoreCommandType.GET_ALL_PARAM_VALUES];
+const serverCommands = [myCoreCommandType.MANUAL_VALUE, myCoreCommandType.GET_COLLISIONS, myCoreCommandType.GET_ALL_PARAM_VALUES, myCoreCommandType.SET_ACTIVE_AIR_ALARMS];
 
 const backgroundCommands = [
   myCoreCommandType.PARAM_VALUE,

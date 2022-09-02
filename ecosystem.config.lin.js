@@ -15,9 +15,9 @@ module.exports = {
       env: {
         NODE_ENV: "production"
       },
-      error_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Logger_err.log",
-      out_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Logger_out.log",
-      log_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Logger_combined.log",
+      error_file: "/var/projects/asutp-web/asutp-web.logs/Logger_err.log",
+      out_file: "/var/projects/asutp-web/asutp-web.logs/Logger_out.log",
+      log_file: "/var/projects/asutp-web/asutp-web.logs/Logger_combined.log",
       time: true
     },
     {
@@ -35,9 +35,9 @@ module.exports = {
       env: {
         NODE_ENV: "production"
       },
-      error_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Insertor_err.log",
-      out_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Insertor_out.log",
-      log_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Insertor_combined.log",
+      error_file: "/var/projects/asutp-web/asutp-web.logs/Insertor_err.log",
+      out_file: "/var/projects/asutp-web/asutp-web.logs/Insertor_out.log",
+      log_file: "/var/projects/asutp-web/asutp-web.logs/Insertor_combined.log",
       time: true
     },
     {
@@ -55,9 +55,9 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 3001
       },
-      error_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Server_err.log",
-      out_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Server_out.log",
-      log_file: "/home/kov/asutp-web/asutp-web-pm2.logs/Server_combined.log",
+      error_file: "/var/projects/asutp-web/asutp-web.logs/Server_err.log",
+      out_file: "/var/projects/asutp-web/asutp-web.logs/Server_out.log",
+      log_file: "/var/projects/asutp-web/asutp-web.logs/Server_combined.log",
       time: true
     }
   ]

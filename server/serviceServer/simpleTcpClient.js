@@ -45,7 +45,7 @@ const initializeTcpClient = () => {
   });
 
   client.on("data", function (chunk) {
-    console.log(`Data received from the server: ${chunk.toString()}.`);
+    //console.log(`Data received from the server: ${chunk.toString()}.`);
 
     received = received + chunk.toString();
 

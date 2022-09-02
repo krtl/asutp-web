@@ -3,16 +3,18 @@ const StompServer = require("stomp-broker-js");
 const MyDataModelSchemas = require("../models/myDataModelSchemas");
 const lastParamValues = require("./lastParamValues");
 const MyServerStatus = require("./serverStatus");
+const MyAirAlarms = require("./airAlarms");
 
 const logger = require("../logger");
 
 const TOPIC_VALUES = "/Values:";
 const TOPIC_SERVER_STATUS = "/ServerStatus";
 const TOPIC_COMMANDS = "/Commands";
+const TOPIC_ACTIVE_AIR_ALARMS = "/AirAlarms";
 
 const CMD_TEST = "TEST";
 
-const traceMessages = true;
+const traceMessages = false;
 
 let stompServer;
 let clientsConnected = 0;
@@ -104,7 +106,17 @@ const initializeStompServer = httpserver => {
           JSON.stringify(serverStatus)
         );
       }
-    } else if (ev.topic.startsWith(TOPIC_VALUES)) {
+      } else if (ev.topic === TOPIC_ACTIVE_AIR_ALARMS) {
+        const activeAirAlarms = MyAirAlarms.GetActiveAirAlarms();
+        if (activeAirAlarms) {
+          stompServer.sendIndividual(
+            ev.socket,
+            TOPIC_ACTIVE_AIR_ALARMS,
+            {},
+            JSON.stringify(activeAirAlarms)
+          );
+        }
+      } else if (ev.topic.startsWith(TOPIC_VALUES)) {
       const schemaName = ev.topic.replace(TOPIC_VALUES, "");
       const paramNames = MyDataModelSchemas.GetSchemaParamNamesAsArray(
         `schema_of_${schemaName}`
@@ -155,6 +167,12 @@ const sendServerStatus = serverStatus => {
   }
 };
 
+const sendActiveAirAlarms = airAlarms => {
+  if (StompServer) {
+    stompServer.send(TOPIC_ACTIVE_AIR_ALARMS, {}, JSON.stringify(airAlarms));
+  }
+};
+
 const finalizeStompServer = () => {
   // clearInterval(timerId);
 };
@@ -164,3 +182,4 @@ module.exports.finalizeStompServer = finalizeStompServer;
 module.exports.sendParamValue = sendParamValue;
 module.exports.sendNodeStateValue = sendNodeStateValue;
 module.exports.sendServerStatus = sendServerStatus;
+module.exports.sendActiveAirAlarms = sendActiveAirAlarms;

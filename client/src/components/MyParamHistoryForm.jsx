@@ -145,6 +145,28 @@ export default class MyParamHistoryForm extends React.Component {
           </Grid>
           <Grid item xs={12}>
             <Tabs>
+            <Tab label="Chart">
+                <ResponsiveContainer width="95%" height={600}>
+                  <LineChart
+                    width={1000}
+                    height={600}
+                    data={data}
+                    margin={{
+                      top: 70,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <XAxis dataKey="dt" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="value" stroke="#8884d8" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Tab>              
               <Tab label="Table">
                 <TableContainer>
                   <Table size="small" padding="none">
@@ -174,28 +196,6 @@ export default class MyParamHistoryForm extends React.Component {
                     </TableBody>
                   </Table>
                 </TableContainer>
-              </Tab>
-              <Tab label="Chart">
-                <ResponsiveContainer width="95%" height={600}>
-                  <LineChart
-                    width={1000}
-                    height={600}
-                    data={data}
-                    margin={{
-                      top: 70,
-                      right: 30,
-                      left: 20,
-                      bottom: 5,
-                    }}
-                  >
-                    <XAxis dataKey="dt" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="value" stroke="#8884d8" />
-                  </LineChart>
-                </ResponsiveContainer>
               </Tab>
             </Tabs>
           </Grid>

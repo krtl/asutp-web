@@ -47,6 +47,11 @@ const GetAllParamValues = () => {
   return null;
 };
 
+const SetActiveAirAlarms = (AlarmIds) => {
+  sendCommand({ cmd: myCoreCommandType.SET_ACTIVE_AIR_ALARMS, value: AlarmIds });
+  return null;
+};
+
 const processReceivedCommand = (command) => {
   // console.log("Cmd received from backgound:", command);
 
@@ -164,5 +169,6 @@ module.exports.sendCommand = sendCommand;
 module.exports.SetManualValue = SetManualValue;
 module.exports.GetCollisions = GetCollisions;
 module.exports.GetAllParamValues = GetAllParamValues;
+module.exports.SetActiveAirAlarms = SetActiveAirAlarms;
 module.exports.SetParamsInitialized = SetParamsInitialized;
 module.exports.ParamsInitialized = ParamsInitialized;

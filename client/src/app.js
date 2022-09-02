@@ -12,6 +12,7 @@ import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
 import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
 import SystemServicePage from "./containers/SystemServicePage.jsx";
 import AsutpCommunicationModelPage from "./containers/AsutpCommunicationModelPage.jsx";
+import AirAlarmPage from "./containers/AirAlarmPage.jsx";
 import UserActionsPage from "./containers/UserActionsPage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
@@ -76,6 +77,10 @@ export default function App() {
 
         <PrivateRoute path="/asutpCommunicationModel">
           <AsutpCommunicationModelPage />
+        </PrivateRoute>
+
+        <PrivateRoute path="/airAlarm">
+          <AirAlarmPage />
         </PrivateRoute>
 
         <PrivateRoute path="/userActions">

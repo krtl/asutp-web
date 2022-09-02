@@ -1,3 +1,4 @@
+const request = require("request");
 // const AuthUser = require('mongoose').model('AuthUser');
 const AuthUser = require("../dbmodels/authUser");
 
@@ -30,5 +31,17 @@ module.exports = app => {
     res.status(200).json(myDataModelNodes.GetCommunacationParamNames());
     return 0;
   });  
+
+  app.get("/SetTheLastDayOfTheUniverse", (req, res, next) => {
+    request(
+      `http://asutp-smrem:8081/SetTheLastDayOfTheUniverse`,
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });
 
 };

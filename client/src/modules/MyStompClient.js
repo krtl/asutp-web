@@ -3,6 +3,7 @@ import webstomp from "webstomp-client";
 const TOPIC_VALUES = "/Values:";
 const TOPIC_SERVER_STATUS = "/ServerStatus";
 const TOPIC_COMMANDS = "/Commands";
+const TOPIC_ACTIVE_AIR_ALARMS = "/AirAlarms";
 
 //const CMD_RELOAD = 'RELOAD';
 
@@ -13,13 +14,17 @@ const CreateMySocketClient = function () {
   let stompClient;
   let subsciptionValues;
   let subsciptionServerStatus;
+  let subsciptionAirAlarms;
+
 
   //  let cbOnConnected = null;
   let paramsListName = "";
   let subscribedToServerStatus = false;
+  let subscribedToAirAlarms = false;
   // let cbOnParamsReceived = null;
   let cbOnValueReceived = null;
   let cbOnServerStatusReceived = null;
+  let cbOnAirAlarmsReceived = null;
 
   const connectCallback = function () {
     console.log("[stompClient] connected");
@@ -63,6 +68,27 @@ const CreateMySocketClient = function () {
 
             if (cbOnServerStatusReceived) {
               cbOnServerStatusReceived(JSON.parse(message.body));
+            }
+          },
+          {}
+        );
+      }
+    }
+
+    if (cbOnAirAlarmsReceived) {
+      if (subsciptionAirAlarms) {
+        subsciptionAirAlarms.unsubscribe({});
+      }
+
+      if (subscribedToAirAlarms) {
+        subsciptionAirAlarms = stompClient.subscribe(
+          TOPIC_ACTIVE_AIR_ALARMS,
+          message => {
+            // console.log(`[stompClient] received AirAlarms: ${message}`);
+            message.ack();
+
+            if (cbOnAirAlarmsReceived) {
+              cbOnAirAlarmsReceived(JSON.parse(message.body));
             }
           },
           {}
@@ -202,6 +228,37 @@ const CreateMySocketClient = function () {
       if (subsciptionServerStatus) {
         subsciptionServerStatus.unsubscribe({});
         subsciptionServerStatus = null;
+      }
+    }
+  };
+
+  this.subscribeToActiveAirAlarms = function (cb) {
+    cbOnAirAlarmsReceived = cb;
+    if (stompClient !== undefined) {
+      if (subsciptionAirAlarms) {
+        subsciptionAirAlarms.unsubscribe({});
+      }
+      subscribedToAirAlarms = true;
+      subsciptionAirAlarms = stompClient.subscribe(
+        TOPIC_SERVER_STATUS,
+        message => {
+          // console.log(`[stompClient] received AirAlarms: ${message}`);
+          message.ack();
+          if (cbOnAirAlarmsReceived) {
+            cbOnAirAlarmsReceived(JSON.parse(message.body));
+          }
+        },
+        {}
+      );
+    }
+  };
+
+  this.unsubscribeFromActiveAirAlarms = function () {
+    cbOnAirAlarmsReceived = null;
+    if (stompClient !== undefined) {
+      if (subsciptionAirAlarms) {
+        subsciptionAirAlarms.unsubscribe({});
+        subsciptionAirAlarms = null;
       }
     }
   };

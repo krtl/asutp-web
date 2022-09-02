@@ -53,6 +53,11 @@ const Base = ({ children }) => {
     children.props.history.push(`/`);
   };
 
+  const handleMainMenuAlarm = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/airAlarm`);
+  };
+
   const handleMainMenuStateOfCommunications = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/asutpCommunicationModel`);
@@ -144,7 +149,7 @@ const Base = ({ children }) => {
                 }}
               >
                 <MenuList>
-                  <MenuItem onClick={handleMainMenuRoot}>Root</MenuItem>
+                  <MenuItem onClick={handleMainMenuAlarm}>Air Alarm</MenuItem>
                   <MenuItem onClick={handleMainMenuStateOfCommunications}>
                     State of Communications
                   </MenuItem>
@@ -154,6 +159,7 @@ const Base = ({ children }) => {
                   <MenuItem onClick={handleMainMenuAsutpUsersReport}>
                     ASUTP Users Report
                   </MenuItem>
+                  <MenuItem onClick={handleMainMenuRoot}>Schema</MenuItem>
                   <MenuItem onClick={handleMainNodeStateHistory}>
                     Node State History
                   </MenuItem>
