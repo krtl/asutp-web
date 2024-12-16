@@ -19,6 +19,9 @@ import MenuList from "@material-ui/core/MenuList";
 import Popover from "@material-ui/core/Popover";
 import { NavLink } from "react-router-dom";
 
+const moment = require("moment");
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -48,10 +51,10 @@ const Base = ({ children }) => {
     setAnchorElAccountMenu(event.currentTarget);
   };
 
-  const handleMainMenuRoot = () => {
-    setAnchorE1MainMenu(null);
-    children.props.history.push(`/`);
-  };
+  // const handleMainMenuRoot = () => {
+  //   setAnchorE1MainMenu(null);
+  //   children.props.history.push(`/`);
+  // };
 
   const handleMainMenuAlarm = () => {
     setAnchorE1MainMenu(null);
@@ -63,6 +66,69 @@ const Base = ({ children }) => {
     children.props.history.push(`/asutpCommunicationModel`);
   };
 
+  const handleMainMenuDevicesOfflineReport = () => {
+    setAnchorE1MainMenu(null);
+
+    const options = {
+      headers: {
+        Authorization: `bearer ${Auth.getToken()}`
+      }
+    };
+     fetch("/prj/getAsutpOfflineDevicesExcelReport", options)
+      .then(response => response.blob())
+      .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = `AsutpOfflineRep${moment().format("YYYY-MM-DD_HH_mm_ss")}.xlsx`;
+          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+          a.click();    
+          a.remove();  //afterwards we remove the element again         
+      });
+  };  
+
+  const handleMainMenuUsersReport = () => {
+    setAnchorE1MainMenu(null);
+
+    const options = {
+      headers: {
+        Authorization: `bearer ${Auth.getToken()}`
+      }
+    };
+     fetch("/prj/getAsutpUsersExcelReport", options)
+      .then(response => response.blob())
+      .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = `AsutpUsersRep${moment().format("YYYY-MM-DD_HH_mm_ss")}.xlsx`;
+          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+          a.click();    
+          a.remove();  //afterwards we remove the element again         
+      });
+  };    
+
+  const handleMainMenuUsersActivityReport = () => {
+    setAnchorE1MainMenu(null);
+
+    const options = {
+      headers: {
+        Authorization: `bearer ${Auth.getToken()}`
+      }
+    };
+     fetch("/prj/getAsutpUsersActivityExcelReport", options)
+      .then(response => response.blob())
+      .then(blob => {
+          var url = window.URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = `AsutpUsersActivityRep${moment().format("YYYY-MM-DD_HH_mm_ss")}.xlsx`;
+          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+          a.click();    
+          a.remove();  //afterwards we remove the element again         
+      });
+  };  
+
   const handleMainMenuSoeConsumption = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/soeConsumption`);
@@ -73,20 +139,20 @@ const Base = ({ children }) => {
     children.props.history.push(`/AsutpUsersReport`);
   };
   
-  const handleMainNodeStateHistory = () => {
-    setAnchorE1MainMenu(null);
-    children.props.history.push(`/nodeStateHistory/{node_name}`);
-  };
+  // const handleMainNodeStateHistory = () => {
+  //   setAnchorE1MainMenu(null);
+  //   children.props.history.push(`/nodeStateHistory/{node_name}`);
+  // };
 
-  const handleMainMenuSystemService = () => {
-    setAnchorE1MainMenu(null);
-    children.props.history.push(`/systemService`);
-  };
+  // const handleMainMenuSystemService = () => {
+  //   setAnchorE1MainMenu(null);
+  //   children.props.history.push(`/systemService`);
+  // };
 
-  const handleMainMenuUserActions = () => {
-    setAnchorE1MainMenu(null);
-    children.props.history.push(`/userActions`);
-  };
+  // const handleMainMenuUserActions = () => {
+  //   setAnchorE1MainMenu(null);
+  //   children.props.history.push(`/userActions`);
+  // };
 
   const handleAccountMenuClose = () => {
     setAnchorElAccountMenu(null);
@@ -149,38 +215,32 @@ const Base = ({ children }) => {
                 }}
               >
                 <MenuList>
-                  <MenuItem onClick={handleMainMenuAlarm}>Air Alarm</MenuItem>
-                  <MenuItem onClick={handleMainMenuStateOfCommunications}>
-                    State of Communications
-                  </MenuItem>
-                  <MenuItem onClick={handleMainMenuSoeConsumption}>
-                    SOE Consumption
-                  </MenuItem>
-                  <MenuItem onClick={handleMainMenuAsutpUsersReport}>
-                    ASUTP Users Report
-                  </MenuItem>
+                  <MenuItem onClick={handleMainMenuAlarm}>Повітряна тривога</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuStateOfCommunications}>Стан комунікацій АСУТП</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuDevicesOfflineReport}>Завантажити звіт "Відсутній зв'язок АСУТП"</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuAsutpUsersReport}>Користувачі АСУТП</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersReport}>Завантажити звіт "Користувачі АСУТП"</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersActivityReport}>Завантажити звіт "Активність користувачів АСУТП"</MenuItem>
+                  <MenuItem onClick={handleMainMenuSoeConsumption}>Споживання СОЕ</MenuItem>
+
+                  {/*
                   <MenuItem onClick={handleMainMenuRoot}>Schema</MenuItem>
-                  <MenuItem onClick={handleMainNodeStateHistory}>
-                    Node State History
-                  </MenuItem>
-                  <MenuItem onClick={handleMainMenuSystemService}>
-                    System Service
-                  </MenuItem>
-                  <MenuItem onClick={handleMainMenuUserActions}>
-                    User Actions
-                  </MenuItem>
+                  <MenuItem onClick={handleMainNodeStateHistory}>Node State History</MenuItem>
+                  <MenuItem onClick={handleMainMenuSystemService}>System Service</MenuItem>
+                  <MenuItem onClick={handleMainMenuUserActions}>User Actions</MenuItem>
                   <MenuItem onClick={handleMainMenuClose}>Setup</MenuItem>
+                  */} 
                 </MenuList>
               </Popover>
             </div>
           )}
           <Typography variant="h6" className={classes.title}>
-            <NavLink to="/">ASUTP</NavLink>
+            <NavLink to="/">АСУТП</NavLink>
           </Typography>
           <MainStatus history={children.props.history} />
           {Auth.isUserAuthenticated() ? (
             <div>
-              <Tooltip title={Auth.getData()}>
+              <Tooltip title={Auth.getLoginName()}>
                 <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"

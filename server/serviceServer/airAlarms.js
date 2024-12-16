@@ -1,4 +1,5 @@
 const request = require("request");
+const moment = require('moment');
 const MyStompServer = require("./myStompServer");
 const commandsServer = require("./commandsServer");
 
@@ -7,9 +8,9 @@ let timerId;
 let activeAlarms = [];
 let regions = [];
 
-const IsRegionMatched = (aRegionId) => {
-    for (let i = 0; i < regions.length; i++) {
-        const region = regions[i];
+const IsRegionMatched = (aRegionId, ARegions) => {
+    for (let i = 0; i < ARegions.length; i++) {
+        const region = ARegions[i];
         if (region.regionId == aRegionId)
         {
             return true;
@@ -79,21 +80,24 @@ const ProcessAirAlerts = (cb) => {
           {
             //console.log(body);
             let locActiveAlarms = [];
-            const regions = body.slice(0, 10000);
-            for (let i = 0; i < regions.length; i++) {
-              const region = regions[i];
-              if (IsRegionMatched(region.regionId))
+            const alarmRegions = body.slice(0, 10000);
+            for (let i = 0; i < alarmRegions.length; i++) {
+              const region = alarmRegions[i];
+              if (IsRegionMatched(region.regionId, regions))
               {
                 //console.log(region.regionName + " " + region.lastUpdate + " " + region.activeAlerts.length);
                 for (let j = 0; j < region.activeAlerts.length; j++) {
                     const activeAlert = region.activeAlerts[j];
-                    console.log(activeAlert.regionId + " " + activeAlert.type + " " + activeAlert.lastUpdate);
-                    locActiveAlarms.push(activeAlert);
+                    // console.log(activeAlert.regionId + " " + activeAlert.type + " " + activeAlert.lastUpdate);
+                    if (!IsRegionMatched(region.regionId, locActiveAlarms)) //detected several idems with the same regionId
+                    {
+                        locActiveAlarms.push(activeAlert);
+                    }
                 }
               }
           }
 
-          activeAlarms.sort((a,b)=>a-b);
+          //activeAlarms.sort((a,b)=>a-b);
           locActiveAlarms.sort((a,b)=>a-b);
 
           if (JSON.stringify(activeAlarms) !== JSON.stringify(locActiveAlarms)) {
@@ -105,18 +109,28 @@ const ProcessAirAlerts = (cb) => {
             MyStompServer.sendActiveAirAlarms(activeAlarms);
             commandsServer.SetActiveAirAlarms(activeAlarms);
           }    
-
         }
         }
       );    
   };
 
 
+  let lastTickDT = moment().day(0);
+
 const initialize = () => {
   loadRegions();
   if (process.env.NOWTESTING === undefined) {
     timerId = setInterval(() => {
         ProcessAirAlerts();
+
+        //update alarms on 7:30, so that blocked alarms due to the working time could be activated.
+        current_time = moment().seconds(0).milliseconds(0);  
+        if ((current_time.hour() == 7) && (current_time.minute() == 30) && (lastTickDT.day() !== current_time.day())) { // day has changed.
+            console.log("[AirAlarms] ActiveAirAlarm updated on start of the working time.");
+            commandsServer.SetActiveAirAlarms(activeAlarms);
+            lastTickDT = moment();
+        }
+
     }, 20000);
     console.log("[AirAlarms] initialized.");
   }
@@ -130,7 +144,7 @@ const finalize = () => {
 };
 
 const GetActiveAirAlarms = () => {
-  // console.debug("GetActiveAirAlarms:", activeAlertIds);
+  console.debug("GetActiveAirAlarms: " + JSON.stringify(activeAlarms));
   return activeAlarms;
 };
 
@@ -138,7 +152,6 @@ const GetRegions = () => {
     return regions;
   };
 
-//module.exports = MyAirAlarms;
 module.exports.initialize = initialize;
 module.exports.finalize = finalize;
 module.exports.GetActiveAirAlarms = GetActiveAirAlarms;

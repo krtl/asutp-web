@@ -20,6 +20,14 @@ class Auth {
   static getData() {
     return localStorage.getItem("data");
   }
+
+  static getLoginName() {
+    return localStorage.getItem("data").split(";")[0];
+  }  
+
+  static canSeeReports() {
+    return localStorage.getItem("data").includes("CanSeeReports");
+  }  
 }
 
 export default Auth;

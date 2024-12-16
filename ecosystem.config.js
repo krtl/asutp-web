@@ -13,7 +13,7 @@ module.exports = {
       max_memory_restart: "1G",
       env: {
         NODE_ENV: "production",
-        PORT: 3001
+        PORT: 443
       },
       error_file: "/var/projects/asutp-web/asutp-web.logs/Server_err.log",
       out_file: "/var/projects/asutp-web/asutp-web.logs/Server_out.log",

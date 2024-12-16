@@ -133,8 +133,8 @@ const CreateMySocketClient = function () {
 
     // eslint-disable-next-line no-restricted-globals
     stompClient = webstomp.client(
-      `ws://${window.location.hostname}:3001/stomp`
-      // `ws://${window.location.hostname}/stomp`
+      //`ws://${window.location.hostname}:3001/stomp`
+      `wss://${window.location.hostname}/stomp`
     );
     // stompClient = webstomp.clienzt(`ws://${location.host}/stomp`);
     stompClient.heartbeat.outgoing = 2000;
@@ -240,7 +240,7 @@ const CreateMySocketClient = function () {
       }
       subscribedToAirAlarms = true;
       subsciptionAirAlarms = stompClient.subscribe(
-        TOPIC_SERVER_STATUS,
+        TOPIC_ACTIVE_AIR_ALARMS,
         message => {
           // console.log(`[stompClient] received AirAlarms: ${message}`);
           message.ack();

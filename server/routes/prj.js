@@ -216,6 +216,42 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
     );
   });
 
+  router.get("/getAsutpOfflineDevicesExcelReport", (req, res, next) => {
+    request.get(`http://asutp-smrem:8081/GetAsutpOfflineDevicesExcelReport`)
+    .on('response', function(response) {
+      //console.log(response.statusCode) // 200
+      //console.log(response.headers['content-type']) // 'image/png'
+      //console.log(response.headers['content-disposition']) // 'image/png'
+    })
+    .on('error', function(err) {
+      console.error(err)
+    }).pipe(res);
+  });
+  
+  router.get("/getAsutpUsersExcelReport", (req, res, next) => {
+    request.get(`http://asutp-smrem:8081/GetAsutpUsersExcelReport`)
+    .on('response', function(response) {
+      //console.log(response.statusCode) // 200
+      //console.log(response.headers['content-type']) // 'image/png'
+      //console.log(response.headers['content-disposition']) // 'image/png'
+    })
+    .on('error', function(err) {
+      console.error(err)
+    }).pipe(res);
+  });
+
+  router.get("/getAsutpUsersActivityExcelReport", (req, res, next) => {
+    request.get(`http://asutp-smrem:8081/GetAsutpUsersActivityExcelReport`)
+    .on('response', function(response) {
+      //console.log(response.statusCode) // 200
+      //console.log(response.headers['content-type']) // 'image/png'
+      //console.log(response.headers['content-disposition']) // 'image/png'
+    })
+    .on('error', function(err) {
+      console.error(err)
+    }).pipe(res);
+  });
+
   router.get("/getAirAlarmsModel", (req, res, next) => {
     const regions = MyAirAlarms.GetRegions();
     //console.debug('getAirAlarmsModel: ' + JSON.stringify(regions));

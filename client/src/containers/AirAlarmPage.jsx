@@ -51,27 +51,26 @@ export default class AirAlarmPage extends React.Component {
           });
 
           MyStompClient.subscribeToActiveAirAlarms(value => {
-            console.log("ActiveAirAlarms: " + value);
+            //console.log("ActiveAirAlarms: " + value);
 
-            var activeAirAlarms = values.slice(0, MATCHING_ITEM_LIMIT);
-            var regions = this.state.airAlarms;
-            for (let i = 0; i < regions.length; i++) {
-              const region = regions[i];
+            var activeAirAlarms = value.slice(0, MATCHING_ITEM_LIMIT);
+            for (let i = 0; i < this.state.airAlarms.length; i++) {
+              const locRegion = this.state.airAlarms[i];
               let b = false;
               for (let j = 0; j < activeAirAlarms.length; j++) {
                 const activeAirAlarm = activeAirAlarms[j];
-                if (activeAirAlarm.regionId == region.regionId)
+                if (activeAirAlarm.regionId === locRegion.regionId)
                 {
-                  region.type = activeAirAlarm.type;
-                  region.lastUpdate = activeAirAlarm.lastUpdate;
+                  locRegion.type = activeAirAlarm.type;
+                  locRegion.lastUpdate = activeAirAlarm.lastUpdate;
                   b = true;
                   break;
                 }  
               }
               if (!b)
               {
-                region.type = "";
-                region.lastUpdate = "";
+                locRegion.type = "";
+                locRegion.lastUpdate = "";
               }
             }          
   

@@ -1,6 +1,7 @@
 // Include Nodejs' net module.
 const Net = require("net");
 const commandsServer = require("./commandsServer");
+const MyAirAlarms = require("./airAlarms");
 const myDataModelSchemas = require("../models/myDataModelSchemas");
 const config = require("../../config");
 
@@ -8,8 +9,9 @@ const config = require("../../config");
 // const port = 12345;
 // const host = "localhost";
 var client = null;
-const EOF_sign = "<!EOF!>";
-var received = "";
+//const EOF_sign = "<!EOF!>";
+const EOF_sign = [3, 7, 10, 15, 250];
+var received = [];
 
 const initializeTcpClient = () => {
   client = new Net.Socket();
@@ -21,6 +23,7 @@ const initializeTcpClient = () => {
 
     if (commandsServer.ParamsInitialized()) {
       commandsServer.GetAllParamValues();
+      commandsServer.SetActiveAirAlarms(MyAirAlarms.GetActiveAirAlarms());
     }
 
     // console.log("---------client details -----------------");
@@ -44,43 +47,79 @@ const initializeTcpClient = () => {
     // });
   });
 
+  const IndexOfSubArray = (AList, ASubArray) => {
+    let result = -1;
+    for (let i = 0; i < AList.length; i++)
+    {
+        if (AList.length - i >= ASubArray.length)
+        {
+            let b = true;
+            for (let j = 0; j < ASubArray.length; j++)
+            {
+                if (AList[i + j] != ASubArray[j])
+                {
+                    b = false;
+                    break;
+                }
+            }
+            if (b)
+            {
+                result = i;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
   client.on("data", function (chunk) {
     //console.log(`Data received from the server: ${chunk.toString()}.`);
+    //var textChunk = chunk.toString('utf8');
 
-    received = received + chunk.toString();
+    received.push(...chunk);
 
     if (commandsServer.ParamsInitialized()) {
-      let readyToProcess = "";
-      x = received.indexOf(EOF_sign);
-      if (x > -1) {
-        if (received.endsWith(EOF_sign)) {
-          readyToProcess = received;
-          received = "";
-        } else {
-          readyToProcess = received.substr(0, x);
-          received = received.substr(x, received.length);
-          console.log(`[!] received = ${received}`);
-        }
-  
-        const arr = readyToProcess.split(EOF_sign);
-        arr.forEach((element) => {
-          if (element !== "") {
-            let cmd = null;
-            try {
-              cmd = JSON.parse(element);
-            } catch (err) {
-              console.warn(`Failed to parse element: ${element}. Error= ${err}`);
-            }
-            if (cmd) {
-              const err = commandsServer.processReceivedCommand(cmd);
-              if (err) {
-                console.log(err.message, cmd);
+
+      let index = IndexOfSubArray(received, EOF_sign);
+          if (index > -1)
+          {
+            do
+            {
+              let bytechunk = received.slice(0, index);
+              received.splice(0, index + EOF_sign.length);
+      
+              let textChunk = (Buffer.from(bytechunk)).toString();
+              if (textChunk != "")
+              {
+                  console.log(`[] received = ${textChunk}`);
+      
+                  let cmd = null;
+                  try {
+                    cmd = JSON.parse(textChunk);
+                  } catch (err) {
+                    console.warn(`Failed to parse element: ${textChunk}. Error= ${err}`);
+                  }
+                  if (cmd) {
+                    const err = commandsServer.processReceivedCommand(cmd);
+                    if (err) {
+                      console.log(err.message, cmd);
+                    }
+                  }
               }
-            }
+      
+              index = IndexOfSubArray(received, EOF_sign);
+
+            } while(index > -1)
           }
-        });
-      }
-    }    
+          else
+          {
+              if (received.Count > 10000000)
+              {
+                  // this is the alien client or hanging out client.
+                  console.warn(`Socket is disconnected due to the too big size of incoming data.`);
+              }
+          }
+        }
   });
 
   client.on("end", function () {
@@ -116,7 +155,9 @@ const connect = () => {
 
 const Send = (data) => {
   if (client) {
-    client.write(data + EOF_sign);
+    //client.write(data + EOF_sign);
+    client.write(Buffer.from(data, 'utf8'));
+    client.write(Buffer.from(EOF_sign));
   }
 };
 

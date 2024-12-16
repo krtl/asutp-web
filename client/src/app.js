@@ -29,7 +29,20 @@ function PrivateRoute({ children, ...rest }) {
       {...rest}
       render={({ location, ...routeProps }) =>
         Auth.isUserAuthenticated() ? (
-          <Base>{AddExtraProps(children, routeProps)}</Base>
+          Auth.canSeeReports() ? (
+            <Base>{AddExtraProps(children, routeProps)}</Base>
+          ) : (
+            ((location.pathname == "/") || (location.pathname == "/airAlarm") || (location.pathname == "/soeConsumption"))? (
+              <Base>{AddExtraProps(children, routeProps)}</Base>
+            ) : (
+              <Redirect
+              to={{
+                pathname: "/",
+                state: { from: location },
+              }}
+              />
+            )  
+          )
         ) : (
           <Redirect
             to={{

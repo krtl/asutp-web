@@ -13,7 +13,13 @@ logger.info(`[] Starting in ${process.env.NODE_ENV} mode.`);
 
 const express = require("express");
 const mongoose = require("mongoose");
-const http = require("http");
+//const http = require("http");
+const https = require('https');
+const fs = require('fs');
+const privateKey  = fs.readFileSync('./server/sslcert/server.key', 'utf8');
+const certificate = fs.readFileSync('./server/sslcert/server.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
+
 const bodyParser = require("body-parser");
 const path = require("path");
 const passport = require("passport");
@@ -46,7 +52,8 @@ dbModels.connect(config.dbUri, true, err => {
 const app = express();
 
 // initialize a simple http httpserver
-const httpserver = http.createServer(app).withShutdown();
+//const httpserver = http.createServer(app).withShutdown();
+const httpsServer = https.createServer(credentials, app).withShutdown();
 
 // tell the app to look for static files in these directories
 // app.use(express.static('./static/bla-bla/'));
@@ -83,7 +90,8 @@ app.use("/prj", prjRoutes);
 routeDebug(app);
 
 // port
-app.set("port", process.env.PORT || 3001);
+//app.set("port", process.env.PORT || 3001);
+app.set("port", process.env.PORT || 443);
 // Express only serves static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -101,14 +109,17 @@ app.use((req, res) => {
   res.sendStatus(404);
 });
 
-MyStompServer.initializeStompServer(httpserver);
+//MyStompServer.initializeStompServer(httpserver);
+MyStompServer.initializeStompServer(httpsServer);
 
 // start the httpserver
 // app.listen(app.get('port'), () => {
-httpserver.listen(app.get("port"), () => {
-  // logger.info('Server is running on http://localhost:3000 or http://127.0.0.1:3000');
-  logger.info(`Http server listening at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
-});
+
+//   httpserver.listen(app.get("port"), () => {
+//   logger.info(`Http server listening at: http://localhost:${app.get("port")}/`); // eslint-disable-line no-console
+// });
+
+httpsServer.listen(app.get('port'));
 
 // const { fork } = require("child_process");
 // const forked = fork("backgroundworker.js");
@@ -145,7 +156,7 @@ process.on("SIGINT", () => {
   MyAirAlarms.finalize();
   tcpClient.finalizeTcpClient();
 
-  httpserver.shutdown(() => {
+  httpsServer.shutdown(() => {
     // httpserver.close((err) => {
     //   if (err) {
     //   // eslint-disable-next-line no-console
@@ -160,7 +171,7 @@ process.on("SIGINT", () => {
       }
       // eslint-disable-next-line no-console
       console.log("Mongoose connection disconnected");
-      if (forked.connected) forked.disconnect();
+      //if (forked.connected) forked.disconnect();
 
       amqpLogSender.stop();
       // eslint-disable-next-line no-console

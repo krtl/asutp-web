@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
+//import Typography from "@material-ui/core/Typography";
 import { Card, CardText } from "material-ui/Card";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,7 +12,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 // import TablePagination from '@material-ui/core/TablePagination';
-import Moment from "react-moment";
+// import Moment from "react-moment";
 
 const styles = {
   textField: {
@@ -25,10 +27,17 @@ export default class AirAlarmForm extends React.Component {
     super(props);
 
     this.state = {
+      checked: true,
       expanded: [],
     };
 
     this.handleReloadClick = this.handleReloadClick.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+
+  }
+
+  handleCheckboxChange(event) {
+    this.setState({ checked: event.target.checked });
   }
 
   handleReloadClick(event, nodes) {
@@ -40,48 +49,54 @@ export default class AirAlarmForm extends React.Component {
   }
 
   render() {
+
+    let dispalayedAlarms = [];
+    if (this.state.checked)
+    {
+      for (let i = 0; i < this.props.airAlarms.length; i++) {
+        const AirAlarm = this.props.airAlarms[i];
+        if (AirAlarm.type !== "")
+        {
+          dispalayedAlarms.push(AirAlarm);
+        }
+      }
+    }
+    else
+    {
+      dispalayedAlarms = this.props.airAlarms;
+    }
+
     return (
       <Container>
         <Card className="container">
           <div>
-            <CardText>Air Alarms</CardText>
-            <Button variant="outlined" onClick={this.handleReloadClick}>
-              Reload
-            </Button>
+          <h2><CardText>Повітряна тривога</CardText></h2>
+            <FormControlLabel label="Показувати тільки активні"  control={
+                <Checkbox color="primary" checked={this.state.checked} onChange={this.handleCheckboxChange}/>
+                }
+            />
           </div>
           <TableContainer>
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell>regionId</TableCell>
-                  <TableCell>regionName</TableCell>
-                  <TableCell>regionType</TableCell>
-                  <TableCell>startDate</TableCell>
-                  <TableCell>endDate</TableCell>
-                  <TableCell>duration</TableCell>
-                  <TableCell>alertType</TableCell>
-                  <TableCell>isContinue</TableCell>
+                  <TableCell>RegionId</TableCell>
+                  <TableCell>RegionName</TableCell>
+                  <TableCell>RegionType</TableCell>
+                  <TableCell>LastUpdate</TableCell>
+                  <TableCell>AlertType</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.airAlarms.map((alarm) => (
+                {dispalayedAlarms.map((alarm) => (
                   <TableRow key={alarm.regionId} style={styles.cellCustomHeight}>
                     <TableCell>{alarm.regionId}</TableCell>
                     <TableCell>{alarm.regionName}</TableCell>
                     <TableCell>{alarm.regionType}</TableCell>
                     <TableCell>
-                      <Moment format="YYYY.MM.DD HH:mm:ss">
-                        {alarm.startDate}
-                      </Moment>
+                        {alarm.lastUpdate}
                       </TableCell>
-                      <TableCell>
-                      <Moment format="YYYY.MM.DD HH:mm:ss">
-                        {alarm.endDate}
-                      </Moment>                    
-                      </TableCell>
-                    <TableCell>{alarm.duration}</TableCell>
-                    <TableCell>{alarm.alertType}</TableCell>
-                    <TableCell>{alarm.isContinue}</TableCell>
+                    <TableCell>{alarm.type}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -104,7 +119,6 @@ AirAlarmForm.propTypes = {
       isContinue: PropTypes.array,
     })
   ),  
-  activeAirAlarms: PropTypes.array.isRequired,
   onReloadAirAlarms: PropTypes.func,
   history: PropTypes.object.isRequired
 };

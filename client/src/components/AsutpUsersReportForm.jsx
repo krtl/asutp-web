@@ -42,7 +42,7 @@ export default class MySoeConsumptionHistoryForm extends React.Component {
       <Container>
         <Card className="container">
           <div>
-            <CardText>ASUTP Users Report</CardText>
+            <CardText>Користувачі АСУТП</CardText>
             <Button variant="outlined" onClick={this.handleReloadReportClick}>
               Reload
             </Button>
