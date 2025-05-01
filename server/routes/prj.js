@@ -204,6 +204,18 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
     );
   });
 
+  router.get("/GetLastSapMetersFile", (req, res, next) => {
+    request(
+      "http://asutp-smrem:8081/GetLastSapMetersFile",
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });
+
   router.get("/getAsutpUsersReport", (req, res, next) => {
     request(
       `http://asutp-smrem:8081/GetAsutpUsers`,
@@ -217,14 +229,19 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
   });
 
   router.get("/getAsutpOfflineDevicesExcelReport", (req, res, next) => {
-    request.get(`http://asutp-smrem:8081/GetAsutpOfflineDevicesExcelReport`)
+
+    console.debug(`Begin of getAsutpOfflineDevicesExcelReport from ${req.ip}`)
+
+    request.get(`http://asutp-smrem:8081/GetAsutpOfflineDevicesExcelReport?ip=${req.ip}`)
     .on('response', function(response) {
+
+      console.debug(`End of getAsutpOfflineDevicesExcelReport from ${req.ip}`)
       //console.log(response.statusCode) // 200
       //console.log(response.headers['content-type']) // 'image/png'
       //console.log(response.headers['content-disposition']) // 'image/png'
     })
     .on('error', function(err) {
-      console.error(err)
+      console.error(`Error on getAsutpOfflineDevicesExcelReport from ${req.ip}: ${err}`)
     }).pipe(res);
   });
   

@@ -1,6 +1,10 @@
 const express = require("express");
 const async = require("async");
 const request = require("request");
+const fetch = require('node-fetch');
+const fileUpload = require('express-fileupload');
+const FormData = require('form-data');
+const fs = require('fs');
 const moment = require("moment");
 const logger = require("../logger");
 const userActions = require("../passport/userActions");
@@ -809,6 +813,8 @@ router.post("/savePSLinkage", (req, res, next) => {
   );
 });
 
+
+
 router.get("/getUserActions", (req, res, next) => {
   const userName = req.query.userName;
   const action = req.query.action;
@@ -859,6 +865,72 @@ router.get("/getUserActions", (req, res, next) => {
         return 0;
       }
     });
+});
+
+
+router.use(fileUpload({
+  // Configure file uploads with maximum file size 10MB
+ limits: { fileSize: 100 * 1024 * 1024 },
+
+  // Temporarily store uploaded files to disk, rather than buffering in memory
+  useTempFiles : true,
+  tempFileDir : '/tmp/'
+}));
+
+router.post("/uploadSapMetersFile", async function(req, res, next) {
+
+// Was a file submitted?
+if (!req.files || !req.files.file) {
+  return res.status(422).send('No files were uploaded');
+}
+
+const uploadedFile = req.files.file;
+
+// Print information about the file to the console
+console.log(`File Name: ${uploadedFile.name}`);
+console.log(`File Size: ${uploadedFile.size}`);
+console.log(`File MD5 Hash: ${uploadedFile.md5}`);
+console.log(`File Mime Type: ${uploadedFile.mimetype}`);
+
+// Scan the file for malware using the Verisys Antivirus API - the same concepts can be
+// used to work with the uploaded file in different ways
+try {
+  // Attach the uploaded file to a FormData instance
+  var form = new FormData();
+  form.append('file', fs.createReadStream(uploadedFile.tempFilePath), uploadedFile.name);
+
+  const headers = {
+    'X-API-Key': '<YOUR API KEY HERE>',
+    'Accept': '*/*'
+  };
+
+  // Send the file to the Verisys Antivirus API
+  const response = await fetch('http://asutp-smrem:8081/UploadSapMetersFile', {
+    method: "POST",
+    body: form,
+    headers: headers
+  });
+
+  // Did we get a response from the API?
+  if (response.ok) {
+    const result = await response.json();
+
+    // Did the file contain a virus/malware?
+    if (result.status === '') {
+      return res.send('Uploaded file is clean!');
+    } else {
+      return res.status(500).send(`Uploaded file contained malware: <b>${result.signals[0]}</b>`);
+    }
+  } else {
+    throw new Error('Unable to scan file: ' + response.statusText);
+  }
+} catch (error) {
+  // Forward the error to the Express error handler
+  return next(error);
+} finally {
+  // Remove the uploaded temp file
+  fs.rm(uploadedFile.tempFilePath, () => {});
+}
 });
 
 module.exports = router;

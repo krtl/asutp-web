@@ -43,6 +43,18 @@ class MyFetchClient extends React.Component {
     };
   }
 
+  doUploadFile(request) {
+    this.props.onLoadingStart();
+
+    fetch(new Request(request.fetchUrl, myPostInit), {
+      body: request.fetchData
+    })
+      .then(this.checkStatus)
+      .then(this.parseJSON)
+      .then(request.fetchCallback)
+      .catch(this.setError);
+  }
+
   doPost(request) {
     this.props.onLoadingStart();
 
@@ -101,7 +113,9 @@ class MyFetchClient extends React.Component {
         if (request.fetchUrl) {
           if (request.fetchCallback) {
             if (Auth.isUserAuthenticated()) {
-              if (request.fetchMethod === "post") {
+              if (request.fetchMethod === "file") {
+                this.doUploadFile(request);
+              } else if (request.fetchMethod === "post") {
                 this.doPost(request);
               } else {
                 this.doGet(request);

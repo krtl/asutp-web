@@ -27,7 +27,17 @@ class Auth {
 
   static canSeeReports() {
     return localStorage.getItem("data").includes("CanSeeReports");
-  }  
+  }
+  
+  static canSeeServerStatus() {
+    return localStorage.getItem("data").includes("CanSeeServerStatus");
+  }
+
+  static canLoadSapMeters() {
+    return localStorage.getItem("data").includes("CanLoadSapMeters");
+  }
+  
+  
 }
 
 export default Auth;

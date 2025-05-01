@@ -128,6 +128,11 @@ const Base = ({ children }) => {
           a.remove();  //afterwards we remove the element again         
       });
   };  
+  
+  const handleMainMenuSapMeters = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/sapMeters`);
+  };
 
   const handleMainMenuSoeConsumption = () => {
     setAnchorE1MainMenu(null);
@@ -221,6 +226,7 @@ const Base = ({ children }) => {
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuAsutpUsersReport}>Користувачі АСУТП</MenuItem>
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersReport}>Завантажити звіт "Користувачі АСУТП"</MenuItem>
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersActivityReport}>Завантажити звіт "Активність користувачів АСУТП"</MenuItem>
+                  <MenuItem disabled={!Auth.canLoadSapMeters()} onClick={handleMainMenuSapMeters}>Лічильники з САП</MenuItem>
                   <MenuItem onClick={handleMainMenuSoeConsumption}>Споживання СОЕ</MenuItem>
 
                   {/*

@@ -39,12 +39,18 @@ process
 const initializeStompServer = httpserver => {
   stompServer = new StompServer({ server: httpserver });
 
-  stompServer.on("connected", sessionId => {
+  stompServer.on("connected", socket => {
     if (traceMessages) {
-      logger.debug(`[stompServer] Client ${sessionId} connected`);
+      logger.debug(`[stompServer] Client ${socket.sessionId} connected`);
     }
     clientsConnected += 1;
     MyServerStatus.setWSocketStatus({ clientsConnected });
+    MyServerStatus.addClient(`${socket._socket.remoteAddress.replace("::ffff:", "")}:${socket._socket.remotePort}`);
+    
+    // for (let prop in socket._socket) {
+    //   console.log(`[stompServer] Client.socet._socket ${prop}`);
+      // logger.debug(`[stompServer] Client ${prop} = ${socket[prop]}`);
+    //}
   });
 
   stompServer.on("connecting", sessionId => {
@@ -53,12 +59,13 @@ const initializeStompServer = httpserver => {
     }
   });
 
-  stompServer.on("disconnected", sessionId => {
+  stompServer.on("disconnected", socket => {
     if (traceMessages) {
-      logger.debug(`[stompServer] Client ${sessionId} disconnected`);
+      logger.debug(`[stompServer] Client ${socket.sessionId} disconnected`);
     }
     clientsConnected -= 1;
     MyServerStatus.setWSocketStatus({ clientsConnected });
+    MyServerStatus.removeClient(`${socket._socket.remoteAddress.replace("::ffff:", "")}:${socket._socket.remotePort}`);
   });
 
   stompServer.on("error", err => {

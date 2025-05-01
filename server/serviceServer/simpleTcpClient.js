@@ -91,7 +91,7 @@ const initializeTcpClient = () => {
               let textChunk = (Buffer.from(bytechunk)).toString();
               if (textChunk != "")
               {
-                  console.log(`[] received = ${textChunk}`);
+                  //console.debug(`[] received = ${textChunk}`);
       
                   let cmd = null;
                   try {

@@ -1,4 +1,5 @@
 import React from "react";
+import Auth from "../../modules/Auth";
 // import "./MyServerStatus.css";
 
 const MyServerStatus = ({ socketStatus, serverStatus, onClick }) => {
@@ -7,19 +8,38 @@ const MyServerStatus = ({ socketStatus, serverStatus, onClick }) => {
   let items = [];
 
   items.push(`socket: ${socketStatus}`);
-  for (let prop in serverStatus) {
-    items.push(`${prop}: ${serverStatus[prop]}`);
+  for (const prop in serverStatus) {
+    if (prop === "clients")
+    {
+      for (const str of serverStatus[prop]) {
+        if (str !== "")
+        {
+          items.push(`${str}`);
+        }
+      }
+    }
+    else
+    {
+      items.push(`${prop}: ${serverStatus[prop]}`);
+    }
   }
 
   return (
     <div>
-      <select>
-        {items.map(item => (
-          <option key={item} onClick={handleOnClick(item)}>
-            {item}
-          </option>
-        ))}
-      </select>
+        {(Auth.canSeeServerStatus()) ? (
+            <select id="serverStatus">
+            {items.map(item => (
+              <option key={item} onClick={handleOnClick(item)}>
+                {item}
+              </option>
+            ))}
+          </select>
+        ) : (
+            <div className="column">
+            {`socket: ${socketStatus}`}
+          </div>  
+        )}
+
     </div>
   );
 };

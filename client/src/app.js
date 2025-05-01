@@ -6,6 +6,7 @@ import Base from "./components/Base.jsx";
 import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import SoeConsumptionHistoryPage from "./containers/SoeConsumptionHistoryPage.jsx";
+import SapMetersFilePage from "./containers/SapMetersFilePage.jsx";
 import AsutpUsersReportPage from "./containers/AsutpUsersReportPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
 import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
@@ -32,7 +33,7 @@ function PrivateRoute({ children, ...rest }) {
           Auth.canSeeReports() ? (
             <Base>{AddExtraProps(children, routeProps)}</Base>
           ) : (
-            ((location.pathname == "/") || (location.pathname == "/airAlarm") || (location.pathname == "/soeConsumption"))? (
+            ((location.pathname === "/") || (location.pathname === "/airAlarm") || (location.pathname === "/soeConsumption"))? (
               <Base>{AddExtraProps(children, routeProps)}</Base>
             ) : (
               <Redirect
@@ -66,6 +67,10 @@ export default function App() {
         
         <PrivateRoute path="/soeConsumption">
           <SoeConsumptionHistoryPage />
+        </PrivateRoute>
+        
+        <PrivateRoute path="/sapMeters">
+          <SapMetersFilePage />
         </PrivateRoute>
 
         <PrivateRoute path="/AsutpUsersReport">

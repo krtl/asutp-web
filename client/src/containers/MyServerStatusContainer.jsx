@@ -6,6 +6,7 @@ import MyStompClient from "../modules/MyStompClient";
 import IconButton from "@material-ui/core/IconButton";
 import ErrorIcon from "@material-ui/icons/Error";
 import Badge from '@material-ui/core/Badge';
+import Auth from "../modules/Auth";
 
 import "../components/MyServerStatus/MainStatus.css";
 
@@ -66,12 +67,14 @@ export default class MyServerStatusContainer extends React.Component {
         this.setState({
           socketStatus: "connected"
         });
-        MyStompClient.subscribeToServerStatus(value => {
-          // console.log(value);
-          this.setState({
-            serverStatus: value
-          });
-        });
+        if (Auth.canSeeServerStatus()){
+          MyStompClient.subscribeToServerStatus(value => {
+            // console.log(value);
+            this.setState({
+              serverStatus: value
+            });
+          });  
+        }
       }
     });
   }
@@ -83,19 +86,19 @@ export default class MyServerStatusContainer extends React.Component {
   render() {
     return (
       <div>
-        <div className="column">
-          <MyServerCollisionsStatus
-            count={this.state.serverStatus.collisionsCount}
-            history={this.props.history}
-          />
+          <div className="column">
+            <MyServerCollisionsStatus
+              count={this.state.serverStatus.collisionsCount}
+              history={this.props.history}
+            />
+          </div>
+          <div className="column">
+            <MyServerStatus
+              socketStatus={this.state.socketStatus}
+              serverStatus={this.state.serverStatus}
+            />
+          </div>
         </div>
-        <div className="column">
-          <MyServerStatus
-            socketStatus={this.state.socketStatus}
-            serverStatus={this.state.serverStatus}
-          />
-        </div>
-      </div>
     );
   }
 }

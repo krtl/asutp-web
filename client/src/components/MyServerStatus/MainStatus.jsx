@@ -34,9 +34,11 @@ class MainStatus extends Component {
     return (
       // <MySpinner isActive={this.props.nowLoading} />
       <div className="row">
+        {/*}
         <div className="column">
           <MyDebugData countOfUpdates={this.props.countOfUpdates} />
         </div>
+        */}
         <div className="column">
           <MySpinner isActive={this.props.nowLoading} />
         </div>

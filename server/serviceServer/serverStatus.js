@@ -5,6 +5,7 @@ function MyServerStatus() {
   this.collisionsCount = 0;
   this.avgRecalcTime = 0;
   this.maxRecalcTime = 0;
+  this.clients = [];
 }
 
 let status = new MyServerStatus();
@@ -62,9 +63,21 @@ const setWSocketStatus = wsocketStatus => {
   }
 };
 
-const isStatusChanged = () => {
-  return changed;
+const addClient = client => {
+  if (status.clients.indexOf(client) < 0) {
+      status.clients.push(client);
+      changed = true;
+    }
 };
+
+const removeClient = client => {
+  var idx = status.clients.indexOf(client);
+  if (idx >= 0) {
+      status.clients.splice(idx, 1);
+      changed = true;
+    }
+};
+
 
 const getServerStatus = () => {
   // console.debug("serverStatus:", status);
@@ -92,7 +105,8 @@ module.exports.initialize = initialize;
 module.exports.finalize = finalize;
 module.exports.setRecalculationStatus = setRecalculationStatus;
 module.exports.setWSocketStatus = setWSocketStatus;
-module.exports.isStatusChanged = isStatusChanged;
 module.exports.getServerStatus = getServerStatus;
 module.exports.setCollisions = setCollisions;
 module.exports.getCollisions = getCollisions;
+module.exports.addClient = addClient;
+module.exports.removeClient = removeClient;
