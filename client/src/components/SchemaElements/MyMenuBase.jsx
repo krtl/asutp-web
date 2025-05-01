@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Rect } from "react-konva";
+// import { Rect } from "react-konva";
 import Konva from "konva";
 import Portal from "../ContextMenu/Portal";
 import ContextMenu from "../ContextMenu/ContextMenu";
@@ -82,38 +82,44 @@ export default class MyMenuBase extends React.Component {
   }
 
   render() {
-    const { selectedContextMenu } = this.state;
+    return (<div></div>);
 
-    return (
-      <>
-        <Rect
-          x={this.props.x}
-          y={this.props.y}
-          width={this.props.width}
-          height={this.props.height}
-          stroke={"black"}
-          strokeWidth={0}
-          closed={true}
-          onDblClick={this.handleDblClick}
-          onDblTap={this.handleDblClick}
-          onDragStart={this.handleMenuDragStart}
-          onDragEnd={this.handleMenuDragEnd}
-          // onclick={this.handleClick}
-          onContextMenu={this.handleContextMenu}
-          onTouchStart={this.handleContextMenu}
-        />
-        {selectedContextMenu && (
-          <Portal>
-            <ContextMenu
-              {...selectedContextMenu}
-              items={this.props.items}
-              onOptionSelected={this.handleMenuOptionSelected}
-            />
-          </Portal>
-        )}
-      </>
-    );
   }
+
+
+  // render() {
+  //   const { selectedContextMenu } = this.state;
+
+  //   return (
+  //     <>
+  //       <Rect
+  //         x={this.props.x}
+  //         y={this.props.y}
+  //         width={this.props.width}
+  //         height={this.props.height}
+  //         stroke={"black"}
+  //         strokeWidth={0}
+  //         closed={true}
+  //         onDblClick={this.handleDblClick}
+  //         onDblTap={this.handleDblClick}
+  //         onDragStart={this.handleMenuDragStart}
+  //         onDragEnd={this.handleMenuDragEnd}
+  //         // onclick={this.handleClick}
+  //         onContextMenu={this.handleContextMenu}
+  //         onTouchStart={this.handleContextMenu}
+  //       />
+  //       {selectedContextMenu && (
+  //         <Portal>
+  //           <ContextMenu
+  //             {...selectedContextMenu}
+  //             items={this.props.items}
+  //             onOptionSelected={this.handleMenuOptionSelected}
+  //           />
+  //         </Portal>
+  //       )}
+  //     </>
+  //   );
+  // }
 }
 
 MyMenuBase.propTypes = {

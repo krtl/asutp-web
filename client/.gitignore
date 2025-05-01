@@ -21,3 +21,7 @@ npm-debug.log
 .idea/dictionaries
 
 config/index.json
+
+server/sslcert/server.key
+server/sslcert/server.crt
+

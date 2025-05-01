@@ -17,3 +17,5 @@ logs/combined.log
 logs/errors.log
 logs/exceptions.log
 
+server/sslcert/server.crt
+server/sslcert/server.key

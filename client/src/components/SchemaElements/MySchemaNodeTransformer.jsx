@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, Circle, Group } from "react-konva";
+// import { Text, Circle, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
 import MyMenuBase from "./MyMenuBase";
 
@@ -38,68 +38,72 @@ export default class MySchemaNodeTransformer extends React.Component {
   handleDblClick() {
     this.props.onDoubleClick(this.props.node);
   }
-
+  
   render() {
-    const x = this.props.node.x;
-    const y = this.props.node.y;
-
-    const body = (
-      <>
-        <Text
-          x={MyConsts.NODE_PS_RADIUS * 3}
-          y={2}
-          fontSize={9}
-          text={this.props.node.name}
-        />
-        <Circle
-          x={5}
-          y={10}
-          radius={10}
-          stroke={"black"}
-          strokeWidth={2}
-          fill={this.props.color}
-          shadowBlur={0}
-          onDblClick={this.handleDblClick}
-        />
-        <Circle
-          x={15}
-          y={10}
-          radius={10}
-          stroke={"black"}
-          strokeWidth={2}
-          fill={this.props.color}
-          shadowBlur={0}
-          onDblClick={this.handleDblClick}
-        />
-        <Text
-          x={MyConsts.NODE_PS_RADIUS * 3}
-          y={12}
-          fontSize={9}
-          text={this.props.node.caption}
-        />
-        <MyMenuBase
-          x={0}
-          y={0}
-          width={2 * MyConsts.NODE_PS_RADIUS}
-          height={2 * MyConsts.NODE_PS_RADIUS}
-          onDoubleClick={this.handleDblClick}
-          onContextMenu={this.handleContextMenu}
-          items={[optionHistory]}
-          onMenuItemSelected={this.handleMenuOptionSelected}
-          parentStageClicked={this.props.parentStageClicked}
-        />
-      </>
-    );
-    return this.props.editMode ? (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-        {body}
-      </Group>
-    ) : (
-      <Group x={x} y={y}>
-        {body}
-      </Group>
-    );
+    return (<div></div>);
   }
+
+  // render() {
+  //   const x = this.props.node.x;
+  //   const y = this.props.node.y;
+
+  //   const body = (
+  //     <>
+  //       <Text
+  //         x={MyConsts.NODE_PS_RADIUS * 3}
+  //         y={2}
+  //         fontSize={9}
+  //         text={this.props.node.name}
+  //       />
+  //       <Circle
+  //         x={5}
+  //         y={10}
+  //         radius={10}
+  //         stroke={"black"}
+  //         strokeWidth={2}
+  //         fill={this.props.color}
+  //         shadowBlur={0}
+  //         onDblClick={this.handleDblClick}
+  //       />
+  //       <Circle
+  //         x={15}
+  //         y={10}
+  //         radius={10}
+  //         stroke={"black"}
+  //         strokeWidth={2}
+  //         fill={this.props.color}
+  //         shadowBlur={0}
+  //         onDblClick={this.handleDblClick}
+  //       />
+  //       <Text
+  //         x={MyConsts.NODE_PS_RADIUS * 3}
+  //         y={12}
+  //         fontSize={9}
+  //         text={this.props.node.caption}
+  //       />
+  //       <MyMenuBase
+  //         x={0}
+  //         y={0}
+  //         width={2 * MyConsts.NODE_PS_RADIUS}
+  //         height={2 * MyConsts.NODE_PS_RADIUS}
+  //         onDoubleClick={this.handleDblClick}
+  //         onContextMenu={this.handleContextMenu}
+  //         items={[optionHistory]}
+  //         onMenuItemSelected={this.handleMenuOptionSelected}
+  //         parentStageClicked={this.props.parentStageClicked}
+  //       />
+  //     </>
+  //   );
+  //   return this.props.editMode ? (
+  //     <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+  //       {body}
+  //     </Group>
+  //   ) : (
+  //     <Group x={x} y={y}>
+  //       {body}
+  //     </Group>
+  //   );
+  // }
 }
 
 MySchemaNodeTransformer.propTypes = {

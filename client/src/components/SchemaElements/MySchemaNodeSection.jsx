@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, Rect, Group } from "react-konva";
+// import { Text, Rect, Group } from "react-konva";
 import { MyConsts } from "../../modules/MyConsts";
 import MyMenuBase from "./MyMenuBase";
 
@@ -38,59 +38,63 @@ export default class MySchemaNodeSection extends React.Component {
   handleDblClick() {
     this.props.onDoubleClick(this.props.node);
   }
-
   render() {
-    const x = this.props.node.x;
-    const y = this.props.node.y;
-
-    const body = (
-      <>
-        <Text
-          x={1 - MyConsts.NODE_PS_RADIUS * 4}
-          y={-10}
-          fontSize={9}
-          text={this.props.node.name}
-        />
-        <Rect
-          x={0 - MyConsts.NODE_PS_RADIUS * 4}
-          y={0}
-          width={MyConsts.NODE_PS_RADIUS * 10}
-          height={MyConsts.NODE_SECTION_HEIGHT}
-          stroke={"black"}
-          strokeWidth={1}
-          fill={this.props.color}
-          shadowBlur={0}
-          onDblClick={this.handleDblClick}
-        />
-        <Text
-          x={1 - MyConsts.NODE_PS_RADIUS * 4}
-          y={10}
-          fontSize={9}
-          text={this.props.node.caption}
-        />
-        <MyMenuBase
-          x={0}
-          y={0}
-          width={MyConsts.NODE_PS_RADIUS * 10}
-          height={MyConsts.NODE_SECTION_HEIGHT}
-          onDoubleClick={this.handleDblClick}
-          onContextMenu={this.handleContextMenu}
-          items={[optionHistory]}
-          onMenuItemSelected={this.handleMenuOptionSelected}
-          parentStageClicked={this.props.parentStageClicked}
-        />
-      </>
-    );
-    return this.props.editMode ? (
-      <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
-        {body}
-      </Group>
-    ) : (
-      <Group x={x} y={y}>
-        {body}
-      </Group>
-    );
+    return (<div></div>);
   }
+
+
+  // render() {
+  //   const x = this.props.node.x;
+  //   const y = this.props.node.y;
+
+  //   const body = (
+  //     <>
+  //       <Text
+  //         x={1 - MyConsts.NODE_PS_RADIUS * 4}
+  //         y={-10}
+  //         fontSize={9}
+  //         text={this.props.node.name}
+  //       />
+  //       <Rect
+  //         x={0 - MyConsts.NODE_PS_RADIUS * 4}
+  //         y={0}
+  //         width={MyConsts.NODE_PS_RADIUS * 10}
+  //         height={MyConsts.NODE_SECTION_HEIGHT}
+  //         stroke={"black"}
+  //         strokeWidth={1}
+  //         fill={this.props.color}
+  //         shadowBlur={0}
+  //         onDblClick={this.handleDblClick}
+  //       />
+  //       <Text
+  //         x={1 - MyConsts.NODE_PS_RADIUS * 4}
+  //         y={10}
+  //         fontSize={9}
+  //         text={this.props.node.caption}
+  //       />
+  //       <MyMenuBase
+  //         x={0}
+  //         y={0}
+  //         width={MyConsts.NODE_PS_RADIUS * 10}
+  //         height={MyConsts.NODE_SECTION_HEIGHT}
+  //         onDoubleClick={this.handleDblClick}
+  //         onContextMenu={this.handleContextMenu}
+  //         items={[optionHistory]}
+  //         onMenuItemSelected={this.handleMenuOptionSelected}
+  //         parentStageClicked={this.props.parentStageClicked}
+  //       />
+  //     </>
+  //   );
+  //   return this.props.editMode ? (
+  //     <Group x={x} y={y} draggable onDragend={this.handleDragEnd}>
+  //       {body}
+  //     </Group>
+  //   ) : (
+  //     <Group x={x} y={y}>
+  //       {body}
+  //     </Group>
+  //   );
+  // }
 }
 
 MySchemaNodeSection.propTypes = {

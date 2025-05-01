@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Layer, Stage, Line } from "react-konva";
+// import { Layer, Stage, Line } from "react-konva";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
 import DialogAddNode from "./Dialogs/DialogAddNode";
@@ -235,85 +235,90 @@ export default class MyRegionSchema extends React.Component {
   }
 
   render() {
-    const locNodes = this.props.nodes;
-    const locLines = this.getLines();
-
-    // Avoid crashing on Android
-    let locW = window.innerWidth;
-    let locH = window.innerHeight;
-    if (locW > 1000) 
-    {
-      locW = 3000;
-      locH = 5000;
-    }
-
-    const menuItems = this.state.editMode
-      ? [
-          optionShemaToDisplayMode,
-          optionShemaLoad,
-          optionShemaSave,
-          optionShemaAddNode,
-          optionShemaReset,
-        ]
-      : [optionShemaToEditMode, optionShemaLoad];
-
-    let selectedNodeName = this.state.selectedNode
-      ? this.state.selectedNode.name
-      : "";
-
-    return (
-      <div>
-        <div ref='UniqueElementIdentifier'>
-          <DialogAddNode
-            open={this.state.openDialogAddNode}
-            onClose={this.handleDialogAddNodeClose}
-            regions={this.props.regions}
-            editedSchemaName={this.state.editedSchemaName}
-          />
-          <DialogAreYouSure
-            open={this.state.openDialogAreYouSure}
-            text={`want to delete node "${selectedNodeName}" ?`}
-            onClose={this.handleDialogAreYouSureClose}
-          />
-          <Stage width={locW} height={locH} onClick={this.handleStageClick}>
-            <Layer>
-              <MySchemaNodeMenu
-                x={10}
-                y={10}
-                items={menuItems}
-                editMode={this.state.editMode}
-                parentStageClicked={this.state.stageClicked}
-                onDragEnd={this.handleDragEnd}
-                onDoubleClick={this.handleDoubleClick}
-                onMenuItemSelected={this.handleMenuItemSelected}
-              />
-
-              {locNodes.map((rec) => (
-                <MySchemaNode
-                  key={rec.name}
-                  node={rec}
-                  editMode={this.state.editMode}
-                  doOnDeleteNode={this.handleDeleteNode}
-                  parentStageClicked={this.state.stageClicked}
-                  onDragEnd={this.handleDragEnd}
-                  onDoubleClick={this.handleDoubleClick}
-                  history={this.props.history}
-                />
-              ))}
-              {locLines.map((line) => (
-                <Line
-                  key={line.name}
-                  points={line.points}
-                  stroke="black"
-                  strokeWidth={1}
-                />
-              ))}
-            </Layer>
-          </Stage>
-        </div>
-      </div>
-    );
+    return (<div></div>);
   }
+
+
+  // render() {
+  //   const locNodes = this.props.nodes;
+  //   const locLines = this.getLines();
+
+  //   // Avoid crashing on Android
+  //   let locW = window.innerWidth;
+  //   let locH = window.innerHeight;
+  //   if (locW > 1000) 
+  //   {
+  //     locW = 3000;
+  //     locH = 5000;
+  //   }
+
+  //   const menuItems = this.state.editMode
+  //     ? [
+  //         optionShemaToDisplayMode,
+  //         optionShemaLoad,
+  //         optionShemaSave,
+  //         optionShemaAddNode,
+  //         optionShemaReset,
+  //       ]
+  //     : [optionShemaToEditMode, optionShemaLoad];
+
+  //   let selectedNodeName = this.state.selectedNode
+  //     ? this.state.selectedNode.name
+  //     : "";
+
+  //   return (
+  //     <div>
+  //       <div ref='UniqueElementIdentifier'>
+  //         <DialogAddNode
+  //           open={this.state.openDialogAddNode}
+  //           onClose={this.handleDialogAddNodeClose}
+  //           regions={this.props.regions}
+  //           editedSchemaName={this.state.editedSchemaName}
+  //         />
+  //         <DialogAreYouSure
+  //           open={this.state.openDialogAreYouSure}
+  //           text={`want to delete node "${selectedNodeName}" ?`}
+  //           onClose={this.handleDialogAreYouSureClose}
+  //         />
+  //         <Stage width={locW} height={locH} onClick={this.handleStageClick}>
+  //           <Layer>
+  //             <MySchemaNodeMenu
+  //               x={10}
+  //               y={10}
+  //               items={menuItems}
+  //               editMode={this.state.editMode}
+  //               parentStageClicked={this.state.stageClicked}
+  //               onDragEnd={this.handleDragEnd}
+  //               onDoubleClick={this.handleDoubleClick}
+  //               onMenuItemSelected={this.handleMenuItemSelected}
+  //             />
+
+  //             {locNodes.map((rec) => (
+  //               <MySchemaNode
+  //                 key={rec.name}
+  //                 node={rec}
+  //                 editMode={this.state.editMode}
+  //                 doOnDeleteNode={this.handleDeleteNode}
+  //                 parentStageClicked={this.state.stageClicked}
+  //                 onDragEnd={this.handleDragEnd}
+  //                 onDoubleClick={this.handleDoubleClick}
+  //                 history={this.props.history}
+  //               />
+  //             ))}
+  //             {locLines.map((line) => (
+  //               <Line
+  //                 key={line.name}
+  //                 points={line.points}
+  //                 stroke="black"
+  //                 strokeWidth={1}
+  //               />
+  //             ))}
+  //           </Layer>
+  //         </Stage>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 }
 
 MyRegionSchema.propTypes = {

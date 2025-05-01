@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "material-ui/Tabs";
-import { Layer, Stage, Line, Label, Tag, Text } from "react-konva";
+// import { Layer, Stage, Line, Label, Tag, Text } from "react-konva";
 import { Card, CardText } from "material-ui/Card";
 import MySchemaNode from "./SchemaElements/MySchemaNode";
 import MySchemaNodeMenu from "./SchemaElements/MySchemaNodeMenu";
@@ -324,175 +324,179 @@ export default class MyPSSchemeForm extends React.Component {
   }
 
   render() {
-    const locNodes = this.props.nodes;
-    const locLines = this.getLines();
-
-    // Avoid crashing on Android
-    let locW = window.innerWidth;
-    let locH = window.innerHeight;
-    if (locW > 1000) 
-    {
-      locW = 3000;
-      locH = 5000;
-    }
-
-    const locParams = this.props.params;
-
-    for (let i = 0; i < locNodes.length; i += 1) {
-      const locNode = locNodes[i];
-      if (locNode.nodeType === MyConsts.NODE_TYPE_PARAM) {
-        for (let j = 0; j < locParams.length; j += 1) {
-          const locParam = locParams[j];
-          if (locParam.name === locNode.paramName) {
-            locNode.paramValue = locParam.value;
-            locNode.paramQD = locParam.qd;
-            break;
-          }
-        }
-      } else if (
-        locNode.nodeType === MyConsts.NODE_TYPE_SECTIONCONNECTOR ||
-        locNode.nodeType === MyConsts.NODE_TYPE_SEC2SECCONNECTOR
-      ) {
-        if (locNode.paramName) {
-          const param = this.getParamByName(locNode.paramName);
-          if (param) {
-            if (param.qd) {
-              locNode.paramQD = param.qd;
-            }
-          }
-        }
-      }
-    }
-
-    const menuItems = this.state.editMode
-      ? [
-          optionShemaToDisplayMode,
-          optionShemaLoad,
-          optionShemaSave,
-          optionShemaReset,
-          optionShemaLinkage,
-          optionShemaHistory
-        ]
-      : [optionShemaToEditMode, optionShemaLoad];
-
-    const psCaptionInfo = this.props.psInfo
-      ? `${this.props.psInfo.name}(${this.props.psInfo.caption})`
-      : "";
-
-    let toolTipVisible = false;
-    let toolTipX = 0;
-    let toolTipY = 0;
-    let toolTipText = "";
-    if (this.state.hintTarget) {
-      toolTipVisible = true;
-      toolTipX = this.state.hintTarget.x;
-      toolTipY = this.state.hintTarget.y - 5;
-      toolTipText = this.state.hintTarget.text;
-    }
-
-    return (
-      <div>
-        <Card className="container">
-          <div>
-            <CardText>{psCaptionInfo}</CardText>
-          </div>
-        </Card>
-        <Tabs>
-          <Tab label="Schema">
-            <Stage width={locW} height={locH} onClick={this.handleStageClick}>
-              <Layer>
-                <MySchemaNodeMenu
-                  x={10}
-                  y={10}
-                  editMode={this.state.editMode}
-                  items={menuItems}
-                  parentStageClicked={this.state.stageClicked}
-                  onDragEnd={this.handleDragEnd}
-                  onDoubleClick={this.handleDoubleClick}
-                  onMenuItemSelected={this.handleMenuItemSelected}
-                  history={this.props.history}
-                />
-
-                {locLines.map(line => (
-                  <Line
-                    key={line.name}
-                    points={line.points}
-                    stroke="black"
-                    strokeWidth={1}
-                  />
-                ))}
-                {locNodes.map(rec => (
-                  <MySchemaNode
-                    key={rec.name}
-                    node={rec}
-                    editMode={this.state.editMode}
-                    parentStageClicked={this.state.stageClicked}
-                    onDragEnd={this.handleDragEnd}
-                    onMouseOver={this.handleMouseOver}
-                    onMouseOut={this.handleMouseOut}
-                    onDoubleClick={this.handleDoubleClick}
-                    history={this.props.history}
-                  />
-                ))}
-
-                <Label
-                  opacity={0.75}
-                  visible={toolTipVisible}
-                  x={toolTipX}
-                  y={toolTipY}
-                  listening={false}
-                >
-                  <Tag
-                    fill={"black"}
-                    pointerDirection={"down"}
-                    pointerWidth={10}
-                    pointerHeight={10}
-                    lineJoin={"round"}
-                    shadowColor={"black"}
-                    shadowBlur={10}
-                    shadowOffsetX={10}
-                    shadowOffsetY={10}
-                    shadowOpacity={0.2}
-                  ></Tag>
-                  <Text
-                    text={toolTipText}
-                    fontFamily={"Calibri"}
-                    fontSize={13}
-                    padding={5}
-                    fill={"white"}
-                  />
-                </Label>
-              </Layer>
-              <Layer></Layer>
-            </Stage>
-          </Tab>
-          <Tab label="Params">
-            <MyParams params={this.props.params} />
-          </Tab>
-        </Tabs>
-
-        <MyParamDialog
-          open={this.state.openParamDialog}
-          onClose={this.handleParamDialogClose}
-          initialParamValue={this.state.initialParamValue}
-          initialBlockRawValues={this.state.initialBlockRawValues}
-          editedNodeName={this.state.editedNodeName}
-          editedNodeCaption={this.state.editedNodeCaption}
-          editedParamName={this.state.editedParamName}
-        />
-
-        <MyNodeConnectorDialog
-          open={this.state.openConnectionDialog}
-          onClose={this.handleConnectionDialogClose}
-          initialParamValue={this.state.initialParamValue}
-          initialBlockRawValues={this.state.initialBlockRawValues}
-          editedNodeName={this.state.editedNodeName}
-          editedNodeCaption={this.state.editedNodeCaption}
-          editedParamName={this.state.editedParamName}
-        />
-      </div>
-    );
+    return (<div></div>);
   }
+
+  // render() {
+  //   const locNodes = this.props.nodes;
+  //   const locLines = this.getLines();
+
+  //   // Avoid crashing on Android
+  //   let locW = window.innerWidth;
+  //   let locH = window.innerHeight;
+  //   if (locW > 1000) 
+  //   {
+  //     locW = 3000;
+  //     locH = 5000;
+  //   }
+
+  //   const locParams = this.props.params;
+
+  //   for (let i = 0; i < locNodes.length; i += 1) {
+  //     const locNode = locNodes[i];
+  //     if (locNode.nodeType === MyConsts.NODE_TYPE_PARAM) {
+  //       for (let j = 0; j < locParams.length; j += 1) {
+  //         const locParam = locParams[j];
+  //         if (locParam.name === locNode.paramName) {
+  //           locNode.paramValue = locParam.value;
+  //           locNode.paramQD = locParam.qd;
+  //           break;
+  //         }
+  //       }
+  //     } else if (
+  //       locNode.nodeType === MyConsts.NODE_TYPE_SECTIONCONNECTOR ||
+  //       locNode.nodeType === MyConsts.NODE_TYPE_SEC2SECCONNECTOR
+  //     ) {
+  //       if (locNode.paramName) {
+  //         const param = this.getParamByName(locNode.paramName);
+  //         if (param) {
+  //           if (param.qd) {
+  //             locNode.paramQD = param.qd;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   const menuItems = this.state.editMode
+  //     ? [
+  //         optionShemaToDisplayMode,
+  //         optionShemaLoad,
+  //         optionShemaSave,
+  //         optionShemaReset,
+  //         optionShemaLinkage,
+  //         optionShemaHistory
+  //       ]
+  //     : [optionShemaToEditMode, optionShemaLoad];
+
+  //   const psCaptionInfo = this.props.psInfo
+  //     ? `${this.props.psInfo.name}(${this.props.psInfo.caption})`
+  //     : "";
+
+  //   let toolTipVisible = false;
+  //   let toolTipX = 0;
+  //   let toolTipY = 0;
+  //   let toolTipText = "";
+  //   if (this.state.hintTarget) {
+  //     toolTipVisible = true;
+  //     toolTipX = this.state.hintTarget.x;
+  //     toolTipY = this.state.hintTarget.y - 5;
+  //     toolTipText = this.state.hintTarget.text;
+  //   }
+
+  //   return (
+  //     <div>
+  //       <Card className="container">
+  //         <div>
+  //           <CardText>{psCaptionInfo}</CardText>
+  //         </div>
+  //       </Card>
+  //       <Tabs>
+  //         <Tab label="Schema">
+  //           <Stage width={locW} height={locH} onClick={this.handleStageClick}>
+  //             <Layer>
+  //               <MySchemaNodeMenu
+  //                 x={10}
+  //                 y={10}
+  //                 editMode={this.state.editMode}
+  //                 items={menuItems}
+  //                 parentStageClicked={this.state.stageClicked}
+  //                 onDragEnd={this.handleDragEnd}
+  //                 onDoubleClick={this.handleDoubleClick}
+  //                 onMenuItemSelected={this.handleMenuItemSelected}
+  //                 history={this.props.history}
+  //               />
+
+  //               {locLines.map(line => (
+  //                 <Line
+  //                   key={line.name}
+  //                   points={line.points}
+  //                   stroke="black"
+  //                   strokeWidth={1}
+  //                 />
+  //               ))}
+  //               {locNodes.map(rec => (
+  //                 <MySchemaNode
+  //                   key={rec.name}
+  //                   node={rec}
+  //                   editMode={this.state.editMode}
+  //                   parentStageClicked={this.state.stageClicked}
+  //                   onDragEnd={this.handleDragEnd}
+  //                   onMouseOver={this.handleMouseOver}
+  //                   onMouseOut={this.handleMouseOut}
+  //                   onDoubleClick={this.handleDoubleClick}
+  //                   history={this.props.history}
+  //                 />
+  //               ))}
+
+  //               <Label
+  //                 opacity={0.75}
+  //                 visible={toolTipVisible}
+  //                 x={toolTipX}
+  //                 y={toolTipY}
+  //                 listening={false}
+  //               >
+  //                 <Tag
+  //                   fill={"black"}
+  //                   pointerDirection={"down"}
+  //                   pointerWidth={10}
+  //                   pointerHeight={10}
+  //                   lineJoin={"round"}
+  //                   shadowColor={"black"}
+  //                   shadowBlur={10}
+  //                   shadowOffsetX={10}
+  //                   shadowOffsetY={10}
+  //                   shadowOpacity={0.2}
+  //                 ></Tag>
+  //                 <Text
+  //                   text={toolTipText}
+  //                   fontFamily={"Calibri"}
+  //                   fontSize={13}
+  //                   padding={5}
+  //                   fill={"white"}
+  //                 />
+  //               </Label>
+  //             </Layer>
+  //             <Layer></Layer>
+  //           </Stage>
+  //         </Tab>
+  //         <Tab label="Params">
+  //           <MyParams params={this.props.params} />
+  //         </Tab>
+  //       </Tabs>
+
+  //       <MyParamDialog
+  //         open={this.state.openParamDialog}
+  //         onClose={this.handleParamDialogClose}
+  //         initialParamValue={this.state.initialParamValue}
+  //         initialBlockRawValues={this.state.initialBlockRawValues}
+  //         editedNodeName={this.state.editedNodeName}
+  //         editedNodeCaption={this.state.editedNodeCaption}
+  //         editedParamName={this.state.editedParamName}
+  //       />
+
+  //       <MyNodeConnectorDialog
+  //         open={this.state.openConnectionDialog}
+  //         onClose={this.handleConnectionDialogClose}
+  //         initialParamValue={this.state.initialParamValue}
+  //         initialBlockRawValues={this.state.initialBlockRawValues}
+  //         editedNodeName={this.state.editedNodeName}
+  //         editedNodeCaption={this.state.editedNodeCaption}
+  //         editedParamName={this.state.editedParamName}
+  //       />
+  //     </div>
+  //   );
+  // }
 }
 
 MyPSSchemeForm.propTypes = {
