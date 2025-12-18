@@ -29,7 +29,6 @@ export default class MySapMetersFileForm extends React.Component {
 
 
     this.state = {
-      fileNameToUpload: "",
     };
 
     //this.handleFromDateTimeChange = this.handleReloadLastFileNameClick.bind(this);
@@ -55,7 +54,9 @@ export default class MySapMetersFileForm extends React.Component {
 
     const input = document.getElementById('fileinput');
 
+    if (input.files.length > 0) {
     this.props.onUploadSapMetersFile(input.files[0])
+    }
     
   }
 
@@ -91,6 +92,12 @@ export default class MySapMetersFileForm extends React.Component {
           </Button>            
           </CardText>
 
+          <CardText>
+          <Typography variant="h6" component="h6">
+            {this.props.uploadResult}
+          </Typography>        
+          </CardText>
+
             {/*
             <FileUploadOutlined />
             <input
@@ -109,6 +116,7 @@ export default class MySapMetersFileForm extends React.Component {
 
 MySapMetersFileForm.propTypes = {
   lastFileName: PropTypes.string.isRequired,
+  uploadResult: PropTypes.string.isRequired,
   onReloadLastFileName: PropTypes.func,
   onUploadSapMetersFile: PropTypes.func,
 };

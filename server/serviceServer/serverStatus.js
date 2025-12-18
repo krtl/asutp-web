@@ -78,6 +78,14 @@ const removeClient = client => {
     }
 };
 
+const addIpUserCorrespondense = (ip, user) => {
+  var locClient = ip + "-" + user;
+  if (status.clients.indexOf(locClient) < 0) {
+      status.clients.push(locClient);
+      changed = true;
+    }
+};
+
 
 const getServerStatus = () => {
   // console.debug("serverStatus:", status);
@@ -110,3 +118,4 @@ module.exports.setCollisions = setCollisions;
 module.exports.getCollisions = getCollisions;
 module.exports.addClient = addClient;
 module.exports.removeClient = removeClient;
+module.exports.addIpUserCorrespondense = addIpUserCorrespondense;

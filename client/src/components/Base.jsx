@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1,    
   },
 }));
 
@@ -87,6 +87,11 @@ const Base = ({ children }) => {
       });
   };  
 
+  const handleMainMenuAsutpUsersReport = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/AsutpUsersReport`);
+  };
+
   const handleMainMenuUsersReport = () => {
     setAnchorE1MainMenu(null);
 
@@ -107,42 +112,27 @@ const Base = ({ children }) => {
           a.remove();  //afterwards we remove the element again         
       });
   };    
-
-  const handleMainMenuUsersActivityReport = () => {
-    setAnchorE1MainMenu(null);
-
-    const options = {
-      headers: {
-        Authorization: `bearer ${Auth.getToken()}`
-      }
-    };
-     fetch("/prj/getAsutpUsersActivityExcelReport", options)
-      .then(response => response.blob())
-      .then(blob => {
-          var url = window.URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = `AsutpUsersActivityRep${moment().format("YYYY-MM-DD_HH_mm_ss")}.xlsx`;
-          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-          a.click();    
-          a.remove();  //afterwards we remove the element again         
-      });
-  };  
   
   const handleMainMenuSapMeters = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/sapMeters`);
   };
 
+  const handleMainMenuPowerLoads = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/powerLoads`);
+  };
+
+  const handleSignals = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/signals`);
+  };  
+
   const handleMainMenuSoeConsumption = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/soeConsumption`);
   };
   
-  const handleMainMenuAsutpUsersReport = () => {
-    setAnchorE1MainMenu(null);
-    children.props.history.push(`/AsutpUsersReport`);
-  };
   
   // const handleMainNodeStateHistory = () => {
   //   setAnchorE1MainMenu(null);
@@ -225,10 +215,10 @@ const Base = ({ children }) => {
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuDevicesOfflineReport}>Завантажити звіт "Відсутній зв'язок АСУТП"</MenuItem>
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuAsutpUsersReport}>Користувачі АСУТП</MenuItem>
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersReport}>Завантажити звіт "Користувачі АСУТП"</MenuItem>
-                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersActivityReport}>Завантажити звіт "Активність користувачів АСУТП"</MenuItem>
                   <MenuItem disabled={!Auth.canLoadSapMeters()} onClick={handleMainMenuSapMeters}>Лічильники з САП</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()}  onClick={handleMainMenuPowerLoads}>Навантаження</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()}  onClick={handleSignals}>Сигнали</MenuItem>
                   <MenuItem onClick={handleMainMenuSoeConsumption}>Споживання СОЕ</MenuItem>
-
                   {/*
                   <MenuItem onClick={handleMainMenuRoot}>Schema</MenuItem>
                   <MenuItem onClick={handleMainNodeStateHistory}>Node State History</MenuItem>

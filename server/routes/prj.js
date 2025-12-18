@@ -191,6 +191,18 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
     );
   });
 
+  router.get("/getAsutpMainFormParams", (req, res, next) => {
+    request(
+      "http://asutp-smrem:8081/GetAsutpMainFormParams",
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });  
+
 
   router.get("/soeConsumptionHistory", (req, res, next) => {
     request(
@@ -244,6 +256,23 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
       console.error(`Error on getAsutpOfflineDevicesExcelReport from ${req.ip}: ${err}`)
     }).pipe(res);
   });
+
+  router.get("/GetAsutpSignalsExcelReport", (req, res, next) => {
+
+    console.debug(`Begin of GetAsutpSignalsExcelReport from ${req.ip}`)
+
+    request.get(`http://asutp-smrem:8081/GetAsutpSignalsExcelReport?PsGuid=${req.query.PsGuid}&TS=${req.query.TS}&TV=${req.query.TV}&TU=${req.query.TU}&ForScadaSkat=${req.query.ForScadaSkat}&ip=${req.ip}`)
+    .on('response', function(response) {
+
+      console.debug(`End of GetAsutpSignalsExcelReport from ${req.ip}`)
+      //console.log(response.statusCode) // 200
+      //console.log(response.headers['content-type']) // 'image/png'
+      //console.log(response.headers['content-disposition']) // 'image/png'
+    })
+    .on('error', function(err) {
+      console.error(`Error on GetAsutpSignalsExcelReport from ${req.ip}: ${err}`)
+    }).pipe(res);
+  });
   
   router.get("/getAsutpUsersExcelReport", (req, res, next) => {
     request.get(`http://asutp-smrem:8081/GetAsutpUsersExcelReport`)
@@ -255,19 +284,8 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
     .on('error', function(err) {
       console.error(err)
     }).pipe(res);
-  });
+  });  
 
-  router.get("/getAsutpUsersActivityExcelReport", (req, res, next) => {
-    request.get(`http://asutp-smrem:8081/GetAsutpUsersActivityExcelReport`)
-    .on('response', function(response) {
-      //console.log(response.statusCode) // 200
-      //console.log(response.headers['content-type']) // 'image/png'
-      //console.log(response.headers['content-disposition']) // 'image/png'
-    })
-    .on('error', function(err) {
-      console.error(err)
-    }).pipe(res);
-  });
 
   router.get("/getAirAlarmsModel", (req, res, next) => {
     const regions = MyAirAlarms.GetRegions();

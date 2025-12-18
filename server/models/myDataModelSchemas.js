@@ -1746,6 +1746,8 @@ function makeSchemaNamesForEachParam(cb) {
     return cb();
   }
 
+  // console.log("makeSchemaNamesForEachParam");
+
   const locParams = myDataModelNodes.GetAllParamsAsArray();
   const locPSSchemas = Array.from(nodeSchemas.values());
 
@@ -1761,8 +1763,15 @@ function makeSchemaNamesForEachParam(cb) {
       }
     }
     param.setSchemaNames(locPSSchemaNames);
-  }
 
+    if (param.name == "SumyRegionServer_SumyoblenergoSupply")
+    {
+      if (param.schemaNames.indexOf(ASUTP_MAIN_SCHEMA_NAME) < 0) {
+        param.schemaNames.push(ASUTP_MAIN_SCHEMA_NAME);
+      }  
+    }
+  }
+  
   const communicationParams = locParams.filter(
     (param) =>
       param.name.endsWith("_IsOnline") ||
@@ -1809,12 +1818,15 @@ const GetAvailableSchemas = (userName) => {
   return result;
 };
 
-const ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME =
-  "schema_of_ASUTP_COMMUNICATION_MODEL";
+const ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME =  "schema_of_ASUTP_COMMUNICATION_MODEL";
+const ASUTP_MAIN_SCHEMA_NAME = "schema_of_ASUTP_MAIN_SCHEMA";
+
 
 const GetSchemaParamNamesAsArray = (schemaName) => {
   if (schemaName == ASUTP_COMMUNICATION_MODEL_SCHEMA_NAME) {
     return myDataModelNodes.GetCommunacationParamNames();
+  }else if (schemaName == ASUTP_MAIN_SCHEMA_NAME) {
+    return myDataModelNodes.GetAsutpMainFormParamNames();
   } else if (nodeSchemas.has(schemaName)) {
     const locSchema = nodeSchemas.get(schemaName);
     if (locSchema) {

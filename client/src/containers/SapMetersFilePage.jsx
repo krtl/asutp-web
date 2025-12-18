@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import MySapMetersFileForm from "../components/MySapMetersFileForm";
 import MyFetchClient from "./MyFetchClient";
 import { MakeUid } from "../modules/MyFuncs";
-// import moment from "moment";
-import { formatDateTime } from "../modules/formatDateTime";
 
-const MATCHING_VALUES_LIMIT = 10000;
 
 export default class SapMetersFilePage extends React.Component {
   constructor(props) {
@@ -15,7 +12,8 @@ export default class SapMetersFilePage extends React.Component {
     this.state = {
       cmdUid: "",
       fetchRequests: [],
-      lastFileName: [],
+      lastFileName: "",
+      uploadResult: "",
     };
 
     this.reloadLastFileName = this.reloadLastFileName.bind(this);
@@ -36,6 +34,7 @@ export default class SapMetersFilePage extends React.Component {
         fetchCallback: (value) => {
           this.setState({
             lastFileName: value,
+            uploadResult: "",
           });
         },
       },
@@ -52,10 +51,14 @@ export default class SapMetersFilePage extends React.Component {
       {
         fetchUrl: "/api/uploadSapMetersFile",
         fetchMethod: "file",
-        fetchData: file,
-        fetchCallback: () => {
-          // this.setState({
-          // });
+        fetchObject: file,
+        fetchCallback: (value) => {
+          this.setState({
+            uploadResult: value,
+          });
+          if (value === "File successfully uploaded!") {
+            this.reloadLastFileName();
+          }
         }
       }
     ];
@@ -71,6 +74,7 @@ export default class SapMetersFilePage extends React.Component {
       <div>
         <MySapMetersFileForm
           lastFileName={this.state.lastFileName}
+          uploadResult={this.state.uploadResult}
           onReloadLastFileName={this.reloadLastFileName}
           onUploadSapMetersFile={this.uploadSapMetersFile}
         />

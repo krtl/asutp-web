@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const AuthUser = require("mongoose").model("AuthUser");
 const config = require("../../config");
+const MyServerStatus = require("../serviceServer/serverStatus");
+
 
 const debugUserActivity = true;
 /**
@@ -41,6 +43,7 @@ module.exports = (req, res, next) => {
           remotehost = req.headers["x-forwarded-for"].split(",")[0];
         }        
         console.debug(`[updateActivity] ${remotehost} "${userId}" detected as "${user.name}"`);
+        MyServerStatus.addIpUserCorrespondense(remotehost, user.name);
       }
 
       // inc activity

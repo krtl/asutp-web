@@ -6,6 +6,8 @@ import Base from "./components/Base.jsx";
 import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import SoeConsumptionHistoryPage from "./containers/SoeConsumptionHistoryPage.jsx";
+import PowerLoadsHistoryPage from "./containers/PowerLoadsHistoryPage.jsx";
+import SignalsPage from "./containers/SignalsPage.jsx";
 import SapMetersFilePage from "./containers/SapMetersFilePage.jsx";
 import AsutpUsersReportPage from "./containers/AsutpUsersReportPage.jsx";
 import PSSchemePage from "./containers/MyPSSchemePage.jsx";
@@ -19,6 +21,7 @@ import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";
 import Auth from "./modules/Auth";
+import Snowfall from 'react-snowfall'
 
 function AddExtraProps(Component, extraProps) {
   return <Component.type {...Component.props} {...extraProps} />;
@@ -30,7 +33,7 @@ function PrivateRoute({ children, ...rest }) {
       {...rest}
       render={({ location, ...routeProps }) =>
         Auth.isUserAuthenticated() ? (
-          Auth.canSeeReports() ? (
+          (Auth.canSeeReports() || Auth.canLoadSapMeters()) ? (
             <Base>{AddExtraProps(children, routeProps)}</Base>
           ) : (
             ((location.pathname === "/") || (location.pathname === "/airAlarm") || (location.pathname === "/soeConsumption"))? (
@@ -59,15 +62,27 @@ function PrivateRoute({ children, ...rest }) {
 
 export default function App() {
   return (
+        <div>
+      <div>
+    <Snowfall />
+  </div>
     <div>
       <Switch>
-        <PrivateRoute path="/paramHistory/:paramName">
+        <PrivateRoute path="/paramHistory/:ParamName">
           <ParamHistoryPage />
         </PrivateRoute>
         
         <PrivateRoute path="/soeConsumption">
           <SoeConsumptionHistoryPage />
         </PrivateRoute>
+
+        <PrivateRoute path="/powerLoads">
+          <PowerLoadsHistoryPage />
+        </PrivateRoute>  
+
+        <PrivateRoute path="/signals">
+          <SignalsPage />
+        </PrivateRoute>                
         
         <PrivateRoute path="/sapMeters">
           <SapMetersFilePage />
@@ -113,6 +128,7 @@ export default function App() {
           <MainPage />
         </PrivateRoute>
       </Switch>
+    </div>
     </div>
   );
 }

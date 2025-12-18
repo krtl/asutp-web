@@ -85,6 +85,21 @@ router.get("/params", (req, res, next) => {
   );
 });
 
+
+router.get("/GetAsutpResForPowerConsumption", (req, res, next) => {
+  request(
+    'http://asutp-smrem:8081/GetAsutpResForPowerConsumption',
+    { json: true },
+    (err, resp, body) => {
+      if (err) return next(err);
+      res.status(200).json(body);
+      return 0;
+    }
+  );
+});
+
+
+
 router.get("/paramValues", (req, res, next) => {
   const paramName = req.query.paramName;
 
@@ -557,20 +572,17 @@ router.post("/customSchemaDeleteNode", (req, res, next) => {
 });
 
 router.get("/getCollisions", (req, res, next) => {
-  // currently callback from backgroundworker is not implemented, so to receive actual collisions you need to tap several time
-
-  const err = commandsServer.GetCollisions();
-  if (err) {
-    logger.info(`[GetCollisions] Failed: ${err.message}`);
-    // next(err);
-    res.status(500).json({
-      message: err.message,
-    });
-  } else {
-    res.status(200).json(MyServerStatus.getCollisions());
-    return 0;
-  }
+  request(
+    'http://asutp-smrem:8081/GetRecalculationCollisions',
+    { json: true },
+    (err, resp, body) => {
+      if (err) return next(err);
+      res.status(200).json(body);
+      return 0;
+    }
+  );
 });
+
 
 router.get("/getBlockedParams", (req, res, next) => {
   DbBlockedParams.find({})
@@ -870,7 +882,7 @@ router.get("/getUserActions", (req, res, next) => {
 
 router.use(fileUpload({
   // Configure file uploads with maximum file size 10MB
- limits: { fileSize: 100 * 1024 * 1024 },
+ limits: { fileSize: 500 * 1024 * 1024 },
 
   // Temporarily store uploaded files to disk, rather than buffering in memory
   useTempFiles : true,
@@ -879,15 +891,27 @@ router.use(fileUpload({
 
 router.post("/uploadSapMetersFile", async function(req, res, next) {
 
+  console.log("uploadSapMetersFile");
+  // for(let locname in req)
+  // {
+  //   console.log(`${locname}`);
+  // }
+
 // Was a file submitted?
 if (!req.files || !req.files.file) {
-  return res.status(422).send('No files were uploaded');
+  console.log("No files were uploaded");
+  return res.status(422).send("No files were uploaded");
 }
 
 const uploadedFile = req.files.file;
+const comment = req.body.comment;
+
+// const uploadedFile = req.file;
 
 // Print information about the file to the console
 console.log(`File Name: ${uploadedFile.name}`);
+console.log(`Comment: ${comment}`);
+
 console.log(`File Size: ${uploadedFile.size}`);
 console.log(`File MD5 Hash: ${uploadedFile.md5}`);
 console.log(`File Mime Type: ${uploadedFile.mimetype}`);
@@ -897,32 +921,42 @@ console.log(`File Mime Type: ${uploadedFile.mimetype}`);
 try {
   // Attach the uploaded file to a FormData instance
   var form = new FormData();
-  form.append('file', fs.createReadStream(uploadedFile.tempFilePath), uploadedFile.name);
+  form.append('file', fs.createReadStream(uploadedFile.tempFilePath), '1.xlsx');
+  form.append('comment', comment);  
+
+  console.log("file appended to formData");
+  //  form.append('user-comment', req.files.use); 
+
 
   const headers = {
     'X-API-Key': '<YOUR API KEY HERE>',
     'Accept': '*/*'
   };
 
-  // Send the file to the Verisys Antivirus API
-  const response = await fetch('http://asutp-smrem:8081/UploadSapMetersFile', {
+  // Send the file
+    const response = await fetch('http://asutp-smrem:8081/UploadSapMetersFile', {
+    // const response = await fetch('http://localhost:8081/UploadSapMetersFile', {
     method: "POST",
     body: form,
     headers: headers
   });
 
+  console.log("request sent");
+
   // Did we get a response from the API?
   if (response.ok) {
-    const result = await response.json();
+    // const result = await response.json();
+    const result = await response.text();
 
     // Did the file contain a virus/malware?
-    if (result.status === '') {
-      return res.send('Uploaded file is clean!');
+    if (result === "Ok") {
+      return res.send(JSON.stringify('File successfully uploaded!'));
     } else {
-      return res.status(500).send(`Uploaded file contained malware: <b>${result.signals[0]}</b>`);
+      // return res.status(500).send(`Failed to upload file! Error: <b>${result}</b>`);
+      return res.send(JSON.stringify(`Failed to upload file! Error: ${result}`));
     }
   } else {
-    throw new Error('Unable to scan file: ' + response.statusText);
+    throw new Error('Unable to upload file: ' + response.statusText);
   }
 } catch (error) {
   // Forward the error to the Express error handler
@@ -932,5 +966,77 @@ try {
   fs.rm(uploadedFile.tempFilePath, () => {});
 }
 });
+
+router.post("/uploadSignalsFile", async function(req, res, next) {
+
+  console.log("uploadSignalsFile");
+  // for(let locname in req)
+  // {
+  //   console.log(`${locname}`);
+  // }
+
+// Was a file submitted?
+if (!req.files || !req.files.file) {
+  console.log("No files were uploaded");
+  return res.status(422).send("No files were uploaded");
+}
+
+const uploadedFile = req.files.file;
+const comment = req.body.comment;
+
+// const uploadedFile = req.file;
+
+// Print information about the file to the console
+console.log(`File Name: ${uploadedFile.name}`);
+console.log(`Comment: ${comment}`);
+
+console.log(`File Size: ${uploadedFile.size}`);
+console.log(`File MD5 Hash: ${uploadedFile.md5}`);
+console.log(`File Mime Type: ${uploadedFile.mimetype}`);
+
+// Scan the file for malware using the Verisys Antivirus API - the same concepts can be
+// used to work with the uploaded file in different ways
+try {
+  // Attach the uploaded file to a FormData instance
+  var form = new FormData();
+  form.append('file', fs.createReadStream(uploadedFile.tempFilePath), '1.xlsx');
+  form.append('comment', comment);  
+
+  console.log("file appended to formData");
+  //  form.append('user-comment', req.files.use); 
+
+
+  const headers = {
+    'X-API-Key': '<YOUR API KEY HERE>',
+    'Accept': '*/*'
+  };
+
+  // Send the file
+    const response = await fetch('http://asutp-smrem:8081/UploadSignalsFile', {
+    // const response = await fetch('http://localhost:8081/UploadSapMetersFile', {
+    method: "POST",
+    body: form,
+    headers: headers
+  });
+
+  console.log("request sent");
+
+  // Did we get a response from the API?
+  if (response.ok) {
+    // const result = await response.json();
+    const result = await response.text();
+    return res.send(JSON.stringify(result));
+  } else {
+    throw new Error('Unable to upload file: ' + response.statusText);
+  }
+} catch (error) {
+  // Forward the error to the Express error handler
+  return next(error);
+} finally {
+  // Remove the uploaded temp file
+  fs.rm(uploadedFile.tempFilePath, () => {});
+}
+});
+
 
 module.exports = router;
