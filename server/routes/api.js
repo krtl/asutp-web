@@ -903,6 +903,8 @@ router.post("/uploadSapMetersFile", async function(req, res, next) {
 if (!req.files || !req.files.file) {
   console.log("No files were uploaded");
   return res.status(422).send("No files were uploaded");
+  console.log("No files were uploaded");
+  return res.status(422).send("No files were uploaded");
 }
 
 const uploadedFile = req.files.file;

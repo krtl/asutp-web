@@ -8,6 +8,8 @@ import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import SoeConsumptionHistoryPage from "./containers/SoeConsumptionHistoryPage.jsx";
 import PowerLoadsHistoryPage from "./containers/PowerLoadsHistoryPage.jsx";
 import SignalsPage from "./containers/SignalsPage.jsx";
+import PowerLoadsHistoryPage from "./containers/PowerLoadsHistoryPage.jsx";
+import SignalsPage from "./containers/SignalsPage.jsx";
 import SapMetersFilePage from "./containers/SapMetersFilePage.jsx";
 import AsutpUsersReportPage from "./containers/AsutpUsersReportPage.jsx";
 import SystemServicePage from "./containers/SystemServicePage.jsx";
@@ -65,7 +67,7 @@ export default function App() {
   </div>
     <div>
       <Switch>
-        <PrivateRoute path="/paramHistory/:paramName">
+        <PrivateRoute path="/paramHistory/:ParamName">
           <ParamHistoryPage />
         </PrivateRoute>
         

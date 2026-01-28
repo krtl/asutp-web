@@ -215,6 +215,18 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
     );
   });  
 
+  router.get("/getAsutpMainFormParams", (req, res, next) => {
+    request(
+      "http://asutp-smrem:8081/GetAsutpMainFormParams",
+      { json: true },
+      (err, resp, body) => {
+        if (err) return next(err);
+        res.status(200).json(body);
+        return 0;
+      }
+    );
+  });  
+
 
   router.get("/soeConsumptionHistory", (req, res, next) => {
     request(
@@ -275,6 +287,8 @@ router.get("/getRegionsNodesForSchemaEdit", (req, res) => {
 
     request.get(`http://${config.recalculationServerHost}:8081/GetAsutpSignalsExcelReport?PsGuid=${req.query.PsGuid}&TS=${req.query.TS}&TV=${req.query.TV}&TU=${req.query.TU}&ForScadaSkat=${req.query.ForScadaSkat}&ip=${req.ip}`)
     .on('response', function(response) {
+
+      console.debug(`End of GetAsutpSignalsExcelReport from ${req.ip}`)
 
       console.debug(`End of GetAsutpSignalsExcelReport from ${req.ip}`)
       //console.log(response.statusCode) // 200
