@@ -54,6 +54,7 @@ export default function PowerLoadsHistoryForm(props) {
 
   useEffect(() => {
        props.onReloadReses();
+// eslint-disable-next-line       
   }, []);
   
   const handleTabChange = (event, newValue) => {

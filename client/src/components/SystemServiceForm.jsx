@@ -16,6 +16,7 @@ export default function SystemServiceForm(props) {
 
 useEffect(() => {
        props.onReloadCollisions();
+       // eslint-disable-next-line
   }, []);
 
 

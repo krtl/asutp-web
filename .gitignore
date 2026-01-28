@@ -19,3 +19,5 @@ logs/exceptions.log
 
 server/sslcert/server.crt
 server/sslcert/server.key
+
+package-lock.json

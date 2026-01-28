@@ -42,7 +42,7 @@ export default function MyServerStatusContainer(props) {
             // componentWillUnmount
             MyStompClient.unsubscribeFromServerStatus();
           };
-
+// eslint-disable-next-line
     }, []);
 
 

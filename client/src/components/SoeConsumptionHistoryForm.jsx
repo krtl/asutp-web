@@ -48,6 +48,7 @@ export default function SoeConsumptionHistoryForm(props) {
   
   useEffect(() => {
        props.onReloadParamValues(fromDt, toDt);
+// eslint-disable-next-line       
   }, []);
 
   const handleTabChange = (event, newValue) => {
