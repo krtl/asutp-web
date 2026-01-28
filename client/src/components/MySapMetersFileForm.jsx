@@ -14,6 +14,7 @@ export default class MySapMetersFileForm extends React.Component {
 
 
     this.state = {
+      fileNameToUpload: "",
     };
 
     //this.handleFromDateTimeChange = this.handleReloadLastFileNameClick.bind(this);
@@ -39,7 +40,6 @@ export default class MySapMetersFileForm extends React.Component {
 
     const input = document.getElementById('fileinput');
 
-    if (input.files.length > 0) {
     if (input.files.length > 0) {
     this.props.onUploadSapMetersFile(input.files[0])
     }
