@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Auth from "../modules/Auth";
-import { fetchingBegin, fetchingEnd } from "../reducers/actions";
+import { fetchingBegin, fetchingEnd } from "../reducers/mainStatusSlice";
 
 let myHeaders = null; // this is temporary
 let myGetInit = null; // this is temporary
@@ -46,11 +46,29 @@ class MyFetchClient extends React.Component {
   doUploadFile(request) {
     this.props.onLoadingStart();
 
-    fetch(new Request(request.fetchUrl, myPostInit), {
-      body: request.fetchData
+    const formData = new FormData();
+      // formData.append('file', request.fetchObject);
+      formData.append('file', request.fetchObject, '1.xlsx');
+      formData.append('comment', request.fetchObject.name);
+
+
+    const locHeaders = new Headers({
+      //  "Content-Length": content.length.toString(),
+      //  'Content-type': 'application/x-www-form-urlencoded',
+      // "Content-type": "multipart/form-data",
+      Authorization: `bearer ${Auth.getToken()}`
+    });
+    const locPostInit = {
+      method: "POST",
+      headers: locHeaders,
+      // signal: this.state.controller.signal
+    };    
+    fetch(new Request(request.fetchUrl, locPostInit), {
+      body: formData
+      // body: request.fetchObject
     })
-      .then(this.checkStatus)
-      .then(this.parseJSON)
+    .then(this.checkStatus)
+    .then(this.parseJSON)
       .then(request.fetchCallback)
       .catch(this.setError);
   }
@@ -146,6 +164,7 @@ MyFetchClient.propTypes = {
       fetchUrl: PropTypes.string,
       fetchMethod: PropTypes.string,
       fetchData: PropTypes.string,
+      fetchObject: PropTypes.object,
       fetchCallback: PropTypes.func
     })
   ).isRequired,

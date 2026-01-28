@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Container from "@material-ui/core/Container";
+import Container from "@mui/material/Container";
 import AsutpCommunicationModelTreeView from "./AsutpCommunicationModelTreeView";
 
 export default class AsutpCommunicationModelForm extends React.Component {

@@ -51,8 +51,13 @@ function removeDataForList(callback) {
   );
 }
 
-function removeDataFor(element, callback) {
-  element.deleteMany({}, err => {
-    callback(err);
-  });
+async function removeDataFor(element, callback) {
+  try
+  {
+      await element.deleteMany({})
+      callback();
+  }catch(err){
+      console.log(err);
+      callback(err);
+  }
 }

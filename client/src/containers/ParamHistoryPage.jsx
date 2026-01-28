@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import MyParamHistoryForm from "../components/MyParamHistoryForm";
+import ParamHistoryForm from "../components/ParamHistoryForm";
 import MyFetchClient from "./MyFetchClient";
 import { MakeUid } from "../modules/MyFuncs";
 // import moment from "moment";
@@ -65,7 +65,7 @@ export default class ParamHistoryPage extends React.Component {
   render() {
     return (
       <div>
-        <MyParamHistoryForm
+        <ParamHistoryForm
           paramName={this.state.paramName}
           paramValues={this.state.paramValues}
           onReloadParamValues={this.reloadParamValues}

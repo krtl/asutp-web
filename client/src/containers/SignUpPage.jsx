@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import SignUpForm from "../components/SignUpForm";
 
 class SignUpPage extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor() {
+    super();
 
     this.state = {
       errors: {},
@@ -16,12 +16,12 @@ class SignUpPage extends React.Component {
     };
 
     this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
+    this.changeUser = this.changeForm.bind(this);
   }
 
   processForm(event) {
     // prevent default action. in this case, action is the form submission event
-    event.preventDefault();
+    // event.preventDefault();
 
     // create a string for an HTTP body message
     const name = encodeURIComponent(this.state.user.name);
@@ -50,9 +50,16 @@ class SignUpPage extends React.Component {
         this.props.history.push("/login");
       } else {
         // failure
+        let errors = {};
 
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        if (xhr.response === null) {
+          errors ={
+            summary: `${xhr.status}  ${xhr.statusText}`
+          };
+        } else {
+           errors = xhr.response.errors ? xhr.response.errors : {};
+           errors.summary = xhr.response.message;
+        }
 
         this.setState({
           errors
@@ -62,7 +69,7 @@ class SignUpPage extends React.Component {
     xhr.send(formData);
   }
 
-  changeUser(event) {
+  changeForm(event) {
     const field = event.target.name;
     const user = this.state.user;
     user[field] = event.target.value;
@@ -76,7 +83,7 @@ class SignUpPage extends React.Component {
     return (
       <SignUpForm
         onSubmit={this.processForm}
-        onChange={this.changeUser}
+        onChange={this.changeForm}
         errors={this.state.errors}
         user={this.state.user}
       />

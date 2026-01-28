@@ -11,10 +11,10 @@ if (process.env.RECALCULATION) {
 
 module.exports.connect = (uri, useDataModel, callback) => {
   // mongoose.connect(uri);
-  mongoose.set("useNewUrlParser", true);
-  mongoose.set("useFindAndModify", false);
-  mongoose.set("useCreateIndex", true);
-  mongoose.set("useUnifiedTopology", true);
+  // mongoose.set("useNewUrlParser", true);
+  // mongoose.set("useFindAndModify", false);
+  // mongoose.set("useCreateIndex", true);
+  // mongoose.set("useUnifiedTopology", true);
 
   mongoose.connect(uri, {
     // useMongoClient: true,

@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  KeyboardDateTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-// import TablePagination from '@material-ui/core/TablePagination';
+  DatePicker,
+  LocalizationProvider,
+} from "@mui/lab";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+// import TablePagination from '@mui/material/TablePagination';
 
 import Moment from "react-moment";
 import DateFnsUtils from "@date-io/date-fns";
@@ -88,8 +88,8 @@ export default class UserActionsForm extends React.Component {
                 />
               </Grid>
               <Grid item>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDateTimePicker
+                <LocalizationProvider utils={DateFnsUtils}>
+                  <DatePicker
                     // variant="inline"
                     label="From:"
                     ampm={false}
@@ -99,11 +99,11 @@ export default class UserActionsForm extends React.Component {
                     format="yyyy/MM/dd HH:mm:ss"
                     showTodayButton
                   />
-                </MuiPickersUtilsProvider>
+                </LocalizationProvider>
               </Grid>
               <Grid item>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <KeyboardDateTimePicker
+                <LocalizationProvider utils={DateFnsUtils}>
+                  <DatePicker
                     // variant="inline"
                     label="To:"
                     ampm={false}
@@ -113,7 +113,7 @@ export default class UserActionsForm extends React.Component {
                     format="yyyy/MM/dd HH:mm:ss"
                     showTodayButton
                   />
-                </MuiPickersUtilsProvider>
+                </LocalizationProvider>
               </Grid>
               <Grid item>
                 <Button

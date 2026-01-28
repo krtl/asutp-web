@@ -1,13 +1,16 @@
 import React from "react";
 import Auth from "../../modules/Auth";
-// import "./MyServerStatus.css";
 
-const MyServerStatus = ({ socketStatus, serverStatus, onClick }) => {
-  const handleOnClick = option => () => onClick(option);
+
+const MyServerStatus = ({ serverStatus, onClick }) => {
+  const handleOnClick = option => () => {
+    if(onClick){
+      onClick(option);
+    }
+  }
 
   let items = [];
 
-  items.push(`socket: ${socketStatus}`);
   for (const prop in serverStatus) {
     if (prop === "clients")
     {
@@ -35,8 +38,7 @@ const MyServerStatus = ({ socketStatus, serverStatus, onClick }) => {
             ))}
           </select>
         ) : (
-            <div className="column">
-            {`socket: ${socketStatus}`}
+            <div>
           </div>  
         )}
 

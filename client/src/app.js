@@ -6,21 +6,21 @@ import Base from "./components/Base.jsx";
 import MainPage from "./containers/MainPage.jsx";
 import ParamHistoryPage from "./containers/ParamHistoryPage.jsx";
 import SoeConsumptionHistoryPage from "./containers/SoeConsumptionHistoryPage.jsx";
+import PowerLoadsHistoryPage from "./containers/PowerLoadsHistoryPage.jsx";
+import SignalsPage from "./containers/SignalsPage.jsx";
 import SapMetersFilePage from "./containers/SapMetersFilePage.jsx";
 import AsutpUsersReportPage from "./containers/AsutpUsersReportPage.jsx";
-import PSSchemePage from "./containers/MyPSSchemePage.jsx";
-import PSAsutpLinkagePage from "./containers/MyPSAsutpLinkagePage.jsx";
-import NodeStateHistoryPage from "./containers/MyNodeStateHistoryPage.jsx";
 import SystemServicePage from "./containers/SystemServicePage.jsx";
 import AsutpCommunicationModelPage from "./containers/AsutpCommunicationModelPage.jsx";
 import AirAlarmPage from "./containers/AirAlarmPage.jsx";
-import UserActionsPage from "./containers/UserActionsPage.jsx";
 import LoginPage from "./containers/LoginPage.jsx";
 import SignUpPage from "./containers/SignUpPage.jsx";
 import LogoutPage from "./containers/LogoutPage.jsx";
 import Auth from "./modules/Auth";
+import Snowfall from 'react-snowfall'
 
 function AddExtraProps(Component, extraProps) {
+  // eslint-disable-next-line
   return <Component.type {...Component.props} {...extraProps} />;
 }
 
@@ -30,7 +30,7 @@ function PrivateRoute({ children, ...rest }) {
       {...rest}
       render={({ location, ...routeProps }) =>
         Auth.isUserAuthenticated() ? (
-          Auth.canSeeReports() ? (
+          (Auth.canSeeReports() || Auth.canLoadSapMeters()) ? (
             <Base>{AddExtraProps(children, routeProps)}</Base>
           ) : (
             ((location.pathname === "/") || (location.pathname === "/airAlarm") || (location.pathname === "/soeConsumption"))? (
@@ -60,6 +60,10 @@ function PrivateRoute({ children, ...rest }) {
 export default function App() {
   return (
     <div>
+      <div>
+    <Snowfall />
+  </div>
+    <div>
       <Switch>
         <PrivateRoute path="/paramHistory/:paramName">
           <ParamHistoryPage />
@@ -68,6 +72,14 @@ export default function App() {
         <PrivateRoute path="/soeConsumption">
           <SoeConsumptionHistoryPage />
         </PrivateRoute>
+
+        <PrivateRoute path="/powerLoads">
+          <PowerLoadsHistoryPage />
+        </PrivateRoute>  
+
+        <PrivateRoute path="/signals">
+          <SignalsPage />
+        </PrivateRoute>                
         
         <PrivateRoute path="/sapMeters">
           <SapMetersFilePage />
@@ -76,18 +88,6 @@ export default function App() {
         <PrivateRoute path="/AsutpUsersReport">
           <AsutpUsersReportPage />
         </PrivateRoute>        
-
-        <PrivateRoute path="/psScheme/:psName">
-          <PSSchemePage />
-        </PrivateRoute>
-
-        <PrivateRoute path="/psAsutpLinkage/:psName">
-          <PSAsutpLinkagePage />
-        </PrivateRoute>
-
-        <PrivateRoute path="/nodeStateHistory/:nodeName">
-          <NodeStateHistoryPage />
-        </PrivateRoute>
 
         <PrivateRoute path="/systemService">
           <SystemServicePage />
@@ -101,10 +101,6 @@ export default function App() {
           <AirAlarmPage />
         </PrivateRoute>
 
-        <PrivateRoute path="/userActions">
-          <UserActionsPage />
-        </PrivateRoute>
-
         <Route path="/login" render={(props) => <LoginPage {...props} />} />
         <Route path="/signup" render={(props) => <SignUpPage {...props} />} />
         <Route path="/logout" render={(props) => <LogoutPage {...props} />} />
@@ -114,5 +110,6 @@ export default function App() {
         </PrivateRoute>
       </Switch>
     </div>
+      </div>
   );
 }

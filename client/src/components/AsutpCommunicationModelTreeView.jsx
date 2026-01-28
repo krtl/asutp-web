@@ -1,135 +1,157 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
-import Typography from "@material-ui/core/Typography";
-import LinkIcon from "@material-ui/icons/Link";
-import LinkOffIcon from "@material-ui/icons/LinkOff";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import IconButton from "@material-ui/core/IconButton";
+import * as React from 'react';
+// import React from "react";
+// import PropTypes from "prop-types";
 
-const useTreeItemStyles = makeStyles((theme) => ({
-  root: {
-    "&:hover": {
-      backgroundColor: "transparent",
-      // Reset on touch devices, it doesn't add specificity
-      "@media (hover: none)": {
-        backgroundColor: "transparent",
-      },
-    },
-  },
+import LinkIcon from "@mui/icons-material/Link";
+import LinkOffIcon from "@mui/icons-material/LinkOff";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import IconButton from "@mui/material/IconButton";
+import Box from '@mui/material/Box';
 
-  content: {
-    color: theme.palette.text.secondary,
-    borderTopRightRadius: theme.spacing(2),
-    borderBottomRightRadius: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    fontWeight: theme.typography.fontWeightMedium,
-    "$expanded > &": {
-      fontWeight: theme.typography.fontWeightRegular,
-    },
+import "./AsutpCommunicationModelTreeView.css";
+
+import Typography from '@mui/material/Typography';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { useSimpleTreeViewApiRef } from '@mui/x-tree-view/hooks';
+import { styled } from '@mui/material/styles';
+import {
+  TreeItemContent,
+  TreeItemIconContainer,
+  TreeItemRoot,
+  TreeItemGroupTransition,
+} from '@mui/x-tree-view/TreeItem';
+import { useTreeItem } from '@mui/x-tree-view/useTreeItem';
+import { TreeItemProvider } from '@mui/x-tree-view/TreeItemProvider';
+import { TreeItemIcon } from '@mui/x-tree-view/TreeItemIcon';
+
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+
+const CustomTreeItemRoot = styled(TreeItemRoot)(({ theme, ownerState }) => ({
+  '--tree-view-color': ownerState.color,
+  '--tree-view-bg-color': ownerState.bgColor,
+  color: (theme.vars || theme).palette.text.secondary,
+  ...theme.applyStyles('dark', {
+    '--tree-view-color': ownerState.colorForDarkMode,
+    '--tree-view-bg-color': ownerState.bgColorForDarkMode,
+  }),
+}));
+
+const CustomTreeItemContent = styled(TreeItemContent)(({ theme }) => ({
+  marginBottom: theme.spacing(0.1),
+  color: (theme.vars || theme).palette.text.secondary,
+  borderRadius: theme.spacing(2),
+  paddingTop: 0,
+  paddingBottom: 0,
+  paddingRight: theme.spacing(1),
+  paddingLeft: `calc(${theme.spacing(1)} + var(--TreeView-itemChildrenIndentation) * var(--TreeView-itemDepth))`,
+  fontWeight: theme.typography.fontWeightMedium,
+  '&[data-expanded]': {
+    fontWeight: theme.typography.fontWeightRegular,
   },
-  group: {
-    marginLeft: 0,
-    "& $content": {
-      paddingLeft: theme.spacing(2),
-    },
+  '&:hover': {
+    backgroundColor: (theme.vars || theme).palette.action.hover,
   },
-  expanded: {},
-  selected: {},
-  label: {
-    fontWeight: "inherit",
-    color: "inherit",
-  },
-  labelRoot: {
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0.5, 0),
-  },
-  labelIcon: {
-    marginRight: theme.spacing(1),
-  },
-  labelText: {
-    fontWeight: "inherit",
-    flexGrow: 1,
-  },
-  buttonHistiry: {
-    marginRight: theme.spacing(2),
+  '&[data-focused], &[data-selected], &[data-selected][data-focused]': {
+    backgroundColor: `var(--tree-view-bg-color, ${(theme.vars || theme).palette.action.selected})`,
+    color: 'var(--tree-view-color)',
   },
 }));
 
-function StyledTreeItem(props) {
-  const classes = useTreeItemStyles();
+const CustomTreeItemIconContainer = styled(TreeItemIconContainer)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+}));
+
+const CustomTreeItem = React.forwardRef(function CustomTreeItem(props, ref) {
   const {
+    id,
+    itemId,
     labelText,
+    disabled,
+    children,
+    bgColor,
+    color,
     labelIcon: LabelIcon,
     labelInfo,
     historyHref,
-    color,
-    bgColor,
+    colorForDarkMode,
+    bgColorForDarkMode,
     ...other
   } = props;
 
+  const {
+    getContextProviderProps,
+    getRootProps,
+    getContentProps,
+    getIconContainerProps,
+    getLabelProps,
+    getGroupTransitionProps,
+    status,
+  } = useTreeItem({ id, itemId, children, labelText, disabled, rootRef: ref });
+
+  const treeItemRootOwnerState = {
+    color,
+    bgColor,
+    colorForDarkMode,
+    bgColorForDarkMode,
+  };
+
   return (
-    <TreeItem
-      label={
-        <div className={classes.labelRoot}>
-          <LabelIcon color="inherit" className={classes.labelIcon} />
-          <Typography variant="body2" className={classes.labelText}>
-            {labelText}
-          </Typography>
-          <Typography variant="caption" color="inherit">
-            {labelInfo}
-          </Typography>
-          {historyHref && (
+    <TreeItemProvider {...getContextProviderProps()}>
+      <CustomTreeItemRoot
+        {...getRootProps(other)}
+        ownerState={treeItemRootOwnerState}
+      >
+        <CustomTreeItemContent {...getContentProps()}>
+          <CustomTreeItemIconContainer {...getIconContainerProps()}>
+            <TreeItemIcon status={status} />
+          </CustomTreeItemIconContainer>
+          <Box
+            sx={{
+              display: 'flex',
+              flexGrow: 1,
+              alignItems: 'center',
+              p: 0.5,
+              pr: 0,
+            }}
+          >
+            <Box component={LabelIcon} color="inherit" sx={{ mr: 1 }} />
+            <Typography variant="caption" color="inherit">
+              {labelText}
+            </Typography>            
+            <Typography
+              {...getLabelProps({
+                variant: 'body2',
+                sx: { display: 'flex', fontWeight: 'inherit', flexGrow: 1 },
+              })}
+            />
+            <Typography variant="caption" color="inherit">
+              {labelInfo}
+            </Typography>
+            {historyHref && (
             <IconButton
-              aria-label="delete"
-              className={classes.buttonHistiry}
+              // aria-label="delete"
+              // className={classes.buttonHistiry}
               size="small"
               href={historyHref}
             >
               <BarChartIcon fontSize="inherit" />
             </IconButton>
           )}
-        </div>
-      }
-      style={{
-        "--tree-view-color": color,
-        "--tree-view-bg-color": bgColor,
-      }}
-      classes={{
-        root: classes.root,
-        content: classes.content,
-        expanded: classes.expanded,
-        selected: classes.selected,
-        group: classes.group,
-        label: classes.label,
-      }}
-      {...other}
-    />
+          </Box>
+        </CustomTreeItemContent>
+        {children && <TreeItemGroupTransition {...getGroupTransitionProps()} />}
+      </CustomTreeItemRoot>
+    </TreeItemProvider>
   );
-}
-
-StyledTreeItem.propTypes = {
-  bgColor: PropTypes.string,
-  color: PropTypes.string,
-  labelIcon: PropTypes.elementType.isRequired,
-  labelInfo: PropTypes.string,
-  labelText: PropTypes.string.isRequired,
-  historyHref: PropTypes.string,
-};
-
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
 });
 
-export default function AsutpCommunicationModelTreeView(props) {
-  const classes = useStyles();
+function EndIcon() {
+  return <div style={{ width: 24 }} />;
+}
+
+ export default function AsutpCommunicationModelTreeView(props) {
+  // const classes = useStyles();
   let locExpanded = [];
   let locSelected = "";
   let treeItems = [];
@@ -148,7 +170,7 @@ export default function AsutpCommunicationModelTreeView(props) {
       for (let k = 0; k < device.CommunicationParams.length; k++) {
         const param = device.CommunicationParams[k];
         if (param.Name === props.lastHistoryParam) {
-          locSelected = device.Name;
+          locSelected = `${res.Name}_${device.Name}`;
           locExpanded.push(res.Name);
         }
 
@@ -172,9 +194,9 @@ export default function AsutpCommunicationModelTreeView(props) {
       }
 
       connectionTreeItems.push(
-        <StyledTreeItem
-          key={device.Name}
-          nodeId={device.Name}
+        <CustomTreeItem
+          key={`${res.Name}_${device.Name}`}
+          itemId={`${res.Name}_${device.Name}`}
           labelText={`${device.Caption} (${device.Name})`}
           labelIcon={icon}
           labelInfo={qualityValue}
@@ -183,7 +205,7 @@ export default function AsutpCommunicationModelTreeView(props) {
           // bgColor="#e6f4ea"
         >
           {paramTreeItems}
-        </StyledTreeItem>
+        </CustomTreeItem>
       );
     }
 
@@ -205,14 +227,14 @@ export default function AsutpCommunicationModelTreeView(props) {
     }
 
     treeItems.push(
-      <StyledTreeItem
+      <CustomTreeItem
         key={res.Name}
-        nodeId={res.Name}
+        itemId={res.Name}
         labelText={`${res.Caption}(${res.Name}) ${res.ConnectionStatus} `}
         labelIcon={resIcon}
       >
         {connectionTreeItems}
-      </StyledTreeItem>
+      </CustomTreeItem>
     );
   }
 
@@ -221,26 +243,53 @@ export default function AsutpCommunicationModelTreeView(props) {
     loading = false;
   }
 
+      const apiRef = useSimpleTreeViewApiRef();
+  // const handleButtonClick = (event: React.SyntheticEvent) => {
+    apiRef.current?.focusItem(null, locSelected);
+  // };
+
   if (loading) {
     return (
-      <Typography variant="h6" className={classes.title}>
+      <Box className='container'
+          sx={{
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center",
+              minHeight:"75vh"
+              }}>     
+      <Typography variant="h6" >
         Loading...
       </Typography>
+    </Box>
     );
   } else {
-    return (
-      <TreeView
-        className={classes.root}
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
-        defaultExpanded={locExpanded}
-        defaultSelected={locSelected}
-        // expanded={true}
-        // onNodeToggle={this.handleChange}
-        defaultEndIcon={<div style={{ width: 24 }} />}
+
+     return (
+      <div>
+       <SimpleTreeView
+        // className={classes.root}
+        // aria-label="customized"
+        // defaultCollapseIcon={<ExpandMoreIcon />}
+        // defaultExpandIcon={<ChevronRightIcon />}
+        // defaultExpanded={locExpanded}
+        // defaultSelected={locSelected}
+        // // expanded={true}
+        // // onNodeToggle={this.handleChange}
+        // defaultEndIcon={<div style={{ width: 24 }} />}
+
+      defaultExpandedItems={locExpanded}
+      defaultSelectedItems={locSelected}
+      slots={{
+        expandIcon: ArrowRightIcon,
+        collapseIcon: ArrowDropDownIcon,
+        endIcon: EndIcon,
+      }}
+      sx={{ flexGrow: 1, maxWidth: 600 }}
+       itemChildrenIndentation={20}
       >
         {treeItems}
-      </TreeView>
-    );
-  }
-}
+      </SimpleTreeView>
+      </div>
+     );
+   }
+ }

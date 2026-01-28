@@ -16,7 +16,7 @@ const myUserAction = {
   SavePSLinkage: "SavePSLinkage"
 };
 
-const LogUserAction = (user, action, params, req, cb) => {
+const LogUserAction = async (user, action, params, req, cb) => {
   let remotehost = "";
 
   if (req.connection.remoteAddress) {
@@ -34,14 +34,16 @@ const LogUserAction = (user, action, params, req, cb) => {
   };
 
   const newUserAction = new DbUserAction(userActionData);
-  newUserAction.save(err => {
-    if (err) {
+  try
+  {
+    await newUserAction.save();
+  } catch (err) {
       logger.warn(`[LogUserAction] Failed: ${err.message}`);
-    }
-    if (cb) {
+      if (cb) {
       return cb(err);
     }
-  });
+  } 
+  
 };
 
 module.exports = myUserAction;

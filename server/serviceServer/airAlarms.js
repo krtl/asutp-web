@@ -101,8 +101,9 @@ const ProcessAirAlerts = (cb) => {
           locActiveAlarms.sort((a,b)=>a-b);
 
           if (JSON.stringify(activeAlarms) !== JSON.stringify(locActiveAlarms)) {
-            
-            console.debug("[AirAlarms] ActiveAirAlarm has changed from " + JSON.stringify(activeAlarms) + " to " + JSON.stringify(locActiveAlarms));
+           
+            const str = "[AirAlarms] ActiveAirAlarm has changed from " + JSON.stringify(activeAlarms) + " to " + JSON.stringify(locActiveAlarms);
+            console.debug(str.substring(0,120)+"...");
             
             activeAlarms = locActiveAlarms;
 

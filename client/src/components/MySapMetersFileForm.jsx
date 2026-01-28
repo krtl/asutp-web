@@ -1,24 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Container from "@material-ui/core/Container";
-import TextField from 'material-ui/TextField';
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import {
-  KeyboardDateTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
-import { Card, CardText } from "material-ui/Card";
-import Typography from "@material-ui/core/Typography";
-
-
-const styles = {
-  textField: {
-    marginLeft: 1,
-    marginRight: 1,
-    width: 200,
-  },
-};
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Stack from '@mui/material/Stack';
 
 
 
@@ -55,7 +40,9 @@ export default class MySapMetersFileForm extends React.Component {
 
     const input = document.getElementById('fileinput');
 
+    if (input.files.length > 0) {
     this.props.onUploadSapMetersFile(input.files[0])
+    }
     
   }
 
@@ -64,8 +51,7 @@ export default class MySapMetersFileForm extends React.Component {
 
     return (
       <Container>
-        <Card className="container">
-          <CardText>
+        <Stack spacing={3} direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
           <Typography variant="h6" component="h6">
             {"Поточний файл саповських лічильників:"}
           </Typography>
@@ -78,10 +64,8 @@ export default class MySapMetersFileForm extends React.Component {
               >
               Оновити
           </Button>            
-          </CardText>
 
-          <CardText>
-          <label for="fileinput">Файл для завантаження: </label>
+          <label htmlFor="fileinput">Файл для завантаження: </label>
           <input type="file" id="fileinput" name="fileinput" accept=".xlsx" style={{ width: 300 }} />
           <Button
             variant="outlined"
@@ -89,19 +73,11 @@ export default class MySapMetersFileForm extends React.Component {
             >
             Завантажити
           </Button>            
-          </CardText>
 
-            {/*
-            <FileUploadOutlined />
-            <input
-              styles={{display:"none"}}
-              type="file"
-              hidden
-              onChange={handleUpload}
-              name="[licenseFile]"
-            />
-            */}
-        </Card>
+          <Typography variant="h6" component="h6">
+            {this.props.uploadResult}
+          </Typography>        
+        </Stack>
       </Container>
     );
   }
@@ -109,6 +85,7 @@ export default class MySapMetersFileForm extends React.Component {
 
 MySapMetersFileForm.propTypes = {
   lastFileName: PropTypes.string.isRequired,
+  uploadResult: PropTypes.string.isRequired,
   onReloadLastFileName: PropTypes.func,
   onUploadSapMetersFile: PropTypes.func,
 };

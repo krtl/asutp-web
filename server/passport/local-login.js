@@ -12,25 +12,27 @@ module.exports = new PassportLocalStrategy({
   passwordField: 'password',
   session: false,
   passReqToCallback: true,
-}, (req, email, password, done) => {
+}, async (req, email, password, done) => {
   const userData = {
     email: email.trim(),
     password: password.trim(),
   };
 
   // find a user by email address
-  return AuthUser.findOne({ email: userData.email }, (err, user) => {
-    if (err) { return done(err); }
-
-    if (!user) {
+  let user = null;
+  try {
+    user = await AuthUser.findOne({ email: userData.email });
+  } catch (err) {
+    return done(err);
+  }
+if (!user) {
       const error = new Error('Incorrect email or password');
       error.name = 'IncorrectCredentialsError';
 
       return done(error);
     }
-
     // check if a hashed user's password is equal to a value saved in the database
-    return user.comparePassword(userData.password, (passwordErr, isMatch) => {
+    return user.comparePassword(userData.password, (err, isMatch) => {
       if (err) { return done(err); }
 
       if (!isMatch) {
@@ -52,5 +54,5 @@ module.exports = new PassportLocalStrategy({
 
       return done(null, token, data);
     });
-  });
+
 });

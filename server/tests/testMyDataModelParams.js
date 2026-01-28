@@ -29,10 +29,10 @@ describe('myDataModelNodes', () => {
     // plug in the promise library:
     mongoose.Promise = global.Promise;
 
-    mongoose.set('useNewUrlParser', true);
-    mongoose.set('useFindAndModify', false);
-    mongoose.set('useCreateIndex', true);
-    mongoose.set('useUnifiedTopology', true);
+    // mongoose.set('useNewUrlParser', true);
+    //mongoose.set('useFindAndModify', false);
+    // mongoose.set('useCreateIndex', true);
+    // mongoose.set('useUnifiedTopology', true);
 
     mongoose.connect(config.dbUri, {
       // useMongoClient: true,

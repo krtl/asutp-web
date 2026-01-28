@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Auth from "../modules/Auth";
 
 class LogoutPage extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
 
     Auth.deauthenticateUser();
 

@@ -111,32 +111,33 @@ const LoadFromDB = (cb) => {
     [
       clearData,
       loadParams,
-      loadNodes,
-      replaceNamesWithObjects,
-      linkNodes,
-      preparePSs,
-      prepareLEPs,
-      checkIntegrity,
-      linkParamNamesToNodes,
+      loadExtraParams,
+  //     loadNodes,
+  //     replaceNamesWithObjects,
+  //     linkNodes,
+  //     preparePSs,
+  //     prepareLEPs,
+  //     checkIntegrity,
+  //     linkParamNamesToNodes,
     ],
     () => {
       let res = null;
       if (errs === 0) {
         const duration = moment().diff(start);
         logger.info(
-          `[ModelNodes] loaded from DB with ${nodes.size} Nodes in ${moment(
+          `[ModelNodes] loaded from DB with ${nodes.size} Nodes, from HTTP with ${params.size} Params in ${moment(
             duration
           ).format("mm:ss.SSS")}`
         );
 
         // eslint-disable-next-line no-console
         console.debug(
-          `[ModelNodes] loaded with ${nodes.size} nodes in ${moment(
+          `[ModelNodes] loaded with ${nodes.size} Nodes, from HTTP with ${params.size} Params in ${moment(
             duration
           ).format("mm:ss.SSS")}`
         );
       } else {
-        res = Error(`loading nodes failed with ${errs} errors!`);
+        res = Error(`loading Nodes or Params failed with ${errs} errors!`);
         logger.error(res.message);
       }
 
@@ -175,7 +176,7 @@ function loadParams(cb) {
   // remake to get params using http request.
 
   request(
-    "http://asutp-smrem:8081/GetAsutpCommunicationModel",
+    `http://${config.recalculationServerHost}:8081/GetAsutpCommunicationModel`,
     { json: true },
     (err, resp, body) => {
       if (err) return cb(err);
@@ -243,6 +244,38 @@ function loadParams(cb) {
   // });
 }
 
+function loadExtraParams(cb) {
+  request(
+    "http://asutp-smrem:8081/GetAsutpMainFormParams",
+    { json: true },
+    (err, resp, body) => {
+      if (err) return cb(err);
+
+      console.log("loadExtraParams.");
+      
+
+      let asutpParams = body;
+
+      for (let i = 0; i < asutpParams.length; i++) {
+            const param = asutpParams[i];
+            const p = new MyParam(
+              -1,
+              param.Name,
+              param.Caption,
+              "",
+              false,
+              false
+            );
+            params.set(p.name, p);
+            console.log(`loadExtraParams: Param: ${p.name}`);
+
+          }
+      return cb();
+    }
+  );
+}
+
+
 function GetCommunacationParamNames() {
   let paramNames = Array.from(params.keys());
   return paramNames.filter(
@@ -250,6 +283,12 @@ function GetCommunacationParamNames() {
       paramName.endsWith("_IsOnline") ||
       paramName.endsWith("_CommunicationQuality")
   );
+}
+
+function GetAsutpMainFormParamNames() {
+  let arr = [];
+  arr.push("SumyRegionServer_SumyoblenergoSupply");
+  return arr;
 }
 
 function loadNodes(callback) {
@@ -1290,6 +1329,7 @@ module.exports.RelinkParamNamesToNodes = RelinkParamNamesToNodes;
 module.exports.SetStateChangedHandlers = SetStateChangedHandlers;
 module.exports.GetParam = GetParam;
 module.exports.GetCommunacationParamNames = GetCommunacationParamNames;
+module.exports.GetAsutpMainFormParamNames = GetAsutpMainFormParamNames;
 module.exports.GetNode = GetNode;
 module.exports.GetPS = GetPS;
 module.exports.ExportPSs = ExportPSs;

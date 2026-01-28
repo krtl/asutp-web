@@ -1,143 +1,45 @@
-import React from "react";
+import { useEffect } from 'react';
 import PropTypes from "prop-types";
-import Grid from "@material-ui/core/Grid";
-import { Tabs, Tab } from "material-ui/Tabs";
-import RaisedButton from "material-ui/RaisedButton";
-// import SelectField from 'material-ui/SelectField';
-import { Card, CardText } from "material-ui/Card";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-// import TablePagination from '@material-ui/core/TablePagination';
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
+import Container from "@mui/material/Container";
+import RaisedButton from "@mui/material/Button";
+// import SelectField from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-// import Typography from "@material-ui/core/Typography";
+export default function SystemServiceForm(props) {
 
-import Moment from "react-moment";
+useEffect(() => {
+       props.onReloadCollisions();
+  }, []);
 
-export default class SystemServiceForm extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      expanded: []
-    };
+const handleReloadCollisionsClick = () => {
+    props.onReloadCollisions();
+  };
+  
 
-    this.handleReloadCollisionsClick = this.handleReloadCollisionsClick.bind(
-      this
-    );
-    this.handleReloadBlockedParamsClick = this.handleReloadBlockedParamsClick.bind(
-      this
-    );
-    this.handleReloadAsutpConnectionsClick = this.handleReloadAsutpConnectionsClick.bind(
-      this
-    );
+ return (
+      <Container>
+        <Stack spacing={1} direction="column" sx={{ alignItems: 'center', justifyContent: 'center' }}>
+            <Typography variant="h6" component="h6">
+              Collisions
+            </Typography>
+            <RaisedButton onClick={handleReloadCollisionsClick}>
+              Reload
+            </RaisedButton>
+        </Stack>
 
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event, nodes) {
-    this.setState({ expanded: nodes });
-  }
-
-  componentDidMount() {
-    // this.props.onReloadCollisions();
-    // this.props.onReloadBlockedParams();
-    this.props.onReloadAsutpConnections();
-  }
-
-  handleReloadCollisionsClick() {
-    this.props.onReloadCollisions();
-  }
-
-  handleReloadBlockedParamsClick() {
-    this.props.onReloadBlockedParams();
-  }
-
-  handleReloadAsutpConnectionsClick() {
-    this.props.onReloadAsutpConnections();
-  }
-
-  render() {
-    let treeItems = [];
-
-    for (let i = 0; i < this.props.asutpConnections.length; i++) {
-      const ps = this.props.asutpConnections[i];
-      let connectionTreeItems = [];
-      for (let j = 0; j < ps.connections.length; j++) {
-        const connection = ps.connections[j];
-
-        let paramTreeItems = [];
-        for (let k = 0; k < connection.params.length; k++) {
-          const param = connection.params[k];
-          paramTreeItems.push(
-            <TreeItem
-              key={param.key}
-              nodeId={param.key.toString()}
-              label={`${param.name}(${param.caption}): ${param.value}`}
-            ></TreeItem>
-          );
-        }
-        connectionTreeItems.push(
-          <TreeItem
-            key={connection.key}
-            nodeId={connection.key.toString()}
-            label={`${connection.caption} ${connection.voltage} (${connection.connectionNumber}) [${connection.name}]`}
-          >
-            {paramTreeItems}
-          </TreeItem>
-        );
-      }
-      treeItems.push(
-        <TreeItem
-          key={ps.key}
-          nodeId={ps.key.toString()}
-          label={`${ps.name}(${ps.caption}) ${ps.sapCode} `}
-        >
-          {connectionTreeItems}
-        </TreeItem>
-      );
-    }
-
-    return (
-      <Card className="container">
-        <CardText>{this.props.paramName}</CardText>
-
-        <Grid container spacing={3}>
-          <Grid container item xs={12}>
-            <Grid container spacing={3} alignItems="center" justify="center">
-              <Grid item>
-                <RaisedButton onClick={this.handleReloadCollisionsClick}>
-                  Collisions
-                </RaisedButton>
-              </Grid>
-              <Grid item>
-                <RaisedButton onClick={this.handleReloadBlockedParamsClick}>
-                  BlockedParams
-                </RaisedButton>
-              </Grid>
-              <Grid item>
-                <RaisedButton onClick={this.handleReloadAsutpConnectionsClick}>
-                  AsutpConnections
-                </RaisedButton>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Tabs>
-            <Tab label="Collisions">
               <TableContainer>
                 <Table size="small" padding="none">
                   <TableHead></TableHead>
                   <TableBody>
-                    {this.props.collisions.map((value, index) => (
+                    {props.collisions.map((value, index) => (
                       <TableRow key={index}>
                         <TableCell>{value}</TableCell>
                       </TableRow>
@@ -145,76 +47,12 @@ export default class SystemServiceForm extends React.Component {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </Tab>
-            <Tab label="Blocked Params">
-              <TableContainer>
-                <Table size="small" padding="none">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>DateTime</TableCell>
-                      <TableCell>User</TableCell>
-                      <TableCell />
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {this.props.blockedParams.map((value, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{value.name}</TableCell>
-                        <TableCell>
-                          <Moment format="YYYY.MM.DD HH:mm:ss">
-                            {value.dt}
-                          </Moment>
-                        </TableCell>
-                        {value.user ? (
-                        <TableCell>{`${value.user.name}(${value.user.email})`}</TableCell>
-                      ) : (
-                        <TableCell></TableCell>
-                      )}
-
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Tab>
-            <Tab label="ASUTP Connections">
-              <TreeView
-                // style={styles.root}
-                defaultCollapseIcon={<ExpandMoreIcon />}
-                defaultExpandIcon={<ChevronRightIcon />}
-                expanded={this.state.expanded}
-                onNodeToggle={this.handleChange}
-              >
-                {treeItems}
-              </TreeView>
-            </Tab>
-          </Tabs>
-        </Grid>
-      </Card>
+      </Container>
     );
-  }
 }
+
 
 SystemServiceForm.propTypes = {
   collisions: PropTypes.arrayOf(PropTypes.string),
-  blockedParams: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      dt: PropTypes.string,
-      user: PropTypes.string
-    })
-  ),
-  asutpConnections: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      caption: PropTypes.string,
-      sapCode: PropTypes.string,
-      connections: PropTypes.array
-    })
-  ),
-
   onReloadCollisions: PropTypes.func,
-  onReloadBlockedParams: PropTypes.func,
-  onReloadAsutpConnections: PropTypes.func
 };

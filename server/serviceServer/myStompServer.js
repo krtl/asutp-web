@@ -14,7 +14,7 @@ const TOPIC_ACTIVE_AIR_ALARMS = "/AirAlarms";
 
 const CMD_TEST = "TEST";
 
-const traceMessages = false;
+const traceMessages = true;
 
 let stompServer;
 let clientsConnected = 0;
@@ -40,12 +40,14 @@ const initializeStompServer = httpserver => {
   stompServer = new StompServer({ server: httpserver });
 
   stompServer.on("connected", socket => {
+    const remoteAddress = socket._socket.remoteAddress.replace("::ffff:", "");
     if (traceMessages) {
-      logger.debug(`[stompServer] Client ${socket.sessionId} connected`);
+      logger.debug(`[stompServer] Client ${socket.sessionId} connected from ${remoteAddress}:${socket._socket.remotePort}`);
+      console.debug(`[stompServer] Client ${socket.sessionId} connected from ${remoteAddress}:${socket._socket.remotePort}`);
     }
     clientsConnected += 1;
     MyServerStatus.setWSocketStatus({ clientsConnected });
-    MyServerStatus.addClient(`${socket._socket.remoteAddress.replace("::ffff:", "")}:${socket._socket.remotePort}`);
+    MyServerStatus.addClient(`${remoteAddress}:${socket._socket.remotePort}`);
     
     // for (let prop in socket._socket) {
     //   console.log(`[stompServer] Client.socet._socket ${prop}`);
@@ -62,6 +64,7 @@ const initializeStompServer = httpserver => {
   stompServer.on("disconnected", socket => {
     if (traceMessages) {
       logger.debug(`[stompServer] Client ${socket.sessionId} disconnected`);
+      console.debug(`[stompServer] Client ${socket.sessionId} disconnected`);
     }
     clientsConnected -= 1;
     MyServerStatus.setWSocketStatus({ clientsConnected });
@@ -98,9 +101,8 @@ const initializeStompServer = httpserver => {
 
   stompServer.on("subscribe", ev => {
     if (traceMessages) {
-      logger.debug(
-        `[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`
-      );
+      logger.debug(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
+      console.debug(`[stompServer] Client ${ev.sessionId} subscribed to ${ev.topic}`);
     }
 
     if (ev.topic === TOPIC_SERVER_STATUS) {
@@ -145,9 +147,8 @@ const initializeStompServer = httpserver => {
 
   stompServer.on("unsubscribe", ev => {
     if (traceMessages) {
-      logger.debug(
-        `[stompServer] Client ${ev.sessionId} unsubscribed from ${ev.topic}`
-      );
+      logger.debug(`[stompServer] Client ${ev.sessionId} unsubscribed from ${ev.topic}`);
+      console.debug(`[stompServer] Client ${ev.sessionId} unsubscribed to ${ev.topic}`);
     }
   });
 

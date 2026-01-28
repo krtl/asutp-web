@@ -1,24 +1,21 @@
 const request = require("request");
 // const AuthUser = require('mongoose').model('AuthUser');
 const AuthUser = require("../dbmodels/authUser");
+const config = require("../../config");
 
 module.exports = app => {
-  app.get("/users", (req, res, next) => {
-    AuthUser.find({}, (err, users) => {
-      if (err) return next(err);
-      res.json(users);
-      return true;
-    });
+  app.get("/users", async (req, res, next) => {
+
+    const users = await AuthUser.find({});
+    res.json(users);
+    return true;
+
   });
 
-  app.get("/users/:id", (req, res, next) => {
-    AuthUser.findById(req.params.id, (err, user) => {
-      if (err) {
-        return next(err);
-      }
+  app.get("/users/:id", async (req, res, next) => {
+    const user = await AuthUser.findById(req.params.id)
       res.json(user);
       return true;
-    });
   });
 
   app.get("/allParamsAsArray", (req, res) => {
@@ -34,7 +31,7 @@ module.exports = app => {
 
   app.get("/SetTheLastDayOfTheUniverse", (req, res, next) => {
     request(
-      `http://asutp-smrem:8081/SetTheLastDayOfTheUniverse`,
+      `http://${config.recalculationServerHost}:8081/SetTheLastDayOfTheUniverse`,
       { json: true },
       (err, resp, body) => {
         if (err) return next(err);

@@ -1,43 +1,56 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux'
 import Auth from "../modules/Auth";
-import MainStatus from "./MyServerStatus/MainStatus";
+import MyServerStatusContainer from "../containers/MyServerStatusContainer";
 
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Tooltip from "@material-ui/core/Tooltip";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from "@material-ui/core/MenuItem";
-// import Menu from "@material-ui/core/Menu";
-import MenuList from "@material-ui/core/MenuList";
-import Popover from "@material-ui/core/Popover";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import FormGroup from '@mui/material/FormGroup';
+import MenuItem from "@mui/material/MenuItem";
+// import Menu from "@mui/material/Menu";
+import MenuList from "@mui/material/MenuList";
+import Popover from "@mui/material/Popover";
 import { NavLink } from "react-router-dom";
+import { useColorScheme } from '@mui/material/styles';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import PowerIcon from '@mui/icons-material/Power';
+import PowerOffIcon from '@mui/icons-material/PowerOff';
+import CircularProgress from '@mui/material/CircularProgress';
+import ErrorIcon from "@mui/icons-material/Error";
+import Badge from '@mui/material/Badge';
 
 const moment = require("moment");
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+function MySpinner(props) {
+  const isActive = props.isActive;
+  if (isActive) {
+    return <CircularProgress size={20} />;
+  }
+  return null;
+}
 
 const Base = ({ children }) => {
-  const classes = useStyles();
   const [anchorElAccountMenu, setAnchorElAccountMenu] = React.useState(null);
   const [anchorE1MainMenu, setAnchorE1MainMenu] = React.useState(null);
+  const { mode, setMode } = useColorScheme();
+  
+  const locSocketStatus = useSelector(state => state.mainStatus.socketStatus);
+  const locNowLoading = useSelector(state => state.mainStatus.nowLoading)
+  const locCollisionsCount = useSelector(state => state.mainStatus.collisionsCount);
+  
+
+  const handleToggleDarkMode = () => {
+    setMode(mode === "dark" ? "light" : "dark");
+    setAnchorElAccountMenu(null); // close menu
+  };
 
   const handleMainMenuOpen = (event) => {
     setAnchorE1MainMenu(event.currentTarget);
@@ -87,6 +100,11 @@ const Base = ({ children }) => {
       });
   };  
 
+  const handleMainMenuAsutpUsersReport = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/AsutpUsersReport`);
+  };
+
   const handleMainMenuUsersReport = () => {
     setAnchorE1MainMenu(null);
 
@@ -107,42 +125,27 @@ const Base = ({ children }) => {
           a.remove();  //afterwards we remove the element again         
       });
   };    
-
-  const handleMainMenuUsersActivityReport = () => {
-    setAnchorE1MainMenu(null);
-
-    const options = {
-      headers: {
-        Authorization: `bearer ${Auth.getToken()}`
-      }
-    };
-     fetch("/prj/getAsutpUsersActivityExcelReport", options)
-      .then(response => response.blob())
-      .then(blob => {
-          var url = window.URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = `AsutpUsersActivityRep${moment().format("YYYY-MM-DD_HH_mm_ss")}.xlsx`;
-          document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-          a.click();    
-          a.remove();  //afterwards we remove the element again         
-      });
-  };  
   
   const handleMainMenuSapMeters = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/sapMeters`);
   };
 
+  const handleMainMenuPowerLoads = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/powerLoads`);
+  };
+
+  const handleSignals = () => {
+    setAnchorE1MainMenu(null);
+    children.props.history.push(`/signals`);
+  };  
+
   const handleMainMenuSoeConsumption = () => {
     setAnchorE1MainMenu(null);
     children.props.history.push(`/soeConsumption`);
   };
   
-  const handleMainMenuAsutpUsersReport = () => {
-    setAnchorE1MainMenu(null);
-    children.props.history.push(`/AsutpUsersReport`);
-  };
   
   // const handleMainNodeStateHistory = () => {
   //   setAnchorE1MainMenu(null);
@@ -183,6 +186,11 @@ const Base = ({ children }) => {
     children.props.history.push(`/signup`);
   };
 
+  const handleCollisionsCountClick = event => {
+    // window.open(`/systemService`, "_blank");
+    children.props.history.push(`/systemService`);
+  };  
+
   const accountMenuOpen = Boolean(anchorElAccountMenu);
   const mainMenuOpen = Boolean(anchorE1MainMenu);
   const mainMenuId = mainMenuOpen ? "simple-popover" : undefined;
@@ -196,7 +204,7 @@ const Base = ({ children }) => {
             <div>
               <IconButton
                 edge="start"
-                className={classes.menuButton}
+                // className={classes.menuButton}
                 color="inherit"
                 aria-label="menu"
                 aria-controls="menu-appbar"
@@ -225,10 +233,10 @@ const Base = ({ children }) => {
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuDevicesOfflineReport}>Завантажити звіт "Відсутній зв'язок АСУТП"</MenuItem>
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuAsutpUsersReport}>Користувачі АСУТП</MenuItem>
                   <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersReport}>Завантажити звіт "Користувачі АСУТП"</MenuItem>
-                  <MenuItem disabled={!Auth.canSeeReports()} onClick={handleMainMenuUsersActivityReport}>Завантажити звіт "Активність користувачів АСУТП"</MenuItem>
                   <MenuItem disabled={!Auth.canLoadSapMeters()} onClick={handleMainMenuSapMeters}>Лічильники з САП</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()}  onClick={handleMainMenuPowerLoads}>Навантаження</MenuItem>
+                  <MenuItem disabled={!Auth.canSeeReports()}  onClick={handleSignals}>Сигнали</MenuItem>
                   <MenuItem onClick={handleMainMenuSoeConsumption}>Споживання СОЕ</MenuItem>
-
                   {/*
                   <MenuItem onClick={handleMainMenuRoot}>Schema</MenuItem>
                   <MenuItem onClick={handleMainNodeStateHistory}>Node State History</MenuItem>
@@ -240,10 +248,60 @@ const Base = ({ children }) => {
               </Popover>
             </div>
           )}
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
             <NavLink to="/">АСУТП</NavLink>
           </Typography>
-          <MainStatus history={children.props.history} />
+
+          {(Auth.canSeeServerStatus() && (locCollisionsCount > 0)) && (
+              <IconButton
+                size="small"
+                color="secondary"
+                aria-label="collision"
+                onClick={handleCollisionsCountClick}
+              >
+                <Badge badgeContent={locCollisionsCount} color="secondary">
+                <ErrorIcon />
+                </Badge>          
+              </IconButton>
+          )}
+
+          <MyServerStatusContainer history={children.props.history} />
+
+              <MySpinner isActive={locNowLoading} />
+
+              <Tooltip title={`socket: ${locSocketStatus}`}>
+                  <IconButton
+                          aria-label="account of current user"
+                          aria-controls="menu-appbar"
+                          aria-haspopup="true"
+                          // onClick={handleToggleDarkMode}
+                          color="inherit"
+                        >
+                          {locSocketStatus === "connected" ? (
+                          <PowerIcon />
+                                  ) : (
+                          <PowerOffIcon />
+                                    )}
+                  </IconButton>
+              </Tooltip>
+
+
+              <Tooltip title={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
+                <IconButton
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleToggleDarkMode}
+                  color="inherit"
+                >
+                  {mode === "dark" ? (
+                  <DarkModeIcon />
+                          ) : (
+                  <LightModeIcon />
+                            )}
+                </IconButton>
+              </Tooltip>
+
           {Auth.isUserAuthenticated() ? (
             <div>
               <Tooltip title={Auth.getLoginName()}>
@@ -274,9 +332,7 @@ const Base = ({ children }) => {
                 onClose={handleAccountMenuClose}
               >
                 <MenuList>
-                  <MenuItem onClick={handleAccountMenuProfile}>
-                    Profile
-                  </MenuItem>
+                  <MenuItem onClick={handleAccountMenuProfile}>Profile</MenuItem>
                   <MenuItem onClick={handleAccountMenuLogout}>Log out</MenuItem>
                 </MenuList>
               </Popover>

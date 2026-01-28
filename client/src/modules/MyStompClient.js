@@ -30,7 +30,7 @@ const CreateMySocketClient = function () {
     console.log("[stompClient] connected");
 
     if (locConnectedCallback) {
-      locConnectedCallback();
+      locConnectedCallback("connected");
     }
 
     if (cbOnValueReceived) {
@@ -101,15 +101,21 @@ const CreateMySocketClient = function () {
 
   const errorCallback = function (error) {
     console.warn(`[stompClient] stomp error: ${error}`); // not yet clean
-    if (locConnectedCallback) {
-      locConnectedCallback(error);
-    }
 
+    let locConnectionStatus = "error";
     if (error.type === "close") {
+      locConnectionStatus = "closed";
       // eslint-disable-next-line
       setTimeout(MyStompClient.connect, 10000);
       console.log("[stompClient] reconnecting after 10 sec..");
+    } else {
+      locConnectionStatus = error.type;
+          if (error.reason) locConnectionStatus += ` ${error.reason}`;
     }
+
+    if (locConnectedCallback) {
+      locConnectedCallback(locConnectionStatus);
+    }    
   };
 
   const headers = {
@@ -133,8 +139,8 @@ const CreateMySocketClient = function () {
 
     // eslint-disable-next-line no-restricted-globals
     stompClient = webstomp.client(
-      //`ws://${window.location.hostname}:3001/stomp`
-      `wss://${window.location.hostname}/stomp`
+       `ws://${window.location.hostname}:3001/stomp`
+      //  `wss://${window.location.hostname}/stomp`
     );
     // stompClient = webstomp.clienzt(`ws://${location.host}/stomp`);
     stompClient.heartbeat.outgoing = 2000;
@@ -266,6 +272,7 @@ const CreateMySocketClient = function () {
   this.setConnectedCallback = cb => {
     locConnectedCallback = cb;
   };
+
 };
 
 const MyStompClient = new CreateMySocketClient();

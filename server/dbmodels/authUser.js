@@ -38,25 +38,34 @@ AuthUserSchema.methods.comparePassword = function comparePassword(password, call
 /**
  * The pre-save hook method.
  */
-AuthUserSchema.pre('save', function saveHook(next) {
-  const user = this;
+// AuthUserSchema.pre('save', function saveHook(next) {
+//   const user = this;
 
-  // proceed further only if the password is modified or the user is new
-  if (!user.isModified('password')) return next();
+//   // proceed further only if the password is modified or the user is new
+//   if (!user.isModified('password')) return next();
 
 
-  return bcrypt.genSalt((saltError, salt) => {
-    if (saltError) { return next(saltError); }
+//   return bcrypt.genSalt((saltError, salt) => {
+//     if (saltError) { return next(saltError); }
 
-    return bcrypt.hash(user.password, salt, (hashError, hash) => {
-      if (hashError) { return next(hashError); }
+//     return bcrypt.hash(user.password, salt, (hashError, hash) => {
+//       if (hashError) { return next(hashError); }
 
-      // replace a password string with hash value
-      user.password = hash;
+//       // replace a password string with hash value
+//       user.password = hash;
 
-      return next();
-    });
-  });
+//       return next();
+//     });
+//   });
+// });
+
+AuthUserSchema.pre("save", async function() {
+ if (!this.isModified("password")) {
+  return;
+ }
+ const salt = await bcrypt.genSalt(10);
+ const hashedPassword = await bcrypt.hash(this.password, salt);
+ this.password = hashedPassword; 
 });
 
 

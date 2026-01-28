@@ -4,39 +4,32 @@ import PropTypes from "prop-types";
 import Auth from "../modules/Auth";
 import LoginForm from "../components/LoginForm.jsx";
 
-class LoginPage extends React.Component {
-  constructor(props, context) {
-    super(props, context);
 
-    const storedMessage = localStorage.getItem("successMessage");
-    let successMessage = "";
+export default function LoginPage(props) {
 
-    if (storedMessage) {
-      successMessage = storedMessage;
+  const [errors, setErrors] = React.useState({});
+  const [successMessage, setSuccessMessage] = React.useState("");
+  const [user, setUser] = React.useState({
+        email: "",
+        password: ""
+      });
+
+
+  const storedMessage = localStorage.getItem("successMessage");
+  if (storedMessage) {
+      setSuccessMessage(storedMessage);
       localStorage.removeItem("successMessage");
     }
 
-    // set the initial component state
-    this.state = {
-      errors: {},
-      successMessage,
-      user: {
-        email: "",
-        password: ""
-      }
-    };
 
-    this.processForm = this.processForm.bind(this);
-    this.changeUser = this.changeUser.bind(this);
-  }
 
-  processForm(event, context) {
+  const handleProcessForm = () => {
     // prevent default action. in this case, action is the form submission event
-    event.preventDefault();
+    // event.preventDefault();
 
     // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
+    const email = encodeURIComponent(user.email);
+    const password = encodeURIComponent(user.password);
     const formData = `email=${email}&password=${password}`;
 
     // create an AJAX request
@@ -49,52 +42,54 @@ class LoginPage extends React.Component {
         // success
 
         // change the component-container state
-        this.setState({
-          errors: {}
-        });
+        setErrors({});
 
         // save the token and data
         Auth.authenticateUser(xhr.response.token, xhr.response.user.name);
 
         // change the current URL to /
-        this.props.history.push("/");
+        props.history.push("/");
         // context.router.history.replace("/");
       } else {
         // failure
-
         // change the component state
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
+        let errors = {};
 
-        this.setState({
-          errors
-        });
+        if (xhr.response === null) {
+          errors ={
+            summary: `${xhr.status}  ${xhr.statusText}`
+          };
+        } else {
+           errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+        }
+
+        setErrors(errors);
       }
     });
     xhr.send(formData);
   }
 
-  changeUser(event) {
+  const handleChange = (event) => {
     const field = event.target.name;
-    const user = this.state.user;
-    user[field] = event.target.value;
-
-    this.setState({
-      user
-    });
+    const locUser = {
+        email: user.email,
+        password: user.password
+      };
+    locUser[field] = event.target.value;
+    setUser(locUser);
   }
 
-  render() {
+
     return (
       <LoginForm
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        successMessage={this.state.successMessage}
-        user={this.state.user}
+        onSubmit={handleProcessForm}
+        onChange={handleChange}
+        errors={errors}
+        successMessage={successMessage}
+        user={user}
       />
     );
-  }
 }
 
 LoginPage.contextTypes = {
@@ -104,4 +99,4 @@ LoginPage.contextTypes = {
   })
 };
 
-export default LoginPage;
+

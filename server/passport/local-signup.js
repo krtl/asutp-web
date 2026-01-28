@@ -12,7 +12,7 @@ module.exports = new PassportLocalStrategy(
     session: false,
     passReqToCallback: true
   },
-  (req, email, password, done) => {
+  async (req, email, password, done) => {
     const userData = {
       email: email.trim(),
       password: password.trim(),
@@ -22,10 +22,13 @@ module.exports = new PassportLocalStrategy(
     };
 
     const newUser = new AuthUser(userData);
-    newUser.save(err => {
-      if (err) {
-        return done(err);
-      }
+    try
+    {
+      await newUser.save()
+    } catch(err) {
+      return done(err);
+    }
+    
 
       userActions.LogUserAction(
         newUser,
@@ -35,6 +38,6 @@ module.exports = new PassportLocalStrategy(
       );
 
       return done(null);
-    });
+    // });
   }
 );

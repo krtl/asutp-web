@@ -18,10 +18,10 @@ const dbModels = require("./server/dbmodels");
 const paramValuesProcessor = require("./server/serviceBackground/paramValuesProcessor");
 const commandProcessor = require("./server/serviceBackground/commandsBackground");
 
-mongoose.set("useNewUrlParser", true);
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose.set("useUnifiedTopology", true);
+// mongoose.set("useNewUrlParser", true);
+//mongoose.set("useFindAndModify", false);
+// mongoose.set("useCreateIndex", true);
+// mongoose.set("useUnifiedTopology", true);
 // connect to the database and load models
 dbModels.connect(config.dbUri, true, err => {
   if (err) {
